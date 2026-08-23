@@ -966,15 +966,25 @@
       "status": "complete"
     },
     "4218395691638589": {
-      "completed_at": "2026-08-23T13:35:08+00:00",
-      "content_hash": "1603ec0faecff9e7340a649b80ae5998146810cd6433b7099234fb65f4e2724a",
+      "completed_at": "2026-08-23T14:38:28+00:00",
+      "content_hash": "7b86d01229b0b8f84861770beee5ac3053a24207d34936871ca1844aa6e6ed4f",
       "facebook_post_id": "4218395691638589",
       "facebook_timestamp": 1787150926,
       "image_sha256": [
-        "fd6714fdf96128548e63397c0c485b45bf481ce8ea0963c96a8a7ea5248facbd"
+        "218e61349f425ce0292dfc50173d4dd5336ffa11293825094ad3ac19e467ae9a"
       ],
-      "instapaper_bookmark_id": "2036142329",
+      "inline_links": [],
+      "instapaper_bookmark_id": "2036152531",
       "last_error": null,
+      "linked_pages": [
+        {
+          "description": "조희대 대법원장이 6개월 가까이 비어 있던 노태악 전 대법관 후임으로 손봉기 대구지법 부장판사를, 다음 달 퇴임하는 이흥구 대법관 후임으로 김성수 서울고법 부장판사를 임명해 달라고 18일 이재명 대통령에게 서면으로",
+          "site_name": "n.news.naver.com",
+          "title": "[사설]7개월 끌다 관례 깨고 대법관 ‘서면 제청’한 대법원장",
+          "url": "https://n.news.naver.com/article/020/0003741963?lfrom=facebook"
+        }
+      ],
+      "original_author": null,
       "permalink": "https://www.facebook.com/monan.doll/posts/4218395691638589",
       "profile_url": "https://www.facebook.com/monan.doll",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/monan.doll/4218395691638589.html",
@@ -1684,5 +1694,5 @@
     }
   },
   "schema_version": 1,
-  "updated_at": "2026-08-23T14:31:42+00:00"
+  "updated_at": "2026-08-23T14:38:28+00:00"
 }
