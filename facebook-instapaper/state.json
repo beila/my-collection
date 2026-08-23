@@ -245,6 +245,19 @@
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/monan.doll/4199396123538546.html",
       "status": "published_pending"
     },
+    "4201320336679458": {
+      "completed_at": null,
+      "content_hash": "eefd9f31f2abce81409d6d0204a92bcdbf9fdbdcc36d7669c7903f247c3cb678",
+      "facebook_post_id": "4201320336679458",
+      "facebook_timestamp": 1785976132,
+      "image_sha256": [],
+      "instapaper_bookmark_id": null,
+      "last_error": null,
+      "permalink": "https://www.facebook.com/monan.doll/posts/4201320336679458",
+      "profile_url": "https://www.facebook.com/monan.doll",
+      "published_url": "https://beila.github.io/my-collection/facebook-instapaper/monan.doll/4201320336679458.html",
+      "status": "published_pending"
+    },
     "4201376880007137": {
       "completed_at": null,
       "content_hash": "0d110a7dacb014411255415f2720764cfc0d35b6aa8516e85b7ed5607e3b5e38",
@@ -1006,9 +1019,10 @@
         },
         "https://www.facebook.com/monan.doll/posts/pfbid08ZRrDRoKm9LZmQSEQqgU84SWL1JMuHUMMvpNzS3Qn1RGDsChYAczVBD5vftz8Wv8l": {
           "discovered_at": "2026-08-23T13:24:04+00:00",
-          "last_error": "Failed to fetch https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fmonan.doll%2Fposts%2F4201320336679458&show_text=true&width=500: HTTP Error 500: Internal Server Error",
+          "last_error": null,
           "not_before_timestamp": 1784813044,
-          "status": "pending"
+          "post_id": "4201320336679458",
+          "status": "published_pending"
         },
         "https://www.facebook.com/monan.doll/posts/pfbid09W9GzxvQsfu6dMuWbqQYWSw1GHWqfHyUnmVEcqibz1kFTeVvStcidZ4F2q1kMq4Ql": {
           "discovered_at": "2026-08-23T13:24:04+00:00",
@@ -1149,10 +1163,10 @@
       },
       "initial_cutoff_timestamp": 1784813044,
       "initialized_at": "2026-08-23T13:24:04+00:00",
-      "last_scan_timestamp": 1787491819,
+      "last_scan_timestamp": 1787492014,
       "name": "monan.doll"
     }
   },
   "schema_version": 1,
-  "updated_at": "2026-08-23T13:31:44+00:00"
+  "updated_at": "2026-08-23T13:34:17+00:00"
 }
