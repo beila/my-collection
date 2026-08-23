@@ -710,15 +710,24 @@
       "status": "complete"
     },
     "4204327949712030": {
-      "completed_at": "2026-08-23T13:35:06+00:00",
-      "content_hash": "d1a42f6d1fda488552fc07e24a004a9ff9e1fe6ff7a37fa113add8621e5d747a",
+      "completed_at": "2026-08-23T14:31:41+00:00",
+      "content_hash": "3cb7a94fb493759dc1ba2d17b730b537e3cf5e48100328a089ad0bd30a096b52",
       "facebook_post_id": "4204327949712030",
       "facebook_timestamp": 1786183336,
       "image_sha256": [
-        "ac1ba77077409b5c5985ca1332597944de836b4477375c8f648330bc8fe20b1d"
+        "1cc16ae7269b1028320420e948f8f2db9005e0eb14e7bc69af1eb3a619ae4011"
       ],
-      "instapaper_bookmark_id": "2036142322",
+      "instapaper_bookmark_id": "2036151678",
       "last_error": null,
+      "linked_pages": [
+        {
+          "description": "“솔직히 한국산 생수를 보면 변기를 내리는 물 정도밖에 떠오르지 않는다.” 최근 대한항공이 일본 구마모토현 강진 피해 현장에 보낸 제주산 생수 1.5ℓ 1만2000병을 전달하자, 일본 SNS와 온라인 커뮤니티에서는",
+          "site_name": "n.news.naver.com",
+          "title": "한국이 보낸 생수에 “변기 내리는 물”···일본의 ‘혐한’은 어떻게 일상이 됐나 [이윤정 기자의 소소월드]",
+          "url": "https://n.news.naver.com/article/032/0003463003?lfrom=facebook"
+        }
+      ],
+      "original_author": null,
       "permalink": "https://www.facebook.com/monan.doll/posts/4204327949712030",
       "profile_url": "https://www.facebook.com/monan.doll",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/monan.doll/4204327949712030.html",
@@ -985,15 +994,24 @@
       "status": "complete"
     },
     "4220733731404785": {
-      "completed_at": "2026-08-23T13:35:12+00:00",
-      "content_hash": "ccb2c708e654fb3a2769795b2afe1c07cce2299631e58a7ecb1a502c4b012ad8",
+      "completed_at": "2026-08-23T14:31:42+00:00",
+      "content_hash": "376e55f4aa1c8112dfa080358ef7b6fc4630c8575afaf6b55940d006e9941948",
       "facebook_post_id": "4220733731404785",
       "facebook_timestamp": 1787313740,
       "image_sha256": [
-        "fd77585872ec2da928663ccabd1eb529287ad2c125d27827e1d2a6d91e64c163"
+        "f82cfac6bb1ad4be62d8cf2afc9c92f91950de1673815609e2d057c4cd58f04e"
       ],
-      "instapaper_bookmark_id": "2036142340",
+      "instapaper_bookmark_id": "2036151682",
       "last_error": null,
+      "linked_pages": [
+        {
+          "description": "⊙ “잘못한 사람 처벌하고, 억울한 사람 누명 벗겨주는 이 일 끝까지 하고 싶어”⊙ “절대다수 검사는 윤 전 대통령과 관련이 없는데 그에게 힘을 실어준 게 누군가",
+          "site_name": "monthly.chosun.com",
+          "title": "[인터뷰] 민주당에 “책임지셔야” 공개 설전한 안미현 검사 - 월간조선",
+          "url": "https://monthly.chosun.com/news/articleView.html?idxno=71089"
+        }
+      ],
+      "original_author": "Mi Hyeon An",
       "permalink": "https://www.facebook.com/monan.doll/posts/4220733731404785",
       "profile_url": "https://www.facebook.com/monan.doll",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/monan.doll/4220733731404785.html",
@@ -1666,5 +1684,5 @@
     }
   },
   "schema_version": 1,
-  "updated_at": "2026-08-23T14:03:13+00:00"
+  "updated_at": "2026-08-23T14:31:42+00:00"
 }
