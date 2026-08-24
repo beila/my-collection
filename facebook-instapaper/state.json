@@ -1064,18 +1064,24 @@
     },
     "4224456157699209": {
       "article_format_version": 2,
-      "completed_at": null,
+      "completed_at": "2026-08-24T12:08:44+00:00",
       "content_hash": "6d5c921448cd1d5f1533ab146a8702d9d9302865a67e450e5716465c8814eb1a",
       "facebook_post_id": "4224456157699209",
       "facebook_timestamp": 1787567899,
+      "has_video": false,
       "image_sha256": [],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2036337466",
       "last_error": null,
+      "linked_pages": [],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "permalink": "https://www.facebook.com/monan.doll/posts/4224456157699209",
       "profile_url": "https://www.facebook.com/monan.doll",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/monan.doll/4224456157699209.html",
-      "status": "published_pending"
+      "status": "complete"
     }
   },
   "profiles": {
@@ -1802,11 +1808,12 @@
           "status": "complete"
         },
         "https://www.facebook.com/monan.doll/posts/pfbid0wK1PJhke6C5W4g9vx6HSqChiifdd5k7QYt1FT6XsatmTF9j5YuzgcFkVZqSfjgcyl": {
+          "completed_at": "2026-08-24T12:08:44+00:00",
           "discovered_at": "2026-08-24T12:08:11+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "4224456157699209",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/monan.doll/posts/pfbid0z2pG2Khsk9ZERLCQwCPxsTYFjPbq7p8KPmz8J7969VL9xPNCnPx4ofdnXnTixoFDl": {
           "completed_at": "2026-08-23T13:35:14+00:00",
@@ -1824,5 +1831,5 @@
     }
   },
   "schema_version": 1,
-  "updated_at": "2026-08-24T12:08:21+00:00"
+  "updated_at": "2026-08-24T12:08:44+00:00"
 }
