@@ -396,18 +396,24 @@
       "status": "complete"
     },
     "10165580118385903": {
-      "completed_at": null,
+      "completed_at": "2026-08-24T00:58:22+00:00",
       "content_hash": "4ce87a7c2f23d2cf664f2b64aed4fdb8773a844449fa75a4b3209f76cecd2d38",
       "facebook_post_id": "10165580118385903",
       "facebook_timestamp": 1787532338,
+      "has_video": false,
       "image_sha256": [],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2036243976",
       "last_error": null,
+      "linked_pages": [],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "permalink": "https://www.facebook.com/joyce.park1/posts/10165580118385903",
       "profile_url": "https://www.facebook.com/joyce.park1",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/joyce.park1/10165580118385903.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "4184691808342311": {
       "completed_at": "2026-08-23T13:34:47+00:00",
@@ -1133,11 +1139,12 @@
           "status": "complete"
         },
         "https://www.facebook.com/joyce.park1/posts/pfbid02ZMwiUyueemJC6obn2rkZy44aRRvRKZaQFvsmh3g4QKrAdWndbLqhG36odsrTZ7dAl": {
+          "completed_at": "2026-08-24T00:58:22+00:00",
           "discovered_at": "2026-08-24T00:57:39+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "10165580118385903",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/joyce.park1/posts/pfbid02aaURkm7G2hR9oKstF5S5AtF5cyfnhtCcyERKwNCLXM62UdLe2ayqfAHfWZLFMLBl": {
           "completed_at": "2026-08-23T13:36:32+00:00",
@@ -1747,5 +1754,5 @@
     }
   },
   "schema_version": 1,
-  "updated_at": "2026-08-24T00:57:47+00:00"
+  "updated_at": "2026-08-24T00:58:22+00:00"
 }
