@@ -1538,6 +1538,14 @@
           "post_id": "4196702360474589",
           "status": "complete"
         },
+        "https://www.facebook.com/monan.doll/posts/pfbid033tFyCzdhbRyPNjp89zLTNVKV79u76onTb2R15FEd5ZCJM2e1HHBEjr4NHDt48vZ6l": {
+          "completed_at": "2026-08-23T14:03:13+00:00",
+          "discovered_at": "2026-08-24T02:52:00+00:00",
+          "last_error": null,
+          "not_before_timestamp": null,
+          "post_id": "4221764214635070",
+          "status": "complete"
+        },
         "https://www.facebook.com/monan.doll/posts/pfbid035u1BzQogBexgMhn6zNZ1HPm6P1RBiyGGD4NRFhuGpxkUfoXctF1fnt28rdtvkX47l": {
           "completed_at": "2026-08-23T13:30:54+00:00",
           "discovered_at": "2026-08-23T13:24:04+00:00",
@@ -1749,10 +1757,10 @@
       },
       "initial_cutoff_timestamp": 1784813044,
       "initialized_at": "2026-08-23T13:24:04+00:00",
-      "last_scan_timestamp": 1787533022,
+      "last_scan_timestamp": 1787539907,
       "name": "monan.doll"
     }
   },
   "schema_version": 1,
-  "updated_at": "2026-08-24T00:58:27+00:00"
+  "updated_at": "2026-08-24T02:52:16+00:00"
 }
