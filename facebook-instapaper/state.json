@@ -438,20 +438,26 @@
     },
     "10165586470945903": {
       "article_format_version": 2,
-      "completed_at": null,
+      "completed_at": "2026-08-25T09:44:40+00:00",
       "content_hash": "7108e0cd1b9795d8e3724fe8149d071da58cff1647fed33ad21de847c2726046",
       "facebook_post_id": "10165586470945903",
       "facebook_timestamp": 1787632265,
+      "has_video": false,
       "image_sha256": [
         "9e5c7a4a3577dab79d66a1404106a2d93a1c52d444189549ec119ff2d420158e"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2036564042",
       "last_error": null,
+      "linked_pages": [],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "permalink": "https://www.facebook.com/joyce.park1/posts/10165586470945903",
       "profile_url": "https://www.facebook.com/joyce.park1",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/joyce.park1/10165586470945903.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "4184691808342311": {
       "completed_at": "2026-08-23T13:34:47+00:00",
@@ -1126,11 +1132,12 @@
     "https://www.facebook.com/joyce.park1": {
       "discoveries": {
         "https://www.facebook.com/joyce.park1/posts/pfbid022b1oMpAFDiPdAxkoR5JUnhs1oATYpH2L1ibPJr3cazzHUqUF555hhzG2uRpeHkafl": {
+          "completed_at": "2026-08-25T09:44:40+00:00",
           "discovered_at": "2026-08-25T09:42:07+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "10165586470945903",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/joyce.park1/posts/pfbid0244xodK8srAricQLWQ8eJJ9Zeit3JfWSuNJ8sU88xaHPgXArqe3481UbZxYrZSyYAl": {
           "completed_at": "2026-08-24T13:31:55+00:00",
@@ -1964,5 +1971,5 @@
     }
   },
   "schema_version": 1,
-  "updated_at": "2026-08-25T09:44:18+00:00"
+  "updated_at": "2026-08-25T09:44:40+00:00"
 }
