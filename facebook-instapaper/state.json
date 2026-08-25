@@ -592,19 +592,19 @@
     "1473310831462474": {
       "article_format_version": 2,
       "completed_at": null,
-      "content_hash": "5933666eebb70b239d9784c9cd7d6059b57cf9810fc8933d6108526c3274a635",
+      "content_hash": "8633715c4c2dca4e9675f6d222f405c906e546db2dbadae0de8eec49427cbfa7",
       "facebook_post_id": "1473310831462474",
       "facebook_timestamp": 1769039399,
       "image_sha256": [
         "3bfcf7834f29ec44fe293a3a0cc917e61b60353cf0996df081c1feb307942262"
       ],
       "instapaper_bookmark_id": null,
-      "last_error": "Instapaper verification failed for bookmark 2036711798: missing linked article text: Share on Twitter; missing linked article text: Topics; missing linked article text: Artificial Intelligence; missing linked article URL: https://twitter.com/intent/tweet?url=https%3A%2F%2Fmashable.com%2Farticle%2Fapple-working-on-ai-pin-wearable-airtag-sized-report&text=Apple+is+reportedly+working+on+an+AI+pin+wearable+that+is+AirTag-sized; missing linked article URL: https://mashable.com/category/apple; missing linked article URL: https://mashable.com/category/artificial-intelligence; missing linked article URL: https://mashable.com/category/openai",
+      "last_error": null,
       "omitted_photo_count": 0,
       "permalink": "https://www.facebook.com/chanjin65/posts/1473310831462474",
       "profile_url": "https://www.facebook.com/chanjin65",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/chanjin65/1473310831462474.html",
-      "status": "pending"
+      "status": "published_pending"
     },
     "1511943480932542": {
       "article_format_version": 2,
@@ -1578,10 +1578,10 @@
         },
         "https://www.facebook.com/chanjin65/posts/pfbid0hUCok8LTV7vVNfaegSbtAsvqf4QKfcK8xxxGVZ1kVAi9EqReXFiPS1ve3W4hgj3ol": {
           "discovered_at": "2026-08-25T21:03:55+00:00",
-          "last_error": "Instapaper verification failed for bookmark 2036711798: missing linked article text: Share on Twitter; missing linked article text: Topics; missing linked article text: Artificial Intelligence; missing linked article URL: https://twitter.com/intent/tweet?url=https%3A%2F%2Fmashable.com%2Farticle%2Fapple-working-on-ai-pin-wearable-airtag-sized-report&text=Apple+is+reportedly+working+on+an+AI+pin+wearable+that+is+AirTag-sized; missing linked article URL: https://mashable.com/category/apple; missing linked article URL: https://mashable.com/category/artificial-intelligence; missing linked article URL: https://mashable.com/category/openai",
+          "last_error": null,
           "not_before_timestamp": null,
           "post_id": "1473310831462474",
-          "status": "pending"
+          "status": "published_pending"
         },
         "https://www.facebook.com/chanjin65/posts/pfbid0kpAKc4kCGRwgUAV27oakQmZg6BjpKZBtR8jYxRhmjTrMt2KvYX4o38YFtL7Sm5qSl": {
           "completed_at": "2026-08-25T21:03:56+00:00",
@@ -1602,7 +1602,7 @@
       },
       "initial_cutoff_timestamp": 1785013435,
       "initialized_at": "2026-08-25T21:03:55+00:00",
-      "last_scan_timestamp": 1787691803,
+      "last_scan_timestamp": 1787692441,
       "name": "이찬진"
     },
     "https://www.facebook.com/joyce.park1": {
@@ -2455,5 +2455,5 @@
     }
   },
   "schema_version": 1,
-  "updated_at": "2026-08-25T21:09:41+00:00"
+  "updated_at": "2026-08-25T21:14:42+00:00"
 }
