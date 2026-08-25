@@ -591,20 +591,35 @@
     },
     "1473310831462474": {
       "article_format_version": 2,
-      "completed_at": null,
+      "completed_at": "2026-08-25T21:15:04+00:00",
       "content_hash": "8633715c4c2dca4e9675f6d222f405c906e546db2dbadae0de8eec49427cbfa7",
       "facebook_post_id": "1473310831462474",
       "facebook_timestamp": 1769039399,
+      "has_video": false,
       "image_sha256": [
         "3bfcf7834f29ec44fe293a3a0cc917e61b60353cf0996df081c1feb307942262"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2036713006",
       "last_error": null,
+      "linked_pages": [
+        {
+          "article_image_sha256": [],
+          "article_sha256": "65de4e9f5442644cff3f91d3f0642f6ed9af9624ca70fb8ce3a2ab604cabb550",
+          "description": "Can Apple figure out AI wearables where others have failed? We may soon find out.",
+          "site_name": "mashable.com",
+          "title": "Apple is reportedly working on an AI pin wearable that is AirTag-sized",
+          "url": "https://mashable.com/article/apple-working-on-ai-pin-wearable-airtag-sized-report"
+        }
+      ],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "permalink": "https://www.facebook.com/chanjin65/posts/1473310831462474",
       "profile_url": "https://www.facebook.com/chanjin65",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/chanjin65/1473310831462474.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "1511943480932542": {
       "article_format_version": 2,
@@ -1577,11 +1592,12 @@
           "status": "complete"
         },
         "https://www.facebook.com/chanjin65/posts/pfbid0hUCok8LTV7vVNfaegSbtAsvqf4QKfcK8xxxGVZ1kVAi9EqReXFiPS1ve3W4hgj3ol": {
+          "completed_at": "2026-08-25T21:15:04+00:00",
           "discovered_at": "2026-08-25T21:03:55+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "1473310831462474",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/chanjin65/posts/pfbid0kpAKc4kCGRwgUAV27oakQmZg6BjpKZBtR8jYxRhmjTrMt2KvYX4o38YFtL7Sm5qSl": {
           "completed_at": "2026-08-25T21:03:56+00:00",
@@ -2455,5 +2471,5 @@
     }
   },
   "schema_version": 1,
-  "updated_at": "2026-08-25T21:14:42+00:00"
+  "updated_at": "2026-08-25T21:15:04+00:00"
 }
