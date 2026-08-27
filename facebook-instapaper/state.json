@@ -587,12 +587,12 @@
         "2e8ef65c8f04fee1bf2a6f1c09151b8d666f1a726a5efd184d1dffd642f7ca7f"
       ],
       "instapaper_bookmark_id": null,
-      "last_error": "Instapaper verification failed for bookmark 2037071923: missing original paragraph: » https://tickets.interpark.com/goods/25012712",
+      "last_error": null,
       "omitted_photo_count": 0,
       "permalink": "https://www.facebook.com/yulmonologue/posts/1316656393160154",
       "profile_url": "https://www.facebook.com/yulmonologue",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/yulmonologue/1316656393160154.html",
-      "status": "pending"
+      "status": "published_pending"
     },
     "1348123873346739": {
       "article_format_version": 4,
@@ -759,12 +759,12 @@
         "3df1456d4973caf511277e82445558f6c4bbf0a75874f9152b4c76d8a1820ae1"
       ],
       "instapaper_bookmark_id": null,
-      "last_error": "Instapaper verification failed for bookmark 2037072180: missing original paragraph: » https://tickets.interpark.com/goods/25012712",
+      "last_error": null,
       "omitted_photo_count": 0,
       "permalink": "https://www.facebook.com/yulmonologue/posts/1371150964377363",
       "profile_url": "https://www.facebook.com/yulmonologue",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/yulmonologue/1371150964377363.html",
-      "status": "pending"
+      "status": "published_pending"
     },
     "1372129237612869": {
       "article_format_version": 4,
@@ -3030,10 +3030,10 @@
         },
         "https://www.facebook.com/yulmonologue/posts/pfbid02Kvx4gHwdxDjz9iVUnpmuhe1E86bPe81GPebVXSgJD3pFJGp4cjoi2SAEvBeKVw26l": {
           "discovered_at": "2026-08-27T08:26:19+00:00",
-          "last_error": "Instapaper verification failed for bookmark 2037071923: missing original paragraph: » https://tickets.interpark.com/goods/25012712",
+          "last_error": null,
           "not_before_timestamp": null,
           "post_id": "1316656393160154",
-          "status": "pending"
+          "status": "published_pending"
         },
         "https://www.facebook.com/yulmonologue/posts/pfbid02cNF9k9PFrJ5qq6ZfpUSUnmkMq6p1jwwbLci8uFRV9L49Hi3RKm3c6vzsZh7gsjezl": {
           "completed_at": "2026-08-27T08:31:38+00:00",
@@ -3045,10 +3045,10 @@
         },
         "https://www.facebook.com/yulmonologue/posts/pfbid02ezbNC6sxmMG7SgEFVrCszrVkUdJEQG6avQ1LRsQ3FTM2V7DTHJwFCkiy2LK6Z3SNl": {
           "discovered_at": "2026-08-27T08:26:19+00:00",
-          "last_error": "Instapaper verification failed for bookmark 2037072180: missing original paragraph: » https://tickets.interpark.com/goods/25012712",
+          "last_error": null,
           "not_before_timestamp": null,
           "post_id": "1371150964377363",
-          "status": "pending"
+          "status": "published_pending"
         },
         "https://www.facebook.com/yulmonologue/posts/pfbid02ikU3TBwF2Er2ZLkbC3TBtzfnNPQeqwTtmwtSosJ5FKjt6ZHQhJPWcRJuds4fZXdkl": {
           "completed_at": "2026-08-27T08:31:39+00:00",
@@ -3114,6 +3114,14 @@
           "post_id": "1372129237612869",
           "status": "complete"
         },
+        "https://www.facebook.com/yulmonologue/posts/pfbid0YLeSGLBhBCt76GDZ8WqTogj7HWXUdbWRRNAWqSAw6PR5mo6GgjLRDqKfStEuQP1gl": {
+          "completed_at": "2026-08-27T08:31:38+00:00",
+          "discovered_at": "2026-08-27T09:30:21+00:00",
+          "last_error": null,
+          "not_before_timestamp": null,
+          "post_id": "1098303984995397",
+          "status": "complete"
+        },
         "https://www.facebook.com/yulmonologue/posts/pfbid0hw56DgvKP8hanKDp7sZuzbc2mikin4GewtihJPqGwJyhqAYnusE3peGKmHbojARFl": {
           "completed_at": "2026-08-27T08:31:42+00:00",
           "discovered_at": "2026-08-27T08:26:19+00:00",
@@ -3133,10 +3141,10 @@
       },
       "initial_cutoff_timestamp": 1785140779,
       "initialized_at": "2026-08-27T08:26:19+00:00",
-      "last_scan_timestamp": 1787822500,
+      "last_scan_timestamp": 1787823005,
       "name": "김동률의 Monologue"
     }
   },
   "schema_version": 1,
-  "updated_at": "2026-08-27T09:29:12+00:00"
+  "updated_at": "2026-08-27T09:31:35+00:00"
 }
