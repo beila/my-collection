@@ -3178,6 +3178,14 @@
           "post_id": "4184016151743210",
           "status": "skipped_initial"
         },
+        "https://www.facebook.com/monan.doll/posts/pfbid0emGgPqLimzxd4NmncPt2yYGH5SPbwY8wbDZmL3cEJ6gm1ykGy6q5r6sscfYSnBgYl": {
+          "completed_at": "2026-08-27T12:58:14+00:00",
+          "discovered_at": "2026-08-27T15:33:42+00:00",
+          "last_error": null,
+          "not_before_timestamp": null,
+          "post_id": "4228286220649536",
+          "status": "complete"
+        },
         "https://www.facebook.com/monan.doll/posts/pfbid0hBiJ546Hd4u6aCh9TKpnTRT8JTwqfVX2KZfyuzWFmU9wqivPcgP5KT9oSgcqLUF8l": {
           "completed_at": "2026-08-23T13:35:03+00:00",
           "discovered_at": "2026-08-23T13:24:04+00:00",
@@ -3301,7 +3309,7 @@
       },
       "initial_cutoff_timestamp": 1784813044,
       "initialized_at": "2026-08-23T13:24:04+00:00",
-      "last_scan_timestamp": 1787842585,
+      "last_scan_timestamp": 1787844805,
       "name": "monan.doll"
     },
     "https://www.facebook.com/yulmonologue": {
@@ -3450,5 +3458,5 @@
     }
   },
   "schema_version": 1,
-  "updated_at": "2026-08-27T14:56:46+00:00"
+  "updated_at": "2026-08-27T15:34:00+00:00"
 }
