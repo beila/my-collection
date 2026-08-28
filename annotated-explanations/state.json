@@ -1,25 +1,28 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-08-28T10:51:20Z",
+  "updated_at": "2026-08-28T11:12:23Z",
   "articles": {
     "1815258460": {
       "slug": "effectful-storage-abstraction-explained",
       "title": "Effectful로 저장소 구현을 분리하는 법: 타입부터 인터프리터까지",
       "source_bookmark_id": "1815258460",
-      "article_format": 4,
-      "source_sha256": "0945cbcc687662f78ee3cdf13566abe91b3d6e016dfd78da312cfd52efe659ce",
-      "html_sha256": "926aebc7d43a1e9f9b1ed71b05b888b0b2da0beb35ab35558cdb3e4afec7e0d7",
-      "epub_sha256": "94dbe508a7e611a86fc47a0b6ed29d3a6fb6c843bc1e0619ed652ef0264feab4",
+      "article_format": 5,
+      "source_sha256": "cbf9c2aa6f5f7ea7007e386acb94a741fc143111e12d755bd686eb975cd10289",
+      "html_sha256": "8ca4b330ecc3a555915d15d173700d84525acc8b40ba75f2c1b77ddf726cbf2f",
+      "epub_sha256": "9198d364d315fb34d419e32f83d875fa6e47de8f683059351b20e71379a0b892",
       "canonical_url": "https://beila.github.io/my-collection/annotated-explanations/effectful-storage-abstraction-explained/",
-      "instapaper_url": "https://beila.github.io/my-collection/annotated-explanations/effectful-storage-abstraction-explained/?instapaper_explanation=4-0945cbcc687662f7",
+      "instapaper_url": "https://beila.github.io/my-collection/annotated-explanations/effectful-storage-abstraction-explained/?instapaper_explanation=5-cbf9c2aa6f5f7ea7",
       "epub_url": "https://beila.github.io/my-collection/annotated-explanations/effectful-storage-abstraction-explained/effectful-storage-abstraction-explained.epub",
-      "instapaper_bookmark_id": "2037329079",
+      "instapaper_bookmark_id": "2037332792",
       "instapaper_api_verification": {
         "status": "passed",
-        "verified_at": "2026-08-28T10:51:20Z",
+        "verified_at": "2026-08-28T11:12:23Z",
         "title": "passed",
         "substantial_text_blocks": "passed",
-        "coverage_links": "27/27",
+        "reader_highlights": "27/27",
+        "reader_contexts": "27/27",
+        "verbatim_notes": "1/1",
+        "internal_process_metadata": "absent",
         "epub_link": "passed"
       },
       "epub_validation": {
@@ -41,7 +44,8 @@
       "deleted_superseded_bookmark_ids": [
         "2037321169",
         "2037323530",
-        "2037325678"
+        "2037325678",
+        "2037329079"
       ]
     }
   }
