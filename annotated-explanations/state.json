@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "updated_at": "2026-08-28T10:28:59Z",
+  "articles": {
+    "1815258460": {
+      "slug": "effectful-storage-abstraction-explained",
+      "title": "Effectful로 저장소 구현을 분리하는 법: 타입부터 인터프리터까지",
+      "source_bookmark_id": "1815258460",
+      "article_format": 3,
+      "source_sha256": "1837290968d9fbe8979da695869d5f3fe48310600a0478952f8720bf5bfd1832",
+      "html_sha256": "0e0d13c9c9634fdcd2a784481a85fadbd92b964a83b70d762e83791a740868ef",
+      "epub_sha256": "1d1e61916ef15eea4fa7bd2e212f143a01298eb54a45271432b3039b49a3bdd2",
+      "canonical_url": "https://beila.github.io/my-collection/annotated-explanations/effectful-storage-abstraction-explained/",
+      "instapaper_url": "https://beila.github.io/my-collection/annotated-explanations/effectful-storage-abstraction-explained/?instapaper_explanation=3-1837290968d9fbe8",
+      "epub_url": "https://beila.github.io/my-collection/annotated-explanations/effectful-storage-abstraction-explained/effectful-storage-abstraction-explained.epub",
+      "instapaper_bookmark_id": "2037325678",
+      "instapaper_api_verification": {
+        "status": "passed",
+        "verified_at": "2026-08-28T10:28:59Z",
+        "title": "passed",
+        "substantial_text_blocks": "passed",
+        "coverage_links": "27/27",
+        "epub_link": "passed"
+      },
+      "epub_validation": {
+        "status": "passed",
+        "epub_standard": "3.3",
+        "epubcheck_version": "5.3.0",
+        "errors": 0,
+        "warnings": 0,
+        "public_bytes": "passed",
+        "content_type": "application/epub+zip"
+      },
+      "end_to_end_verification": {
+        "instapaper_web": "not_run",
+        "instapaper_app": "not_run",
+        "instapaper_send_to_kindle": "not_run",
+        "amazon_send_to_kindle": "not_run"
+      },
+      "deleted_superseded_bookmark_ids": [
+        "2037321169",
+        "2037323530"
+      ]
+    }
+  }
+}
