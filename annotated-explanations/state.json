@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-08-28T10:28:59Z",
+  "updated_at": "2026-08-28T10:34:21Z",
   "articles": {
     "1815258460": {
       "slug": "effectful-storage-abstraction-explained",
@@ -31,11 +31,12 @@
         "public_bytes": "passed",
         "content_type": "application/epub+zip"
       },
+      "kindle_delivery_owner": "user",
       "end_to_end_verification": {
         "instapaper_web": "not_run",
         "instapaper_app": "not_run",
-        "instapaper_send_to_kindle": "not_run",
-        "amazon_send_to_kindle": "not_run"
+        "instapaper_send_to_kindle": "user_managed",
+        "amazon_send_to_kindle": "user_managed"
       },
       "deleted_superseded_bookmark_ids": [
         "2037321169",
