@@ -2088,6 +2088,40 @@
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/monan.doll/4228286220649536.html",
       "status": "complete"
     },
+    "4228970353914456": {
+      "article_format_version": 4,
+      "completed_at": null,
+      "content_hash": "f68af881c0e2b8838254a2090b5dd9fecc2fd326e4caac906280c8c721dc2478",
+      "facebook_post_id": "4228970353914456",
+      "facebook_timestamp": null,
+      "image_sha256": [
+        "7ea2ad4f97fa35d8ecb0ffcbcdc0d9aca511dd6f20e7939e0fbd6d20b6d8f461"
+      ],
+      "instapaper_bookmark_id": null,
+      "last_error": null,
+      "omitted_photo_count": 0,
+      "permalink": "https://www.facebook.com/monan.doll/posts/4228970353914456",
+      "profile_url": "https://www.facebook.com/monan.doll",
+      "published_url": "https://beila.github.io/my-collection/facebook-instapaper/monan.doll/4228970353914456.html",
+      "status": "published_pending"
+    },
+    "4228983567246468": {
+      "article_format_version": 4,
+      "completed_at": null,
+      "content_hash": "771cad2be34c6f710c8a3e3f179d3d10a500299faf5f0c3afe7c3342a6878772",
+      "facebook_post_id": "4228983567246468",
+      "facebook_timestamp": 1787877895,
+      "image_sha256": [
+        "d45958871f7bcb1cd8afa1f4b889d126444f0d3430f877a53916230661592945"
+      ],
+      "instapaper_bookmark_id": null,
+      "last_error": null,
+      "omitted_photo_count": 0,
+      "permalink": "https://www.facebook.com/monan.doll/posts/4228983567246468",
+      "profile_url": "https://www.facebook.com/monan.doll",
+      "published_url": "https://beila.github.io/my-collection/facebook-instapaper/monan.doll/4228983567246468.html",
+      "status": "published_pending"
+    },
     "773884951405069": {
       "article_format_version": 2,
       "completed_at": "2026-08-25T21:09:38+00:00",
@@ -2909,6 +2943,13 @@
           "post_id": "4220733731404785",
           "status": "complete"
         },
+        "https://www.facebook.com/monan.doll/posts/pfbid02MAoyztCSf9jEbCnggGfJ2zZR2bEFS2TCWyE5XwQ2r28vuRTeffo4DKVSBzJoQsv1l": {
+          "discovered_at": "2026-08-28T10:09:27+00:00",
+          "last_error": null,
+          "not_before_timestamp": null,
+          "post_id": "4228983567246468",
+          "status": "published_pending"
+        },
         "https://www.facebook.com/monan.doll/posts/pfbid02MnC7R8tpQwx1jx3GYX8c94niNgr1M7n4gw9R3Z7Uzd2dJqM6DcsvnjcNE5AxaTiKl": {
           "completed_at": "2026-08-23T13:34:30+00:00",
           "discovered_at": "2026-08-23T13:24:04+00:00",
@@ -3269,6 +3310,13 @@
           "post_id": "4188013344676824",
           "status": "complete"
         },
+        "https://www.facebook.com/monan.doll/posts/pfbid0Z6f7Y1LsJwp8Bvi9bnWEte96ZSC4T3E9cwdf8zFJcZUzS1BTY7kGhJbA1zu1Ndcnl": {
+          "discovered_at": "2026-08-28T10:09:27+00:00",
+          "last_error": null,
+          "not_before_timestamp": null,
+          "post_id": "4228970353914456",
+          "status": "published_pending"
+        },
         "https://www.facebook.com/monan.doll/posts/pfbid0dRQFqvNoosCSU4fTmdBLzkhC97Am3nSQuG6ZfU6FFmndyoYQXEtYc3TMi9i9GUktl": {
           "completed_at": "2026-08-23T13:35:02+00:00",
           "discovered_at": "2026-08-23T13:24:04+00:00",
@@ -3389,6 +3437,14 @@
           "post_id": "4224456157699209",
           "status": "complete"
         },
+        "https://www.facebook.com/monan.doll/posts/pfbid0wSeuH4nNGoeZxR5SAz8gCiK7zT5NZt9GCyFxuffyrokV3ZJd61UmBqQJgY1Lq7zol": {
+          "completed_at": "2026-08-24T12:08:44+00:00",
+          "discovered_at": "2026-08-28T10:09:27+00:00",
+          "last_error": null,
+          "not_before_timestamp": null,
+          "post_id": "4224456157699209",
+          "status": "complete"
+        },
         "https://www.facebook.com/monan.doll/posts/pfbid0z2pG2Khsk9ZERLCQwCPxsTYFjPbq7p8KPmz8J7969VL9xPNCnPx4ofdnXnTixoFDl": {
           "completed_at": "2026-08-23T13:35:14+00:00",
           "discovered_at": "2026-08-23T13:24:04+00:00",
@@ -3416,7 +3472,7 @@
       },
       "initial_cutoff_timestamp": 1784813044,
       "initialized_at": "2026-08-23T13:24:04+00:00",
-      "last_scan_timestamp": 1787880419,
+      "last_scan_timestamp": 1787911747,
       "name": "monan.doll"
     },
     "https://www.facebook.com/yulmonologue": {
@@ -3565,5 +3621,5 @@
     }
   },
   "schema_version": 1,
-  "updated_at": "2026-08-28T01:27:19+00:00"
+  "updated_at": "2026-08-28T10:10:08+00:00"
 }
