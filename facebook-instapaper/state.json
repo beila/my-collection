@@ -3038,7 +3038,7 @@
       },
       "initial_cutoff_timestamp": 1784813056,
       "initialized_at": "2026-08-23T13:24:16+00:00",
-      "last_scan_timestamp": 1787927348,
+      "last_scan_timestamp": 1787931408,
       "name": "Joyce Park"
     },
     "https://www.facebook.com/monan.doll": {
@@ -3291,6 +3291,14 @@
           "post_id": "4228286220649536",
           "status": "complete"
         },
+        "https://www.facebook.com/monan.doll/posts/pfbid02iciPaWGYdG8ohStveRiyvEBsAZDaFaDVRy9tnDaxL2sfcUAaQAcaMgnrYSh2qwegl": {
+          "completed_at": "2026-08-27T12:58:14+00:00",
+          "discovered_at": "2026-08-28T15:37:03+00:00",
+          "last_error": null,
+          "not_before_timestamp": null,
+          "post_id": "4228286220649536",
+          "status": "complete"
+        },
         "https://www.facebook.com/monan.doll/posts/pfbid02pv8NxkVeEf1NY3bF3pBqh3Yik87Rxi7RF6uHwkSSKsrrGfXEMyW6MQLRB3TWxqC4l": {
           "completed_at": "2026-08-23T13:34:45+00:00",
           "discovered_at": "2026-08-23T13:24:04+00:00",
@@ -3486,6 +3494,14 @@
         "https://www.facebook.com/monan.doll/posts/pfbid0H4QR4jxC6kJTMor9uwyFsb1LPPb488MNFfUBqJy2hYTZy3Et6uHis8m7mmb1VeLEl": {
           "completed_at": "2026-08-23T14:31:42+00:00",
           "discovered_at": "2026-08-24T14:16:23+00:00",
+          "last_error": null,
+          "not_before_timestamp": null,
+          "post_id": "4220733731404785",
+          "status": "complete"
+        },
+        "https://www.facebook.com/monan.doll/posts/pfbid0HC3w36yvHMnyX6gpm2qPPheTRtCcamej5bLQkHEB4JAysCXSDVMJgh2W79S6rRK7l": {
+          "completed_at": "2026-08-23T14:31:42+00:00",
+          "discovered_at": "2026-08-28T15:37:03+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "4220733731404785",
@@ -3726,7 +3742,7 @@
       },
       "initial_cutoff_timestamp": 1784813044,
       "initialized_at": "2026-08-23T13:24:04+00:00",
-      "last_scan_timestamp": 1787927356,
+      "last_scan_timestamp": 1787931415,
       "name": "monan.doll"
     },
     "https://www.facebook.com/yulmonologue": {
@@ -3875,5 +3891,5 @@
     }
   },
   "schema_version": 1,
-  "updated_at": "2026-08-28T14:29:27+00:00"
+  "updated_at": "2026-08-28T15:37:36+00:00"
 }
