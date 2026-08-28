@@ -2090,37 +2090,60 @@
     },
     "4228970353914456": {
       "article_format_version": 4,
-      "completed_at": null,
+      "completed_at": "2026-08-28T10:10:29+00:00",
       "content_hash": "f68af881c0e2b8838254a2090b5dd9fecc2fd326e4caac906280c8c721dc2478",
       "facebook_post_id": "4228970353914456",
       "facebook_timestamp": null,
+      "has_video": true,
       "image_sha256": [
         "7ea2ad4f97fa35d8ecb0ffcbcdc0d9aca511dd6f20e7939e0fbd6d20b6d8f461"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2037322906",
       "last_error": null,
+      "linked_pages": [],
       "omitted_photo_count": 0,
+      "original_author": "김진영",
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "permalink": "https://www.facebook.com/monan.doll/posts/4228970353914456",
       "profile_url": "https://www.facebook.com/monan.doll",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/monan.doll/4228970353914456.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "4228983567246468": {
       "article_format_version": 4,
-      "completed_at": null,
+      "completed_at": "2026-08-28T10:10:32+00:00",
       "content_hash": "771cad2be34c6f710c8a3e3f179d3d10a500299faf5f0c3afe7c3342a6878772",
       "facebook_post_id": "4228983567246468",
       "facebook_timestamp": 1787877895,
+      "has_video": false,
       "image_sha256": [
         "d45958871f7bcb1cd8afa1f4b889d126444f0d3430f877a53916230661592945"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2037322913",
       "last_error": null,
+      "linked_pages": [
+        {
+          "article_image_sha256": [
+            "8a6e8b0b12aa77108d1bf44d25c93f49d7f58b64e925c53876d952965a2ae50d"
+          ],
+          "article_sha256": "29eed785b08d854a5737c28606b4c2a31c2718593199c247078d571c81cb3d02",
+          "description": "교육부가 배재고 야구부의 ‘5·18 조롱’ 사건을 계기로 이를 방지하기 위해 만든 ‘혐오·차별 표현 대응 가이드북’에서 성소수자 관련 내용이 들어가지 않은 것으로 확인됐다. 교육부가 요청해 가이드북을 점검한 전문가",
+          "site_name": "n.news.naver.com",
+          "title": "[단독] 혐오·차별 막자면서 ‘성소수자’ 제외한 교육부",
+          "url": "https://n.news.naver.com/article/028/0002820542?lfrom=facebook"
+        }
+      ],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "permalink": "https://www.facebook.com/monan.doll/posts/4228983567246468",
       "profile_url": "https://www.facebook.com/monan.doll",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/monan.doll/4228983567246468.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "773884951405069": {
       "article_format_version": 2,
@@ -2944,11 +2967,12 @@
           "status": "complete"
         },
         "https://www.facebook.com/monan.doll/posts/pfbid02MAoyztCSf9jEbCnggGfJ2zZR2bEFS2TCWyE5XwQ2r28vuRTeffo4DKVSBzJoQsv1l": {
+          "completed_at": "2026-08-28T10:10:32+00:00",
           "discovered_at": "2026-08-28T10:09:27+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "4228983567246468",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/monan.doll/posts/pfbid02MnC7R8tpQwx1jx3GYX8c94niNgr1M7n4gw9R3Z7Uzd2dJqM6DcsvnjcNE5AxaTiKl": {
           "completed_at": "2026-08-23T13:34:30+00:00",
@@ -3311,11 +3335,12 @@
           "status": "complete"
         },
         "https://www.facebook.com/monan.doll/posts/pfbid0Z6f7Y1LsJwp8Bvi9bnWEte96ZSC4T3E9cwdf8zFJcZUzS1BTY7kGhJbA1zu1Ndcnl": {
+          "completed_at": "2026-08-28T10:10:29+00:00",
           "discovered_at": "2026-08-28T10:09:27+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "4228970353914456",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/monan.doll/posts/pfbid0dRQFqvNoosCSU4fTmdBLzkhC97Am3nSQuG6ZfU6FFmndyoYQXEtYc3TMi9i9GUktl": {
           "completed_at": "2026-08-23T13:35:02+00:00",
@@ -3621,5 +3646,5 @@
     }
   },
   "schema_version": 1,
-  "updated_at": "2026-08-28T10:10:08+00:00"
+  "updated_at": "2026-08-28T10:10:32+00:00"
 }
