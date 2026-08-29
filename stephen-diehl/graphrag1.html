@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="stephen-diehl-content-hash" content="59687221cd4d23deffafbb584a9addf70f7f567dac81bdafa6cccf4d87e269f7">
+  <meta name="stephen-diehl-content-hash" content="efb91f278737ab50a3f7999c5a60708f1aa3dfc176ff7251318490c40263e80e">
   <meta name="stephen-diehl-article-format" content="2">
   <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/graphrag1.html">
   <title>Tiny GraphRAG (Part 1)</title>
@@ -47,7 +47,7 @@
 </ul>
 <p>We could also trivially use a graph database (like <a href="https://memgraph.com/">Memgraph</a> or <a href="https://neo4j.com/">Neo4j</a>) but for the sake of simplicity we'll just store the networkx graph data serialized to disk.</p>
 <p>The source code is available on Github under a MIT license.</p>
-<p><a href="https://github.com/sdiehl/tiny-graphrag">https://github.com/sdiehl/tiny-graphrag</a></p>
+<p>Resources: <a href="https://github.com/sdiehl/tiny-graphrag">https://github.com/sdiehl/tiny-graphrag</a></p>
 <h2 id="core-ideas">Core Ideas</h2>
 <p>When doing naive RAG, we typically rely on vector similarity to find relevant context. This works well for simple cases but can miss important contextual relationships. For example, let's look at a basic vector similarity comparison using the <code>sentence-transformers</code> library.</p>
 <pre><code>from sentence_transformers import SentenceTransformer
