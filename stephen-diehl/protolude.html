@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="stephen-diehl-content-hash" content="5736820c39f2e1370271cb1811e3cf818078193877bed23f98435ff59b6f0969">
-  <meta name="stephen-diehl-article-format" content="9">
+  <meta name="stephen-diehl-content-hash" content="b8de6b33c8d89b690158a1ebe6730c50dcffd6a13e39e02fbd7b0d67aababa14">
+  <meta name="stephen-diehl-article-format" content="10">
   <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/protolude.html">
   <title>Building a Better Custom Haskell Prelude</title>
   <style>
@@ -61,7 +61,7 @@ custom Prelude. We'll call this a <em>Protolude</em>.</p>
 <p>
 **[Git Project](https://github.com/sdiehl/protolude)**
 </p>
-<h4 id="module-structure">Module Structure</h4>
+<h3 id="module-structure">Module Structure</h3>
 <p>The basic module structure is consists of a main module reexport which we'll<br/>
 dump everything in called <code>X</code>. And various miscellaneous functions which<br/>
 we'll reexport from the root module. Off of this we'll have several utilities<br/>
@@ -90,7 +90,7 @@ import qualified Debug as X
 import qualified Monad as X
 import qualified Applicative as X
 </code></pre>
-<h4 id="base-types">Base Types</h4>
+<h3 id="base-types">Base Types</h3>
 <p>The Basic types (<code>Int</code>, <code>Integer</code>, <code>Float</code>, <code>Char</code>) we reexport wholesale<br/>
 along with their associated functions.</p>
 <pre><code>-- Base types
@@ -155,7 +155,7 @@ ifM p x y = p &gt;&gt;= \b -&gt; if b then x else y
 guardM :: MonadPlus m =&gt; m Bool -&gt; m ()
 guardM f = guard =&lt;&lt; f
 </code></pre>
-<h4 id="safe">Safe</h4>
+<h3 id="safe">Safe</h3>
 <p><a href="https://hackage.haskell.org/package/safe">Safe</a> provides Maybe versions of many<br/>
 of the various partial functions (<code>head</code>, <code>tail</code>) that are shipped by<br/>
 default. Wrapping it up in a Maybe is widely considered the right approach and<br/>
@@ -167,7 +167,7 @@ import Safe as X (
   tailMay
   )
 </code></pre>
-<h4 id="debugging">Debugging</h4>
+<h3 id="debugging">Debugging</h3>
 <p>Various debugging and trap commands are still provided since they are useful for<br/>
 partial code and various fatal program logic. However now they have a warning<br/>
 emitted by the compiler if they are left in place, with position information<br/>
@@ -205,7 +205,7 @@ traceIO = T.traceIO
 notImplemented :: a
 notImplemented = P.error "Not implemented"
 </code></pre>
-<h4 id="either">Either</h4>
+<h3 id="either">Either</h3>
 <p>Various either combinators to convert between Maybe and Either probably should<br/>
 be provided but are not, there are four various combinations of these. Handling<br/>
 a maybe which happens to have a monoidal instance for mempty in Left is also<br/>
@@ -225,7 +225,7 @@ maybeToLeft r = maybe (Right r) Left
 maybeToEither :: Monoid b =&gt; (a -&gt; b) -&gt; Maybe a -&gt; b
 maybeToEither = maybe mempty
 </code></pre>
-<h4 id="list">List</h4>
+<h3 id="list">List</h3>
 <p>The various list functions are exported wholesale excpet for the ones which are<br/>
 generalized by Foldable and Traversable. head is reexported as a total function<br/>
 written in terms of foldr. The <code>ordNub</code> function is accidentally quadratic in<br/>
@@ -246,7 +246,7 @@ ordNub l = go Set.empty l
       then go s xs
       else x : go (Set.insert x s) xs
 </code></pre>
-<h4 id="monad">Monad</h4>
+<h3 id="monad">Monad</h3>
 <p>The core moand class, functions, and combinators are reexported wholesale.<br/>
 Variants like <code>mapM</code> are provided by <code>Data.Traversable</code> instead of<br/>
 <code>Control.Monad</code>.</p>
@@ -307,7 +307,7 @@ liftM2' f a b = do
   z `seq` return z
 {-# INLINE liftM2' #-}
 </code></pre>
-<h4 id="applicative">Applicative</h4>
+<h3 id="applicative">Applicative</h3>
 <p>The applicative module core types are reexported wholesale. Unlike in 7.8 we<br/>
 have the Applicative class in scope by default, as it should be in this day and<br/>
 age.</p>
@@ -324,7 +324,7 @@ import Control.Applicative as X (
   , optional
   )
 </code></pre>
-<h4 id="typeclasses">Typeclasses</h4>
+<h3 id="typeclasses">Typeclasses</h3>
 <p>The core GHC typeclasses for ordering and numeric tower are reexported<br/>
 wholesale. We also bring Traversable and Foldable into scope masking a few of<br/>
 the partial functions which generally should be avoided. Semiring is also common<br/>
@@ -351,7 +351,7 @@ import Data.Functor as X (
   , void
   )
 </code></pre>
-<h4 id="deepseq">Deepseq</h4>
+<h3 id="deepseq">Deepseq</h3>
 <p>Deepseq is usually an important typeclass to derive for various usecases, and so<br/>
 we bring in the <code>deepseq</code> library and it's various functions.</p>
 <pre><code>-- Deepseq
@@ -362,7 +362,7 @@ import Control.DeepSeq as X (
   , force
   )
 </code></pre>
-<h4 id="data-structures">Data Structures</h4>
+<h3 id="data-structures">Data Structures</h3>
 <p>The core data structures provided by GHC are reexported, but with List we make<br/>
 sure to mask the partial functions, and operators are provided in more general<br/>
 interfaces.</p>
@@ -389,7 +389,7 @@ import Data.Sequence as X (Seq)
 import Data.IntMap as X (IntMap)
 import Data.IntSet as X (IntSet)
 </code></pre>
-<h4 id="monad-transformers">Monad Transformers</h4>
+<h3 id="monad-transformers">Monad Transformers</h3>
 <p>The basic <code>mtl</code> transformer stack are usually ubiqitious in modern Haskell,<br/>
 specifically StateT, ReaderT and ExceptT. We don't export all functions in these<br/>
 modules but just enough that most uses cases of the common transformers are<br/>
@@ -437,7 +437,7 @@ import Control.Monad.Trans as X (
     liftIO,
   )
 </code></pre>
-<h4 id="wired-in-types">Wired-In Types</h4>
+<h3 id="wired-in-types">Wired-In Types</h3>
 <p>Several basic types (IO, Show) are necessary to do anything so we obviously<br/>
 bring these in. The <code>Exts</code> provides the various pointer types for working with<br/>
 FFI as well as the Constraint type which is somewhat common in the presence of<br/>
@@ -455,7 +455,7 @@ import GHC.Exts as X (
   , the
   )
 </code></pre>
-<h4 id="generics">Generics</h4>
+<h3 id="generics">Generics</h3>
 <p>Generics are also ubiqitious in modern Haskell and the various typeclasses and<br/>
 type synonyms should be provided so that we can <code>-XDeriveGeneric</code> as well as<br/>
 implement default instances for Generic classes.</p>
@@ -481,7 +481,7 @@ import GHC.Generics (
   , Fixity(..)
   )
 </code></pre>
-<h4 id="string-types">String Types</h4>
+<h3 id="string-types">String Types</h3>
 <p>Strings in Haskell are a giant fractal of suffering. In a just world, we would<br/>
 all just use Text most of the time, and ByteString when we needed to deal with<br/>
 network but we don't live in that world an large portions of Hasell ecosystem<br/>
@@ -523,7 +523,7 @@ import Text.Printf as Exports (
 <pre><code>type LText = Data.Text.Lazy.Text
 type LByteString = Data.ByteString.Lazy.ByteString
 </code></pre>
-<h4 id="io">IO</h4>
+<h3 id="io">IO</h3>
 <p>IO is essentially obvious, so we reexport the various IO operations and command<br/>
 low-level command line option and file handler functions.</p>
 <pre><code>-- IO
@@ -578,7 +578,7 @@ transformer stacks.</p>
 <pre><code>print :: (X.MonadIO m, P.Show a) =&gt; a -&gt; m ()
 print = liftIO . P.print
 </code></pre>
-<h4 id="concurrency">Concurrency</h4>
+<h3 id="concurrency">Concurrency</h3>
 <p>The basic thread primitives are common enough that they should be brought into<br/>
 scope implicitly. The <code>async</code> library provides the preferred method of<br/>
 interacting with concurrent logic and so we export this wholesale as well.</p>

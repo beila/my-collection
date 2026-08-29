@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="stephen-diehl-content-hash" content="0586a5a9bc9871c9f8ff93eaf21afa596c0bc6ecfb29822fd1c38d72f507b45d">
-  <meta name="stephen-diehl-article-format" content="9">
+  <meta name="stephen-diehl-content-hash" content="25c7a9e290dbdcf836e68b5c33b063ace3843c5ed696e5e630ad8e7915afd996">
+  <meta name="stephen-diehl-article-format" content="10">
   <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/generics.html">
   <title>Cooking Classes with Datatype Generic Programming</title>
   <style>
@@ -94,7 +94,7 @@ runtime is which branch we're scrutinizing.</p>
 to our program so that we could write generic logic that can introspect the<br/>
 "structure" of our datatypes.</p>
 
-<h4 id="compiler-hooks">Compiler Hooks</h4>
+<h3 id="compiler-hooks">Compiler Hooks</h3>
 <p>Since GHC 6.10 we've had type families which, among other things, allow us to<br/>
 associate data types with our typeclass. So the structure of our Generic class<br/>
 can have a associated <code>Rep</code> type which can carry information along with the<br/>
@@ -327,7 +327,7 @@ data T
 <p>These data points are then used to generate the Rep instance in the derived<br/>
 Generic instances. So that's a <em>rough approximation</em> of how <code>-XDeriveGeneric</code><br/>
 works under the hood, nothing terribly complicated just book keeping.</p>
-<h4 id="ghc.generics">GHC.Generics</h4>
+<h3 id="ghc.generics">GHC.Generics</h3>
 <p>From the internal representation we crank out several typeclass instances which<br/>
 store the metadata about the various constructors.</p>
 <pre><code>class Datatype d where
@@ -372,7 +372,7 @@ information into the runtime. Apart from a dictionary lookup for they are a<br/>
 effectively free abstraction that has no overhead. We're simply making more<br/>
 information from the compiler manifest in the types during the type-checking<br/>
 phase, all of which gets erased during compilation.</p>
-<h4 id="example">Example</h4>
+<h3 id="example">Example</h3>
 <p>I tried to come up a non-contrived example for illustrating the usefulness of<br/>
 generics, and there are plenty of examples (serializes for JSON, Protocol<br/>
 Buffers, SQL Generation, traversals, command line parsers, etc) that are<br/>

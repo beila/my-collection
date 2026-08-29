@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="stephen-diehl-content-hash" content="abe1ef919a874482da42214a00b00bea2c00dff9498af787ceae5110e177bc40">
-  <meta name="stephen-diehl-article-format" content="9">
+  <meta name="stephen-diehl-content-hash" content="f180b1b971ea9d85b3956cb717bb251923b79308204430754b6e322b72949712">
+  <meta name="stephen-diehl-article-format" content="10">
   <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/monads.html">
   <title>Monads Made Difficult</title>
   <style>
@@ -36,7 +36,7 @@
       <p class="original-link"><a href="https://www.stephendiehl.com/posts/monads/">Read the original article on Stephen Diehl's website</a></p>
 <p>This is a short, fast and analogy-free introduction to Haskell monads derived from a categorical perspective.<br/>
 This assumes you are familiar with Haskell and basic category theory.</p>
-<h5 id="categories">Categories</h5>
+<h3 id="categories">Categories</h3>
 <hr/>
 <p>We have a abstract <strong>category</strong> $\mathcal{C}$ which consists of objects and morphisms.</p>
 <ul>
@@ -67,7 +67,7 @@ the following are equivalent.</p>
 </code></pre>
 <pre><code>(a -&gt; b) -&gt; (a -&gt; c)
 </code></pre>
-<h5 id="functors">Functors</h5>
+<h3 id="functors">Functors</h3>
 <hr/>
 <p>Between two categories we can construct a <strong>functor</strong> denoted $T$, which maps between objects and morphisms of<br/>
 categories that preserves morphism composition and identities.</p>
@@ -120,7 +120,7 @@ T^3 &amp;= T T T: \mathcal{C} \rightarrow \mathcal{C}<br/>
 \end{align*}<br/>
 $$</p>
 <p>The category of small categories $\textbf{Cat}$ is a category with categories as objects and functors as morphisms between categories.</p>
-<h5 id="natural-transformations">Natural Transformations</h5>
+<h3 id="natural-transformations">Natural Transformations</h3>
 <hr/>
 <p>For two functors $F,G$ between two categories $\mathcal{A,B}$:</p>
 <p>$$<br/>
@@ -181,7 +181,7 @@ headMay (fmap f (x:xs))
 = headMay [f x]
 = Just (f x)
 </code></pre>
-<h5 id="functor-categories">Functor Categories</h5>
+<h3 id="functor-categories">Functor Categories</h3>
 <hr/>
 <p>A natural transformation $\eta : C \rightarrow D$ is itself a morphism in the <strong>functor category</strong><br/>
 $\textbf{Fun}(\mathcal{C}, \mathcal{D})$ of functors between $\mathcal{C}$ and $\mathcal{D}$. The category<br/>
@@ -196,7 +196,7 @@ instance Category (End f) where
   id = FNat id
   (FNat f) . (FNat g) = FNat (f . g)
 </code></pre>
-<h5 id="monads">Monads</h5>
+<h3 id="monads">Monads</h3>
 <hr/>
 <p>We can finally define a <em>monad</em> over a category $\mathcal{C}$ to be a triple $(T, \eta, \mu)$ of:</p>
 <ol>
@@ -235,7 +235,7 @@ In this form the monad laws have a nice geometric symmetry.</p>
 <p>
 <img src="https://beila.github.io/my-collection/stephen-diehl/assets/24f4c7a69ec95a51800b75a7775b59cb7fd90b6418e863a4bb7969e1f8a9d4a0.png"/>
 </p>
-<h5 id="bind%2Freturn-formulation">Bind/Return Formulation</h5>
+<h3 id="bind%2Freturn-formulation">Bind/Return Formulation</h3>
 <hr/>
 <p>There is an equivalent formulations of monads in terms of two functions (<code>(&gt;&gt;=), return</code>) which can be<br/>
 written in terms of <code>mu, eta</code>)</p>
@@ -259,7 +259,7 @@ fmap f . join    ≡  join . fmap (fmap f)
 m &gt;&gt;= return     ≡  m
 (m &gt;&gt;= f) &gt;&gt;= g  ≡  m &gt;&gt;= (\x -&gt; f x &gt;&gt;= g)
 </code></pre>
-<h5 id="kleisli-category">Kleisli Category</h5>
+<h3 id="kleisli-category">Kleisli Category</h3>
 <hr/>
 <p>The final result is given a monad we can form a new category called the <em>Kleisli category</em> from the monad. The<br/>
 objects are embedded in our original <code>c</code> category, but our arrows are now Kleisli arrows <code>a -&gt; T b</code>. Given<br/>
@@ -350,7 +350,7 @@ left f = just . f
 right :: forall a b. (a :~&gt; b) Maybe -&gt; (a :~&gt; b) Maybe
 right f = f . just
 </code></pre>
-<h5 id="haskell-monads">Haskell Monads</h5>
+<h3 id="haskell-monads">Haskell Monads</h3>
 <hr/>
 <p>For instance the <strong>List monad</strong> would have:</p>
 <ol>

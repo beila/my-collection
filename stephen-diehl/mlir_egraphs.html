@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="stephen-diehl-content-hash" content="540dd6abadc9ed3d26a8732aba51acee0d5b917f42d248d112d3061bff2cbe8f">
-  <meta name="stephen-diehl-article-format" content="9">
+  <meta name="stephen-diehl-content-hash" content="1064f6bac715db8f0ddc381263ae3f6a0f47b6a975becc84ecb0454b09fc2f89">
+  <meta name="stephen-diehl-article-format" content="10">
   <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/mlir_egraphs.html">
   <title>Specializing Python with E-graphs</title>
   <style>
@@ -127,7 +127,7 @@ egraph.extract(expr1)
 <p>The foundation layer of our compiler provides the core abstractions for representing and manipulating mathematical expressions. This layer is crucial as it forms the basis for all higher-level optimizations and transformations. Let's explore each component in detail.</p>
 <h3 id="expression-model-(expr_model.py)">Expression Model (<code>expr_model.py</code>)</h3>
 <p>At the heart of our compiler is an expression model that represents mathematical expressions as an abstract syntax tree (AST). The model is implemented using Python's dataclasses for clean and efficient representation.</p>
-<h4 id="core-expression-types">Core Expression Types</h4>
+<h3 id="core-expression-types">Core Expression Types</h3>
 <p>The base class for all expressions is the <code>Expr</code> class, which provides the fundamental operations:</p>
 <pre><code>@dataclass(frozen=True)
 class Expr:
@@ -602,7 +602,7 @@ for ruleset in sequential_rules:
     return
 }
 </code></pre>
-<h4 id="expression-translation">Expression Translation</h4>
+<h3 id="expression-translation">Expression Translation</h3>
 <p>The <code>MLIRGen</code> class implements a multi-pass translation strategy that begins with subexpression expansion, where the generator unfolds the expression tree into a complete set of subexpressions using the <code>unfold</code> method. This process ensures that common subexpressions are identified and can be reused. Next, the generator employs topological ordering, sorting subexpressions by complexity, using string length as a proxy to ensure that simpler expressions are evaluated before more complex ones that might depend on them. Finally, the code generation pipeline is executed, which first loads input variables from the memref, generates intermediate computations for subexpressions, and stores the final result back to the output memref.</p>
 <p>The generator employs a smart caching mechanism to avoid redundant computations:</p>
 <pre><code>def walk(self, expr: ir.Expr):
@@ -613,7 +613,7 @@ for ruleset in sequential_rules:
     self.cache[expr] = as_source(expr, self.vars, lookup)
 </code></pre>
 <p>This caching strategy ensures that each subexpression is computed exactly once, common subexpressions are reused through MLIR's SSA (Static Single Assignment) form, and the generated code maintains optimal efficiency.</p>
-<h4 id="mlir-dialect-usage">MLIR Dialect Usage</h4>
+<h3 id="mlir-dialect-usage">MLIR Dialect Usage</h3>
 <p>Our generator then walks over the expression tree and maps our high-level expressions to appropriate MLIR dialects:</p>
 <ul>
 <li>Arithmetic operations use the <code>arith</code> dialect (e.g., <code>arith.addf</code>, <code>arith.mulf</code>)</li>
@@ -903,7 +903,7 @@ def as_source(
 <p>Then the compiler spit out the LLVM IR and we can use the <code>llvmlite</code> library to load it and execute it inside of the Python process, allowing us to dynamically load the compiled machine code.</p>
 <h3 id="llvm-runtime-(llvm_runtime.py)">LLVM Runtime (<code>llvm_runtime.py</code>)</h3>
 <p>The LLVM runtime provides the final layer of our compilation pipeline, handling the dynamic loading and execution of compiled LLVM code within Python. This component uses <code>llvmlite</code> to interface with LLVM and manages the Just-In-Time (JIT) compilation process.</p>
-<h4 id="llvm-initialization">LLVM Initialization</h4>
+<h3 id="llvm-initialization">LLVM Initialization</h3>
 <p>The runtime begins with a cached initialization of LLVM components:</p>
 <pre><code>@cache
 def init_llvm():

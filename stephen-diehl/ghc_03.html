@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="stephen-diehl-content-hash" content="5d64f1e094787338c063a2b2a3c61fadb49334f9766d6b70d97f3192c55a5532">
-  <meta name="stephen-diehl-article-format" content="9">
+  <meta name="stephen-diehl-content-hash" content="830d10b8bb53f8fffb1eae0c14321db840535cf064c1cdba79972abb0cb16f54">
+  <meta name="stephen-diehl-article-format" content="10">
   <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/ghc_03.html">
   <title>Dive into GHC: Targeting Core</title>
   <style>
@@ -40,7 +40,7 @@ discuss the Core language.</p>
 <p>
 **[Accompaying Source Code](https://github.com/sdiehl/dive-into-ghc/tree/master/03-core)**
 </p>
-<h4 id="core">Core</h4>
+<h3 id="core">Core</h3>
 <p>GHC's most central data types. Core is a very small,<br/>
 explicitly-typed, variant of System FC; a typed lambda calculus that differs<br/>
 from the simply typed lambda calculus by the introduction of a mechanism of<br/>
@@ -78,7 +78,7 @@ returnIO
 ==================== Simplified expression ====================
 returnIO (: ((\ (@ t) (x :: t) -&gt; (x, x)) `cast` ...) ([]))
 </code></pre>
-<h4 id="core-syntax">Core Syntax</h4>
+<h3 id="core-syntax">Core Syntax</h3>
 <p>Core is defined in the<br/>
 <a href="https://downloads.haskell.org/~ghc/7.10.3/docs/html/libraries/ghc-7.10.3/CoreSyn.html">CoreSyn</a><br/>
 module. The central datatype is <code>Expr</code> which holds the 10 core datatypes that<br/>
@@ -160,7 +160,7 @@ e ::= \ &amp; n                                              &amp; \mathtt{Var} 
 |\ &amp; \gamma                                         &amp; \mathtt{Coercion} &amp;\quad \text{Coercion} \<br/>
 \end{aligned}<br/>
 $$</p>
-<h4 id="var">Var</h4>
+<h3 id="var">Var</h3>
 <p>The <code>Var</code> type is central to most of the core definitions, it is the primary<br/>
 name type used in the later half of the compiler and contains is a synonym for<br/>
 the <code>Id</code> type but it may additionally potentially contain type variables,</p>
@@ -250,7 +250,7 @@ there are several helper functions that combine them together.</p>
 mkLocalVar :: IdDetails -&gt; Name -&gt; Type -&gt; IdInfo -&gt; Id
 mkGlobalVar :: IdDetails -&gt; Name -&gt; Type -&gt; IdInfo -&gt; Id
 </code></pre>
-<h4 id="example">Example</h4>
+<h3 id="example">Example</h3>
 <p>Consider the following incredibly simple module:</p>
 <pre><code>module Example (f) where
 
@@ -350,7 +350,7 @@ summ dflags = ModSummary
       ms_hspp_buf     = Nothing
   }
 </code></pre>
-<h4 id="code-generation">Code Generation</h4>
+<h3 id="code-generation">Code Generation</h3>
 <p>So now that we have our synthetic core module we can run the normal compiler<br/>
 pipeline on it and compile it just like we would with source code. The<br/>
 transformation of Core to native code goes through several processes:</p>

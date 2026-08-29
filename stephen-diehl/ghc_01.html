@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="stephen-diehl-content-hash" content="44303b236341a9d171cd71751e2d3ff95279c17656e49dd36a1e8d3153b944ea">
-  <meta name="stephen-diehl-article-format" content="9">
+  <meta name="stephen-diehl-content-hash" content="4a95b9e040030956f9fe81f68a44f1f97ad0167ae4db0a6bbfc7692e89e577bd">
+  <meta name="stephen-diehl-article-format" content="10">
   <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/ghc_01.html">
   <title>Dive into GHC: Pipeline</title>
   <style>
@@ -51,7 +51,7 @@ internal structure of the compiler.</p>
 **[Accompaying Source Code](https://github.com/sdiehl/dive-into-ghc/tree/master/01-pipeline)**
 </p>
 <hr/>
-<h4 id="official-commentary">Official Commentary</h4>
+<h3 id="official-commentary">Official Commentary</h3>
 <p>GHC core developers have actually spent a great deal of time over the sharing<br/>
 knowledge about the design of the compiler. Some good places to start are the<br/>
 following:</p>
@@ -66,7 +66,7 @@ following:</p>
 <p>On top of this there is a literature trail going back 25 years that shows how<br/>
 the historical context and the research that led up to GHC today.<br/>Resources: <a href="https://ghc.haskell.org/trac/ghc/wiki/ReadingList">GHC Reading List</a></p>
 
-<h4 id="toplevel">Toplevel</h4>
+<h3 id="toplevel">Toplevel</h3>
 <p>GHC is a quirky beast of a codebase, but as far compilers go it is a fairly<br/>
 well-engineered and documented project if you know where to look. Yes, it uses a<br/>
 somewhat idiosyncratic convention in places, but after all it is a 20-year old<br/>
@@ -110,7 +110,7 @@ itself are primarily:</p>
 ├── utils        # Misc functions and core data structures
 └── vectorise    # Vectorisation optimiations
 </code></pre>
-<h4 id="ghc-api">GHC API</h4>
+<h3 id="ghc-api">GHC API</h3>
 <p>Since GHC is itself written in Haskell, GHC is effectively a large library the<br/>
 encompasses the <a href="https://downloads.haskell.org/~ghc/7.10.3/docs/html/libraries/ghc-7.10.3/index.html">GHC API</a>.<br/>
 The toplevel module is simply called<br/>
@@ -131,7 +131,7 @@ The six core passes make up the <a href="http://www.aosabook.org/images/ghc/hscp
 </ol>
 <p>The result of this compilation is several artificats which are <em>object files</em><br/>
 (.o), <em>interface files</em> (.hi) and <em>executables</em>.</p>
-<h4 id="ghc-monad">GHC Monad</h4>
+<h3 id="ghc-monad">GHC Monad</h3>
 <p>The heart of the compilation process is stored within the GHC Monad, a state<br/>
 monad that handles the internal session state of the compilation pipeline, error<br/>
 handling and sequencing of multi-module compilation.</p>
@@ -179,7 +179,7 @@ to the top-level scope modifying this structure state fully.</p>
 <p>The <code>hsc_HPT</code> holds the home package table which describes already-compiled<br/>
 home-package modules, When a module done being compiled, and is loaded with<br/>
 <code>loadModule</code> it is internally added to this mapping.</p>
-<h4 id="dynflags">DynFlags</h4>
+<h3 id="dynflags">DynFlags</h3>
 <p><a href="https://downloads.haskell.org/~ghc/7.10.2/docs/html/libraries/ghc-7.10.2/DynFlags.html#t:DynFlags">DynFlags</a><br/>
 contains a collection of flags relating to the compilation of a single file or<br/>
 GHC session. This is the core datatype that informs how compilation occurs and<br/>
@@ -267,7 +267,7 @@ example = runGhc (Just libdir) $ do
                `dopt_set` Opt_D_dump_BCOs        -- Set Dump Flag
                `xopt_set` Opt_OverloadedStrings  -- Set Language Extension Flag
 </code></pre>
-<h4 id="compilation">Compilation</h4>
+<h3 id="compilation">Compilation</h3>
 <p>To start compilation we first add a target to the state. This modifies the<br/>
 <code>hsc_targets</code> field of the environment. To two types of targets are either<br/>
 module names or filenames. The <code>guessTarget</code> will discriminate on the given<br/>
@@ -313,7 +313,7 @@ example = runGhc (Just libdir) $ do
   addTarget target
   load LoadAllTargets
 </code></pre>
-<h4 id="interactive-context">Interactive Context</h4>
+<h3 id="interactive-context">Interactive Context</h3>
 <p>On top of simply generating compiler artifacts. GHC can compile and link code<br/>
 into memory to be evaluated interactively. The state of the interpreter backing<br/>
 this is held in the<br/>
@@ -349,7 +349,7 @@ expression within the interactive context.</p>
 <pre><code>dynCompileExpr :: GhcMonad m =&gt; String -&gt; m Dynamic
 fromDynamic :: Typeable a =&gt; Dynamic -&gt; a -&gt; Maybe a
 </code></pre>
-<h4 id="package-database">Package Database</h4>
+<h3 id="package-database">Package Database</h3>
 <p>In it's default state GHC is aware of two package databases: the global package<br/>
 database in <code>/usr/lib/ghc-x.x.x/</code> and the user database in <code>~/.ghc/lib</code>.</p>
 <p>This however can be extended via the “GHC_PACKAGE_PATH” environment variable<br/>
@@ -371,7 +371,7 @@ addPkgDbs fps = do
 </code></pre>
 <p>Stack sets this when launching the shell with <code>stack repl</code>. More on modifying<br/>
 this will be discussed later.</p>
-<h4 id="mini-ghci">Mini GHCi</h4>
+<h3 id="mini-ghci">Mini GHCi</h3>
 <p>Ok, so let's a build a very small interactive shell for GHC. If you're not<br/>
 familiar with <a href="http://dev.stephendiehl.com/hask/#haskeline">Haskeline</a> (the<br/>
 platform-agnostic <a href="https://cnswww.cns.cwru.edu/php/chet/readline/rltop.html">readline</a> abstraction) then read up on that first.</p>
@@ -485,7 +485,7 @@ little differently, but some underlying machinery remains the same. Other<br/>
 features like name lookup and introspection are left as an exercise to the<br/>
 reader. A fun next project would be to create tiny shell with an introspection<br/>
 tool querying the original source code of any definition in scope.</p>
-<h4 id="summary-%26-next-steps">Summary &amp; Next Steps</h4>
+<h3 id="summary-%26-next-steps">Summary &amp; Next Steps</h3>
 <p>This is the "Very High Level" API we can use to interact with GHC. Next we'll<br/>
 concern ourselves with the guts of the internal artifacts used and how to<br/>
 introspect and build them programatically.</p>

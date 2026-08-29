@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="stephen-diehl-content-hash" content="2bd428f25523019479ffda8d42cc517dea7938c7ac18fb940a2bba06c9e85552">
-  <meta name="stephen-diehl-article-format" content="9">
+  <meta name="stephen-diehl-content-hash" content="bf3b7ad8b673438ea1f4dfb914bd043be5b5781f8fc19b33ddbff7fb332677db">
+  <meta name="stephen-diehl-article-format" content="10">
   <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/ghc_02.html">
   <title>Dive into GHC: Intermediate Forms</title>
   <style>
@@ -48,7 +48,7 @@ into the pieces that comprise the frontend of the compilation pipeline, namely:<
 <p>
 **[Accompaying Source Code](https://github.com/sdiehl/dive-into-ghc/tree/master/02-parser)**
 </p>
-<h4 id="passes">Passes</h4>
+<h3 id="passes">Passes</h3>
 <p>The following functions are the main passes are that are used inside of the<br/>
 compiler driver functions in <code>HscMain</code> .</p>
 <pre><code>-- Parse a module.
@@ -69,7 +69,7 @@ coreToStg :: DynFlags -&gt; Module -&gt; CoreProgram -&gt; IO [StgBinding]
 <p>Each of the these functions manipulates an <em>intermediate form</em> used in the<br/>
 process of compiling a Haskell module into a form that can be compiled into<br/>
 machine code or interpreted.</p>
-<h4 id="parser">Parser</h4>
+<h3 id="parser">Parser</h3>
 <p>The frontend syntax for Haskell is fairly large and is partially defined in the<br/>
 <a href="https://www.haskell.org/onlinereport/haskell2010/haskellch10.html#x17-17500010">Haskell 2010 specification</a><br/>
 and extended by GHC. The parser is written using two custom tools:</p>
@@ -102,7 +102,7 @@ information preserved from the tokens.</p>
 parseExpression :: P (LHsExpr RdrName)
 parseModule :: P (Located (HsModule RdrName))
 </code></pre>
-<h4 id="located">Located</h4>
+<h3 id="located">Located</h3>
 <p>Frontend syntax in GHC carries position information along with it that can be<br/>
 used in error reporting. Location information is defined by a <code>Located</code> type<br/>
 which has a single type paramater for the AST element to be "located". Typically<br/>
@@ -125,7 +125,7 @@ which modifies the underlying type preserving the location.</p>
 <pre><code>instance Functor (GenLocated l) where
   fmap f (L l e) = L l (f e)
 </code></pre>
-<h4 id="frontend-syntax">Frontend Syntax</h4>
+<h3 id="frontend-syntax">Frontend Syntax</h3>
 <p>The <a href="https://downloads.haskell.org/~ghc/7.10.3/docs/html/libraries/ghc-7.10.3/HsSyn.html">frontend syntax</a><br/>
 (called HsSyn) is spread across several data types which contain all possible<br/>
 syntax elements generated from the parser. These are parameterized over the name<br/>
@@ -171,7 +171,7 @@ varType :: Var -&gt; Kind
   | ATyCon TyCon
   | ACoAxiom (CoAxiom Branched)
 </code></pre>
-<h4 id="outputable">Outputable</h4>
+<h3 id="outputable">Outputable</h3>
 <p>Inside the GHC API is a pretty printer which can be used to dump out a pretty<br/>
 printed summary of a large number of the internal types. The structure of the<br/>
 class is similar to <code>Show</code> typeclass.</p>
@@ -186,7 +186,7 @@ default dynflags to dump out an instance of <code>Outputable</code>.</p>
 <pre><code>showGhc :: (Outputable a) =&gt; a -&gt; String
 showGhc = showPpr unsafeGlobalDynFlags
 </code></pre>
-<h4 id="tracing-compilation">Tracing Compilation</h4>
+<h3 id="tracing-compilation">Tracing Compilation</h3>
 <p>Given the following example module we'd like to trace the transformation of the<br/>
 intermediate forms as it's run through the compiler.</p>
 <pre><code>module Example where
@@ -237,7 +237,7 @@ main = runGhc (Just libdir) $ do
   liftIO $ banner "STG"
   liftIO $ putStrLn $ showGhc stg
 </code></pre>
-<h4 id="parsing">Parsing</h4>
+<h3 id="parsing">Parsing</h3>
 <p>From the module summary we can extract the underlying text stream of the source<br/>
 file <code>Example.hs</code>. Running the parser over this generates a <em>ParsedSource</em><br/>
 datatype which contains the HsSyn AST with raw OccNames.</p>
@@ -255,7 +255,7 @@ add :: Int -&gt; Int -&gt; Int
 add x y = x + y
 </code></pre>
 <hr/>
-<h4 id="renaming">Renaming</h4>
+<h3 id="renaming">Renaming</h3>
 <p>After parsing we run the renamer pass which is responsible for resolving scopes,<br/>
 operator precedences, and unique'ifying all names so that clashes cannot occur.<br/>
 The renamer resolves <code>RdrName</code>s into <code>Name</code>s across all syntax elements.<br/>
@@ -272,7 +272,7 @@ Just (add :: Int -&gt; Int -&gt; Int
       Nothing)
 </code></pre>
 <hr/>
-<h4 id="typechecking">Typechecking</h4>
+<h3 id="typechecking">Typechecking</h3>
 <p>The renamed AST is then run through the typechecker which maps <code>Name</code>s into<br/>
 <code>Id</code> and enriches them with inferred types using type inference.</p>
 <pre><code>data TypecheckedModule = TypecheckedModule
@@ -354,7 +354,7 @@ modInfoExports :: ModuleInfo -&gt; [Name]
 [Animal, Cat, Dog, add]
 </code></pre>
 <hr/>
-<h4 id="core">Core</h4>
+<h3 id="core">Core</h3>
 <p>The Core language is GHC's most central data types. Core is a very small,<br/>
 explicitly-typed, variant of System FC. The output of the <code>typecheckModule</code><br/>
 function is a datatype <code>CoreModule</code> which contains the Core program as the<br/>
@@ -383,7 +383,7 @@ closure has an associated <em>Static Reference Table</em> or SRT. More on this l
      \r srt:SRT:[r6ry :-&gt; $fNumInt] [x y] + $fNumInt x y;]
 </code></pre>
 <hr/>
-<h4 id="summary-%26-next-steps">Summary &amp; Next Steps</h4>
+<h3 id="summary-%26-next-steps">Summary &amp; Next Steps</h3>
 <p>We mentioned Core and STG only briefly. The process by which frontend syntax is<br/>
 transformed into Core will be our next topic. The design of Core defines a great<br/>
 deal of aspects about how the language is structured and informs the type system<br/>

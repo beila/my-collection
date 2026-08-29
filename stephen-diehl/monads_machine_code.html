@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="stephen-diehl-content-hash" content="d23426fe677cb59ca90e7bf6f1ef4b1424d0c3b2500bd9543651540fe5554004">
-  <meta name="stephen-diehl-article-format" content="9">
+  <meta name="stephen-diehl-content-hash" content="4e0d7fbf86f90f4690b8af71b0ce749dfe24a15c24e8d5e520c94e0ff6ade2c7">
+  <meta name="stephen-diehl-article-format" content="10">
   <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/monads_machine_code.html">
   <title>Monads to Machine Code</title>
   <style>
@@ -66,7 +66,7 @@ bytes x = fmap BS.c2w bs
 <p>For example given a hexadecimal literal this will expand it out into an array of it's bit components.</p>
 <pre><code>val = bytes 0xc0ffee -- [238,255,192,0]
 </code></pre>
-<h4 id="registers">Registers</h4>
+<h3 id="registers">Registers</h3>
 <p>The x64 architecture contains sixteen general purpose 64-bit registers capable of storing a quadword. They major ones are labeled <code>rax, rbx, rcx, rdx, rbp, rsi, rdi,</code> and <code>rsp</code>.</p>
 <p>Each of the registers is given a specific index (<code>r</code>), which will be used in the binary representation of specific instructions that operate over these registers.</p>
 <pre><code>RAX  RBX  RCX RDX  RBP  RSI  RDI  RSP
@@ -342,7 +342,7 @@ Disassembly of section .text:
 <p>The compiled program in memory is then a contiguous array of bytes, which is evaluated by moving the instruction pointer at the start address.</p>
 <pre><code>89 f8 0f af c7 31 f0 c3
 </code></pre>
-<h4 id="instructions">Instructions</h4>
+<h3 id="instructions">Instructions</h3>
 <p>Instructions consist of two parts, an <em>opcode</em> and a set of <em>operands</em> which specify labels, registers, or addresses to memory which the CPU will execute over for the give instruction. We'll consider a subset of interesting operations which operate over integers and manipulate the call stack.</p>
 <pre><code>data Instr
   = Ret
@@ -646,7 +646,7 @@ b8 ff 00 00 00          mov    eax,0xff
 </tr>
 </tbody>
 </table>
-<h4 id="machine-code">Machine Code</h4>
+<h3 id="machine-code">Machine Code</h3>
 <p>Ok, let's look at the full structure of an instruction. It consists of several parts.</p>
 <p><img src="https://beila.github.io/my-collection/stephen-diehl/assets/48fa41391931c753c25c739691a32107fdfca71e185006165e7ae69c613dc387.png"/></p>
 
@@ -744,7 +744,7 @@ rbp 101<br/>
 rsi 110<br/>
 rdi 111</p>
 <hr/>
-<h4 id="instruction-builder">Instruction Builder</h4>
+<h3 id="instruction-builder">Instruction Builder</h3>
 <p>Moving forward we'll create several functions mapping to X86 monadic operators<br/>
 which assemble instructions in the state monad. Let's do some simple arithmetic<br/>
 logic first.</p>
@@ -836,7 +836,7 @@ main = do
 <pre><code>$ stack exec example
 Result: 40
 </code></pre>
-<h4 id="jumps-%26-loops">Jumps &amp; Loops</h4>
+<h3 id="jumps-%26-loops">Jumps &amp; Loops</h3>
 <p>Now let's write some logic that uses control flow and jumps between labeled<br/>
 blocks of instructions. Consider the factorial function that takes the value to<br/>
 compute in the <code>rcx</code> register and computes the result my repeatedly multiply<br/>
@@ -905,7 +905,7 @@ main = do
 <pre><code>$ stack exec example
 Result: 120
 </code></pre>
-<h4 id="calling-convention">Calling Convention</h4>
+<h3 id="calling-convention">Calling Convention</h3>
 <p>Final task is to be able to call out of the JIT into either Haskell runtime or a<br/>
 given C function pointer. To do this we need to look at the <em>calling convention</em><br/>
 for moving in out of other logic and setting up the registers so we can hand<br/>
