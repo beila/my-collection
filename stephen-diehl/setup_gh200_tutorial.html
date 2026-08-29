@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="stephen-diehl-content-hash" content="e089cb9efb2e82816316d6bfbd4447f5ee225e3706722fce9e19d63eab8bf493">
-  <meta name="stephen-diehl-article-format" content="2">
+  <meta name="stephen-diehl-article-format" content="3">
   <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/setup_gh200_tutorial.html">
   <title>Setting up a Nvidia GH200 for Development</title>
   <style>
@@ -24,15 +24,16 @@
              overflow-x: auto; }
     th, td { border: 1px solid #666; padding: .5rem; vertical-align: top; }
     .published { color: #b8b8b8; }
-    .source { border-top: 1px solid #555; margin-top: 2rem; padding-top: 1rem; }
+    .original-link { border-top: 1px solid #555; margin-top: 2rem;
+                      padding-top: 1rem; }
   </style>
 </head>
 <body>
   <article>
     <h1>Setting up a Nvidia GH200 for Development</h1>
     <p class="published">Published: Wed, 20 Nov 2024 00:00:00 +0000</p>
-    <section>
-      <p class="source"><a href="https://www.stephendiehl.com/posts/setup_gh200_tutorial/">Read the original article on Stephen Diehl's website</a></p>
+    <section class="instapaper_body">
+      <p class="original-link"><a href="https://www.stephendiehl.com/posts/setup_gh200_tutorial/">Read the original article on Stephen Diehl's website</a></p>
 <p>Setting up an Nvidia GH200 from scratch is a bit fickle. I eventually got it working with CUDA 12.4 and FlashAttention-2, but it took a bit of trial and error. Here's what I did:</p>
 <p>The GH200 performs optimally with a 64K kernel page size. Nvidia provides specialized kernel packages for Ubuntu systems. First, remove the existing kernel packages and install the Nvidia 64K kernel:</p>
 <pre><code>sudo DEBIAN_FRONTEND=noninteractive apt purge linux-image-$(uname -r) \

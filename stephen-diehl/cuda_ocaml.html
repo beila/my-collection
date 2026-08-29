@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="stephen-diehl-content-hash" content="a59e4eeb03c348f9d944f0f41e7a637b9864e30f2cc8d6566b627afbc577f5c1">
-  <meta name="stephen-diehl-article-format" content="2">
+  <meta name="stephen-diehl-article-format" content="3">
   <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/cuda_ocaml.html">
   <title>Setting up PyTorch for OCaml</title>
   <style>
@@ -24,15 +24,16 @@
              overflow-x: auto; }
     th, td { border: 1px solid #666; padding: .5rem; vertical-align: top; }
     .published { color: #b8b8b8; }
-    .source { border-top: 1px solid #555; margin-top: 2rem; padding-top: 1rem; }
+    .original-link { border-top: 1px solid #555; margin-top: 2rem;
+                      padding-top: 1rem; }
   </style>
 </head>
 <body>
   <article>
     <h1>Setting up PyTorch for OCaml</h1>
     <p class="published">Published: Sun, 17 Nov 2024 00:00:00 +0000</p>
-    <section>
-      <p class="source"><a href="https://www.stephendiehl.com/posts/cuda_ocaml/">Read the original article on Stephen Diehl's website</a></p>
+    <section class="instapaper_body">
+      <p class="original-link"><a href="https://www.stephendiehl.com/posts/cuda_ocaml/">Read the original article on Stephen Diehl's website</a></p>
 <p>Setting up OCaml for modern AI development is a surprisingly niche topic, despite OCaml's strengths in building robust, type-safe systems. This guide focuses specifically on configuring OCaml development environments for NVIDIA's HGX AI platforms with 8x H100 GPUs for doing either continued pre-training or full-tuning of large language models. While a few quant funds have invested heavily in OCaml for their AI infrastructure, there's remarkably little public documentation about setting up OCaml with these dense GPU configurations. We'll walk through a complete setup of OCaml with CUDA and PyTorch on Ubuntu, with specific attention to the unique requirements of these multi-GPU systems that a lot of funds are provisioning these days.</p>
 <p><strong>System Dependencies</strong></p>
 <p>Before starting, ensure you're running Ubuntu. This setup has been tested on Ubuntu and requires root privileges for several installation steps.</p>

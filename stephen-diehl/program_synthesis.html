@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="stephen-diehl-content-hash" content="ae063a020efe8aa4d9f12eb31490025a32c489c72b0fd0634fbb3ab8136ea89a">
-  <meta name="stephen-diehl-article-format" content="2">
+  <meta name="stephen-diehl-article-format" content="3">
   <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/program_synthesis.html">
   <title>Program Synthesis: The λ in the Machine</title>
   <style>
@@ -24,15 +24,16 @@
              overflow-x: auto; }
     th, td { border: 1px solid #666; padding: .5rem; vertical-align: top; }
     .published { color: #b8b8b8; }
-    .source { border-top: 1px solid #555; margin-top: 2rem; padding-top: 1rem; }
+    .original-link { border-top: 1px solid #555; margin-top: 2rem;
+                      padding-top: 1rem; }
   </style>
 </head>
 <body>
   <article>
     <h1>Program Synthesis: The λ in the Machine</h1>
     <p class="published">Published: Sun, 22 Jun 2025 01:00:00 +0000</p>
-    <section>
-      <p class="source"><a href="https://www.stephendiehl.com/posts/program_synthesis/">Read the original article on Stephen Diehl's website</a></p>
+    <section class="instapaper_body">
+      <p class="original-link"><a href="https://www.stephendiehl.com/posts/program_synthesis/">Read the original article on Stephen Diehl's website</a></p>
 <p>Much of the "mainstream" discussion of artificial intelligence applied to code generation is overwhelmingly dominated by the idea of scaling larger langauge models and using test-time compute to improve model performance on coding (<a href="https://www.swebench.com/">SWE-bench</a>, LiveCodeBench, etc) benchmarks. And that has legitimately produced some very interesting results. Although I'm not sure how much more juice there is to squeeze out of that fruit.</p>
 <p>And indeed, the frontier models have demonstrated a remarkable capacity for probabilistic mimicry and the ability to stich together and synthesize templates of code from their training corpus in emergent and useful ways. But they still operate by predicting token sequences, generating syntactically plausible artifacts that often resemble human-written code. Whether they are doing anything resembling reasoning is a highly debatable and <a href="https://ml-site.cdn-apple.com/papers/the-illusion-of-thinking.pdf">open question</a> which I don't have any interesting opinions on because I truly don't know. I do know that the current systems are limitedly useful in some cases, that much seems undeniably true.</p>
 <p>Yet, I would still argue that to mistake this sophisticated pattern matching for genuine program construction is a profound category error. Generating <em>code</em> as a sequence of textual tokens using a statistical prior is a fundamentally different task than generating <em>programs</em> by searching directly in the space of program dynamics. The former is an act of linguistic surface manipulation; the latter is an act of logical and semantic discovery. And it's not clear to me that current models are capable of doing the latter.</p>

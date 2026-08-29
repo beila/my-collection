@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="stephen-diehl-content-hash" content="c275882bf8168d9ea07588140d5056662376998d4218c6bc2796c1b3b18aa7c5">
-  <meta name="stephen-diehl-article-format" content="2">
+  <meta name="stephen-diehl-article-format" content="3">
   <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/training_llms.html">
   <title>Introduction to Fine-tuning Large Language Models</title>
   <style>
@@ -24,15 +24,16 @@
              overflow-x: auto; }
     th, td { border: 1px solid #666; padding: .5rem; vertical-align: top; }
     .published { color: #b8b8b8; }
-    .source { border-top: 1px solid #555; margin-top: 2rem; padding-top: 1rem; }
+    .original-link { border-top: 1px solid #555; margin-top: 2rem;
+                      padding-top: 1rem; }
   </style>
 </head>
 <body>
   <article>
     <h1>Introduction to Fine-tuning Large Language Models</h1>
     <p class="published">Published: Mon, 25 Nov 2024 00:00:00 +0000</p>
-    <section>
-      <p class="source"><a href="https://www.stephendiehl.com/posts/training_llms/">Read the original article on Stephen Diehl's website</a></p>
+    <section class="instapaper_body">
+      <p class="original-link"><a href="https://www.stephendiehl.com/posts/training_llms/">Read the original article on Stephen Diehl's website</a></p>
 <p>I've been wanting to write an introduction on how to fine-tune large language models for a while now because it's such a vast and under-documented area, especially when it comes to the libraries, hyperparameters, and techniques involved. In short, fine-tuning allows us to adapt models for specific downstream tasks, improve performance on domain-specific problems, align model behavior with human preferences, and create specialized variants of base models. This is useful for a wide range of applications both in business and pure research.</p>
 <p><strong>Pre-training, Fine-tuning and Post-training</strong></p>
 <p>This is contrast to <strong>pre-training</strong>, which is the foundational phase in developing a large language model. During pre-training, the model learns general language understanding from massive text corpora. For example, Llama 3 was trained on approximately 15.2 trillion tokens. This process involves initializing random tensors and training them to recognize statistical patterns and relationships between words and concepts.</p>

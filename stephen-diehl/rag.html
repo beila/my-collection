@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="stephen-diehl-content-hash" content="188862bc77b67a9e2eeff2d3b5bb98d9c313cb68c645ba7b2a2c7aa8cdc21e1b">
-  <meta name="stephen-diehl-article-format" content="2">
+  <meta name="stephen-diehl-article-format" content="3">
   <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/rag.html">
   <title>The Limitations of RAG</title>
   <style>
@@ -24,15 +24,16 @@
              overflow-x: auto; }
     th, td { border: 1px solid #666; padding: .5rem; vertical-align: top; }
     .published { color: #b8b8b8; }
-    .source { border-top: 1px solid #555; margin-top: 2rem; padding-top: 1rem; }
+    .original-link { border-top: 1px solid #555; margin-top: 2rem;
+                      padding-top: 1rem; }
   </style>
 </head>
 <body>
   <article>
     <h1>The Limitations of RAG</h1>
     <p class="published">Published: Sat, 02 Nov 2024 00:00:00 +0000</p>
-    <section>
-      <p class="source"><a href="https://www.stephendiehl.com/posts/rag/">Read the original article on Stephen Diehl's website</a></p>
+    <section class="instapaper_body">
+      <p class="original-link"><a href="https://www.stephendiehl.com/posts/rag/">Read the original article on Stephen Diehl's website</a></p>
 <p>Retrieval-Augmented generation or RAG is the future of enterprise search. In short it's the art of grinding your documents into a fine, high-dimensional <a href="https://youtu.be/J-QeTbmchvQ?t=95">vector slurry</a>, sifting through the high-dimensional slurry for chunks, and then piping the chunks through a non-deterministic large language model, and praying that something resembling useful truth comes out the other end. It's like making a smoothie with your corporate knowledge base, except instead of getting a refreshing drink, you often end up with... well, let's explore that.</p>
 <p>Picture this: you take your perfectly organized documents, lovingly crafted by humans who understood context, domain terminology, and nuance, and throw them into the BERT Vector Blender Transformer™. What comes out? A chunky soup of floating point numbers that allegedly capture the "essence" of your content. It's somewhat like trying to describe the Mona Lisa's smile using the frequency coefficients of the Fourier transform of a compressed JPEG of the painting. Technically possible, but practically hard.</p>
 <p>Then you throw those vectors into a vector database and use HNSW to search through the high-dimensional space, hoping your nearest neighbor search actually finds semantically similar content rather than just unrelatedly close vectors. Then for RAG to work correctly, we need a sequence of miracles to occur:</p>

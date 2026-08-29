@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="stephen-diehl-content-hash" content="f9b28cf32783c8736a3749011aab944b4d3ba18a4b05013bab6d298cdf850da1">
-  <meta name="stephen-diehl-article-format" content="2">
+  <meta name="stephen-diehl-article-format" content="3">
   <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/gpt2_function.html">
   <title>GPT-2 in One Function</title>
   <style>
@@ -24,15 +24,16 @@
              overflow-x: auto; }
     th, td { border: 1px solid #666; padding: .5rem; vertical-align: top; }
     .published { color: #b8b8b8; }
-    .source { border-top: 1px solid #555; margin-top: 2rem; padding-top: 1rem; }
+    .original-link { border-top: 1px solid #555; margin-top: 2rem;
+                      padding-top: 1rem; }
   </style>
 </head>
 <body>
   <article>
     <h1>GPT-2 in One Function</h1>
     <p class="published">Published: Sat, 29 Apr 2023 01:00:00 +0000</p>
-    <section>
-      <p class="source"><a href="https://www.stephendiehl.com/posts/gpt2_function/">Read the original article on Stephen Diehl's website</a></p>
+    <section class="instapaper_body">
+      <p class="original-link"><a href="https://www.stephendiehl.com/posts/gpt2_function/">Read the original article on Stephen Diehl's website</a></p>
 <p>GPT-2 is not a complicated model, in fact we can code golf it down into a single Python function using nothing more than numpy. This is everything inlined in a single function, the layernorm, attention, mlp, token and position embeddings, and the final logits in 70 lines of code if you don't count whitespace.</p>
 <pre><code>import numpy as np
 

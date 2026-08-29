@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="stephen-diehl-content-hash" content="3e758bfb48d16656b8679dba50efef23c74e7d8b307d2a51e07fc452df0d847a">
-  <meta name="stephen-diehl-article-format" content="2">
+  <meta name="stephen-diehl-article-format" content="3">
   <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/software_far_future.html">
   <title>Does the Star Trek Computer Run on COBOL?</title>
   <style>
@@ -24,15 +24,16 @@
              overflow-x: auto; }
     th, td { border: 1px solid #666; padding: .5rem; vertical-align: top; }
     .published { color: #b8b8b8; }
-    .source { border-top: 1px solid #555; margin-top: 2rem; padding-top: 1rem; }
+    .original-link { border-top: 1px solid #555; margin-top: 2rem;
+                      padding-top: 1rem; }
   </style>
 </head>
 <body>
   <article>
     <h1>Does the Star Trek Computer Run on COBOL?</h1>
     <p class="published">Published: Thu, 05 Jun 2025 01:00:00 +0000</p>
-    <section>
-      <p class="source"><a href="https://www.stephendiehl.com/posts/software_far_future/">Read the original article on Stephen Diehl's website</a></p>
+    <section class="instapaper_body">
+      <p class="original-link"><a href="https://www.stephendiehl.com/posts/software_far_future/">Read the original article on Stephen Diehl's website</a></p>
 <p>We like to imagine the future as sleek, seamless, and intelligently designed — a world where a single voice query to a starship's LCARS interface dispatches 575 trillion calculations per nanosecond through the bio-neural gelpacks (biological FPGAs), to run a massively parallel computation to calculate the optimal molecular dynamics for the replicator to materialize the perfect cup of Earl Grey, hot, as an instantaneous, almost magical, manifestation of desire. But what if the reality is <a href="https://scifi.stackexchange.com/questions/178974/which-programming-languages-are-used-in-the-star-trek-universe">less Star Trek</a> and more like our current software landscape, just with centuries more layers of <a href="https://archive.is/Fq9r2">legacy code piled</a> on top?</p>
 <p>Imagine a starship doing relativistic frame calculations for spaceflight, but at the root of the system is a timer counting down from the Unix epoch in 1970. A little <code>time_t</code> integer overflow, and suddenly your carefully plotted course to Proxima Centauri B is aiming you directly into a black hole, all because someone, somewhere, 400 years ago, didn't think anyone would still be using that particular library. And when you try to fire the engines to correct course, they fail to ignite because the engine control system was compiled against glibc 2.35 but the navigation computer is running 2.34. Vernor Vinge's novel <em>A Deepness in the Sky</em> paints a wonderfully terrifying picture of this:</p>
 <blockquote>

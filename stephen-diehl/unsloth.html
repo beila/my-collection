@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="stephen-diehl-content-hash" content="e43f4e619b44dcc10c1192f46dfc59260dc46ed6a69e9bd359a43e0b6cccb3b2">
-  <meta name="stephen-diehl-article-format" content="2">
+  <meta name="stephen-diehl-article-format" content="3">
   <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/unsloth.html">
   <title>A Rapid Tutorial on Unsloth</title>
   <style>
@@ -24,15 +24,16 @@
              overflow-x: auto; }
     th, td { border: 1px solid #666; padding: .5rem; vertical-align: top; }
     .published { color: #b8b8b8; }
-    .source { border-top: 1px solid #555; margin-top: 2rem; padding-top: 1rem; }
+    .original-link { border-top: 1px solid #555; margin-top: 2rem;
+                      padding-top: 1rem; }
   </style>
 </head>
 <body>
   <article>
     <h1>A Rapid Tutorial on Unsloth</h1>
     <p class="published">Published: Sun, 28 Jul 2024 01:00:00 +0000</p>
-    <section>
-      <p class="source"><a href="https://www.stephendiehl.com/posts/unsloth/">Read the original article on Stephen Diehl's website</a></p>
+    <section class="instapaper_body">
+      <p class="original-link"><a href="https://www.stephendiehl.com/posts/unsloth/">Read the original article on Stephen Diehl's website</a></p>
 <p>Unsloth is a library for fast and efficient fine-tuning of large language models. It is built on top of the Hugging Face Transformers library and can be used to fine-tune models on a variety of tasks. In this case we'll train a Llama 3.1 model to do text to sql generation.</p>
 <p>Unsloth can be used to do 2x faster training and 60% less memory than standard fine-tuning on single GPU setups. It uses a technique called Quantized Low Rank Adaptation (QLoRA) to quantize the model and train a small number of additional trainable parameters instead of the entire model. This allows us to train the model on a single NVIDIA H100 GPU.</p>
 <p>We'll need to use raw pip to install flash-attn and xformers from source.</p>

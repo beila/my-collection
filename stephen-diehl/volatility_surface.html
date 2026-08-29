@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="stephen-diehl-content-hash" content="26dd40ded04c54d3556e210b306bc815e98a79f6212e3091b58bf3485af115db">
-  <meta name="stephen-diehl-article-format" content="2">
+  <meta name="stephen-diehl-article-format" content="3">
   <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/volatility_surface.html">
   <title>Volatility Surface</title>
   <style>
@@ -24,15 +24,16 @@
              overflow-x: auto; }
     th, td { border: 1px solid #666; padding: .5rem; vertical-align: top; }
     .published { color: #b8b8b8; }
-    .source { border-top: 1px solid #555; margin-top: 2rem; padding-top: 1rem; }
+    .original-link { border-top: 1px solid #555; margin-top: 2rem;
+                      padding-top: 1rem; }
   </style>
 </head>
 <body>
   <article>
     <h1>Volatility Surface</h1>
     <p class="published">Published: Fri, 01 Mar 2024 00:00:00 +0000</p>
-    <section>
-      <p class="source"><a href="https://www.stephendiehl.com/posts/volatility_surface/">Read the original article on Stephen Diehl's website</a></p>
+    <section class="instapaper_body">
+      <p class="original-link"><a href="https://www.stephendiehl.com/posts/volatility_surface/">Read the original article on Stephen Diehl's website</a></p>
 <p>We're going to use Python to generate an implied volatility surface for a family of options contracts. This is an extremely common tool for analyzing options and is a key component of many quantitative trading strategies.</p>
 <p>The Black-Scholes model is like a recipe for pricing options - it takes ingredients like the current stock price, strike price, time until expiration, interest rates, and volatility, and spits out what an option should theoretically cost. But in the real world, traders often work backwards - they look at actual market prices of options and try to figure out what volatility number would make the Black-Scholes formula give that price. This reverse-engineered number is called the <em>implied volatility</em> or IV. Think of implied volatility as the market's forecast of how much a stock might bounce around in the future. Higher IV means traders expect bigger price swings (and are willing to pay more for options as insurance), while lower IV suggests they expect smoother sailing ahead. It's like a fear gauge - when investors are nervous about the future, they'll pay more for options protection, driving up IVs.</p>
 <p>What makes this really interesting is that options with different strike prices and expiration dates often have different IVs, even for the same underlying stock. When you plot these IVs, you get what's called the <em>volatility surface</em> - a 3D visualization that shows how the market's expectations of future volatility vary across strikes and time. This surface often shows patterns like the <em>volatility smile</em> or <em>volatility skew</em>, where out-of-the-money puts have higher IVs than calls, reflecting the market's tendency to worry more about crashes than rallies. And we can use this surface to identify inefficiencies and arbitrage opportunities.</p>

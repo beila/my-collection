@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="stephen-diehl-content-hash" content="6200b34a87f018489e15b91eea993971e061a3558c7fc0b90c6e53df823affa1">
-  <meta name="stephen-diehl-article-format" content="2">
+  <meta name="stephen-diehl-article-format" content="3">
   <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/field_guide_to_bugs.html">
   <title>A Field Guide to Bugs</title>
   <style>
@@ -24,15 +24,16 @@
              overflow-x: auto; }
     th, td { border: 1px solid #666; padding: .5rem; vertical-align: top; }
     .published { color: #b8b8b8; }
-    .source { border-top: 1px solid #555; margin-top: 2rem; padding-top: 1rem; }
+    .original-link { border-top: 1px solid #555; margin-top: 2rem;
+                      padding-top: 1rem; }
   </style>
 </head>
 <body>
   <article>
     <h1>A Field Guide to Bugs</h1>
     <p class="published">Published: Sun, 19 Apr 2026 01:00:00 +0000</p>
-    <section>
-      <p class="source"><a href="https://www.stephendiehl.com/posts/field_guide_to_bugs/">Read the original article on Stephen Diehl's website</a></p>
+    <section class="instapaper_body">
+      <p class="original-link"><a href="https://www.stephendiehl.com/posts/field_guide_to_bugs/">Read the original article on Stephen Diehl's website</a></p>
 <p>Software bugs predate software. Edison used the word in an 1878 letter, eighty years before the Harvard moth and sixty before the modern computer. What he named has outlasted him. Every engineer eventually assembles a private taxonomy of the ways things fail, and the useful fact about these private taxonomies is that they converge. Engineers who have never met, working on unrelated systems in unrelated decades, arrive at roughly the same categories. The convergence is evidence that the bugs are ontologically real, and not an artifact of the human tendency to impose pattern on noise. What follows is a partial field guide. It should be carried into the territory with humility, because the bugs you actually encounter will be hybrids of these, frequently nameless, and almost always personally insulting.</p>
 <p><strong>The Bohrbug</strong> is the boring honest bug. It manifests every time. It survives restarts, recompilations, prayers, and managerial intervention. You could put it in a museum. The Bohrbug is universally beloved by everyone who fixes bugs for a living, because it is the only species in this guide that respects the scientific method. If your bug is a Bohrbug, take a moment of gratitude and close the ticket before something worse notices.</p>
 <p><strong>The Heisenbug</strong> is its opposite, and the reason this field guide exists. Attach a debugger and the bug evaporates. Heisenbugs cannot be reproduced under any condition that allows them to be examined. They live exclusively in production. They are killed by logging statements. They are the reason the most senior engineer on your team has the haunted expression of someone who has stared into the void and found it staring back at the call stack.</p>

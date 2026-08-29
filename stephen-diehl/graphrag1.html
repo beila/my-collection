@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="stephen-diehl-content-hash" content="6aaaff0898e78a6ebeb3e570c3510661fb5f2f1b3d67aa87c3797279a4afbe03">
-  <meta name="stephen-diehl-article-format" content="2">
+  <meta name="stephen-diehl-article-format" content="3">
   <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/graphrag1.html">
   <title>Tiny GraphRAG (Part 1)</title>
   <style>
@@ -24,15 +24,16 @@
              overflow-x: auto; }
     th, td { border: 1px solid #666; padding: .5rem; vertical-align: top; }
     .published { color: #b8b8b8; }
-    .source { border-top: 1px solid #555; margin-top: 2rem; padding-top: 1rem; }
+    .original-link { border-top: 1px solid #555; margin-top: 2rem;
+                      padding-top: 1rem; }
   </style>
 </head>
 <body>
   <article>
     <h1>Tiny GraphRAG (Part 1)</h1>
     <p class="published">Published: Mon, 04 Nov 2024 00:00:00 +0000</p>
-    <section>
-      <p class="source"><a href="https://www.stephendiehl.com/posts/graphrag1/">Read the original article on Stephen Diehl's website</a></p>
+    <section class="instapaper_body">
+      <p class="original-link"><a href="https://www.stephendiehl.com/posts/graphrag1/">Read the original article on Stephen Diehl's website</a></p>
 <p>We're going to build a tiny 1000 line implementation of a GraphRAG algorithm originally invented by Microsoft. I consistently hear people talk about this algorithm at meetups, but it appears there are several orders of magnitude of people talking about it than actually using it or implementing it. Likely because the reference implementation is enormous and rather complex. So let's break it down and see if there's any merit to the hype around this approach.</p>
 <p>For some background, naive RAG is a basic approach to augmenting LLM outputs with external information that primarily relies on vector similarity search. The process involves converting documents to text, splitting that text into chunks, and embedding these chunks into a vector space where similar semantic meanings are represented by similar vector positions. When a user submits a query, it is embedded into the same vector space, and the text chunks with the nearest vector positions are retrieved and added to the LLM's context window along with the original query.</p>
 <p>GraphRAG is an alternative structured approach to goes beyond simple semantic search and uses a graph-based index of a document. The key idea is that it uses LLMs to build a knowledge graph from source documents, then detects communities of closely-related entities within that graph, and generates summaries for these communities. This creates a alternative structured index that can be leveraged for both local entity-specific queries and global document-wide analysis. For some tasks this can perform better than naive RAG.</p>

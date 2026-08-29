@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="stephen-diehl-content-hash" content="1b989c2a9d98adb2066a6d5ccdb8196f737a10d30d8c9080223d5a5601ffb5ee">
-  <meta name="stephen-diehl-article-format" content="2">
+  <meta name="stephen-diehl-article-format" content="3">
   <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/slippage.html">
   <title>Slippage Modelling</title>
   <style>
@@ -24,15 +24,16 @@
              overflow-x: auto; }
     th, td { border: 1px solid #666; padding: .5rem; vertical-align: top; }
     .published { color: #b8b8b8; }
-    .source { border-top: 1px solid #555; margin-top: 2rem; padding-top: 1rem; }
+    .original-link { border-top: 1px solid #555; margin-top: 2rem;
+                      padding-top: 1rem; }
   </style>
 </head>
 <body>
   <article>
     <h1>Slippage Modelling</h1>
     <p class="published">Published: Sat, 10 Feb 2024 00:00:00 +0000</p>
-    <section>
-      <p class="source"><a href="https://www.stephendiehl.com/posts/slippage/">Read the original article on Stephen Diehl's website</a></p>
+    <section class="instapaper_body">
+      <p class="original-link"><a href="https://www.stephendiehl.com/posts/slippage/">Read the original article on Stephen Diehl's website</a></p>
 <p>When we're trading, we're not trading at the current market price, we're trading at the price the market will execute our order at. There's a difference between the price we see and the price we get. This difference is called <em>slippage</em>. Predicting a priori the slippage is an empirical problem, but we can model it and do better than just guessing or completely avoiding it in our model.</p>
 <p><strong>Naive Slippage Model</strong></p>
 <p>When we place an order on the market that is outsized relative to the size of other orders, our order will be executed at a price different to the price we see. However we can analytically model our expected slippage given the recent price history of the asset and then size our orders to minimise the impact of slippage. This is a function of three components.</p>

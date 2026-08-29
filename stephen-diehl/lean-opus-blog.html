@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="stephen-diehl-content-hash" content="6deeff61cca66ea14f695aa60c0be2b99493fd871bad473e0b853333784ca4df">
-  <meta name="stephen-diehl-article-format" content="2">
+  <meta name="stephen-diehl-article-format" content="3">
   <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/lean-opus-blog.html">
   <title>Can Opus 4.6 do Category Theory in Lean?</title>
   <style>
@@ -24,15 +24,16 @@
              overflow-x: auto; }
     th, td { border: 1px solid #666; padding: .5rem; vertical-align: top; }
     .published { color: #b8b8b8; }
-    .source { border-top: 1px solid #555; margin-top: 2rem; padding-top: 1rem; }
+    .original-link { border-top: 1px solid #555; margin-top: 2rem;
+                      padding-top: 1rem; }
   </style>
 </head>
 <body>
   <article>
     <h1>Can Opus 4.6 do Category Theory in Lean?</h1>
     <p class="published">Published: Mon, 16 Feb 2026 00:00:00 +0000</p>
-    <section>
-      <p class="source"><a href="https://www.stephendiehl.com/posts/lean-opus-blog/">Read the original article on Stephen Diehl's website</a></p>
+    <section class="instapaper_body">
+      <p class="original-link"><a href="https://www.stephendiehl.com/posts/lean-opus-blog/">Read the original article on Stephen Diehl's website</a></p>
 <p>I have a little category theory library I've been dragging around for about a decade now. It started life in Haskell, got ported to Agda, briefly lived in Idris, spent some time in Coq, and has now landed in Lean 4. I call it <a href="https://github.com/sdiehl/kitty-cats">Kitty Cats</a>. The idea is simple: take the definitions and theorems from Awodey's <em>Category Theory</em> and the relevant chapters of Mac Lane's <em>Categories for the Working Mathematician</em>, and translate them directly into type-checkable code. Categories, functors, natural transformations, products, limits, adjunctions, monads, the Yoneda lemma. No libraries, no imports beyond what you define yourself. About 900 lines of Lean when all is said and done. It is the kind of project that fits entirely in your head, which is precisely the point. Every time a new dependently typed language or proof assistant comes along, I reach for this scaffold and see how it feels. It's my litmus test, my canonical exercise, my desert island formalization. And it's increasingly a good benchmark for how good language models have become abstract formal "reasoning" (or maybe just approximating it, but I'll leave that question to the philosophers!).</p>
 <p>So when Anthropic dropped the new Opus 4.6 model, I wanted to know: can it actually write proper Lean 4? Not toy examples. Not <code>theorem two_plus_two : 2 + 2 = 4 := rfl</code>. Real proofs with real proof obligations, the kind where you need to wrangle naturality squares and coherence conditions and the elaborator is fighting you every step of the way. The beautiful thing about a proof assistant is that the answer is ground-verifiable. You don't have to squint at the output and wonder if it's subtly wrong. Either <code>lake build</code> passes or it doesn't. The kernel doesn't care about your feelings.</p>
 <p>The short answer is: yes, kinda mostly. But the longer answer is more interesting.</p>

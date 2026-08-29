@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="stephen-diehl-content-hash" content="e420507f09491daa678be694d94d13d49ae680d824f6d5f1bd6403f5f1e002de">
-  <meta name="stephen-diehl-article-format" content="2">
+  <meta name="stephen-diehl-article-format" content="3">
   <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/computer_algebra_mcp.html">
   <title>Adventures in Symbolic Algebra with Model Context Protocol</title>
   <style>
@@ -24,15 +24,16 @@
              overflow-x: auto; }
     th, td { border: 1px solid #666; padding: .5rem; vertical-align: top; }
     .published { color: #b8b8b8; }
-    .source { border-top: 1px solid #555; margin-top: 2rem; padding-top: 1rem; }
+    .original-link { border-top: 1px solid #555; margin-top: 2rem;
+                      padding-top: 1rem; }
   </style>
 </head>
 <body>
   <article>
     <h1>Adventures in Symbolic Algebra with Model Context Protocol</h1>
     <p class="published">Published: Sun, 18 May 2025 01:00:00 +0000</p>
-    <section>
-      <p class="source"><a href="https://www.stephendiehl.com/posts/computer_algebra_mcp/">Read the original article on Stephen Diehl's website</a></p>
+    <section class="instapaper_body">
+      <p class="original-link"><a href="https://www.stephendiehl.com/posts/computer_algebra_mcp/">Read the original article on Stephen Diehl's website</a></p>
 <p>I spent last weekend playing with this new <a href="https://modelcontextprotocol.io/introduction">MCP protocol</a> all the kids are talking about, using it to make language models talk to symbolic computer algebra systems. The idea was simple: LLMs are great at understanding natural language math problems but terrible at actually solving them, while computer algebra systems excel at symbolic manipulation but have arcane interfaces. By connecting them through MCP, we can get the best of both worlds. The code is still early and rough around the edges, but I've put the source up on Github if anyone wants to experiment with it.<br/>Resources: <a href="https://github.com/sdiehl/sympy-mcp">Github Source Code</a> (<code>git clone https://github.com/sdiehl/sympy-mcp.git</code>)</p>
 
 <p>MCP, if you're not familiar, is Anthropic's answer to the question: "How do we get an LLM to actually DO things instead of just TALK about doing them?" It's essentially the <a href="https://en.wikipedia.org/wiki/Common_Gateway_Interface">cgi-bin</a> of AI (I'm probably dating myself with that reference). It's a protocol that allows language models to call external tools through a server that exposes the functions as a REST API. The core idea of MCP is to standardize the way language models call external tools, instead of writing custom connectors for each AI model and each tool, you implement the protocol once on each side. It's the USB-C of AI tooling, if USB-C were still in its awkward adolescent phase.</p>

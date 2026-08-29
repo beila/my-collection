@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="stephen-diehl-content-hash" content="374d2e8048ef5a5800533aa5f0033b05595bc95a74616dc851c142293f31c579">
-  <meta name="stephen-diehl-article-format" content="2">
+  <meta name="stephen-diehl-article-format" content="3">
   <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/caverna.html">
   <title>Optimal Caverna Gameplay via Formal Methods</title>
   <style>
@@ -24,15 +24,16 @@
              overflow-x: auto; }
     th, td { border: 1px solid #666; padding: .5rem; vertical-align: top; }
     .published { color: #b8b8b8; }
-    .source { border-top: 1px solid #555; margin-top: 2rem; padding-top: 1rem; }
+    .original-link { border-top: 1px solid #555; margin-top: 2rem;
+                      padding-top: 1rem; }
   </style>
 </head>
 <body>
   <article>
     <h1>Optimal Caverna Gameplay via Formal Methods</h1>
     <p class="published">Published: Sat, 21 Feb 2026 00:00:00 +0000</p>
-    <section>
-      <p class="source"><a href="https://www.stephendiehl.com/posts/caverna/">Read the original article on Stephen Diehl's website</a></p>
+    <section class="instapaper_body">
+      <p class="original-link"><a href="https://www.stephendiehl.com/posts/caverna/">Read the original article on Stephen Diehl's website</a></p>
 <p>I always win at Caverna (Uwe Rosenberg's <a href="https://boardgamegeek.com/boardgame/102794/caverna-the-cave-farmers">classic European worker placement</a> tabletop board game). Always. But "always" just means "every time so far," and I needed something with more mathematical permanence. So I formalized the entire game in Lean 4 and proved that my strategy is the unique weakly dominant pure strategy across every possible game configuration. My friends think this is excessive. My friends also lose at Caverna. Unrelated, I don't get invited to board game night much anymore.</p>
 <p>Caverna: The Cave Farmers is the 2013 sequel to <a href="https://boardgamegeek.com/boardgame/31260/agricola">Agricola</a>, a game about feeding dwarfs who live in caves and do a suspicious amount of farming. You place workers, gather resources, breed animals, excavate caverns, furnish rooms, and at the end of 12 rounds the scoring formula totals up everything you've accomplished and everything you failed to accomplish. It's a good game. It's also, in the 2-player variant, a finite deterministic perfect-information system with discrete phases, which means it's a labeled transition system, which means it's amenable to formal verification. So I did that.</p>
 <p>There is a very small mathematical model here. We just define two things: an <code>init</code> predicate describing the starting state, and a <code>trans</code> relation describing every legal state-to-state move. Then instead of running the game, you prove properties about it by structural induction: show the property holds at the start, show every legal transition preserves it, and you've covered every possible game without enumerating a single one. It's the same technique used in hardware verification and protocol proofs, applied to a board game.</p>

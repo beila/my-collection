@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="stephen-diehl-content-hash" content="d23426fe677cb59ca90e7bf6f1ef4b1424d0c3b2500bd9543651540fe5554004">
-  <meta name="stephen-diehl-article-format" content="2">
+  <meta name="stephen-diehl-article-format" content="3">
   <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/monads_machine_code.html">
   <title>Monads to Machine Code</title>
   <style>
@@ -24,15 +24,16 @@
              overflow-x: auto; }
     th, td { border: 1px solid #666; padding: .5rem; vertical-align: top; }
     .published { color: #b8b8b8; }
-    .source { border-top: 1px solid #555; margin-top: 2rem; padding-top: 1rem; }
+    .original-link { border-top: 1px solid #555; margin-top: 2rem;
+                      padding-top: 1rem; }
   </style>
 </head>
 <body>
   <article>
     <h1>Monads to Machine Code</h1>
     <p class="published">Published: Mon, 04 Jan 2016 00:00:00 +0000</p>
-    <section>
-      <p class="source"><a href="https://www.stephendiehl.com/posts/monads_machine_code/">Read the original article on Stephen Diehl's website</a></p>
+    <section class="instapaper_body">
+      <p class="original-link"><a href="https://www.stephendiehl.com/posts/monads_machine_code/">Read the original article on Stephen Diehl's website</a></p>
 <p>Just-in-time or JIT compilation is compilation done by dynamically generating executable code. It's a common technique used in many language runtimes to generate optimized code for hot code paths as well ahead of time compilation for<br/>
 various tasks.</p>
 <p>So let's build a small LLVM-like intermediate language and JIT execution engine in Haskell. This will only function with modern Linux and x86-64 architecture, although in principle this will work on any platform if you can make the appropriate FFI calls to <code>mmap</code> and <code>mprotect</code> syscalls on your respective platform.</p>

@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="stephen-diehl-content-hash" content="e7171273cd4c76b0e725062ee12ef310164dffda9e4ed94f024b9d4502b8ee02">
-  <meta name="stephen-diehl-article-format" content="2">
+  <meta name="stephen-diehl-article-format" content="3">
   <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/z3.html">
   <title>Using SMT Solvers to Manage JIRA Tickets</title>
   <style>
@@ -24,15 +24,16 @@
              overflow-x: auto; }
     th, td { border: 1px solid #666; padding: .5rem; vertical-align: top; }
     .published { color: #b8b8b8; }
-    .source { border-top: 1px solid #555; margin-top: 2rem; padding-top: 1rem; }
+    .original-link { border-top: 1px solid #555; margin-top: 2rem;
+                      padding-top: 1rem; }
   </style>
 </head>
 <body>
   <article>
     <h1>Using SMT Solvers to Manage JIRA Tickets</h1>
     <p class="published">Published: Thu, 01 Feb 2024 00:00:00 +0000</p>
-    <section>
-      <p class="source"><a href="https://www.stephendiehl.com/posts/z3/">Read the original article on Stephen Diehl's website</a></p>
+    <section class="instapaper_body">
+      <p class="original-link"><a href="https://www.stephendiehl.com/posts/z3/">Read the original article on Stephen Diehl's website</a></p>
 <p>One common and often tedious problem that managers regularly encounter is task scheduling. This is particularly relevant in project management, where assigning tasks to team members in a manner that adheres to various constraints can become a complex challenge. Constraints can include availability, skill levels, deadlines, and workload balance. Solving such problems manually can be error-prone and time-consuming, but with the power of Z3, an open-source SMT (Satisfiability Modulo Theories) solver from Microsoft Research, we can automate this process efficiently.</p>
 <p>Imagine you are managing a project with a set of tasks that need to be assigned to team members. Each task has a specific time requirement, and each team member has limited availability. Additionally, some tasks cannot be started until others are completed. Here, we’ll see how Z3 can help automate this scheduling problem, ensuring all constraints are met and tasks are assigned optimally.</p>
 <p>Let's consider a real-world scenario where:</p>

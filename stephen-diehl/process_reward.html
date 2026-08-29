@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="stephen-diehl-content-hash" content="5f818efafd2ba64c762317902a11e4b94b41e1cafdc03876032bfe99c8ca014e">
-  <meta name="stephen-diehl-article-format" content="2">
+  <meta name="stephen-diehl-article-format" content="3">
   <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/process_reward.html">
   <title>Process Reward Models</title>
   <style>
@@ -24,15 +24,16 @@
              overflow-x: auto; }
     th, td { border: 1px solid #666; padding: .5rem; vertical-align: top; }
     .published { color: #b8b8b8; }
-    .source { border-top: 1px solid #555; margin-top: 2rem; padding-top: 1rem; }
+    .original-link { border-top: 1px solid #555; margin-top: 2rem;
+                      padding-top: 1rem; }
   </style>
 </head>
 <body>
   <article>
     <h1>Process Reward Models</h1>
     <p class="published">Published: Sun, 01 Dec 2024 00:00:00 +0000</p>
-    <section>
-      <p class="source"><a href="https://www.stephendiehl.com/posts/process_reward/">Read the original article on Stephen Diehl's website</a></p>
+    <section class="instapaper_body">
+      <p class="original-link"><a href="https://www.stephendiehl.com/posts/process_reward/">Read the original article on Stephen Diehl's website</a></p>
 <p>Reasoning models are all the rage with the kids these days, and in particular the training data behind them is a hot topic. One particular case of this is the <a href="https://arxiv.org/abs/2405.15489">process reward models</a> which are a type of reward model used in complex reasoning and decision-making tasks where evaluating intermediate steps is crucial to achieving the desired outcome. In short we want to have a model that can help guide the reasoning of another model to tell it when it's on the right track or off track.</p>
 <p>The source code for this post is available <a href="https://github.com/sdiehl/prm">https://github.com/sdiehl/prm</a>.</p>
 <p>New approaches to scaling inference have recently led to breakthrough performance improvements in the world of LLMs. Through the use of basic sampling and search strategies, particularly when combined with custom verifiers, scoring functions, and process reward models, we're now seeing small models outperform vastly larger models. Which is quite an exciting development!</p>
