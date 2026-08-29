@@ -3131,6 +3131,69 @@
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/monan.doll/4230303683781123.html",
       "status": "complete"
     },
+    "564714133630906": {
+      "article_format_version": 7,
+      "completed_at": null,
+      "content_hash": "061fbbf5c0966dff41b903fd9e5231bd9ef64c0c5c9d750dba984bbb108f97ce",
+      "facebook_post_id": "564714133630906",
+      "facebook_timestamp": 1431822621,
+      "image_sha256": [
+        "dadddf1bd2064f2af1a1270355d201b292637e5aab471f3f93beaba553acf95c",
+        "1893aa3ca82c23dbf474c1c56f5398a845e5a7eb12400271dcdb56685f45b177",
+        "15040c939b816e3c1601c14aa31d6596fa4def911bb741093e0736f0ef82ca1b",
+        "8cd1bebf6e6c2317d878666b115962cef220aed15c2bfc187730b9a3dc545633",
+        "4c98c573a549534676e43958c2faff4e07d0ae75f1e1d61226c1a4d02f0a4150",
+        "98d786159f9adc809678e830538e42158970254bd265476f0d2f2af2aceb8dc5",
+        "366f782cc228881a183901218e1e687ce98295edcf157b220fbaae959ad704ae"
+      ],
+      "instapaper_bookmark_id": null,
+      "last_error": null,
+      "omitted_photo_count": 2,
+      "permalink": "https://www.facebook.com/nunLeeFanpage/posts/564714133630906",
+      "profile_url": "https://www.facebook.com/nunLeeFanpage",
+      "published_url": "https://beila.github.io/my-collection/facebook-instapaper/nunLeeFanpage/564714133630906.html",
+      "status": "published_pending"
+    },
+    "575175962584723": {
+      "article_format_version": 7,
+      "completed_at": null,
+      "content_hash": "6c49f469cfa65a41c92b639c16c306030bf1d33c28078d649bfd7317ce28aa54",
+      "facebook_post_id": "575175962584723",
+      "facebook_timestamp": 1434884545,
+      "image_sha256": [
+        "3da77d0b2eb5172b546ce5182a93efb4dfecc2332060d977f393e9b6c33fafa5",
+        "e6c7769d160c65459d4daeb1e23d830332cbe8a48261d40841b7d1f95199ddb1",
+        "e3ed2d069a4cd8835b57d210ba6a633c426e858ac321ebe8e4b9a48e4e612f47",
+        "96a799048eb837829d805eee9e243f17ac3dea84f8304939a4e5a2be23c51777",
+        "ef4837520400966f0b87c5399ef3031cc7070c9fbd266af64d45f40b3b74bc53"
+      ],
+      "instapaper_bookmark_id": null,
+      "last_error": null,
+      "omitted_photo_count": 1,
+      "permalink": "https://www.facebook.com/nunLeeFanpage/posts/575175962584723",
+      "profile_url": "https://www.facebook.com/nunLeeFanpage",
+      "published_url": "https://beila.github.io/my-collection/facebook-instapaper/nunLeeFanpage/575175962584723.html",
+      "status": "published_pending"
+    },
+    "589273274508325": {
+      "article_format_version": 7,
+      "completed_at": null,
+      "content_hash": "fdaab2b6c88a2f79b12837d2017d7fac373cfb3d8fada25a1a4000a6523184a4",
+      "facebook_post_id": "589273274508325",
+      "facebook_timestamp": 1438764124,
+      "image_sha256": [
+        "d9abc82cb3609c8068cf01aa5d3b08b744f6dd457551bf63f166c131b096e024",
+        "d0a63064ea6b692eadbbbcbbfec2ac79bd1c072d70580d89fef79d2cf66a8fda",
+        "4f26ef3dc30131ef8694bbdd70c10e2b8cf3e652061cadc7fd5e0b83a80145e9"
+      ],
+      "instapaper_bookmark_id": null,
+      "last_error": null,
+      "omitted_photo_count": 0,
+      "permalink": "https://www.facebook.com/nunLeeFanpage/posts/589273274508325",
+      "profile_url": "https://www.facebook.com/nunLeeFanpage",
+      "published_url": "https://beila.github.io/my-collection/facebook-instapaper/nunLeeFanpage/589273274508325.html",
+      "status": "published_pending"
+    },
     "597209713714681": {
       "article_format_version": 7,
       "completed_at": "2026-08-29T21:27:25+00:00",
@@ -3304,12 +3367,12 @@
         "5990505fe5b639ffaabba4e7c1adb69e6877437c460299f695e52efb97593d91"
       ],
       "instapaper_bookmark_id": null,
-      "last_error": "Instapaper verification failed for bookmark 2037664161: missing linked page URL: https://play.google.com/store/apps/details?id=com.pbckoi.android; missing linked page title: 가톨릭평화방송 코이앱",
+      "last_error": null,
       "omitted_photo_count": 0,
       "permalink": "https://www.facebook.com/nunLeeFanpage/posts/631053296996989",
       "profile_url": "https://www.facebook.com/nunLeeFanpage",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/nunLeeFanpage/631053296996989.html",
-      "status": "pending"
+      "status": "published_pending"
     },
     "647483832020602": {
       "article_format_version": 7,
@@ -5061,6 +5124,13 @@
     },
     "https://www.facebook.com/nunLeeFanpage": {
       "discoveries": {
+        "https://www.facebook.com/nunLeeFanpage/posts/575175962584723": {
+          "discovered_at": "2026-08-29T21:42:55+00:00",
+          "last_error": null,
+          "not_before_timestamp": null,
+          "post_id": "575175962584723",
+          "status": "published_pending"
+        },
         "https://www.facebook.com/nunLeeFanpage/posts/608061159296203": {
           "completed_at": "2026-08-29T21:27:27+00:00",
           "discovered_at": "2026-08-29T21:24:10+00:00",
@@ -5101,10 +5171,10 @@
         },
         "https://www.facebook.com/nunLeeFanpage/posts/631053296996989": {
           "discovered_at": "2026-08-29T21:24:10+00:00",
-          "last_error": "Instapaper verification failed for bookmark 2037664161: missing linked page URL: https://play.google.com/store/apps/details?id=com.pbckoi.android; missing linked page title: 가톨릭평화방송 코이앱",
+          "last_error": null,
           "not_before_timestamp": null,
           "post_id": "631053296996989",
-          "status": "pending"
+          "status": "published_pending"
         },
         "https://www.facebook.com/nunLeeFanpage/posts/647483832020602": {
           "completed_at": "2026-08-29T21:29:10+00:00",
@@ -5138,18 +5208,32 @@
           "post_id": "597209713714681",
           "status": "complete"
         },
+        "https://www.facebook.com/nunLeeFanpage/posts/pfbid02BWEew4RV1ubeabZZ5EZtdG1hieRhRQgP3g1E9QZnEmeL2D1cgDvscuL9nefuJ4CPl": {
+          "discovered_at": "2026-08-29T21:42:55+00:00",
+          "last_error": null,
+          "not_before_timestamp": null,
+          "post_id": "564714133630906",
+          "status": "published_pending"
+        },
+        "https://www.facebook.com/nunLeeFanpage/posts/pfbid0cL4dJFkL5DzHfBbYuCVGinjHxmGToEpDUqia4XySWGnf1uUDLGhPXsTg5LQbnMZul": {
+          "discovered_at": "2026-08-29T21:42:55+00:00",
+          "last_error": null,
+          "not_before_timestamp": null,
+          "post_id": "589273274508325",
+          "status": "published_pending"
+        },
         "https://www.facebook.com/nunLeeFanpage/posts/pfbid0n75ipWLCAj4fEVQTeZXswFTdcDYnaGowJqPn9c5oKgUYJ4DsSQ5iq8mz5MNQk7Uol": {
           "completed_at": "2026-08-29T21:24:11+00:00",
           "discovered_at": "2026-08-29T21:24:10+00:00",
           "last_error": null,
-          "not_before_timestamp": 1785360250,
+          "not_before_timestamp": null,
           "post_id": "590740464361606",
           "status": "skipped_initial"
         }
       },
       "initial_cutoff_timestamp": 1785360250,
       "initialized_at": "2026-08-29T21:24:10+00:00",
-      "last_scan_timestamp": 1788038546,
+      "last_scan_timestamp": 1788039728,
       "name": "이해인"
     },
     "https://www.facebook.com/phdcomics": {
@@ -5434,5 +5518,5 @@
     }
   },
   "schema_version": 1,
-  "updated_at": "2026-08-29T21:29:15+00:00"
+  "updated_at": "2026-08-29T21:44:19+00:00"
 }
