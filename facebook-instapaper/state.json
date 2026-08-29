@@ -718,9 +718,9 @@
       "status": "complete"
     },
     "1313661840126276": {
-      "article_format_version": 2,
-      "completed_at": "2026-08-27T08:31:43+00:00",
-      "content_hash": "80975260445b316266a4fb4fef283caafe3e42b366dd3888669c0350b6f73809",
+      "article_format_version": 5,
+      "completed_at": "2026-08-29T17:38:27+00:00",
+      "content_hash": "3219f5613f2bc5461497c569407e68d65f7ea5bf907088ddb936447e869c6b79",
       "facebook_post_id": "1313661840126276",
       "facebook_timestamp": 1756365313,
       "has_video": false,
@@ -728,13 +728,34 @@
         "eb40eac7be52f69107c25a9daef540c84f90258a14926c1b37d8f672f6b53e1a"
       ],
       "inline_links": [],
-      "instapaper_bookmark_id": "2037059458",
+      "instapaper_bookmark_id": "2037631597",
       "last_error": null,
       "linked_pages": [],
       "omitted_photo_count": 0,
-      "original_author": null,
-      "original_inline_links": [],
-      "original_paragraphs": [],
+      "original_author": "뮤직팜",
+      "original_inline_links": [
+        {
+          "end": 34,
+          "paragraph_index": 10,
+          "start": 9,
+          "url": "https://shorturl.at/4nlED"
+        }
+      ],
+      "original_paragraphs": [
+        "≪ 티켓오픈 안내 ≫",
+        "2025 김동률 콘서트 ’산책‘",
+        "· 공연일시 ·",
+        "2025년 11월 08~10일 (토~월)",
+        "2025년 11월 13~16일 (목~일)",
+        "평일 오후 7시30분 / 주말 오후 5시",
+        "· 공연장소 ·",
+        "KSPO DOME",
+        "· 티켓오픈 ·",
+        "2025년 09월 04일 (목) 오후 8시",
+        "NOL 티켓 ( https://shorturl.at/4nlED )",
+        "#김동률 #KimDongryul",
+        "#김동률콘서트 #산책"
+      ],
       "permalink": "https://www.facebook.com/yulmonologue/posts/1313661840126276",
       "profile_url": "https://www.facebook.com/yulmonologue",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/yulmonologue/1313661840126276.html",
@@ -4691,5 +4712,5 @@
     }
   },
   "schema_version": 1,
-  "updated_at": "2026-08-29T17:07:08+00:00"
+  "updated_at": "2026-08-29T17:38:27+00:00"
 }
