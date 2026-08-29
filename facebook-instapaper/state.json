@@ -3147,19 +3147,20 @@
         "366f782cc228881a183901218e1e687ce98295edcf157b220fbaae959ad704ae"
       ],
       "instapaper_bookmark_id": null,
-      "last_error": null,
+      "last_error": "Instapaper verification failed for bookmark 2037666570: missing paragraph: 예매- http://m.ticket.interpark.com/goods/index.html?gc=15005153; missing inline link: http://m.ticket.interpark.com/goods/index.html?gc=15005153&utm_id=97758_v0_s00_e0_tv2_a1demo0bbd8eo7; missing linked page URL: http://m.ticket.interpark.com/goods/index.html?gc=15005153&utm_id=97758_v0_s00_e0_tv2_a1demo0bbd8eo7; missing linked page title: http://m.ticket.interpark.com/goods/index.html?gc=15005153",
       "omitted_photo_count": 2,
       "permalink": "https://www.facebook.com/nunLeeFanpage/posts/564714133630906",
       "profile_url": "https://www.facebook.com/nunLeeFanpage",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/nunLeeFanpage/564714133630906.html",
-      "status": "published_pending"
+      "status": "pending"
     },
     "575175962584723": {
       "article_format_version": 7,
-      "completed_at": null,
+      "completed_at": "2026-08-29T21:46:30+00:00",
       "content_hash": "6c49f469cfa65a41c92b639c16c306030bf1d33c28078d649bfd7317ce28aa54",
       "facebook_post_id": "575175962584723",
       "facebook_timestamp": 1434884545,
+      "has_video": false,
       "image_sha256": [
         "3da77d0b2eb5172b546ce5182a93efb4dfecc2332060d977f393e9b6c33fafa5",
         "e6c7769d160c65459d4daeb1e23d830332cbe8a48261d40841b7d1f95199ddb1",
@@ -3167,32 +3168,59 @@
         "96a799048eb837829d805eee9e243f17ac3dea84f8304939a4e5a2be23c51777",
         "ef4837520400966f0b87c5399ef3031cc7070c9fbd266af64d45f40b3b74bc53"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2037666752",
       "last_error": null,
+      "linked_pages": [],
       "omitted_photo_count": 1,
+      "original_author": "Vides Korea",
+      "original_inline_links": [],
+      "original_paragraphs": [
+        "키다리 친구들의 ‘신발을 선물할게’",
+        "키다리 아저씨와 같은 존재가 되고 싶은",
+        "VIDES KOREA의 후원금 모금팀, 키다리 친구들입니다!",
+        "‘신발을 선물할게’",
+        "신발이 없는 필리핀 어린이들에게 신발을 선물하기 위해서 키다리 친구들에서 운동화끈 팔찌를 만들어 판매합니다!",
+        "팔찌의 모든 수익금은 필리핀 아이들을 위해서 사용됩니다.",
+        "운동화끈 팔찌 종류는 흰색, 노란색, 회색입니다. 가격은 3000원입니다.",
+        "-또한 수녀님들께서 직접 만드신 매듭묵주도 판매합니다!",
+        "매듭묵주 1단은 1000원, 5단은 1500원입니다.",
+        "판매기간은 6월 22일 월요일부터 7월 3일 금요일까지입니다.",
+        "구매를 원하시거나 궁금한 사항이 있으시면 키다리 친구들에게 연락주시기 바랍니다!",
+        "대표번호 :010-9976-0928",
+        "키다리 친구들",
+        ":최수민, 황성인, 김혜주, 현지혜, 황연우",
+        "김도희, 남승현, 박상아, 이상린, 장혜원"
+      ],
       "permalink": "https://www.facebook.com/nunLeeFanpage/posts/575175962584723",
       "profile_url": "https://www.facebook.com/nunLeeFanpage",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/nunLeeFanpage/575175962584723.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "589273274508325": {
       "article_format_version": 7,
-      "completed_at": null,
+      "completed_at": "2026-08-29T21:46:32+00:00",
       "content_hash": "fdaab2b6c88a2f79b12837d2017d7fac373cfb3d8fada25a1a4000a6523184a4",
       "facebook_post_id": "589273274508325",
       "facebook_timestamp": 1438764124,
+      "has_video": false,
       "image_sha256": [
         "d9abc82cb3609c8068cf01aa5d3b08b744f6dd457551bf63f166c131b096e024",
         "d0a63064ea6b692eadbbbcbbfec2ac79bd1c072d70580d89fef79d2cf66a8fda",
         "4f26ef3dc30131ef8694bbdd70c10e2b8cf3e652061cadc7fd5e0b83a80145e9"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2037666753",
       "last_error": null,
+      "linked_pages": [],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "permalink": "https://www.facebook.com/nunLeeFanpage/posts/589273274508325",
       "profile_url": "https://www.facebook.com/nunLeeFanpage",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/nunLeeFanpage/589273274508325.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "597209713714681": {
       "article_format_version": 7,
@@ -3367,12 +3395,12 @@
         "5990505fe5b639ffaabba4e7c1adb69e6877437c460299f695e52efb97593d91"
       ],
       "instapaper_bookmark_id": null,
-      "last_error": null,
+      "last_error": "Instapaper verification failed for bookmark 2037666755: missing linked page URL: https://play.google.com/store/apps/details?id=com.pbckoi.android; missing linked page title: 가톨릭평화방송 코이앱",
       "omitted_photo_count": 0,
       "permalink": "https://www.facebook.com/nunLeeFanpage/posts/631053296996989",
       "profile_url": "https://www.facebook.com/nunLeeFanpage",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/nunLeeFanpage/631053296996989.html",
-      "status": "published_pending"
+      "status": "pending"
     },
     "647483832020602": {
       "article_format_version": 7,
@@ -5125,11 +5153,12 @@
     "https://www.facebook.com/nunLeeFanpage": {
       "discoveries": {
         "https://www.facebook.com/nunLeeFanpage/posts/575175962584723": {
+          "completed_at": "2026-08-29T21:46:30+00:00",
           "discovered_at": "2026-08-29T21:42:55+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "575175962584723",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/nunLeeFanpage/posts/608061159296203": {
           "completed_at": "2026-08-29T21:27:27+00:00",
@@ -5171,10 +5200,10 @@
         },
         "https://www.facebook.com/nunLeeFanpage/posts/631053296996989": {
           "discovered_at": "2026-08-29T21:24:10+00:00",
-          "last_error": null,
+          "last_error": "Instapaper verification failed for bookmark 2037666755: missing linked page URL: https://play.google.com/store/apps/details?id=com.pbckoi.android; missing linked page title: 가톨릭평화방송 코이앱",
           "not_before_timestamp": null,
           "post_id": "631053296996989",
-          "status": "published_pending"
+          "status": "pending"
         },
         "https://www.facebook.com/nunLeeFanpage/posts/647483832020602": {
           "completed_at": "2026-08-29T21:29:10+00:00",
@@ -5210,17 +5239,18 @@
         },
         "https://www.facebook.com/nunLeeFanpage/posts/pfbid02BWEew4RV1ubeabZZ5EZtdG1hieRhRQgP3g1E9QZnEmeL2D1cgDvscuL9nefuJ4CPl": {
           "discovered_at": "2026-08-29T21:42:55+00:00",
-          "last_error": null,
+          "last_error": "Instapaper verification failed for bookmark 2037666570: missing paragraph: 예매- http://m.ticket.interpark.com/goods/index.html?gc=15005153; missing inline link: http://m.ticket.interpark.com/goods/index.html?gc=15005153&utm_id=97758_v0_s00_e0_tv2_a1demo0bbd8eo7; missing linked page URL: http://m.ticket.interpark.com/goods/index.html?gc=15005153&utm_id=97758_v0_s00_e0_tv2_a1demo0bbd8eo7; missing linked page title: http://m.ticket.interpark.com/goods/index.html?gc=15005153",
           "not_before_timestamp": null,
           "post_id": "564714133630906",
-          "status": "published_pending"
+          "status": "pending"
         },
         "https://www.facebook.com/nunLeeFanpage/posts/pfbid0cL4dJFkL5DzHfBbYuCVGinjHxmGToEpDUqia4XySWGnf1uUDLGhPXsTg5LQbnMZul": {
+          "completed_at": "2026-08-29T21:46:32+00:00",
           "discovered_at": "2026-08-29T21:42:55+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "589273274508325",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/nunLeeFanpage/posts/pfbid0n75ipWLCAj4fEVQTeZXswFTdcDYnaGowJqPn9c5oKgUYJ4DsSQ5iq8mz5MNQk7Uol": {
           "completed_at": "2026-08-29T21:24:11+00:00",
@@ -5518,5 +5548,5 @@
     }
   },
   "schema_version": 1,
-  "updated_at": "2026-08-29T21:44:19+00:00"
+  "updated_at": "2026-08-29T21:48:05+00:00"
 }
