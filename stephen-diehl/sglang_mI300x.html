@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="stephen-diehl-content-hash" content="eba00ddd8bd813c4c15f1955b1e363574b595354f6d729f45c3398576e7f547f">
+  <meta name="stephen-diehl-article-format" content="1">
+  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/sglang_mI300x.html">
+  <title>SGLang on AMD MI300X</title>
+  <style>
+    :root { color-scheme: dark; }
+    body { margin: 0; background: #171717; color: #f1f1f1;
+            font: 18px/1.7 Georgia, serif; }
+    article { max-width: 52rem; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+    h1 { font-size: 2rem; line-height: 1.25; letter-spacing: 0; }
+    h2, h3, h4, h5, h6 { line-height: 1.3; letter-spacing: 0; }
+    a { color: #8dc7ff; overflow-wrap: anywhere; }
+    img { display: block; max-width: 100%; height: auto; margin: 1.25rem auto; }
+    pre { overflow-x: auto; padding: 1rem; background: #242424;
+           white-space: pre-wrap; overflow-wrap: anywhere; }
+    code, kbd, samp { font-family: ui-monospace, monospace; }
+    blockquote { border-left: 3px solid #777; margin-left: 0; padding-left: 1rem; }
+    table { width: 100%; border-collapse: collapse; display: block;
+             overflow-x: auto; }
+    th, td { border: 1px solid #666; padding: .5rem; vertical-align: top; }
+    .published { color: #b8b8b8; }
+    .source { border-top: 1px solid #555; margin-top: 2rem; padding-top: 1rem; }
+  </style>
+</head>
+<body>
+  <article>
+    <h1>SGLang on AMD MI300X</h1>
+    <p class="published">Published: Tue, 04 Mar 2025 00:00:00 +0000</p>
+    <section>
+<p>The best kept secret these days is that new AMD GPUs are <em>incredibly</em> cost efficient for doing inference. If you want the cliff-notes on getting an extremely fast inference server running on a fleet of AMD MI300X, here you go:</p>
+<p>If you're serving high-throughput inference, your options for inference servers are essentially:</p>
+<ul>
+<li><a href="https://github.com/NVIDIA/TensorRT-LLM">TensorRT-LLM</a>: NVIDIA's high-performance deep learning inference library that optimizes models for deployment on GPUs, focusing on low-latency and high-throughput.</li>
+<li><a href="https://github.com/vllm-project/vllm">vLLM</a>: A versatile framework for serving large language models, particularly well-suited for Kubernetes environments and high-throughput inference scenarios.</li>
+<li><a href="https://github.com/sgl-project/sglang"><strong>SGLang</strong></a>: A framework designed for efficient inference with advanced features like zero overhead batch scheduling and optimized attention kernels.</li>
+</ul>
+<p>In my experience, SGLang is the easiest to get running. Although if you're using kserve to manage your Kubernetes inference service then you'll probably end up using vLLM because of network effects and lock-in.</p>
+<p>SGLang perfmance is extremely good though, with <a href="https://lmsys.org/blog/2024-12-04-sglang-v0-4/">zero overhead batch scheduling</a> with <a href="https://flashinfer.ai/2024/02/02/introduce-flashinfer.html">FlashInfer</a> attention kernels and <a href="https://arxiv.org/abs/2312.07104">RadixAttention</a> for automatic KV cache reuse there's a lot of optimizations that can yield performance gains. SGLang also has an <a href="https://lmsys.org/blog/2024-02-05-compressed-fsm/">extremely fast constrained decoding algorithm</a> if you're handlings lots of JSON output.</p>
+<h2 id="setup">Setup</h2>
+<p>To get started, pull the latest SGLang image:</p>
+<pre><code>docker pull rocm/sglang-staging:latest
+</code></pre>
+<p>Run the container.</p>
+<pre><code>docker run -d \
+  -it \
+  --ipc=host \
+  --network=host \
+  --privileged \
+  --device=/dev/kfd \
+  --device=/dev/dri \
+  --device=/dev/mem \
+  --group-add render \
+  --security-opt seccomp=unconfined \
+  -v /home:/workspace \
+  rocm/sglang-staging:latest
+</code></pre>
+<p>Then get the container id and run the following command to get a shell into the container.</p>
+<pre><code>docker exec -it $CONTAINER_ID bash
+</code></pre>
+<p>Then login to Hugging Face.</p>
+<pre><code>huggingface-cli login
+</code></pre>
+<p>Then run the following command to start the server, we'll use the DeepSeek-R1 model and quantize it to FP8.</p>
+<pre><code>HSA_NO_SCRATCH_RECLAIM=1 python -m sglang.launch_server \
+  --model deepseek-ai/DeepSeek-R1 \
+  --tp 8 \
+  --quant fp8 \
+  --trust-remote-code \
+  --port 8000
+</code></pre>
+<p>Then run the following command to start the client.</p>
+<pre><code>import openai
+
+port = 8000
+client = openai.Client(base_url=f"http://127.0.0.1:{port}/v1", api_key="None")
+
+response = client.chat.completions.create(
+    model="deepseek-ai/DeepSeek-R1",
+    messages=[
+        {"role": "user", "content": "Who wrote the Simarillion?"},
+    ],
+    temperature=0,
+    max_tokens=64,
+)
+
+print_highlight(f"Response: {response}")
+</code></pre>
+<p>There are also some other tricks you can do to get better performance. For example, you can disable NUMA balancing.</p>
+<pre><code>sudo sh -c 'echo 0 &gt; /proc/sys/kernel/numa_balancing'
+</code></pre>
+<p>For more tuning guides, see the AMD documentation:</p>
+<ul>
+<li><a href="https://rocm.docs.amd.com/en/latest/how-to/tuning-guides/mi300x/index.html">AMD MI300X Tuning Guides</a></li>
+<li><a href="https://rocm.docs.amd.com/en/latest/how-to/rocm-for-ai/inference/vllm-benchmark.html">LLM inference performance validation on AMD Instinct MI300X</a></li>
+<li><a href="https://rocm.docs.amd.com/en/latest/how-to/system-optimization/mi300x.html">AMD Instinct MI300X System Optimization</a></li>
+<li><a href="https://rocm.docs.amd.com/en/latest/how-to/rocm-for-ai/inference-optimization/workload.html">AMD Instinct MI300X Workload Optimization</a></li>
+</ul>
+    </section>
+    <p class="source"><a href="https://www.stephendiehl.com/posts/sglang_mI300x/">Read the original article on Stephen Diehl's website</a></p>
+  </article>
+</body>
+</html>

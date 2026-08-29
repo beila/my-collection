@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="stephen-diehl-content-hash" content="a773c90e031da36abb6c92a2ee233b7696a4541c50d8589d30e0d6740bab0299">
+  <meta name="stephen-diehl-article-format" content="1">
+  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/egraphs.html">
+  <title>E-Graphs in Rust</title>
+  <style>
+    :root { color-scheme: dark; }
+    body { margin: 0; background: #171717; color: #f1f1f1;
+            font: 18px/1.7 Georgia, serif; }
+    article { max-width: 52rem; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+    h1 { font-size: 2rem; line-height: 1.25; letter-spacing: 0; }
+    h2, h3, h4, h5, h6 { line-height: 1.3; letter-spacing: 0; }
+    a { color: #8dc7ff; overflow-wrap: anywhere; }
+    img { display: block; max-width: 100%; height: auto; margin: 1.25rem auto; }
+    pre { overflow-x: auto; padding: 1rem; background: #242424;
+           white-space: pre-wrap; overflow-wrap: anywhere; }
+    code, kbd, samp { font-family: ui-monospace, monospace; }
+    blockquote { border-left: 3px solid #777; margin-left: 0; padding-left: 1rem; }
+    table { width: 100%; border-collapse: collapse; display: block;
+             overflow-x: auto; }
+    th, td { border: 1px solid #666; padding: .5rem; vertical-align: top; }
+    .published { color: #b8b8b8; }
+    .source { border-top: 1px solid #555; margin-top: 2rem; padding-top: 1rem; }
+  </style>
+</head>
+<body>
+  <article>
+    <h1>E-Graphs in Rust</h1>
+    <p class="published">Published: Thu, 01 Feb 2024 00:00:00 +0000</p>
+    <section>
+<p>E-Graphs (aka <em>equality graphs</em>) are one of the most exciting and rapidly evolving areas in programming language engineering. Originally developed in Gregory Nelson's PhD Thesis in 1980, they have become a foundational data structure that maintains equivalence relations over expressions. While they were initially created to power SMT solvers, their applications have expanded dramatically in recent years.</p>
+<p>This renaissance in e-graph applications is driven by techniques like equality saturation, which allows for more efficient exploration of equivalent expressions. The key innovation of E-Graphs is their ability to solve the so-called "choice problem" in term rewriting. Traditional term rewriting is destructive - once you transform an expression, the original is lost. This forces you to commit to specific optimization choices that might be locally optimal but globally suboptimal. For example, while <code>x + x</code> can be optimized to <code>x * 2</code>, applying this to <code>(x + x) - x</code> would prevent discovering that one of the additions and the subtraction cancel out to just <code>x</code>.</p>
+<p>E-Graphs solve this by maintaining all possible equivalent expressions simultaneously in a compact form. They consist of:</p>
+<ul>
+<li><strong>E-Classes</strong>: Sets of equivalent expressions</li>
+<li><strong>E-Nodes</strong>: Operators with children that point to e-classes (not directly to other e-nodes)</li>
+<li><strong>E-Class IDs</strong>: Unique identifiers for e-classes</li>
+</ul>
+<p>The power of E-Graphs comes from two key properties:</p>
+<ol>
+<li>
+<p><strong>Congruence</strong>: If <code>x</code> is equivalent to <code>y</code>, then <code>f(x)</code> must be equivalent to <code>f(y)</code>. This property is maintained automatically as equivalences are discovered.</p>
+</li>
+<li>
+<p><strong>Compact Representation</strong>: E-Graphs can represent exponentially many equivalent expressions in linear space by sharing structure between similar expressions.</p>
+</li>
+</ol>
+<p>When using E-Graphs for optimization through a technique called <em>equality saturation</em>, the process works by:</p>
+<ol>
+<li>Converting the initial expression into an E-Graph</li>
+<li>Repeatedly applying all possible rewrites to discover equivalences</li>
+<li>Extracting the optimal expression according to some cost function</li>
+</ol>
+<p>To get started with E-Graphs in Rust, we will use the <code>egg</code> library, which provides a powerful and ergonomic API for working with E-Graphs. First, add the <code>egg</code> crate to your <code>Cargo.toml</code>:</p>
+<pre><code>[dependencies]
+egg = "0.6"
+</code></pre>
+<h2 id="congruence-in-e-graphs">Congruence in E-Graphs</h2>
+<p>A fundamental property of E-Graphs is that they maintain a congruence relation, not just an equivalence relation. Congruence means that if two expressions <code>x</code> and <code>y</code> are equivalent, then any larger expression containing <code>x</code> must be equivalent to the same expression with <code>x</code> replaced by <code>y</code>. More formally, if <code>x ≡ y</code>, then <code>f(x) ≡ f(y)</code> for any context <code>f</code>.</p>
+<p>Let's see this in action with a simple example:</p>
+<pre><code>use egg::*;
+
+define_language! {
+    enum SimpleLanguage {
+        Num(i32),
+        "+" = Add([Id; 2]),
+        Symbol(Symbol),
+    }
+}
+
+fn congruence_example() {
+    let mut egraph = EGraph::&lt;SimpleLanguage, ()&gt;::default();
+    
+    // Create expressions: (+ a x) and (+ a y)
+    let a = egraph.add(SimpleLanguage::Symbol("a".into()));
+    let x = egraph.add(SimpleLanguage::Symbol("x".into()));
+    let y = egraph.add(SimpleLanguage::Symbol("y".into()));
+    
+    let expr1 = egraph.add(SimpleLanguage::Add([a, x]));  // (+ a x)
+    let expr2 = egraph.add(SimpleLanguage::Add([a, y]));  // (+ a y)
+    
+    // Initially, these are in different e-classes
+    assert_ne!(egraph.find(expr1), egraph.find(expr2));
+    
+    // When we declare x ≡ y...
+    egraph.union(x, y);
+    egraph.rebuild();
+    
+    // ...congruence ensures (+ a x) ≡ (+ a y)
+    assert_eq!(egraph.find(expr1), egraph.find(expr2));
+}
+</code></pre>
+<p>In this example:</p>
+<ol>
+<li>We start with two expressions <code>(+ a x)</code> and <code>(+ a y)</code> in different e-classes</li>
+<li>When we declare <code>x</code> and <code>y</code> equivalent using <code>union</code></li>
+<li>The e-graph automatically merges the e-classes containing <code>(+ a x)</code> and <code>(+ a y)</code></li>
+</ol>
+<p>This congruence property is maintained automatically by the e-graph as equivalences are discovered. When the e-graph performs a <code>rebuild</code> operation, it:</p>
+<ol>
+<li>Finds all e-nodes that have become equivalent due to congruence</li>
+<li>Merges their containing e-classes</li>
+<li>Repeats until no more merges are possible</li>
+</ol>
+<p>This automatic maintenance of congruence is what makes e-graphs so powerful for term rewriting and program optimization. It ensures that all equivalent expressions are properly identified, even when the equivalence is indirect through substitution in larger expressions.</p>
+<h2 id="understanding-the-core-concepts">Understanding the Core Concepts</h2>
+<p>Before diving into code, let's understand the key abstractions in <code>egg</code>:</p>
+<ol>
+<li>
+<p><strong>Language Definition</strong>: You must define your expression language using <code>egg</code>'s <code>define_language!</code> macro. Each variant represents an operator or leaf node in your expressions.</p>
+</li>
+<li>
+<p><strong>Pattern Matching</strong>: <code>egg</code> uses a simple pattern language with variables like <code>?x</code> to match subexpressions. These patterns power the rewrite rules.</p>
+</li>
+<li>
+<p><strong>Rewrite Rules</strong>: Rules are bidirectional transformations between equivalent expressions, defined using the <code>rewrite!</code> macro.</p>
+</li>
+<li>
+<p><strong>E-Class Analysis</strong>: Custom analyses can be attached to e-classes to maintain additional information about the equivalence classes.</p>
+</li>
+</ol>
+<p>Let's see these concepts in action by defining a simple expression language:</p>
+<pre><code>use egg::*;
+
+// Define our expression language
+define_language! {
+    enum SimpleLanguage {
+        Num(i32),
+        "+" = Add([Id; 2]),
+        "*" = Mul([Id; 2]),
+        Symbol(Symbol),
+    }
+}
+
+// Define our rewrite rules
+fn make_rules() -&gt; Vec&lt;Rewrite&lt;SimpleLanguage, ()&gt;&gt; {
+    vec![
+        rewrite!("commute-add"; "(+ ?a ?b)" =&gt; "(+ ?b ?a)"),
+        rewrite!("commute-mul"; "(* ?a ?b)" =&gt; "(* ?b ?a)"),
+        rewrite!("add-0"; "(+ ?a 0)" =&gt; "?a"),
+        rewrite!("mul-0"; "(* ?a 0)" =&gt; "0"),
+        rewrite!("mul-1"; "(* ?a 1)" =&gt; "?a"),
+    ]
+}
+</code></pre>
+<p>Now let's build a simple function that uses these rules to simplify expressions:</p>
+<pre><code>/// Simplify an expression using egg
+fn simplify(s: &amp;str) -&gt; String {
+    // Parse the expression
+    let expr: RecExpr&lt;SimpleLanguage&gt; = s.parse().unwrap();
+    
+    // Create a Runner and apply our rules
+    let runner = Runner::default()
+        .with_expr(&amp;expr)
+        .run(&amp;make_rules());
+
+    // Extract the smallest equivalent expression
+    let extractor = Extractor::new(&amp;runner.egraph, AstSize);
+    let (best_cost, best) = extractor.find_best(runner.roots[0]);
+    
+    println!("Simplified {} to {} with cost {}", expr, best, best_cost);
+    best.to_string()
+}
+
+#[test]
+fn simple_tests() {
+    assert_eq!(simplify("(* 0 42)"), "0");
+    assert_eq!(simplify("(+ 0 (* 1 foo))"), "foo");
+}
+</code></pre>
+<h2 id="core-functions">Core Functions</h2>
+<p>There are four core functions that you will use most often when working with E-Graphs:</p>
+<pre><code>pub fn union(&amp;mut self, id1: Id, id2: Id) -&gt; bool
+</code></pre>
+<p>The <code>union</code> function merges the e-classes containing <code>id1</code> and <code>id2</code>. It returns <code>true</code> if the e-classes were merged, and <code>false</code> if they were already in the same e-class.</p>
+<pre><code>pub fn find(&amp;self, id: Id) -&gt; Id
+</code></pre>
+<p>The <code>find</code> function returns the representative of the e-class containing <code>id</code>. The representative is the smallest expression in the e-class.</p>
+<pre><code>pub fn rebuild(&amp;mut self) -&gt; usize
+</code></pre>
+<p>The <code>rebuild</code> function performs a single round of congruence closure. It finds all e-nodes that have become equivalent due to congruence and merges their containing e-classes. It returns the number of e-classes that were merged.</p>
+<h2 id="advanced-features">Advanced Features</h2>
+<p>The <code>egg</code> library also provides several advanced features:</p>
+<ol>
+<li><strong>Custom Analysis</strong>: You can define custom analyses that maintain additional information about e-classes:</li>
+</ol>
+<pre><code>#[derive(Default)]
+struct ConstantFolding;
+
+impl Analysis&lt;Math&gt; for ConstantFolding {
+    type Data = Option&lt;i32&gt;;
+    
+    fn merge(&amp;mut self, a: &amp;mut Self::Data, b: Self::Data) -&gt; DidMerge {
+        if a == &amp;b {
+            DidMerge(false, false)
+        } else {
+            *a = None;
+            DidMerge(true, false)
+        }
+    }
+
+    fn make(egraph: &amp;EGraph&lt;Math, Self&gt;, enode: &amp;Math) -&gt; Self::Data {
+        match enode {
+            Math::Num(n) =&gt; Some(*n),
+            Math::Add([a, b]) =&gt; {
+                let a = egraph[*a].data;
+                let b = egraph[*b].data;
+                a.zip(b).map(|(a, b)| a + b)
+            }
+            // ... other operations ...
+            _ =&gt; None,
+        }
+    }
+}
+</code></pre>
+<ol>
+<li><strong>Conditional Rewrites</strong>: Rules can include conditions that must be satisfied:</li>
+</ol>
+<pre><code>rw!("div-cancel"; "(/ ?a ?a)" =&gt; "1" if is_not_zero("?a"))
+</code></pre>
+<h2 id="using-the-runner-api">Using the Runner API</h2>
+<p>Let's look at a complete example of using the Runner API to perform equality saturation:</p>
+<pre><code>use egg::{*, rewrite as rw};
+
+// Define our rewrite rules
+let rules: &amp;[Rewrite&lt;SymbolLang, ()&gt;] = &amp;[
+    rw!("commute-add"; "(+ ?x ?y)" =&gt; "(+ ?y ?x)"),
+    rw!("commute-mul"; "(* ?x ?y)" =&gt; "(* ?y ?x)"),
+    rw!("add-0"; "(+ ?x 0)" =&gt; "?x"),
+    rw!("mul-0"; "(* ?x 0)" =&gt; "0"),
+    rw!("mul-1"; "(* ?x 1)" =&gt; "?x"),
+];
+
+// Parse the initial expression
+let start = "(+ 0 (* 1 a))".parse().unwrap();
+
+// Run equality saturation
+let runner = Runner::default().with_expr(&amp;start).run(rules);
+
+// Extract the best expression using AstSize cost function
+let extractor = Extractor::new(&amp;runner.egraph, AstSize);
+let (best_cost, best_expr) = extractor.find_best(runner.roots[0]);
+
+// The expression simplifies to just "a" with cost 1
+assert_eq!(best_expr, "a".parse().unwrap());
+assert_eq!(best_cost, 1);
+</code></pre>
+<p>Note that while we're working with what appears to be numbers, <code>SymbolLang</code> actually stores everything as strings. This is just for demonstration purposes.</p>
+<h2 id="extraction-and-cost-functions">Extraction and Cost Functions</h2>
+<p>After running the E-Graph to saturation, we need to extract the "best" expression from potentially many equivalent ones. The <code>egg</code> library provides an <code>Extractor</code> that can find the optimal expression according to a cost function.</p>
+<p>Here's a complete example showing extraction in action:</p>
+<pre><code>use egg::*;
+
+define_language! {
+    enum SimpleLanguage {
+        Num(i32),
+        "+" = Add([Id; 2]),
+        "*" = Mul([Id; 2]),
+    }
+}
+
+fn extraction_example() {
+    let rules: &amp;[Rewrite&lt;SimpleLanguage, ()&gt;] = &amp;[
+        rewrite!("commute-add"; "(+ ?a ?b)" =&gt; "(+ ?b ?a)"),
+        rewrite!("commute-mul"; "(* ?a ?b)" =&gt; "(* ?b ?a)"),
+        rewrite!("add-0"; "(+ ?a 0)" =&gt; "?a"),
+        rewrite!("mul-0"; "(* ?a 0)" =&gt; "0"),
+        rewrite!("mul-1"; "(* ?a 1)" =&gt; "?a"),
+    ];
+
+    // Start with (+ 0 (* 1 10))
+    let start = "(+ 0 (* 1 10))".parse().unwrap();
+    let runner = Runner::default().with_expr(&amp;start).run(rules);
+    let (egraph, root) = (runner.egraph, runner.roots[0]);
+
+    // Extract the smallest equivalent expression
+    let mut extractor = Extractor::new(&amp;egraph, AstSize);
+    let (best_cost, best) = extractor.find_best(root);
+    
+    // The expression simplifies to just "10" with cost 1
+    assert_eq!(best_cost, 1);
+    assert_eq!(best, "10".parse().unwrap());
+}
+</code></pre>
+<p>The <code>Extractor</code> uses a cost function to determine which expression to choose. In this example, we use <code>AstSize</code> which simply counts the number of nodes in the expression. The expression <code>(+ 0 (* 1 10))</code> simplifies to just <code>10</code>, which has a cost of 1 (a single number node).</p>
+<p>You can also define custom cost functions by implementing the <code>CostFunction</code> trait:</p>
+<pre><code>#[derive(Clone)]
+struct CustomCost;
+
+impl CostFunction&lt;SimpleLanguage&gt; for CustomCost {
+    type Cost = usize;
+    
+    fn cost&lt;C&gt;(&amp;mut self, enode: &amp;SimpleLanguage, mut costs: C) -&gt; Self::Cost 
+    where C: FnMut(Id) -&gt; Self::Cost
+    {
+        match enode {
+            SimpleLanguage::Num(_) =&gt; 1,
+            SimpleLanguage::Add([a, b]) =&gt; costs(*a) + costs(*b) + 2, // penalize additions more
+            SimpleLanguage::Mul([a, b]) =&gt; costs(*a) + costs(*b) + 1,
+        }
+    }
+}
+</code></pre>
+<p>This custom cost function penalizes additions more heavily than multiplications, which could be useful if multiplications are cheaper in your target platform.</p>
+<h2 id="understanding-explanations">Understanding Explanations</h2>
+<p>One powerful feature of <code>egg</code> is its ability to explain why two terms are equivalent in the e-graph. This is particularly useful when debugging rewrite rules or validating transformations. The explanations API can show the exact sequence of rewrites that transform one expression into another.</p>
+<p>To enable explanations, use the <code>with_explanations_enabled()</code> method when creating a runner:</p>
+<pre><code>use egg::*;
+
+fn explanation_example() {
+    let rules: &amp;[Rewrite&lt;SymbolLang, ()&gt;] = &amp;[
+        rewrite!("commute-add"; "(+ ?a ?b)" =&gt; "(+ ?b ?a)"),
+        rewrite!("add-0"; "(+ ?a 0)" =&gt; "?a"),
+    ];
+
+    let start = "(+ (+ a 0) b)".parse().unwrap();
+    let end = "(+ b a)".parse().unwrap();
+    
+    let mut runner = Runner::default()
+        .with_explanations_enabled()
+        .with_expr(&amp;start)
+        .run(rules);
+
+    // Get explanation of how start transforms to end
+    println!("{}", runner.explain_equivalence(&amp;start, &amp;end).get_flat_string());
+}
+</code></pre>
+<p>The explanation output shows each step of the transformation with annotations indicating which rewrite rules were applied:</p>
+<pre><code>(+ (+ a 0) b)
+(+ (Rewrite=&gt; add-0 a) b)
+(Rewrite=&gt; commute-add (+ b a))
+</code></pre>
+<p>Explanations come in two forms:</p>
+<ol>
+<li><strong>FlatExplanation</strong>: A linear sequence of rewrites (shown above), which is most human-readable</li>
+<li><strong>TreeExplanation</strong>: A more compact representation that can share common sub-explanations</li>
+</ol>
+<p>The tree format is particularly useful when dealing with large expressions that have many shared subterms. Here's an example of a tree explanation:</p>
+<pre><code>let tree_explanation = runner.explain_equivalence(&amp;start, &amp;end);
+println!("{}", tree_explanation.get_tree_string());
+</code></pre>
+<p>You can also use <code>explain_existence()</code> to understand why a particular term exists in the e-graph:</p>
+<pre><code>// Find out how a specific term came to exist
+let term = "(+ a b)".parse().unwrap();
+if let Some(explanation) = runner.explain_existence(&amp;term) {
+    println!("Term exists because: {}", explanation.get_flat_string());
+}
+</code></pre>
+<p>This is particularly valuable when debugging unexpected equivalences or validating that optimizations are working as intended.</p>
+    </section>
+    <p class="source"><a href="https://www.stephendiehl.com/posts/egraphs/">Read the original article on Stephen Diehl's website</a></p>
+  </article>
+</body>
+</html>

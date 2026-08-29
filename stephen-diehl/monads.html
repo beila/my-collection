@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="stephen-diehl-content-hash" content="abe1ef919a874482da42214a00b00bea2c00dff9498af787ceae5110e177bc40">
+  <meta name="stephen-diehl-article-format" content="1">
+  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/monads.html">
+  <title>Monads Made Difficult</title>
+  <style>
+    :root { color-scheme: dark; }
+    body { margin: 0; background: #171717; color: #f1f1f1;
+            font: 18px/1.7 Georgia, serif; }
+    article { max-width: 52rem; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+    h1 { font-size: 2rem; line-height: 1.25; letter-spacing: 0; }
+    h2, h3, h4, h5, h6 { line-height: 1.3; letter-spacing: 0; }
+    a { color: #8dc7ff; overflow-wrap: anywhere; }
+    img { display: block; max-width: 100%; height: auto; margin: 1.25rem auto; }
+    pre { overflow-x: auto; padding: 1rem; background: #242424;
+           white-space: pre-wrap; overflow-wrap: anywhere; }
+    code, kbd, samp { font-family: ui-monospace, monospace; }
+    blockquote { border-left: 3px solid #777; margin-left: 0; padding-left: 1rem; }
+    table { width: 100%; border-collapse: collapse; display: block;
+             overflow-x: auto; }
+    th, td { border: 1px solid #666; padding: .5rem; vertical-align: top; }
+    .published { color: #b8b8b8; }
+    .source { border-top: 1px solid #555; margin-top: 2rem; padding-top: 1rem; }
+  </style>
+</head>
+<body>
+  <article>
+    <h1>Monads Made Difficult</h1>
+    <p class="published">Published: Sun, 07 Jul 2013 01:00:00 +0000</p>
+    <section>
+<p>This is a short, fast and analogy-free introduction to Haskell monads derived from a categorical perspective.<br/>
+This assumes you are familiar with Haskell and basic category theory.</p>
+<h5 id="categories">Categories</h5>
+<hr/>
+<p>We have a abstract <strong>category</strong> $\mathcal{C}$ which consists of objects and morphisms.</p>
+<ul>
+<li>Objects : $●$</li>
+<li>Morphisms : $● \rightarrow ●$</li>
+</ul>
+<p>For each object there is an identity morphism <code>id</code> and a composition rule $(\circ)$ for combining morphisms<br/>
+associatively. We can model this with the following type class in Haskell with kind polymorphism.</p>
+<pre><code>-- Morphisms
+type (a ~&gt; b) c = c a b
+
+class Category (c :: k -&gt; k -&gt; *) where
+  id :: (a ~&gt; a) c
+  (.) :: (y ~&gt; z) c -&gt; (x ~&gt; y) c -&gt; (x ~&gt; z) c
+</code></pre>
+<p>In Haskell we call this category <em>Hask</em>, over the type constructor <code>(-&gt;)</code> of function types between Haskell<br/>
+types.</p>
+<pre><code>type Hask = (-&gt;)
+
+instance Category Hask where
+  id x = x
+  (f . g) x = f (g x)
+</code></pre>
+<p>The constructor <code>(-&gt;)</code> is sometimes confusing to read in typeclass signatures as a typelevel operator since<br/>
+it's first argument usually appears to the left of it in infix form and the second to the right. For example<br/>
+the following are equivalent.</p>
+<pre><code>(-&gt;) ((-&gt;) a b) ((-&gt;) a c)
+</code></pre>
+<pre><code>(a -&gt; b) -&gt; (a -&gt; c)
+</code></pre>
+<h5 id="functors">Functors</h5>
+<hr/>
+<p>Between two categories we can construct a <strong>functor</strong> denoted $T$, which maps between objects and morphisms of<br/>
+categories that preserves morphism composition and identities.</p>
+<ul>
+<li>Objects : $T(●)$</li>
+<li>Morphisms : $T (● \rightarrow ●)$</li>
+</ul>
+<p>Represented in Haskell by:</p>
+<pre><code>class (Category c, Category d) =&gt; Functor c d t where
+  fmap :: c a b -&gt; d (t a) (t b)
+</code></pre>
+<p>With the familiar functors laws:</p>
+<pre><code>fmap id ≡ id
+fmap (a . b) ≡ (fmap a) . (fmap b)
+</code></pre>
+<p>The identity functor $1_\mathcal{C}$ for a category $\mathcal{C}$ is a functor mapping all objects to<br/>
+themselves and all morphisms to themselves.</p>
+<pre><code>newtype Id a = Id a
+
+instance Functor Hask Hask Id where
+  fmap f (Id a) = Id (f a)
+
+instance Functor Hask Hask [] where
+  fmap f [] = []
+  fmap f (x:xs) = f x : (fmap f xs)
+
+instance Functor Hask Hask Maybe where
+  fmap f Nothing = Nothing
+  fmap f (Just x) = Just (f x)
+</code></pre>
+<p>An <strong>endofunctor</strong> is a functor from a category to itself, i.e. ($T : \mathcal{C} \to \mathcal{C}$).</p>
+<pre><code>type Endofunctor c t = Functor c c t
+</code></pre>
+<p>The composition of two functors is itself a functor as well. Convincing Haskell of this fact requires some<br/>
+trickery with constraint kinds and scoped type variables.</p>
+<pre><code>newtype FComp g f x = C { unC :: g (f x) }
+newtype Hom (c :: * -&gt; Constraint) a b = Hom (a -&gt; b)
+
+instance (Functor a b f, Functor b c g, c ~ Hom k) =&gt; Functor a c (FComp g f) where
+  fmap f = (Hom C) . (fmapg (fmapf f) . (Hom unC))
+    where
+      fmapf = fmap :: a x y -&gt; b (f x) (f y)
+      fmapg = fmap :: b s t -&gt; c (g s) (g t)
+</code></pre>
+<p>The repeated composition of an endofunctor over a category is written with exponential notation:</p>
+<p>$$<br/>
+\begin{align*}<br/>
+T^2 &amp;= T T : \mathcal{C} \rightarrow \mathcal{C} \<br/>
+T^3 &amp;= T T T: \mathcal{C} \rightarrow \mathcal{C}<br/>
+\end{align*}<br/>
+$$</p>
+<p>The category of small categories $\textbf{Cat}$ is a category with categories as objects and functors as morphisms between categories.</p>
+<h5 id="natural-transformations">Natural Transformations</h5>
+<hr/>
+<p>For two functors $F,G$ between two categories $\mathcal{A,B}$:</p>
+<p>$$<br/>
+F : \mathcal{A} \rightarrow \mathcal{B} \<br/>
+G : \mathcal{A} \rightarrow \mathcal{B}<br/>
+$$</p>
+<p>We can construct a mapping called a <strong>natural transformation</strong> $\eta$ which is a mapping between functors<br/>
+$\eta : F \rightarrow G$ that associates every object $X$ in $\mathcal{A}$ to a morphism in $\mathcal{B}$:</p>
+<p>$$<br/>
+\eta_X : F(X) \rightarrow G(X)<br/>
+$$</p>
+<p>Such that the following <em>naturality condition</em> holds for any morphism $f : X \rightarrow Y$. Shown as a<br/>
+<em>naturality square</em>:</p>
+<p>$$<br/>
+\eta_Y \circ F(f) = G(f) \circ \eta_X<br/>
+$$</p>
+<p>
+<img src="https://beila.github.io/my-collection/stephen-diehl/assets/31bf56f67149bd9317ea739ad4ef9974172d944e0efb02f11cd87f9639ed84a4.png"/>
+</p>
+<p>The natural transformation itself is shown diagrammatically between two functors as:</p>
+<p>
+<img src="https://beila.github.io/my-collection/stephen-diehl/assets/3fd4a85027dd0da7a4d60ed7954703e91a7e4ea405bc6760c85781376ad74c2d.png"/>
+</p>
+<p>This is expressible in our general category class as the following existential type:</p>
+<pre><code>type Nat c f g = forall a. c (f a) (g a)
+</code></pre>
+<p>In the case of <em>Hask</em> we a family of polymorphic functions with signature:</p>
+<pre><code>type NatHask f g = forall a. (f a) -&gt; (g a)
+</code></pre>
+<p>With the naturality condition as the following law for a natural transformation (<code>h</code>), which happens to be a<br/>
+free theorem in Haskell's type system.</p>
+<pre><code>fmap f . h ≡ h . fmap f
+</code></pre>
+<p>The canonical example is the natural transformation between the List functor and the Maybe functor ( where f =<br/>
+<code>List</code>, g = <code>Maybe</code> ).</p>
+<pre><code>headMay :: forall a. [a] -&gt; Maybe a
+headMay []     = Nothing
+headMay (x:xs) = Just x
+</code></pre>
+<p>Either way we chase the diagram we end up at the same place.</p>
+<pre><code>fmap f (headMay xs) ≡ headMay (fmap f xs)
+</code></pre>
+<p>Run through each of the cases of the naturality square for <code>headMay</code> if you need to convince yourself of<br/>
+this.</p>
+<pre><code>fmap f (headMay [])
+= fmap f Nothing
+= Nothing
+
+headMay (fmap f [])
+= headMay []
+= Nothing
+</code></pre>
+<pre><code>fmap f (headMay (x:xs))
+= fmap f (Just x)
+= Just (f x)
+
+headMay (fmap f (x:xs))
+= headMay [f x]
+= Just (f x)
+</code></pre>
+<h5 id="functor-categories">Functor Categories</h5>
+<hr/>
+<p>A natural transformation $\eta : C \rightarrow D$ is itself a morphism in the <strong>functor category</strong><br/>
+$\textbf{Fun}(\mathcal{C}, \mathcal{D})$ of functors between $\mathcal{C}$ and $\mathcal{D}$. The category<br/>
+$\textbf{End}$ is the category of endofunctors between a category and itself.</p>
+<pre><code>-- Functor category
+newtype Fun f g a b = FNat (f a -&gt; g b)
+
+-- Endofunctor category
+type End f = Fun f f
+
+instance Category (End f) where
+  id = FNat id
+  (FNat f) . (FNat g) = FNat (f . g)
+</code></pre>
+<h5 id="monads">Monads</h5>
+<hr/>
+<p>We can finally define a <em>monad</em> over a category $\mathcal{C}$ to be a triple $(T, \eta, \mu)$ of:</p>
+<ol>
+<li>An endofunctor $T: \mathcal{C} \rightarrow \mathcal{C}$</li>
+<li>A natural transformation $\eta : 1_\mathcal{C} \rightarrow T$</li>
+<li>A natural transformation $\mu : T^2 \rightarrow T$</li>
+</ol>
+<pre><code>class Endofunctor c t =&gt; Monad c t where
+  eta :: c a (t a)
+  mu  :: c (t (t a)) (t a)
+</code></pre>
+<p>With an associativity square:</p>
+<p>$$<br/>
+\mu \circ T \mu = \mu \circ \mu T \<br/>
+$$</p>
+<p>
+<img src="https://beila.github.io/my-collection/stephen-diehl/assets/b1ffc68386a3619764bbd8d1f61667b1953ff0ba41e2cad3cba6e7824d5d1184.png"/>
+</p>
+<p>And a triangle equality:</p>
+<p>$$<br/>
+\mu \circ T \eta = \mu \circ \eta T = 1_C \<br/>
+$$</p>
+<p>
+<img src="https://beila.github.io/my-collection/stephen-diehl/assets/7676663f3b9e4ca62b055f0f865499bd21f32d19213024a9798f6dc623825c54.png"/>
+</p>
+<p>Alternatively we can express our triple as a series of <strong>string diagrams</strong> in which we invert the traditional<br/>
+commutative diagram of lines as morphism and objects as points and morphisms as points and objects as lines.<br/>
+In this form the monad laws have a nice geometric symmetry.</p>
+<p>
+<img src="https://beila.github.io/my-collection/stephen-diehl/assets/1a08dc05486b5d8a84d9900cab2cc9b1487b24950af906e03920af14637bcacb.png"/>
+</p>
+<p>With the coherence conditions given diagrammatically:</p>
+<p>
+<img src="https://beila.github.io/my-collection/stephen-diehl/assets/af114beac266ac96b2fae7ccfd37d5405e28875badd82fe1f4052da4f2eb9a90.png"/>
+</p>
+<p>
+<img src="https://beila.github.io/my-collection/stephen-diehl/assets/24f4c7a69ec95a51800b75a7775b59cb7fd90b6418e863a4bb7969e1f8a9d4a0.png"/>
+</p>
+<h5 id="bind%2Freturn-formulation">Bind/Return Formulation</h5>
+<hr/>
+<p>There is an equivalent formulations of monads in terms of two functions (<code>(&gt;&gt;=), return</code>) which can be<br/>
+written in terms of <code>mu, eta</code>)</p>
+<p>In Haskell we define a bind <code>(&gt;&gt;=)</code> operator defined in terms<br/>
+of the natural transformations and <code>fmap</code> of the underlying<br/>
+functor. The <code>join</code> and <code>return</code> functions can be defined in<br/>
+terms of <code>mu</code> and <code>eta</code>.</p>
+<pre><code>(&gt;&gt;=) :: (Monad c t) =&gt; c a (t b) -&gt; c (t a) (t b)
+(&gt;&gt;=) f = mu . fmap f
+
+return :: (Monad c t) =&gt; c a (t a)
+return = eta
+</code></pre>
+<p>In this form equivalent naturality conditions for the monad's natural transformations give rise to the regular<br/>
+monad laws by substitution with our new definitions.</p>
+<pre><code>fmap f . return  ≡  return . f
+fmap f . join    ≡  join . fmap (fmap f)
+</code></pre>
+<p>And the equivalent coherence conditions expressed in terms of bind and return are the well known Monad laws:</p>
+<pre><code>return a &gt;&gt;= f   ≡  f a
+m &gt;&gt;= return     ≡  m
+(m &gt;&gt;= f) &gt;&gt;= g  ≡  m &gt;&gt;= (\x -&gt; f x &gt;&gt;= g)
+</code></pre>
+<h5 id="kleisli-category">Kleisli Category</h5>
+<hr/>
+<p>The final result is given a monad we can form a new category called the <em>Kleisli category</em> from the monad. The<br/>
+objects are embedded in our original <code>c</code> category, but our arrows are now Kleisli arrows <code>a -&gt; T b</code>. Given<br/>
+this class of "actions" we'd like to write an operator which combined these morphisms just like we combine<br/>
+functions in our host category.</p>
+<p>$$<br/>
+\begin{align}<br/>
+&amp; (b \to T c) \to (a \to T b) \to (a \to T c) \<br/>
+&amp; (b \to c) \to (a \to b) \to (a \to c)<br/>
+\end{align}<br/>
+$$</p>
+<p>In turns we out can for a specific function <code>(&lt;=&lt;)</code> expressed in terms of $\mu$ and the underlying functor,<br/>
+which gives associative composition operator of Kleisli arrows. The Kleisli category models "composition of<br/>
+actions" and form a very general model of computation.</p>
+<p>The mapping between a Kleisli category formed from a category $\mathcal{C}$ is that:</p>
+<ol>
+<li>Objects in the Kleisli category are objects from the underlying<br/>
+category.</li>
+<li>Morphisms are Kleisli arrows of the form : $f : A \rightarrow<br/>
+T B$</li>
+<li>Identity morphisms in the Kleisli category are precisely $\eta$<br/>
+in the underlying category.</li>
+<li>Composition of morphisms $f \circ g$ in terms of the host category is<br/>
+defined by the mapping:</li>
+</ol>
+<p>$$<br/>
+f \circ g = \mu ( T f ) g<br/>
+$$</p>
+<pre><code>-- Kleisli category
+newtype Kleisli c t a b = K (c a (t b))
+
+-- Kleisli morphisms ( c a (t b) )
+type (a :~&gt; b) c t = Kleisli c t a b
+
+-- Kleisli morphism composition
+(&lt;=&lt;) :: (Monad c t) =&gt; c y (t z) -&gt; c x (t y) -&gt; c x (t z)
+f &lt;=&lt; g = mu . fmap f . g
+
+instance Monad c t =&gt; Category (Kleisli c t) where
+  -- id :: (Monad c t) =&gt; c a (t a)
+  id = K eta
+
+  -- (.) :: (Monad c t) =&gt; c y (t z) -&gt; c x (t y) -&gt; c x (t z)
+  (K f) . (K g) = K ( f &lt;=&lt; g )
+</code></pre>
+<p>In the case of Hask where <code>c = (-&gt;)</code> we see the usual instances:</p>
+<pre><code>-- Kleisli category
+newtype Kleisli m a b = K (a -&gt; m b)
+
+-- Kleisli morphisms ( a -&gt; m b )
+type (a :~&gt; b) m = Kleisli m a b
+
+(&lt;=&lt;) :: Monad m =&gt; (b -&gt; m c) -&gt; (a -&gt; m b) -&gt; a -&gt; m c
+f &lt;=&lt; g = mu . fmap f . g
+
+instance Monad m =&gt; Category (Kleisli m) where
+  id            = K return
+  (K f) . (K g) = K (f &lt;=&lt; g)
+</code></pre>
+<pre><code>class Functor t where
+  fmap :: (a -&gt; b) -&gt; t a -&gt; t b
+
+class Functor t =&gt; Monad t where
+  eta :: a -&gt; (t a)
+  mu  :: t (t a) -&gt; (t a)
+
+(&gt;&gt;=) :: Monad t =&gt; t a -&gt; (a -&gt; t b) -&gt; t b
+ma &gt;&gt;= f = join . fmap f
+</code></pre>
+<p><em>Stated simply that the monad laws above are just the category laws in the<br/>
+Kleisli category</em>, specifically the monad laws in terms of the Kleisli category<br/>
+of a monad <code>m</code> are:</p>
+<pre><code>(f &gt;=&gt; g) &gt;=&gt; h ≡ f &gt;=&gt; (g &gt;=&gt; h)
+return &gt;=&gt; f ≡ f
+f &gt;=&gt; return ≡  f
+</code></pre>
+<p>For example, <code>Just</code> is just an identity morphism in the Kleisli category of<br/>
+the <code>Maybe</code> monad.</p>
+<pre><code>Just &gt;=&gt; f = f
+f &gt;=&gt; Just = f
+</code></pre>
+<pre><code>just :: (a :~&gt; a) Maybe
+just = K Just
+
+left :: forall a b. (a :~&gt; b) Maybe -&gt; (a :~&gt; b) Maybe
+left f = just . f
+
+right :: forall a b. (a :~&gt; b) Maybe -&gt; (a :~&gt; b) Maybe
+right f = f . just
+</code></pre>
+<h5 id="haskell-monads">Haskell Monads</h5>
+<hr/>
+<p>For instance the <strong>List monad</strong> would have:</p>
+<ol>
+<li>$\eta$ returns a singleton list from a single element.</li>
+<li>$\mu$ turns a nested list into a flat list.</li>
+<li>$\mathtt{fmap}$ applies a function over the elements of a<br/>
+list.</li>
+</ol>
+<pre><code>instance Functor [] where
+  -- fmap :: (a -&gt; b) -&gt; [a] -&gt; [b]
+  fmap f (x:xs) = f x : fmap f xs
+
+instance Monad [] where
+  -- eta :: a -&gt; [a]
+  eta x = [x]
+
+  -- mu :: [[a]] -&gt; [a]
+  mu = concat
+</code></pre>
+<p>The <strong>Maybe monad</strong> would have:</p>
+<ol>
+<li>$\eta$ is the Just constructor.</li>
+<li>$\mu$ combines two levels of Just constructors yielding the inner value or Nothing.</li>
+<li>$\mathtt{fmap}$ applies a function under the Just constructor or nothing for Nothing.</li>
+</ol>
+<pre><code>instance Functor [] where
+  -- fmap :: (a -&gt; b) -&gt; Maybe a -&gt; Maybe b
+  fmap f (Just x) = Just (f x)
+  fmap f Nothing = Nothing
+
+instance Monad Maybe where
+  -- eta :: a -&gt; Maybe a
+  eta x = Just x
+
+  -- mu :: (Maybe (Maybe a)) -&gt; Maybe a
+  mu (Just (Just x)) = Just x
+  mu (Just Nothing) = Nothing
+</code></pre>
+<p>The <strong>IO monad</strong> would intuitively have the implementation:</p>
+<ol>
+<li>$\eta$ returns a pure value to a value within the context of<br/>
+the computation.</li>
+<li>$\mu$ turns a sequence of IO operation into a single<br/>
+IO operation.</li>
+<li>$\mathtt{fmap}$ applies a function over the result<br/>
+of the computation.</li>
+</ol>
+<pre><code>instance Functor IO where
+  -- fmap :: (a -&gt; b) -&gt; IO a -&gt; IO b
+
+instance Monad Maybe where
+  -- eta :: a -&gt; IO a
+  -- mu :: (IO (IO a)) -&gt; IO a
+</code></pre>
+    </section>
+    <p class="source"><a href="https://www.stephendiehl.com/posts/monads/">Read the original article on Stephen Diehl's website</a></p>
+  </article>
+</body>
+</html>

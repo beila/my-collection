@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="stephen-diehl-content-hash" content="fd023a7930fcc79e5793e9a37ea16a17dcbc75957e3675dd186b1d7b9055b0d7">
+  <meta name="stephen-diehl-article-format" content="1">
+  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/geometric_algebra.html">
+  <title>Space-time Algebra in Python</title>
+  <style>
+    :root { color-scheme: dark; }
+    body { margin: 0; background: #171717; color: #f1f1f1;
+            font: 18px/1.7 Georgia, serif; }
+    article { max-width: 52rem; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+    h1 { font-size: 2rem; line-height: 1.25; letter-spacing: 0; }
+    h2, h3, h4, h5, h6 { line-height: 1.3; letter-spacing: 0; }
+    a { color: #8dc7ff; overflow-wrap: anywhere; }
+    img { display: block; max-width: 100%; height: auto; margin: 1.25rem auto; }
+    pre { overflow-x: auto; padding: 1rem; background: #242424;
+           white-space: pre-wrap; overflow-wrap: anywhere; }
+    code, kbd, samp { font-family: ui-monospace, monospace; }
+    blockquote { border-left: 3px solid #777; margin-left: 0; padding-left: 1rem; }
+    table { width: 100%; border-collapse: collapse; display: block;
+             overflow-x: auto; }
+    th, td { border: 1px solid #666; padding: .5rem; vertical-align: top; }
+    .published { color: #b8b8b8; }
+    .source { border-top: 1px solid #555; margin-top: 2rem; padding-top: 1rem; }
+  </style>
+</head>
+<body>
+  <article>
+    <h1>Space-time Algebra in Python</h1>
+    <p class="published">Published: Sun, 21 Apr 2013 01:00:00 +0000</p>
+    <section>
+<p>Geometric Algebra is a very cool alternative formulation of linear algebra that provides a succinct framework for representing geometric transformations and physical phenomena. One of my favourite books is <em>Geometric Algebra for Computer Science</em> by Leo Dorst, Daniel Fontijne, and Stephen Mann. While it implements the code in a language called <em>GAViewer</em> which is a very cool environment for visualizing geometric algebra, I wanted to implement my own version in Python to really understand the concepts.</p>
+<ol>
+<li><strong>Blades</strong>: These are the fundamental building blocks in geometric algebra representing oriented subspaces. For example:
+<ul>
+<li>A scalar (0-blade) is a point.</li>
+<li>A vector (1-blade) represents a directed line.</li>
+<li>A bivector (2-blade) represents a plane segment oriented in a specific direction.</li>
+</ul>
+</li>
+<li><strong>Multivectors</strong>: These are linear combinations of different blades and can represent a variety of geometric quantities.</li>
+</ol>
+<p>We'll create a class structure that encapsulates different blades (scalars, vectors, bivectors) and multivectors, enabling operations such as addition, subtraction, and geometric products.</p>
+<p>Let's start by defining the basic blade classes.</p>
+<pre><code>import numpy as np
+
+class Blade:
+    def __add__(self, other):
+        return Multivector([self, other])
+
+    def __sub__(self, other):
+        return Multivector([self, -other])
+
+    def __neg__(self):
+        return -1 * self  # Negation
+
+class Scalar(Blade):
+    def __init__(self, value):
+        self.value = value
+
+    def __repr__(self):
+        return f"{self.value}"
+
+class Vector(Blade):
+    def __init__(self, components):
+        self.components = np.array(components)
+
+    def __repr__(self):
+        return f"Vector({self.components})"
+
+    def magnitude(self):
+        return np.linalg.norm(self.components)
+
+class Bivector(Blade):
+    def __init__(self, vector1, vector2):
+        self.vector1 = vector1
+        self.vector2 = vector2
+
+    def __repr__(self):
+        return f"Bivector({self.vector1}, {self.vector2})"
+</code></pre>
+<p>The <code>Multivector</code> class will represent any linear combination of blades.</p>
+<pre><code>class Multivector:
+    def __init__(self, blades=[]):
+        self.blades = blades
+
+    def __repr__(self):
+        return f"Multivector({self.blades})"
+
+    def add(self, other):
+        self.blades.extend(other.blades)
+
+    def scale(self, scalar):
+        for blade in self.blades:
+            blade.value *= scalar
+</code></pre>
+<p>We can implement operations such as the geometric product for vectors and bivectors. Let’s define the operations inside the <code>Vector</code> and <code>Bivector</code> classes.</p>
+<pre><code>class Vector(Blade):
+    def __init__(self, components):
+        self.components = np.array(components)
+
+    # Other methods as before...
+
+    def __or__(self, other):
+        """ Vector wedge product (bivector) """
+        return Bivector(self, other)
+
+    def __and__(self, other):
+        """ Scalar product (dot product) """
+        return Scalar(np.dot(self.components, other.components))
+
+
+class Bivector(Blade):
+    def __init__(self, vector1, vector2):
+        self.vector1 = vector1
+        self.vector2 = vector2
+
+    def __repr__(self):
+        return f"Bivector({self.vector1}, {self.vector2})"
+
+    def dual(self):
+        """ Returns the dual of a bivector as a vector """
+        return Vector(np.cross(self.vector1.components, self.vector2.components))
+</code></pre>
+<p>Now let’s use our implementation to create some vectors, calculate their products, and demonstrate geometric algebra concepts.</p>
+<pre><code># Create instances of Scalars, Vectors, and Bivectors
+s1 = Scalar(5)
+v1 = Vector([1, 0, 0])
+v2 = Vector([0, 1, 0])
+biv = v1 | v2  # Wedge product (Bivector)
+
+# Output representations
+print("Scalar:", s1)
+print("Vector 1:", v1)
+print("Vector 2:", v2)
+print("Bivector (v1 wedge v2):", biv)
+
+# Vector dot product
+dot_product = v1 &amp; v2
+print("Dot Product (v1 · v2):", dot_product)
+
+# Vector wedge product to get a bivector
+biv_product = v1 | v2
+print("Wedge Product Bivector (v1 ∧ v2):", biv_product)
+</code></pre>
+<p>Building upon our foundation we can extend the implementation to Space-Time Algebra (STA). STA integrates time as a dimension alongside space, allowing us to represent entities and transformations in a four-dimensional context (3 spatial dimensions and 1 temporal dimension).</p>
+<p>In STA, we introduce the concept of a time vector, allowing the treatment of events and transformations in both space and time. We'll define a time unit (often represented as $c$, the speed of light, for consistency in relativistic contexts) to relate spatial and temporal components.</p>
+<p>We'll modify our <code>Vector</code> class to include time as a component, creating a <code>SpaceTimeVector</code> class that encompasses three spatial dimensions and one temporal dimension.</p>
+<pre><code>class SpaceTimeVector(Blade):
+    def __init__(self, components):
+        # Expecting components in the form [x, y, z, t]
+        assert len(components) == 4, "SpaceTimeVector must have four components: [x, y, z, t]."
+        self.components = np.array(components)
+
+    def __repr__(self):
+        return f"SpaceTimeVector({self.components})"
+
+    def magnitude(self):
+        """ Calculate the Minkowski norm (using (-,+,+,+) signature) """
+        return np.sqrt(-self.components[3]**2 + np.sum(self.components[:3]**2))
+
+    def __add__(self, other):
+        return SpaceTimeVector(self.components + other.components)
+
+    def __sub__(self, other):
+        return SpaceTimeVector(self.components - other.components)
+
+    def __or__(self, other):
+        """ Wedge product (resulting in a bivector in 3D + time) """
+        return SpaceTimeBivector(self, other)
+
+    def __and__(self, other):
+        """ Scalar product (dot product, returns a scalar) """
+        return Scalar(np.dot(self.components, other.components))
+</code></pre>
+<p>The <code>SpaceTimeBivector</code> class represents the geometric product of two <code>SpaceTimeVector</code> instances.</p>
+<pre><code>class SpaceTimeBivector(Blade):
+    def __init__(self, vector1, vector2):
+        self.vector1 = vector1
+        self.vector2 = vector2
+
+    def __repr__(self):
+        return f"SpaceTimeBivector({self.vector1}, {self.vector2})"
+
+    def dual(self):
+        """ Returns the dual of a bivector as a SpaceTimeVector """
+        return SpaceTimeVector(np.cross(self.vector1.components[:3], self.vector2.components[:3]))
+</code></pre>
+<p>Now let's create instances of <code>SpaceTimeVector</code> and demonstrate the functionality.</p>
+<pre><code># Create space-time vectors
+st_vector1 = SpaceTimeVector([1, 2, 3, 4])  # (x, y, z, t)
+st_vector2 = SpaceTimeVector([4, 5, 6, 7])  # (x', y', z', t')
+
+print("Space-Time Vector 1:", st_vector1)
+print("Space-Time Vector 2:", st_vector2)
+
+st_vector_sum = st_vector1 + st_vector2
+print("Sum of Space-Time Vectors:", st_vector_sum)
+
+st_vector_diff = st_vector1 - st_vector2
+print("Difference of Space-Time Vectors:", st_vector_diff)
+
+dot_product_st = st_vector1 &amp; st_vector2
+print("Dot Product of Space-Time Vectors:", dot_product_st)
+
+# Wedge product to get a space-time bivector
+st_bivector = st_vector1 | st_vector2
+print("Wedge Product Space-Time Bivector:", st_bivector)
+
+magnitude = st_vector1.magnitude()
+print("Magnitude of Space-Time Vector 1:", magnitude)
+</code></pre>
+    </section>
+    <p class="source"><a href="https://www.stephendiehl.com/posts/geometric_algebra/">Read the original article on Stephen Diehl's website</a></p>
+  </article>
+</body>
+</html>

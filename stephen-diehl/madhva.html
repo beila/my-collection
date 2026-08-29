@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="stephen-diehl-content-hash" content="c5580cf1caf8a7eb8f67906686d2b7b9702148edf7bb3c42f9acbd3bb68ca136">
+  <meta name="stephen-diehl-article-format" content="1">
+  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/madhva.html">
+  <title>Pi from String Amplitudes</title>
+  <style>
+    :root { color-scheme: dark; }
+    body { margin: 0; background: #171717; color: #f1f1f1;
+            font: 18px/1.7 Georgia, serif; }
+    article { max-width: 52rem; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+    h1 { font-size: 2rem; line-height: 1.25; letter-spacing: 0; }
+    h2, h3, h4, h5, h6 { line-height: 1.3; letter-spacing: 0; }
+    a { color: #8dc7ff; overflow-wrap: anywhere; }
+    img { display: block; max-width: 100%; height: auto; margin: 1.25rem auto; }
+    pre { overflow-x: auto; padding: 1rem; background: #242424;
+           white-space: pre-wrap; overflow-wrap: anywhere; }
+    code, kbd, samp { font-family: ui-monospace, monospace; }
+    blockquote { border-left: 3px solid #777; margin-left: 0; padding-left: 1rem; }
+    table { width: 100%; border-collapse: collapse; display: block;
+             overflow-x: auto; }
+    th, td { border: 1px solid #666; padding: .5rem; vertical-align: top; }
+    .published { color: #b8b8b8; }
+    .source { border-top: 1px solid #555; margin-top: 2rem; padding-top: 1rem; }
+  </style>
+</head>
+<body>
+  <article>
+    <h1>Pi from String Amplitudes</h1>
+    <p class="published">Published: Sun, 01 Sep 2024 01:00:00 +0000</p>
+    <section>
+<p>From the <a href="https://journals.aps.org/prl/pdf/10.1103/PhysRevLett.132.221601">paper by Arnab Priya Saha and Aninda Sinha</a>. A new series for \(\pi\) and its convergence.</p>
+<p>$$<br/>
+\pi = 4 + \sum_{n=1}^{\infty} \frac{1}{n!} \left( \frac{1}{n + \lambda} - \frac{4}{2n + 1} \right) \left( \frac{(2n + 1)^2}{4(n + \lambda)} - n \right)_{n-1}<br/>
+$$</p>
+<p>Where \((a)_{n-1}\) is the Pochhammer symbol.</p>
+<p>$$<br/>
+(a)_{n-1} = \frac{\Gamma(a + n - 1)}{\Gamma(a)}<br/>
+$$</p>
+<p>\(\lambda\) is a free parameter for optimizing convergence. As \(\lambda\) approaches infinity, the series reduces to the classic Madhava series. With \(\lambda\) between 10 and 100, the series takes 30 terms to converge to ten decimal places. Which is far more efficient than the classic <a href="https://en.wikipedia.org/wiki/Madhava_series">Madhava series</a>, which takes 5 billion terms to converge to ten decimal places.</p>
+<p>This can be implemented in Python as follows:</p>
+<pre><code>import mpmath as mp
+
+def mp_calculate_pi(lambda_val, iters):
+    mp.dps = 100
+    pi = mp.mpf(4)
+    n = 1
+    prev_pi = 0
+    factorial = mp.mpf(n)
+
+    for i in range(iters):
+        term1 = 1.0 / factorial
+        term2 = 1.0 / (n + lambda_val) - 4 / (2 * n + 1)
+        term3 = ((2 * n + 1) ** 2) / (4 * (n + lambda_val)) - n
+
+        pochhammer = 1
+        for i in range(n - 1):
+            pochhammer *= term3 + i
+
+        prev_pi = pi
+        pi += term1 * term2 * pochhammer
+
+        # print to 30 decimal places using mpmath
+        approx = mp.nstr(pi, 100)
+
+        # Compare to mp.pi to calcualte the delta
+        delta = abs(pi - mp.pi)
+
+        # numbers of digits that pi approximate is correct to
+        accuracy = round(abs(mp.log(abs(pi - mp.pi), 10)))
+
+        # Print a line with the current iteration, pi, delta
+        print(f'{n} {approx} {delta} {accuracy}')
+
+        n += 1
+        factorial = factorial * n
+
+    return pi, n - 1
+
+lambda_val = 42
+pi, n = mp_calculate_pi(lambda_val, 30)
+</code></pre>
+    </section>
+    <p class="source"><a href="https://www.stephendiehl.com/posts/madhva/">Read the original article on Stephen Diehl's website</a></p>
+  </article>
+</body>
+</html>

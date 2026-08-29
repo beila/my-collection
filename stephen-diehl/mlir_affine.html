@@ -1,0 +1,683 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="stephen-diehl-content-hash" content="79bbdf52e8da2a9492226399d608d889ae7d0df14fbc13bcf2eaac7dcef07474">
+  <meta name="stephen-diehl-article-format" content="1">
+  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/mlir_affine.html">
+  <title>Affine Dialect and OpenMP</title>
+  <style>
+    :root { color-scheme: dark; }
+    body { margin: 0; background: #171717; color: #f1f1f1;
+            font: 18px/1.7 Georgia, serif; }
+    article { max-width: 52rem; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+    h1 { font-size: 2rem; line-height: 1.25; letter-spacing: 0; }
+    h2, h3, h4, h5, h6 { line-height: 1.3; letter-spacing: 0; }
+    a { color: #8dc7ff; overflow-wrap: anywhere; }
+    img { display: block; max-width: 100%; height: auto; margin: 1.25rem auto; }
+    pre { overflow-x: auto; padding: 1rem; background: #242424;
+           white-space: pre-wrap; overflow-wrap: anywhere; }
+    code, kbd, samp { font-family: ui-monospace, monospace; }
+    blockquote { border-left: 3px solid #777; margin-left: 0; padding-left: 1rem; }
+    table { width: 100%; border-collapse: collapse; display: block;
+             overflow-x: auto; }
+    th, td { border: 1px solid #666; padding: .5rem; vertical-align: top; }
+    .published { color: #b8b8b8; }
+    .source { border-top: 1px solid #555; margin-top: 2rem; padding-top: 1rem; }
+  </style>
+</head>
+<body>
+  <article>
+    <h1>Affine Dialect and OpenMP</h1>
+    <p class="published">Published: Thu, 13 Mar 2025 00:00:00 +0000</p>
+    <section>
+<p>
+<img alt="mlir-egglog" src="https://beila.github.io/my-collection/stephen-diehl/assets/fd8e3f315127d9391ef72412cb434a6e46162872b50aafdbb117e51f9982bc55.jpg"/>
+</p>
+
+<p>The affine dialect in MLIR provides abstractions for expressing loops and array accesses that are amenable to parallel execution. Unlike the <code>scf</code> dialect we've seen before, the affine dialect enables advanced loop transformations and automatic parallelization. It's esesntially "first class loops" which is something we always used to layer on top of our LLVM.</p>
+<p>The affine dialect many advantages, including automatic parallelization opportunities, built-in vectorization capabilities, sophisticated loop optimizations, a natural expression of array computations, and integration with OpenMP.</p>
+<h2 id="polyhedral-optimization-model">Polyhedral Optimization Model</h2>
+<p>The polyhedral model is a mathematical framework that represents loop nests and their computations as geometric objects in multi-dimensional spaces.</p>
+<p>At its core, the polyhedral model represents the execution of statements inside loop nests as points in a multi-dimensional space. Each point corresponds to a specific instance of a statement in the execution, defined by its iteration coordinates. This representation enables program analysis and transformation techniques by converting complex loop optimization problems into geometric operations on polyhedra.</p>
+<p>The key components of the polyhedral model include iteration domains, access relations, and scheduling functions. Iteration domains define the set of all iterations executed by a loop nest, represented as a set of integer points bounded by affine constraints. Access relations map iteration points to the memory locations accessed by each statement. Scheduling functions determine the order of execution for iteration points, enabling transformations that preserve program semantics while improving performance characteristics.</p>
+<p>MLIR provides the <code>affine</code> that incorporates polyhedral concepts as first-class citizens. This hybrid design optimizes the representation, analysis, and transformation of high-level dataflow graphs and target-specific code for high-performance data-parallel systems.</p>
+<p>There are three core concepts we have to understand:</p>
+<ol>
+<li>
+<p><strong>Affine maps</strong>: Multi-dimensional quasi-linear functions that map dimensions and symbols to results. For example, <code>(d0, d1, d2, s0) → (d0 + d1, s0 * d2)</code> represents a two-dimensional affine map that maps dimension arguments <code>d0</code>, <code>d1</code>, <code>d2</code> and symbol argument <code>s0</code> to two results.</p>
+</li>
+<li>
+<p><strong>Integer sets</strong>: Constraints on dimensions and symbols represented as affine inequalities and equalities. For instance, <code>(i)[N, M] : (i &gt;= 0, -i + N &gt;= 0, N - 5 == 0, -i + M + 1 &gt;= 0)</code> represents the set of values <code>i</code> such that <code>0 &lt;= i &lt; N</code>, <code>N = 5</code>, and <code>i &lt;= M + 1</code>.</p>
+</li>
+<li>
+<p><strong>Affine operations</strong>: Operations such as <code>affine.for</code>, <code>affine.if</code>, and <code>affine.parallel</code> that leverage affine maps and integer sets to represent loop nests and conditionals with affine constraints.</p>
+</li>
+</ol>
+<p>Rather than front-load the theory, let's just look at some examples.</p>
+<h2 id="matrix-multiplication">Matrix Multiplication</h2>
+<p>The classic matrix product of two matrices $A_{ij}$ and $B_{jk}$ is:</p>
+<p>$$<br/>
+C_{ik} = (A B)_{ik} = \sum_{j=1}^{N} A_{ij}B_{jk}<br/>
+$$</p>
+<p>Expressing this in MLIR as an explicit loop nest would look like this:</p>
+<pre><code>func.func @matmul(%A: memref&lt;?x?xf32&gt;, %B: memref&lt;?x?xf32&gt;, %C: memref&lt;?x?xf32&gt;) {
+  %c0 = arith.constant 0 : index
+  %c1 = arith.constant 1 : index
+
+  %M = memref.dim %A, %c0 : memref&lt;?x?xf32&gt;
+  %N = memref.dim %B, %c1 : memref&lt;?x?xf32&gt;
+  %K = memref.dim %A, %c1 : memref&lt;?x?xf32&gt;
+
+  // Sequential implementation
+  affine.for %i = 0 to %M {
+    affine.for %j = 0 to %N {
+      affine.for %k = 0 to %K {
+        %a = affine.load %A[%i, %k] : memref&lt;?x?xf32&gt;
+        %b = affine.load %B[%k, %j] : memref&lt;?x?xf32&gt;
+        %c = affine.load %C[%i, %j] : memref&lt;?x?xf32&gt;
+        %prod = arith.mulf %a, %b : f32
+        %sum = arith.addf %c, %prod : f32
+        affine.store %sum, %C[%i, %j] : memref&lt;?x?xf32&gt;
+      }
+    }
+  }
+  return
+}
+</code></pre>
+<p>Notice that the two loops over <code>%i</code> and <code>%j</code> have no dependencies between different iterations of these loops. Using the <code>-affine-parallelize</code> pass, this can be transformed into:</p>
+<pre><code>func.func @matmul_parallel(%A: memref&lt;?x?xf32&gt;, %B: memref&lt;?x?xf32&gt;, %C: memref&lt;?x?xf32&gt;) {
+  %c0 = arith.constant 0 : index
+  %c1 = arith.constant 1 : index
+
+  %M = memref.dim %A, %c0 : memref&lt;?x?xf32&gt;
+  %N = memref.dim %B, %c1 : memref&lt;?x?xf32&gt;
+  %K = memref.dim %A, %c1 : memref&lt;?x?xf32&gt;
+
+  // Parallel implementation
+  affine.parallel (%i, %j) = (0, 0) to (%M, %N) {
+    affine.for %k = 0 to %K {
+      %a = affine.load %A[%i, %k] : memref&lt;?x?xf32&gt;
+      %b = affine.load %B[%k, %j] : memref&lt;?x?xf32&gt;
+      %c = affine.load %C[%i, %j] : memref&lt;?x?xf32&gt;
+      %prod = arith.mulf %a, %b : f32
+      %sum = arith.addf %c, %prod : f32
+      affine.store %sum, %C[%i, %j] : memref&lt;?x?xf32&gt;
+    }
+  }
+  return
+}
+</code></pre>
+<p>The <code>affine.parallel</code> operation represents a way to express that multiple iterations of a loop can be executed independently and potentially simultaneously. Think of it like saying "these calculations can happen in any order, or all at once" - similar to how you might divide up work among multiple workers who don't need to communicate with each other.</p>
+<p>More precisely, <code>affine.parallel</code> defines a set of nested loops where:</p>
+<ul>
+<li>Each iteration is independent of all other iterations</li>
+<li>The iterations can be executed in any order or simultaneously</li>
+<li>The operation produces results through reductions (like summing up values) where the order of combining results doesn't matter</li>
+</ul>
+<p>Technically, it creates a "hyper-rectangular parallel band," which means it can represent multiple nested parallel loops, each characterized by its own induction variables (loop counters), lower and upper bounds, step sizes (indicating how much to increment each iteration), and reduction operations (defining how to combine results from different iterations).</p>
+<p>The body of the parallel region must end with <code>affine.yield</code> which specifies how to combine results from different iterations using operations like addition or multiplication. For loops that execute zero times, the result is the identity value for that operation (0 for addition, 1 for multiplication).</p>
+<h2 id="affine-maps-(affine.apply)">Affine Maps (<code>affine.apply</code>)</h2>
+<p>Affine maps are a key component of the affine dialect, representing multi-dimensional affine transformations. They provides us a way to describe the mapping of loop indices to memory access patterns, which is essential for optimizing memory layouts and access patterns in high-performance computing.</p>
+<p>Let's look at a comprehensive example that demonstrates various uses of <code>affine.apply</code>:</p>
+<pre><code>// Define some reusable affine maps
+#tile_map = affine_map&lt;(d0) -&gt; (d0 floordiv 32)&gt;
+#offset_map = affine_map&lt;(d0)[s0] -&gt; (d0 + s0)&gt;
+#complex_map = affine_map&lt;(d0, d1)[s0] -&gt; (d0 * 2 + d1 floordiv 4 + s0)&gt;
+
+func.func @affine_apply_examples() {
+  // Create some test indices
+  %c0 = arith.constant 0 : index
+  %c42 = arith.constant 42 : index
+  %c128 = arith.constant 128 : index
+  
+  // Example 1: Simple tiling calculation
+  // Calculate which tile a given index belongs to (tile size = 32)
+  %tile_idx = affine.apply #tile_map(%c42)
+  
+  // Example 2: Inline affine map for offset calculation
+  %offset = affine.apply affine_map&lt;(i) -&gt; (i + 10)&gt;(%c42)
+  
+  // Example 3: Using a symbol parameter
+  %shifted = affine.apply #offset_map(%c42)[%c128]
+  
+  // Example 4: Multiple dimensions and a symbol
+  %complex = affine.apply #complex_map(%c42, %c128)[%c0]
+  
+  // Example 5: Composition of affine applies
+  %temp = affine.apply affine_map&lt;(i) -&gt; (i * 2)&gt;(%c42)
+  %final = affine.apply affine_map&lt;(i) -&gt; (i + 5)&gt;(%temp)
+  
+  return
+}
+
+// Example showing how affine.apply can be used in a practical loop context
+func.func @tiled_loop(%arg0: memref&lt;256xf32&gt;) {
+  %c0 = arith.constant 0 : index
+  %c256 = arith.constant 256 : index
+  %c32 = arith.constant 32 : index
+
+  // Outer loop iterates over tiles
+  affine.for %i = 0 to 256 step 32 {
+    // Inner loop processes elements within the tile
+    affine.for %j = 0 to 32 {
+      %idx = affine.apply affine_map&lt;(d0, d1) -&gt; (d0 + d1)&gt;(%i, %j)
+      %val = memref.load %arg0[%idx] : memref&lt;256xf32&gt;
+      // Process value...
+      memref.store %val, %arg0[%idx] : memref&lt;256xf32&gt;
+    }
+  }
+  return
+}
+</code></pre>
+<p>The <code>tiled_loop</code> function shows how <code>affine.apply</code> can be used in a real-world scenario to implement tiled processing of an array. The outer loop steps by the tile size, and <code>affine.apply</code> is used to calculate the bounds for the inner loop that processes each tile.</p>
+<p>Some key points about affine maps include that <code>floordiv</code> performs integer division rounding down, and the syntax <code>(d0)[s0]</code> indicates one dimension parameter <code>d0</code> and one symbol parameter <code>s0</code>. Additionally, affine maps can only contain addition, subtraction, multiplication by constants, division by constants, modulo by constants, and floordiv/ceildiv by constants. The result type is always <code>index</code>.</p>
+<h2 id="affine-optimization-passes">Affine Optimization Passes</h2>
+<p>The MLIR optimizer provides a rich set of passes specifically designed for the affine dialect. These passes can automatically transform code to improve performance through various optimization techniques. Let's explore some of the most important ones:</p>
+<ol>
+<li><strong>Loop invariant code motion</strong>: This transformation moves loop invariant code (code that does not depend on the loop index) outside the loop. This can help expose parallelism by moving code that is not dependent on the loop index to the outer loop.</li>
+</ol>
+<pre><code>// Before
+func.func @before(%A: memref&lt;10xf32&gt;, %B: memref&lt;10xf32&gt;) {
+  %c0 = arith.constant 0 : index
+  %c10 = arith.constant 10 : index
+  %c1 = arith.constant 1 : index
+  
+  affine.for %i = 0 to 10 {
+    %x = arith.constant 42.0 : f32  // This is loop invariant!
+    %v = memref.load %A[%i] : memref&lt;10xf32&gt;
+    %sum = arith.addf %v, %x : f32
+    memref.store %sum, %B[%i] : memref&lt;10xf32&gt;
+  }
+  return
+}
+
+// After
+func.func @after(%A: memref&lt;10xf32&gt;, %B: memref&lt;10xf32&gt;) {
+  %c0 = arith.constant 0 : index
+  %c10 = arith.constant 10 : index
+  %c1 = arith.constant 1 : index
+  
+  %x = arith.constant 42.0 : f32  // Moved outside the loop
+  affine.for %i = 0 to 10 {
+    %v = memref.load %A[%i] : memref&lt;10xf32&gt;
+    %sum = arith.addf %v, %x : f32
+    memref.store %sum, %B[%i] : memref&lt;10xf32&gt;
+  }
+  return
+}
+</code></pre>
+<ol>
+<li><strong>Loop skewing</strong>: This transformation changes the iteration space by shifting iterations based on the values of other loop indices. This can help expose parallelism by transforming dependencies.</li>
+</ol>
+<pre><code>// Before - Dependencies prevent parallelization
+func.func @before(%A: memref&lt;10x10xf32&gt;) {
+  affine.for %i = 1 to 10 {
+    affine.for %j = 1 to 10 {
+      %v1 = affine.load %A[%i-1, %j] : memref&lt;10x10xf32&gt;
+      %v2 = affine.load %A[%i, %j-1] : memref&lt;10x10xf32&gt;
+      %sum = arith.addf %v1, %v2 : f32
+      affine.store %sum, %A[%i, %j] : memref&lt;10x10xf32&gt;
+    }
+  }
+}
+
+// After skewing - Inner loop can now be parallelized
+func.func @after(%A: memref&lt;10x10xf32&gt;) {
+  affine.for %i = 1 to 10 {
+    affine.for %j = %i to %i + 9 {
+      %i_new = affine.apply affine_map&lt;(d0, d1) -&gt; (d0)&gt;(%i, %j)
+      %j_new = affine.apply affine_map&lt;(d0, d1) -&gt; (d1 - d0)&gt;(%i, %j)
+      %v1 = affine.load %A[%i_new-1, %j_new] : memref&lt;10x10xf32&gt;
+      %v2 = affine.load %A[%i_new, %j_new-1] : memref&lt;10x10xf32&gt;
+      %sum = arith.addf %v1, %v2 : f32
+      affine.store %sum, %A[%i_new, %j_new] : memref&lt;10x10xf32&gt;
+    }
+  }
+}
+</code></pre>
+<ol>
+<li><strong>Loop interchange</strong>: This transformation changes the nesting order of loops, which can improve cache locality and expose parallelism.</li>
+</ol>
+<pre><code>// Before - Column-major access pattern
+func.func @before(%A: memref&lt;16x16xf32&gt;, %B: memref&lt;16x16xf32&gt;) {
+  affine.for %i = 0 to 16 {
+    affine.for %j = 0 to 16 {
+      %v = affine.load %A[%j, %i] : memref&lt;16x16xf32&gt;
+      affine.store %v, %B[%j, %i] : memref&lt;16x16xf32&gt;
+    }
+  }
+}
+
+// After - Row-major access pattern (better locality)
+func.func @after(%A: memref&lt;16x16xf32&gt;, %B: memref&lt;16x16xf32&gt;) {
+  affine.for %j = 0 to 16 {
+    affine.for %i = 0 to 16 {
+      %v = affine.load %A[%j, %i] : memref&lt;16x16xf32&gt;
+      affine.store %v, %B[%j, %i] : memref&lt;16x16xf32&gt;
+    }
+  }
+}
+</code></pre>
+<ol>
+<li><strong>Loop fusion</strong>: This transformation combines adjacent loops to improve locality and reduce loop overhead.</li>
+</ol>
+<pre><code>// Before fusion
+func.func @before(%A: memref&lt;10xf32&gt;, %B: memref&lt;10xf32&gt;, %C: memref&lt;10xf32&gt;) {
+  affine.for %i = 0 to 10 {
+    %v1 = affine.load %A[%i] : memref&lt;10xf32&gt;
+    %v2 = arith.mulf %v1, %v1 : f32
+    affine.store %v2, %B[%i] : memref&lt;10xf32&gt;
+  }
+  
+  affine.for %i = 0 to 10 {
+    %v3 = affine.load %B[%i] : memref&lt;10xf32&gt;
+    %v4 = arith.addf %v3, %v3 : f32
+    affine.store %v4, %C[%i] : memref&lt;10xf32&gt;
+  }
+}
+
+// After fusion
+func.func @after(%A: memref&lt;10xf32&gt;, %B: memref&lt;10xf32&gt;, %C: memref&lt;10xf32&gt;) {
+  affine.for %i = 0 to 10 {
+    %v1 = affine.load %A[%i] : memref&lt;10xf32&gt;
+    %v2 = arith.mulf %v1, %v1 : f32
+    affine.store %v2, %B[%i] : memref&lt;10xf32&gt;
+    %v3 = arith.addf %v2, %v2 : f32
+    affine.store %v3, %C[%i] : memref&lt;10xf32&gt;
+  }
+}
+</code></pre>
+<ol>
+<li><strong>Loop tiling</strong>: This transformation breaks a loop into smaller chunks to improve cache locality.</li>
+</ol>
+<pre><code>// Before tiling
+func.func @before(%A: memref&lt;32x32xf32&gt;) {
+  affine.for %i = 0 to 32 {
+    affine.for %j = 0 to 32 {
+      %v = affine.load %A[%i, %j] : memref&lt;32x32xf32&gt;
+      // ... computation ...
+      affine.store %v, %A[%i, %j] : memref&lt;32x32xf32&gt;
+    }
+  }
+}
+
+// After tiling (tile size 8x8)
+func.func @after(%A: memref&lt;32x32xf32&gt;) {
+  affine.for %ti = 0 to 32 step 8 {
+    affine.for %tj = 0 to 32 step 8 {
+      affine.for %i = #map(%ti) to #map(%ti + 8) {
+        affine.for %j = #map(%tj) to #map(%tj + 8) {
+          %v = affine.load %A[%i, %j] : memref&lt;32x32xf32&gt;
+          // ... computation ...
+          affine.store %v, %A[%i, %j] : memref&lt;32x32xf32&gt;
+        }
+      }
+    }
+  }
+}
+</code></pre>
+<p>These optimizations are available in the <code>mlir-opt</code> tool:</p>
+<ul>
+<li><code>-affine-loop-coalescing</code> - Merge consecutive loops into a single loop.</li>
+<li><code>-affine-loop-fusion</code> - Merge loops with the same bounds and steps.</li>
+<li><code>-affine-loop-invariant-code-motion</code> - Move loop invariant code outside the loop.</li>
+<li><code>-affine-loop-normalize</code> - Normalize loop bounds and steps.</li>
+<li><code>-affine-loop-tile</code> - Tile loops.</li>
+<li><code>-affine-loop-unroll</code> - Unroll loops.</li>
+<li><code>-affine-loop-unroll-jam</code> - Unroll loops and jam them together.</li>
+<li><code>-affine-parallelize</code> - Parallelize loops.</li>
+<li><code>-affine-pipeline-data-transfer</code> - Pipeline non-blocking data transfers between explicitly managed levels of the memory hierarchy</li>
+<li><code>-affine-scalrep</code> - Replace affine memref accesses by scalars by forwarding stores to loads and eliminating redundant loads</li>
+<li><code>-affine-simplify-structures</code> - Simplify affine expressions in maps/sets and normalize memrefs</li>
+<li><code>-affine-super-vectorize</code> - Vectorize to a target independent n-D vector abstraction</li>
+</ul>
+<p>There is also the <code>-convert-affine-for-to-gpu</code>, which we'll use later, which converts affine loops to GPU kernels which can target multiple GPU architectures.</p>
+<h2 id="convolution-kernels">Convolution Kernels</h2>
+<p>Now that we understand the basic optimizations available in the affine dialect, let's look at a more practical example: implementing a 2D convolution. This operation is fundamental in image processing and deep learning, where it's used for feature extraction and pattern recognition.</p>
+<p>The mathematical formula for 2D convolution is:</p>
+<p>$$<br/>
+(A * K)_{ij} = \sum_{u} \sum_{v} K_{uv} A_{(i+u)(j+v)}<br/>
+$$</p>
+<pre><code>module {
+  func.func @conv_2d(%input: memref&lt;128x128xf32&gt;, %filter: memref&lt;16x16xf32&gt;, %output: memref&lt;113x113xf32&gt;) {
+    // Loop over the output matrix dimensions (113x113)
+    affine.for %i = 0 to 113 {
+      affine.for %j = 0 to 113 {
+        // Use affine.parallel to accumulate values into %acc using iter_args
+        %zero = arith.constant 0.0 : f32
+        %acc = affine.for %fi = 0 to 16 iter_args(%acc = %zero) -&gt; (f32) {
+          %acc_inner = affine.for %fj = 0 to 16 iter_args(%acc_inner = %acc) -&gt; (f32) {
+            // Load filter value
+            %filter_val = affine.load %filter[%fi, %fj] : memref&lt;16x16xf32&gt;
+
+            // Load corresponding input value from the input matrix
+            %input_val = affine.load %input[%i + %fi, %j + %fj] : memref&lt;128x128xf32&gt;
+
+            // Multiply input value with filter value
+            %prod = arith.mulf %input_val, %filter_val : f32
+
+            // Add product to the accumulator
+            %new_acc = arith.addf %acc_inner, %prod : f32
+            affine.yield %new_acc : f32
+          }
+          affine.yield %acc_inner : f32
+        }
+
+        // Store the accumulated result in the output matrix
+        affine.store %acc, %output[%i, %j] : memref&lt;113x113xf32&gt;
+      }
+    }
+    return
+  }
+}
+</code></pre>
+<p>To properly optimize and parallelize affine operations, we need a specific sequence of passes:</p>
+<pre><code>mlir-opt conv_2d.mlir \
+  --affine-loop-normalize \
+  --affine-parallelize \
+  -lower-affine \
+  --convert-scf-to-cf \
+  --convert-cf-to-llvm \
+  --convert-math-to-llvm \
+  --convert-arith-to-llvm \
+  --finalize-memref-to-llvm \
+  --convert-func-to-llvm \
+  --reconcile-unrealized-casts \
+  -o conv_2d_opt.mlir
+
+# Translate to LLVM IR
+mlir-translate conv_2d_opt.mlir -mlir-to-llvmir -o conv_2d.ll
+
+# Compile to object file
+llc -filetype=obj --relocation-model=pic conv_2d.ll -o conv_2d.o
+
+# Compile to shared library
+clang -shared -fopenmp -o libconv2d.dylib conv_2d.o
+</code></pre>
+<p>Here the <code>-lower-affine</code> pass lowers the affine dialect to combinations of the <code>scf</code> and <code>arith</code> dialects.</p>
+<p>To use our parallelized code from Python, we've created a helper module to handle 2D array conversions between NumPy and MLIR MemRef descriptors. The module provides utilities for converting NumPy arrays and running the compiled MLIR code:</p>
+<pre><code>import ctypes
+import numpy as np
+from ctypes import c_void_p, c_longlong, Structure
+
+
+class MemRef2DDescriptor(Structure):
+    """Structure matching MLIR's 2D MemRef descriptor"""
+
+    _fields_ = [
+        ("allocated", c_void_p),  # Allocated pointer
+        ("aligned", c_void_p),  # Aligned pointer
+        ("offset", c_longlong),  # Offset in elements
+        ("shape", c_longlong * 2),  # Array shape (2D)
+        ("stride", c_longlong * 2),  # Strides in elements
+    ]
+
+
+def numpy_to_memref2d(arr):
+    """Convert a 2D NumPy array to a MemRef descriptor"""
+    if not arr.flags["C_CONTIGUOUS"]:
+        arr = np.ascontiguousarray(arr)
+
+    desc = MemRef2DDescriptor()
+    desc.allocated = arr.ctypes.data_as(c_void_p)
+    desc.aligned = desc.allocated
+    desc.offset = 0
+    desc.shape[0] = arr.shape[0]
+    desc.shape[1] = arr.shape[1]
+    desc.stride[0] = arr.strides[0] // arr.itemsize
+    desc.stride[1] = arr.strides[1] // arr.itemsize
+
+    return desc
+
+
+def run_conv2d():
+    """Run 2D convolution using MLIR compiled module"""
+    # Create input arrays
+    input_matrix = np.ones((10, 10), dtype=np.float32)
+    conv_filter = np.arange(9, dtype=np.float32).reshape(3, 3)
+    result = np.zeros((8, 8), dtype=np.float32)
+
+    # Load compiled module
+    module = ctypes.CDLL("./libconv2d.dylib")
+
+    # Prepare MemRef descriptors
+    input_memref = numpy_to_memref2d(input_matrix)
+    filter_memref = numpy_to_memref2d(conv_filter)
+    result_memref = numpy_to_memref2d(result)
+
+    # Set function argument types
+    module.conv_2d.argtypes = [
+        *[type(x) for x in input_memref._fields_],
+        *[type(x) for x in filter_memref._fields_],
+        *[type(x) for x in result_memref._fields_],
+    ]
+
+    # Call the function
+    module.conv_2d(
+        *[getattr(input_memref, field[0]) for field in input_memref._fields_],
+        *[getattr(filter_memref, field[0]) for field in filter_memref._fields_],
+        *[getattr(result_memref, field[0]) for field in result_memref._fields_]
+    )
+
+    return result
+
+
+if __name__ == "__main__":
+    result = run_conv2d()
+    print(result)
+</code></pre>
+<h2 id="openmp">OpenMP</h2>
+<p>While the affine dialect provides abstractions for parallel execution, sometimes we want more direct control over parallelization. This is where OpenMP comes in. OpenMP is a directive-based model that provides explicit control over parallel execution, making it a popular choice in high-performance computing.</p>
+<p>Let's look at a simple example in C that demonstrates OpenMP parallelization:</p>
+<pre><code>#include &lt;stdlib.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;omp.h&gt;
+
+int kernel(float *input, float *output) {
+    #pragma omp parallel
+    {
+        #pragma omp for
+        for (int i = 0; i &lt; 10; i++) {
+            output[i] = input[i] * 2.0f;
+        }
+    }
+}
+
+int main() {
+    float input[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    float output[10];
+    kernel(input, output);
+    for (int i = 0; i &lt; 10; i++) {
+        printf("%f ", output[i]);
+    }
+    return 0;
+}
+</code></pre>
+<p>When compiled with OpenMP support (<code>clang -fopenmp</code>), this program will parallelize the loop across multiple threads. The same computation can be expressed in MLIR with the OpenMP dialect:</p>
+<h3 id="parallel-regions-(omp.parallel)">Parallel Regions (omp.parallel)</h3>
+<p>OpenMP organizes parallel execution through the concept of parallel regions. In MLIR, these are represented by the <code>omp.parallel</code> construct, which creates a team of threads that can execute code concurrently. This provides a more explicit way to control parallelization compared to the automatic parallelization we saw with the affine dialect.</p>
+<p>The region is terminated with an <code>omp.terminator</code> operation, which is required for all OpenMP regions.</p>
+<h3 id="worksharing-loops-(omp.wsloop)">Worksharing Loops (omp.wsloop)</h3>
+<p>For parallel loops, the OpenMP dialect provides the <code>omp.wsloop</code> operation, which specifies that loop iterations will be executed in parallel by threads in the current context. Worksharing loops are typically used within parallel regions to distribute loop iterations across available threads:</p>
+<pre><code>omp.wsloop {
+  omp.loop_nest (%i1, %i2) : index = (%c0, %c0) to (%c10, %c10) step (%c1, %c1) {
+    %a = load %arrA[%i1, %i2] : memref&lt;?x?xf32&gt;
+    %b = load %arrB[%i1, %i2] : memref&lt;?x?xf32&gt;
+    %sum = arith.addf %a, %b : f32
+    store %sum, %arrC[%i1, %i2] : memref&lt;?x?xf32&gt;
+    omp.yield
+  }
+}
+</code></pre>
+<p>This example shows a nested loop being parallelized to add two matrices. The <code>omp.loop_nest</code> operation inside the <code>omp.wsloop</code> represents the nested loop structure with iteration variables, bounds, and steps.</p>
+<h3 id="synchronization-with-barriers-(omp.barrier)">Synchronization with Barriers (omp.barrier)</h3>
+<p>For thread synchronization, the OpenMP dialect provides the <code>omp.barrier</code> operation, which specifies an explicit barrier at the point where it appears. This ensures that all threads in a team reach the barrier before any thread proceeds:</p>
+<pre><code>// Code executed by all threads
+omp.barrier
+// Code executed after all threads reach the barrier
+</code></pre>
+<p>The <code>omp.barrier</code> operation is a simple operation without inputs or outputs, and its assembly format just includes the name and any attributes.</p>
+<h3 id="omp-dialect"><code>omp</code> Dialect</h3>
+<p>Let's translate the above C code of a parallel loop to MLIR:</p>
+<pre><code>func.func private @kernel(%input: memref&lt;10xf32&gt;, %output: memref&lt;10xf32&gt;) {
+  %loop_ub = llvm.mlir.constant(9 : i32) : i32
+  %loop_lb = llvm.mlir.constant(0 : i32) : i32
+  %loop_step = llvm.mlir.constant(1 : i32) : i32
+
+  omp.parallel {
+      omp.wsloop {
+        omp.loop_nest (%i) : i32 = (%loop_lb) to (%loop_ub) inclusive step (%loop_step) {
+          %ix = arith.index_cast %i : i32 to index
+          %input_val = memref.load %input[%ix] : memref&lt;10xf32&gt;
+          %two = arith.constant 2.0 : f32
+          %result = arith.mulf %input_val, %two : f32
+          memref.store %result, %output[%ix] : memref&lt;10xf32&gt;
+          omp.yield
+        }
+      }
+    omp.barrier
+    omp.terminator
+  }
+
+  return
+}
+</code></pre>
+<p>And then we can have a main function that calls the kernel over a static defined input:</p>
+<pre><code>memref.global constant @input : memref&lt;10xf32&gt; = dense&lt;[1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0]&gt;
+
+// Define external references to printf and kernel
+llvm.func @printf(!llvm.ptr, ...) -&gt; i32
+func.func private @kernel(%input: memref&lt;10xf32&gt;, %output: memref&lt;10xf32&gt;) -&gt; ()
+
+func.func @main() {
+  %input = memref.get_global @input : memref&lt;10xf32&gt;
+  %output = memref.alloc() : memref&lt;10xf32&gt;
+
+  func.call @kernel(%input, %output) : (memref&lt;10xf32&gt;, memref&lt;10xf32&gt;) -&gt; ()
+
+  %lb = index.constant 0
+  %ub = index.constant 10 
+  %step = index.constant 1
+
+  %fs = llvm.mlir.addressof @fmt : !llvm.ptr
+
+  scf.for %iv = %lb to %ub step %step {
+    %el = memref.load %output[%iv] : memref&lt;10xf32&gt;
+    llvm.call @printf(%fs, %el) vararg(!llvm.func&lt;i32 (ptr, ...)&gt;) : (!llvm.ptr, f32) -&gt; i32
+  }
+
+  return
+}
+
+// Define a constant string for the format specifier
+llvm.mlir.global private constant @fmt("%f\0A\00") {addr_space = 0 : i32}
+</code></pre>
+<p>As an aside, variadic functions in MLIR allow for flexible argument passing, similar to C. A common pattern we'll use is calling functions like <code>printf</code>, which can take a variable number of arguments. In the main function, we're calling the <code>printf</code> function (which is variadic) to print the result. The following is equivalent to <code>printf("%f\n", el)</code> in C, demonstrating how to use <code>printf</code> in MLIR.</p>
+<pre><code>// Define external printf function from stdio.h
+llvm.func @printf(!llvm.ptr, ...) -&gt; i32
+
+// Define a constant string for the format specifier
+llvm.mlir.global private constant @fmt("%f\0A\00") {addr_space = 0 : i32}
+
+// Call the variadic printf function with the format specifier and type specialized arguments
+%fs = llvm.mlir.addressof @fmt : !llvm.ptr
+%el = llvm.mlir.constant(1.0 : f32) : f32
+llvm.call @printf(%fs, %el) vararg(!llvm.func&lt;i32 (ptr, ...)&gt;) : (!llvm.ptr, f32) -&gt; i32
+</code></pre>
+<p>Here's the full example with the parallel loop and the main function:</p>
+<pre><code>memref.global constant @input : memref&lt;10xf32&gt; = dense&lt;[1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0]&gt;
+
+llvm.func @printf(!llvm.ptr, ...) -&gt; i32
+llvm.mlir.global private constant @fmt("%f\0A\00") {addr_space = 0 : i32}
+
+func.func private @kernel(%input: memref&lt;10xf32&gt;, %output: memref&lt;10xf32&gt;) {
+  %loop_ub = llvm.mlir.constant(9 : i32) : i32
+  %loop_lb = llvm.mlir.constant(0 : i32) : i32
+  %loop_step = llvm.mlir.constant(1 : i32) : i32
+
+  omp.parallel {
+      omp.wsloop {
+        omp.loop_nest (%i) : i32 = (%loop_lb) to (%loop_ub) inclusive step (%loop_step) {
+          %ix = arith.index_cast %i : i32 to index
+          %input_val = memref.load %input[%ix] : memref&lt;10xf32&gt;
+          %two = arith.constant 2.0 : f32
+          %result = arith.mulf %input_val, %two : f32
+          memref.store %result, %output[%ix] : memref&lt;10xf32&gt;
+          omp.yield
+        }
+      }
+    omp.barrier
+    omp.terminator
+  }
+
+  return
+}
+
+func.func private @main() {
+  %input = memref.get_global @input : memref&lt;10xf32&gt;
+  %output = memref.alloc() : memref&lt;10xf32&gt;
+
+  call @kernel(%input, %output) : (memref&lt;10xf32&gt;, memref&lt;10xf32&gt;) -&gt; ()
+
+  %lb = index.constant 0
+  %ub = index.constant 10 
+  %step = index.constant 1
+
+  %fs = llvm.mlir.addressof @fmt : !llvm.ptr
+
+  scf.for %iv = %lb to %ub step %step {
+    %el = memref.load %output[%iv] : memref&lt;10xf32&gt;
+    llvm.call @printf(%fs, %el) vararg(!llvm.func&lt;i32 (ptr, ...)&gt;) : (!llvm.ptr, f32) -&gt; i32
+  }
+
+  return
+}
+</code></pre>
+<h3 id="scf-to-openmp-conversion-pass">SCF to OpenMP Conversion Pass</h3>
+<p>The <code>-convert-scf-to-openmp</code> pass automatically converts parallel loops from the SCF dialect into equivalent OpenMP operations. This pass is particularly useful when you want to target OpenMP execution without manually writing OpenMP dialect code.</p>
+<p>For example, an SCF parallel loop like this:</p>
+<pre><code>scf.parallel (%i) = (%c0) to (%c100) step (%c1) {
+  %val = memref.load %A[%i] : memref&lt;100xf32&gt;
+  %result = arith.addf %val, %val : f32
+  memref.store %result, %B[%i] : memref&lt;100xf32&gt;
+  scf.yield
+}
+</code></pre>
+<p>Will be converted to OpenMP operations:</p>
+<pre><code>omp.parallel {
+  omp.wsloop for (%i) : i32 = (%c0) to (%c100) step (%c1) {
+    %val = memref.load %A[%i] : memref&lt;100xf32&gt;
+    %result = arith.addf %val, %val : f32
+    memref.store %result, %B[%i] : memref&lt;100xf32&gt;
+    omp.yield
+  }
+  omp.terminator
+}
+</code></pre>
+<p>The pass handles several important conversions, including the transformation of <code>scf.parallel</code> operations into <code>omp.parallel</code> regions that contain <code>omp.wsloop</code>, while preserving loop bounds and step sizes. Additionally, reduction operations in SCF are mapped to OpenMP reductions, and nested parallel loops are properly managed. This conversion is typically utilized as part of a larger lowering pipeline, which is often followed by <code>-convert-openmp-to-llvm</code> to generate LLVM IR that can be executed with OpenMP runtime support.</p>
+<h2 id="external-resources">External Resources</h2>
+<ul>
+<li><a href="https://mlir.llvm.org/docs/Dialects/Affine/">MLIR: Affine Dialect</a></li>
+<li><a href="https://mlir.llvm.org/docs/Dialects/Affine/#polyhedral-structures">MLIR: Polyhedral Structures</a></li>
+<li><a href="https://mlir.llvm.org/docs/Dialects/OpenMP/">MLIR: OpenMP Dialect</a></li>
+<li><a href="https://discourse.llvm.org/t/rfc-openmp-dialect-in-mlir/397">RFC: OpenMP dialect in MLIR</a></li>
+<li><a href="https://www.openmp.org/wp-content/uploads/openmp_flang.pdf">OpenMP: OpenMP 5.0 Specification</a></li>
+<li><a href="https://llvm.org/devmtg/2024-04/slides/QuickTalks/Martinez-ParallelizingApplicationsWithMLIR.pdf">Parallelizing Applications with MLIR</a></li>
+<li><a href="https://hps.vi4io.org/_media/events/2020/llvm-cth20_chandramohan.pdf">OpenMP in Flang using MLIR</a></li>
+<li><a href="https://github.com/llvm/llvm-project/blob/main/mlir/include/mlir/Dialect/OpenMP/OpenMPOps.td">OpenMPOps.td</a></li>
+<li><a href="https://mlir.llvm.org/doxygen/OpenMPToLLVMIRTranslation_8cpp.html">OpenMPToLLVMIRTranslation.cpp</a></li>
+<li><a href="https://easychair.org/publications/preprint/Kp3L">Extending Polygeist to Generate OpenMP SIMD and GPU MLIR Code</a></li>
+<li><a href="https://tildesites.bowdoin.edu/~ltoma/teaching/cs3225-GIS/fall17/Lectures/openmp.html">OpenMP in a Nutshell</a></li>
+<li><a href="https://users.cs.utah.edu/~mhall/mlir4hpc/pienaar-MLIR-Tutorial.pdf">MLIR Tutorial: Building a Compiler with MLIR</a></li>
+<li><a href="https://www.youtube.com/watch?v=hIt6J1_E21c">2023 EuroLLVM - MLIR Dialect Design and Composition for Front-End Compilers</a></li>
+<li><a href="https://reviews.llvm.org/D119743">Add conversion from SCF parallel loops to OpenMP</a></li>
+<li><a href="https://www.youtube.com/watch?v=lOK6JPuVFYg">Open MLIR Meeting 2-15-2024: OpenMP GPU Target Offloading</a></li>
+<li><a href="https://reviews.llvm.org/D119743">Mark parallel regions as allocation scopes</a></li>
+</ul>
+    </section>
+    <p class="source"><a href="https://www.stephendiehl.com/posts/mlir_affine/">Read the original article on Stephen Diehl's website</a></p>
+  </article>
+</body>
+</html>

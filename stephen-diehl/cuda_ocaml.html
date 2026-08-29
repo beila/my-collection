@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="stephen-diehl-content-hash" content="a59e4eeb03c348f9d944f0f41e7a637b9864e30f2cc8d6566b627afbc577f5c1">
+  <meta name="stephen-diehl-article-format" content="1">
+  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/cuda_ocaml.html">
+  <title>Setting up PyTorch for OCaml</title>
+  <style>
+    :root { color-scheme: dark; }
+    body { margin: 0; background: #171717; color: #f1f1f1;
+            font: 18px/1.7 Georgia, serif; }
+    article { max-width: 52rem; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+    h1 { font-size: 2rem; line-height: 1.25; letter-spacing: 0; }
+    h2, h3, h4, h5, h6 { line-height: 1.3; letter-spacing: 0; }
+    a { color: #8dc7ff; overflow-wrap: anywhere; }
+    img { display: block; max-width: 100%; height: auto; margin: 1.25rem auto; }
+    pre { overflow-x: auto; padding: 1rem; background: #242424;
+           white-space: pre-wrap; overflow-wrap: anywhere; }
+    code, kbd, samp { font-family: ui-monospace, monospace; }
+    blockquote { border-left: 3px solid #777; margin-left: 0; padding-left: 1rem; }
+    table { width: 100%; border-collapse: collapse; display: block;
+             overflow-x: auto; }
+    th, td { border: 1px solid #666; padding: .5rem; vertical-align: top; }
+    .published { color: #b8b8b8; }
+    .source { border-top: 1px solid #555; margin-top: 2rem; padding-top: 1rem; }
+  </style>
+</head>
+<body>
+  <article>
+    <h1>Setting up PyTorch for OCaml</h1>
+    <p class="published">Published: Sun, 17 Nov 2024 00:00:00 +0000</p>
+    <section>
+<p>Setting up OCaml for modern AI development is a surprisingly niche topic, despite OCaml's strengths in building robust, type-safe systems. This guide focuses specifically on configuring OCaml development environments for NVIDIA's HGX AI platforms with 8x H100 GPUs for doing either continued pre-training or full-tuning of large language models. While a few quant funds have invested heavily in OCaml for their AI infrastructure, there's remarkably little public documentation about setting up OCaml with these dense GPU configurations. We'll walk through a complete setup of OCaml with CUDA and PyTorch on Ubuntu, with specific attention to the unique requirements of these multi-GPU systems that a lot of funds are provisioning these days.</p>
+<p><strong>System Dependencies</strong></p>
+<p>Before starting, ensure you're running Ubuntu. This setup has been tested on Ubuntu and requires root privileges for several installation steps.</p>
+<pre><code># Check your Ubuntu version
+lsb_release -a
+</code></pre>
+<p>First, let's install the basic system dependencies. These packages provide essential development tools and libraries needed for the rest of our setup:</p>
+<pre><code>sudo apt-get update
+sudo apt-get install -y \
+    build-essential \
+    pciutils \
+    wget \
+    clang \
+    libaio-dev \
+    python3-pip \
+    python3-venv
+</code></pre>
+<p><strong>NVIDIA Driver Installation</strong></p>
+<p>The NVIDIA driver installation varies depending on whether you're running a desktop or headless system:</p>
+<pre><code># For desktop systems with X.org or Wayland
+sudo apt-get -y install nvidia-driver-550
+
+# For headless systems (servers without display)
+sudo apt-get -y install --no-install-recommends nvidia-headless-550
+
+# Install CUDA toolkit
+sudo apt-get -y install nvidia-cuda-toolkit
+</code></pre>
+<p>This installs the NVIDIA driver version 550 and the CUDA toolkit, which provides the necessary components for GPU acceleration.</p>
+<p><strong>Python Environment Setup</strong></p>
+<p>First, let's install pyenv and configure Python 3.12.4:</p>
+<pre><code># Install pyenv dependencies
+sudo apt-get install -y make build-essential libssl-dev zlib1g-dev \
+libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm \
+libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
+
+# Install pyenv
+curl https://pyenv.run | bash
+
+# Add pyenv to your shell configuration (~/.bashrc or ~/.zshrc)
+echo 'export PYENV_ROOT="$HOME/.pyenv"' &gt;&gt; ~/.bashrc
+echo 'command -v pyenv &gt;/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' &gt;&gt; ~/.bashrc
+echo 'eval "$(pyenv init -)"' &gt;&gt; ~/.bashrc
+
+# Reload shell configuration
+source ~/.bashrc
+
+# Install Python 3.12.4
+pyenv install 3.12.4
+
+# Set Python 3.12.4 as global version
+pyenv global 3.12.4
+
+# Verify installation
+python --version  # Should output: Python 3.12.4
+
+# Upgrade pip
+python -m pip install --upgrade pip
+
+# Install PyTorch with CUDA support
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+
+# Install NVIDIA cuDNN
+pip install nvidia-cudnn-cu11
+
+# Install Hugging Face libraries
+pip install transformers datasets accelerate
+
+# Install scientific computing packages
+pip install scipy numpy pandas
+
+# Install optimized attention implementations
+pip install flash-attn --no-build-isolation
+pip install -v -U git+https://github.com/facebookresearch/xformers.git@main#egg=xformers
+
+# Install GPU monitoring tools
+pip install nvitop
+</code></pre>
+<p><strong>DeepSpeed and Megatron-LM Installation</strong></p>
+<h3 id="deepspeed-installation">DeepSpeed Installation</h3>
+<p>DeepSpeed provides optimization features for training large models. Let's install it with CUDA operations support:</p>
+<pre><code># Basic installation
+pip install deepspeed
+
+# OR: Install from source for latest features
+git clone https://github.com/microsoft/DeepSpeed.git
+cd DeepSpeed
+pip install -e .
+
+# OR: Install with pre-compiled operations (recommended)
+DS_BUILD_OPS=1 pip install deepspeed --global-option="build_ext" --global-option="-j8"
+</code></pre>
+<p>Verify the installation and check which operations are available:</p>
+<pre><code>ds_report
+</code></pre>
+<p>Advanced installation options:</p>
+<pre><code># Install specific operations
+DS_BUILD_FUSED_ADAM=1 pip install deepspeed    # FusedAdam support
+DS_BUILD_FUSED_LAMB=1 pip install deepspeed    # FusedLamb support
+DS_BUILD_SPARSE_ATTN=1 pip install deepspeed   # Sparse attention support
+
+# Skip CUDA version check if needed (use with caution)
+DS_SKIP_CUDA_CHECK=1 pip install deepspeed
+</code></pre>
+<h3 id="megatron-lm-installation">Megatron-LM Installation</h3>
+<p>Megatron-LM enables training large transformer models at scale. Here's how to set it up:</p>
+<pre><code># Install NVIDIA Apex first
+git clone https://github.com/NVIDIA/apex
+cd apex
+pip install -v --disable-pip-version-check --no-cache-dir \
+    --global-option="--cpp_ext" \
+    --global-option="--cuda_ext" ./
+cd ..
+
+# Install Megatron-LM
+git clone https://github.com/NVIDIA/Megatron-LM.git
+cd Megatron-LM
+git checkout core_r0.5.0
+pip install --no-use-pep517 -e .
+</code></pre>
+<p><strong>OCaml Setup</strong></p>
+<p>Finally, we'll set up the OCaml environment with PyTorch bindings:</p>
+<pre><code># Install OCaml package manager
+sudo apt-get install -y opam m4 pkg-config
+
+# Initialize OPAM
+opam init --auto-setup --yes
+eval $(opam env)
+
+# Create new OCaml environment
+opam switch create 4.14.1
+eval $(opam env)
+
+# Install OCaml development tools
+opam install -y dune merlin ocaml-lsp-server odoc ocamlformat utop
+
+# Install Torch dependencies and bindings
+opam install -y ctypes ctypes-foreign conf-pkg-config
+opam install -y torch
+</code></pre>
+<p>This sets up:</p>
+<ul>
+<li>OPAM (OCaml Package Manager)</li>
+<li>OCaml 4.14.1 environment</li>
+<li>Development tools including:
+<ul>
+<li>Dune (build system)</li>
+<li>Merlin (code completion)</li>
+<li>LSP server (IDE integration)</li>
+<li>Documentation tools</li>
+<li>UTop (enhanced REPL)</li>
+</ul>
+</li>
+<li>PyTorch bindings for OCaml</li>
+</ul>
+<p><strong>Verification</strong></p>
+<p>After installation and system reboot, verify your setup:</p>
+<pre><code># Check NVIDIA driver installation
+nvidia-smi
+
+# Check GPU interconnect topology
+nvidia-smi topo -m
+
+# Start OCaml REPL and test Torch
+utop
+# In utop:
+open Torch;;
+</code></pre>
+<p>You should see your GPU listed in the <code>nvidia-smi</code> output and be able to import the Torch module in OCaml without errors.</p>
+<p><strong>Optional: Experiment Tracking Setup</strong></p>
+<p>If you plan to track your machine learning experiments, you can set up Weights &amp; Biases alongside Hugging Face:</p>
+<pre><code># Install Weights &amp; Biases
+pip install wandb
+
+# Log in to Weights &amp; Biases (this will prompt for your API key)
+wandb login
+
+# Install and log in to Hugging Face
+pip install huggingface_hub
+huggingface-cli login
+</code></pre>
+<p>You can get your W&amp;B API key from <a href="https://wandb.ai/settings">https://wandb.ai/settings</a> and your Hugging Face token from <a href="https://huggingface.co/settings/tokens">https://huggingface.co/settings/tokens</a> .</p>
+<p><strong>Example Project: XOR Neural Network</strong></p>
+<p>Let's create the Hello World OCaml project that trains a neural network to learn the XOR function. First, create a new project:</p>
+<pre><code># Create project directory
+mkdir xor_example
+cd xor_example
+
+# Initialize dune project
+dune init project xor_example
+cd xor_example
+</code></pre>
+<p>Now, create a new file <code>bin/main.ml</code>:</p>
+<pre><code>open Base
+open Torch
+
+(* XOR truth table *)
+let input_data =
+  Tensor.of_float2 [|
+    [|0.; 0.|];
+    [|0.; 1.|];
+    [|1.; 0.|];
+    [|1.; 1.|];
+  |]
+
+let target_data =
+  Tensor.of_float2 [|
+    [|0.|];
+    [|1.|];
+    [|1.|];
+    [|0.|];
+  |]
+
+let () =
+  (* Create a simple network with one hidden layer *)
+  let vs = Var_store.create ~name:"xor" () in
+  let hidden = Layer.linear vs ~input_dim:2 4 ~activation:Relu in
+  let output = Layer.linear vs ~input_dim:4 1 ~activation:Sigmoid in
+
+  (* Define the model *)
+  let model x =
+    Layer.forward hidden x
+    |&gt; Layer.forward output
+  in
+
+  (* Training configuration *)
+  let learning_rate = 0.05 in
+  let optimizer = Optimizer.adam vs ~learning_rate in
+
+  (* Training loop *)
+  for epoch = 1 to 2000 do
+    (* Forward pass *)
+    let predicted = model input_data in
+    let loss = Tensor.mse_loss predicted target_data in
+
+    (* Backward pass *)
+    Optimizer.backward_step optimizer ~loss;
+
+    (* Print progress every 100 epochs *)
+    if epoch % 100 = 0 then
+      Stdio.printf "Epoch %d: Loss = %f\n%!"
+        epoch (Tensor.float_value loss)
+  done;
+
+  (* Print final results *)
+  let final_output = model input_data in
+  Stdio.printf "\nFinal predictions:\n";
+  Tensor.print final_output
+</code></pre>
+<p>Update the <code>dune</code> file in the <code>bin</code> directory:</p>
+<pre><code>(executable
+ (name main)
+ (libraries base stdio torch))
+</code></pre>
+<p>Build and run the project:</p>
+<pre><code># Build the project
+dune build
+
+# Run the example
+dune exec xor_example
+</code></pre>
+<p>If that runs correctly, congratuinals you're ready to orchestrate your own training runs with OCaml now.</p>
+    </section>
+    <p class="source"><a href="https://www.stephendiehl.com/posts/cuda_ocaml/">Read the original article on Stephen Diehl's website</a></p>
+  </article>
+</body>
+</html>

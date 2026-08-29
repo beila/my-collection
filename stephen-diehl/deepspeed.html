@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="stephen-diehl-content-hash" content="dee8fd689d9fb6e8166199c92abf29d61e761c32c2abbd23295a469f2798e964">
+  <meta name="stephen-diehl-article-format" content="1">
+  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/deepspeed.html">
+  <title>Going Deep on DeepSpeed</title>
+  <style>
+    :root { color-scheme: dark; }
+    body { margin: 0; background: #171717; color: #f1f1f1;
+            font: 18px/1.7 Georgia, serif; }
+    article { max-width: 52rem; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+    h1 { font-size: 2rem; line-height: 1.25; letter-spacing: 0; }
+    h2, h3, h4, h5, h6 { line-height: 1.3; letter-spacing: 0; }
+    a { color: #8dc7ff; overflow-wrap: anywhere; }
+    img { display: block; max-width: 100%; height: auto; margin: 1.25rem auto; }
+    pre { overflow-x: auto; padding: 1rem; background: #242424;
+           white-space: pre-wrap; overflow-wrap: anywhere; }
+    code, kbd, samp { font-family: ui-monospace, monospace; }
+    blockquote { border-left: 3px solid #777; margin-left: 0; padding-left: 1rem; }
+    table { width: 100%; border-collapse: collapse; display: block;
+             overflow-x: auto; }
+    th, td { border: 1px solid #666; padding: .5rem; vertical-align: top; }
+    .published { color: #b8b8b8; }
+    .source { border-top: 1px solid #555; margin-top: 2rem; padding-top: 1rem; }
+  </style>
+</head>
+<body>
+  <article>
+    <h1>Going Deep on DeepSpeed</h1>
+    <p class="published">Published: Mon, 05 Jun 2023 01:00:00 +0000</p>
+    <section>
+<p>Getting started with training modern AI models on multi-GPU hardware can feel quite daunting. So let's break down the key concepts and how to get started with the Microsoft DeepSpeed library. Here's a short DeepSpeed tutorial, this is a deep (har har) topic so we'll only scratch the surface.</p>
+<p>DeepSpeed's core technology is the Zero Redundancy Optimizer called ZeRO which enables training large models by partitioning model states across GPUs. ZeRO works in several stages:</p>
+<ul>
+<li><strong>ZeRO-1</strong>: Partitions optimizer states across GPUs</li>
+<li><strong>ZeRO-2</strong>: Partitions gradients and optimizer states</li>
+<li><strong>ZeRO-3</strong>: Partitions model parameters, gradients, and optimizer states</li>
+</ul>
+<p><strong>ZeRO-1: Optimizer State Partitioning</strong></p>
+<p>ZeRO-1 focuses on partitioning optimizer states, such as momentum and variance in Adam, across multiple GPUs. In this configuration, each GPU maintains only its portion of the optimizer states, which reduces memory usage by approximately 4x when using the Adam optimizer. This stage introduces minimal communication overhead and is particularly effective in scenarios where optimizer states are the primary memory bottleneck.</p>
+<p><strong>ZeRO-2: Gradient Partitioning</strong></p>
+<p>Building upon ZeRO-1's optimizations, ZeRO-2 extends the partitioning to include gradients across GPUs. Each GPU stores gradients only for its designated parameters, resulting in memory reduction of roughly 8x compared to standard data parallel training. While this stage introduces moderate communication overhead, it provides an excellent balance between memory savings and performance.</p>
+<p><strong>ZeRO-3: Parameter Partitioning</strong></p>
+<p>ZeRO-3 represents the most aggressive optimization stage, incorporating all the benefits of ZeRO-1 and ZeRO-2 while also partitioning the model parameters across GPUs. Under this configuration, each GPU maintains only its assigned parameters, leading to memory reduction of 16x or more. Though it introduces higher communication overhead, ZeRO-3 is essential for training very large models that wouldn't otherwise fit in GPU memory, enabling the training of models with hundreds of billions of parameters.</p>
+<p><strong>Installation</strong></p>
+<p>To install DeepSpeed we install from PyPI.</p>
+<pre><code>pip install deepspeed
+</code></pre>
+<p>For optimal performance, it's recommended to install from source to match your hardware:</p>
+<pre><code>git clone https://github.com/microsoft/DeepSpeed.git
+cd DeepSpeed
+pip install -e .
+</code></pre>
+<p>Before training, estimate your GPU VRAM memory requirements using DeepSpeed's built-in tool:</p>
+<pre><code>from transformers import AutoModel
+from deepspeed.runtime.zero.stage3 import estimate_zero3_model_states_mem_needs_all_live
+
+model = AutoModel.from_pretrained("meta-llama/Llama-3.2-1B")
+estimate_zero3_model_states_mem_needs_all_live(model, num_gpus_per_node=1, num_nodes=1)
+</code></pre>
+<p>This will output estimated memory needs for different configurations. The output will look like this:</p>
+<pre><code>Estimated memory needed for params, optim states and gradients for a:
+HW: Setup with 1 node, 8 GPUs per node.
+SW: Model with 2851M total params.
+  per CPU  |  per GPU |   Options
+  127.48GB |   5.31GB | offload_optimizer=cpu
+  127.48GB |  15.93GB | offload_optimizer=none
+</code></pre>
+<p><strong>Configuration Files</strong></p>
+<p>DeepSpeed is configured through a JSON file typically named <code>ds_config.json</code>. Here's a basic ZeRO-3 configuration:</p>
+<pre><code>{
+  "fp16": {
+    "enabled": "auto",
+    "loss_scale": 0,
+    "loss_scale_window": 1000,
+    "initial_scale_power": 16,
+    "hysteresis": 2,
+    "min_loss_scale": 1
+  },
+  "optimizer": {
+    "type": "AdamW",
+    "params": {
+      "lr": "auto",
+      "betas": "auto",
+      "eps": "auto",
+      "weight_decay": "auto"
+    }
+  },
+  "scheduler": {
+    "type": "WarmupLR",
+    "params": {
+      "warmup_min_lr": "auto",
+      "warmup_max_lr": "auto",
+      "warmup_num_steps": "auto"
+    }
+  },
+  "zero_optimization": {
+    "stage": 3,
+    "offload_optimizer": {
+      "device": "cpu",
+      "pin_memory": true
+    },
+    "offload_param": {
+      "device": "cpu",
+      "pin_memory": true
+    },
+    "overlap_comm": true,
+    "contiguous_gradients": true,
+    "stage3_gather_16bit_weights_on_model_save": true
+  },
+  "gradient_accumulation_steps": "auto",
+  "gradient_clipping": "auto",
+  "train_batch_size": "auto",
+  "train_micro_batch_size_per_gpu": "auto"
+}
+</code></pre>
+<p>The most important part of the configuration is the <code>zero_optimization</code> section which controls how ZeRO is applied. In this example, we're using ZeRO-3 with optimizer and parameter states offloaded to CPU memory. The offloading is specified with the <code>offload_optimizer</code> and <code>offload_param</code> sections. This describes how the model training will be distributed across multiple GPUs and gather the results back.</p>
+<p>Now to use DeepSpeed with the HuggingFace Trainer in a file <code>train.py</code>, simply add the <code>--deepspeed</code> flag and config file poining at your DeepSpeed configuration JSON file.</p>
+<pre><code>from transformers import Trainer, TrainingArguments
+
+training_args = TrainingArguments(
+    output_dir="output",
+    deepspeed="ds_config.json",  # DeepSpeed config file
+    fp16=True,
+    # Put other training arguments here
+)
+
+trainer = Trainer(
+    model=model,
+    args=training_args,
+    train_dataset=dataset,
+    # Put other trainer arguments here
+)
+
+trainer.train()
+</code></pre>
+<p><strong>Launching Training</strong></p>
+<p>If you have a single server with multiple GPUs attached you can launch training with the following command:</p>
+<pre><code>deepspeed --num_gpus=8 train.py \
+    --num_nodes=1 \
+    --num_gpus=8 \
+    --deepspeed ds_config.json \
+    --other_training_args
+</code></pre>
+<p>If you have a multi-node setup you can launch training with the following command:</p>
+<pre><code>deepspeed --hostfile=hostfile \
+    --num_nodes=2 \
+    --num_gpus=8 \
+    train.py \
+    --deepspeed ds_config.json \
+    --other_training_args
+</code></pre>
+<p>Where the local file <code>hostfile</code> contains that list of hostnames and the number of GPUs per host.</p>
+<pre><code>worker-1 slots=8
+worker-2 slots=8
+</code></pre>
+<p>When getting started with DeepSpeed, it's best to begin with simpler configurations. Start by using ZeRO-2 optimization and only move to the more aggressive ZeRO-3 if you find you need the additional memory savings. For managing GPU memory constraints, CPU offloading can be helpful but should only be enabled when GPU memory alone is insufficient, as it introduces additional overhead. Gradient checkpointing provides another way to reduce memory usage by trading it for additional computation time.</p>
+<p>The batch size is another important consideration that requires careful tuning. Begin with smaller batch sizes and gradually increase them while closely monitoring memory usage to find the optimal balance for your hardware. Finally, take advantage of mixed precision training using fp16 or bf16 when possible, as this can provide significant performance improvements without sacrificing model quality in most cases.</p>
+<p><strong>Troubleshooting</strong></p>
+<p>Running models in multi-GPU configurations can be extremely trickly because of both hardware and software failures. The most common failure modes (that you absolutely will encounter) are:</p>
+<ol>
+<li>NaN loss values.</li>
+<li>Out of memory errors.</li>
+<li>CPU offloading failures.</li>
+<li>Random hardware failures.</li>
+</ol>
+<p>NaN loss values are a common problem when using fp16 precision with models that were pre-trained using bf16. In these cases, switching to either bf16 or fp32 precision usually resolves the issue.</p>
+<p>If you run into OOM errors, you can try enabling CPU offloading or increasing the ZeRO optimization stage to reduce GPU memory usage. However, be mindful that if your process gets killed entirely, it may indicate insufficient CPU memory when using offloading features.</p>
+<p>Performance issues like slow training speeds can often be traced back to unnecessary CPU offloading. If your GPU memory is sufficient to handle the model and training data, disabling CPU offloading will typically result in faster training times.</p>
+<p>When optimizing GPU memory usage, start by implementing gradient checkpointing before enabling various ZeRO stages. Mixed precision training using fp16 or bf16 can significantly reduce memory requirements while maintaining model quality. Regular monitoring of GPU memory <code>nvidia-smi</code> during training is essential. CPU or NVMe offloading should only be considered when GPU memory alone proves insufficient for your training needs.</p>
+<p>When implementing CPU offloading, begin by offloading optimizer states, as this has a relatively minor impact on performance. Parameter offloading should only be employed when absolutely necessary, as it introduces significant overhead. Ensure your system has sufficient CPU RAM, typically 2-4 times the model size, to handle offloading effectively. For models that exceed CPU RAM capacity, consider using NVMe offload capabilities as a last resort.</p>
+<p>Effective batch size tuning begins with smaller sizes that are gradually increased as training stabilizes. Gradient accumulation can be employed to achieve effectively larger batch sizes without increasing memory requirements proportionally. Careful monitoring of loss scaling is essential, and adjustments should be made based on convergence patterns. Some training scenarios may benefit from dynamic batch sizing that adapts to available memory conditions.</p>
+<p>Pipeline parallelism offers another dimension of model distribution by splitting model layers across multiple GPUs. This approach effectively reduces the memory required per GPU and enables training of very deep models that wouldn't fit on a single device. Pipeline parallelism can be combined with various ZeRO stages to achieve optimal training configurations for specific hardware setups.</p>
+<p>Activation checkpointing provides a clever trade-off between computation and memory usage by recomputing activations during the backward pass instead of storing them. This technique can significantly reduce the memory footprint of training</p>
+<p>At this point in time, setting up multi-GPU training is not trivial and requires a lot of careful thinking. It's a lot more art than science, and involves a lot of trial and error.</p>
+    </section>
+    <p class="source"><a href="https://www.stephendiehl.com/posts/deepspeed/">Read the original article on Stephen Diehl's website</a></p>
+  </article>
+</body>
+</html>

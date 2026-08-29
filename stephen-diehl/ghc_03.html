@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="stephen-diehl-content-hash" content="d23374ad838f6ed63f7076e60dac5b561650380e0a53b912024419688fa48513">
+  <meta name="stephen-diehl-article-format" content="1">
+  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/ghc_03.html">
+  <title>Dive into GHC: Targeting Core</title>
+  <style>
+    :root { color-scheme: dark; }
+    body { margin: 0; background: #171717; color: #f1f1f1;
+            font: 18px/1.7 Georgia, serif; }
+    article { max-width: 52rem; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+    h1 { font-size: 2rem; line-height: 1.25; letter-spacing: 0; }
+    h2, h3, h4, h5, h6 { line-height: 1.3; letter-spacing: 0; }
+    a { color: #8dc7ff; overflow-wrap: anywhere; }
+    img { display: block; max-width: 100%; height: auto; margin: 1.25rem auto; }
+    pre { overflow-x: auto; padding: 1rem; background: #242424;
+           white-space: pre-wrap; overflow-wrap: anywhere; }
+    code, kbd, samp { font-family: ui-monospace, monospace; }
+    blockquote { border-left: 3px solid #777; margin-left: 0; padding-left: 1rem; }
+    table { width: 100%; border-collapse: collapse; display: block;
+             overflow-x: auto; }
+    th, td { border: 1px solid #666; padding: .5rem; vertical-align: top; }
+    .published { color: #b8b8b8; }
+    .source { border-top: 1px solid #555; margin-top: 2rem; padding-top: 1rem; }
+  </style>
+</head>
+<body>
+  <article>
+    <h1>Dive into GHC: Targeting Core</h1>
+    <p class="published">Published: Tue, 12 Jul 2016 01:00:00 +0000</p>
+    <section>
+<h3 id="dive-into-ghc%3A-targeting-core">Dive into GHC: Targeting Core</h3>
+<p>In the <a href="http://www.stephendiehl.com/posts/ghc_01.html">last blog post</a>, we<br/>
+discussed the intermediate structures used in the GHC compiler. This time let's<br/>
+discuss the Core language.</p>
+<p>
+**[Accompaying Source Code](https://github.com/sdiehl/dive-into-ghc/tree/master/03-core)**
+</p>
+<h4 id="core">Core</h4>
+<p>GHC's most central data types. Core is a very small,<br/>
+explicitly-typed, variant of System FC; a typed lambda calculus that differs<br/>
+from the simply typed lambda calculus by the introduction of a mechanism of<br/>
+universal quantification over types denoted as capital lambda $\Lambda$.</p>
+<pre><code>-- System-F Notation
+Λ b c a. λ (f1 : b -&gt; c) (g : a -&gt; b) (x1 : a). f1 (g x1)
+
+-- Haskell Core
+\ (@ b) (@ c) (@ a) (f1 :: b -&gt; c) (g :: a -&gt; b) (x1 :: a) -&gt; f1 (g x1)
+</code></pre>
+<p>While the Haskell frontend is an implicitly-typed source language, Core is an<br/>
+explicitly-typed language. Every binder has an explicit type, and terms include<br/>
+explicit type abstractions and applications.</p>
+<p>To inspect the core from GHCi we can invoke it using the following flags and the<br/>
+following shell alias. We have explicitly disable the printing of certain<br/>
+metadata and longform names to make the representation easier to read.</p>
+<pre><code>alias ghci-core="ghci -ddump-simpl -dsuppress-idinfo \
+-dsuppress-coercions -dsuppress-type-applications \
+-dsuppress-uniques -dsuppress-module-prefixes"
+</code></pre>
+<p>At the interactive prompt we can then explore the core representation<br/>
+interactively:</p>
+<pre><code>$ ghci-core
+</code></pre>
+<p>Then for example we can type in normal expressions and see their translation<br/>
+into Core.</p>
+<pre><code>λ: let f x = x + 2 ; f :: Int -&gt; Int
+
+==================== Simplified expression ====================
+returnIO
+  (: ((\ (x :: Int) -&gt; + $fNumInt x (I# 2)) `cast` ...) ([]))
+
+λ: let f x = (x, x)
+
+==================== Simplified expression ====================
+returnIO (: ((\ (@ t) (x :: t) -&gt; (x, x)) `cast` ...) ([]))
+</code></pre>
+<h4 id="core-syntax">Core Syntax</h4>
+<p>Core is defined in the<br/>
+<a href="https://downloads.haskell.org/~ghc/7.10.3/docs/html/libraries/ghc-7.10.3/CoreSyn.html">CoreSyn</a><br/>
+module. The central datatype is <code>Expr</code> which holds the 10 core datatypes that<br/>
+all Haskell expressions can be condensed down into.</p>
+<pre><code>data Expr b
+  = Var	  Id
+  | Lit   Literal
+  | App   (Expr b) (Arg b)
+  | Lam   b (Expr b)
+  | Let   (Bind b) (Expr b)
+  | Case  (Expr b) b Type [Alt b]
+  | Cast  (Expr b) Coercion
+  | Tick  (Tickish Id) (Expr b)
+  | Type  Type
+  | Coercion Coercion
+</code></pre>
+<p>The pattern match logic for Core is broken down into several datatypes which<br/>
+discriminate on at most one branch of a constructor. The process of translating<br/>
+frontend case statements into Core case statements involves the process of<br/>
+expanding pattern matches out into their a "splitting tree" of cases. The case<br/>
+for the wild card pattern match is <code>(DEFAULT, [], rhs)</code>.</p>
+<pre><code>type Arg b = Expr b
+
+type Alt b = (AltCon, [b], Expr b)
+
+data AltCon
+  = DataAlt DataCon
+  | LitAlt  Literal
+  | DEFAULT
+</code></pre>
+<p>Notably on all the types there is a parameter <code>b</code> is the type of binders. The<br/>
+binder type is a sum type containing a recursive binder and a non-recursive<br/>
+binder. Bindings that are mutually recursive are encoded as a list of binders.</p>
+<pre><code>data Bind b
+  = NonRec b (Expr b)
+  | Rec [(b, (Expr b))]
+</code></pre>
+<p>For example the factorial function:</p>
+<pre><code>fac :: Int -&gt; Int -&gt; Int
+fac a 0 = a
+fac a n = fac (n*a) (n-1)
+</code></pre>
+<p>... is expanded out into it's core binders is enclosed in a recursive binding.</p>
+<pre><code>Rec {
+fac :: Int -&gt; Int -&gt; Int
+fac =
+  \ (a :: Int) (ds :: Int) -&gt;
+    case ds of wild { I# ds1 -&gt;
+    case ds1 of _ {
+      __DEFAULT -&gt;
+        fac (* @ Int $fNumInt wild a) (- @ Int $fNumInt wild (I# 1));
+      0 -&gt; a
+    }
+    }
+end Rec }
+</code></pre>
+<p>There are several type synonyms provided by the <code>CoreSyn</code> module that expand<br/>
+out the binder parameter into a convenient synonym.</p>
+<pre><code>type TyVar = Var
+type CoreExpr = Expr Var
+type CoreBndr = Var
+type CoreBind = Bind CoreBndr
+type CoreProgram = [CoreBind]
+</code></pre>
+<p>As an aside the notation used in papers on the typing judgements for Haskell<br/>
+syntax typically uses the following convention and has a one-to-one mapping to<br/>
+each of the Haskell datatypes in <code>Expr</code>.</p>
+<p>$$<br/>
+\begin{aligned}<br/>
+e ::= \ &amp; n                                              &amp; \mathtt{Var}      &amp;\quad \text{Variable} \<br/>
+|\ &amp; \mathtt{lit}                                   &amp; \mathtt{Lam}      &amp;\quad \text{Literal} \<br/>
+|\ &amp; e_1 \ e_2                                      &amp; \mathtt{App}      &amp;\quad \text{Application} \<br/>
+|\ &amp; \lambda n . e                                  &amp; \mathtt{Lam}      &amp;\quad \text{Abstraction} \<br/>
+|\ &amp; \textbf{let}\ \mathit{binding}\ \textbf{in}\ e &amp; \mathtt{Let}      &amp;\quad \text{Variable binding} \<br/>
+|\ &amp; \textbf{case}\ e\ \textbf{as}\ n\ \textbf{return}\ \tau\ \textbf{of}\ \overline{alt} &amp; \mathtt{Case}     &amp;\quad \text{Pattern match} \<br/>
+|\ &amp; e \triangleright \gamma                        &amp; \mathtt{Cast}     &amp;\quad \text{Cast} \<br/>
+|\ &amp; e_{\lbrace \textit{tick} \rbrace }             &amp; \mathtt{Tick}     &amp;\quad \text{Internal note} \<br/>
+|\ &amp; \tau                                           &amp; \mathtt{Type}     &amp;\quad \text{Type} \<br/>
+|\ &amp; \gamma                                         &amp; \mathtt{Coercion} &amp;\quad \text{Coercion} \<br/>
+\end{aligned}<br/>
+$$</p>
+<h4 id="var">Var</h4>
+<p>The <code>Var</code> type is central to most of the core definitions, it is the primary<br/>
+name type used in the later half of the compiler and contains is a synonym for<br/>
+the <code>Id</code> type but it may additionally potentially contain type variables,</p>
+<pre><code>data Var
+  -- Type and kind variables
+  = TyVar
+    { varName       :: Name
+    , realUnique    :: FastInt
+    , varType       :: Kind
+    }
+
+  -- Internal type variables used by inference algorithm
+  | TcTyVar
+    { varName       :: Name
+    , realUnique    :: FastInt
+    , varType       :: Kind
+    , tc_tv_details :: TcTyVarDetails
+    }
+
+  -- Value level identifiers
+  | Id
+    { varName       :: !Name
+    , realUnique    :: FastInt
+    , varType       :: Type
+    , idScope       :: IdScope
+    , id_details    :: IdDetails
+    , id_info       :: IdInfo
+    }
+</code></pre>
+<p>The fields for Var also contain and important type which indicates the<br/>
+provenance of the identifier. A <code>LocalId</code> is bound within an expression such<br/>
+as a lambda, case, or let binding. A <code>GlobalId</code> is either a top-level<br/>
+expression or a imported data constructor, class, etc.</p>
+<pre><code>data IdScope
+  = GlobalId
+  | LocalId ExportFlag
+</code></pre>
+<p>In addition to the scope there are two metadata records that give additional<br/>
+information about the usage and type of the identifier. These are the <code>IdInfo</code><br/>
+and <code>IdDetails</code>. The <code>IdDetails</code> primary contains information about why the<br/>
+variable is introduced while <code>IdInfo</code> contains metadata about optimizations<br/>
+that may be applied during the core to core passes.</p>
+<pre><code>data IdDetails
+  = VanillaId
+  | RecSelId {sel_tycon :: TyCon, sel_naughty :: Bool}
+  | DataConWorkId DataCon.DataCon
+  | DataConWrapId DataCon.DataCon
+  | ClassOpId Class.Class
+  | PrimOpId PrimOp.PrimOp
+  | FCallId ForeignCall.ForeignCall
+  | TickBoxOpId TickBoxOp
+  | DFunId Int Bool
+</code></pre>
+<p>The structure of <code>IdInfo</code> is a set flags.</p>
+<pre><code>data IdInfo = IdInfo
+  { arityInfo       :: ArityInfo
+  , specInfo        :: SpecInfo
+  , unfoldingInfo   :: Unfolding
+  , cafInfo         :: CafInfo
+  , oneShotInfo     :: OneShotInfo
+  , inlinePragInfo  :: InlinePragma
+  , occInfo         :: OccInfo
+  , strictnessInfo  :: StrictSig
+  , demandInfo      :: Demand
+  , callArityInfo   :: !ArityInfo
+  }
+</code></pre>
+<p>For the identifiers we'll construct we'll simply use the vanilla flavor of id as<br/>
+they are simply from lambda expressions and toplevel functions.</p>
+<pre><code>vanillaIdInfo :: IdInfo
+vanillaIdInfo = IdInfo
+  { cafInfo           = vanillaCafInfo,
+  , arityInfo         = unknownArity,
+  , specInfo          = emptySpecInfo,
+  , unfoldingInfo     = noUnfolding,
+  , oneShotInfo       = NoOneShotInfo,
+  , inlinePragInfo    = defaultInlinePragma,
+  , occInfo           = NoOccInfo,
+  , demandInfo        = topDmd,
+  , strictnessInfo    = nopSig,
+  , callArityInfo     = unknownArity
+  }
+</code></pre>
+<p>A name combined with this metadata and a type uniquely constructs and Id/Var and<br/>
+there are several helper functions that combine them together.</p>
+<pre><code>mkTyVar :: Name -&gt; Kind -&gt; TyVar
+mkLocalVar :: IdDetails -&gt; Name -&gt; Type -&gt; IdInfo -&gt; Id
+mkGlobalVar :: IdDetails -&gt; Name -&gt; Type -&gt; IdInfo -&gt; Id
+</code></pre>
+<h4 id="example">Example</h4>
+<p>Consider the following incredibly simple module:</p>
+<pre><code>module Example (f) where
+
+f :: a -&gt; a
+f x = x
+</code></pre>
+<p>Let's recreate it using Core constructions, as the functions we mentioned above.<br/>
+We'll simulate the unique supply in a contrived way using <code>mkUnique</code>, in<br/>
+practice one shouldn't actually do this and instead simply initialize the supply<br/>
+inside of IO.</p>
+<pre><code>mkName :: Int -&gt; String -&gt; Name
+mkName i n = mkInternalName (mkUnique 'n' i) (mkOccName OccName.varName n) noSrcSpan
+
+xn :: Name
+xn = mkName 0 "x"
+
+an :: Name
+an = mkName 1 "a"
+
+fn :: Name
+fn = mkExternalName (mkUnique 'n' 2) modl (mkOccName OccName.varName "f") noSrcSpan
+
+-- a :: *
+a :: TyVar
+a = mkTyVar an anyKind
+
+-- x :: a
+x :: Var
+x = mkLocalVar VanillaId xn (TyVarTy a) vanillaIdInfo
+
+-- f :: a -&gt; a
+fv :: Var
+fv = mkGlobalVar VanillaId fn (FunTy (TyVarTy a) (TyVarTy a)) vanillaIdInfo
+
+def :: [Syn.CoreBind]
+def = [Syn.NonRec fv f]
+
+f :: Syn.Expr Var
+f = Syn.Lam x (Syn.Var x)
+
+modl :: Module
+modl = mkModule mainPackageKey (mkModuleName "Example")
+</code></pre>
+<p>So now we have a synthetic Core module that we can package up into a <code>ModGuts</code><br/>
+and <code>ModSummary</code> just like what we'd get from the top half of the compiler<br/>
+after Typechecking. For most of these fields we simply initialize them with<br/>
+default dummy values.</p>
+<pre><code>guts :: ModGuts
+guts = ModGuts
+  {
+      mg_module          = modl,
+      mg_exports         = [Avail fn],
+      mg_deps            = noDependencies,
+      mg_dir_imps        = emptyModuleEnv,
+      mg_used_names      = mkNameSet [fn],
+      mg_used_th         = False,
+      mg_rdr_env         = emptyGlobalRdrEnv,
+      mg_fix_env         = emptyFixityEnv,
+      mg_tcs             = [],
+      mg_insts           = [],
+      mg_fam_insts       = [],
+      mg_patsyns         = [],
+      mg_rules           = [],
+      mg_binds           = def,                  -- our binding
+      mg_foreign         = NoStubs,
+      mg_warns           = NoWarnings,
+      mg_hpc_info        = NoHpcInfo False,
+      mg_modBreaks       = emptyModBreaks,
+      mg_vect_decls      = [],
+      mg_vect_info       = noVectInfo,
+      mg_boot            = False,
+      mg_anns            = [],
+      mg_inst_env        = emptyInstEnv,
+      mg_fam_inst_env    = emptyFamInstEnv,
+      mg_safe_haskell    = Sf_None,
+      mg_trust_pkg       = False,
+      mg_dependent_files = []
+  }
+</code></pre>
+<pre><code>summ :: DynFlags -&gt; ModSummary
+summ dflags = ModSummary
+  {
+      ms_mod          = modl,
+      ms_hsc_src      = HsSrcFile,
+      ms_location     = ModLocation {
+          ml_hs_file  = Nothing
+      ,   ml_hi_file  = "Example.hi"
+      ,   ml_obj_file = "Example.o"
+      },
+      ms_hs_date      = UTCTime (toEnum 0) 0,
+      ms_obj_date     = Nothing,
+      ms_iface_date   = Nothing,
+      ms_srcimps      = [],
+      ms_textual_imps = [],
+      ms_hspp_file    = "Example.hs",
+      ms_hspp_opts    = dflags,
+      ms_hspp_buf     = Nothing
+  }
+</code></pre>
+<h4 id="code-generation">Code Generation</h4>
+<p>So now that we have our synthetic core module we can run the normal compiler<br/>
+pipeline on it and compile it just like we would with source code. The<br/>
+transformation of Core to native code goes through several processes:</p>
+<ol>
+<li><a href="https://downloads.haskell.org/~ghc/7.10.3/docs/html/libraries/ghc-7.10.3/CorePrep.html">CorePrep</a></li>
+<li><a href="https://downloads.haskell.org/~ghc/7.10.3/docs/html/libraries/ghc-7.10.3/CoreToStg.html">CoreToStg</a></li>
+<li><a href="https://downloads.haskell.org/~ghc/7.10.3/docs/html/libraries/ghc-7.10.3/CoreLint.html">Core Linting (Optional)</a></li>
+<li><a href="https://downloads.haskell.org/~ghc/7.10.3/docs/html/libraries/ghc-7.10.3/SimplStg.html">Stg2Stg</a></li>
+<li><a href="https://downloads.haskell.org/~ghc/7.10.3/docs/html/libraries/ghc-7.10.3/AsmCodeGen.html">Code Generation</a></li>
+</ol>
+<p>The main pass is called the Simplifier, which maps Core to Core. It's job it is<br/>
+to perform a large collection of correctness-preserving transformations, with<br/>
+the goal of producing a more efficient program.</p>
+<ol>
+<li>Constant folding</li>
+<li>Applying the rewrite rules</li>
+<li>Inlining</li>
+<li>Case of case optimization</li>
+<li>Case of known constructor optimization</li>
+<li>Eta expansion and Eta reduction</li>
+</ol>
+<p>In addition to optimization GHC contains a pass called the Core Linter which<br/>
+does a variety of internal consistency checks on a given Core program. Since<br/>
+Core is explicitly typed, typechecking a given program is trivial as we simply<br/>
+check that the type of identifiers matches with their bindings and that the<br/>
+types are internally consistent. The Core linter is extremely useful if you're<br/>
+writing optimization passes that transform Core or are targeting it from another<br/>
+language (other than vanilla Haskell). The linter pass can prevent a whole slew<br/>
+of bugs before they manifest as code generation errors.</p>
+<p>So now we'll run the rest of the compiler pipeline and generate assembly code<br/>
+from our module. There's a bit of song and dance in converting between types but<br/>
+the process is basically just connecting the inputs and outputs of the above<br/>
+passes together.</p>
+<pre><code>main :: IO ()
+main = runGhc (Just libdir) $ do
+  dflags &lt;- getSessionDynFlags
+
+  setSessionDynFlags $ dflags { hscTarget = HscAsm, ghcLink = LinkBinary }
+
+  dflags &lt;- getSessionDynFlags
+  env &lt;- getSession
+
+  setTargets [Target
+    { targetId = TargetModule (mkModuleName "Example")
+    , targetAllowObjCode = True
+    , targetContents = Nothing }]
+
+  -- repares for code generation.
+  prep &lt;- liftIO $ corePrepPgm env (ms_location (summ dflags)) (mg_binds guts) (mg_tcs guts)
+
+  -- Transform Core into STG
+  stg &lt;- liftIO $ coreToStg dflags (mg_module guts) prep
+
+  -- STG Transformer
+  (stg_binds2, cost_centre_info) &lt;- liftIO $ stg2stg dflags (mg_module guts) stg
+
+  -- Generated Cmm
+  let cmms = codeGen dflags (mg_module guts) (mg_tcs guts) cost_centre_info stg_binds2 (mg_hpc_info guts)
+
+  -- Initialize a name supply for the Cmm pipeline
+  us &lt;- liftIO $ mkSplitUniqSupply 'S'
+  let initTopSRT = initUs_ us emptySRT
+      run_pipeline = cmmPipeline env
+
+  -- Collect the Cmm code stream after running the pipeline.
+  let cmmstream = do
+       a &lt;- Stream.mapAccumL run_pipeline initTopSRT cmms
+       Stream.yield (srtToData a)
+
+  -- Prepare the Cmm for
+  genraw &lt;- liftIO $ cmmToRawCmm dflags cmmstream
+
+  -- Initialize name supply for the native code generator and generate x86 to a
+  -- file from the prepared Cmm.
+  ncg_uniqs &lt;- liftIO $ mkSplitUniqSupply 'n'
+  fname &lt;- liftIO $ (openFile "Example.asm" WriteMode)
+  liftIO $ nativeCodeGen dflags (mg_module guts) modloc fname ncg_uniqs genraw
+
+  -- Dump the outputted Stg and  Cmm out
+  gen &lt;- liftIO $ Stream.collect cmmstream
+  liftIO $ putStrLn "=== STG ==="
+  liftIO $ putStrLn $ showGhc stg_binds2
+
+  liftIO $ putStrLn "=== CMM ==="
+  liftIO $ putStrLn $ showGhc gen
+</code></pre>
+<p>And then we get a <code>Example.asm</code> file outputted from our synthetic core module.<br/>
+A next step project would be to target a more complicated language to GHC Core<br/>
+to take advantage of it's compiler optimizations and native code generation.</p>
+    </section>
+    <p class="source"><a href="https://www.stephendiehl.com/posts/ghc_03/">Read the original article on Stephen Diehl's website</a></p>
+  </article>
+</body>
+</html>

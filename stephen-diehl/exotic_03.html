@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="stephen-diehl-content-hash" content="d1f02bc9c25ff08d4a79035d2d1dad16eca14eaafa56c9d029c45ba82e4b09d8">
+  <meta name="stephen-diehl-article-format" content="1">
+  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/exotic_03.html">
+  <title>Exotic Programming Ideas, Part 3 (Effect Systems)</title>
+  <style>
+    :root { color-scheme: dark; }
+    body { margin: 0; background: #171717; color: #f1f1f1;
+            font: 18px/1.7 Georgia, serif; }
+    article { max-width: 52rem; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+    h1 { font-size: 2rem; line-height: 1.25; letter-spacing: 0; }
+    h2, h3, h4, h5, h6 { line-height: 1.3; letter-spacing: 0; }
+    a { color: #8dc7ff; overflow-wrap: anywhere; }
+    img { display: block; max-width: 100%; height: auto; margin: 1.25rem auto; }
+    pre { overflow-x: auto; padding: 1rem; background: #242424;
+           white-space: pre-wrap; overflow-wrap: anywhere; }
+    code, kbd, samp { font-family: ui-monospace, monospace; }
+    blockquote { border-left: 3px solid #777; margin-left: 0; padding-left: 1rem; }
+    table { width: 100%; border-collapse: collapse; display: block;
+             overflow-x: auto; }
+    th, td { border: 1px solid #666; padding: .5rem; vertical-align: top; }
+    .published { color: #b8b8b8; }
+    .source { border-top: 1px solid #555; margin-top: 2rem; padding-top: 1rem; }
+  </style>
+</head>
+<body>
+  <article>
+    <h1>Exotic Programming Ideas, Part 3 (Effect Systems)</h1>
+    <p class="published">Published: Wed, 03 Mar 2021 00:00:00 +0000</p>
+    <section>
+<p>Continuing on in our series on exotic programming ideas, we’re going to explore the topic of effects. Weak forms of effect tagging are found in many mainstream programming languages, however the use of programming with whole effect systems that define syntax for defining and marking regions of effects in the surface syntax is still an open area in language design.</p>
+<ul>
+<li><a href="https://www.stephendiehl.com/posts/exotic_01">Week 1 - Module Systems</a></li>
+<li><a href="https://www.stephendiehl.com/posts/exotic_02">Week 2 - Term Rewriting</a></li>
+<li><a href="https://www.stephendiehl.com/posts/exotic_03">Week 3 - Effect Systems</a></li>
+<li><a href="https://www.stephendiehl.com/posts/exotic_04">Week 4 - Datalog</a></li>
+</ul>
+<p>First, we should define what we mean by an effect. We’ll adopt the definitions commonly used in functional programming discipline, simply because it has a precise definition wheres colloquial usage often does not. First a pure function is a unit of code whose return value is entirely determined by its inputs, and has no observable effect other than simply returning a value. A pure function is a function in programming which behaves a like a function in mathematics. For example in Python code we denote a “function” called f:</p>
+<pre><code>def f(x):
+  return x**2
+</code></pre>
+<p>In the pseudocode traditionally known as mathematics we denote the function f:</p>
+<pre><code>f(x)=x2
+</code></pre>
+<p>There are a few subtle points to mention in this definition. The first is the matter of perspective in our analysis of effects. This Python function compiles into a sequence of bytecodes which manipulate stack variables, mallocs megabytes of data on the heap, invokes the garbage collector, and swaps hundreds of thousands of values in and out of registers on the CPU all corresponding to doing the exponentiation of an arbitrary size integer inside a PyObject struct. All this is very effectful from the perspective of the underlying implementation, however we can’t observe the functioning of these internals from within the normal language.</p>
+<p>The big idea in pure functional programming is that programming will inevitably consist of both pure and effectful (sometimes called impure) logic. Additionally we suppose it is a useful property of the surface language to be able to distinguish between units of logic which have effects, and to be able to classify these type of effects in order to greater reason about program composition.</p>
+<p>The alternative to this is the model found in most languages where all logic is mushed upto in a big soup of effects and relies on the programmer’s intuition and internal mental model to distinguish between which code can do perform effects (memory allocations, side channels, etc) and logic which cannot. The research into effect systems is fundamentally about canonising our intuition about correct program effect synthesis into a formal model that compilers can reason about on our behalf and interact with developer tools in an ergonomic way.</p>
+<p>Functional Languages like Idris, Haskell, F* and a few other research languages have been exploring the design space for the better part of the last decade. Concepts such as monads saw initial exploration for demarcating pure and impure logic but have fallen off in recent years as that model has hit a wall in terms of usefulness. The most common area of active exploration is one known as algebraic effect handlers which admits a tractable inference algorithm for checking effectful logic while not introducing any runtime overhead.</p>
+<p>There are no mainstream languages which use this model, however there is a academic language out of Microsoft Research lab called Koka which presents the most developed implementations of these ideas. As far as I can tell no one uses this language for anything, however it is downloadable and quite usable to explore these ideas. We will write all of our example code in Koka.</p>
+<p>In Koka the absence of any effect is denoted by the effect total. The only result of computing the function f is simply returning the square of its input.</p>
+<pre><code>fun f( x : int ) : total int
+{
+  return pow(x,2)
+}
+</code></pre>
+<p>However we can write a effectful function, such as one that reads from the screen, by tagging it with a console effect. The body of this function can then invoke functions such println and the result of the invocation of thees functions is captured in the signature of the function that invokes them. The return type () denotes the unit type which is called void in C-like languages.</p>
+<pre><code>fun main() : console ()
+{
+  println("I can write to the screen!");
+}
+</code></pre>
+<p>It is worth noting that the println function provided by the standard library has the following type signature which itself includes the effect.</p>
+<p>fun println( s : string ) : console ()<br/>
+And as such the compiler is aware of the effect it carries and the following function can be written without an annotation and effect inference will deduce the appropriate signature without the user having to specify it. The return type can also be inferred using the usual type inference techniques.</p>
+<pre><code>fun main()
+{
+  println("I can write to the screen!");
+}
+</code></pre>
+<h2 id="exceptions">Exceptions</h2>
+<p>Besides input/output, the most common type of effect found in most programming is the ability to fail. Usually langauge runtimes will implement this functionality using some exceptions which perform a non-local jump to logic which handles the exception or unwinds the call stack and aborts. This is clearly an effect that we can model and we can create an interface similar to checked exceptions found in other languages.</p>
+<p>The throw function will take an error sum type and result in a effect marked by exn. While the try function will consume a function which results in exn type and return an error. The error type is either an Error or a Ok on successful execution.</p>
+<pre><code>type error&lt;a&gt; {
+  Error( exception : exception )
+  Ok( result : a )
+}
+</code></pre>
+<p>The error handling functions can be written as higher order functions that consume and handle functions taged with the exn effect.</p>
+<pre><code>fun throw( err : error&lt;a&gt; ) : exn a
+fun try( action : () -&gt; &lt;exn|e&gt; a ) : e error&lt;a&gt;
+fun maybe( t : error&lt;a&gt; ) : maybe&lt;a&gt;
+</code></pre>
+<p>For example we can do classic case of handling division of mero and wrapping up the arithmetic error in a maybe sum type which handles the zero case with a nothing.</p>
+<pre><code>fun divide(a : int, b : int) : exn int {
+  match(b) {
+    0 -&gt; throw("Division by zero");
+    _ -&gt; return (a / b);
+  }
+}
+
+fun safeDiv(a : int, b : int) : maybe&lt;int&gt;
+{
+  maybe( try { divide(a,b) } );
+}
+</code></pre>
+<p>Elaboration of pattern matching inside the compiler can deduce incomplete patterns and infer that an exception should be added to the type of the pattern match that can fail at runtime.</p>
+<pre><code>fun unjust( m : maybe&lt;a&gt; ) : exn a {
+  match(m) {
+    Just(x) -&gt; x
+  }
+}
+</code></pre>
+<p>Whereas a complete pattern match is deduced as total.</p>
+<pre><code>fun unmaybe( m : maybe&lt;a&gt;, default : a ) : total a {
+  match(m) {
+    Just(x) -&gt; x
+    Nothing -&gt; default
+  }
+}
+</code></pre>
+<h2 id="non-termination-is-an-effect">Non-termination is an Effect</h2>
+<p>By our above definition about effects, the only observable result of invoking a function is return a resulting value. Therefore functions which do not compute a value, and run infintely are not functions and have a side-effect called divergence. Deducing whether a given function is total is non-trivial in the general case, however a function which is the composition of units of logic which are all independently total must itself be total.</p>
+<p>There are many simple cases where we can immedietely deduce non-totality from simply analysising call-sites. For example the following function is automatically tagged with the div effect since it recurses on itself.</p>
+<pre><code>fun forever(f) {
+  f();
+  forever(f);
+}
+</code></pre>
+<p>The forever combinator has the inferred type:</p>
+<pre><code>forever: forall&lt;a,b,e&gt; (() -&gt; &lt;div|e&gt; a) -&gt; &lt;div|e&gt; b
+</code></pre>
+<p>The effect checker can deduce totality across mutually recusive definitions, so functions that invoke each other must themselves either be entirely total or possibly diverge on composition.</p>
+<pre><code>fun f1() : div int
+{
+  return 1 + f2();
+}
+
+fun f2() : div int
+{
+  return 2 + f1();
+}
+</code></pre>
+<h2 id="rows-of-effects">Rows of effects</h2>
+<p>While tagging individual effects independently is useful in its own right, programing in the large requires us to compose logic together and thus we need a way to synthesize the combination of effects. In Koka this is represented as a row of effects. This is denoted with the bracket syntax:</p>
+<pre><code>&lt;e1, e2, ...&gt;
+</code></pre>
+<p>In the language of mathematics, effect rows are commutative monoids with an operation extension denoted by the pipe and a neutral element (total or &lt;&gt;) representing the absence of effects. The commutative and associativity of the extension operation allows for a canonical ordering of effects in signatures.</p>
+<pre><code>&lt;e1&gt; | e2     = &lt;e1,e2&gt;
+&lt;e1,e2&gt; | e3  = &lt;e1,e2,e3&gt;
+&lt;e1&gt; | &lt;&gt;     = &lt;e1&gt;
+&lt;e1&gt; | e1     = &lt;e1&gt;  
+&lt;e2, e1&gt;      = &lt;e1,e2&gt;
+</code></pre>
+<p>For example we can write down a function which invokes a random number generator with the non-determinism effect ndet as well as raising an exception with the effect exn. The synthesis of the two is now the row &lt;ndet, exn&gt;.</p>
+<pre><code>fun multiEffect() : &lt;ndet, exn&gt; ()
+{
+  val n = srandom-int()
+  throw("I raise an exception");
+}
+</code></pre>
+<p>The effect system denotes functions which may diverge or throw exceptions as pure with the following alias.</p>
+<pre><code>alias pure = &lt;exn,div&gt;
+</code></pre>
+<p>In the Haskell approach to effects there is a single opaque IO monad which inhabits any action which can perform any type of console input, output or system operation. However languages which richer effect systems can model the IO hierarchy in much more granularity. For example Koka defines the following three tiers of IO effects in increasing expressivity.</p>
+<pre><code>// Functions that perform arbitrary IO operations
+// but are terminating without raising exceptions
+alias io-total = &lt;ndet,console,net,file,ui,st&lt;global&gt;&gt;
+
+// Functions that perform arbitrary IO operations
+// but raise no exceptions
+alias io-noexn = &lt;div,io-total&gt;
+
+// Functions that perform arbitrary IO operations.
+alias io = &lt;exn,io-noexn&gt;
+</code></pre>
+<h2 id="reference-lifetimes-%26-boundaries">Reference Lifetimes &amp; Boundaries</h2>
+<p>State is an essential part of programing, and it is one which is inherently effectful. Importantly we’d like to be talk about which regions of memory or logic we are able to write to within a given scope. For this we need to be able to refer to effects over a given region of memory as a paramter to the effect. The language allows us to parameterise effects with a heap parameter using bracket notation. There are three core stateful effects provided by the standard library:</p>
+<ul>
+<li><code>alloc&lt;h&gt;</code> - The alloc effect for allocating references over heap parameter h.</li>
+<li><code>read&lt;h&gt;</code> - The read effect from a reference from a heap parameter h.</li>
+<li><code>write&lt;h&gt;</code> - The write effect for writing to a reference on heap parameter h.</li>
+</ul>
+<p>To create and manipulate references there are three core functions:</p>
+<pre><code>fun ref( value : a ) : (alloc&lt;h&gt;) ref&lt;h,a&gt;
+fun set( ref : ref&lt;h,a&gt;, assigned : a ) : (write&lt;h&gt;) ()
+fun (!)( ref : ref&lt;h,a&gt; ) : &lt;read&lt;h&gt;|e&gt; a
+</code></pre>
+<p>Functions which no observable leakage of internal references can be marked as total if the types of references are not referenced in either the argument types or the return type. Thus local state can be embedded inside pure functions. For instance the following function is total even though internally it uses mutable references:</p>
+<pre><code>fun localState() : total int
+{
+  val z = ref(0);
+  set(z, 10);
+  set(z, 20);
+  return (!z);
+}
+</code></pre>
+<p>The compiler itself also has a level of syntactic sugar for working with references. The <code>val</code> introduces an immutable named variable, however the <code>var</code> syntax can be used to define a mutable reference concisely.</p>
+<pre><code>val z = ref(0)     
+var z : int = 0    // Identical to above
+</code></pre>
+<p>Variables can be updated using <code>:=</code> operator.</p>
+<pre><code>set(z, 10) 
+z := 10            // Identical to above
+</code></pre>
+<p>Thus we can write pseudo-imperative logic like the following counter function:</p>
+<pre><code>fun bottlesOfBeer() {
+  var i := 0; 
+  while { i &gt;= 99 } {
+    println(i)
+    i := i + 1
+  }
+}
+</code></pre>
+<p>References can be passed as arguments to functions and heap parameters can be quantified as type variables, allowing us to write generic functions which operate over references of any type.</p>
+<pre><code>fun add-refs( a : ref&lt;h,int&gt;, b : ref&lt;h,int&gt; ) : st&lt;h&gt; int {
+    a := 10
+    b := 20
+    (!a + !b)
+}
+</code></pre>
+<p>The combination of the ability to read, write, and allocate is given the name <code>st</code> in the standard library to denote stateful computations.</p>
+<pre><code>alias st&lt;h&gt; = &lt;read&lt;h&gt;,write&lt;h&gt;,alloc&lt;h&gt;&gt;
+</code></pre>
+<p>Using this kind of effect system for tracking references gives us a powerful abstraction for denoting regions of logic that have read barriers and write barriers and separating mutation from pure logic in a way that is machine checkable. Future languages that had this kind of information at compile-time could use it to inform compilation of regions of local mutation into more efficient efficient code with still maintaining guarantees about the boundaries of pure logic.</p>
+<h2 id="effect-polymorphism">Effect polymorphism</h2>
+<p>Finally we’d also like to be able to write higher order functions which can take arguments which are either effectful or pure and incorporate their effects as part of the types of output. The common map function is a higher-order function which takes a list and applies a given function argument over each element of the list. To write this in a language with an effect system we need to be able to refer to the effect of the function argument as a type variable (e in this example) and use it the output type for map.</p>
+<pre><code>fun map( xs : list&lt;a&gt;, f : (a) -&gt; e b ) : e list&lt;b&gt;
+</code></pre>
+<p>In the case where we apply a total arithmetic function over the list, we simply get back a list of ints. While in the IO case we can apply a function like println which will individually print each integer out to the console, and resulting type is a list of units. Both use cases are subsumed by the same function using this parametric polymorphism over the abstract effect type variables.</p>
+<pre><code>val e1 = map([1,2,3,4], println);   // console list&lt;()&gt;
+val e2 = map([1,2,3,4], dbl);       // list&lt;int&gt;
+</code></pre>
+<pre><code>fun dbl(x : int) : total int
+{
+  return (x+x)
+}
+</code></pre>
+<p>It is still early days for effect system research. The key takeaway that I would like to push for future work is the observation that languages which aim to improve the ergonomics and performance of effect modeling cannot simply push the entire system into a library. There needs to be language-level support for both integrated effect types and annotations in the surface language for labeling subexpressions and giving hints to type inference. A lot of approaches to do this in Haskell, Scala, etc are inevitably doomed to poor ergonomics by this simple fact.</p>
+<p>There is a whole new level of static analysis tools that can be built by not just inferring types, but providing a whole new level of static information on top of our code that is otherwise tossed out by the compiler. This is a very exciting technique and I hope it bears more fruit in the coming decade.</p>
+<h2 id="external-references">External References</h2>
+<ul>
+<li><a href="https://fstar-lang.org/tutorial/">F* Reference</a></li>
+<li><a href="https://www.eff-lang.org/">Eff Programming Langauge</a></li>
+<li><a href="https://koka-lang.github.io/koka/doc/index.html">Koka Language Specification</a></li>
+<li><a href="https://www.microsoft.com/en-us/research/publication/algebraic-effects-for-functional-programming/">Algebraic Effects for Functional Programming - Daan Leijen</a></li>
+<li><a href="https://github.com/koka-lang/koka">Koka Github</a></li>
+</ul>
+    </section>
+    <p class="source"><a href="https://www.stephendiehl.com/posts/exotic_03/">Read the original article on Stephen Diehl's website</a></p>
+  </article>
+</body>
+</html>

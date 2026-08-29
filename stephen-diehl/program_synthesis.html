@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="stephen-diehl-content-hash" content="ae063a020efe8aa4d9f12eb31490025a32c489c72b0fd0634fbb3ab8136ea89a">
+  <meta name="stephen-diehl-article-format" content="1">
+  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/program_synthesis.html">
+  <title>Program Synthesis: The λ in the Machine</title>
+  <style>
+    :root { color-scheme: dark; }
+    body { margin: 0; background: #171717; color: #f1f1f1;
+            font: 18px/1.7 Georgia, serif; }
+    article { max-width: 52rem; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+    h1 { font-size: 2rem; line-height: 1.25; letter-spacing: 0; }
+    h2, h3, h4, h5, h6 { line-height: 1.3; letter-spacing: 0; }
+    a { color: #8dc7ff; overflow-wrap: anywhere; }
+    img { display: block; max-width: 100%; height: auto; margin: 1.25rem auto; }
+    pre { overflow-x: auto; padding: 1rem; background: #242424;
+           white-space: pre-wrap; overflow-wrap: anywhere; }
+    code, kbd, samp { font-family: ui-monospace, monospace; }
+    blockquote { border-left: 3px solid #777; margin-left: 0; padding-left: 1rem; }
+    table { width: 100%; border-collapse: collapse; display: block;
+             overflow-x: auto; }
+    th, td { border: 1px solid #666; padding: .5rem; vertical-align: top; }
+    .published { color: #b8b8b8; }
+    .source { border-top: 1px solid #555; margin-top: 2rem; padding-top: 1rem; }
+  </style>
+</head>
+<body>
+  <article>
+    <h1>Program Synthesis: The λ in the Machine</h1>
+    <p class="published">Published: Sun, 22 Jun 2025 01:00:00 +0000</p>
+    <section>
+<p>Much of the "mainstream" discussion of artificial intelligence applied to code generation is overwhelmingly dominated by the idea of scaling larger langauge models and using test-time compute to improve model performance on coding (<a href="https://www.swebench.com/">SWE-bench</a>, LiveCodeBench, etc) benchmarks. And that has legitimately produced some very interesting results. Although I'm not sure how much more juice there is to squeeze out of that fruit.</p>
+<p>And indeed, the frontier models have demonstrated a remarkable capacity for probabilistic mimicry and the ability to stich together and synthesize templates of code from their training corpus in emergent and useful ways. But they still operate by predicting token sequences, generating syntactically plausible artifacts that often resemble human-written code. Whether they are doing anything resembling reasoning is a highly debatable and <a href="https://ml-site.cdn-apple.com/papers/the-illusion-of-thinking.pdf">open question</a> which I don't have any interesting opinions on because I truly don't know. I do know that the current systems are limitedly useful in some cases, that much seems undeniably true.</p>
+<p>Yet, I would still argue that to mistake this sophisticated pattern matching for genuine program construction is a profound category error. Generating <em>code</em> as a sequence of textual tokens using a statistical prior is a fundamentally different task than generating <em>programs</em> by searching directly in the space of program dynamics. The former is an act of linguistic surface manipulation; the latter is an act of logical and semantic discovery. And it's not clear to me that current models are capable of doing the latter.</p>
+<p>But humour me for a moment and consider, that just perhaps the future of AI-assisted development lies not in refining the models of today, but in pursuing the more arduous, less-trodden path of <a href="https://people.csail.mit.edu/asolar/SynthesisCourse/Lecture1.htm"><strong>program synthesis</strong></a>, a path whose modern incarnation finds its deepest roots in the evolution of functional programming and type theory. The ambition of program synthesis is not to produce code that <em>looks</em> correct, but to construct a program that is, by its very construction, proven to be correct against a specification. This moves the locus of activity from the messy, ambiguous realm of natural language prompts to the precise, verifiable domain of logical propositions. This pursuit has historically been hampered by a computationally intractable search space, but the maturation of functional programming, specifically with the advent of dependent types, has provided much of the necessary theoretical scaffolding.</p>
+<p>A dependently typed language allows specifications to be encoded directly within the type system, transforming type-checking into a form of partial program verification. This is where the concept of <strong>hole-style development</strong> becomes the crucial user interface for this new paradigm. A programmer architects the high-level structure, articulating properties as types, but leaves specific implementation details as explicit "holes" in the code. These are first-class, typed apertures in a well-formed program, and the synthesizer's role is to find a term satisfying the rigid constraints of its context.</p>
+<p>Consider a dependently typed pseudocode for appending two vectors, where the type system guarantees the length of the resulting vector. The programmer might write the initial sketch, leaving the implementation logic as a hole, denoted by <code>?</code>.</p>
+<pre><code>data Vect : (Nat) -&gt; (Type) -&gt; Type where
+  Nil : Vect 0 a
+  Cons : a -&gt; Vect n a -&gt; Vect (S n) a
+
+append : (n m : Nat) -&gt; Vect n a -&gt; Vect m a -&gt; Vect (n + m) a
+append 0 m Nil ys = ys
+append (S n) m (Cons x xs) ys = Cons x ?
+</code></pre>
+<p>The type-checker deduces that this hole must be filled by a term of type <code>Vect (n + m) a</code>. The synthesizer's task is now tremendously simplified. It does not need to understand the "concept" of appending. It only needs to search for a combination of operations that can transform the available terms (<code>xs</code> of type <code>Vect n a</code> and <code>ys</code> of type <code>Vect m a</code>) into the required output type. Through a guided search, it would discover that the recursive call <code>append n m xs ys</code> satisfies the type, completing the program in a manner guaranteed to be correct with respect to its type-level specification. If you've ever used systems like Agda, Coq or Lean you've probably seen the power of this approach.</p>
+<p>This vision of collaborative, (albeit dynamically typed) synthesis is at least partially realized in systems like <a href="https://arxiv.org/abs/2006.08381">DreamCoder</a> represent a significant step towards bridging symbolic reasoning with neural learning. DreamCoder operates via a <a href="https://people.csail.mit.edu/asolar/papers/EllisWNSMHCST21.pdf">wake-sleep Bayesian learning cycle</a>. In its "wake" phase, it actively attempts to solve a corpus of <a href="https://dspace.mit.edu/bitstream/handle/1721.1/145949/3453483.3454080.pdf?sequence=1">inductive program synthesis</a> problems, searching for programs that satisfy given input-output examples. In its "sleep" phase, it performs a kind of computational introspection: it analyzes the solutions it found, refactoring and compressing common patterns into a learned library of reusable, higher-level abstractions. Concurrently, it trains a <a href="https://arxiv.org/abs/2306.07856">neural network to guide its future search</a>, making the synthesis process vastly more efficient. This iterative process of alternately solving problems and then learning from those solutions allows the system to bootstrap its own expertise, building an increasingly potent, domain-specific language and a search policy tuned to its structure.</p>
+<p>The neural-guided approach pioneered by DreamCoder opens a still more compelling research frontier: framing type-driven synthesis as a reinforcement learning problem. One can imagine an agent, powered by an algorithm like <a href="https://huggingface.co/docs/trl/main/en/ppo_trainer">PPO</a>, tasked with inductively constructing partial programs and filling holes in a program. The environment is the incomplete program; the state is the typed hole and its local context; the available actions are the primitives in the current library, which itself may have been learned. A reward is given for any action that produces a type-correct term, with a significant final reward for completing the program. The agent's policy network would learn a semantic prior, predicting not which <em>token</em> is likely to come next, but which <em>branch</em> or <em>insert</em> is most likely to satisfy a given local type signature and the global goal of optimizing towards a reward function that maximizes coherence to the specification. This moves beyond pattern matching on surface syntax and toward learning the logical structure of a problem domain, a direction explored by research into systems like <a href="https://github.com/nathanael-fijalkow/DeepSynth">DeepSynth</a>, <a href="https://arxiv.org/abs/2306.02049">LambdaBeam</a> and other <a href="https://dl.acm.org/doi/10.1145/3622830">neural-guided deductive search methods</a>.</p>
+<p>This kind of fun speculation is fun, and it's an very interesting and open research problem. But a sober dose of realism is required. Despite the intellectual elegance of the idea of program synthesis, its future is far from assured. The development of these synthesizers would be a monumental engineering task with very little short-term economic upside realized by its developers, probably making it unfundable in any traditional model. Each domain, each library, each API must be furnished with formal specifications or a well-curated set of problems for the synthesizer to be effective. This is a stark contrast to statistical models, which can ingest the chaotic, undocumented, and inconsistent sprawl of existing ecosystems like NPM or PyPI and still extract useful, albeit brittle, patterns of usage.</p>
+<p>The network effects of existing programming ecosystems are a force of nature that technical purity has consistently failed to overcome. This was the bitter lesson learned by the Lisp and functional programming communities over the last forty years. While they built pristine, powerful, and self-consistent bubble worlds, they were ultimately outcompeted by the pragmatic secretion and accretion of C, Java, and Python, whose value derived not from internal coherence but from the sheer scale of their surrounding libraries and economic incentives. Thus I would probalby condede that for the foreseeable future, the industry will be dominated by the superficially effective approach of statistical token prediction. The dream of provably correct programs, <a href="https://dl.acm.org/doi/10.1145/3622874">synthesized through a formal dialogue</a> between human and machine, will continue to be a inspiring vision, but it may be dwarfed by the immense gravitational pull of code reuse and the path of least resistance offered by simply mimicking what has been written before. But we can still dream of DreamCoder future.</p>
+    </section>
+    <p class="source"><a href="https://www.stephendiehl.com/posts/program_synthesis/">Read the original article on Stephen Diehl's website</a></p>
+  </article>
+</body>
+</html>

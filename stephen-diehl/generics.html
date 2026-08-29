@@ -1,0 +1,530 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="stephen-diehl-content-hash" content="aed64855f2d512a1eecdef17e122141cfcce7cf98313b6eec3a38d7ecce639c7">
+  <meta name="stephen-diehl-article-format" content="1">
+  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/generics.html">
+  <title>Cooking Classes with Datatype Generic Programming</title>
+  <style>
+    :root { color-scheme: dark; }
+    body { margin: 0; background: #171717; color: #f1f1f1;
+            font: 18px/1.7 Georgia, serif; }
+    article { max-width: 52rem; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+    h1 { font-size: 2rem; line-height: 1.25; letter-spacing: 0; }
+    h2, h3, h4, h5, h6 { line-height: 1.3; letter-spacing: 0; }
+    a { color: #8dc7ff; overflow-wrap: anywhere; }
+    img { display: block; max-width: 100%; height: auto; margin: 1.25rem auto; }
+    pre { overflow-x: auto; padding: 1rem; background: #242424;
+           white-space: pre-wrap; overflow-wrap: anywhere; }
+    code, kbd, samp { font-family: ui-monospace, monospace; }
+    blockquote { border-left: 3px solid #777; margin-left: 0; padding-left: 1rem; }
+    table { width: 100%; border-collapse: collapse; display: block;
+             overflow-x: auto; }
+    th, td { border: 1px solid #666; padding: .5rem; vertical-align: top; }
+    .published { color: #b8b8b8; }
+    .source { border-top: 1px solid #555; margin-top: 2rem; padding-top: 1rem; }
+  </style>
+</head>
+<body>
+  <article>
+    <h1>Cooking Classes with Datatype Generic Programming</h1>
+    <p class="published">Published: Thu, 03 Mar 2016 00:00:00 +0000</p>
+    <section>
+<h3 id="cooking-classes-with-datatype-generic-programming">Cooking Classes with Datatype Generic Programming</h3>
+<p>Haskell Generics are a somewhat misunderstood topic but are an extremely<br/>
+powerful technique for writing reusable and comparable interfaces across an<br/>
+enormous universe of types with very little effort. They are probably my<br/>
+favorite example of the advantages of an expressive type system endows us with.</p>
+<p>Source for examples code is <a href="https://github.com/sdiehl/cooking-generics">available here</a>.</p>
+<p>Generics are a form of <em>datatype-generic programming</em>, which although the<br/>
+namesake has some similarity to Java Generics they are different concepts<br/>
+entirely. GHC's implementation of Generics fall out of the simple observation<br/>
+that all datatypes in Haskell can be written as a combination of a <em>sum of<br/>
+products</em>.</p>
+<p>A <strong>sum type</strong>, is a data structure used to hold a value that could take on<br/>
+several different, but fixed, types. For example:</p>
+<pre><code>data Pastry
+  = Turnover
+  | Macaroon
+  | Brownie
+  | Cookie
+</code></pre>
+<p>A <strong>product type</strong>, is a data structure used to hold a fixed ordered set of<br/>
+several types. Selecting a single field is called projection.</p>
+<pre><code>data Person = Person
+  { firstName       :: String
+  , lastName        :: String
+  , age             :: Int
+  , height          :: Float
+  , phoneNumber     :: String
+  , flavor          :: String
+  }
+</code></pre>
+
+<p>In Haskell all datatypes can be expressed as sums of products:</p>
+<pre><code>data Expr
+  = Add { l :: Expr, r :: Expr }
+  | Mul { l :: Expr, r :: Expr }
+  | Sub { l :: Expr, r :: Expr }
+  | Div { l :: Expr, r :: Expr }
+  | Number { val :: Int }
+</code></pre>
+<p>During compilation most of the information about the structure of the datatypes<br/>
+is thrown out, by design Haskell erases all type information. Prior to<br/>
+type-checking a phase known as <strong>elaboration</strong> expands out all record selectors<br/>
+into toplevel functions which extract the named fields of a product.</p>
+<pre><code>data Point a b = Point { x :: a, y :: b }
+</code></pre>
+<pre><code>x :: Point a b -&gt; a
+x (Point a _) = a
+
+y :: Point a b -&gt; b
+y (Point _ b) = b
+</code></pre>
+<p>The rest of the information about products largely gets thrown out after<br/>
+compilation, and the product just get expanded into pattern matching code. For<br/>
+sum types the only information that is kept around is the tag for each<br/>
+constructor of the sum type. For instance <code>Add</code> is assigned the tag 1, <code>Mul</code><br/>
+is assigned 2 etc. In a case statement the only information that is available at<br/>
+runtime is which branch we're scrutinizing.</p>
+<p>So what if consider not tossing out all this information and instead exposed it<br/>
+to our program so that we could write generic logic that can introspect the<br/>
+"structure" of our datatypes.</p>
+
+<h4 id="compiler-hooks">Compiler Hooks</h4>
+<p>Since GHC 6.10 we've had type families which, among other things, allow us to<br/>
+associate data types with our typeclass. So the structure of our Generic class<br/>
+can have a associated <code>Rep</code> type which can carry information along with the<br/>
+typeclass.</p>
+<pre><code>class Generic a where
+  type Rep a :: * -&gt; *
+  from :: a -&gt; (Rep a) x
+  to :: (Rep a) x -&gt; a
+</code></pre>
+<p>To represent the structure of our datatype we need to set up several datatypes<br/>
+to encode, sums, products, empty branches and various metadata about the names<br/>
+of fields, constructors and their types. All of which have a free parameter<br/>
+<code>p</code> which is bound to the head of typeclass instance when used in the<br/>
+associated datatype <code>Rep a</code>.</p>
+<pre><code>data    V1        p                       -- Empty
+data    U1        p = U1                  -- ()
+data    (:+:) f g p = L1 (f p) | R1 (g p) -- Sum
+data    (:*:) f g p = (f p) :*: (g p)     -- Product
+newtype K1    i c p = K1 { unK1 :: c }    -- a container for a c
+newtype M1  i t f p = M1 { unM1 :: f p }  -- metadata wrapper
+</code></pre>
+<p>Now we could write this instance by hand for all of our datatypes, and for a<br/>
+simple enumeration it would look like the following:</p>
+<pre><code>data Ingredient
+  = Flour
+  | Sugar
+
+instance Generic Ingredient where
+  type Rep Ingredient = M1 D (T_Ingredient ((M1 C (C_Flour U1)) :+: (M1 C (C_Sugar U1))))
+
+  from Flour = M1 (L1 (M1 U1))
+  from Sugar = M1 (R1 (M1 U1))
+
+  to (M1 (L1 (M1 U1))) = Flour
+  to (M1 (R1 (M1 U1))) = Sugar
+
+data T_Ingredient
+data C_Flour
+data C_Sugar
+</code></pre>
+<p>The instance here is purely mechanical and can be derived from GHC's internal<br/>
+representation of it's syntax tree, namely the types<br/>
+<a href="https://downloads.haskell.org/~ghc/7.10.2/docs/html/libraries/ghc-7.10.2/DataCon.html">GHC.DataCon</a><br/>
+and<br/>
+<a href="https://downloads.haskell.org/~ghc/7.10.2/docs/html/libraries/ghc-7.10.2/TyCon.html">GHC.TypeCon</a>.<br/>
+Using the <code>-XDeriveGeneric</code> extension we can have GHC crank this typeclass out<br/>
+automatically:</p>
+<pre><code>{-# LANGUAGE DeriveGeneric #-}
+
+data Ingredient
+  = Flour
+  | Sugar
+  deriving (Generic)
+</code></pre>
+<p>Lest we not handwave away the work that GHC is doing, let's actually recreate<br/>
+the introspection logic that GHC uses when instantiating a Generic class from a<br/>
+module's data definitions. Let's load a module dynamically, intercept the<br/>
+compilation and dump out the internal structure of the it's datatypes to see how<br/>
+this would be mechanically translated into a typeclass instance.</p>
+<pre><code>import GHC
+import GHC.Paths as Paths
+
+import Name
+import TyCon
+import TypeRep
+import DataCon
+import HscTypes
+
+import Text.Show.Pretty
+
+main :: IO ()
+main = do
+
+  -- Inside the GHC Monad
+  rep &lt;- runGhc (Just Paths.libdir) $ do
+
+    -- Spin up a GHC compiler environment
+    dflags &lt;- getSessionDynFlags
+    setSessionDynFlags dflags
+
+    -- Make a dummy module to inject
+    let mn = mkModuleName "Test"
+
+    -- Make a dummy target
+    addTarget Target {
+      targetId = TargetModule mn
+    , targetAllowObjCode = True
+    , targetContents = Nothing
+    }
+
+    -- Run the GHC pipeline
+    load LoadAllTargets
+    modSum &lt;- getModSummary mn
+    p &lt;- parseModule modSum
+    t &lt;- typecheckModule p
+
+    -- Pluck out the module tycons after we're done type-checking
+    DesugaredModule tcmod modguts &lt;- desugarModule t
+    let tycons = mg_tcs modguts
+
+    -- Deconstruct all datatypes into their sums-of-products.
+    return (deconstruct tycons)
+
+  putStrLn (ppShow rep)
+</code></pre>
+<p>Now that we have access to GHC's internal representation of the "module guts" we<br/>
+can write our deconstructor logic. The logic is a slim few hundred lines of<br/>
+mostly ADT munging.</p>
+<pre><code>deconstruct :: [TyCon] -&gt; [Data]
+deconstruct = fmap go
+  where
+    go x
+      | isProduct x = M1 $ D Datatype
+        { dataTypeName = getOccString (tyConName x)
+        , modName      = modString x
+        , isNewtype    = isNewTyCon x
+        , datatype     = Product (mkProduct x)
+        , recursive    = isRecursiveTyCon x
+        }
+
+      | isVoid x = M1 $ D Datatype
+        { dataTypeName = getOccString (tyConName x)
+        , modName      = modString x
+        , isNewtype    = isNewTyCon x
+        , datatype     = V1
+        , recursive    = isRecursiveTyCon x
+        }
+
+      | otherwise = M1 $ D Datatype
+        { dataTypeName = getOccString (tyConName x)
+        , modName      = modString x
+        , isNewtype    = isNewTyCon x
+        , datatype     = Sum (mkProduct x)
+        , recursive    = isRecursiveTyCon x
+        }
+
+mkRecord :: TyCon -&gt; [Data]
+mkRecord x = concatMap mkRProduct (tyConDataCons x)
+
+mkProduct :: TyCon -&gt; [Data]
+mkProduct x = fmap go (tyConDataCons x)
+  where
+    go :: DataCon -&gt; Data
+    go x | isRecord x   = Product (mkRProduct x)
+    go x | isDProduct x = Product (mkDProduct x)
+    go x                = M1 (C (Constructor (conNames x)))
+
+mkDProduct :: DataCon -&gt; [Data]
+mkDProduct xs = [K1 (showType x) | x &lt;- dataConOrigArgTys xs]
+
+mkRProduct :: DataCon -&gt; [Data]
+mkRProduct x = [M1 (S (Selector (getOccString fld)) ty) | (fld, ty) &lt;- zip (fieldNames x) (mkDProduct x)]
+</code></pre>
+<p>Setting up the dummy module <code>Test.hs</code> to run our decompilation script:</p>
+<pre><code>data PlatonicSolid
+  = Tetrahedron
+  | Cube
+  | Octahedron
+  | Dodecahedron
+  | Icosahedron
+
+data Person = Person
+  { firstName       :: String
+  , lastName        :: String
+  , age             :: Int
+  , height          :: Float
+  , phoneNumber     :: String
+  , flavor          :: String
+  } deriving (Show)
+
+data T
+  = T1 { a :: Int, b :: Float }
+  | T2 { c :: Int, d :: Double }
+</code></pre>
+<p>For <code>PlatonicSolid</code> we get the representation:</p>
+<pre><code>M1
+   (D Datatype
+        { dataTypeName = "PlatonicSolid"
+        , modName = "Test"
+        , isNewtype = False
+        , datatype =
+            Sum
+              [ M1 (C Constructor { conName = "Tetrahedron" })
+              , M1 (C Constructor { conName = "Cube" })
+              , M1 (C Constructor { conName = "Octahedron" })
+              , M1 (C Constructor { conName = "Dodecahedron" })
+              , M1 (C Constructor { conName = "Icosahedron" })
+              ]
+        , recursive = False
+        })
+</code></pre>
+<p>For <code>Person</code> we get the representation:</p>
+<pre><code>M1
+    (D Datatype
+         { dataTypeName = "Person"
+         , modName = "Test"
+         , isNewtype = False
+         , datatype =
+             Product
+               [ M1 (S Selector { selName = "firstName" } (K1 "String"))
+               , M1 (S Selector { selName = "lastName" } (K1 "String"))
+               , M1 (S Selector { selName = "age" } (K1 "Int"))
+               , M1 (S Selector { selName = "height" } (K1 "Float"))
+               , M1 (S Selector { selName = "phoneNumber" } (K1 "String"))
+               , M1 (S Selector { selName = "flavor" } (K1 "String"))
+               ]
+         , recursive = False
+       })
+</code></pre>
+<p>For the sum of products <code>T</code> we get the representation:</p>
+<pre><code>M1
+  (D Datatype
+       { dataTypeName = "T"
+       , modName = "Test"
+       , isNewtype = False
+       , datatype =
+           Sum
+             [ Product
+                 [ M1 (S Selector { selName = "a" } (K1 "Int"))
+                 , M1 (S Selector { selName = "b" } (K1 "Float"))
+                 ]
+             , Product
+                 [ M1 (S Selector { selName = "c" } (K1 "Int"))
+                 , M1 (S Selector { selName = "d" } (K1 "Double"))
+                 ]
+             ]
+       , recursive = False
+       })
+</code></pre>
+<p>These data points are then used to generate the Rep instance in the derived<br/>
+Generic instances. So that's a <em>rough approximation</em> of how <code>-XDeriveGeneric</code><br/>
+works under the hood, nothing terribly complicated just book keeping.</p>
+<h4 id="ghc.generics">GHC.Generics</h4>
+<p>From the internal representation we crank out several typeclass instances which<br/>
+store the metadata about the various constructors.</p>
+<pre><code>class Datatype d where
+  datatypeName :: t d f a -&gt; String
+  moduleName   :: t d f a -&gt; String
+  isNewtype    :: t d f a -&gt; Bool
+  isNewtype _ = False
+
+class Selector s where
+  selName :: t s f a -&gt; String
+
+class Constructor c where
+  conName :: t c f a -&gt; String
+
+  conFixity :: t c f a -&gt; Fixity
+  conFixity _ = Prefix
+
+  conIsRecord :: t c f a -&gt; Bool
+  conIsRecord _ = False
+</code></pre>
+<p>For example, for <code>Ingredient</code> example from before, we'd have several<br/>
+constructor instances automatically generated by which we could query the names<br/>
+from the AST.</p>
+<pre><code>type Rep Ingredient = M1 D (T_Ingredient ((M1 C (C_Flour U1)) :+: (M1 C (C_Sugar U1))))
+
+data T_Ingredient
+data C_Flour
+data C_Sugar
+
+instance Datatype T_Ingredient where
+  datatypeName _ = "Ingredient"
+  moduleName _ = "Main"
+
+instance Constructor C_Flour where
+  conName _ = "Flour"
+
+instance Constructor C_Sugar where
+  conName _ = "Sugar"
+</code></pre>
+<p>Unlike reflection in languages like Java, Generics are not pushing type<br/>
+information into the runtime. Apart from a dictionary lookup for they are a<br/>
+effectively free abstraction that has no overhead. We're simply making more<br/>
+information from the compiler manifest in the types during the type-checking<br/>
+phase, all of which gets erased during compilation.</p>
+<h4 id="example">Example</h4>
+<p>I tried to come up a non-contrived example for illustrating the usefulness of<br/>
+generics, and there are plenty of examples (serializes for JSON, Protocol<br/>
+Buffers, SQL Generation, traversals, command line parsers, etc) that are<br/>
+well-documented elsewhere on the web. So let's consider an example based on the<br/>
+silly pun in the title of this article, namely cooking typeclasses.</p>
+<p>So we have a Pie type, naturally.</p>
+<pre><code>data Pie = Pie
+  { filling :: Filling
+  , topping :: Maybe Topping
+  } deriving (Show, Generic)
+
+data Filling = Apple | Cherry | Pumpkin
+  deriving (Show, Generic)
+
+data Topping = IceCream | WhipCream
+  deriving (Show, Generic)
+</code></pre>
+<p><a href="https://www.flickr.com/photos/theleggett/4409912246"><img src="https://beila.github.io/my-collection/stephen-diehl/assets/9128c13f91e3195c64da132aa1fa5174de8ecba32e633c1ab719095f262eafb1.jpg"/></a></p>
+<p>Using generics we'd like to a generate a list of the types of pie that we can<br/>
+put on a menu from the structure of the Haskell types. Records will denote named<br/>
+variations ("filling" vs "topping") of the menu item, while sum types denote the<br/>
+various options in the variations ("cherry filling" vs "apple filling").</p>
+<pre><code>data Item
+  = Item Text [Item]
+  | Variant Text [Item]
+  | Choice Text
+  deriving (Show, Generic)
+</code></pre>
+<p>We implement a typeclass with a <strong>default signature</strong> which gives us the option<br/>
+to manually specify how a type gets converted into a menu item, or fall back on<br/>
+using it's generic representation to automatically generate it.</p>
+<pre><code>class Menu a where
+  menu :: a -&gt; [Item]
+  default menu :: (Generic a, GMenu (Rep a)) =&gt; a -&gt; [Item]
+  menu _ = gmenu (Proxy :: Proxy a)
+
+gmenu :: forall a. (Generic a, GMenu (Rep a)) =&gt; Proxy a -&gt; [Item]
+gmenu _ = gopts (Proxy :: Proxy (Rep a))
+</code></pre>
+<p>Our generic menu operates over various GHC.Generics types to expand out the<br/>
+sums and products into the Item categories that correspond to the menu. The<br/>
+instance for <code>GMenu (K1 R f)</code> has a Menu constraint which allows manual<br/>
+override for specific datatypes. Since we're passing around a proxy we'll have<br/>
+to manually thread the dictionary around sometimes by passing an <code>undefined</code><br/>
+cast to the type of the instance we need to resolve.</p>
+<pre><code>-- Generic Menu
+class GMenu a where
+  gopts :: Proxy a -&gt; [Item]
+
+-- Datatype
+instance GMenu f =&gt; GMenu (M1 D x f) where
+  gopts _ = gopts (Proxy :: Proxy f)
+
+-- Constructor Metadata
+instance (GMenu f, Constructor c) =&gt; GMenu (M1 C c f) where
+  gopts x
+    | conIsRecord (undefined :: t c f a) =
+      [Item (pack (conName m)) (gopts (Proxy :: Proxy f))]
+
+    | otherwise = [Choice (pack (conName m))]
+    where m = (undefined :: t c f a)
+
+-- Selector Metadata
+instance (GMenu f, Selector c) =&gt; GMenu (M1 S c f) where
+  gopts _ = [Variant (pack (selName m)) (gopts (Proxy :: Proxy f))]
+    where m = (undefined :: t c f a)
+
+-- Constructor Paramater
+instance (GMenu (Rep f), Menu f) =&gt; GMenu (K1 R f) where
+  gopts _ = menu (undefined :: f)
+
+-- Sum branch
+instance (GMenu a, GMenu b) =&gt; GMenu (a :+: b) where
+  gopts _ = gopts (Proxy :: Proxy a) ++ gopts (Proxy :: Proxy b)
+
+-- Product branch
+instance (GMenu a, GMenu b) =&gt; GMenu (a :*: b) where
+  gopts _ = gopts (Proxy :: Proxy a) ++ gopts (Proxy :: Proxy b)
+
+-- Void branch
+instance GMenu U1 where
+  gopts _ = []
+</code></pre>
+<p>Specifically we'll override the <code>Maybe</code> type so that it simply expands out to<br/>
+a choice of either "AsIs" of the variant or just the list of choices endowed by<br/>
+the inner parameter.</p>
+<pre><code>instance Menu a =&gt; Menu (Maybe a) where
+  menu _ = [Choice (pack "AsIs")] ++ (menu (undefined :: a))
+</code></pre>
+<p>As an example <code>Maybe Topping</code> expands out into three choices.</p>
+<pre><code>menu (a :: Maybe Topping) ~ [Choice "AsIs", Choice "IceCream", Choice "whipCream"]
+</code></pre>
+<p>Using GHC 7.10's new <code>-XDeriveAnyClass</code> extension we can actually go back and<br/>
+automatically derive Menu inside the deriving clause.</p>
+<pre><code>data Pie = Pie
+  { filling :: Filling
+  , topping :: Maybe Topping
+  } deriving (Show, Generic, Menu)
+</code></pre>
+<p>Now synthesizing a dictionary for Pie we can get a menu</p>
+<pre><code>menu (undefined :: Pie)
+</code></pre>
+<p>And voila:</p>
+<pre><code>[ Item
+    "Pie"
+    [ Variant
+        "filling" [ Choice "Apple" , Choice "Cherry" , Choice "Pumpkin" ]
+    , Variant
+        "topping"
+        [ Choice "AsIs" , Choice "IceCream" , Choice "WhipCream" ]
+    ]
+]
+</code></pre>
+<p>Since our logic is datatype generic, any Haskell we can write down can be<br/>
+automatically translated to a Menu just by <code>deriving Menu</code>. So now we can a<br/>
+new <code>Crisp</code> desert (my favorite!) <em>and we get everything for free</em>!</p>
+<pre><code>data Crisp = Crisp
+  { contents :: Filling
+  , temperature :: Temperature
+  } deriving (Show, Generic, Menu)
+
+data Temperature = Warm | Cold
+  deriving (Show, Generic, Menu)
+
+-- Add an instance for a pair of menu items. That expands into multiple items.
+instance (Menu a, Menu b) =&gt; Menu (a,b) where
+  menu _ = menu (undefined :: a) ++ menu (undefined :: b)
+</code></pre>
+<p>And we can generate the composite menu of both deserts:</p>
+<pre><code>menu (undefined :: (Pie, Crisp))
+</code></pre>
+<pre><code>[ Item
+    "Pie"
+    [ Variant
+        "filling" [ Choice "Apple" , Choice "Cherry" , Choice "Pumpkin" ]
+    , Variant
+        "topping"
+        [ Choice "AsIs" , Choice "IceCream" , Choice "WhipCream" ]
+    ]
+, Item
+    "Crisp"
+    [ Variant
+        "contents" [ Choice "Apple" , Choice "Cherry" , Choice "Pumpkin" ]
+    , Variant "temperature" [ Choice "Warm" , Choice "Cold" ]
+    ]
+]
+</code></pre>
+<p>So that's generics. One of the best goto examples of how an expressive type<br/>
+system and a few clever compiler hooks can make programmers lives easier by<br/>
+cooking our boilerplate for us and giving tastier more correct code.</p>
+<p><p class="image-unavailable">Source image unavailable. <a href="https://www.flickr.com/photos/theleggett/4409912246">Open the original image page</a></p></p>
+    </section>
+    <p class="source"><a href="https://www.stephendiehl.com/posts/generics/">Read the original article on Stephen Diehl's website</a></p>
+  </article>
+</body>
+</html>

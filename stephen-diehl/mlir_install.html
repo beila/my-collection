@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="stephen-diehl-content-hash" content="4599baf23bae631372b15059d4035e7611731a4127760a7479cd73aef6f7b4cd">
+  <meta name="stephen-diehl-article-format" content="1">
+  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/mlir_install.html">
+  <title>MLIR Part 0 - Installing MLIR</title>
+  <style>
+    :root { color-scheme: dark; }
+    body { margin: 0; background: #171717; color: #f1f1f1;
+            font: 18px/1.7 Georgia, serif; }
+    article { max-width: 52rem; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+    h1 { font-size: 2rem; line-height: 1.25; letter-spacing: 0; }
+    h2, h3, h4, h5, h6 { line-height: 1.3; letter-spacing: 0; }
+    a { color: #8dc7ff; overflow-wrap: anywhere; }
+    img { display: block; max-width: 100%; height: auto; margin: 1.25rem auto; }
+    pre { overflow-x: auto; padding: 1rem; background: #242424;
+           white-space: pre-wrap; overflow-wrap: anywhere; }
+    code, kbd, samp { font-family: ui-monospace, monospace; }
+    blockquote { border-left: 3px solid #777; margin-left: 0; padding-left: 1rem; }
+    table { width: 100%; border-collapse: collapse; display: block;
+             overflow-x: auto; }
+    th, td { border: 1px solid #666; padding: .5rem; vertical-align: top; }
+    .published { color: #b8b8b8; }
+    .source { border-top: 1px solid #555; margin-top: 2rem; padding-top: 1rem; }
+  </style>
+</head>
+<body>
+  <article>
+    <h1>MLIR Part 0 - Installing MLIR</h1>
+    <p class="published">Published: Fri, 07 Mar 2025 00:00:00 +0000</p>
+    <section>
+<p>Installing MLIR can be a royal pain, so here are some notes on how to do it via various methods.</p>
+<ol>
+<li><a href="https://www.stephendiehl.com/posts/mlir_install/#from-homebrew-(macos)">From Homebrew (macOS)</a></li>
+<li><a href="https://www.stephendiehl.com/posts/mlir_install/#using-apt-(ubuntu-22.04)">Using Apt (Ubuntu 22.04)</a></li>
+<li><a href="https://www.stephendiehl.com/posts/mlir_install/#using-llvm.sh">Using <code>llvm.sh</code></a></li>
+<li><a href="https://www.stephendiehl.com/posts/mlir_install/#precompiled-packages">Precompiled Packages</a></li>
+<li><a href="https://www.stephendiehl.com/posts/mlir_install/#from-source-(macos)">From Source (macOS)</a></li>
+<li><a href="https://www.stephendiehl.com/posts/mlir_install/#from-source-(ubuntu-22.04)">From Source (Ubuntu 22.04)</a></li>
+<li><a href="https://www.stephendiehl.com/posts/mlir_install/#from-wheel-(pip)">From Wheel (pip)</a></li>
+<li><a href="https://www.stephendiehl.com/posts/mlir_install/#from-wheel-(poetry)">From Wheel (Poetry)</a></li>
+<li><a href="https://www.stephendiehl.com/posts/mlir_install/#from-wheel-(uv)">From Wheel (uv)</a></li>
+<li><a href="https://www.stephendiehl.com/posts/mlir_install/#using-conda">Using Conda</a></li>
+<li><a href="https://www.stephendiehl.com/posts/mlir_install/#using-docker">Using Docker</a></li>
+<li><a href="https://www.stephendiehl.com/posts/mlir_install/#installing-mlir-python-bindings">Installing MLIR Python Bindings</a></li>
+</ol>
+<h2 id="from-homebrew-(macos)">From Homebrew (macOS)</h2>
+<p>The simplest way to install MLIR on macOS is through Homebrew. This will install the latest stable version of LLVM which includes MLIR tools and libraries.</p>
+<pre><code>brew install llvm@20
+</code></pre>
+<h2 id="using-apt-(ubuntu-22.04)">Using Apt (Ubuntu 22.04)</h2>
+<p>For Ubuntu users, the official LLVM APT repository provides pre-built packages for MLIR. This method ensures you get a properly configured build with all necessary dependencies.</p>
+<pre><code>wget -qO- https://apt.llvm.org/llvm-snapshot.gpg.key | tee /etc/apt/trusted.gpg.d/apt.llvm.org.asc
+add-apt-repository "deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-20 main"
+apt-get update
+apt-get install -y libmlir-20-dev mlir-20-tools
+</code></pre>
+<h2 id="using-llvm.sh">Using <code>llvm.sh</code></h2>
+<p>The LLVM project provides an installation script that automatically sets up the APT repository and installs LLVM/MLIR. This is a convenient method for Ubuntu/Debian systems that handles repository setup automatically.</p>
+<pre><code>bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
+</code></pre>
+<p>To install a specific version of LLVM:</p>
+<pre><code>wget https://apt.llvm.org/llvm.sh
+chmod +x llvm.sh
+sudo ./llvm.sh 20
+</code></pre>
+<h2 id="precompiled-packages">Precompiled Packages</h2>
+<p>For users who prefer to download pre-compiled Linux binaries, the LLVM project provides official release packages. These are useful when you need a specific version or want to avoid compilation time. In general these packages are best effort and may not work with your distribution / glibc setup.</p>
+<ol>
+<li>
+<p>Download the appropriate precompiled release package from the <a href="https://github.com/llvm/llvm-project/releases">LLVM releases page</a>. Look for files named:</p>
+<ul>
+<li><code>mlir-&lt;version&gt;.src.tar.xz</code> (e.g., <code>mlir-20.1.4.src.tar.xz</code>)</li>
+</ul>
+</li>
+<li>
+<p>Extract the archive to your desired location:</p>
+</li>
+</ol>
+<pre><code>tar xf mlir-&lt;version&gt;.src.tar.xz
+</code></pre>
+<ol>
+<li>
+<p>Add the binaries to your PATH. You can either:</p>
+<ul>
+<li>Move the extracted directory to a system location:</li>
+</ul>
+<pre><code>sudo mv mlir-&lt;version&gt;.src /usr/local/mlir
+echo 'export PATH=/usr/local/mlir/bin:$PATH' &gt;&gt; ~/.bashrc
+</code></pre>
+<ul>
+<li>Or add the current location to your PATH:</li>
+</ul>
+<pre><code>echo 'export PATH=/path/to/mlir-&lt;version&gt;.src/bin:$PATH' &gt;&gt; ~/.bashrc
+</code></pre>
+</li>
+<li>
+<p>Verify the installation:</p>
+</li>
+</ol>
+<pre><code>mlir-opt --version
+</code></pre>
+<p>Note: While precompiled packages save build time, they may not include all optimizations that would be available in a custom build from source.</p>
+<h2 id="from-source-(macos)">From Source (macOS)</h2>
+<p>Building from source on macOS gives you the most control over the build configuration and ensures you have the latest features. This method requires more time and disk space but provides the most flexibility.</p>
+<pre><code>brew install cmake cache ninja
+git clone https://github.com/llvm/llvm-project.git
+mkdir llvm-project/build
+cd llvm-project/build
+cmake -G Ninja ../llvm \
+   -DLLVM_ENABLE_PROJECTS=mlir \
+   -DLLVM_BUILD_EXAMPLES=ON \
+   -DLLVM_TARGETS_TO_BUILD="Native" \
+   -DCMAKE_BUILD_TYPE=Release \
+   -DLLVM_ENABLE_ASSERTIONS=ON \
+   -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ \
+   -DLLVM_CCACHE_BUILD=ON
+cmake --build . -t mlir-opt mlir-translate mlir-transform-opt mlir-runner
+cmake --build . -t install
+</code></pre>
+<h2 id="from-source-(ubuntu-22.04)">From Source (Ubuntu 22.04)</h2>
+<p>Building from source on Ubuntu allows for complete customization of the MLIR build. This method is recommended for developers who need to modify MLIR or want to ensure specific optimizations are enabled.</p>
+<pre><code>sudo apt-get install clang lld
+git clone https://github.com/llvm/llvm-project.git
+mkdir llvm-project/build
+cd llvm-project/build
+cmake -G Ninja ../llvm \
+   -DLLVM_ENABLE_PROJECTS=mlir \
+   -DLLVM_BUILD_EXAMPLES=ON \
+   -DLLVM_TARGETS_TO_BUILD="Native" \
+   -DCMAKE_BUILD_TYPE=Release \
+   -DLLVM_ENABLE_ASSERTIONS=ON \
+   -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ \
+   -DLLVM_CCACHE_BUILD=ON
+cmake --build . -t mlir-opt mlir-translate mlir-transform-opt mlir-runner
+cmake --build . -t install
+</code></pre>
+<h2 id="from-wheel-(pip)">From Wheel (pip)</h2>
+<p>For Python users, pre-built wheels are available through a custom repository. This is the easiest way to get started with MLIR in Python projects.</p>
+<pre><code>pip install mlir -f https://github.com/makslevental/mlir-wheels/releases/expanded_assets/latest
+</code></pre>
+<h2 id="from-wheel-(poetry)">From Wheel (Poetry)</h2>
+<p>Poetry users can install MLIR through a custom source repository. This method integrates well with Python dependency management and provides version control capabilities.</p>
+<pre><code>[tool.poetry.dependencies]
+python = "^3.12"
+mlir = { version = "latest", source = "mlir-wheels"}
+
+[[tool.poetry.source]]
+name = "mlir-wheels"
+url = "https://github.com/makslevental/mlir-wheels/releases/expanded_assets/latest"
+priority = "supplemental"
+</code></pre>
+<p>Then to check that it works:</p>
+<pre><code>poetry run mlir-opt --version
+</code></pre>
+<h2 id="from-wheel-(uv)">From Wheel (uv)</h2>
+<p>The uv package manager provides a modern alternative for installing MLIR wheels. This method is particularly fast and efficient for Python projects.</p>
+<pre><code>uv add mlir --index mlir=https://github.com/makslevental/mlir-wheels/releases/expanded_assets/latest
+</code></pre>
+<p>For uv users, you can also specify the dependencies in a <code>pyproject.toml</code> file. This approach provides a declarative way to manage your project's dependencies. Add the following to your <code>pyproject.toml</code> file:</p>
+<pre><code>[project]
+dependencies = ["mlir"]
+
+[tool.uv.sources]
+mlir = { index = "mlir-wheels" }
+
+[[tool.uv.index]]
+name = "mlir-wheels"
+url = "https://github.com/makslevental/mlir-wheels/releases/expanded_assets/latest"
+</code></pre>
+<p>Then to check that it works:</p>
+<pre><code>uv run mlir-opt --version
+</code></pre>
+<h2 id="using-conda">Using Conda</h2>
+<p>Conda can be used to install both MLIR and the Python bindings.</p>
+<pre><code>conda install conda-forge::mlir
+</code></pre>
+<h2 id="using-docker">Using Docker</h2>
+<p>For users who prefer containerized environments, pre-built Docker images are available with MLIR pre-installed that I maintain here: <a href="https://github.com/sdiehl/docker-mlir-cuda">https://github.com/sdiehl/docker-mlir-cuda</a>. These images come in both CUDA and non-CUDA variants, supporting both Ubuntu 22.04 and 24.04.</p>
+<pre><code># Ubuntu 24.04 Images
+# With CUDA
+docker pull ghcr.io/sdiehl/docker-mlir-cuda:mlir20-cuda-ubuntu24.04
+docker pull ghcr.io/sdiehl/docker-mlir-cuda:mlir19-cuda-ubuntu24.04
+
+# Without CUDA
+docker pull ghcr.io/sdiehl/docker-mlir-cuda:mlir20-ubuntu24.04
+docker pull ghcr.io/sdiehl/docker-mlir-cuda:mlir19-ubuntu24.04
+
+# Ubuntu 22.04 Images
+# With CUDA
+docker pull ghcr.io/sdiehl/docker-mlir-cuda:mlir20-cuda-ubuntu22.04
+docker pull ghcr.io/sdiehl/docker-mlir-cuda:mlir19-cuda-ubuntu22.04
+
+# Without CUDA
+docker pull ghcr.io/sdiehl/docker-mlir-cuda:mlir20-ubuntu22.04
+docker pull ghcr.io/sdiehl/docker-mlir-cuda:mlir19-ubuntu22.04
+</code></pre>
+<p>To run any of these images interactively:</p>
+<pre><code>docker run -it ghcr.io/sdiehl/docker-mlir-cuda:&lt;tag&gt; bash
+</code></pre>
+<p>For example, to run the CUDA-enabled MLIR 20.1.4 for Ubuntu 24.04:</p>
+<pre><code>docker run -it ghcr.io/sdiehl/docker-mlir-cuda:mlir20-cuda-ubuntu24.04 bash
+</code></pre>
+<p>You can also use these images as a base in your own Dockerfile:</p>
+<pre><code>FROM ghcr.io/sdiehl/docker-mlir-cuda:&lt;tag&gt;
+</code></pre>
+<p>Replace <code>&lt;tag&gt;</code> with your desired version (e.g., <code>mlir20-cuda-ubuntu24.04</code>). For example, to pull CUDA-enabled MLIR 20.1.4 for Ubuntu 24.04:</p>
+<pre><code>docker pull ghcr.io/sdiehl/docker-mlir-cuda:mlir20-cuda-ubuntu24.04
+</code></pre>
+<h2 id="installing-mlir-python-bindings">Installing MLIR Python Bindings</h2>
+<p>The MLIR Python bindings are a separate package that can be installed using your favorite Python package manager. Once you've installed the <code>mlir-wheels</code> index (<a href="https://www.stephendiehl.com/posts/mlir_install/#from-wheel-(poetry)">as above</a>), you can install the Python bindings with one of the following commands:</p>
+<pre><code>pip install mlir-python-bindings -f https://github.com/makslevental/mlir-wheels/releases/expanded_assets/latest
+</code></pre>
+<pre><code>poetry add mlir-python-bindings
+</code></pre>
+<pre><code>uv add mlir --index mlir=https://github.com/makslevental/mlir-wheels/releases/expanded_assets/latest
+</code></pre>
+<pre><code>conda install conda-forge::mlir-python-bindings
+</code></pre>
+<p>If that doesn't work then you'll need to build them inside of the LLVM source tree from source with the <code>DMLIR_ENABLE_BINDINGS_PYTHON</code> flag.</p>
+<pre><code>sudo apt-get install -y \
+  bash-completion \
+  ca-certificates \
+  ccache \
+  clang \
+  cmake \
+  cmake-curses-gui \
+  git \
+  lld \
+  man-db \
+  ninja-build \
+  pybind11-dev \
+  python3 \
+  python3-numpy \
+  python3-pybind11 \
+  python3-yaml \
+  unzip \
+  wget \
+  xz-utils
+
+git clone https://github.com/wjakob/nanobind &amp;&amp; \
+  cd nanobind &amp;&amp; \
+  git submodule update --init --recursive &amp;&amp; \
+  cmake \
+    -G Ninja \
+    -B build \
+    -DCMAKE_CXX_COMPILER=clang++ \
+    -DCMAKE_C_COMPILER=clang \
+    -DCMAKE_INSTALL_PREFIX=$HOME/usr &amp;&amp; \
+  cmake --build build --target install
+
+cmake llvm \
+  -G Ninja \
+  -B build \
+  -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+  -DCMAKE_CXX_COMPILER=clang++ \
+  -DCMAKE_C_COMPILER=clang \
+  -DCMAKE_PREFIX_PATH=$HOME/usr \
+  -DLLVM_BUILD_EXAMPLES=On \
+  -DLLVM_TARGETS_TO_BUILD="Native" \
+  -DLLVM_CCACHE_BUILD=On \
+  -DLLVM_CCACHE_DIR=$HOME/ccache \
+  -DLLVM_ENABLE_ASSERTIONS=On \
+  -DLLVM_ENABLE_LLD=On \
+  -DLLVM_ENABLE_PROJECTS="mlir;clang;clang-tools-extra" \
+  -DLLVM_USE_SPLIT_DWARF=On \
+  -DMLIR_ENABLE_BINDINGS_PYTHON=On \
+  -DPython3_EXECUTABLE=/usr/bin/python3 \ # change this to your python executable
+  -DMLIR_INCLUDE_INTEGRATION_TESTS=On
+
+cmake --build build -t mlir-opt mlir-translate mlir-transform-opt mlir-runner
+cmake --build build -t install
+</code></pre>
+<p>The binding are then built to:</p>
+<pre><code>build/tools/mlir/python_packages/mlir_core/mlir
+</code></pre>
+<p>You can then package them up with the following <a href="https://gist.github.com/sdiehl/96e014c6287ce6bb627ffd97a7027792">setup.py</a>:</p>
+<pre><code>cd build/tools/mlir/python_packages/mlir_core
+python setup.py bdist_wheel
+</code></pre>
+<p>And install them with:</p>
+<pre><code>pip install dist/mlir_core-*.whl
+</code></pre>
+<p>Or you can add them to your PYTHONPATH manually. Adjust the <code>$HOME</code> to be the place where you built the MLIR source tree.</p>
+<pre><code>export PYTHONPATH=$PYTHONPATH:$HOME/build/tools/mlir/python_packages/mlir_core
+</code></pre>
+    </section>
+    <p class="source"><a href="https://www.stephendiehl.com/posts/mlir_install/">Read the original article on Stephen Diehl's website</a></p>
+  </article>
+</body>
+</html>

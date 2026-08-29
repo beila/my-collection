@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="stephen-diehl-content-hash" content="188862bc77b67a9e2eeff2d3b5bb98d9c313cb68c645ba7b2a2c7aa8cdc21e1b">
+  <meta name="stephen-diehl-article-format" content="1">
+  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/rag.html">
+  <title>The Limitations of RAG</title>
+  <style>
+    :root { color-scheme: dark; }
+    body { margin: 0; background: #171717; color: #f1f1f1;
+            font: 18px/1.7 Georgia, serif; }
+    article { max-width: 52rem; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+    h1 { font-size: 2rem; line-height: 1.25; letter-spacing: 0; }
+    h2, h3, h4, h5, h6 { line-height: 1.3; letter-spacing: 0; }
+    a { color: #8dc7ff; overflow-wrap: anywhere; }
+    img { display: block; max-width: 100%; height: auto; margin: 1.25rem auto; }
+    pre { overflow-x: auto; padding: 1rem; background: #242424;
+           white-space: pre-wrap; overflow-wrap: anywhere; }
+    code, kbd, samp { font-family: ui-monospace, monospace; }
+    blockquote { border-left: 3px solid #777; margin-left: 0; padding-left: 1rem; }
+    table { width: 100%; border-collapse: collapse; display: block;
+             overflow-x: auto; }
+    th, td { border: 1px solid #666; padding: .5rem; vertical-align: top; }
+    .published { color: #b8b8b8; }
+    .source { border-top: 1px solid #555; margin-top: 2rem; padding-top: 1rem; }
+  </style>
+</head>
+<body>
+  <article>
+    <h1>The Limitations of RAG</h1>
+    <p class="published">Published: Sat, 02 Nov 2024 00:00:00 +0000</p>
+    <section>
+<p>Retrieval-Augmented generation or RAG is the future of enterprise search. In short it's the art of grinding your documents into a fine, high-dimensional <a href="https://youtu.be/J-QeTbmchvQ?t=95">vector slurry</a>, sifting through the high-dimensional slurry for chunks, and then piping the chunks through a non-deterministic large language model, and praying that something resembling useful truth comes out the other end. It's like making a smoothie with your corporate knowledge base, except instead of getting a refreshing drink, you often end up with... well, let's explore that.</p>
+<p>Picture this: you take your perfectly organized documents, lovingly crafted by humans who understood context, domain terminology, and nuance, and throw them into the BERT Vector Blender Transformer™. What comes out? A chunky soup of floating point numbers that allegedly capture the "essence" of your content. It's somewhat like trying to describe the Mona Lisa's smile using the frequency coefficients of the Fourier transform of a compressed JPEG of the painting. Technically possible, but practically hard.</p>
+<p>Then you throw those vectors into a vector database and use HNSW to search through the high-dimensional space, hoping your nearest neighbor search actually finds semantically similar content rather than just unrelatedly close vectors. Then for RAG to work correctly, we need a sequence of miracles to occur:</p>
+<ol>
+<li>Your chunking algorithm needs to perfectly slice your documents</li>
+<li>Your embedding model needs to capture the true semantic meaning</li>
+<li>The embedding of the question and the retrieved chunks need to be similar</li>
+<li>Your vector search needs to find the actually relevant bits</li>
+<li>Your LLM needs to weave it all together coherently with only the in-context information</li>
+</ol>
+<p>It's like playing a game of telephone, except every player is a bullshit artist who has been fine-tuned to lie instead of saying they don't know. Each component introduces its own fun flavor of randomness. The whole pipeline is like trying to hit a bullseye while riding a unicycle on a boat during a storm. Sure it can randomly work, you might even get lucky sometimes, but good luck reproducing that result!</p>
+<p>And then there's the shallow matching problem. Your RAG system might think it's being helpful by retrieving content about "apple pie" when you ask about "Apple's corporate structure" because hey, they both contain "apple," right? It's like having a particularly enthusiastic but somewhat deaf assistant who, when you ask about "quantum computing," eagerly provides you with information about "quantum healing crystals" because the word "quantum" is similar. The coherence of these responses often resembles a college freshman's essay written ten minutes before deadline – technically all the words are there, but they're arranged with all the grace of a drunk giraffe attempting ballet.</p>
+<p>Even with all your carefully retrieved context, LLMs still love to dance with fiction. The retrieved context is less like a strict set of facts and more like loose suggestions that the model may or may not choose to acknowledge, and there's no guarantee that the model will sample from the given context or from its general crawl of the dark corners of the internet. You might feed it your entire company handbook, only to have it confidently declare that your CEO is a time-traveling penguin who invented post-it notes. Or it might regurgitate the policies and procedures that don't exist, or mix them with the policies of a competitor, or tell your <a href="https://apnews.com/article/new-york-city-chatbot-misinformation-6ebc71db5b770b9969c906a7ee4fae21">employees to break the law</a>.</p>
+<p>And then there's the structured data problem. Ask your RAG system to find the average salary across departments while excluding temporary contractors, and it'll cheerfully write you a novel about "the rich tapestry of compensation across our organizational landscape." It's like asking a literature professor to do your taxes - they'll spend six pages waxing lyrical about the metaphorical significance of your W-2 and conclude that your 401k represents humanity's eternal struggle against desire in a post-modern world. These systems can eloquently write a haiku about every number in your database but ask them to perform basic aggregations and suddenly they're a philosophy major who took "Intro to Statistics" as an elective: "But what does 'average' really mean in a post-truth world?" they'll muse, while completely ignoring your desperate pleas for a simple mean calculation.</p>
+<p>Now basically none of this matters, because at least at this point in time, most AI projects are about producing slick demos for C-level executives who were drunk on the paradigm shifting power of NFTs twelve months ago, and not about solving real problems. And RAG pipeline are amazing for demos because they give the <em>appearance of working</em> but without actually <em>having</em> to work. Which is the best kind of engineering.</p>
+    </section>
+    <p class="source"><a href="https://www.stephendiehl.com/posts/rag/">Read the original article on Stephen Diehl's website</a></p>
+  </article>
+</body>
+</html>

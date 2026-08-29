@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="stephen-diehl-content-hash" content="4025fae5d47d48a6a52e54d152e7231192fe7ed51688ecf5db84b10a05db8a03">
+  <meta name="stephen-diehl-article-format" content="1">
+  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/orpo.html">
+  <title>Fine-tuning with ORPO and Unsloth</title>
+  <style>
+    :root { color-scheme: dark; }
+    body { margin: 0; background: #171717; color: #f1f1f1;
+            font: 18px/1.7 Georgia, serif; }
+    article { max-width: 52rem; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+    h1 { font-size: 2rem; line-height: 1.25; letter-spacing: 0; }
+    h2, h3, h4, h5, h6 { line-height: 1.3; letter-spacing: 0; }
+    a { color: #8dc7ff; overflow-wrap: anywhere; }
+    img { display: block; max-width: 100%; height: auto; margin: 1.25rem auto; }
+    pre { overflow-x: auto; padding: 1rem; background: #242424;
+           white-space: pre-wrap; overflow-wrap: anywhere; }
+    code, kbd, samp { font-family: ui-monospace, monospace; }
+    blockquote { border-left: 3px solid #777; margin-left: 0; padding-left: 1rem; }
+    table { width: 100%; border-collapse: collapse; display: block;
+             overflow-x: auto; }
+    th, td { border: 1px solid #666; padding: .5rem; vertical-align: top; }
+    .published { color: #b8b8b8; }
+    .source { border-top: 1px solid #555; margin-top: 2rem; padding-top: 1rem; }
+  </style>
+</head>
+<body>
+  <article>
+    <h1>Fine-tuning with ORPO and Unsloth</h1>
+    <p class="published">Published: Tue, 03 Sep 2024 01:00:00 +0000</p>
+    <section>
+<p>ORPO was introduced in the paper <a href="https://huggingface.co/docs/trl/main/en/orpo_trainer">"ORPO: Monolithic Preference Optimization without Reference Model"</a>. The key innovation is that it eliminates the need for a separate preference alignment phase by incorporating a minor penalty for disfavored generations during the training process.</p>
+<p>Traditional approaches like DPO require two steps:</p>
+<ol>
+<li>Supervised fine-tuning on the base model</li>
+<li>Preference optimization using paired data</li>
+</ol>
+<p>This two-step process has a significant drawback: during SFT, the model increases the probability of generating both preferred and undesired responses. This happens because SFT treats all training examples as equally valid, without distinguishing between better and worse responses. As a result, a separate direct preference alignment step is needed to widen the gap between preferred and rejected outputs. With ORPO, we can do it all in one step, which is great and more efficient.</p>
+<p>ORPO requires a preference dataset with three key components:</p>
+<ul>
+<li>A prompt/instruction</li>
+<li>A chosen (preferred) response</li>
+<li>A rejected (non-preferred) response</li>
+</ul>
+<p>A preference dataset will look like this:</p>
+<pre><code>{
+    "prompt": "What is the meaning of life?",
+    "chosen": "The meaning of life is to grow, learn, and find purpose through our experiences and connections with others.",
+    "rejected": "42 lol"
+}
+</code></pre>
+<p>We'll use the new Llama 3.2 8B model with Unsloth for efficient training. First, let's set up our environment:</p>
+<pre><code># Install required dependencies
+pip install flash-attn --no-build-isolation
+pip install -v -U git+https://github.com/facebookresearch/xformers.git@main#egg=xformers
+pip install "unsloth[colab-new] @ git+https://github.com/unslothai/unsloth.git"
+</code></pre>
+<p>Now let's set up our training script:</p>
+<pre><code>import torch
+from datasets import load_dataset
+from transformers import TextStreamer
+from trl import ORPOTrainer, ORPOConfig
+
+from unsloth import FastLanguageModel, is_bfloat16_supported
+from unsloth.chat_templates import get_chat_template
+
+# Model configuration
+max_seq_length = 2048
+model, tokenizer = FastLanguageModel.from_pretrained(
+    model_name="unsloth/Meta-Llama-3-8B-bnb-4bit",
+    max_seq_length=max_seq_length,
+    load_in_4bit=True,
+    dtype=None,
+)
+
+# Setup Unsloth's optimized LoRA
+model = FastLanguageModel.get_peft_model(
+    model,
+    r=16,
+    lora_alpha=16,
+    lora_dropout=0,
+    target_modules=[
+        "q_proj", "k_proj", "v_proj",
+        "o_proj", "gate_proj", "up_proj", "down_proj"
+    ],
+    use_rslora=True,  # Faster training
+    use_gradient_checkpointing="unsloth",
+)
+
+# Setup ChatML format
+tokenizer = get_chat_template(
+    tokenizer,
+    chat_template="chatml"
+)
+</code></pre>
+<p>For the dataset, we'll use the <code>ultrafeedback_binarized</code> dataset which contains binarized preferences for training a model to avoid unethical and toxic responses. Using trl we don't need to preprocess the dataset since it already understands the preference format.</p>
+<pre><code>dataset = load_dataset("trl-lib/ultrafeedback_binarized", split="train")
+</code></pre>
+<p>Now let's configure the ORPO trainer with Unsloth-optimized settings:</p>
+<pre><code>orpo_args = ORPOConfig(
+    learning_rate=8e-6,
+    beta=0.1,
+    lr_scheduler_type="cosine_with_restarts",  # Better with Unsloth
+    max_length=2048,
+    max_prompt_length=1024,
+    per_device_train_batch_size=4,  # Increased due to Unsloth optimizations
+    per_device_eval_batch_size=4,
+    gradient_accumulation_steps=2,
+    optim="adamw_8bit",
+    num_train_epochs=3,
+    evaluation_strategy="steps",
+    eval_steps=0.2,
+    logging_steps=1,
+    warmup_steps=10,
+    output_dir="./results/",
+    fp16=not is_bfloat16_supported(),
+    bf16=is_bfloat16_supported(),
+)
+
+trainer = ORPOTrainer(
+    model=model,
+    args=orpo_args,
+    train_dataset=dataset["train"],
+    eval_dataset=dataset["test"],
+    tokenizer=tokenizer,
+)
+
+trainer.train()
+</code></pre>
+<p>After training, we can save the model in various formats:</p>
+<pre><code># Save LoRA weights
+model.save_pretrained("lora_model")
+tokenizer.save_pretrained("lora_model")
+
+# Save merged model in 16-bit
+print("Saving merged model...")
+model.save_pretrained_merged("fused_model", tokenizer, save_method="merged_16bit")
+
+# Save GGUF formats for inference
+print("Saving GGUF formats...")
+model.save_pretrained_gguf("ggufs", tokenizer, quantization_method="f16")
+model.save_pretrained_gguf("ggufs", tokenizer, quantization_method="q4_k_m")
+</code></pre>
+<p>During training, ORPO logs several important metrics:</p>
+<ul>
+<li><code>rewards/chosen</code>: Log probabilities for chosen responses</li>
+<li><code>rewards/rejected</code>: Log probabilities for rejected responses</li>
+<li><code>rewards/accuracies</code>: How often chosen rewards exceed rejected rewards</li>
+<li><code>rewards/margins</code>: Mean difference between chosen and rejected rewards</li>
+<li><code>log_odds_ratio</code>: Mean log odds ratio of chosen vs rejected responses</li>
+<li><code>nll_loss</code>: Negative log likelihood loss from SFT component</li>
+</ul>
+<p>You can monitor these metrics using Weights &amp; Biases.</p>
+    </section>
+    <p class="source"><a href="https://www.stephendiehl.com/posts/orpo/">Read the original article on Stephen Diehl's website</a></p>
+  </article>
+</body>
+</html>

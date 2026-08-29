@@ -1,0 +1,490 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="stephen-diehl-content-hash" content="ffaaf6796ed212774968d0999b83e5b7d6328855121b622be6e71c9dd481be5b">
+  <meta name="stephen-diehl-article-format" content="1">
+  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/mlir_linear_algebra.html">
+  <title>Linear Algebra in MLIR</title>
+  <style>
+    :root { color-scheme: dark; }
+    body { margin: 0; background: #171717; color: #f1f1f1;
+            font: 18px/1.7 Georgia, serif; }
+    article { max-width: 52rem; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+    h1 { font-size: 2rem; line-height: 1.25; letter-spacing: 0; }
+    h2, h3, h4, h5, h6 { line-height: 1.3; letter-spacing: 0; }
+    a { color: #8dc7ff; overflow-wrap: anywhere; }
+    img { display: block; max-width: 100%; height: auto; margin: 1.25rem auto; }
+    pre { overflow-x: auto; padding: 1rem; background: #242424;
+           white-space: pre-wrap; overflow-wrap: anywhere; }
+    code, kbd, samp { font-family: ui-monospace, monospace; }
+    blockquote { border-left: 3px solid #777; margin-left: 0; padding-left: 1rem; }
+    table { width: 100%; border-collapse: collapse; display: block;
+             overflow-x: auto; }
+    th, td { border: 1px solid #666; padding: .5rem; vertical-align: top; }
+    .published { color: #b8b8b8; }
+    .source { border-top: 1px solid #555; margin-top: 2rem; padding-top: 1rem; }
+  </style>
+</head>
+<body>
+  <article>
+    <h1>Linear Algebra in MLIR</h1>
+    <p class="published">Published: Fri, 14 Mar 2025 00:00:00 +0000</p>
+    <section>
+<p>
+<img alt="mlir-egglog" src="https://beila.github.io/my-collection/stephen-diehl/assets/0ce022743beeb1d719aebae1f1320c27e78e712de5358c0a97ab86ff36d10c3f.jpg"/>
+</p>
+
+<p>The Linalg dialect is a core idea in the MLIR ecosystem, it was built to make high-level tensor computations easier and more efficient. Essentially, it's all about simplifying the way we handle complex mathematical operations in a way that can be translated into fast, optimized code. At its core, the Linalg dialect uses a straightforward, declarative approach. This means it lays out operations and transformations in a way that keeps the math intact while also allowing for a variety of optimizations. It provides high-level linear algebra operations like pointwise calculations, matrix multiplications, and convolutions as single operations.</p>
+<h2 id="linalg.generic"><code>linalg.generic</code></h2>
+<p>The most generic operation in the Linalg dialect is <code>linalg.generic</code>. This operation allows us to define a generic tensor manipulation operations over indices. It is the most generic operation and all other operations are defined as specializations of this operation. You probably won't use this directly much, but it's useful to discuss first because it's the most fundamental operation.</p>
+<pre><code>#map_1d_identity = affine_map&lt;(d0) -&gt; (d0)&gt;
+
+func.func @add_tensors(%arg0: tensor&lt;10xf32&gt;, %arg1: tensor&lt;10xf32&gt;) -&gt; tensor&lt;10xf32&gt; {
+  %result = tensor.empty() : tensor&lt;10xf32&gt;
+  %0 = linalg.generic {
+    // attributes
+      indexing_maps = [
+        #map_1d_identity,
+        #map_1d_identity,
+        #map_1d_identity
+       ],
+      iterator_types = [
+        "parallel"
+      ]
+    } 
+    // input tensors
+    ins(%arg0, %arg1 : tensor&lt;10xf32&gt;, tensor&lt;10xf32&gt;) 
+    // output tensor
+    outs(%result : tensor&lt;10xf32&gt;) 
+    // loop region
+    {
+    ^bb0(%arg2: f32, %arg3: f32, %arg4: f32):
+      %1 = arith.addf %arg2, %arg3 : f32
+      linalg.yield %1 : f32
+    } -&gt; tensor&lt;10xf32&gt;
+  return %0 : tensor&lt;10xf32&gt;
+}
+</code></pre>
+<p>Let's break down each component of this <code>linalg.generic</code> operation:</p>
+<ol>
+<li>
+<p><code>indexing_maps</code>: This attribute defines how input and output tensors are accessed. Here we have 3 maps:</p>
+<ul>
+<li>First map for first input tensor (<code>%arg0</code>)</li>
+<li>Second map for second input tensor (<code>%arg1</code>)</li>
+<li>Third map for output tensor (<code>%result</code>)</li>
+</ul>
+<p>All use <code>#map_1d_identity</code> which is defined as <code>affine_map&lt;(d0) -&gt; (d0)&gt;</code>, meaning each element maps directly to the corresponding element (no coordinate transformations).</p>
+</li>
+<li>
+<p><code>iterator_types</code>: Specifies the type of iteration for each dimension. Here we have:</p>
+<ul>
+<li><code>["parallel"]</code>: Single dimension marked as parallel, meaning iterations can be executed in any order or concurrently.</li>
+</ul>
+<p>There are three possible iterator types in linalg:</p>
+<ul>
+<li><code>parallel</code>: Iterations can be executed in any order or concurrently (like element-wise operations)</li>
+<li><code>reduction</code>: Iterations contribute to a single result value (like summing along an axis)</li>
+<li><code>window</code>: Iterations access a sliding window of elements (like convolutions)</li>
+</ul>
+</li>
+<li>
+<p><code>ins(%arg0, %arg1 : tensor&lt;10xf32&gt;, tensor&lt;10xf32&gt;)</code>:</p>
+<ul>
+<li>Specifies the input tensors and their types</li>
+<li>Both are 1D tensors of 10 float32 elements</li>
+</ul>
+</li>
+<li>
+<p><code>outs(%result : tensor&lt;10xf32&gt;)</code>:</p>
+<ul>
+<li>Specifies the output tensor and its type</li>
+<li>Also a 1D tensor of 10 float32 elements</li>
+</ul>
+</li>
+<li>
+<p>The region (loop body):</p>
+<pre><code>{
+^bb0(%arg2: f32, %arg3: f32, %arg4: f32):
+  %1 = arith.addf %arg2, %arg3 : f32
+  linalg.yield %1 : f32
+}
+</code></pre>
+<ul>
+<li>Takes scalar values from input tensors (%arg2, %arg3) and output tensor (%arg4)</li>
+<li>Performs floating point addition</li>
+<li>Yields result back using <code>linalg.yield</code></li>
+</ul>
+</li>
+</ol>
+<p>This would perform the standard vectorized addition of two tensors element-wise, just like in NumPy:</p>
+<pre><code>np.array([1,2,3]) + np.array([2,3,4])
+# array([3, 5, 7])
+</code></pre>
+<p>If this seems like a lot, don't worry it is. There are much simpler ways to write this that compile down to the same thing.</p>
+<h2 id="linalg.map"><code>linalg.map</code></h2>
+<p>The same operation can be written is a generic <code>linalg.map</code> operation which abstracts away the precise details of the loop nest and index manipulations, instead directly applying the <code>arith.addf</code> operation to the input tensors.</p>
+<pre><code>module {
+  func.func @addv(%arg0: tensor&lt;10xf32&gt;, %arg1: tensor&lt;10xf32&gt;, %out: memref&lt;10xf32&gt;) {
+    %out2 = tensor.empty() : tensor&lt;10xf32&gt;
+    %result = linalg.map { arith.addf } ins(%arg0, %arg1 : tensor&lt;10xf32&gt;, tensor&lt;10xf32&gt;) outs(%out2 : tensor&lt;10xf32&gt;)
+
+    %l = bufferization.to_memref %result : tensor&lt;10xf32&gt; to memref&lt;10xf32&gt;
+    memref.copy %l, %out : memref&lt;10xf32&gt; to memref&lt;10xf32&gt;
+
+    return
+  }
+}
+</code></pre>
+<p>There are also named operations for common arithmetic map operations that are named specializations of the <code>linalg.map</code> operation.</p>
+<ul>
+<li><code>linalg.add</code></li>
+<li><code>linalg.mul</code></li>
+<li><code>linalg.div</code></li>
+<li><code>linalg.sub</code></li>
+</ul>
+<h2 id="linalg.reduce"><code>linalg.reduce</code></h2>
+<p>The <code>linalg.reduce</code> operation is a powerful primitive that can be used to implement various reduction operations.</p>
+<pre><code>func.func @add_tensor() -&gt; (f64) {
+  %_ssa_0 = tensor.empty () : tensor&lt;3xf64&gt;
+  %out = tensor.empty () : tensor&lt;f64&gt;
+  %reduce = linalg.reduce { arith.addf } ins(%_ssa_0:tensor&lt;3xf64&gt;) outs(%out:tensor&lt;f64&gt;) dimensions = [0]
+  %result = tensor.extract %reduce [] : tensor&lt;f64&gt;
+  return %result : f64
+}
+</code></pre>
+<p>In NumPy this operation can be written as:</p>
+<pre><code>import numpy as np
+np.multiply.reduce([2,3,5]) # 30
+</code></pre>
+<h2 id="linalg.matmul"><code>linalg.matmul</code></h2>
+<p>We can also define a generic matrix multiplication operation in terms of direct tensor contractions. The matrix multiplication operation shown in the MLIR code can be written in conventional tensor notation as:</p>
+<p>$$<br/>
+C_{ij} = \sum_{k=1}^{10} A_{ik} B_{kj}<br/>
+$$</p>
+<p>Where:</p>
+<ul>
+<li>$A$ is the 8×10 input matrix (<code>memref&lt;8x10xf32&gt;</code>)</li>
+<li>$B$ is the 10×16 input matrix (<code>memref&lt;10x16xf32&gt;</code>)</li>
+<li>$C$ is the 8×16 output matrix (<code>memref&lt;8x16xf32&gt;</code>)</li>
+<li>$i$ ranges from 1 to 8</li>
+<li>$j$ ranges from 1 to 16</li>
+<li>$k$ is the summation index ranging from 1 to 10</li>
+</ul>
+<p>This matches the MLIR implementation where:</p>
+<ul>
+<li>The <code>parallel</code> iterator types correspond to the free indices $i$ and $j$</li>
+<li>The <code>reduction</code> iterator type corresponds to the summation over $k$</li>
+<li>The indexing maps <code>(i, j, k) -&gt; (i, k)</code>, <code>(i, j, k) -&gt; (k, j)</code>, and <code>(i, j, k) -&gt; (i, j)</code> correspond to accessing $A_{ik}$, $B_{kj}$, and $C_{ij}$ respectively</li>
+</ul>
+<pre><code>func.func @matmul(
+    %A: memref&lt;8x10xf32&gt;,
+    %B: memref&lt;10x16xf32&gt;,
+    %C: memref&lt;8x16xf32&gt;
+) {
+    linalg.generic {
+        indexing_maps = [
+            affine_map&lt;(i, j, k) -&gt; (i, k)&gt;,
+            affine_map&lt;(i, j, k) -&gt; (k, j)&gt;,
+            affine_map&lt;(i, j, k) -&gt; (i, j)&gt;
+        ],
+        iterator_types = [
+            "parallel",
+            "parallel",
+            "reduction"
+        ]
+    } ins(%A, %B : memref&lt;8x10xf32&gt;, memref&lt;10x16xf32&gt;) outs(%C : memref&lt;8x16xf32&gt;) {
+        ^bb0(%lhs_one: f32, %rhs_one: f32, %init_one: f32):
+            %tmp0 = arith.mulf %lhs_one, %rhs_one : f32
+            %tmp1 = arith.addf %init_one, %tmp0 : f32
+            linalg.yield %tmp1 : f32
+    }
+    return
+}
+</code></pre>
+<p>Or in the much more succinct form using <code>linalg.matmul</code> operation.</p>
+<pre><code>func.func @matmul(
+    %A: memref&lt;8x10xf32&gt;,
+    %B: memref&lt;10x16xf32&gt;,
+    %C: memref&lt;8x16xf32&gt;
+) {
+    linalg.matmul ins(%A, %B : memref&lt;8x10xf32&gt;, memref&lt;10x16xf32&gt;) outs(%C : memref&lt;8x16xf32&gt;)
+    return
+}
+</code></pre>
+<p>The tensor operations are then lowered into a sequence of loops using either the <code>affine.for</code> or <code>scf.for</code> operations using the <code>convert-linalg-to-loops</code> or <code>convert-linalg-to-affine-loops</code> passes.</p>
+<pre><code>func.func @matmul(%arg0: memref&lt;8x10xf32&gt;, %arg1: memref&lt;10x16xf32&gt;, %arg2: memref&lt;8x16xf32&gt;) {
+  affine.for %arg3 = 0 to 8 {
+    affine.for %arg4 = 0 to 16 {
+      affine.for %arg5 = 0 to 10 {
+        %0 = affine.load %arg0[%arg3, %arg5] : memref&lt;8x10xf32&gt;
+        %1 = affine.load %arg1[%arg5, %arg4] : memref&lt;10x16xf32&gt;
+        %2 = affine.load %arg2[%arg3, %arg4] : memref&lt;8x16xf32&gt;
+        %3 = arith.mulf %0, %1 : f32
+        %4 = arith.addf %2, %3 : f32
+        affine.store %4, %arg2[%arg3, %arg4] : memref&lt;8x16xf32&gt;
+      }
+    }
+  }
+  return
+}
+</code></pre>
+<pre><code>func.func @matmul(%arg0: memref&lt;8x10xf32&gt;, %arg1: memref&lt;10x16xf32&gt;, %arg2: memref&lt;8x16xf32&gt;) {
+  %c0 = arith.constant 0 : index
+  %c8 = arith.constant 8 : index
+  %c1 = arith.constant 1 : index
+  %c16 = arith.constant 16 : index
+  %c10 = arith.constant 10 : index
+  scf.for %arg3 = %c0 to %c8 step %c1 {
+    scf.for %arg4 = %c0 to %c16 step %c1 {
+      scf.for %arg5 = %c0 to %c10 step %c1 {
+        %0 = memref.load %arg0[%arg3, %arg5] : memref&lt;8x10xf32&gt;
+        %1 = memref.load %arg1[%arg5, %arg4] : memref&lt;10x16xf32&gt;
+        %2 = memref.load %arg2[%arg3, %arg4] : memref&lt;8x16xf32&gt;
+        %3 = arith.mulf %0, %1 : f32
+        %4 = arith.addf %2, %3 : f32
+        memref.store %4, %arg2[%arg3, %arg4] : memref&lt;8x16xf32&gt;
+      }
+    }
+  }
+  return
+}
+</code></pre>
+<h2 id="broadcasting">Broadcasting</h2>
+<p>Broadcasting in MLIR's Linalg dialect allows tensors of different shapes to be combined in operations, similar to NumPy's broadcasting rules. The smaller tensor is implicitly expanded to match the shape of the larger tensor along broadcast dimensions. This is particularly useful for operations like adding a vector to each row/column of a matrix or applying scalar operations to tensors.</p>
+<p>Let's look at some common broadcasting patterns:</p>
+<pre><code>func.func @broadcast_1d_to_2d(%arg0: tensor&lt;3xf32&gt;) -&gt; tensor&lt;3x3xf32&gt; {
+  // Create an empty output tensor
+  %init = tensor.empty() : tensor&lt;3x3xf32&gt;
+  
+  // Broadcast the input tensor along dimension 1 (columns)
+  %result = linalg.broadcast 
+    ins(%arg0: tensor&lt;3xf32&gt;)
+    outs(%init: tensor&lt;3x3xf32&gt;)
+    dimensions = [1]
+    
+  return %result : tensor&lt;3x3xf32&gt;
+}
+</code></pre>
+<p>In NumPy this operation can be written as:</p>
+<pre><code>arg0 = np.array([1,2,3])
+result = np.broadcast_to(arg0, (3,3))
+# array([[1, 2, 3],
+#        [1, 2, 3],
+#        [1, 2, 3]])
+</code></pre>
+<p>We can also combine broadcasting with other operations. For example, adding a vector to each row of a matrix:</p>
+<pre><code>func.func @add_vector_to_matrix(
+    %matrix: tensor&lt;3x4xf32&gt;,
+    %vector: tensor&lt;4xf32&gt;
+) -&gt; tensor&lt;3x4xf32&gt; {
+  %init = tensor.empty() : tensor&lt;3x4xf32&gt;
+  
+  // First broadcast the vector
+  %broadcasted = linalg.broadcast
+    ins(%vector: tensor&lt;4xf32&gt;)
+    outs(%init: tensor&lt;3x4xf32&gt;)
+    dimensions = [0]
+    
+  // Then add the broadcasted result to the matrix
+  %result = linalg.map { arith.addf }
+    ins(%matrix, %broadcasted: tensor&lt;3x4xf32&gt;, tensor&lt;3x4xf32&gt;)
+    outs(%init: tensor&lt;3x4xf32&gt;)
+    
+  return %result : tensor&lt;3x4xf32&gt;
+}
+</code></pre>
+<p>This is the equivalent to the common NumPy operation:</p>
+<pre><code>matrix = np.ones((3,4))
+vector = np.array([1,2,3,4])
+result = matrix + vector
+# array([[2., 3., 4., 5.],
+#        [2., 3., 4., 5.],
+#        [2., 3., 4., 5.]])
+</code></pre>
+<h2 id="kernel-fusion">Kernel Fusion</h2>
+<p>Kernel fusion is an important optimization technique that combines multiple operations into a single operation, reducing memory bandwidth requirements and improving performance. The Linalg dialect provides built-in support for fusing elementwise operations through its optimization passes.</p>
+<p>Let's look at a simple example where we have two operations - addition followed by multiplication - that we want to fuse together. First, we'll write these as separate operations:</p>
+<pre><code>module {
+  func.func @addmul(%arg0: tensor&lt;10xf32&gt;, %arg1: tensor&lt;10xf32&gt;, %arg2: tensor&lt;10xf32&gt;) -&gt; tensor&lt;10xf32&gt; {
+    // First create an empty tensor for intermediate results
+    %0 = tensor.empty() : tensor&lt;10xf32&gt;
+    
+    // Add operation
+    %1 = linalg.add ins(%arg0, %arg1 : tensor&lt;10xf32&gt;, tensor&lt;10xf32&gt;)
+                    outs(%0 : tensor&lt;10xf32&gt;) -&gt; tensor&lt;10xf32&gt;
+
+    // Create another empty tensor for the multiplication result
+    %2 = tensor.empty() : tensor&lt;10xf32&gt;
+    
+    // Multiply operation
+    %3 = linalg.mul ins(%1, %arg2 : tensor&lt;10xf32&gt;, tensor&lt;10xf32&gt;)
+                    outs(%2 : tensor&lt;10xf32&gt;) -&gt; tensor&lt;10xf32&gt;
+
+    return %3 : tensor&lt;10xf32&gt;
+  }
+}
+</code></pre>
+<p>Here we have two distinct operations: <code>linalg.add</code> followed by <code>linalg.mul</code>. Each operation requires reading from memory and writing back to memory, which can be inefficient.</p>
+<p>Through MLIR's optimization passes, we can fuse these operations into a single kernel that performs both operations in one pass over the data:</p>
+<pre><code>#map = affine_map&lt;(d0) -&gt; (d0)&gt;
+module {
+  func.func @addmul(%arg0: tensor&lt;10xf32&gt;, %arg1: tensor&lt;10xf32&gt;, %arg2: tensor&lt;10xf32&gt;) -&gt; tensor&lt;10xf32&gt; {
+    %0 = tensor.empty() : tensor&lt;10xf32&gt;
+    %1 = linalg.generic {indexing_maps = [#map, #map, #map, #map],
+        iterator_types = ["parallel"]} ins(%arg0, %arg1, %arg2 : tensor&lt;10xf32&gt;,
+        tensor&lt;10xf32&gt;, tensor&lt;10xf32&gt;) outs(%0 : tensor&lt;10xf32&gt;) {
+    ^bb0(%in: f32, %in_0: f32, %in_1: f32, %out: f32):
+      %2 = arith.addf %in, %in_0 : f32
+      %3 = arith.mulf %2, %in_1 : f32
+      linalg.yield %3 : f32
+    } -&gt; tensor&lt;10xf32&gt;
+    return %1 : tensor&lt;10xf32&gt;
+  }
+}
+</code></pre>
+<p>To get some intuition for how this works, let's look at the equivalent Python code:</p>
+<pre><code># Unfused version - two separate loops
+def unfused_addmul(a, b, c):
+    # First loop - addition
+    temp = []
+    for i in range(len(a)):
+        temp.append(a[i] + b[i])
+    
+    # Second loop - multiplication
+    result = []
+    for i in range(len(temp)):
+        result.append(temp[i] * c[i])
+    
+    return result
+
+# Fused version - single loop
+def fused_addmul(a, b, c):
+    result = []
+    for i in range(len(a)):
+        # Combine add and multiply in one loop iteration
+        result.append((a[i] + b[i]) * c[i])
+    return result
+
+a = [1.0, 2.0, 3.0, 4.0, 5.0]
+b = [1.0, 1.0, 1.0, 1.0, 1.0]
+c = [2.0, 2.0, 2.0, 2.0, 2.0]
+
+# Both produce same result but fused version only loops once
+result = fused_addmul(a, b, c)  # [(1+1)*2, (2+1)*2, (3+1)*2, ...]
+</code></pre>
+<p>The fused version combines both operations into a single <code>linalg.generic</code> operation that reads each input only once and writes the final result directly. This eliminates the intermediate tensor allocation and memory accesses.</p>
+<p>To perform this fusion, we need to apply a specific sequence of optimization passes:</p>
+<ol>
+<li><code>--canonicalize</code>: Performs general cleanups and simplifications</li>
+<li><code>--linalg-fuse-elementwise-ops</code>: Fuse elementwise operations</li>
+<li><code>--cse</code>: Common Subexpression Elimination to clean up redundant operations</li>
+<li><code>--linalg-generalize-named-ops</code>: Converts named ops (like <code>linalg.add</code>) to generic form</li>
+<li><code>--convert-linalg-to-loops</code>: Converts the fused operations to explicit loops</li>
+</ol>
+<p>We can run these passes and output the fused <code>addmul</code> operation to <code>fused_ops.mlir</code>, reducing the time complexity from two loops over $n$ to a single loop over $n$.</p>
+<pre><code>mlir-opt separate_ops.mlir \
+  --canonicalize \
+  --linalg-fuse-elementwise-ops \
+  --cse \
+  --linalg-generalize-named-ops \
+  --linalg-fuse-elementwise-ops \
+  --convert-linalg-to-loops \
+  -o fused_ops.mlir
+</code></pre>
+<p>This sequence of passes ensures that operations are properly fused and then lowered to a form that can be efficiently executed. The fusion optimization is particularly important in deep learning workloads where chains of elementwise operations are common.</p>
+<h2 id="tiling">Tiling</h2>
+<p>Loop tiling is a crucial optimization technique that improves memory access patterns and cache utilization. In modern computer architectures, memory access is often the bottleneck rather than computation. When processing large matrices or tensors, if we access memory in a linear fashion, we may constantly need to fetch new data from main memory, which is much slower than cache memory.</p>
+<p>Tiling breaks down large computations into smaller blocks that better fit into cache memory. For example, in matrix multiplication, instead of computing the entire row-column dot product at once (which might exceed cache size), we break it into smaller tiles that can reside in cache memory. This reduces cache misses and improves performance.</p>
+<p>This optimization is particularly important for GPU architectures, where memory hierarchy and access patterns significantly impact performance. GPUs have a complex memory hierarchy including global memory, shared memory (similar to cache), and registers. By tiling computations to match the GPU's hardware characteristics—like shared memory size and warp size—we can dramatically improve performance. For instance, in CUDA programming, a common pattern is to load a tile of data into shared memory, synchronize threads, and then have each thread work on elements within that tile. More on this in the later section on GPU programming.</p>
+<p>
+<img alt="Affine Tiling" src="https://beila.github.io/my-collection/stephen-diehl/assets/b98f8937d77a04bde985657aff5b3fe63ac4b7d8cf847a9d474e0178978ef606.png"/>
+</p>
+<p>Here's an example of using MLIR to perform loop tiling on a matrix multiplication operation. We'll start with a simple tensor-based matmul and transform it into tiled affine loops.</p>
+<pre><code>module {
+  func.func @matmul(%arg0: tensor&lt;10x10xf32&gt;, %arg1: tensor&lt;10x10xf32&gt;,
+                    %arg2: tensor&lt;10x10xf32&gt;) -&gt; tensor&lt;10x10xf32&gt; {
+    %0 = linalg.matmul 
+           ins(%arg0, %arg1 : tensor&lt;10x10xf32&gt;, tensor&lt;10x10xf32&gt;)
+           outs(%arg2 : tensor&lt;10x10xf32&gt;) -&gt; tensor&lt;10x10xf32&gt;
+    return %0 : tensor&lt;10x10xf32&gt;
+  }
+}
+</code></pre>
+<p>To transform this into tiled loops, we need several transformation passes:</p>
+<ol>
+<li><code>--convert-tensor-to-linalg</code>: Converts tensor operations to linalg dialect</li>
+<li><code>--linalg-generalize-named-ops</code>: Converts named operations (like matmul) into generic linalg operations</li>
+<li><code>--one-shot-bufferize="bufferize-function-boundaries"</code>: Converts tensor operations to use buffers</li>
+<li><code>--buffer-deallocation-pipeline</code>: Handles buffer deallocation</li>
+<li><code>--convert-bufferization-to-memref</code>: Converts buffer operations to memref operations</li>
+<li><code>--convert-linalg-to-affine-loops</code>: Lowers linalg operations to affine loops</li>
+<li><code>--affine-loop-tile="tile-size=5"</code>: Tiles the affine loops with size 5</li>
+<li><code>--canonicalize --cse</code>: Cleanup passes</li>
+</ol>
+<p>Here's the complete transformation pipeline:</p>
+<pre><code>mlir-opt tiling.mlir \
+  --convert-tensor-to-linalg \
+  --linalg-generalize-named-ops \
+  --one-shot-bufferize="bufferize-function-boundaries" \
+  --buffer-deallocation-pipeline \
+  --convert-bufferization-to-memref \
+  --convert-linalg-to-affine-loops \
+  --affine-loop-tile="tile-size=5" \
+  --canonicalize \
+  --cse \
+  -o tiling-transformed.mlir
+</code></pre>
+<p>This produces the following tiled implementation:</p>
+<pre><code>#map = affine_map&lt;(d0) -&gt; (d0)&gt;
+#map1 = affine_map&lt;(d0) -&gt; (d0 + 5)&gt;
+module {
+  func.func @matmul(%arg0: memref&lt;10x10xf32, strided&lt;[?, ?], offset: ?&gt;&gt;, %arg1:
+  memref&lt;10x10xf32, strided&lt;[?, ?], offset: ?&gt;&gt;, %arg2: memref&lt;10x10xf32,
+  strided&lt;[?, ?], offset: ?&gt;&gt;) -&gt; memref&lt;10x10xf32, strided&lt;[?, ?], offset: ?&gt;&gt;
+  {
+    affine.for %arg3 = 0 to 10 step 5 {
+      affine.for %arg4 = 0 to 10 step 5 {
+        affine.for %arg5 = 0 to 10 step 5 {
+          affine.for %arg6 = #map(%arg3) to #map1(%arg3) {
+            affine.for %arg7 = #map(%arg4) to #map1(%arg4) {
+              affine.for %arg8 = #map(%arg5) to #map1(%arg5) {
+                %0 = affine.load %arg0[%arg6, %arg8] : memref&lt;10x10xf32, strided&lt;[?, ?], offset: ?&gt;&gt;
+                %1 = affine.load %arg1[%arg8, %arg7] : memref&lt;10x10xf32, strided&lt;[?, ?], offset: ?&gt;&gt;
+                %2 = affine.load %arg2[%arg6, %arg7] : memref&lt;10x10xf32, strided&lt;[?, ?], offset: ?&gt;&gt;
+                %3 = arith.mulf %0, %1 : f32
+                %4 = arith.addf %2, %3 : f32
+                affine.store %4, %arg2[%arg6, %arg7] : memref&lt;10x10xf32, strided&lt;[?, ?], offset: ?&gt;&gt;
+              }
+            }
+          }
+        }
+      }
+    }
+    %alloc = memref.alloc() : memref&lt;10x10xf32&gt;
+    %cast = memref.cast %alloc : memref&lt;10x10xf32&gt; to memref&lt;10x10xf32, strided&lt;[?, ?], offset: ?&gt;&gt;
+    memref.copy %arg2, %alloc : memref&lt;10x10xf32, strided&lt;[?, ?], offset: ?&gt;&gt; to memref&lt;10x10xf32&gt;
+    return %cast : memref&lt;10x10xf32, strided&lt;[?, ?], offset: ?&gt;&gt;
+  }
+}
+</code></pre>
+<p>The tiled output shows the original 10x10 matrix multiplication broken into smaller 5x5 tiles, which can help improve cache utilization and locality of memory accesses.</p>
+<h2 id="external-references">External References</h2>
+<ul>
+<li><a href="https://mlir.llvm.org/docs/Dialects/Linalg/">MLIR: Linalg Dialect</a></li>
+<li><a href="https://youtu.be/A805W2KSCxQ?si=UElNauFz86VonSBN">MLIR Open Meeting 2022-01-27: Introduction to Linalg.generic</a></li>
+<li><a href="https://www.youtube.com/watch?v=7-xAzlda0F8">2024 EuroLLVM - MLIR Linalg Op Fusion - Theory &amp; Practice</a></li>
+<li><a href="https://numpy.org/doc/stable/user/basics.broadcasting.html">NumPy Broadcasting</a></li>
+<li><a href="https://www.lei.chat/posts/mlir-codegen-dialects-for-machine-learning-compilers/">MLIR Codegen Dialects for Machine Learning Compilers</a></li>
+<li><a href="https://www.lei.chat/posts/mlir-linalg-dialect-and-patterns/">MLIR Linalg Dialect and Patterns</a></li>
+<li><a href="https://mlir.llvm.org/docs/Rationale/RationaleLinalgDialect/">Linalg Dialect Rationale: The Case For Compiler-Friendly Custom Operations</a></li>
+<li><a href="https://mlir.llvm.org/OpenMeetings/2022-01-27-Intro-to-Linalg.pdf">Anatomy of Linalg.generic</a></li>
+<li><a href="https://gist.github.com/bjacob/2e662b3d2259d99aec15a43bf0e7b325">IREE/MLIR/Linalg tutorial</a></li>
+</ul>
+    </section>
+    <p class="source"><a href="https://www.stephendiehl.com/posts/mlir_linear_algebra/">Read the original article on Stephen Diehl's website</a></p>
+  </article>
+</body>
+</html>

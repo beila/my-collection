@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="stephen-diehl-content-hash" content="f0584de9bbe396cac67dfbb3fbaf8a1928ce896df802dc4c5ed78163e159decc">
+  <meta name="stephen-diehl-article-format" content="1">
+  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/church.html">
+  <title>The Y-Combinator in Python</title>
+  <style>
+    :root { color-scheme: dark; }
+    body { margin: 0; background: #171717; color: #f1f1f1;
+            font: 18px/1.7 Georgia, serif; }
+    article { max-width: 52rem; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+    h1 { font-size: 2rem; line-height: 1.25; letter-spacing: 0; }
+    h2, h3, h4, h5, h6 { line-height: 1.3; letter-spacing: 0; }
+    a { color: #8dc7ff; overflow-wrap: anywhere; }
+    img { display: block; max-width: 100%; height: auto; margin: 1.25rem auto; }
+    pre { overflow-x: auto; padding: 1rem; background: #242424;
+           white-space: pre-wrap; overflow-wrap: anywhere; }
+    code, kbd, samp { font-family: ui-monospace, monospace; }
+    blockquote { border-left: 3px solid #777; margin-left: 0; padding-left: 1rem; }
+    table { width: 100%; border-collapse: collapse; display: block;
+             overflow-x: auto; }
+    th, td { border: 1px solid #666; padding: .5rem; vertical-align: top; }
+    .published { color: #b8b8b8; }
+    .source { border-top: 1px solid #555; margin-top: 2rem; padding-top: 1rem; }
+  </style>
+</head>
+<body>
+  <article>
+    <h1>The Y-Combinator in Python</h1>
+    <p class="published">Published: Thu, 10 Aug 2017 01:00:00 +0000</p>
+    <section>
+<p>Lambda calculus holds a revered place as a foundational system in computation theory, influencing programming languages and paradigms. One fascinating application of lambda calculus is Church encoding, which allows representing data and operators using only functions. This blog post delves into how Church encoding can be implemented in Python to represent boolean values, basic arithmetic operations, and even complex functions like the Fibonacci sequence.</p>
+<p>Church encoding is a means of representing data and operators in lambda calculus, which uses functions instead of data types. Typical constructs such as numerals, boolean values, and basic arithmetic operations can be represented purely through functional abstractions and applications.</p>
+<p>Let's start by encoding boolean values and essential logical operations using lambda functions in Python.</p>
+<p>In Church encoding, TRUE and FALSE can be defined as functions taking two parameters, returning the first and the second parameter respectively:</p>
+<pre><code>TRUE = lambda x: lambda y: x
+FALSE = lambda x: lambda y: y
+</code></pre>
+<p>Using these definitions, we can define logical operations. For instance, the AND operation can be represented as:</p>
+<pre><code>And = lambda x: lambda y: x(y)(x)
+</code></pre>
+<p>Arithmetic operations can also be represented in this system. For example, the successor of a number, addition, and multiplication are defined as follows:</p>
+<pre><code>Succ = lambda n: lambda f: lambda x: f(n(f)(x))
+Add = lambda m: lambda n: lambda f: lambda x: m(f)(n(f)(x))
+Mul = lambda m: lambda n: lambda f: m(n(f))
+</code></pre>
+<p>Now, for a more complex example, we use the Fibonacci sequence, implementing it through lambda calculus constructs in Python. We employ the Y combinator to handle recursion since lambda calculus inherently does not support recursion:</p>
+<pre><code>Y = lambda f: (lambda x: f(lambda v: x(x)(v)))(lambda x: f(lambda v: x(x)(v)))
+Fib = Y(lambda f: lambda n: Add(f(Pred(n)))(f(Sub(n)(TWO))) if Gt(n)(ONE) else n)
+</code></pre>
+<p>Implementing and running this encoded logic in Python serves as an excellent tool for understanding the deeper foundations of computation. Let’s see how it evaluates some Fibonacci positions:</p>
+<pre><code>print(Fib(1))  # Output: 1
+print(Fib(2))  # Output: 1
+print(Fib(8))  # Output: 21
+</code></pre>
+<p>The whole code provided for your twisted amusement is listed below:</p>
+<pre><code>TRUE = lambda x: lambda y: x
+FALSE = lambda x: lambda y: y
+Product = lambda x: lambda y: lambda z: (z)(x)(y)
+And = lambda x: lambda y: (x)(y)(x)
+Not = lambda x: lambda y: lambda z: (x)(z)(y)
+Boolean = (Product)(True)(False)
+Succ = lambda x: lambda y: lambda z: (y)((x)(y)(z))
+Pred = lambda x: lambda y: lambda z: x(lambda i: lambda j: j(i(y))) (lambda k: z) (lambda k: k)
+Y = lambda g: (lambda z:z(z)) (lambda f: g(lambda arg: f(f)(arg)))
+Nth = Y(lambda f: lambda n: Succ(f(n-1)) if n else Zero)
+Dec = lambda a: (a)(lambda b: b + 1)(0)
+Add = lambda x: lambda y: lambda z: lambda w: (x)(z)((y)(z)(w))
+Sub = lambda x: lambda y: (y)(Pred)(x)
+Mul = lambda x: lambda y: lambda z: (y)((x)(z))
+Null = lambda x: x(lambda y: Zero)(TRUE)
+Eq = lambda x: lambda y: (And)((Null)((Sub)(y)(x)))((Null)((Sub)(x)(y)))
+Gt = lambda x: lambda y: (And)((Null)((Sub)(y)(x)))((Not)((Eq)(y)(x)))
+Lt = lambda x: lambda y: (And)((Not)((Gt)(x)(y)))((Not)((Eq)(x)(y)))
+IfThenElse = lambda a: lambda b: lambda c: ((a)(b))(c)
+Range = lambda a,b: map(Nth,range(a,b))
+
+# Minimal
+Fib = Y(lambda f: lambda n: Add(f(Pred(n)))(f((Sub)(n)(Two))) if (Boolean)((Gt)(n)(One)) else n)
+
+# Exapnded
+Fib = lambda x: (lambda a: (a)(lambda b: b + 1)(0))(
+    (
+        (
+            lambda g: (lambda f: g(lambda arg: f(f)(arg)))(
+                lambda f: g(lambda arg: f(f)(arg))
+            )
+        )(
+            lambda f: lambda n: (
+                (lambda x: lambda y: lambda z: lambda w: (x)(z)((y)(z)(w)))(
+                    f(
+                        (
+                            lambda x: lambda y: lambda z: x(
+                                lambda i: lambda j: j(i(y))
+                            )(lambda k: z)(lambda k: k)
+                        )(n)
+                    )
+                )(
+                    f(
+                        (
+                            (
+                                lambda x: lambda y: (y)(
+                                    (
+                                        lambda x: lambda y: lambda z: x(
+                                            lambda i: lambda j: j(i(y))
+                                        )(lambda k: z)(lambda k: k)
+                                    )
+                                )(x)
+                            )
+                        )(n)(
+                            (
+                                (lambda x: lambda y: lambda z: (y)((x)(y)(z)))(
+                                    (
+                                        (lambda x: lambda y: lambda z: (y)((x)(y)(z)))(
+                                            (lambda x: lambda y: y)
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+                if (
+                    (
+                        ((lambda x: lambda y: lambda z: (z)(x)(y)))(
+                            lambda x: lambda y: x
+                        )(False)
+                    )
+                )(
+                    (
+                        (
+                            lambda x: lambda y: (lambda x: lambda y: (x)(y)(x))(
+                                (
+                                    (
+                                        lambda x: x(lambda y: (lambda x: lambda y: y))(
+                                            lambda x: lambda y: x
+                                        )
+                                    )
+                                )(
+                                    (
+                                        (
+                                            lambda x: lambda y: (y)(
+                                                (
+                                                    lambda x: lambda y: lambda z: x(
+                                                        lambda i: lambda j: j(i(y))
+                                                    )(lambda k: z)(lambda k: k)
+                                                )
+                                            )(x)
+                                        )
+                                    )(y)(x)
+                                )
+                            )(
+                                ((lambda x: lambda y: lambda z: (x)(z)(y)))(
+                                    (
+                                        (
+                                            lambda x: lambda y: (
+                                                lambda x: lambda y: (x)(y)(x)
+                                            )(
+                                                (
+                                                    (
+                                                        lambda x: x(
+                                                            lambda y: (
+                                                                lambda x: lambda y: y
+                                                            )
+                                                        )(lambda x: lambda y: x)
+                                                    )
+                                                )(
+                                                    (
+                                                        (
+                                                            lambda x: lambda y: (y)(
+                                                                (
+                                                                    lambda x: lambda y: lambda z: x(
+                                                                        lambda i: lambda j: j(
+                                                                            i(y)
+                                                                        )
+                                                                    )(
+                                                                        lambda k: z
+                                                                    )(
+                                                                        lambda k: k
+                                                                    )
+                                                                )
+                                                            )(x)
+                                                        )
+                                                    )(y)(x)
+                                                )
+                                            )(
+                                                (
+                                                    (
+                                                        lambda x: x(
+                                                            lambda y: (
+                                                                lambda x: lambda y: y
+                                                            )
+                                                        )(lambda x: lambda y: x)
+                                                    )
+                                                )(
+                                                    (
+                                                        (
+                                                            lambda x: lambda y: (y)(
+                                                                (
+                                                                    lambda x: lambda y: lambda z: x(
+                                                                        lambda i: lambda j: j(
+                                                                            i(y)
+                                                                        )
+                                                                    )(
+                                                                        lambda k: z
+                                                                    )(
+                                                                        lambda k: k
+                                                                    )
+                                                                )
+                                                            )(x)
+                                                        )
+                                                    )(x)(y)
+                                                )
+                                            )
+                                        )
+                                    )(y)(x)
+                                )
+                            )
+                        )
+                    )(n)(
+                        (
+                            (lambda x: lambda y: lambda z: (y)((x)(y)(z)))(
+                                (lambda x: lambda y: y)
+                            )
+                        )
+                    )
+                )
+                else n
+            )
+        )
+    )(
+        (
+            (
+                lambda g: (lambda f: g(lambda arg: f(f)(arg)))(
+                    lambda f: g(lambda arg: f(f)(arg))
+                )
+            )(
+                lambda f: lambda n: (
+                    (lambda x: lambda y: lambda z: (y)((x)(y)(z)))(f(n - 1))
+                    if n
+                    else (lambda x: lambda y: y)
+                )
+            )
+        )(x)
+    )
+)
+</code></pre>
+    </section>
+    <p class="source"><a href="https://www.stephendiehl.com/posts/church/">Read the original article on Stephen Diehl's website</a></p>
+  </article>
+</body>
+</html>

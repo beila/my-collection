@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="stephen-diehl-content-hash" content="9a74aa08f354f49b69626f182c1d374d4b27737de76acf99dd4a4ad5b3cbf140">
+  <meta name="stephen-diehl-article-format" content="1">
+  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/classical_quantum.html">
+  <title>Simulating Qubits with Python (Classically)</title>
+  <style>
+    :root { color-scheme: dark; }
+    body { margin: 0; background: #171717; color: #f1f1f1;
+            font: 18px/1.7 Georgia, serif; }
+    article { max-width: 52rem; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+    h1 { font-size: 2rem; line-height: 1.25; letter-spacing: 0; }
+    h2, h3, h4, h5, h6 { line-height: 1.3; letter-spacing: 0; }
+    a { color: #8dc7ff; overflow-wrap: anywhere; }
+    img { display: block; max-width: 100%; height: auto; margin: 1.25rem auto; }
+    pre { overflow-x: auto; padding: 1rem; background: #242424;
+           white-space: pre-wrap; overflow-wrap: anywhere; }
+    code, kbd, samp { font-family: ui-monospace, monospace; }
+    blockquote { border-left: 3px solid #777; margin-left: 0; padding-left: 1rem; }
+    table { width: 100%; border-collapse: collapse; display: block;
+             overflow-x: auto; }
+    th, td { border: 1px solid #666; padding: .5rem; vertical-align: top; }
+    .published { color: #b8b8b8; }
+    .source { border-top: 1px solid #555; margin-top: 2rem; padding-top: 1rem; }
+  </style>
+</head>
+<body>
+  <article>
+    <h1>Simulating Qubits with Python (Classically)</h1>
+    <p class="published">Published: Thu, 28 Apr 2022 01:00:00 +0000</p>
+    <section>
+<p>Ever wondered what it would be like to play with a quantum computer? While we can't all have a supercooled quantum processor in our basement (yet), we can do the next best thing—simulate one with regular Python code. Sure, it's hilariously inefficient but surprisingly educational! We're going to build a simple quantum simulator from scratch. It won't scale well (at all), but it'll give us a hands-on feel for qubits, superposition, and look like when simulated in software.</p>
+<p>The fundamental unit of quantum information is the <strong>qubit</strong>. Unlike a <a href="https://www.smbc-comics.com/comic/the-talk-3">classical bit</a>, firmly fixed as either 0 or 1, a qubit can exist in a <strong>superposition</strong>, a combination of both states simultaneously. We represent the state of a single qubit, often denoted as <code>|ψ&gt;</code>, mathematically like this: <code>α|0&gt; + β|1&gt;</code>. Here, <code>|0&gt;</code> and <code>|1&gt;</code> represent the two fundamental basis states (analogous to classical 0 and 1), while <code>α</code> and <code>β</code> are complex numbers called <strong>amplitudes</strong>. These amplitudes aren't arbitrary; the squares of their absolute magnitudes, <code>|α|²</code> and <code>|β|²</code>, give the probability of finding the qubit in the <code>|0&gt;</code> state or the <code>|1&gt;</code> state, respectively, when we measure it. A core rule is that these probabilities must sum to one: <code>|α|² + |β|² = 1</code>.</p>
+<p>Things get exponentially more complex when we have multiple qubits. For a system with <em>n</em> qubits, there are <code>2^n</code> possible classical configurations (like <code>00</code>, <code>01</code>, <code>10</code>, <code>11</code> for two qubits). The quantum state of this <em>n</em>-qubit system requires a complex amplitude for <em>each</em> of these <code>2^n</code> basis states. For example, a 3-qubit system (<code>n=3</code>) exists in an 8-dimensional complex vector space, with basis states <code>|000&gt;</code>, <code>|001&gt;</code>, ..., <code>|111&gt;</code>. The complete description of the system's state is a list, or <strong>state vector</strong>, containing these <code>2^n</code> complex amplitudes.</p>
+<p>This exponential growth is the crux of quantum computing's power and also why it's so hard to simulate classically. Doubling the number of qubits squares the number of classical states, demanding exponentially more memory and processing power for simulation. Our simulator effectively manages this state vector to simulate what would be done in hardware on a real quantum computer.</p>
+<p>Let's look at the Python implementation, encapsulated in a <code>QuantumSystem</code> class.</p>
+<pre><code>import math
+import random
+import cmath
+from typing import List, Tuple, Sequence
+
+SQRT2 = math.sqrt(2.0)
+
+class QuantumSystem:
+    def __init__(self, num_qubits: int):
+        if num_qubits &lt; 1:
+            raise ValueError("Number of qubits must be at least 1.")
+
+        self.num_qubits: int = num_qubits
+        self.num_states: int = 1 &lt;&lt; num_qubits
+
+        self.amplitudes: List[complex] = [complex(0.0)] * self.num_states
+        self.amplitudes[0] = complex(1.0)
+
+    def _validate_qubit_index(self, qubit_index: int):
+        if not (0 &lt;= qubit_index &lt; self.num_qubits):
+            raise ValueError(
+                f"Invalid qubit index: {qubit_index}. "
+                f"Must be between 0 and {self.num_qubits - 1}."
+            )
+
+    def _validate_qubit_indices(self, *indices: int):
+        seen = set()
+        for index in indices:
+            self._validate_qubit_index(index)
+            if index in seen:
+                 raise ValueError(f"Duplicate qubit index specified: {index}")
+            seen.add(index)
+
+    def measure(self) -&gt; Tuple[int, ...]:
+        probabilities: List[float] = [abs(amp) ** 2 for amp in self.amplitudes]
+
+        measured_state_index: int = random.choices(
+            population=range(self.num_states), weights=probabilities, k=1
+        )[0]
+
+        self.amplitudes = [complex(0.0)] * self.num_states
+        self.amplitudes[measured_state_index] = complex(1.0)
+
+        measured_bits = tuple(
+            (measured_state_index &gt;&gt; bit_pos) &amp; 1
+            for bit_pos in range(self.num_qubits)
+        )
+        return measured_bits
+
+    def get_probabilities(self) -&gt; List[float]:
+        return [abs(amp) ** 2 for amp in self.amplitudes]
+
+    def apply_h(self, target_qubit: int):
+        self._validate_qubit_index(target_qubit)
+        
+        new_amplitudes = self.amplitudes[:] 
+
+        target_mask = 1 &lt;&lt; target_qubit
+        
+        for i in range(self.num_states // 2):
+            lower_mask = target_mask - 1
+            upper_mask = ~lower_mask
+            i0 = (i &amp; lower_mask) | ((i &lt;&lt; 1) &amp; upper_mask)
+            i1 = i0 | target_mask 
+
+            amp0 = self.amplitudes[i0]
+            amp1 = self.amplitudes[i1]
+
+            new_amp0 = (amp0 + amp1) / SQRT2
+            new_amp1 = (amp0 - amp1) / SQRT2
+
+            new_amplitudes[i0] = new_amp0
+            new_amplitudes[i1] = new_amp1
+            
+        self.amplitudes = new_amplitudes
+
+    def apply_cnot(self, control_qubit: int, target_qubit: int):
+        self._validate_qubit_indices(control_qubit, target_qubit)
+
+        control_mask = 1 &lt;&lt; control_qubit
+        target_mask = 1 &lt;&lt; target_qubit
+        
+        new_amplitudes = self.amplitudes[:] 
+            
+        for i0 in range(self.num_states):
+            if (i0 &gt;&gt; control_qubit) &amp; 1:
+                i1 = i0 ^ target_mask 
+                if i0 &lt; i1:
+                    new_amplitudes[i0], new_amplitudes[i1] = \
+                        self.amplitudes[i1], self.amplitudes[i0] 
+
+        self.amplitudes = new_amplitudes
+
+    def apply_t(self, target_qubit: int):
+        self._validate_qubit_index(target_qubit)
+
+        phase_shift = cmath.exp(1j * cmath.pi / 4.0)
+        target_mask = 1 &lt;&lt; target_qubit
+
+        for i in range(self.num_states):
+            if (i &gt;&gt; target_qubit) &amp; 1:
+                self.amplitudes[i] *= phase_shift
+                
+    def apply_original_pi_over_eight(self, target_qubit: int):
+        self._validate_qubit_index(target_qubit)
+
+        phase_zero = cmath.exp(-1j * cmath.pi / 8.0)
+        phase_one = cmath.exp(1j * cmath.pi / 8.0)
+        target_mask = 1 &lt;&lt; target_qubit
+
+        for i in range(self.num_states):
+            if (i &gt;&gt; target_qubit) &amp; 1: 
+                self.amplitudes[i] *= phase_one
+            else: 
+                self.amplitudes[i] *= phase_zero
+
+    def __repr__(self) -&gt; str:
+        state_strs = []
+        for i, amp in enumerate(self.amplitudes):
+            if not cmath.isclose(amp, 0.0):
+                basis_state = format(i, f'0{self.num_qubits}b')
+                state_strs.append(f"{amp:.3f}|{basis_state}&gt;")
+        if not state_strs:
+            return "QuantumSystem(num_qubits={}, state=Zero Vector)".format(
+                self.num_qubits
+            )
+        return " + ".join(state_strs)
+
+    def __str__(self) -&gt; str:
+        return self.__repr__()
+</code></pre>
+<p>When we create a <code>QuantumSystem</code> instance, like <code>system = QuantumSystem(3)</code>, the <code>__init__</code> method sets up the state vector. It checks if the number of qubits is valid, stores it in <code>self.num_qubits</code>, and calculates the total number of states (<code>self.num_states = 2**num_qubits</code>). The core attribute, <code>self.amplitudes</code>, is initialized as a list of <code>self.num_states</code> complex zeros. Crucially, it sets the amplitude of the very first state (index 0, corresponding to <code>|00...0&gt;</code>) to <code>complex(1.0)</code>, representing the standard starting state for quantum computations.</p>
+<p>To see the state we're in, the <code>__repr__</code> method provides a convenient string format, displaying non-zero amplitudes alongside their corresponding basis states written in binary (e.g., <code>(0.707+0.000j)|00&gt; + (0.707+0.000j)|11&gt;</code>).</p>
+<p>Quantum computation proceeds by applying <strong>quantum gates</strong> to the qubits. These gates are the quantum analogues of classical logic gates (like NOT, AND, OR). Mathematically, they correspond to <strong>unitary transformations</strong> applied to the state vector. Applying a gate modifies the amplitudes, potentially creating superposition or entanglement. Our class implements several fundamental gates.</p>
+<p>The <strong>Hadamard gate</strong>, implemented in <code>apply_h</code>, is essential for creating superposition. Applied to a qubit in state <code>|0&gt;</code>, it produces <code>(|0&gt; + |1&gt;) / sqrt(2)</code>; applied to <code>|1&gt;</code>, it yields <code>(|0&gt; - |1&gt;) / sqrt(2)</code>. When applied to a specific <code>target_qubit</code> in a multi-qubit system, it affects all pairs of basis states that differ <em>only</em> in that qubit's position. The code efficiently handles this by looping through <code>num_states / 2</code> pairs. For each pair <code>(i0, i1)</code> (where <code>i0</code> has the target qubit as 0 and <code>i1</code> has it as 1), it calculates the new amplitudes <code>amp0'</code> and <code>amp1'</code> using the Hadamard transformation rules: <code>amp0' = (amp0 + amp1) / sqrt(2)</code> and <code>amp1' = (amp0 - amp1) / sqrt(2)</code>. Notice how every operation potentially touches <em>all</em> amplitudes indirectly, reflecting the holistic nature of the quantum state.</p>
+<p>The <strong>Controlled-NOT (CNOT) gate</strong>, implemented in <code>apply_cnot</code>, is a two-qubit gate crucial for creating <strong>entanglement</strong> – the spooky connection where qubits remain correlated even when separated. It flips the state of the <code>target_qubit</code> if and only if the <code>control_qubit</code> is in the <code>|1&gt;</code> state. In the state vector representation, this means swapping the amplitudes of pairs of basis states where the control bit is 1, and which differ only in the target bit position. The implementation iterates through the state indices (<code>i0</code>). If the control bit in <code>i0</code> is 1, it finds the corresponding index <code>i1</code> where the target bit is flipped (<code>i1 = i0 ^ target_mask</code>). To avoid double-swapping, it only performs the amplitude swap between <code>self.amplitudes[i0]</code> and <code>self.amplitudes[i1]</code> if <code>i0 &lt; i1</code>, ensuring each relevant pair is processed exactly once.</p>
+<p><strong>Phase gates</strong> modify the complex phase of the amplitudes without changing the measurement probabilities. The <code>apply_t</code> method implements the standard <strong>T gate</strong>, which applies a phase shift of <code>exp(i*pi/4)</code> to the amplitude of any basis state where the <code>target_qubit</code> is 1. The <code>apply_original_pi_over_eight</code> method implements a slightly different gate from an earlier design, applying <code>exp(-i*pi/8)</code> if the qubit is 0 and <code>exp(i*pi/8)</code> if it's 1. Both work by iterating through the amplitudes and multiplying by the appropriate complex phase factor if the state index <code>i</code> meets the condition related to the <code>target_qubit</code>.</p>
+<p>Finally, how do we extract a classical result? This is done via <strong>measurement</strong>, implemented in the <code>measure</code> method. Quantum measurement is probabilistic. The <code>measure</code> method first calculates the probability of measuring each basis state <code>i</code> by taking the squared absolute value of its amplitude (<code>abs(amp)**2</code>). It then uses Python's <code>random.choices</code> to perform a weighted random selection from the possible state indices (<code>range(self.num_states)</code>) using the calculated probabilities as weights. This returns the index <code>measured_state_index</code> of the single classical state the system collapses into. The simulation then enforces this collapse: the state vector <code>self.amplitudes</code> is reset to all zeros, except for the measured state's amplitude, which is set to 1.0. The method returns the outcome as a tuple of classical bits (0s and 1s) derived from the <code>measured_state_index</code>.</p>
+<p>We can see these components in action through examples. First, let's create a 3-qubit system and apply a Hadamard gate to the second qubit.</p>
+<pre><code>print("--- Example 1: Original Sequence ---")
+system1 = QuantumSystem(3)
+print(f"Initial state: {system1}")
+system1.apply_h(1)
+print(f"After H(1):    {system1}")
+system1.apply_h(2)
+print(f"After H(2):    {system1}")
+system1.apply_original_pi_over_eight(1)
+print(f"After Pi/8(1): {system1}")
+system1.apply_cnot(control_qubit=1, target_qubit=0)
+print(f"After CNOT(1,0): {system1}")
+print(f"Probabilities: {[f'{p:.3f}' for p in system1.get_probabilities()]}")
+measurement_result = system1.measure()
+print(f"Measured state: {measurement_result}")
+print(f"State after measurement: {system1}")
+</code></pre>
+<p>Next, let's prepare the Bell state.</p>
+<pre><code>print("--- Example 2: Bell State Preparation ---")
+bell_system = QuantumSystem(2)
+print(f"Initial state: {bell_system}")
+bell_system.apply_h(0)
+print(f"After H(0):    {bell_system}") 
+bell_system.apply_cnot(control_qubit=0, target_qubit=1)
+print(f"After CNOT(0,1): {bell_system}") 
+print("Measuring Bell state 10 times:")
+counts = {}
+for _ in range(10):
+    bell_system = QuantumSystem(2)
+    bell_system.apply_h(0)
+    bell_system.apply_cnot(control_qubit=0, target_qubit=1)
+    result = bell_system.measure()
+    counts[result] = counts.get(result, 0) + 1
+print(f"Measurement counts: {counts}")
+</code></pre>
+<p>Now, let's prepare the Greenberger-Horne-Zeilinger state.</p>
+<pre><code>print("--- Example 3: GHZ State Preparation ---")
+ghz_system = QuantumSystem(3)
+print(f"Initial state: {ghz_system}")
+ghz_system.apply_h(0)
+print(f"After H(0):    {ghz_system}") 
+ghz_system.apply_cnot(control_qubit=0, target_qubit=1)
+print(f"After CNOT(0,1): {ghz_system}") 
+ghz_system.apply_cnot(control_qubit=0, target_qubit=2)
+print(f"After CNOT(0,2): {ghz_system}") 
+print("Measuring GHZ state 10 times:")
+counts_ghz = {}
+for _ in range(10):
+    ghz_system = QuantumSystem(3)
+    ghz_system.apply_h(0)
+    ghz_system.apply_cnot(control_qubit=0, target_qubit=1)
+    ghz_system.apply_cnot(control_qubit=0, target_qubit=2)
+    result = ghz_system.measure()
+    counts_ghz[result] = counts_ghz.get(result, 0) + 1
+print(f"Measurement counts: {counts_ghz}")
+</code></pre>
+<p>These examples demonstrate preparing famous entangled states like the Bell state (<code>(|00&gt; + |11&gt;)/sqrt(2)</code>) and the <a href="https://en.wikipedia.org/wiki/Greenberger%E2%80%93Horne%E2%80%93Zeilinger_state">Greenberger–Horne–Zeilinger (GHZ) state</a> (<code>(|000&gt; + |111&gt;)/sqrt(2)</code>). Running the measurement multiple times (after resetting the state for simulation purposes) clearly shows the correlations inherent in entanglement – the outcomes will always be <code>(0, 0)</code> or <code>(1, 1)</code> for the Bell state, and <code>(0, 0, 0)</code> or <code>(1, 1, 1)</code> for the GHZ state, with roughly equal probability.</p>
+<p>Simulating quantum systems classically using state vectors is really only useful as an educational tool. It forces us to confront the exponential resources required (<code>2^n</code> complex numbers, operations affecting all states) so it's not a practical way to simulate even small quantum systems. While this approach quickly becomes infeasible for large numbers of qubits (simulating 50-60 qubits pushes the limits of current supercomputers), it hints at what quantum computers may be capable of ... that is if we can ever build them.</p>
+    </section>
+    <p class="source"><a href="https://www.stephendiehl.com/posts/classical_quantum/">Read the original article on Stephen Diehl's website</a></p>
+  </article>
+</body>
+</html>

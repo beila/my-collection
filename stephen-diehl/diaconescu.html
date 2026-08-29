@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="stephen-diehl-content-hash" content="49b3e857d8a9fa62303f266e229c7c02aa8e6d5aee7c78680e5b44291176f0be">
+  <meta name="stephen-diehl-article-format" content="1">
+  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/diaconescu.html">
+  <title>Diaconescu&#x27;s Theorem</title>
+  <style>
+    :root { color-scheme: dark; }
+    body { margin: 0; background: #171717; color: #f1f1f1;
+            font: 18px/1.7 Georgia, serif; }
+    article { max-width: 52rem; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+    h1 { font-size: 2rem; line-height: 1.25; letter-spacing: 0; }
+    h2, h3, h4, h5, h6 { line-height: 1.3; letter-spacing: 0; }
+    a { color: #8dc7ff; overflow-wrap: anywhere; }
+    img { display: block; max-width: 100%; height: auto; margin: 1.25rem auto; }
+    pre { overflow-x: auto; padding: 1rem; background: #242424;
+           white-space: pre-wrap; overflow-wrap: anywhere; }
+    code, kbd, samp { font-family: ui-monospace, monospace; }
+    blockquote { border-left: 3px solid #777; margin-left: 0; padding-left: 1rem; }
+    table { width: 100%; border-collapse: collapse; display: block;
+             overflow-x: auto; }
+    th, td { border: 1px solid #666; padding: .5rem; vertical-align: top; }
+    .published { color: #b8b8b8; }
+    .source { border-top: 1px solid #555; margin-top: 2rem; padding-top: 1rem; }
+  </style>
+</head>
+<body>
+  <article>
+    <h1>Diaconescu&#x27;s Theorem</h1>
+    <p class="published">Published: Mon, 05 Aug 2024 01:00:00 +0000</p>
+    <section>
+<p>Diaconescu's Theorem, discovered by Radu Diaconescu in 1975, reveals a fascinating and surprising connection between two fundamental principles in mathematics: the Axiom of Choice and the Law of Excluded Middle. In simple terms, the theorem states that if you accept the Axiom of Choice, you must also accept the Law of Excluded Middle. The theorem was independently discovered by Goodman and Myhill in 1978, and is sometimes called the Diaconescu-Goodman-Myhill theorem. Interestingly, the Errett Bishop had posed this result as an exercise in his 1967 book on constructive analysis, before Diaconescu's publication.</p>
+<p>As background, the Law of Excluded Middle states that for any proposition \(P\), either \(P\) is true or \(P\) is false - there is no middle condition. Or symbolically, \(P \lor \neg P\). For example, either a number is even or it's not even. This seems intuitive, but not all mathematical frameworks accept this principle!</p>
+<p>The Axiom of Choice states that given any collection of non-empty sets, it's possible to select exactly one element from each set to form a new set. While this also seems intuitive, it has some surprising consequences.</p>
+<p>Diaconescu's Theorem shows that:</p>
+<p>$$\text{Axiom of Choice} \implies \text{Law of Excluded Middle}$$</p>
+<p>Before diving into the proof, let's establish some important concepts:</p>
+<ul>
+<li>A set is called <strong>decidable</strong> if for all elements, we can determine whether they belong to the set or not. Formally, for any element \(x\), either \(x \in S\) or \(x \notin S\).</li>
+<li>A set is called a <strong>choice set</strong> if every surjection onto it splits (meaning there exists a map going back such that their composition is the identity).</li>
+</ul>
+<p>The proof works through the following steps:</p>
+<ol>
+<li>
+<p>Start with any proposition \(P\) that we want to prove must be either true or false</p>
+</li>
+<li>
+<p>Construct two sets:</p>
+<ul>
+<li>\(U = {x \in {0,1} \mid (x = 0) \lor P}\)</li>
+<li>\(V = {x \in {0,1} \mid (x = 1) \lor P}\)</li>
+</ul>
+</li>
+<li>
+<p>Both sets are guaranteed to be non-empty:</p>
+<ul>
+<li>\(U\) contains 0 (because \(x = 0\) is true for \(x = 0\))</li>
+<li>\(V\) contains 1 (because \(x = 1\) is true for \(x = 1\))</li>
+</ul>
+</li>
+<li>
+<p>Form the set \(X = {U, V}\). By the Axiom of Choice, since both \(U\) and \(V\) are non-empty, we can select one element from each set.</p>
+</li>
+<li>
+<p>Let \(f\) be our choice function. Since equality is decidable in choice sets (a key lemma from the formal proof), we can analyze \(f(U)\) and \(f(V)\):</p>
+<ul>
+<li>If \(f(U) = 0\), then \(P\) must be false (\(\neg P\))</li>
+<li>If \(f(U) = 1\), then \(P\) must be true</li>
+<li>The same analysis applies to \(f(V)\)</li>
+</ul>
+</li>
+<li>
+<p>Through this analysis, we can conclude \(P \lor \neg P\) must hold.</p>
+</li>
+</ol>
+<p>We can formalize this theorem in Lean. The proof uses function extensionality and propositional extensionality alongside choice. The Lean proof follows the same logical structure as our mathematical proof, but works with propositions instead of sets. It uses function and propositional extensionality to handle equality of predicates, and the Axiom of Choice appears in the form of the <code>choose</code> function, which selects witnesses from existential statements.</p>
+<p>First, we state the theorem as the type declaration of <code>em</code>:</p>
+<pre><code>theorem em (p : Prop) : p ∨ ¬p :=
+</code></pre>
+<p>Let's break down how this formal proof works:</p>
+<ol>
+<li>
+<p>First, we define two predicates <code>U</code> and <code>V</code> that take a proposition <code>x</code> and return another proposition:</p>
+<pre><code>let U (x : Prop) : Prop := x = True ∨ p
+let V (x : Prop) : Prop := x = False ∨ p
+</code></pre>
+<p>These correspond to the sets U and V in our mathematical proof, but work with propositions instead of {0,1}.</p>
+</li>
+<li>
+<p>We prove that both U and V are inhabited (non-empty):</p>
+<pre><code>have exU : ∃ x, U x := ⟨True, Or.inl rfl⟩   -- True satisfies U because True = True
+have exV : ∃ x, V x := ⟨False, Or.inl rfl⟩  -- False satisfies V because False = False
+</code></pre>
+</li>
+<li>
+<p>Using the Axiom of Choice (via <code>choose</code>), we select witnesses u and v from U and V:</p>
+<pre><code>let u : Prop := choose exU
+let v : Prop := choose exV
+have u_def : U u := choose_spec exU  -- u satisfies U
+have v_def : V v := choose_spec exV  -- v satisfies V
+</code></pre>
+</li>
+<li>
+<p>The key insight is that either u ≠ v, or p must be true:</p>
+<pre><code>have not_uv_or_p : u ≠ v ∨ p :=
+  match u_def, v_def with
+  | Or.inr h, _ =&gt; Or.inr h        -- If U(u) because of p, then p is true
+  | _, Or.inr h =&gt; Or.inr h        -- If V(v) because of p, then p is true
+  | Or.inl hut, Or.inl hvf =&gt;      -- Otherwise, u = True and v = False
+    have hne : u ≠ v := by simp [hvf, hut, true_ne_false]
+    Or.inl hne
+</code></pre>
+</li>
+<li>
+<p>We then prove that if p is true, then u = v:</p>
+<pre><code>have p_implies_uv : p → u = v :=
+  fun hp =&gt;
+  have hpred : U = V :=    -- If p is true, then U and V are the same predicate
+    funext fun x =&gt;        -- Using function extensionality
+      have hl : (x = True ∨ p) → (x = False ∨ p) :=
+        fun _ =&gt; Or.inr hp
+      have hr : (x = False ∨ p) → (x = True ∨ p) :=
+        fun _ =&gt; Or.inr hp
+      show (x = True ∨ p) = (x = False ∨ p) from
+        propext (Iff.intro hl hr)   -- Using propositional extensionality
+</code></pre>
+</li>
+<li>
+<p>Finally, we conclude p ∨ ¬p by case analysis:</p>
+<pre><code>match not_uv_or_p with
+| Or.inl hne =&gt; Or.inr (mt p_implies_uv hne)  -- If u ≠ v, then ¬p
+| Or.inr h   =&gt; Or.inl h                      -- If p, then p
+</code></pre>
+</li>
+</ol>
+<p>Diaconescu's theorem demonstrates a profound connection between choice principles and classical logic. This result has significant metamathematical implications: it reveals that choice principles are inherently non-constructive, as they force classical reasoning even in otherwise constructive settings. From a foundational perspective, this shows that choice principles are not logically neutral - they implicitly commit us to classical logic. For constructive mathematics, this necessitates careful consideration of choice principles, as even seemingly innocuous uses of AC can inadvertently classical-ize an otherwise constructive development. The theorem thus exemplifies how foundational axioms can have subtle but far-reaching consequences for the logical character of mathematical theories. You could say that when it comes to the Axiom of Choice and the Law of Excluded Middle, there's no choosing the middle ground!</p>
+    </section>
+    <p class="source"><a href="https://www.stephendiehl.com/posts/diaconescu/">Read the original article on Stephen Diehl's website</a></p>
+  </article>
+</body>
+</html>

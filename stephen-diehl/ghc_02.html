@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="stephen-diehl-content-hash" content="25d85b77f92c98d74700ac8dc7fb1345f5a39853fb791f05629ea4452138ca54">
+  <meta name="stephen-diehl-article-format" content="1">
+  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/ghc_02.html">
+  <title>Dive into GHC: Intermediate Forms</title>
+  <style>
+    :root { color-scheme: dark; }
+    body { margin: 0; background: #171717; color: #f1f1f1;
+            font: 18px/1.7 Georgia, serif; }
+    article { max-width: 52rem; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+    h1 { font-size: 2rem; line-height: 1.25; letter-spacing: 0; }
+    h2, h3, h4, h5, h6 { line-height: 1.3; letter-spacing: 0; }
+    a { color: #8dc7ff; overflow-wrap: anywhere; }
+    img { display: block; max-width: 100%; height: auto; margin: 1.25rem auto; }
+    pre { overflow-x: auto; padding: 1rem; background: #242424;
+           white-space: pre-wrap; overflow-wrap: anywhere; }
+    code, kbd, samp { font-family: ui-monospace, monospace; }
+    blockquote { border-left: 3px solid #777; margin-left: 0; padding-left: 1rem; }
+    table { width: 100%; border-collapse: collapse; display: block;
+             overflow-x: auto; }
+    th, td { border: 1px solid #666; padding: .5rem; vertical-align: top; }
+    .published { color: #b8b8b8; }
+    .source { border-top: 1px solid #555; margin-top: 2rem; padding-top: 1rem; }
+  </style>
+</head>
+<body>
+  <article>
+    <h1>Dive into GHC: Intermediate Forms</h1>
+    <p class="published">Published: Mon, 11 Jul 2016 01:00:00 +0000</p>
+    <section>
+<h3 id="dive-into-ghc%3A-intermediate-forms">Dive into GHC: Intermediate Forms</h3>
+<p>In the <a href="http://www.stephendiehl.com/posts/ghc_01.html">last blog post</a>, we<br/>
+discussed the high-level API used inside the GHC compiler. This time let's zoom<br/>
+into the pieces that comprise the frontend of the compilation pipeline, namely:</p>
+<ol>
+<li><strong>Parsing</strong></li>
+<li><strong>Renaming</strong></li>
+<li><strong>Typechecking</strong></li>
+<li><strong>Desugaring</strong></li>
+<li><strong>Simplification</strong></li>
+<li>Code Generation</li>
+</ol>
+<p>
+**[Accompaying Source Code](https://github.com/sdiehl/dive-into-ghc/tree/master/02-parser)**
+</p>
+<h4 id="passes">Passes</h4>
+<p>The following functions are the main passes are that are used inside of the<br/>
+compiler driver functions in <code>HscMain</code> .</p>
+<pre><code>-- Parse a module.
+parseModule :: GhcMonad m =&gt; ModSummary -&gt; m ParsedModule
+
+-- Typecheck and rename a parsed module.
+typecheckModule :: GhcMonad m =&gt; ParsedModule -&gt; m TypecheckedModule
+
+-- Desugar a typechecked module.
+desugarModule :: GhcMonad m =&gt; TypecheckedModule -&gt; m DesugaredModule
+
+-- Extract ModGuts
+coreModule :: DesugaredMod m =&gt; m -&gt; ModGuts
+
+-- Generated STG bindings from Core module
+coreToStg :: DynFlags -&gt; Module -&gt; CoreProgram -&gt; IO [StgBinding]
+</code></pre>
+<p>Each of the these functions manipulates an <em>intermediate form</em> used in the<br/>
+process of compiling a Haskell module into a form that can be compiled into<br/>
+machine code or interpreted.</p>
+<h4 id="parser">Parser</h4>
+<p>The frontend syntax for Haskell is fairly large and is partially defined in the<br/>
+<a href="https://www.haskell.org/onlinereport/haskell2010/haskellch10.html#x17-17500010">Haskell 2010 specification</a><br/>
+and extended by GHC. The parser is written using two custom tools:</p>
+<ol>
+<li><em>Alex</em>, for lexical analysis. See: <a href="https://github.com/ghc/ghc/blob/master/compiler/parser/Lexer.x">Lexer.x</a></li>
+<li><em>Happy</em>, for the parser itself. See: <a href="https://github.com/ghc/ghc/blob/master/compiler/parser/Parser.y">Parser.y</a></li>
+</ol>
+<p>Happy is a parser generator system for Haskell, similar to the tool <code>yacc' for C. It works as a preprocessor with it's own syntax that generates a parse table from two specifications, a lexer file and parser file. The Happy parser consists of a list of a production rules and a monad to running the parser in. Production rules consist of a set of options on the left and generating Haskell expressions on the right with indexed variables (</code> $1<code>, </code>$2<code>, ...) mapping to the ordered terms on the left (i.e. in the second term</code>term<code>~</code> $1<code>, </code>term<code>~</code>$2`).</p>
+<pre><code>terms
+    : term                   { [$1] }
+    | term terms             { $1 : $2 }
+</code></pre>
+<p>The most complicated part of the lexer is with regards to whitespace-sensitive<br/>
+layout. To handle whitespace the lexer will analyze the line position of certain<br/>
+productions and will output <em>virtual tokens</em> (vbrace, vsemi, etc) which are used<br/>
+to canonicalize the syntax. For example the use of layout rule in do-notation:</p>
+<pre><code>main = do
+  putStrLn "Hello"
+  putStrLn "Haskell"
+</code></pre>
+<p>Is converted into explicit virtual braces and semicolons at parse time.</p>
+<pre><code>main = do { putStrLn "Hello"; putStrLn "Haskell" }
+</code></pre>
+<p>The main entry points are defined in the<br/>
+<a href="https://downloads.haskell.org/~ghc/7.10.3/docs/html/libraries/ghc-7.10.3/Parser.html">Parser</a><br/>
+and resolve into a monad <code>P</code> which holds state about the source buffer, and<br/>
+filename and location. The resulting AST is called HsSyn and contains position<br/>
+information preserved from the tokens.</p>
+<pre><code>parseType :: P (LHsType RdrName)
+parseExpression :: P (LHsExpr RdrName)
+parseModule :: P (Located (HsModule RdrName))
+</code></pre>
+<h4 id="located">Located</h4>
+<p>Frontend syntax in GHC carries position information along with it that can be<br/>
+used in error reporting. Location information is defined by a <code>Located</code> type<br/>
+which has a single type paramater for the AST element to be "located". Typically<br/>
+type synonyms follow the convention that a "L" before the type indicates a<br/>
+synonym for a located element. So a located <code>HsExpr</code> is a <code>LHsExxpr</code>.</p>
+<pre><code>data GenLocated l e = L l e
+type Located e = GenLocated SrcSpan e
+</code></pre>
+<pre><code>unLoc :: GenLocated l e -&gt; e
+unLoc (L _ e) = e
+
+getLoc :: GenLocated l e -&gt; l
+getLoc (L l _) = l
+
+noLoc :: e -&gt; Located e
+noLoc e = L noSrcSpan e
+</code></pre>
+<p>Most notably there is a functor instance for <code>fmap</code>ing over a located element,<br/>
+which modifies the underlying type preserving the location.</p>
+<pre><code>instance Functor (GenLocated l) where
+  fmap f (L l e) = L l (f e)
+</code></pre>
+<h4 id="frontend-syntax">Frontend Syntax</h4>
+<p>The <a href="https://downloads.haskell.org/~ghc/7.10.3/docs/html/libraries/ghc-7.10.3/HsSyn.html">frontend syntax</a><br/>
+(called HsSyn) is spread across several data types which contain all possible<br/>
+syntax elements generated from the parser. These are parameterized over the name<br/>
+type so that transformations (renamer, etc) can alter the structure of bindings<br/>
+and identifiers while preserving the syntax tree structure.</p>
+<ol>
+<li><strong>HsModule</strong> - Top-level structure for a module. Contains module name,<br/>
+exports, imports, and toplevel declarations.</li>
+<li><strong>HsDecl</strong> - Type, class, value, and interface signature decls</li>
+<li><strong>HsBind</strong> - Value bindings used for both top level and nested bindings.</li>
+<li><strong>HsGroup</strong> - A HsGroup is a group of related HsDecls.</li>
+<li><strong>HsLit</strong> - Literal value (Int, Char, etc)</li>
+<li><strong>HsExpr</strong> - A Haskell expression.</li>
+<li><strong>HsType</strong> - Frontend type annotation.</li>
+<li><strong>Pat</strong> - Pattern match in a case statement or toplevel binding.</li>
+</ol>
+<p>There are many variants of<br/>
+<a href="https://downloads.haskell.org/~ghc/7.10.3/docs/html/libraries/ghc-7.10.3/Var.html#t:Var">identifiers</a><br/>
+used in different phases of compilation. In order of generality:</p>
+<ol>
+<li><strong>OccName</strong> - Simplest name used, it holds the names as strings with the namespace that the name came from and position.</li>
+<li><strong>RdrName</strong> - Is the type of names that come directly from the parser. Contains information whether the name is unqualified or qualified (with module name).</li>
+<li><strong>Name</strong> - Is the type of names that have had their scoping and binding resolved. They have an OccName but also a Unique that disambiguates Names</li>
+<li><strong>Var</strong> - Is the type of names that not only have a Name but also a Type. Vars are either global or local.</li>
+</ol>
+<p>Names are disambiguated from each other by an internal unique numerical key<br/>
+called a<br/>
+<a href="https://downloads.haskell.org/~ghc/7.10.3/docs/html/libraries/ghc-7.10.3/Unique.html#t:Unique">Unique</a><br/>
+, which are generated from a<br/>
+<a href="https://downloads.haskell.org/~ghc/7.10.3/docs/html/libraries/ghc-7.10.3/UniqSupply.html">UniqSupply</a><br/>
+. These are often embedded within the monad transformer <code>MonadUnique</code> layer of<br/>
+the pass.</p>
+<p>After typechecking we deal with Var and Id names which have the property that<br/>
+the Name and Type can always be recovered using the following functions.</p>
+<pre><code>varName :: Var -&gt; Name
+varType :: Var -&gt; Kind
+</code></pre>
+<p>In addition, many lookup functions use a sum type <code>TyThing</code> which wraps<br/>
+"things" in scope which have types, such as identifiers and type constructors.</p>
+<pre><code>data TyThing
+  = AnId Id
+  | AConLike ConLike.ConLike
+  | ATyCon TyCon
+  | ACoAxiom (CoAxiom Branched)
+</code></pre>
+<h4 id="outputable">Outputable</h4>
+<p>Inside the GHC API is a pretty printer which can be used to dump out a pretty<br/>
+printed summary of a large number of the internal types. The structure of the<br/>
+class is similar to <code>Show</code> typeclass.</p>
+<pre><code>class Outputable a where
+  ppr :: a -&gt; SDoc
+  pprPrec :: Rational -&gt; a -&gt; SDoc
+
+showPpr :: Outputable a =&gt; DynFlags -&gt; a -&gt; String
+</code></pre>
+<p>To simplify our life a bit we can write a wrapper <code>showGhc</code> which uses the<br/>
+default dynflags to dump out an instance of <code>Outputable</code>.</p>
+<pre><code>showGhc :: (Outputable a) =&gt; a -&gt; String
+showGhc = showPpr unsafeGlobalDynFlags
+</code></pre>
+<h4 id="tracing-compilation">Tracing Compilation</h4>
+<p>Given the following example module we'd like to trace the transformation of the<br/>
+intermediate forms as it's run through the compiler.</p>
+<pre><code>module Example where
+
+data Animal = Cat | Dog
+
+add :: Int -&gt; Int -&gt; Int
+add x y = x + y
+</code></pre>
+<p>Using the machinery of the last post we import the module target, load it, and<br/>
+then instead of adding it to an interactive context we explicitly call the<br/>
+functions of the individual passes and dump our their structure to the screen.</p>
+<pre><code>main :: IO ()
+main = runGhc (Just libdir) $ do
+  env &lt;- getSession
+  dflags &lt;- getSessionDynFlags
+  setSessionDynFlags $ dflags { hscTarget = HscInterpreted }
+
+  target &lt;- guessTarget "Example.hs" Nothing
+  setTargets [target]
+  load LoadAllTargets
+  modSum &lt;- getModSummary $ mkModuleName "Example"
+
+  pmod &lt;- parseModule modSum      -- ModuleSummary
+  tmod &lt;- typecheckModule pmod    -- TypecheckedSource
+  dmod &lt;- desugarModule tmod      -- DesugaredModule
+  let core = coreModule dmod      -- ModGuts
+  stg &lt;- liftIO $ coreToStg dflags (mg_module core) (mg_binds core)
+
+  liftIO $ banner "Parsed Source"
+  liftIO $ putStrLn $ showGhc ( parsedSource pmod )
+
+  liftIO $ banner "Renamed Module"
+  liftIO $ putStrLn $ showGhc ( tm_renamed_source tmod )
+
+  liftIO $ banner "Typechecked Module"
+  liftIO $ putStrLn $ showGhc ( tm_typechecked_source tmod )
+
+  liftIO $ banner "Typed Toplevel Definitions"
+  liftIO $ putStrLn $ showGhc ( modInfoTyThings (moduleInfo tmod) )
+
+  liftIO $ banner "Typed Toplevel Exports"
+  liftIO $ putStrLn $ showGhc ( modInfoExports (moduleInfo tmod) )
+
+  liftIO $ banner "Core Module"
+  liftIO $ putStrLn $ showGhc ( mg_binds core )
+
+  liftIO $ banner "STG"
+  liftIO $ putStrLn $ showGhc stg
+</code></pre>
+<h4 id="parsing">Parsing</h4>
+<p>From the module summary we can extract the underlying text stream of the source<br/>
+file <code>Example.hs</code>. Running the parser over this generates a <em>ParsedSource</em><br/>
+datatype which contains the HsSyn AST with raw OccNames.</p>
+<pre><code>data ParsedModule = ParsedModule
+  { pm_mod_summary :: ModSummary
+  , pm_parsed_source :: ParsedSource
+  , pm_extra_src_files :: [FilePath]
+  , pm_annotations :: ApiAnns
+  }
+</code></pre>
+<pre><code>===============================Parsed Source===============================
+module Example where
+data Animal = Cat | Dog
+add :: Int -&gt; Int -&gt; Int
+add x y = x + y
+</code></pre>
+<hr/>
+<h4 id="renaming">Renaming</h4>
+<p>After parsing we run the renamer pass which is responsible for resolving scopes,<br/>
+operator precedences, and unique'ifying all names so that clashes cannot occur.<br/>
+The renamer resolves <code>RdrName</code>s into <code>Name</code>s across all syntax elements.<br/>
+In addition it annotates each name with whether they are qualified and global or<br/>
+local to the current module. If a name is not in scope, compilation simply halts<br/>
+here and reports the missing name.</p>
+<pre><code>===============================Renamed Module===============================
+Just (add :: Int -&gt; Int -&gt; Int
+      add x y = x + y
+
+      data Animal = Cat | Dog,
+      [import (implicit) Prelude],
+      Nothing,
+      Nothing)
+</code></pre>
+<hr/>
+<h4 id="typechecking">Typechecking</h4>
+<p>The renamed AST is then run through the typechecker which maps <code>Name</code>s into<br/>
+<code>Id</code> and enriches them with inferred types using type inference.</p>
+<pre><code>data TypecheckedModule = TypecheckedModule
+  { tm_parsed_module :: ParsedModule
+  , tm_renamed_source :: Maybe RenamedSource
+  , tm_typechecked_source :: TypecheckedSource
+  , tm_checked_module_info :: ModuleInfo
+  , tm_internals_ :: (TcRnTypes.TcGblEnv, HscTypes.ModDetails)
+  }
+</code></pre>
+<p>The resulting structure is a typechecked module which contains the toplevel<br/>
+types of all bindings and all subexpressions.</p>
+<pre><code>=============================Typechecked Module=============================
+{AbsBinds [] []
+   {Exports: [add &lt;= add
+                &lt;&gt;]
+    Exported types: add :: Int -&gt; Int -&gt; Int
+                    [LclId, Str=DmdType]
+    Binds: add x y = (+) x y}}
+</code></pre>
+<p>The resulting datatype has a field for <code>ModuleInfo</code>, which contains various<br/>
+metadata about the typing environment, the names in scope, and typeclasses<br/>
+exported.</p>
+<pre><code>data ModuleInfo = ModuleInfo
+  { minf_type_env :: HscTypes.TypeEnv
+  , minf_exports :: NameSet.NameSet
+  , minf_rdr_env :: Maybe RdrName.GlobalRdrEnv
+  , minf_instances :: [ClsInst]
+  , minf_iface :: Maybe ModIface
+  , minf_safe :: SafeHaskellMode
+  , minf_modBreaks :: ModBreaks
+  }
+</code></pre>
+<p>Using the <code>coreModule</code> we can also construct the gruesomely named <code>ModGuts</code><br/>
+datatype which contains an expanded form of all the various exports and types<br/>
+with associated metadata.</p>
+<pre><code>data ModGuts = ModGuts
+  { mg_module :: !Module,
+  , mg_boot :: IsBootInterface
+  , mg_exports :: ![Avail.AvailInfo]
+  , mg_deps :: !Dependencies
+  , mg_dir_imps :: !ImportedMods
+  , mg_used_names :: !NameSet.NameSet
+  , mg_used_th :: !Bool
+  , mg_rdr_env :: !RdrName.GlobalRdrEnv
+  , mg_fix_env :: !FixityEnv
+  , mg_tcs :: ![TyCon]
+  , mg_insts :: ![ClsInst]
+  , mg_fam_insts :: ![FamInst]
+  , mg_patsyns :: ![PatSyn.PatSyn]
+  , mg_rules :: ![CoreSyn.CoreRule]
+  , mg_binds :: !CoreSyn.CoreProgram
+  , mg_foreign :: !ForeignStubs
+  , mg_warns :: !Warnings
+  , mg_anns :: [Annotations.Annotation]
+  , mg_hpc_info :: !HpcInfo
+  , mg_modBreaks :: !ModBreaks
+  , mg_vect_decls :: ![CoreSyn.CoreVect]
+  , mg_vect_info :: !VectInfo
+  , mg_inst_env :: InstEnv.InstEnv
+  , mg_fam_inst_env :: FamInstEnv.FamInstEnv
+  , mg_safe_haskell :: SafeHaskellMode
+  , mg_trust_pkg :: Bool
+  , mg_dependent_files :: [FilePath]
+  }
+</code></pre>
+<p>The ModuleInfo can be queried for any type of information about types or names<br/>
+at this point. For instance if we were interesed in the types of a global name<br/>
+we could look it up as a <code>TyThing</code> inside the typing environment.</p>
+<pre><code>modInfoTyThings :: ModuleInfo -&gt; [TyThing]
+modInfoExports :: ModuleInfo -&gt; [Name]
+</code></pre>
+<pre><code>=========================Typed Toplevel Definitions=========================
+[Type constructor ‘Animal’, Data constructor ‘Cat’,
+ Data constructor ‘Dog’, Identifier ‘add’, Identifier ‘Cat’,
+ Identifier ‘Dog’]
+</code></pre>
+<pre><code>===========================Typed Toplevel Exports===========================
+[Animal, Cat, Dog, add]
+</code></pre>
+<hr/>
+<h4 id="core">Core</h4>
+<p>The Core language is GHC's most central data types. Core is a very small,<br/>
+explicitly-typed, variant of System FC. The output of the <code>typecheckModule</code><br/>
+function is a datatype <code>CoreModule</code> which contains the Core program as the<br/>
+typing environment.</p>
+<pre><code>data CoreModule = CoreModule
+  { cm_module :: !Module
+  , cm_types :: !HscTypes.TypeEnv
+  , cm_binds :: CoreSyn.CoreProgram
+  , cm_safe :: SafeHaskellMode
+  }
+</code></pre>
+<p>Looking at the core module we see that each name in the program is now annotated<br/>
+with an explicit type and typeclass dictionaries have been inserted.</p>
+<pre><code>================================Core Module================================
+[add :: Int -&gt; Int -&gt; Int
+ [LclIdX, Str=DmdType]
+ add = \ (x :: Int) (y :: Int) -&gt; + @ Int $fNumInt x y]
+</code></pre>
+<p>Core then is translated into a intermediate form that is amenable to various<br/>
+analysis passes that optimize the program for code generation. This form is an<br/>
+abstract machine known a <em>Spineless Tagless G-Machine</em>. In this syntax every<br/>
+closure has an associated <em>Static Reference Table</em> or SRT. More on this later.</p>
+<pre><code>====================================STG====================================
+[add :: Int -&gt; Int -&gt; Int
+ [LclIdX, Str=DmdType] =
+     \r srt:SRT:[r6ry :-&gt; $fNumInt] [x y] + $fNumInt x y;]
+</code></pre>
+<hr/>
+<h4 id="summary-%26-next-steps">Summary &amp; Next Steps</h4>
+<p>We mentioned Core and STG only briefly. The process by which frontend syntax is<br/>
+transformed into Core will be our next topic. The design of Core defines a great<br/>
+deal of aspects about how the language is structured and informs the type system<br/>
+as well as code-generation.</p>
+    </section>
+    <p class="source"><a href="https://www.stephendiehl.com/posts/ghc_02/">Read the original article on Stephen Diehl's website</a></p>
+  </article>
+</body>
+</html>

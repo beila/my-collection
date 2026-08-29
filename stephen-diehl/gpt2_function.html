@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="stephen-diehl-content-hash" content="f9b28cf32783c8736a3749011aab944b4d3ba18a4b05013bab6d298cdf850da1">
+  <meta name="stephen-diehl-article-format" content="1">
+  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/gpt2_function.html">
+  <title>GPT-2 in One Function</title>
+  <style>
+    :root { color-scheme: dark; }
+    body { margin: 0; background: #171717; color: #f1f1f1;
+            font: 18px/1.7 Georgia, serif; }
+    article { max-width: 52rem; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+    h1 { font-size: 2rem; line-height: 1.25; letter-spacing: 0; }
+    h2, h3, h4, h5, h6 { line-height: 1.3; letter-spacing: 0; }
+    a { color: #8dc7ff; overflow-wrap: anywhere; }
+    img { display: block; max-width: 100%; height: auto; margin: 1.25rem auto; }
+    pre { overflow-x: auto; padding: 1rem; background: #242424;
+           white-space: pre-wrap; overflow-wrap: anywhere; }
+    code, kbd, samp { font-family: ui-monospace, monospace; }
+    blockquote { border-left: 3px solid #777; margin-left: 0; padding-left: 1rem; }
+    table { width: 100%; border-collapse: collapse; display: block;
+             overflow-x: auto; }
+    th, td { border: 1px solid #666; padding: .5rem; vertical-align: top; }
+    .published { color: #b8b8b8; }
+    .source { border-top: 1px solid #555; margin-top: 2rem; padding-top: 1rem; }
+  </style>
+</head>
+<body>
+  <article>
+    <h1>GPT-2 in One Function</h1>
+    <p class="published">Published: Sat, 29 Apr 2023 01:00:00 +0000</p>
+    <section>
+<p>GPT-2 is not a complicated model, in fact we can code golf it down into a single Python function using nothing more than numpy. This is everything inlined in a single function, the layernorm, attention, mlp, token and position embeddings, and the final logits in 70 lines of code if you don't count whitespace.</p>
+<pre><code>import numpy as np
+
+def gpt2(inputs: list[int], params: ModelParams, n_head: int) -&gt; np.ndarray:
+    x = params.wte[inputs] + params.wpe[range(len(inputs))]
+
+    seq_len = x.shape[0]
+    embedding_dim = x.shape[-1]
+    head_size = embedding_dim // n_head
+
+    for block_params in params.blocks:
+        ln1_mean = np.mean(x, axis=-1, keepdims=True)
+        ln1_variance = np.var(x, axis=-1, keepdims=True)
+        ln1_normalized = (x - ln1_mean) / np.sqrt(ln1_variance + 1e-5)
+        ln1_output = block_params.ln_1.g * ln1_normalized + block_params.ln_1.b
+
+        qkv_proj = ln1_output @ block_params.attn.c_attn.w + block_params.attn.c_attn.b
+        q_proj, k_proj, v_proj = np.split(qkv_proj, 3, axis=-1)
+
+        q_heads = q_proj.reshape(seq_len, n_head, head_size)
+        k_heads = k_proj.reshape(seq_len, n_head, head_size)
+        v_heads = v_proj.reshape(seq_len, n_head, head_size)
+
+        q_heads_t = q_heads.transpose(1, 0, 2)
+        k_heads_t = k_heads.transpose(1, 0, 2)
+        v_heads_t = v_heads.transpose(1, 0, 2)
+
+        attention_scores = (q_heads_t @ k_heads_t.transpose(0, 2, 1)) / np.sqrt(
+            head_size
+        )
+
+        causal_mask = np.triu(np.ones((seq_len, seq_len), dtype=x.dtype) * -np.inf, k=1)
+        attention_scores = attention_scores + causal_mask
+
+        exp_scores = np.exp(
+            attention_scores - np.max(attention_scores, axis=-1, keepdims=True)
+        )
+        attention_weights = exp_scores / np.sum(exp_scores, axis=-1, keepdims=True)
+
+        weighted_values = attention_weights @ v_heads_t
+
+        merged_heads = weighted_values.transpose(1, 0, 2).reshape(
+            seq_len, embedding_dim
+        )
+
+        mha_output = (
+            merged_heads @ block_params.attn.c_proj.w + block_params.attn.c_proj.b
+        )
+
+        x = x + mha_output
+
+        ln2_mean = np.mean(x, axis=-1, keepdims=True)
+        ln2_variance = np.var(x, axis=-1, keepdims=True)
+        ln2_normalized = (x - ln2_mean) / np.sqrt(ln2_variance + 1e-5)
+        ln2_output = block_params.ln_2.g * ln2_normalized + block_params.ln_2.b
+
+        fc_output = ln2_output @ block_params.mlp.c_fc.w + block_params.mlp.c_fc.b
+
+        gelu_output = (
+            0.5
+            * fc_output
+            * (1 + np.tanh(np.sqrt(2 / np.pi) * (fc_output + 0.044715 * fc_output**3)))
+        )
+
+        ffn_output = gelu_output @ block_params.mlp.c_proj.w + block_params.mlp.c_proj.b
+
+        x = x + ffn_output
+
+    lnf_mean = np.mean(x, axis=-1, keepdims=True)
+    lnf_variance = np.var(x, axis=-1, keepdims=True)
+    lnf_normalized = (x - lnf_mean) / np.sqrt(lnf_variance + 1e-5)
+    x_normalized_final = params.ln_f.g * lnf_normalized + params.ln_f.b
+
+    logits = x_normalized_final @ params.wte.T
+
+    return logits
+</code></pre>
+<p>Of course, here I'm cheating a little bit because we have a helper module to load the weights into a dataclass <code>ModelParams</code>, but the logic for the forward pass is all contained within this single function. Here are the files for the full implementation:</p>
+<ul>
+<li><a href="https://github.com/sdiehl/tiny-gpt2/blob/main/tinygpt2/gpt2_tensors.py">gpt2_tensors.py</a></li>
+<li><a href="https://github.com/sdiehl/tiny-gpt2/blob/main/tinygpt2/gpt2_minimal.py">gpt2_minimal.py</a></li>
+<li><a href="https://github.com/sdiehl/tiny-gpt2/blob/main/tinygpt2/gpt2_run.py">gpt2_run.py</a></li>
+</ul>
+    </section>
+    <p class="source"><a href="https://www.stephendiehl.com/posts/gpt2_function/">Read the original article on Stephen Diehl's website</a></p>
+  </article>
+</body>
+</html>

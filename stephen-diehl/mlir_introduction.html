@@ -1,0 +1,539 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="stephen-diehl-content-hash" content="d62b61786f037dd406ebac90c9cc8659bbabec32f0b3328eed6738bea46eadde">
+  <meta name="stephen-diehl-article-format" content="1">
+  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/mlir_introduction.html">
+  <title>Introduction to MLIR</title>
+  <style>
+    :root { color-scheme: dark; }
+    body { margin: 0; background: #171717; color: #f1f1f1;
+            font: 18px/1.7 Georgia, serif; }
+    article { max-width: 52rem; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+    h1 { font-size: 2rem; line-height: 1.25; letter-spacing: 0; }
+    h2, h3, h4, h5, h6 { line-height: 1.3; letter-spacing: 0; }
+    a { color: #8dc7ff; overflow-wrap: anywhere; }
+    img { display: block; max-width: 100%; height: auto; margin: 1.25rem auto; }
+    pre { overflow-x: auto; padding: 1rem; background: #242424;
+           white-space: pre-wrap; overflow-wrap: anywhere; }
+    code, kbd, samp { font-family: ui-monospace, monospace; }
+    blockquote { border-left: 3px solid #777; margin-left: 0; padding-left: 1rem; }
+    table { width: 100%; border-collapse: collapse; display: block;
+             overflow-x: auto; }
+    th, td { border: 1px solid #666; padding: .5rem; vertical-align: top; }
+    .published { color: #b8b8b8; }
+    .source { border-top: 1px solid #555; margin-top: 2rem; padding-top: 1rem; }
+  </style>
+</head>
+<body>
+  <article>
+    <h1>Introduction to MLIR</h1>
+    <p class="published">Published: Mon, 10 Mar 2025 00:00:00 +0000</p>
+    <section>
+<p>
+<img alt="mlir-egglog" src="https://beila.github.io/my-collection/stephen-diehl/assets/00ae6685ba832d4fd1e79e2690a779473c519675453bdfaed9d5c106b4a36121.jpg"/>
+</p>
+
+<p>LLVM is a powerful compiler infrastructure project that has revolutionized how we build programming languages and tools. At its core, LLVM provides a collection of modular compiler and toolchain technologies that can be used to develop frontend compilers for any programming language and generate optimized code for many target architectures.</p>
+<p>MLIR is a newer project within the LLVM ecosystem, designed to address the challenges of modern hardware accelerators and machine learning frameworks. While LLVM IR is powerful, it operates at a relatively low level. MLIR extends these concepts to support multiple levels of abstraction.</p>
+<p>Unfortunately, the modern compiler stack is often something that one has to learn from reading RFCs, papers, and mailing lists. With this tutorial, I'll try to give a concise overview of the modern compiler stack, how MLIR fits into it, and how to integrate it into the Python machine learning ecosystem.</p>
+<p>Throughout this series we'll cover the following topics eventually leading up to compiling a small version of the GPT2 transformer model down to efficient GPU kernels.</p>
+<ul>
+<li><a href="https://www.stephendiehl.com/posts/mlir_introduction">Part 1 - What is MLIR?</a></li>
+<li><a href="https://www.stephendiehl.com/posts/mlir_memory">Part 2 - Memory in MLIR</a></li>
+<li><a href="https://www.stephendiehl.com/posts/mlir_affine">Part 3 - Affine Dialect and OpenMP</a></li>
+<li><a href="https://www.stephendiehl.com/posts/mlir_linalg">Part 4 - Linear Algebra and Linalg</a></li>
+<li><a href="https://www.stephendiehl.com/posts/mlir_neural_networks">Part 5 - Neural Networks and Tensors</a></li>
+<li><a href="https://www.stephendiehl.com/posts/mlir_egraphs">Part 6 - e-graphs and Term Rewriting</a></li>
+<li>Part 7 - NVIDIA GPU Execution</li>
+<li>Part 8 - Transformer Architecture</li>
+<li>Part 9 - Superoptimizing Deep Learning</li>
+</ul>
+<p>This tutorial assumes some knowledge of C++ and advanced Python, along with passing familiarity with NVIDIA CUDA, but should otherwise be self-contained.</p>
+<h3 id="why-should-i-care%3F">Why should I care?</h3>
+<p>You probably shouldn't. Writing optimizing compilers is a very niche topic. Although it's one that now with LLVM + MLIR requires <em>a lot less</em> knowledge than it used to even a few years ago. So if you want to write a new AI framework or experimental programming language, it's a good time. It's not strictly neccessary to learn, but then again so few things in life are.</p>
+<h3 id="why-mlir%3F">Why MLIR?</h3>
+<p>MLIR was designed to address the limitations of traditional compilers like LLVM and GCC, particularly when dealing with modern hardware accelerators and AI workloads. While LLVM excels at traditional CPU targets, it struggles with the diverse specialized architectures emerging in AI and machine learning.</p>
+<p>Modern AI systems typically involve a mix of CPUs, GPUs, TPUs, and custom ASICs. MLIR's flexible architecture makes it easier to work across these different platforms, providing robust support for heterogeneous hardware.</p>
+<p>The <strong>dialect</strong> system in MLIR can represent and optimize operations at various levels, from high-level ML tasks down to hardware-specific instructions. This means we can implement optimizations tailored to specific domains, making AI workloads run more efficiently.</p>
+<p>Instead of needing separate compilers for each type of accelerator or framework, MLIR offers a unified infrastructure that can be extended for different use cases. Traditional compilers weren’t built with AI in mind, but MLIR has first-class support for tensor operations, neural networks, transformers, and other ML constructs.</p>
+<p>MLIR has become the go-to tech for specialized machine learning accelerators, finding applications in signal processing, quantum computing, homomorphic encryption, FPGAs, and custom silicon. Its ability to create domain-specific compilers is a game-changer for those "weird domains" that don’t fit the traditional CPU and GPU mold. Plus, it can be easily embedded in other languages, allowing us to build domain-specific languages tailored for specific tasks—something we’ll dive into in this blog.</p>
+<h3 id="key-components-of-the-modern-compiler-stack">Key Components of the Modern Compiler Stack</h3>
+<ol>
+<li>
+<p><strong>LLVM</strong>: The heart of LLVM is its intermediate representation - a low-level programming language similar to assembly but with important high-level information preserved. This IR serves as a bridge between source languages and target architectures.</p>
+</li>
+<li>
+<p><strong>MLIR</strong>: MLIR is a new "multi-level" intermediate representation that is more expressive and can represent higher-level concepts like control flow, dataflow, and parallelism and be lowered into LLVM IR.</p>
+</li>
+<li>
+<p><strong>Optimization Passes</strong>: Both MLIR and LLVM provide a vast set of optimization passes that work on the IR level, allowing any language using LLVM to benefit from sophisticated optimizations. Most are written by grad students and PhDs on the latest and greatest research in compiler optimization. This is what makes LLVM such a powerful tool.</p>
+</li>
+<li>
+<p><strong>E-Graphs</strong> Equality saturation is a technique for building optimizing compilers using e-graphs, which originated from the automated theorem proving world; it operates by applying a set of rewrites using e-matching until the e-graph is saturated, continuing the saturation process until one of several halting conditions is met. After the rewriting phase, an optimal term is extracted from the e-graph based on a cost function, typically related to the size of the syntax tree or performance considerations, allowing for more efficient optimizations by exploring a broader set of potential transformations and selecting the best one based on defined criteria.</p>
+</li>
+</ol>
+<p>A modern compiler then weaves these components together to make up a pipeline.</p>
+<ol>
+<li>Source code is parsed into a surface language.</li>
+<li>Surface language is translated to a core language.</li>
+<li>Core langauge can be optimized by core-to-core transformations (optionally using tools like e-graphs).</li>
+<li>Core language is lowered to MLIR.</li>
+<li>MLIR performs high-level optimizations</li>
+<li>MLIR is lowered to LLVM IR</li>
+<li>LLVM performs low-level optimizations and code generation</li>
+</ol>
+<p>Many programmming langauges implement the "mid-level" IR as a way to bridge the gap between the source language and LLVM. For example, Rust, Swift, Tensorflow all follow this pattern. With MLIR we have can have a new generation of programming languages and frameworks that can reuse the same infrastructure and perhaps become more interoperable, in much the same way that LLVM has become the de facto backend for many programming languages.</p>
+<p>
+<img alt="Modern Compilers" src="https://beila.github.io/my-collection/stephen-diehl/assets/5165500f385e7961216e5282dbd41ddc1c2518229174b4d49cf2285bf4f42f4b.png"/>
+</p>
+<h3 id="installing-mlir">Installing MLIR</h3>
+<p>Installing MLIR is a bit painful, it requires a few dependencies to be installed first.</p>
+<pre><code># MacOS
+brew install cmake ninja ccache
+
+# Linux
+apt-get install cmake ninja-build ccache
+</code></pre>
+<p>Then we can clone the LLVM repository and build MLIR from source. This can take a <em>long</em> time to build, I recommend having a cup of tea while you add entropy to the universe.</p>
+<pre><code>git clone https://github.com/llvm/llvm-project
+mkdir llvm-project/build
+cd llvm-project/build
+cmake -G Ninja ../llvm \
+   -DLLVM_ENABLE_PROJECTS=mlir \
+   -DLLVM_BUILD_EXAMPLES=ON \
+   -DLLVM_TARGETS_TO_BUILD="Native;ARM;X86" \
+   -DCMAKE_BUILD_TYPE=Release \
+   -DLLVM_ENABLE_ASSERTIONS=ON \
+   -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ \
+   -DLLVM_CCACHE_BUILD=ON
+cmake --build . --target check-mlir
+cmake --build . --target install
+</code></pre>
+<p>Check the version of MLIR installed. This tutorial is using version 21.0.0.</p>
+<pre><code>mlir-opt --version
+LLVM (http://llvm.org/):
+  LLVM version 21.0.0git
+  Optimized build with assertions.
+</code></pre>
+<p>At some point in the near future the Homebrew version of LLVM will be updated to include MLIR, at which point this will be a lot easier. If you're reading this at some point in a better future you can just try this and it might work.</p>
+<pre><code>brew install llvm
+</code></pre>
+<h3 id="mlir-concepts">MLIR Concepts</h3>
+<p>MLIR is a programming language in its own right, it's very low-level but it contains many of the core primitives you might find in other languages. First some identifier conventions:</p>
+<ul>
+<li><code>%</code> prefix: SSA values (e.g. <code>%result</code>)</li>
+<li><code>@</code> prefix: Functions (e.g. <code>@fun</code>)</li>
+<li><code>^</code> prefix: Basic blocks (e.g. <code>^bb0</code>)</li>
+<li><code>#</code> prefix: Attribute aliases (e.g. <code>#map_1d_identity</code>)</li>
+<li><code>x</code> delimiter: Used in shapes and between shape and type (e.g. <code>10xf32</code>)</li>
+<li><code>:</code> and <code>-&gt;</code> are used to indicate the type of an operation or value (e.g. <code>%result: i32</code>)</li>
+<li><code>!</code> prefix: Type aliases (e.g. <code>!avx_m128 = vector&lt;4 x f32&gt;</code>)</li>
+<li><code>()</code> are used to represent arguments (e.g. <code>(%arg0, %arg1)</code>)</li>
+<li><code>{}</code> are used to represent regions</li>
+<li><code>//</code> is used for comments</li>
+<li><code>&lt;&gt;</code> are used to indicate type parameters (e.g. <code>tensor&lt;10xf32&gt;</code>)</li>
+</ul>
+<ol>
+<li>
+<p><strong>Modules</strong>: The top-level container for MLIR operations.</p>
+<pre><code>module {
+  // Operations
+}
+</code></pre>
+</li>
+<li>
+<p><strong>Functions</strong>: A function is a collection of operations that are executed in a specific order.</p>
+<pre><code>func.func @my_function(%arg0: i32, %arg1: i32) -&gt; i32 {
+  // Operations
+}
+</code></pre>
+</li>
+<li>
+<p><strong>Dialects</strong>: Domain-specific sets of operations and types in MLIR.</p>
+<p>The high-level ones well use are:</p>
+<ul>
+<li><code>tensor</code>: This dialect provides operations for creating and manipulating multi-dimensional arrays (tensors), enabling high-level mathematical expressions and transformations in a side-effect-free manner.</li>
+<li><code>linalg</code>: The linear algebra (linalg) dialect offers a set of operations specifically designed for linear algebra computations, facilitating efficient implementations of matrix and vector operations.</li>
+<li><code>omp</code>: The OpenMP (omp) dialect includes operations that support parallel programming models, allowing developers to express parallelism in a way that is compatible with OpenMP standards.</li>
+<li><code>affine</code>: The affine dialect provides a framework for expressing affine operations and analyses, enabling optimizations that leverage the predictable behavior of affine expressions.</li>
+<li><code>gpu</code>: The GPU dialect is specialized for GPU programming, providing operations for parallel execution on heterogeneous architectures.</li>
+</ul>
+<p>The lower-level ones are:</p>
+<ul>
+<li><code>scf</code>: The structured control flow (scf) dialect provides operations that represent structured control flow constructs, such as loops and conditionals, ensuring a clear and maintainable flow of execution.</li>
+<li><code>func</code>: This dialect encompasses operations related to function definitions and calls, facilitating the organization and modularization of code through high-level function abstractions.</li>
+<li><code>memref</code>: The memref dialect is dedicated to memory reference operations, allowing for efficient management and manipulation of memory buffers, essential for performance-critical applications.</li>
+<li><code>index</code>: The index dialect specializes in operations for handling index computations, which are crucial for addressing elements in arrays and tensors, particularly in loop iterations and data access patterns.</li>
+<li><code>arith</code>: The arithmetic (arith) dialect contains fundamental mathematical operations for both integer and floating-point types, including basic arithmetic, bitwise operations, and comparisons, applicable to scalars, vectors, and tensors.</li>
+</ul>
+<p>Additionally we'll use some hardware specific dialects for targeting NVidia GPUs, but more on that later.</p>
+</li>
+<li>
+<p><strong>Operations</strong>: The basic unit of work in MLIR, similar to LLVM instructions but with an additional dialect namespace and possible type annotations.</p>
+<pre><code>// Example of an MLIR operation
+%0 = "my_dialect.my_operation"(%arg0, %arg1) : (i32, i32) -&gt; i32
+</code></pre>
+<p>In this example, <code>my_dialect.my_operation</code> is an operation defined in the <code>my_dialect</code> dialect, and <code>%arg0</code> and <code>%arg1</code> are arguments of type <code>i32</code>. It returns a result of type <code>i32</code> bound to the variable <code>%0</code>.</p>
+<p>A concrete example would be the "arith.addf" operation, which adds two floating point numbers.</p>
+<pre><code>%0 = arith.addf %arg0, %arg1 : f32
+</code></pre>
+</li>
+<li>
+<p><strong>Basic Blocks</strong>: Basic blocks in MLIR are sequences of operations that execute in a linear fashion without any branching. Each basic block has a single entry point and can have multiple exit points, typically through control flow operations like branches or returns. Basic blocks are essential for structuring the flow of control in a program, allowing for clear and maintainable code organization. They enable the compiler to optimize the execution path and facilitate transformations such as inlining and loop unrolling. In MLIR, basic blocks are defined within functions and can be manipulated through various dialects to represent complex control flow constructs.</p>
+<pre><code>^bb1: // Label for the then block
+%then_result = arith.muli %result, 2 : i32
+return %then_result : i32
+</code></pre>
+<p>Unike in LLVM, basic blocks can now also take arguments, which are passed in through the <code>^bb1(%result : i32)</code> syntax.</p>
+</li>
+<li>
+<p><strong>Regions</strong>: Regions are a way to group operations together. They are used to represent control flow constructs like loops and conditionals. Regions are grouped together in <code>{}</code> blocks and can take arguments.</p>
+<pre><code>{
+  ^bb1(%result : i32):
+  %then_result = arith.muli %result, 2 : i32
+  return %then_result : i32
+}
+</code></pre>
+</li>
+<li>
+<p><strong>Types</strong>: A type is a classification that specifies which kind of value a variable can hold and what operations can be performed on it. Types help to enforce constraints on data, ensuring that operations are performed on compatible values.</p>
+<pre><code>%result = arith.constant 1 : i32
+</code></pre>
+<p>We can also defined type synonyms for convenience.</p>
+<pre><code>!avx_m128 = vector&lt;4 x f32&gt;
+</code></pre>
+</li>
+<li>
+<p><strong>Passes</strong>: Transformations that operate on the MLIR dialects, optimizing and lowering them into simpler constructs.</p>
+<p>These are arguments that can be passed to <code>mlir-opt</code> to transform the MLIR, the most common ones are:</p>
+<ul>
+<li><code>convert-func-to-llvm</code>: Convert function-like operations to LLVM dialect</li>
+<li><code>convert-math-to-llvm</code>: Convert math operations to LLVM dialect</li>
+<li><code>convert-index-to-llvm</code>: Convert index operations to LLVM dialect</li>
+<li><code>convert-scf-to-cf</code>: Convert structured control flow to CF dialect</li>
+<li><code>convert-cf-to-llvm</code>: Convert control flow to LLVM dialect</li>
+<li><code>convert-arith-to-llvm</code>: Convert arithmetic operations to LLVM dialect</li>
+<li><code>reconcile-unrealized-casts</code>: Reconcile unrealized casts</li>
+<li><code>convert-memref-to-llvm</code>: Convert memref operations to LLVM dialect</li>
+<li><code>convert-tensor-to-llvm</code>: Convert tensor operations to LLVM dialect</li>
+<li><code>convert-linalg-to-scf</code>: Convert linalg operations to <code>scf.for</code> loops</li>
+<li><code>convert-linalg-to-affine-loops</code>: Convert linalg operations to <code>affine.for</code> loops</li>
+<li><code>convert-omp-to-llvm</code>: Convert OpenMP operations to LLVM dialect</li>
+<li><code>convert-vector-to-llvm</code>: Convert vector operations to LLVM dialect</li>
+</ul>
+<p>There is also a generic <code>-convert-to-llvm</code> pass that will convert anything that can be converted from MLRI to LLVM IR. In practice we'll use more granular passes to convert specific dialects to LLVM.</p>
+<p>If you need more granular control over the passes you can also specify the pass names in a comma-separated list in a <code>--pass-pipeline</code> string, e.g., <code>--pass-pipeline="builtin.module(pass1,pass2)"</code>. The passes will be run sequentially in one group.</p>
+<p>Additionally there are several use flags for debugging pass transformation. The <code>--mlir-print-ir-after-all</code> flag prints the IR after each pass, while <code>--mlir-print-ir-after-change</code> and <code>--mlir-print-ir-after-failure</code> provide more specific output. When using any of these print-ir flags, including <code>--mlir-print-ir-tree-dir</code>, the IRs are written to files in a directory tree if you don't want to parse through the terminal stdout.</p>
+<p><strong>Note: The order of the passes can be important, for example <code>convert-scf-to-cf</code> must come before <code>convert-cf-to-llvm</code>.</strong></p>
+</li>
+</ol>
+<h2 id="creating-and-using-llvm-modules">Creating and Using LLVM Modules</h2>
+<p>Let's create a simple LLVM module that returns 42 as an exit code, compile it to a shared library, and use it from Python. This example demonstrates the complete pipeline from LLVM IR to usable code.</p>
+<h3 id="1.-writing-llvm-ir">1. Writing LLVM IR</h3>
+<p>First, create a file named <code>simple.ll</code> with this LLVM IR:</p>
+<pre><code>define i32 @main() {
+    ret i32 42
+}
+</code></pre>
+<p>As an analogue this program is equivalent to:</p>
+<pre><code>int main() {
+    return 42;
+}
+</code></pre>
+<h3 id="2.-compiling-to-a-shared-object">2. Compiling to a Shared Object</h3>
+<p>We can compile this LLVM IR to a shared object using <code>clang</code>:</p>
+<pre><code>llc -filetype=obj --relocation-model=pic simple.ll -o simple.o
+clang -shared -fPIC simple.o -o libsimple.so
+clang simple.o -o simple # optionally create an executable
+</code></pre>
+<p>Now if you run the executable you should see the output <code>42</code> returned as the exit code to the process.</p>
+<pre><code>$ ./simple
+$ echo $?
+42
+</code></pre>
+<h3 id="3.-using-from-python">3. Using from Python</h3>
+<p>Now we can use this shared library <code>libsimple.so</code> from Python using <code>ctypes</code>:</p>
+<pre><code>import ctypes
+
+module = ctypes.CDLL("./libsimple.so")
+
+module.main.argtypes = []
+module.main.restype = ctypes.c_int
+
+print(module.main())
+</code></pre>
+<p>Running this you should see the Python logic successfully call the shared library and print the result.</p>
+<pre><code>$ python simple.py
+42
+</code></pre>
+<h2 id="mlir-universe">MLIR Universe</h2>
+<p>Now for a function that returns 42, it's simple enough to write in LLVM. But non-trivial programs in LLVM is not so simple, it is indeed often too "low-level" for many applications and over the years many people have constructed higher-level abstractions on top of LLVM.</p>
+<p>For example writing loops in LLVM is actually a bit annoying as you have to manually handle blocks, phi nodes, all for a basic loop. MLIR allows us to write high-level constructs directly and have them lowered down into LLVM in a single pass.</p>
+<h3 id="4.-writing-mlir">4. Writing MLIR</h3>
+<p>First, create a file named <code>simple.mlir</code> with this MLIR:</p>
+<pre><code>func.func @loop_add() -&gt; (index) {
+    %init = index.constant 0
+    %lb = index.constant 0
+    %ub = index.constant 10
+    %step = index.constant 1
+
+    %sum = scf.for %iv = %lb to %ub step %step iter_args(%acc = %init) -&gt; (index) {
+        %sum_next = arith.addi %acc, %iv : index
+        scf.yield %sum_next : index
+    }
+
+    return %sum : index
+}
+
+func.func @main() -&gt; i32 {
+    %out = call @loop_add() : () -&gt; index
+    %out_i32 = arith.index_cast %out : index to i32
+    func.return %out_i32 : i32
+}
+</code></pre>
+<p>In C this is equivalent to:</p>
+<pre><code>int loop_add(int lb, int ub, int step) {
+  int sum_0 = 0;
+  int sum = sum_0;
+  for (int iv = lb; iv &lt; ub; iv += step) {
+    sum_next = sum + iv;
+    sum = sum_next;
+  }
+  return sum;
+}
+
+int main() {
+  int out = loop_add(0, 10, 1);
+  return out;
+}
+</code></pre>
+<h3 id="4.-lowering-to-llvm-dialect">4. Lowering to LLVM Dialect</h3>
+<p>LLVM IR is based on Static Single Assignment, which means that every variable is assigned exactly once and every use of a variable must be dominated by its definition. In SSA, instead of variables being reassigned multiple times, each new "assignment" creates a new version of the variable, typically denoted with a numbered suffix (like <code>%1</code>, <code>%2</code>, etc.). This property makes many compiler optimizations simpler and more effective because the relationships between definitions and uses are explicit and unambiguous.</p>
+<p>For example, in LLVM IR, you might see code like:</p>
+<pre><code>%1 = add i32 %a, %b
+%2 = mul i32 %1, %c
+</code></pre>
+<p>Here, <code>%1</code> and <code>%2</code> are SSA values that can never be reassigned. When control flow requires a variable to have different values depending on the path taken (like after an if-statement), LLVM uses special "phi" nodes to merge the different possible values, maintaining the SSA property while handling dynamic program behavior.</p>
+<p>In LLVM basic blocks are the basic unit of control flow, they are a sequence of instructions that are executed sequentially. A basic block has one entry and one exit point.</p>
+<p>Phi nodes are special instructions in SSA-based intermediate representations that resolve multiple potential values from different control flow paths into a single value. They're essentially control-flow-aware multiplexers that select the appropriate value based on which path the program took to reach that point.</p>
+<pre><code>entry:
+  br i1 %cond, label %then, label %else
+
+then:
+  %x.1 = add i32 1, 2
+  br label %merge
+
+else:
+  %x.2 = mul i32 3, 4
+  br label %merge
+
+merge:
+  %x.3 = phi i32 [ %x.1, %then ], [ %x.2, %else ]
+  ret i32 %x.3
+</code></pre>
+<p>In this example, the phi node <code>%x.3</code> will take the value of <code>%x.1</code> (which is 3) if control flow came from the <code>then</code> block, or <code>%x.2</code> (which is 12) if it came from the <code>else</code> block. The syntax <code>[ value, predecessor_block ]</code> specifies which value to use depending on which block was previously executed.</p>
+<p>We can lower the high-level MLIR to LLVM dialect using <code>mlir-opt</code>. Essentially reducing the loop constructs to the branches over blocks statements.</p>
+<pre><code>mlir-opt example.mlir \
+  --convert-func-to-llvm \
+  --convert-math-to-llvm \
+  --convert-index-to-llvm \
+  --convert-scf-to-cf \
+  --convert-cf-to-llvm \
+  --convert-arith-to-llvm \
+  --reconcile-unrealized-casts \
+  -o example_opt.mlir
+</code></pre>
+<p>This will produce the following MLIR:</p>
+<pre><code>module {
+  llvm.func @loop_add() -&gt; i64 {
+    %0 = llvm.mlir.constant(0 : i64) : i64
+    %1 = llvm.mlir.constant(0 : i64) : i64
+    %2 = llvm.mlir.constant(10 : i64) : i64
+    %3 = llvm.mlir.constant(1 : i64) : i64
+    llvm.br ^bb1(%1, %0 : i64, i64)
+  ^bb1(%4: i64, %5: i64):  // 2 preds: ^bb0, ^bb2
+    %6 = llvm.icmp "slt" %4, %2 : i64
+    llvm.cond_br %6, ^bb2, ^bb3
+  ^bb2:  // pred: ^bb1
+    %7 = llvm.add %5, %4 : i64
+    %8 = llvm.add %4, %3 : i64
+    llvm.br ^bb1(%8, %7 : i64, i64)
+  ^bb3:  // pred: ^bb1
+    llvm.return %5 : i64
+  }
+  llvm.func @main() -&gt; i32 {
+    %0 = llvm.call @loop_add() : () -&gt; i64
+    %1 = llvm.trunc %0 : i64 to i32
+    llvm.return %1 : i32
+  }
+}
+</code></pre>
+<p>We can use the <code>mlir-cpu-runner</code> to run the <code>main</code> function directly from MLIR code.</p>
+<pre><code>mlir-cpu-runner -e main -entry-point-result=i32 simple_opt.mlir
+
+# To use the runner utils (e.g. for debug printing)
+# mlir-cpu-runner -e main -entry-point-result=i32 -shared-libs=/opt/homebrew/opt/llvm/lib/libmlir_runner_utils.dylib simple_opt.mlir
+</code></pre>
+<h3 id="5.-compiling-to-a-shared-object">5. Compiling to a Shared Object</h3>
+<p>From there is a direct translation of the MLIR to LLVM IR using <code>mlir-translate</code>. We can compile this MLIR to a shared object using <code>mlir-translate</code>:</p>
+<pre><code>mlir-translate simple_opt.mlir -mlir-to-llvmir -o simple.ll
+llc -filetype=obj --relocation-model=pic simple.ll -o simple.o
+clang -shared -fPIC simple.o -o libsimple.so
+</code></pre>
+<p>The LLVM them compiles down into assembly (in this case ARM64 assembly).</p>
+<pre><code>_loop_add:
+sub     sp, sp, #0x30
+mov     x8, #0x0
+mov     x9, x8
+str     x9, [sp, #0x20]
+str     x8, [sp, #0x28]
+b       0x100003f10
+ldr     x9, [sp, #0x20]
+ldr     x8, [sp, #0x28]
+str     x8, [sp, #0x8]
+str     x9, [sp, #0x10]
+subs    x9, x9, #0xa
+str     x8, [sp, #0x18]
+b.ge    0x100003f4c
+b       0x100003f30
+ldr     x9, [sp, #0x10]
+ldr     x8, [sp, #0x8]
+add     x8, x8, x9
+add     x9, x9, #0x1
+str     x9, [sp, #0x20]
+str     x8, [sp, #0x28]
+b       0x100003f10
+ldr     x0, [sp, #0x18]
+add     sp, sp, #0x30
+ret
+</code></pre>
+<h2 id="standard-mlir-dialects">Standard MLIR Dialects</h2>
+<h3 id="llvm"><code>llvm</code></h3>
+<p>The <code>llvm</code> dialect is the dialect that represents LLVM IR. It is the lowest level dialect in the MLIR hierarchy, it directly passes through to LLVM IR.</p>
+<h3 id="scf-and-cf"><code>scf</code> and <code>cf</code></h3>
+<p>All higher-level 'scf' structures compile into 'cf' constructs.</p>
+<ul>
+<li><code>cf.br</code> - A branch to a basic block</li>
+<li><code>cf.cond_br</code> - A conditional branch to a basic block</li>
+<li><code>cf.switch</code> - A switch to a basic block</li>
+</ul>
+<p>An unconditonal branch is a branch that always goes to the same basic block.</p>
+<pre><code>// A basic block
+^bb0:
+  cf.br ^bb1
+</code></pre>
+<p>A conditional branch is a branch that goes to a different basic block depending on a condition variable (here <code>%c</code>).</p>
+<pre><code>// A conditional branch to a basic block
+^bb0:
+  cf.cond_br %c, ^bb1, ^bb2
+</code></pre>
+<p>A switch is a branch that goes to a different basic block depending on a switch variable (here <code>%i</code>).</p>
+<pre><code>// A switch to a basic block
+^bb0:
+  cf.switch %i, ^bb1, ^bb2, ^bb3
+</code></pre>
+<p>For example we could put these constructs together to create a function that selects between two values based on a boolean flag returning one of the given arguments.</p>
+<pre><code>func.func @select(%a: i32, %b: i32, %flag: i1) -&gt; i32 {
+  cf.cond_br %flag, ^bb1(%a : i32), ^bb1(%b : i32)
+
+^bb1(%x : i32) :
+  return %x : i32
+}
+</code></pre>
+<p>The most basic structured control flow construct is the <code>scf.if</code> construct.</p>
+<pre><code>scf.if %b  {
+  // true region
+} else {
+  // false region
+}
+</code></pre>
+<p>Like we did a above a for loop is a structured control flow construct, it has a single entry and a single exit point.</p>
+<pre><code>%lb = index.constant 0
+%ub = index.constant 10
+%step = index.constant 1
+
+scf.for %iv = %lb to %ub step %step {
+  // loop region
+}
+</code></pre>
+<p>This would be lowered with the <code>convert-scf-to-cf</code> pass into a sequence of <code>cf.br</code> and <code>cf.cond_br</code> operations.</p>
+<h3 id="arith-and-math"><code>arith</code> and <code>math</code></h3>
+<p>The <code>arith</code> dialect includes basic operations like:</p>
+<ul>
+<li>Integer arithmetic: <code>addi</code>, <code>subi</code>, <code>muli</code>, <code>divsi</code> (signed), <code>divui</code> (unsigned)</li>
+<li>Floating point arithmetic: <code>addf</code>, <code>subf</code>, <code>mulf</code>, <code>divf</code></li>
+<li>Comparisons: <code>cmpi</code> (integer), <code>cmpf</code> (float)</li>
+<li>Conversions: <code>extsi</code> (sign extend), <code>extui</code> (zero extend), <code>trunci</code>, <code>fptoui</code>, <code>fptosi</code>, <code>uitofp</code>, <code>sitofp</code></li>
+<li>Bitwise operations: <code>andi</code>, <code>ori</code>, <code>xori</code></li>
+</ul>
+<p>Example of arithmetic operations:</p>
+<pre><code>func.func @arithmetic_example(%a: i32, %b: f32) -&gt; i32 {
+    // Integer addition
+    %1 = arith.constant 42 : i32
+    %2 = arith.addi %a, %1 : i32
+
+    // Float to integer conversion
+    %3 = arith.fptosi %b : f32 to i32
+
+    // Final addition
+    %4 = arith.addi %2, %3 : i32
+    return %4 : i32
+}
+</code></pre>
+<p>The <code>math</code> dialect provides more complex mathematical operations:</p>
+<ul>
+<li>Trigonometric: <code>sin</code>, <code>cos</code>, <code>tan</code></li>
+<li>Exponential: <code>exp</code>, <code>exp2</code>, <code>log</code>, <code>log2</code>, <code>log10</code></li>
+<li>Power functions: <code>pow</code>, <code>sqrt</code></li>
+<li>Special functions: <code>erf</code>, <code>atan2</code></li>
+<li>Constants: <code>constant</code></li>
+</ul>
+<p>Example using math operations:</p>
+<pre><code>func.func @math_example(%x: f32) -&gt; f32 {
+    // Calculate sin(x) * sqrt(x)
+    %1 = math.sin %x : f32
+    %2 = math.sqrt %x : f32
+    %3 = arith.mulf %1, %2 : f32
+    return %3 : f32
+}
+</code></pre>
+<p>The passes <code>-convert-math-to-llvm</code> and <code>-convert-arith-to-llvm</code> will convert the math and arithmetic operations to basic LLVM operation equivalents.</p>
+<h3 id="index"><code>index</code></h3>
+<p>The <code>index</code> dialect is specialized for handling index computations and is particularly important for array/tensor operations. An index type in MLIR is a platform-specific sized integer used for addressing and loop induction variables.</p>
+<p>Key index operations include:</p>
+<ul>
+<li><code>index.constant</code>: Create an index constant</li>
+<li><code>index.add</code>: Add two indices</li>
+<li><code>index.sub</code>: Subtract two indices</li>
+<li><code>index.mul</code>: Multiply two indices</li>
+<li><code>index.cmp</code>: Compare two indices</li>
+<li><code>index.divs</code>: Signed division of indices</li>
+<li><code>index.rems</code>: Signed remainder of indices</li>
+</ul>
+<p>Index operations are used to compute the offset of an element in an array. For example, the following function computes the offset of an element in a 2D array. We can treat them as natural number operations as they are always non-negative.</p>
+<pre><code>func.func @compute_offset(%i: index, %j: index, %stride: index) -&gt; index {
+    // Compute row-major array offset: i * stride + j
+    %1 = index.mul %i, %stride
+    %2 = index.add %1, %j
+    return %2 : index
+}
+</code></pre>
+<p>The pass <code>-convert-index-to-llvm</code> will convert the index dialect to the LLVM dialect.</p>
+<p>The index type is particularly useful when working with tensors and memory layouts, as it provides a natural way to express array indices and dimensions. It's used in conjunction with the <code>memref</code> and <code>tensor</code> dialects for array access patterns. Which we'll cover next.</p>
+<h2 id="external-resources">External Resources</h2>
+<ul>
+<li><a href="https://mlir.llvm.org/docs/Dialects/Builtin/">MLIR Builtin Dialect</a></li>
+<li><a href="https://arxiv.org/abs/2002.11054">MLIR: A Compiler Infrastructure for the End of Moore's Law</a></li>
+<li><a href="https://ieeexplore.ieee.org/abstract/document/9370308">MLIR: Scaling Compiler Infrastructure for Domain Specific Computation</a></li>
+<li><a href="https://www.youtube.com/watch?v=lXAp6ZAWyBY">2023 LLVM Dev Mtg - MLIR Is Not an ML Compiler, and Other Common Misconceptions</a></li>
+<li><a href="https://arxiv.org/abs/2101.11365">A MLIR Dialect for Quantum Assembly Languages</a></li>
+<li><a href="https://llvm.org/devmtg/2022-11/slides/QuickTalk15-BuildingAnEnd-to-EndToolchainForFullyHomomorphicEncryptionWithMLIR.pdf">Building an End-to-End Toolchain for Fully Homomorphic Encryption with MLIR</a></li>
+</ul>
+    </section>
+    <p class="source"><a href="https://www.stephendiehl.com/posts/mlir_introduction/">Read the original article on Stephen Diehl's website</a></p>
+  </article>
+</body>
+</html>
