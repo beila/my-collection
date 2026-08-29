@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="stephen-diehl-content-hash" content="41620d697763f1da323effaab6f27501e2670d92a90f6ea09b7baae93a985838">
-  <meta name="stephen-diehl-article-format" content="1">
+  <meta name="stephen-diehl-article-format" content="2">
   <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/post_transformers.html">
   <title>Attention Wasn&#x27;t All We Needed</title>
   <style>
@@ -32,6 +32,7 @@
     <h1>Attention Wasn&#x27;t All We Needed</h1>
     <p class="published">Published: Tue, 29 Apr 2025 01:00:00 +0000</p>
     <section>
+      <p class="source"><a href="https://www.stephendiehl.com/posts/post_transformers/">Read the original article on Stephen Diehl's website</a></p>
 <p>There's a lot of modern techniques that have been developed since the original <em>Attention Is All You Need</em> paper. Let's look at some of the most important ones that have been developed over the years and try to implement the basic ideas as succinctly as possible. We'll use the Pytorch framework for most of the examples. Note that most of these examples are highly simplified sketches of the core ideas, if you want the full implementation please read the original paper or the production code in frameworks like PyTorch or Jax.</p>
 <ol>
 <li><a href="https://www.stephendiehl.com/posts/post_transformers/#group-query-attention">Group Query Attention</a></li>
@@ -929,7 +930,6 @@ def apply_rotary_pos_emb(q, k, cos, sin, interleaved=False):
         return self.tokenizer.decode(input_ids[0])
 </code></pre>
     </section>
-    <p class="source"><a href="https://www.stephendiehl.com/posts/post_transformers/">Read the original article on Stephen Diehl's website</a></p>
   </article>
 </body>
 </html>

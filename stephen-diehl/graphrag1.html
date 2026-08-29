@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="stephen-diehl-content-hash" content="13af3e92185ac018ab361ff61b273ee4013f0e6f26b059b0653dacff0f8b0ba4">
-  <meta name="stephen-diehl-article-format" content="1">
+  <meta name="stephen-diehl-article-format" content="2">
   <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/graphrag1.html">
   <title>Tiny GraphRAG (Part 1)</title>
   <style>
@@ -32,6 +32,7 @@
     <h1>Tiny GraphRAG (Part 1)</h1>
     <p class="published">Published: Mon, 04 Nov 2024 00:00:00 +0000</p>
     <section>
+      <p class="source"><a href="https://www.stephendiehl.com/posts/graphrag1/">Read the original article on Stephen Diehl's website</a></p>
 <p>We're going to build a tiny 1000 line implementation of a GraphRAG algorithm originally invented by Microsoft. I consistently hear people talk about this algorithm at meetups, but it appears there are several orders of magnitude of people talking about it than actually using it or implementing it. Likely because the reference implementation is enormous and rather complex. So let's break it down and see if there's any merit to the hype around this approach.</p>
 <p>For some background, naive RAG is a basic approach to augmenting LLM outputs with external information that primarily relies on vector similarity search. The process involves converting documents to text, splitting that text into chunks, and embedding these chunks into a vector space where similar semantic meanings are represented by similar vector positions. When a user submits a query, it is embedded into the same vector space, and the text chunks with the nearest vector positions are retrieved and added to the LLM's context window along with the original query.</p>
 <p>GraphRAG is an alternative structured approach to goes beyond simple semantic search and uses a graph-based index of a document. The key idea is that it uses LLMs to build a knowledge graph from source documents, then detects communities of closely-related entities within that graph, and generates summaries for these communities. This creates a alternative structured index that can be leveraged for both local entity-specific queries and global document-wide analysis. For some tasks this can perform better than naive RAG.</p>
@@ -721,7 +722,6 @@ print("Geographic Global Search:", result)
 <p>For anyone considering implementing either approach, it's crucial to understand that end users of this system would need to accept a high degree of potential inaccuracy and out-of-context answers when relying on these chains of black box models. The current state of RAG, whether graph-based or naive, is not sufficiently reliable for production systems where accuracy and consistency are important. While these approaches can be interesting for experimental or research purposes, they are not yet mature enough to serve as dependable solutions for production information retrieval systems.</p>
 <p>GraphRAG is not some algorithmic panacea it seems to often be marketed as. It does not "solve hallucinations" or fix the "pre-training overflow problem" that all RAG approachs that use a language model as final synthesizer suffer from. However it might prove more useful in some specific low-risk domains and may show improvement over a naive RAG implementation. In conclusion, if you're looking for a way to turn perfectly good documents into unreliable answers while burning through GPU credits, both naive RAG and GraphRAG are excellent choices.</p>
     </section>
-    <p class="source"><a href="https://www.stephendiehl.com/posts/graphrag1/">Read the original article on Stephen Diehl's website</a></p>
   </article>
 </body>
 </html>

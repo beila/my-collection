@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="stephen-diehl-content-hash" content="f0584de9bbe396cac67dfbb3fbaf8a1928ce896df802dc4c5ed78163e159decc">
-  <meta name="stephen-diehl-article-format" content="1">
+  <meta name="stephen-diehl-article-format" content="2">
   <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/church.html">
   <title>The Y-Combinator in Python</title>
   <style>
@@ -32,6 +32,7 @@
     <h1>The Y-Combinator in Python</h1>
     <p class="published">Published: Thu, 10 Aug 2017 01:00:00 +0000</p>
     <section>
+      <p class="source"><a href="https://www.stephendiehl.com/posts/church/">Read the original article on Stephen Diehl's website</a></p>
 <p>Lambda calculus holds a revered place as a foundational system in computation theory, influencing programming languages and paradigms. One fascinating application of lambda calculus is Church encoding, which allows representing data and operators using only functions. This blog post delves into how Church encoding can be implemented in Python to represent boolean values, basic arithmetic operations, and even complex functions like the Fibonacci sequence.</p>
 <p>Church encoding is a means of representing data and operators in lambda calculus, which uses functions instead of data types. Typical constructs such as numerals, boolean values, and basic arithmetic operations can be represented purely through functional abstractions and applications.</p>
 <p>Let's start by encoding boolean values and essential logical operations using lambda functions in Python.</p>
@@ -249,7 +250,6 @@ Fib = lambda x: (lambda a: (a)(lambda b: b + 1)(0))(
 )
 </code></pre>
     </section>
-    <p class="source"><a href="https://www.stephendiehl.com/posts/church/">Read the original article on Stephen Diehl's website</a></p>
   </article>
 </body>
 </html>

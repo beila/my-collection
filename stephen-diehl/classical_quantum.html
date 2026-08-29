@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="stephen-diehl-content-hash" content="9a74aa08f354f49b69626f182c1d374d4b27737de76acf99dd4a4ad5b3cbf140">
-  <meta name="stephen-diehl-article-format" content="1">
+  <meta name="stephen-diehl-article-format" content="2">
   <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/classical_quantum.html">
   <title>Simulating Qubits with Python (Classically)</title>
   <style>
@@ -32,6 +32,7 @@
     <h1>Simulating Qubits with Python (Classically)</h1>
     <p class="published">Published: Thu, 28 Apr 2022 01:00:00 +0000</p>
     <section>
+      <p class="source"><a href="https://www.stephendiehl.com/posts/classical_quantum/">Read the original article on Stephen Diehl's website</a></p>
 <p>Ever wondered what it would be like to play with a quantum computer? While we can't all have a supercooled quantum processor in our basement (yet), we can do the next best thing—simulate one with regular Python code. Sure, it's hilariously inefficient but surprisingly educational! We're going to build a simple quantum simulator from scratch. It won't scale well (at all), but it'll give us a hands-on feel for qubits, superposition, and look like when simulated in software.</p>
 <p>The fundamental unit of quantum information is the <strong>qubit</strong>. Unlike a <a href="https://www.smbc-comics.com/comic/the-talk-3">classical bit</a>, firmly fixed as either 0 or 1, a qubit can exist in a <strong>superposition</strong>, a combination of both states simultaneously. We represent the state of a single qubit, often denoted as <code>|ψ&gt;</code>, mathematically like this: <code>α|0&gt; + β|1&gt;</code>. Here, <code>|0&gt;</code> and <code>|1&gt;</code> represent the two fundamental basis states (analogous to classical 0 and 1), while <code>α</code> and <code>β</code> are complex numbers called <strong>amplitudes</strong>. These amplitudes aren't arbitrary; the squares of their absolute magnitudes, <code>|α|²</code> and <code>|β|²</code>, give the probability of finding the qubit in the <code>|0&gt;</code> state or the <code>|1&gt;</code> state, respectively, when we measure it. A core rule is that these probabilities must sum to one: <code>|α|² + |β|² = 1</code>.</p>
 <p>Things get exponentially more complex when we have multiple qubits. For a system with <em>n</em> qubits, there are <code>2^n</code> possible classical configurations (like <code>00</code>, <code>01</code>, <code>10</code>, <code>11</code> for two qubits). The quantum state of this <em>n</em>-qubit system requires a complex amplitude for <em>each</em> of these <code>2^n</code> basis states. For example, a 3-qubit system (<code>n=3</code>) exists in an 8-dimensional complex vector space, with basis states <code>|000&gt;</code>, <code>|001&gt;</code>, ..., <code>|111&gt;</code>. The complete description of the system's state is a list, or <strong>state vector</strong>, containing these <code>2^n</code> complex amplitudes.</p>
@@ -234,7 +235,6 @@ print(f"Measurement counts: {counts_ghz}")
 <p>These examples demonstrate preparing famous entangled states like the Bell state (<code>(|00&gt; + |11&gt;)/sqrt(2)</code>) and the <a href="https://en.wikipedia.org/wiki/Greenberger%E2%80%93Horne%E2%80%93Zeilinger_state">Greenberger–Horne–Zeilinger (GHZ) state</a> (<code>(|000&gt; + |111&gt;)/sqrt(2)</code>). Running the measurement multiple times (after resetting the state for simulation purposes) clearly shows the correlations inherent in entanglement – the outcomes will always be <code>(0, 0)</code> or <code>(1, 1)</code> for the Bell state, and <code>(0, 0, 0)</code> or <code>(1, 1, 1)</code> for the GHZ state, with roughly equal probability.</p>
 <p>Simulating quantum systems classically using state vectors is really only useful as an educational tool. It forces us to confront the exponential resources required (<code>2^n</code> complex numbers, operations affecting all states) so it's not a practical way to simulate even small quantum systems. While this approach quickly becomes infeasible for large numbers of qubits (simulating 50-60 qubits pushes the limits of current supercomputers), it hints at what quantum computers may be capable of ... that is if we can ever build them.</p>
     </section>
-    <p class="source"><a href="https://www.stephendiehl.com/posts/classical_quantum/">Read the original article on Stephen Diehl's website</a></p>
   </article>
 </body>
 </html>

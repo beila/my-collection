@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="stephen-diehl-content-hash" content="b6d0113fed3101b4ba5d3fdd898e5d1e6e06ee17a08a279cac8becd44550b5ed">
-  <meta name="stephen-diehl-article-format" content="1">
+  <meta name="stephen-diehl-article-format" content="2">
   <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/prism.html">
   <title>Prism: An Impure Functional Language With Typed Effects</title>
   <style>
@@ -32,6 +32,7 @@
     <h1>Prism: An Impure Functional Language With Typed Effects</h1>
     <p class="published">Published: Sat, 20 Jun 2026 01:00:00 +0000</p>
     <section>
+      <p class="source"><a href="https://www.stephendiehl.com/posts/prism/">Read the original article on Stephen Diehl's website</a></p>
 <p>This is going to be a very nerdy post, so bear with me. Here is the shortest version of the pitch:</p>
 <pre><code>fn fib(n) =
   var a := 0
@@ -123,7 +124,6 @@ fn extent(s) =
 <p>The thesis, if a toy project gets to have one, is that "purely functional" was always a slightly defensive name for a good idea. The good idea is that effects should be visible, typed, and composable. You do not need to forbid them to get that. You need to track them. And once you are tracking them honestly, the compiler has enough information to make them free, which is the part the purity narrative never promised you, because it was too busy not making eye contact with the IO monad.</p>
 <p>This compiler is essentially my love letter to the old 2010-20s era of functional programming which was a much simpler and happier time (or maybe that's just the rose-tinted glasses of youth in the ZIRP era). This compiler is a toy, it is for all intents and purposes useless except maybe as kind of a piece of art from a bygone time before the Transformer-era of programming. The world we're headed to doesn't really have a place for this kind of thing anymore. We're increasingly headed to a world in which maximally probabilistic hilariously-uninteresting Typescript increasingly runs most of the world as we babysit these token extruders while the economy and markets become increasingly automated by agents. While this makes me kind of sad, it doesn't mean we still can't build this kind of thing <a href="https://www.goodreads.com/quotes/10260174-they-are-the-motivational-factors-for-everything-in-your-life-for">just for fun</a> and that's what I did here. Maybe the future of functional programming languages is increasingly niche-but-economically-irrelevant and becomes more like a hobby pursuit for the few of us who still love it for the intellectual beauty of the underlying ideas. So I built it anyways, and it runs, and it was a blast to build. And just maybe that's enough, in this brave new world of software.</p>
     </section>
-    <p class="source"><a href="https://www.stephendiehl.com/posts/prism/">Read the original article on Stephen Diehl's website</a></p>
   </article>
 </body>
 </html>

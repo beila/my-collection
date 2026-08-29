@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="stephen-diehl-content-hash" content="bc09e5e8da88508d1a482a9935f3d095fd4eb7a49d1dd439ce0143b1a9264bbf">
-  <meta name="stephen-diehl-article-format" content="1">
+  <meta name="stephen-diehl-article-format" content="2">
   <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/cvxopt.html">
   <title>Portfolio Theory with CVXOPT</title>
   <style>
@@ -32,6 +32,7 @@
     <h1>Portfolio Theory with CVXOPT</h1>
     <p class="published">Published: Thu, 01 Feb 2024 00:00:00 +0000</p>
     <section>
+      <p class="source"><a href="https://www.stephendiehl.com/posts/cvxopt/">Read the original article on Stephen Diehl's website</a></p>
 <p>In this tutorial, we will use the <code>cvxopt</code> library in Python to implement Markowitz Portfolio Theory, which allows us to optimize a portfolio of assets by calculating the efficient frontier. The efficient frontier represents the set of optimal portfolios that offer the highest expected return for a given level of risk (standard deviation).</p>
 <p>In plain English, what we want is a mix of investments that generally go up over time, but don't all tank at once when things go bad. Ideally, when some investments are going down, we want others that tend to go up to balance things out. It's like not putting all your eggs in one basket, but being really smart about which baskets you choose and how many eggs go in each one. We'll go through three different ways of being "smarter" about our portfolio choice.</p>
 <ol>
@@ -467,7 +468,6 @@ print(ret_bl)
 </code></pre>
 <p>When we run the efficient frontier optimizer with the Black-Litterman posterior returns and covariance matrix to maximize the Sharpe ratio, we get a well-diversified portfolio allocation with an expected annual return, volatility, and Sharpe ratio as shown above.</p>
     </section>
-    <p class="source"><a href="https://www.stephendiehl.com/posts/cvxopt/">Read the original article on Stephen Diehl's website</a></p>
   </article>
 </body>
 </html>

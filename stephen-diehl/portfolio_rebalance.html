@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="stephen-diehl-content-hash" content="a801cd00f07d5c70533a48f34ddff418bcc15b0838afff78af61046786ab5f10">
-  <meta name="stephen-diehl-article-format" content="1">
+  <meta name="stephen-diehl-article-format" content="2">
   <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/portfolio_rebalance.html">
   <title>Portfolio Rebalancing</title>
   <style>
@@ -32,6 +32,7 @@
     <h1>Portfolio Rebalancing</h1>
     <p class="published">Published: Mon, 05 Feb 2024 00:00:00 +0000</p>
     <section>
+      <p class="source"><a href="https://www.stephendiehl.com/posts/portfolio_rebalance/">Read the original article on Stephen Diehl's website</a></p>
 <p>Continuing on our topic of portfolio theory, we've already discussed how to optimize a portfolio given a set of constraints. Now we'll discuss how to use cvxopt to rebalance a portfolio to maintain the desired asset allocation.</p>
 <p>For example we're going to start with a simple portfolio that exists in a current portfolio and we'll rebalance it to a target portfolio. While the optimization techniques we've discussed in the last post determine optimal portfolio weights, maintaining these weights over time requires careful consideration of transaction costs and market impact. We will need to change the portfolio weights over time to either reflect a new thesis or in response to changing market conditions.</p>
 <p>The rebalancing problem can be formulated as a quadratic programming problem that balances three competing objectives:</p>
@@ -323,7 +324,6 @@ print(sector_exposures)
 <p>Ok this is a lot more realistic. We can see that the solution is respecting the sector constraints and the transaction costs are being minimized. Quite often the expected return of the portfolio is lower than the target return because of the additional constraints, especially with large position sizes.</p>
 <p>A more complicated model would also take into account the slippage that occurs when making large trades and the potential impact on the market price of the stocks. This isn't directly a constraint of the optimization problem, but it is something we can use other models to help mitigate.</p>
     </section>
-    <p class="source"><a href="https://www.stephendiehl.com/posts/portfolio_rebalance/">Read the original article on Stephen Diehl's website</a></p>
   </article>
 </body>
 </html>

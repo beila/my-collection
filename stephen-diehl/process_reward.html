@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="stephen-diehl-content-hash" content="5f818efafd2ba64c762317902a11e4b94b41e1cafdc03876032bfe99c8ca014e">
-  <meta name="stephen-diehl-article-format" content="1">
+  <meta name="stephen-diehl-article-format" content="2">
   <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/process_reward.html">
   <title>Process Reward Models</title>
   <style>
@@ -32,6 +32,7 @@
     <h1>Process Reward Models</h1>
     <p class="published">Published: Sun, 01 Dec 2024 00:00:00 +0000</p>
     <section>
+      <p class="source"><a href="https://www.stephendiehl.com/posts/process_reward/">Read the original article on Stephen Diehl's website</a></p>
 <p>Reasoning models are all the rage with the kids these days, and in particular the training data behind them is a hot topic. One particular case of this is the <a href="https://arxiv.org/abs/2405.15489">process reward models</a> which are a type of reward model used in complex reasoning and decision-making tasks where evaluating intermediate steps is crucial to achieving the desired outcome. In short we want to have a model that can help guide the reasoning of another model to tell it when it's on the right track or off track.</p>
 <p>The source code for this post is available <a href="https://github.com/sdiehl/prm">https://github.com/sdiehl/prm</a>.</p>
 <p>New approaches to scaling inference have recently led to breakthrough performance improvements in the world of LLMs. Through the use of basic sampling and search strategies, particularly when combined with custom verifiers, scoring functions, and process reward models, we're now seeing small models outperform vastly larger models. Which is quite an exciting development!</p>
@@ -433,7 +434,6 @@ for i, step in enumerate(example["steps"], 1):
 <p>The model evaluates each step in the context of all previous steps, providing probabilities for positive and negative rewards. A higher probability for "+" indicates that the model considers the step to be correct and helpful in the reasoning process. The evaluation is cumulative, meaning it considers how each new step builds upon previous ones.</p>
 <p>The masking mechanism ensures that the model only predicts reward tokens ("+" or "-") by setting all other token probabilities to negative infinity. This forces the model to make a binary decision about the quality of each step. You can now use the PRM as either a reward model using trl's <code>RewardTrainer</code> or as a step-wise evaluator in your own custom training loops, or even at inference time to guide sampling.</p>
     </section>
-    <p class="source"><a href="https://www.stephendiehl.com/posts/process_reward/">Read the original article on Stephen Diehl's website</a></p>
   </article>
 </body>
 </html>

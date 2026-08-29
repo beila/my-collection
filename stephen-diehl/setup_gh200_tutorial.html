@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="stephen-diehl-content-hash" content="e089cb9efb2e82816316d6bfbd4447f5ee225e3706722fce9e19d63eab8bf493">
-  <meta name="stephen-diehl-article-format" content="1">
+  <meta name="stephen-diehl-article-format" content="2">
   <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/setup_gh200_tutorial.html">
   <title>Setting up a Nvidia GH200 for Development</title>
   <style>
@@ -32,6 +32,7 @@
     <h1>Setting up a Nvidia GH200 for Development</h1>
     <p class="published">Published: Wed, 20 Nov 2024 00:00:00 +0000</p>
     <section>
+      <p class="source"><a href="https://www.stephendiehl.com/posts/setup_gh200_tutorial/">Read the original article on Stephen Diehl's website</a></p>
 <p>Setting up an Nvidia GH200 from scratch is a bit fickle. I eventually got it working with CUDA 12.4 and FlashAttention-2, but it took a bit of trial and error. Here's what I did:</p>
 <p>The GH200 performs optimally with a 64K kernel page size. Nvidia provides specialized kernel packages for Ubuntu systems. First, remove the existing kernel packages and install the Nvidia 64K kernel:</p>
 <pre><code>sudo DEBIAN_FRONTEND=noninteractive apt purge linux-image-$(uname -r) \
@@ -185,7 +186,6 @@ pip install flashinfer -i https://flashinfer.ai/whl/cu121/torch2.4/
 </code></pre>
 <p>Likewise, you can send requests to the API endpoint at <code>http://localhost:8000/v1/completions</code> using the OpenAI API format.</p>
     </section>
-    <p class="source"><a href="https://www.stephendiehl.com/posts/setup_gh200_tutorial/">Read the original article on Stephen Diehl's website</a></p>
   </article>
 </body>
 </html>

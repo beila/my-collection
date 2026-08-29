@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="stephen-diehl-content-hash" content="71164e3b9969ad46a03432c2306b4a4073bd1a0767da11a0252ca7f05b553ff3">
-  <meta name="stephen-diehl-article-format" content="1">
+  <meta name="stephen-diehl-article-format" content="2">
   <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/fine_tuning_tools.html">
   <title>Fine-tuning With Tool Calling</title>
   <style>
@@ -32,6 +32,7 @@
     <h1>Fine-tuning With Tool Calling</h1>
     <p class="published">Published: Mon, 23 Jun 2025 01:00:00 +0000</p>
     <section>
+      <p class="source"><a href="https://www.stephendiehl.com/posts/fine_tuning_tools/">Read the original article on Stephen Diehl's website</a></p>
 <p>With the release of <code>trl</code> 0.19.0, there is now <a href="https://huggingface.co/docs/trl/en/sft_trainer#tool-calling-with-sft">native support</a> for fine-tuning models with custom tools, a capability that has been seamlessly integrated into the <code>Dataset</code> and <code>SFTTrainer</code> classes. This streamlines the training process of teaching a model how and when to call external functions. We can now structure our training data to include the full conversational flow of tool usage. From the initial user prompt, to the model's decision to call a tool, the resulting output from that tool, and the model's final, synthesized response.</p>
 <p>An existing part of this workflow is the <code>get_json_schema</code> utility function, which elegantly bridges the gap between your Python code and the structured format that the model requires. This function automatically generates a compliant JSON schema directly from a Python function, but it relies on two key coding practices. First, the function must include modern Python type annotations for all its arguments and its return value. Second, the function's docstring must be written in the <a href="https://google.github.io/styleguide/pyguide.html#38-comments-and-docstrings">Google docstring style</a>. With <code>get_json_schema</code> we can parse the function to extract not only the names and data types of the parameters but also the descriptive text that explains what the function and each of its arguments do. So let's look at an example:</p>
 <pre><code>from transformers.utils import get_json_schema
@@ -184,7 +185,6 @@ trainer.train()
 </code></pre>
 <p>In my limited testing the <code>Qwen3-0.6B</code> and <code>Llama-3.1-70B-Instruct</code> are currently the best open weight models for fine-tuning for custom tool use. Your mileage may vary.</p>
     </section>
-    <p class="source"><a href="https://www.stephendiehl.com/posts/fine_tuning_tools/">Read the original article on Stephen Diehl's website</a></p>
   </article>
 </body>
 </html>

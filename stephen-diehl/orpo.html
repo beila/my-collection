@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="stephen-diehl-content-hash" content="4025fae5d47d48a6a52e54d152e7231192fe7ed51688ecf5db84b10a05db8a03">
-  <meta name="stephen-diehl-article-format" content="1">
+  <meta name="stephen-diehl-article-format" content="2">
   <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/orpo.html">
   <title>Fine-tuning with ORPO and Unsloth</title>
   <style>
@@ -32,6 +32,7 @@
     <h1>Fine-tuning with ORPO and Unsloth</h1>
     <p class="published">Published: Tue, 03 Sep 2024 01:00:00 +0000</p>
     <section>
+      <p class="source"><a href="https://www.stephendiehl.com/posts/orpo/">Read the original article on Stephen Diehl's website</a></p>
 <p>ORPO was introduced in the paper <a href="https://huggingface.co/docs/trl/main/en/orpo_trainer">"ORPO: Monolithic Preference Optimization without Reference Model"</a>. The key innovation is that it eliminates the need for a separate preference alignment phase by incorporating a minor penalty for disfavored generations during the training process.</p>
 <p>Traditional approaches like DPO require two steps:</p>
 <ol>
@@ -155,7 +156,6 @@ model.save_pretrained_gguf("ggufs", tokenizer, quantization_method="q4_k_m")
 </ul>
 <p>You can monitor these metrics using Weights &amp; Biases.</p>
     </section>
-    <p class="source"><a href="https://www.stephendiehl.com/posts/orpo/">Read the original article on Stephen Diehl's website</a></p>
   </article>
 </body>
 </html>

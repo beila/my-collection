@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="stephen-diehl-content-hash" content="bd20e099ba23c3e9d826f184282b188db9adcb1d9d9c408afb2ff27a5da470d0">
-  <meta name="stephen-diehl-article-format" content="1">
+  <meta name="stephen-diehl-article-format" content="2">
   <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/or-tools.html">
   <title>Using Google OR-Tools to do Answer Set Programming</title>
   <style>
@@ -32,6 +32,7 @@
     <h1>Using Google OR-Tools to do Answer Set Programming</h1>
     <p class="published">Published: Thu, 01 Feb 2018 00:00:00 +0000</p>
     <section>
+      <p class="source"><a href="https://www.stephendiehl.com/posts/or-tools/">Read the original article on Stephen Diehl's website</a></p>
 <p>Ever tried manually figuring out the perfect schedule for your team or planning delivery routes? Enter Google OR-Tools, a free Swiss Army knife of a toolkit that tackles these headache-inducing optimization challenges. From constraint programming to linear programming and specialized routing solvers, it packs all the tools you need to solve complex puzzles in computer science. And since Google maintains and improves it, you can focus on solving your specific problems rather than reinventing optimization algorithms from scratch.</p>
 <p>Here's a simple example where we need to select people for a team while satisfying multiple constraints:</p>
 <pre><code>from ortools.sat.python import cp_model
@@ -157,7 +158,6 @@ def create_delivery_route():
 create_delivery_route()
 </code></pre>
     </section>
-    <p class="source"><a href="https://www.stephendiehl.com/posts/or-tools/">Read the original article on Stephen Diehl's website</a></p>
   </article>
 </body>
 </html>

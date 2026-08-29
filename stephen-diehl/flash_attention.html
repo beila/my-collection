@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="stephen-diehl-content-hash" content="78852f7f1c12d6457d2b9b9f4ef78248a37d6215900c8ae0c06189b2e285b8a2">
-  <meta name="stephen-diehl-article-format" content="1">
+  <meta name="stephen-diehl-article-format" content="2">
   <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/flash_attention.html">
   <title>The FlashAttention CUDA Kernel Line by Line</title>
   <style>
@@ -32,6 +32,7 @@
     <h1>The FlashAttention CUDA Kernel Line by Line</h1>
     <p class="published">Published: Tue, 11 Feb 2025 00:00:00 +0000</p>
     <section>
+      <p class="source"><a href="https://www.stephendiehl.com/posts/flash_attention/">Read the original article on Stephen Diehl's website</a></p>
 <p>Flash Attention is a memory-efficient algorithm for computing attention in transformers. Let's break down the CUDA implementation block by block. The core innovation of Flash Attention is processing attention in blocks while maintaining numerical stability through careful tracking of maximum values and partial sums. The algorithm achieves memory efficiency by never materializing the full attention matrix while still producing mathematically equivalent results to the standard attention mechanism.</p>
 <p>First we need some small macros. The <code>CEIL_DIV</code> is used to compute the ceiling of the division of two numbers.</p>
 <pre><code>#include &lt;cuda.h&gt;
@@ -202,7 +203,6 @@ l[lm_off + (i * Br) + s_row] = li_new[s_row];
 </code></pre>
 <p>Finally, we update the running maximum and sum values in global memory for the next iteration. This is crucial for the online softmax computation across blocks.</p>
     </section>
-    <p class="source"><a href="https://www.stephendiehl.com/posts/flash_attention/">Read the original article on Stephen Diehl's website</a></p>
   </article>
 </body>
 </html>

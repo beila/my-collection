@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="stephen-diehl-content-hash" content="64adbaf4ddaab376b2c7ae36022f5eca733b65b4de906f588ee465db427e1b2d">
-  <meta name="stephen-diehl-article-format" content="1">
+  <meta name="stephen-diehl-article-format" content="2">
   <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/mamba_x_transformers.html">
   <title>Hymba : Mamba × Transformers</title>
   <style>
@@ -32,6 +32,7 @@
     <h1>Hymba : Mamba × Transformers</h1>
     <p class="published">Published: Wed, 20 Nov 2024 00:00:00 +0000</p>
     <section>
+      <p class="source"><a href="https://www.stephendiehl.com/posts/mamba_x_transformers/">Read the original article on Stephen Diehl's website</a></p>
 <p>Up until now we've had transformers, which are the core deep learning architecture based on the attention mechanism. But there are other experimental architectures that have been gaining a lot of attention lately. One of the more promising ones is the state-space model <strong>Mamba</strong>, an architecture developed by researchers at Carnegie Mellon University and Princeton University that aims to address some key limitations of transformer models, particularly in processing long sequences and large context windows.</p>
 <p>At its core, Mamba is built on three fundamental ideas. The first is its use of selective state spaces - rather than relying on attention mechanisms like transformers do, Mamba employs SSMs that can selectively process information based on the current input. This selective processing allows the model to effectively focus on relevant information while discarding what isn't needed. The theory is best described in this <a href="https://srush.github.io/annotated-s4/">blog post</a>.</p>
 <p>Mamba offers several key advantages over traditional transformer architectures. The most significant benefits is better scaling through linear-time processing, making it substantially more efficient when handling long sequences compared to transformers' quadratic scaling behavior. The architecture is also notably memory efficient, carefully avoiding the materialization of expanded states in memory-intensive layers that can bog down other models.</p>
@@ -179,7 +180,6 @@ def main():
         print(f"Model: {response}")
 </code></pre>
     </section>
-    <p class="source"><a href="https://www.stephendiehl.com/posts/mamba_x_transformers/">Read the original article on Stephen Diehl's website</a></p>
   </article>
 </body>
 </html>

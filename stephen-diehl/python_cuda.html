@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="stephen-diehl-content-hash" content="c4cbfdfb0083331a62af8e67a20dddbf2116917fca73f2f221349bf659205f21">
-  <meta name="stephen-diehl-article-format" content="1">
+  <meta name="stephen-diehl-article-format" content="2">
   <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/python_cuda.html">
   <title>Linking CUDA Kernels into Python</title>
   <style>
@@ -32,6 +32,7 @@
     <h1>Linking CUDA Kernels into Python</h1>
     <p class="published">Published: Fri, 18 Nov 2022 00:00:00 +0000</p>
     <section>
+      <p class="source"><a href="https://www.stephendiehl.com/posts/python_cuda/">Read the original article on Stephen Diehl's website</a></p>
 <p>Gaussian blur is a common image processing operation that smooths images using a Gaussian kernel. While it's straightforward to implement on CPU, it can be quite slow for large images. Let's explore how to implement this efficiently using CUDA and then connect it to Python for easy use.</p>
 <p>First, install the CUDA toolkit which includes the NVIDIA CUDA compiler (nvcc):</p>
 <pre><code># Add NVIDIA package repositories
@@ -166,7 +167,6 @@ plt.show()
 </code></pre>
 <p>This implementation provides a significant speedup over CPU-based implementations, especially for larger images. The parallel nature of CUDA allows us to process many pixels simultaneously, and the efficient memory access patterns in the kernel help maintain good performance. However, there is still overhead from copying memory between the CPU and GPU - the input image must be transferred to GPU memory before processing, and the result must be copied back to CPU memory afterwards. For optimal performance in a real application, you'd want to minimize these memory transfers by keeping data on the GPU as much as possible when doing multiple operations.</p>
     </section>
-    <p class="source"><a href="https://www.stephendiehl.com/posts/python_cuda/">Read the original article on Stephen Diehl's website</a></p>
   </article>
 </body>
 </html>

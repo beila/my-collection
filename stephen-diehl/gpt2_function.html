@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="stephen-diehl-content-hash" content="f9b28cf32783c8736a3749011aab944b4d3ba18a4b05013bab6d298cdf850da1">
-  <meta name="stephen-diehl-article-format" content="1">
+  <meta name="stephen-diehl-article-format" content="2">
   <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/gpt2_function.html">
   <title>GPT-2 in One Function</title>
   <style>
@@ -32,6 +32,7 @@
     <h1>GPT-2 in One Function</h1>
     <p class="published">Published: Sat, 29 Apr 2023 01:00:00 +0000</p>
     <section>
+      <p class="source"><a href="https://www.stephendiehl.com/posts/gpt2_function/">Read the original article on Stephen Diehl's website</a></p>
 <p>GPT-2 is not a complicated model, in fact we can code golf it down into a single Python function using nothing more than numpy. This is everything inlined in a single function, the layernorm, attention, mlp, token and position embeddings, and the final logits in 70 lines of code if you don't count whitespace.</p>
 <pre><code>import numpy as np
 
@@ -116,7 +117,6 @@ def gpt2(inputs: list[int], params: ModelParams, n_head: int) -&gt; np.ndarray:
 <li><a href="https://github.com/sdiehl/tiny-gpt2/blob/main/tinygpt2/gpt2_run.py">gpt2_run.py</a></li>
 </ul>
     </section>
-    <p class="source"><a href="https://www.stephendiehl.com/posts/gpt2_function/">Read the original article on Stephen Diehl's website</a></p>
   </article>
 </body>
 </html>

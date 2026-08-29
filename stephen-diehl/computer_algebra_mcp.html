@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="stephen-diehl-content-hash" content="f9966c0d63499a1252c5c05ff1dd53dc49de2e8f0003668fb026cd178ea0c09a">
-  <meta name="stephen-diehl-article-format" content="1">
+  <meta name="stephen-diehl-article-format" content="2">
   <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/computer_algebra_mcp.html">
   <title>Adventures in Symbolic Algebra with Model Context Protocol</title>
   <style>
@@ -32,6 +32,7 @@
     <h1>Adventures in Symbolic Algebra with Model Context Protocol</h1>
     <p class="published">Published: Sun, 18 May 2025 01:00:00 +0000</p>
     <section>
+      <p class="source"><a href="https://www.stephendiehl.com/posts/computer_algebra_mcp/">Read the original article on Stephen Diehl's website</a></p>
 <p>I spent last weekend playing with this new <a href="https://modelcontextprotocol.io/introduction">MCP protocol</a> all the kids are talking about, using it to make language models talk to symbolic computer algebra systems. The idea was simple: LLMs are great at understanding natural language math problems but terrible at actually solving them, while computer algebra systems excel at symbolic manipulation but have arcane interfaces. By connecting them through MCP, we can get the best of both worlds. The code is still early and rough around the edges, but I've put the source up on Github if anyone wants to experiment with it.</p>
 <ul>
 <li><a href="https://github.com/sdiehl/sympy-mcp">Github Source Code</a> (<code>git clone https://github.com/sdiehl/sympy-mcp.git</code>)</li>
@@ -138,7 +139,6 @@ $$</p>
 </code></pre>
 <p>And maybe read the source code for what you're installing here, because I feel like a lot of people are going to install these MCP servers without knowing what they're doing and thus install a lot of malware and exploits. There's basically no security going on here. <a href="https://elenacross7.medium.com/%EF%B8%8F-the-s-in-mcp-stands-for-security-91407b33ed6b">And that could be a big problem</a>. At this rate of security negligence, Skynet won't arise from AI research, but from someone accidentally giving a model root access to national defense systems because they curl'd some random MCP server from the internet.</p>
     </section>
-    <p class="source"><a href="https://www.stephendiehl.com/posts/computer_algebra_mcp/">Read the original article on Stephen Diehl's website</a></p>
   </article>
 </body>
 </html>

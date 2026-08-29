@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="stephen-diehl-content-hash" content="4a426e1add2e29e1bcc3609462518de84f6a2a951976f901572e8e4ceca2fc24">
-  <meta name="stephen-diehl-article-format" content="1">
+  <meta name="stephen-diehl-article-format" content="2">
   <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/graphrag2.html">
   <title>Tiny GraphRAG (Part 2)</title>
   <style>
@@ -32,6 +32,7 @@
     <h1>Tiny GraphRAG (Part 2)</h1>
     <p class="published">Published: Tue, 12 Nov 2024 00:00:00 +0000</p>
     <section>
+      <p class="source"><a href="https://www.stephendiehl.com/posts/graphrag2/">Read the original article on Stephen Diehl's website</a></p>
 <p>In <a href="https://www.stephendiehl.com/posts/graphrag1">Part 1</a>, we built a minimal implementation of GraphRAG that demonstrated the core concepts. Now we'll extend our implementation with three significant improvements that make it more suitable for production use:</p>
 <ol>
 <li>Replacing serialized networkx graphs with Memgraph, a proper graph database.</li>
@@ -458,7 +459,6 @@ def build_hierarchical_communities(
 <p>The benefits provided by these improvements generally justify the additional resource usage. Query performance sees dramatic improvements, with Memgraph enabling graph queries that are 10 to 100 times faster than the previous approach. The quality of answers improves substantially through the combination of hierarchical community structure and more accurate entity disambiguation. Most importantly, the enhanced architecture allows the system to scale effectively to handle much larger documents and more complex knowledge graphs than was previously possible.</p>
 <p>While these improvements make our implementation more production-ready, it's worth remembering that like the original GraphRAG paper, there's still a fair bit of "graph goes in, magic comes out" happening under the hood. We've added better persistence with Memgraph, smarter community detection, and more robust entity handling, but at its core we're still essentially throwing a bunch of language models at a graph and hoping they play nice together. Sometimes they do, sometimes they don't, and sometimes they produce surprisingly good results through what can only be described as "accidental competence."</p>
     </section>
-    <p class="source"><a href="https://www.stephendiehl.com/posts/graphrag2/">Read the original article on Stephen Diehl's website</a></p>
   </article>
 </body>
 </html>

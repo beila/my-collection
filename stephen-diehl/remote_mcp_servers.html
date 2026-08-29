@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="stephen-diehl-content-hash" content="7364b02b742bffca737fc1ac5263caa786d0217ca2a4d6a99f05da26d1d2a331">
-  <meta name="stephen-diehl-article-format" content="1">
+  <meta name="stephen-diehl-article-format" content="2">
   <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/remote_mcp_servers.html">
   <title>Remote MCP Servers</title>
   <style>
@@ -32,6 +32,7 @@
     <h1>Remote MCP Servers</h1>
     <p class="published">Published: Mon, 26 May 2025 01:00:00 +0000</p>
     <section>
+      <p class="source"><a href="https://www.stephendiehl.com/posts/remote_mcp_servers/">Read the original article on Stephen Diehl's website</a></p>
 <p>After my last adventure with <a href="https://www.stephendiehl.com/posts/computer_algebra_mcp">symbolic algebra and MCP</a>, I found myself that nagging voice in the back of my head whispering "What if Claude decides today is the day to go postal and <code>rm -rf /</code>?" The solution, as with most modern software problems, was obvious: make it someone else's problem.</p>
 <p>Enter <a href="https://vercel.com/docs/functions">Vercel</a>, purveyor of the finest VC-subsidized free compute known to humanity. But hey, if they want to let me run arbitrary Python code on their infrastructure for the low, low price of absolutely nothing, who am I to question their financial decisions? So the question is, can we host our MCP servers as edge functions on their Hobby Tier without paying anything? And the answer is yes, yes we can.</p>
 <p>Instead of giving the language model root access to my laptop (because what could possibly go wrong there?), I'm now giving it the ability to execute arbitrary code on Vercel's servers on a sandboxed serverless environment that resets after every request. It's like the difference between letting a toddler play with matches in your living room versus letting them play with matches in someone else's swimming pool. Second, and perhaps more importantly, every time Claude calls one of my MCP tools, I'm burning through some venture capitalist's money. So two birds, one stone.</p>
@@ -211,7 +212,6 @@ asyncio.run(run())
 <p>Of course, no discussion of MCP would be complete without acknowledging the chorus of hustle bros who have descended upon LinkedIn like locusts, proclaiming that MCP is the future of everything and will revolutionize how we think about the fundamental nature of existence. At least ten different visionary thought leaders have nearly broken down in tears proselytizing about it in the last week. Some are even going so far as to call it the new <a href="https://www.anildash.com//2025/05/20/mcp-web20-20/">Web3</a>, because that went great last time.</p>
 <p>Welp, whatever. The code is up on <a href="https://github.com/sdiehl/mcp-on-vercel">GitHub</a> if you want to experiment with your own serverless MCP misadventures.</p>
     </section>
-    <p class="source"><a href="https://www.stephendiehl.com/posts/remote_mcp_servers/">Read the original article on Stephen Diehl's website</a></p>
   </article>
 </body>
 </html>

@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="stephen-diehl-content-hash" content="a773c90e031da36abb6c92a2ee233b7696a4541c50d8589d30e0d6740bab0299">
-  <meta name="stephen-diehl-article-format" content="1">
+  <meta name="stephen-diehl-article-format" content="2">
   <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/egraphs.html">
   <title>E-Graphs in Rust</title>
   <style>
@@ -32,6 +32,7 @@
     <h1>E-Graphs in Rust</h1>
     <p class="published">Published: Thu, 01 Feb 2024 00:00:00 +0000</p>
     <section>
+      <p class="source"><a href="https://www.stephendiehl.com/posts/egraphs/">Read the original article on Stephen Diehl's website</a></p>
 <p>E-Graphs (aka <em>equality graphs</em>) are one of the most exciting and rapidly evolving areas in programming language engineering. Originally developed in Gregory Nelson's PhD Thesis in 1980, they have become a foundational data structure that maintains equivalence relations over expressions. While they were initially created to power SMT solvers, their applications have expanded dramatically in recent years.</p>
 <p>This renaissance in e-graph applications is driven by techniques like equality saturation, which allows for more efficient exploration of equivalent expressions. The key innovation of E-Graphs is their ability to solve the so-called "choice problem" in term rewriting. Traditional term rewriting is destructive - once you transform an expression, the original is lost. This forces you to commit to specific optimization choices that might be locally optimal but globally suboptimal. For example, while <code>x + x</code> can be optimized to <code>x * 2</code>, applying this to <code>(x + x) - x</code> would prevent discovering that one of the additions and the subtraction cancel out to just <code>x</code>.</p>
 <p>E-Graphs solve this by maintaining all possible equivalent expressions simultaneously in a compact form. They consist of:</p>
@@ -352,7 +353,6 @@ if let Some(explanation) = runner.explain_existence(&amp;term) {
 </code></pre>
 <p>This is particularly valuable when debugging unexpected equivalences or validating that optimizations are working as intended.</p>
     </section>
-    <p class="source"><a href="https://www.stephendiehl.com/posts/egraphs/">Read the original article on Stephen Diehl's website</a></p>
   </article>
 </body>
 </html>
