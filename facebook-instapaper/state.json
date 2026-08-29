@@ -4011,7 +4011,7 @@
       },
       "initial_cutoff_timestamp": 1784813056,
       "initialized_at": "2026-08-23T13:24:16+00:00",
-      "last_scan_timestamp": 1788023216,
+      "last_scan_timestamp": 1788035914,
       "name": "Joyce Park"
     },
     "https://www.facebook.com/monan.doll": {
@@ -4592,6 +4592,14 @@
           "post_id": "4188013344676824",
           "status": "complete"
         },
+        "https://www.facebook.com/monan.doll/posts/pfbid0YvW7Es58VWQ5Ztugw97fFzn2JwPrDASJbTaLyhZBFHUMbjroAE87KgxrnvSDBD45l": {
+          "completed_at": "2026-08-28T10:10:29+00:00",
+          "discovered_at": "2026-08-29T20:38:47+00:00",
+          "last_error": null,
+          "not_before_timestamp": null,
+          "post_id": "4228970353914456",
+          "status": "complete"
+        },
         "https://www.facebook.com/monan.doll/posts/pfbid0Z6f7Y1LsJwp8Bvi9bnWEte96ZSC4T3E9cwdf8zFJcZUzS1BTY7kGhJbA1zu1Ndcnl": {
           "completed_at": "2026-08-28T10:10:29+00:00",
           "discovered_at": "2026-08-28T10:09:27+00:00",
@@ -4763,7 +4771,7 @@
       },
       "initial_cutoff_timestamp": 1784813044,
       "initialized_at": "2026-08-23T13:24:04+00:00",
-      "last_scan_timestamp": 1788029389,
+      "last_scan_timestamp": 1788035920,
       "name": "monan.doll"
     },
     "https://www.facebook.com/phdcomics": {
@@ -4899,7 +4907,7 @@
       },
       "initial_cutoff_timestamp": 1785334329,
       "initialized_at": "2026-08-29T14:12:09+00:00",
-      "last_scan_timestamp": 1788012689,
+      "last_scan_timestamp": 1788035902,
       "name": "Piled Higher and Deeper"
     },
     "https://www.facebook.com/yulmonologue": {
@@ -5048,5 +5056,5 @@
     }
   },
   "schema_version": 1,
-  "updated_at": "2026-08-29T20:14:16+00:00"
+  "updated_at": "2026-08-29T20:39:10+00:00"
 }
