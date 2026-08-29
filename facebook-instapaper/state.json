@@ -1222,27 +1222,34 @@
     },
     "1450874019956562": {
       "article_format_version": 5,
-      "completed_at": null,
+      "completed_at": "2026-08-29T14:16:44+00:00",
       "content_hash": "2eca0b523134734812d63d78783de2fec11dffba9d289e8d29443fb8bb7f04fc",
       "facebook_post_id": "1450874019956562",
       "facebook_timestamp": 1772650011,
+      "has_video": false,
       "image_sha256": [
         "d7587080017f7f7184b507fce73a73a3911fea7374c1441c12d516668efd0c04"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2037600256",
       "last_error": null,
+      "linked_pages": [],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "permalink": "https://www.facebook.com/phdcomics/posts/1450874019956562",
       "profile_url": "https://www.facebook.com/phdcomics",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/phdcomics/1450874019956562.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "1452368503140447": {
       "article_format_version": 5,
-      "completed_at": null,
+      "completed_at": "2026-08-29T14:17:01+00:00",
       "content_hash": "212ec8d1dfd816d7274d55e76381b4afae194cceff3c084a0f1bfdd7de3e9d33",
       "facebook_post_id": "1452368503140447",
       "facebook_timestamp": 1772829205,
+      "has_video": false,
       "image_sha256": [
         "f5ec72a9dc4c173355289c60146998e68c5e375fc1b449b8dc89dc0a8ffa8e69",
         "fb64f46e280bc47ec1e5fb69a85f48938b7410ac7db1a089c5352ebde9d9d33b",
@@ -1250,115 +1257,220 @@
         "7c8a7b188cec540bcc2419ab7c9ee1c846400845b6f25eddd5caf6f26ab72c84",
         "630b9ba2dcb24b59251ce941d931fd4852abfcebd99a8e25f31eeeed46a1b0ee"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [
+        {
+          "end": 243,
+          "paragraph_index": 0,
+          "start": 202,
+          "url": "https://www.amazon.com/gp/aw/d/1419789953?content_source=fb&fb_content_id=Q9-wBQFpgjnoZztQ0wJBUoU3uZMsTi6R48gGhY7pkwRJrAdGWaZN9kOEEwud9vxDHw"
+        },
+        {
+          "end": 280,
+          "paragraph_index": 0,
+          "start": 260,
+          "url": "http://GreatBigUniverse.net/"
+        }
+      ],
+      "instapaper_bookmark_id": "2037600312",
       "last_error": null,
+      "linked_pages": [
+        {
+          "article_image_sha256": [],
+          "article_sha256": "94733a43c15df012ddc286afd2f5c75db17481e014e2d2b65c9adae96032bb28",
+          "description": "",
+          "site_name": "www.amazon.com",
+          "title": "https://www.amazon.com/gp/aw/d/1419789953",
+          "url": "https://www.amazon.com/gp/aw/d/1419789953?content_source=fb&fb_content_id=Q9-wBQFpgjnoZztQ0wJBUoU3uZMsTi6R48gGhY7pkwRJrAdGWaZN9kOEEwud9vxDHw"
+        },
+        {
+          "article_image_sha256": [
+            "e22dd941872b981ff1fc75b9229f239e6872330f8eeb1ea93946510faf777531"
+          ],
+          "article_sha256": "4b860dffb2abd0b77006a8841dfe80b2420c3bcb2cd89461c5155f0980adece2",
+          "description": "",
+          "site_name": "greatbiguniverse.net",
+          "title": "GreatBigUniverse.net",
+          "url": "http://GreatBigUniverse.net/"
+        }
+      ],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "permalink": "https://www.facebook.com/phdcomics/posts/1452368503140447",
       "profile_url": "https://www.facebook.com/phdcomics",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/phdcomics/1452368503140447.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "1456040656106565": {
       "article_format_version": 5,
-      "completed_at": null,
+      "completed_at": "2026-08-29T14:16:45+00:00",
       "content_hash": "8797dd2a2ba2fa3d834e840ce1338fe2e06723be1c3990de5d780ca0c680071a",
       "facebook_post_id": "1456040656106565",
       "facebook_timestamp": 1773260655,
+      "has_video": false,
       "image_sha256": [
         "1faffa36dc07980db7143b55918a585293d2f7b4c689c6f526fd506bfdb2895d"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2037600259",
       "last_error": null,
+      "linked_pages": [],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "permalink": "https://www.facebook.com/phdcomics/posts/1456040656106565",
       "profile_url": "https://www.facebook.com/phdcomics",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/phdcomics/1456040656106565.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "1458342705876360": {
       "article_format_version": 5,
-      "completed_at": null,
+      "completed_at": "2026-08-29T14:16:46+00:00",
       "content_hash": "7afa060b9ce3bb87850e9b05960cdf8d0259b35a78e0b51063cb375991be1e6a",
       "facebook_post_id": "1458342705876360",
       "facebook_timestamp": 1773517934,
+      "has_video": false,
       "image_sha256": [
         "39c98fe86255da085408e162b758896be971f19d9bab65a25fd44e9321748bc1"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2037600261",
       "last_error": null,
+      "linked_pages": [],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "permalink": "https://www.facebook.com/phdcomics/posts/1458342705876360",
       "profile_url": "https://www.facebook.com/phdcomics",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/phdcomics/1458342705876360.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "1462243332152964": {
       "article_format_version": 5,
-      "completed_at": null,
+      "completed_at": "2026-08-29T14:16:47+00:00",
       "content_hash": "f2f642f37cd7de05b4e83ef0e5749cd3dd5da39f42472250f0af1d85f53df1f0",
       "facebook_post_id": "1462243332152964",
       "facebook_timestamp": 1773949379,
+      "has_video": false,
       "image_sha256": [
         "ab6e9b1a29b174488a0f8cb1dc6e79cfd5ff15629111a935eb41d04cf04fce6d"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2037600266",
       "last_error": null,
+      "linked_pages": [],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "permalink": "https://www.facebook.com/phdcomics/posts/1462243332152964",
       "profile_url": "https://www.facebook.com/phdcomics",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/phdcomics/1462243332152964.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "1463168835393747": {
       "article_format_version": 5,
-      "completed_at": null,
+      "completed_at": "2026-08-29T14:16:48+00:00",
       "content_hash": "12a57d476ba41b126bd5c4f72acd69c1c3c3e3024ccf900034965244bf0a2f17",
       "facebook_post_id": "1463168835393747",
       "facebook_timestamp": 1774036675,
+      "has_video": false,
       "image_sha256": [
         "0dcbd17364e153ec473f0ac84379a50402cfc5f231d515d2f9bc493e015adbb2"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [
+        {
+          "end": 79,
+          "paragraph_index": 1,
+          "start": 42,
+          "url": "http://link.podtrac.com/SciStuff_Supermemory"
+        }
+      ],
+      "instapaper_bookmark_id": "2037600272",
       "last_error": null,
+      "linked_pages": [
+        {
+          "article_image_sha256": [],
+          "article_sha256": "4f2755b3d99d32429913f5f15cfbb8e3ddcdda3da33d0ee27c1f9c1248d72826",
+          "description": "",
+          "site_name": "link.podtrac.com",
+          "title": "link.podtrac.com/SciStuff_Supermemory",
+          "url": "http://link.podtrac.com/SciStuff_Supermemory"
+        }
+      ],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "permalink": "https://www.facebook.com/phdcomics/posts/1463168835393747",
       "profile_url": "https://www.facebook.com/phdcomics",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/phdcomics/1463168835393747.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "1466560528387911": {
       "article_format_version": 5,
-      "completed_at": null,
+      "completed_at": "2026-08-29T14:16:49+00:00",
       "content_hash": "e8e19f37f99bf674c9bcb576c870f3627eaa26d9adf3dd20bf9521c8015c0547",
       "facebook_post_id": "1466560528387911",
       "facebook_timestamp": 1774381892,
+      "has_video": false,
       "image_sha256": [
         "c3261462a820af5d35d458ddf63b2d8d64ee6e5e59a29b2bc12d0eca7d865c64"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2037600276",
       "last_error": null,
+      "linked_pages": [],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "permalink": "https://www.facebook.com/phdcomics/posts/1466560528387911",
       "profile_url": "https://www.facebook.com/phdcomics",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/phdcomics/1466560528387911.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "1467432664967364": {
       "article_format_version": 5,
-      "completed_at": null,
+      "completed_at": "2026-08-29T14:16:50+00:00",
       "content_hash": "fe44dd313aa7aa474f3d63be88ef0d6a786dbd1d1d862adcf603d419bc339cc0",
       "facebook_post_id": "1467432664967364",
       "facebook_timestamp": 1774470724,
+      "has_video": false,
       "image_sha256": [
         "b6baf592e5f9ee8226bb94e522fe6224d9fc0010778305548f710f5037349c91"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [
+        {
+          "end": 83,
+          "paragraph_index": 1,
+          "start": 48,
+          "url": "http://link.podtrac.com/SciStuff_Asteroids"
+        }
+      ],
+      "instapaper_bookmark_id": "2037600278",
       "last_error": null,
+      "linked_pages": [
+        {
+          "article_image_sha256": [],
+          "article_sha256": "4f2755b3d99d32429913f5f15cfbb8e3ddcdda3da33d0ee27c1f9c1248d72826",
+          "description": "",
+          "site_name": "link.podtrac.com",
+          "title": "link.podtrac.com/SciStuff_Asteroids",
+          "url": "http://link.podtrac.com/SciStuff_Asteroids"
+        }
+      ],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "permalink": "https://www.facebook.com/phdcomics/posts/1467432664967364",
       "profile_url": "https://www.facebook.com/phdcomics",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/phdcomics/1467432664967364.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "1470156741777883": {
       "article_format_version": 2,
@@ -1383,20 +1495,42 @@
     },
     "1473098834400747": {
       "article_format_version": 5,
-      "completed_at": null,
+      "completed_at": "2026-08-29T14:16:52+00:00",
       "content_hash": "f9779cb23631c3a73781b78c2b51c7b036f2db6560290ea66961525629b786d5",
       "facebook_post_id": "1473098834400747",
       "facebook_timestamp": 1775072392,
+      "has_video": false,
       "image_sha256": [
         "7df7e720b691dae40a1734b16ce5e006f6c5d8da2ba112c1f0133a66302f53bf"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [
+        {
+          "end": 66,
+          "paragraph_index": 1,
+          "start": 33,
+          "url": "http://link.podtrac.com/SciStuff_Artemis"
+        }
+      ],
+      "instapaper_bookmark_id": "2037600283",
       "last_error": null,
+      "linked_pages": [
+        {
+          "article_image_sha256": [],
+          "article_sha256": "4f2755b3d99d32429913f5f15cfbb8e3ddcdda3da33d0ee27c1f9c1248d72826",
+          "description": "",
+          "site_name": "link.podtrac.com",
+          "title": "link.podtrac.com/SciStuff_Artemis",
+          "url": "http://link.podtrac.com/SciStuff_Artemis"
+        }
+      ],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "permalink": "https://www.facebook.com/phdcomics/posts/1473098834400747",
       "profile_url": "https://www.facebook.com/phdcomics",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/phdcomics/1473098834400747.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "1473310831462474": {
       "article_format_version": 2,
@@ -1432,88 +1566,150 @@
     },
     "1479465760430721": {
       "article_format_version": 5,
-      "completed_at": null,
+      "completed_at": "2026-08-29T14:16:53+00:00",
       "content_hash": "fc2da69d011cbd12435b307ca8036fd40aae8ed933edb23608736a9a1e9855d2",
       "facebook_post_id": "1479465760430721",
       "facebook_timestamp": 1775778482,
+      "has_video": false,
       "image_sha256": [
         "ea233d18e08d08bff5258e7da5bb022fc6491faa44e0a847f6c01a1f941e6d20"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2037600287",
       "last_error": null,
+      "linked_pages": [],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "permalink": "https://www.facebook.com/phdcomics/posts/1479465760430721",
       "profile_url": "https://www.facebook.com/phdcomics",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/phdcomics/1479465760430721.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "1480190850358212": {
       "article_format_version": 5,
-      "completed_at": null,
+      "completed_at": "2026-08-29T14:16:54+00:00",
       "content_hash": "c9ee6051e6240dd050ea8df6772a7f27abef967b4d5467304cf4d3ea8c47740f",
       "facebook_post_id": "1480190850358212",
       "facebook_timestamp": 1775861964,
+      "has_video": false,
       "image_sha256": [
         "7758a52ddbf3264801fce1e409c24761765784dfa16bf22414fd43d8dc644539"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [
+        {
+          "end": 65,
+          "paragraph_index": 1,
+          "start": 33,
+          "url": "http://link.podtrac.com/SciStuff_Sports"
+        }
+      ],
+      "instapaper_bookmark_id": "2037600291",
       "last_error": null,
+      "linked_pages": [
+        {
+          "article_image_sha256": [],
+          "article_sha256": "4f2755b3d99d32429913f5f15cfbb8e3ddcdda3da33d0ee27c1f9c1248d72826",
+          "description": "",
+          "site_name": "link.podtrac.com",
+          "title": "link.podtrac.com/SciStuff_Sports",
+          "url": "http://link.podtrac.com/SciStuff_Sports"
+        }
+      ],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "permalink": "https://www.facebook.com/phdcomics/posts/1480190850358212",
       "profile_url": "https://www.facebook.com/phdcomics",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/phdcomics/1480190850358212.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "1483946613315969": {
       "article_format_version": 5,
-      "completed_at": null,
+      "completed_at": "2026-08-29T14:16:55+00:00",
       "content_hash": "d76430d40c81801bc508dcd0cc3260515a2f0625a346808d5b5e0139462e0705",
       "facebook_post_id": "1483946613315969",
       "facebook_timestamp": 1776283677,
+      "has_video": false,
       "image_sha256": [
         "685eb257b9ca03b48184aa812cc85365152de2a83f5bd769fd60c1407d34faba"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2037600294",
       "last_error": null,
+      "linked_pages": [],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "permalink": "https://www.facebook.com/phdcomics/posts/1483946613315969",
       "profile_url": "https://www.facebook.com/phdcomics",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/phdcomics/1483946613315969.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "1484930433217587": {
       "article_format_version": 5,
-      "completed_at": null,
+      "completed_at": "2026-08-29T14:16:56+00:00",
       "content_hash": "e767ccb86f25a281f90d2c1d412d979f006c937ade168a7a66aba5983adbe491",
       "facebook_post_id": "1484930433217587",
       "facebook_timestamp": 1776389098,
+      "has_video": false,
       "image_sha256": [
         "650c0c12a2eae5f429082a39c2610461cff41e262c00fdec7dd9f9a6739301f6"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [
+        {
+          "end": 65,
+          "paragraph_index": 1,
+          "start": 28,
+          "url": "http://link.podtrac.com/SciStuff_Left-handed"
+        }
+      ],
+      "instapaper_bookmark_id": "2037600296",
       "last_error": null,
+      "linked_pages": [
+        {
+          "article_image_sha256": [],
+          "article_sha256": "4f2755b3d99d32429913f5f15cfbb8e3ddcdda3da33d0ee27c1f9c1248d72826",
+          "description": "",
+          "site_name": "link.podtrac.com",
+          "title": "link.podtrac.com/SciStuff_Left-handed",
+          "url": "http://link.podtrac.com/SciStuff_Left-handed"
+        }
+      ],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "permalink": "https://www.facebook.com/phdcomics/posts/1484930433217587",
       "profile_url": "https://www.facebook.com/phdcomics",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/phdcomics/1484930433217587.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "1505255877851709": {
       "article_format_version": 5,
-      "completed_at": null,
+      "completed_at": "2026-08-29T14:16:58+00:00",
       "content_hash": "f96b63d6c2271eb86889cdda623739f236f5799871b8fd11ca600b4bbfedf591",
       "facebook_post_id": "1505255877851709",
       "facebook_timestamp": 1778544853,
+      "has_video": false,
       "image_sha256": [
         "9683e0879cee71ee927809f04b5e98a0283454bb700b225e893e15087d1b8baf"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2037600298",
       "last_error": null,
+      "linked_pages": [],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "permalink": "https://www.facebook.com/phdcomics/posts/1505255877851709",
       "profile_url": "https://www.facebook.com/phdcomics",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/phdcomics/1505255877851709.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "1511943480932542": {
       "article_format_version": 2,
@@ -1547,20 +1743,26 @@
     },
     "1531637095213587": {
       "article_format_version": 5,
-      "completed_at": null,
+      "completed_at": "2026-08-29T14:16:59+00:00",
       "content_hash": "f7fcb8cce2e20bad80ceeae49c086895ff3bfa64252e4433601fd6855f7b01e1",
       "facebook_post_id": "1531637095213587",
       "facebook_timestamp": 1781207444,
+      "has_video": false,
       "image_sha256": [
         "406de429398f587e15c673a43093881879025c37ef3141a2e795bca96c17eec6"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2037600305",
       "last_error": null,
+      "linked_pages": [],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "permalink": "https://www.facebook.com/phdcomics/posts/1531637095213587",
       "profile_url": "https://www.facebook.com/phdcomics",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/phdcomics/1531637095213587.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "1541183134675243": {
       "article_format_version": 2,
@@ -4210,60 +4412,68 @@
     "https://www.facebook.com/phdcomics": {
       "discoveries": {
         "https://www.facebook.com/phdcomics/posts/pfbid021Lq3wG7pc6GrxfuycFWz6KRTNrUvvjokQkxhojfejARajjZostDBi8ioA9uhg41gl": {
+          "completed_at": "2026-08-29T14:16:47+00:00",
           "discovered_at": "2026-08-29T14:12:09+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "1462243332152964",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/phdcomics/posts/pfbid023d5kWh6trzWAaSJH6FSfwk733KjKhYsgje1DNZjBz2RyxdVKr7eonf9Lpwh8tJMPl": {
+          "completed_at": "2026-08-29T14:16:54+00:00",
           "discovered_at": "2026-08-29T14:12:09+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "1480190850358212",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/phdcomics/posts/pfbid02CvudiUksnnQKMA3ijxw9914HfQPp3mZccHTrVkzNDMp5EFSVThxjBBFvT7M2ztZil": {
+          "completed_at": "2026-08-29T14:16:48+00:00",
           "discovered_at": "2026-08-29T14:12:09+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "1463168835393747",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/phdcomics/posts/pfbid02M3VeDmuk8xAehu3jxo9iCrR5S5EY9e6SehY1GSsJqC9hqDPVSpjMPDCCaQZ4ofgTl": {
+          "completed_at": "2026-08-29T14:16:56+00:00",
           "discovered_at": "2026-08-29T14:12:09+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "1484930433217587",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/phdcomics/posts/pfbid02qLV8F4ZHpLjvhYpD7ZMW7aNLRHgME28QATxdAVw5g8HLaSQcTp3YGDNJgfxZ6JFbl": {
+          "completed_at": "2026-08-29T14:16:53+00:00",
           "discovered_at": "2026-08-29T14:12:09+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "1479465760430721",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/phdcomics/posts/pfbid02xP9ehSmwmv8bRfPCQiziuFvo3BQb5PTsqogb4bVs6gWsEzs9BNNGFGXvBVuZxNmnl": {
+          "completed_at": "2026-08-29T14:16:58+00:00",
           "discovered_at": "2026-08-29T14:12:09+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "1505255877851709",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/phdcomics/posts/pfbid032AfN8onwoRYs7PTPiRSJRhYFDAwsxTNAtjCk5g6z7guGQtvCYN9Z5fp4kvJn4UzKl": {
+          "completed_at": "2026-08-29T14:16:44+00:00",
           "discovered_at": "2026-08-29T14:12:09+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "1450874019956562",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/phdcomics/posts/pfbid034h7WUatik5eGAbMmhhbBUh44vmWg7ufZ5gexwgtxCb6xGT7qViZ2tBzqp7icYpDDl": {
+          "completed_at": "2026-08-29T14:16:45+00:00",
           "discovered_at": "2026-08-29T14:12:09+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "1456040656106565",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/phdcomics/posts/pfbid05gtQvEwpiJ2NX48c5AY8X72DirqfNQSmfwzKK6G9JBSGTLnsbA573c8iNwtyNfRNl": {
           "completed_at": "2026-08-29T14:12:09+00:00",
@@ -4274,53 +4484,60 @@
           "status": "skipped_initial"
         },
         "https://www.facebook.com/phdcomics/posts/pfbid0J3dgGMGhbtWizbJEisL29BBtnQqo7pkyzFCPUnEPypfqL4m7t5bT69zuyr732RL4l": {
+          "completed_at": "2026-08-29T14:16:55+00:00",
           "discovered_at": "2026-08-29T14:12:09+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "1483946613315969",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/phdcomics/posts/pfbid0R6xD1x218hxXUjMw7AE2kypRiCA4Ye3oCQbxbM7y1H3tn219VxQMMX6ZkaNo9hDtl": {
+          "completed_at": "2026-08-29T14:16:49+00:00",
           "discovered_at": "2026-08-29T14:12:09+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "1466560528387911",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/phdcomics/posts/pfbid0aoAbhHPnP3LF6B3ANeMt3VYpauGtvJHJRvRETujXj5ua1WKh5PhjWznVWyu3Anbzl": {
+          "completed_at": "2026-08-29T14:16:52+00:00",
           "discovered_at": "2026-08-29T14:12:09+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "1473098834400747",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/phdcomics/posts/pfbid0exX8FwicEcDiF4Va8RG2ppJxTs6FHGBSuZCcxEkFtRp3nndQGeFfxBrh1CvWqWsVl": {
+          "completed_at": "2026-08-29T14:16:46+00:00",
           "discovered_at": "2026-08-29T14:12:09+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "1458342705876360",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/phdcomics/posts/pfbid0oMbd15UYc7NjEpV5zKYqc3hzzkmmR6mmsZLfCLxEfCYQYC5TKvZn9upefUXE2Zujl": {
+          "completed_at": "2026-08-29T14:17:01+00:00",
           "discovered_at": "2026-08-29T14:12:09+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "1452368503140447",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/phdcomics/posts/pfbid0sUYpaWqRsru6bRVYjBa9ybFEaSsmDwa3hoGcWuNAsp6hiv5RB5mFTLbxGoVjbTHnl": {
+          "completed_at": "2026-08-29T14:16:50+00:00",
           "discovered_at": "2026-08-29T14:12:09+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "1467432664967364",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/phdcomics/posts/pfbid0theNnTAiFFEW9aULgrPUJsUJebMQqW1v3St8zMdgmJk1TuHnmLCXoc2UgdyhEWDzl": {
+          "completed_at": "2026-08-29T14:16:59+00:00",
           "discovered_at": "2026-08-29T14:12:09+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "1531637095213587",
-          "status": "published_pending"
+          "status": "complete"
         }
       },
       "initial_cutoff_timestamp": 1785334329,
@@ -4474,5 +4691,5 @@
     }
   },
   "schema_version": 1,
-  "updated_at": "2026-08-29T14:16:20+00:00"
+  "updated_at": "2026-08-29T14:17:01+00:00"
 }
