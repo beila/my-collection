@@ -1503,9 +1503,9 @@
       "status": "complete"
     },
     "1452368503140447": {
-      "article_format_version": 5,
-      "completed_at": "2026-08-29T14:17:01+00:00",
-      "content_hash": "212ec8d1dfd816d7274d55e76381b4afae194cceff3c084a0f1bfdd7de3e9d33",
+      "article_format_version": 6,
+      "completed_at": "2026-08-29T20:11:18+00:00",
+      "content_hash": "6a2adb7a2417d42c0f80bc6e6feb068566a2195f36a9d5eafb823568574a2ec8",
       "facebook_post_id": "1452368503140447",
       "facebook_timestamp": 1772829205,
       "has_video": false,
@@ -1514,7 +1514,9 @@
         "fb64f46e280bc47ec1e5fb69a85f48938b7410ac7db1a089c5352ebde9d9d33b",
         "92f58df987872d4c5b5f3c239863d57005d07adc41c5c5ba66ac6a552f0d6e0c",
         "7c8a7b188cec540bcc2419ab7c9ee1c846400845b6f25eddd5caf6f26ab72c84",
-        "630b9ba2dcb24b59251ce941d931fd4852abfcebd99a8e25f31eeeed46a1b0ee"
+        "630b9ba2dcb24b59251ce941d931fd4852abfcebd99a8e25f31eeeed46a1b0ee",
+        "5932b091618add2dae2d2d5a8090b574d4fc6ffc66ff80ae4ce86da2303c89b3",
+        "e1fe2c76b611bebe268e131ed1701140c172a4b0f36cc6a0e60cadcf737e2e3a"
       ],
       "inline_links": [
         {
@@ -1530,7 +1532,7 @@
           "url": "http://GreatBigUniverse.net/"
         }
       ],
-      "instapaper_bookmark_id": "2037600312",
+      "instapaper_bookmark_id": "2037653984",
       "last_error": null,
       "linked_pages": [
         {
@@ -5046,5 +5048,5 @@
     }
   },
   "schema_version": 1,
-  "updated_at": "2026-08-29T18:49:59+00:00"
+  "updated_at": "2026-08-29T20:11:18+00:00"
 }
