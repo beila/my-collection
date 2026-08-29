@@ -1503,8 +1503,8 @@
       "status": "complete"
     },
     "1452368503140447": {
-      "article_format_version": 6,
-      "completed_at": "2026-08-29T20:11:18+00:00",
+      "article_format_version": 7,
+      "completed_at": "2026-08-29T20:14:16+00:00",
       "content_hash": "6a2adb7a2417d42c0f80bc6e6feb068566a2195f36a9d5eafb823568574a2ec8",
       "facebook_post_id": "1452368503140447",
       "facebook_timestamp": 1772829205,
@@ -1532,7 +1532,7 @@
           "url": "http://GreatBigUniverse.net/"
         }
       ],
-      "instapaper_bookmark_id": "2037653984",
+      "instapaper_bookmark_id": "2037654370",
       "last_error": null,
       "linked_pages": [
         {
@@ -5048,5 +5048,5 @@
     }
   },
   "schema_version": 1,
-  "updated_at": "2026-08-29T20:11:18+00:00"
+  "updated_at": "2026-08-29T20:14:16+00:00"
 }
