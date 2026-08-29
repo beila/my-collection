@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="stephen-diehl-content-hash" content="b964b13736873703e2f60b20a7d28b6751d59715e2513573b7d6af92d12dc9e8">
-  <meta name="stephen-diehl-article-format" content="5">
+  <meta name="stephen-diehl-content-hash" content="efaacc940ac9b02568fc4201401f394c0da393aff0ca338dc7adb009823550e7">
+  <meta name="stephen-diehl-article-format" content="6">
   <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/mlir_transformers.html">
   <title>Transformers</title>
   <style>
@@ -56,19 +56,7 @@
 <li><code>HParams</code> - Hyperparameters for the model including the number of layers, heads, embedding dimension, etc.</li>
 </ol>
 <p>In our code we'll use the following abbreviations:</p>
-<ul>
-<li><code>g</code> - Gamma (scale parameter for layer normalization)</li>
-<li><code>b</code> - Beta (bias parameter)</li>
-<li><code>w</code> - Weight matrix/array</li>
-<li><code>wte</code> - Word/Token Embeddings</li>
-<li><code>wpe</code> - Word Position Embeddings</li>
-<li><code>ln</code> - Layer Normalization</li>
-<li><code>mlp</code> - Multi-Layer Perceptron</li>
-<li><code>fc</code> - Fully Connected layer</li>
-<li><code>qkv</code> - Query, Key, Value (attention components)</li>
-<li><code>attn</code> - Attention</li>
-<li><code>proj</code> - Projection (linear transformation)</li>
-</ul>
+<p class="unordered-list-item">- <code>g</code> - Gamma (scale parameter for layer normalization)</p><p class="unordered-list-item">- <code>b</code> - Beta (bias parameter)</p><p class="unordered-list-item">- <code>w</code> - Weight matrix/array</p><p class="unordered-list-item">- <code>wte</code> - Word/Token Embeddings</p><p class="unordered-list-item">- <code>wpe</code> - Word Position Embeddings</p><p class="unordered-list-item">- <code>ln</code> - Layer Normalization</p><p class="unordered-list-item">- <code>mlp</code> - Multi-Layer Perceptron</p><p class="unordered-list-item">- <code>fc</code> - Fully Connected layer</p><p class="unordered-list-item">- <code>qkv</code> - Query, Key, Value (attention components)</p><p class="unordered-list-item">- <code>attn</code> - Attention</p><p class="unordered-list-item">- <code>proj</code> - Projection (linear transformation)</p>
 <h2 id="bpe-tokenization">BPE Tokenization</h2>
 <p>Byte-Pair Encoding (shortened as BPE) is a tokenization algorithm that addresses the challenge of out-of-vocabulary words by breaking words into smaller units called subwords. Initially developed as a data compression technique, BPE was adapted for natural language processing by treating words as sequences of characters. The core idea of BPE is to iteratively merge the most frequent adjacent symbol pairs in a corpus into new subword units. This process begins by splitting each word in the corpus into individual characters, forming the initial vocabulary consisting of all unique characters.</p>
 <p>The BPE algorithm then proceeds with <strong>iterative merging</strong>. In each iteration, it counts all adjacent symbol pairs across the corpus. The pair with the highest frequency is then selected and merged into a new symbol or subword. This merge operation is applied to all occurrences of the selected pair in the corpus, effectively removing the space between them in the tokenized representations of the words. The newly formed subword is added to the vocabulary. This iterative process continues until the vocabulary reaches a predefined target size or no more frequent pairs can be found. The sequence of merge operations performed during training is crucial for tokenizing new, unseen words.</p>

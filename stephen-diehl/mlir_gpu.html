@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="stephen-diehl-content-hash" content="91e5d6a776c995eaf901becdb31776abcfa133d1d558695abdc1b160c7dcbe07">
-  <meta name="stephen-diehl-article-format" content="5">
+  <meta name="stephen-diehl-content-hash" content="a22b6bc20e23f1e931cbd911209d868e8641b748e137e165318ff294cb881e66">
+  <meta name="stephen-diehl-article-format" content="6">
   <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/mlir_gpu.html">
   <title>GPU Compilation with MLIR</title>
   <style>
@@ -444,21 +444,7 @@ square&lt;&lt;&lt;numberOfBlocks, threadsPerBlock&gt;&gt;&gt;(d_array, N);
 <p>Memory <strong>bank conflicts</strong> can also impact performance, particularly when using shared memory. Bank conflicts occur when multiple threads attempt to access different addresses in the same memory bank simultaneously. To avoid bank conflicts, you should carefully consider their shared memory access patterns and potentially pad their data structures to ensure optimal memory access distribution across banks. Using appropriate padding and memory access patterns can help maximize memory bandwidth utilization.</p>
 <h2 id="kernel-invocation-%26-memory-movement">Kernel Invocation &amp; Memory Movement</h2>
 <p>To manage the CUDA runtime there are several core functions <a href="https://nvidia.github.io/cuda-python/cuda-bindings/latest/api.html">in the Python API</a> (which are just wrappers around the C API). The following are the core functions from the <code>cuda.cuda</code> module in the Python bindings.</p>
-<ul>
-<li><code>cuInit</code> - Initializes the CUDA driver API.</li>
-<li><code>cuDeviceGet</code> - Retrieves a handle to the first compute device.</li>
-<li><code>cudaSetDevice</code> - Sets the current device.</li>
-<li><code>cuCtxCreate</code> - Creates a compute context on the specified device.</li>
-<li><code>cuModuleLoadData</code> - JIT compiles a PTX string to a device binary.</li>
-<li><code>cuModuleGetFunction</code> - Retrieves a handle to a kernel function from a module.</li>
-<li><code>cuLaunchKernel</code> - Launches a kernel on the specified device.</li>
-<li><code>cuMemcpyHtoD</code> - Copies data from host to device memory.</li>
-<li><code>cuMemcpyDtoH</code> - Copies data from device to host memory.</li>
-<li><code>cuMemFree</code> - Frees memory on the device.</li>
-<li><code>cuMemAlloc</code> - Allocates memory on the device.</li>
-<li><code>cuCtxDestroy</code> - Destroys a compute context.</li>
-<li><code>cuModuleUnload</code> - Unloads a module from the device.</li>
-</ul>
+<p class="unordered-list-item">- <code>cuInit</code> - Initializes the CUDA driver API.</p><p class="unordered-list-item">- <code>cuDeviceGet</code> - Retrieves a handle to the first compute device.</p><p class="unordered-list-item">- <code>cudaSetDevice</code> - Sets the current device.</p><p class="unordered-list-item">- <code>cuCtxCreate</code> - Creates a compute context on the specified device.</p><p class="unordered-list-item">- <code>cuModuleLoadData</code> - JIT compiles a PTX string to a device binary.</p><p class="unordered-list-item">- <code>cuModuleGetFunction</code> - Retrieves a handle to a kernel function from a module.</p><p class="unordered-list-item">- <code>cuLaunchKernel</code> - Launches a kernel on the specified device.</p><p class="unordered-list-item">- <code>cuMemcpyHtoD</code> - Copies data from host to device memory.</p><p class="unordered-list-item">- <code>cuMemcpyDtoH</code> - Copies data from device to host memory.</p><p class="unordered-list-item">- <code>cuMemFree</code> - Frees memory on the device.</p><p class="unordered-list-item">- <code>cuMemAlloc</code> - Allocates memory on the device.</p><p class="unordered-list-item">- <code>cuCtxDestroy</code> - Destroys a compute context.</p><p class="unordered-list-item">- <code>cuModuleUnload</code> - Unloads a module from the device.</p>
 <p>The error handling is a bit annoying in the CUDA Python API because it's a wrapper around C API which uses integer return codes. So for all of these functions you need to check the return value and raise an exception if it's not a success value. To make this easier there is a helper function <code>checkCudaErrors</code> that will raise an exception if the return value is not a success value.</p>
 <p>To setup a CUDA context we can use the following boilerplate functions:</p>
 <pre><code># gpu_setup.py
@@ -957,22 +943,7 @@ pm.run(module.operation)
 print(module)
 </code></pre>
 <p>Ok so there's a lot going on here, let's break down each flag in the command:</p>
-<ul>
-<li><code>one-shot-bufferize{ bufferize-function-boundaries function-boundary-type-conversion=identity-layout-map }</code>: Converts tensor operations to buffer operations in a single pass, handling function boundaries with identity layout mapping.</li>
-<li><code>convert-linalg-to-affine-loops</code>: Transforms high-level linalg operations into affine loop nests that explicitly iterate over tensor elements.</li>
-<li><code>func.func(affine-loop-invariant-code-motion)</code>: Performs loop-invariant code motion on affine loops, moving computations outside loops when possible to reduce redundant calculations.</li>
-<li><code>func.func(convert-affine-for-to-gpu)</code>: Maps affine loops to GPU execution model, distributing iterations across GPU threads and blocks.</li>
-<li><code>gpu-kernel-outlining</code>: Extracts GPU kernel regions into separate GPU functions that can be launched from host code.</li>
-<li><code>lower-affine</code>: Converts affine dialect operations to standard control flow and arithmetic operations.</li>
-<li><code>gpu-decompose-memrefs</code>: Decomposes complex memref types into simpler ones that can be handled by the GPU backends.</li>
-<li><code>expand-strided-metadata</code>: Expands metadata for strided memory accesses to explicit calculations.</li>
-<li><code>normalize-memrefs</code>: Normalizes memory references to a form expected by the GPU backends.</li>
-<li><code>gpu.module(convert-gpu-to-nvvm{index-bitwidth=0 use-bare-ptr-memref-call-conv })</code>: Converts GPU dialect operations to NVVM dialect (NVIDIA's LLVM-based IR), using bare pointer calling conventions for memrefs.</li>
-<li><code>nvvm-attach-target{chip={chip_type} features=+ptx80 O=3}</code>: Attaches target-specific information to the NVVM module, specifying the GPU architecture, PTX version 8.0 features, and optimization level 3.</li>
-<li><code>convert-nvvm-to-llvm</code>: Translates NVVM dialect to standard LLVM dialect for further processing.</li>
-<li><code>reconcile-unrealized-casts</code>: Resolves any remaining type conversion issues by reconciling unrealized cast operations.</li>
-<li><code>gpu-to-llvm { use-bare-pointers-for-host use-bare-pointers-for-kernels }</code>: Converts remaining GPU dialect operations to LLVM dialect, using bare pointers for both host and device code.</li>
-</ul>
+<p class="unordered-list-item">- <code>one-shot-bufferize{ bufferize-function-boundaries function-boundary-type-conversion=identity-layout-map }</code>: Converts tensor operations to buffer operations in a single pass, handling function boundaries with identity layout mapping.</p><p class="unordered-list-item">- <code>convert-linalg-to-affine-loops</code>: Transforms high-level linalg operations into affine loop nests that explicitly iterate over tensor elements.</p><p class="unordered-list-item">- <code>func.func(affine-loop-invariant-code-motion)</code>: Performs loop-invariant code motion on affine loops, moving computations outside loops when possible to reduce redundant calculations.</p><p class="unordered-list-item">- <code>func.func(convert-affine-for-to-gpu)</code>: Maps affine loops to GPU execution model, distributing iterations across GPU threads and blocks.</p><p class="unordered-list-item">- <code>gpu-kernel-outlining</code>: Extracts GPU kernel regions into separate GPU functions that can be launched from host code.</p><p class="unordered-list-item">- <code>lower-affine</code>: Converts affine dialect operations to standard control flow and arithmetic operations.</p><p class="unordered-list-item">- <code>gpu-decompose-memrefs</code>: Decomposes complex memref types into simpler ones that can be handled by the GPU backends.</p><p class="unordered-list-item">- <code>expand-strided-metadata</code>: Expands metadata for strided memory accesses to explicit calculations.</p><p class="unordered-list-item">- <code>normalize-memrefs</code>: Normalizes memory references to a form expected by the GPU backends.</p><p class="unordered-list-item">- <code>gpu.module(convert-gpu-to-nvvm{index-bitwidth=0 use-bare-ptr-memref-call-conv })</code>: Converts GPU dialect operations to NVVM dialect (NVIDIA's LLVM-based IR), using bare pointer calling conventions for memrefs.</p><p class="unordered-list-item">- <code>nvvm-attach-target{chip={chip_type} features=+ptx80 O=3}</code>: Attaches target-specific information to the NVVM module, specifying the GPU architecture, PTX version 8.0 features, and optimization level 3.</p><p class="unordered-list-item">- <code>convert-nvvm-to-llvm</code>: Translates NVVM dialect to standard LLVM dialect for further processing.</p><p class="unordered-list-item">- <code>reconcile-unrealized-casts</code>: Resolves any remaining type conversion issues by reconciling unrealized cast operations.</p><p class="unordered-list-item">- <code>gpu-to-llvm { use-bare-pointers-for-host use-bare-pointers-for-kernels }</code>: Converts remaining GPU dialect operations to LLVM dialect, using bare pointers for both host and device code.</p>
 <p>After lowering our linalg operations to affine loops with <code>convert-linalg-to-affine-loops</code> we get the following MLIR module:</p>
 <pre><code>module {
   func.func @square(%arg0: memref&lt;10x10xf32&gt;, %arg1: memref&lt;10x10xf32&gt;) -&gt; memref&lt;10x10xf32&gt; {
@@ -1446,23 +1417,7 @@ finally:
   args(%1 : i32, %2 : i64)
 </code></pre>
 <h2 id="external-resources">External Resources</h2>
-<ul>
-<li><a href="https://docs.nvidia.com/cuda/cuda-installation-guide-linux/">CUDA Installation Guide for Linux</a></li>
-<li><a href="https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html">CUDA C Programming Guide</a></li>
-<li><a href="https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/">CUDA C Best Practices Guide</a></li>
-<li><a href="https://docs.nvidia.com/cuda/archive/12.6.0/">CUDA Toolkit Documentation 12.6</a></li>
-<li><a href="https://nvidia.github.io/cuda-python/cuda-bindings/latest/api.html">CUDA Python API</a></li>
-<li><a href="https://nvidia.github.io/cuda-python/cuda-bindings/latest/module/driver.html#cuda.bindings.driver.cuLaunchKernel">CUDA Python launchKernel</a></li>
-<li><a href="https://developer.nvidia.com/blog/cuda-refresher-cuda-programming-model/">CUDA Refresher: The CUDA Programming Model</a></li>
-<li><a href="https://docs.nvidia.com/cuda/nvvm-ir-spec/">NVVM IR Specification</a></li>
-<li><a href="https://llvm.org/docs/NVPTXUsage.html">LLVM User Guide for NVPTX Back-end</a></li>
-<li><a href="https://docs.nvidia.com/cuda/cuda-quick-start-guide/#linux">Cuda Quick Start Guide</a></li>
-<li><a href="https://www.youtube.com/watch?v=V3Q9IjsgXvA">2024 EuroLLVM - Zero to Hero: Programming Nvidia Hopper Tensor Core with MLIR's NVGPU Dialect</a></li>
-<li><a href="https://llvm.org/docs/Docker.html">A guide to Dockerfiles for building LLVM</a></li>
-<li><a href="https://developer.nvidia.com/blog/understanding-ptx-the-assembly-language-of-cuda-gpu-computing/">Understanding PTX: The Assembly Language of CUDA GPU Computing</a></li>
-<li><a href="https://docs.nvidia.com/cuda/nvmath-python/latest/bindings/cublas.html">cuBLAS (nvmath.bindings.cublas)</a></li>
-<li><a href="https://nvidia.github.io/cuda-python/cuda-core/latest/">cuda.core - Pythonic access to CUDA Runtime</a></li>
-</ul>
+<p class="unordered-list-item">- <a href="https://docs.nvidia.com/cuda/cuda-installation-guide-linux/">CUDA Installation Guide for Linux</a></p><p class="unordered-list-item">- <a href="https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html">CUDA C Programming Guide</a></p><p class="unordered-list-item">- <a href="https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/">CUDA C Best Practices Guide</a></p><p class="unordered-list-item">- <a href="https://docs.nvidia.com/cuda/archive/12.6.0/">CUDA Toolkit Documentation 12.6</a></p><p class="unordered-list-item">- <a href="https://nvidia.github.io/cuda-python/cuda-bindings/latest/api.html">CUDA Python API</a></p><p class="unordered-list-item">- <a href="https://nvidia.github.io/cuda-python/cuda-bindings/latest/module/driver.html#cuda.bindings.driver.cuLaunchKernel">CUDA Python launchKernel</a></p><p class="unordered-list-item">- <a href="https://developer.nvidia.com/blog/cuda-refresher-cuda-programming-model/">CUDA Refresher: The CUDA Programming Model</a></p><p class="unordered-list-item">- <a href="https://docs.nvidia.com/cuda/nvvm-ir-spec/">NVVM IR Specification</a></p><p class="unordered-list-item">- <a href="https://llvm.org/docs/NVPTXUsage.html">LLVM User Guide for NVPTX Back-end</a></p><p class="unordered-list-item">- <a href="https://docs.nvidia.com/cuda/cuda-quick-start-guide/#linux">Cuda Quick Start Guide</a></p><p class="unordered-list-item">- <a href="https://www.youtube.com/watch?v=V3Q9IjsgXvA">2024 EuroLLVM - Zero to Hero: Programming Nvidia Hopper Tensor Core with MLIR's NVGPU Dialect</a></p><p class="unordered-list-item">- <a href="https://llvm.org/docs/Docker.html">A guide to Dockerfiles for building LLVM</a></p><p class="unordered-list-item">- <a href="https://developer.nvidia.com/blog/understanding-ptx-the-assembly-language-of-cuda-gpu-computing/">Understanding PTX: The Assembly Language of CUDA GPU Computing</a></p><p class="unordered-list-item">- <a href="https://docs.nvidia.com/cuda/nvmath-python/latest/bindings/cublas.html">cuBLAS (nvmath.bindings.cublas)</a></p><p class="unordered-list-item">- <a href="https://nvidia.github.io/cuda-python/cuda-core/latest/">cuda.core - Pythonic access to CUDA Runtime</a></p>
     </section>
   </article>
 </body>

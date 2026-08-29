@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="stephen-diehl-content-hash" content="f35cf1cda99d6ce3884f1fe86518bec1129ef4711725b095db8c40a5ed15743b">
-  <meta name="stephen-diehl-article-format" content="5">
+  <meta name="stephen-diehl-content-hash" content="952c54adf7b46d7117d6f433786df5b2c272c3c854494992d5c04b352160d39d">
+  <meta name="stephen-diehl-article-format" content="6">
   <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/training_llms.html">
   <title>Introduction to Fine-tuning Large Language Models</title>
   <style>
@@ -1123,18 +1123,7 @@ new_lr = base_lr * math.sqrt(new_batch_size / base_batch_size)
 <p>A learning rate of 1e-4 has become the standard when fine-tuning LLMs with LoRA. Going with this initially is a good starting point unless you have empirical evidence to suggest otherwise.</p>
 <p><strong>Learning Rate Schedules</strong></p>
 <p>The learning rate schedule plays a crucial role in model training, determining how the learning rate changes throughout the training process. Different schedules offer various trade-offs between training stability, convergence speed, and final model performance. There are several different learning rate schedules available in the <code>transformers</code> library:</p>
-<ul>
-<li><strong>linear</strong>: This schedule decreases the learning rate linearly from an initial value to a final value in a straight line.</li>
-<li><strong>cosine</strong>: This schedule follows a cosine curve, starting from the initial learning rate and smoothly decreasing to near zero.</li>
-<li><strong>cosine_with_restarts</strong>: This schedule adds periodic "jumps" to the cosine schedule, temporarily increasing the learning rate before allowing it to decay again.</li>
-<li><strong>polynomial</strong>: This schedule decreases the learning rate following a polynomial decay function.</li>
-<li><strong>constant</strong>: This schedule keeps the learning rate constant throughout the training process.</li>
-<li><strong>constant_with_warmup</strong>: This schedule keeps the learning rate constant after a warmup period where the learning rate increases linearly.</li>
-<li><strong>inverse_sqrt</strong>: This schedule decreases the learning rate following an inverse square root decay function.</li>
-<li><strong>reduce_lr_on_plateau</strong>: This schedule reduces the learning rate when a metric has stopped improving.</li>
-<li><strong>cosine_with_min_lr</strong>: This schedule follows a cosine curve with a minimum learning rate, starting from the initial learning rate and smoothly decreasing to the minimum value.</li>
-<li><strong>warmup_stable_decay</strong>: This schedule combines warmup with a stable decay mechanism.</li>
-</ul>
+<p class="unordered-list-item">- <strong>linear</strong>: This schedule decreases the learning rate linearly from an initial value to a final value in a straight line.</p><p class="unordered-list-item">- <strong>cosine</strong>: This schedule follows a cosine curve, starting from the initial learning rate and smoothly decreasing to near zero.</p><p class="unordered-list-item">- <strong>cosine_with_restarts</strong>: This schedule adds periodic "jumps" to the cosine schedule, temporarily increasing the learning rate before allowing it to decay again.</p><p class="unordered-list-item">- <strong>polynomial</strong>: This schedule decreases the learning rate following a polynomial decay function.</p><p class="unordered-list-item">- <strong>constant</strong>: This schedule keeps the learning rate constant throughout the training process.</p><p class="unordered-list-item">- <strong>constant_with_warmup</strong>: This schedule keeps the learning rate constant after a warmup period where the learning rate increases linearly.</p><p class="unordered-list-item">- <strong>inverse_sqrt</strong>: This schedule decreases the learning rate following an inverse square root decay function.</p><p class="unordered-list-item">- <strong>reduce_lr_on_plateau</strong>: This schedule reduces the learning rate when a metric has stopped improving.</p><p class="unordered-list-item">- <strong>cosine_with_min_lr</strong>: This schedule follows a cosine curve with a minimum learning rate, starting from the initial learning rate and smoothly decreasing to the minimum value.</p><p class="unordered-list-item">- <strong>warmup_stable_decay</strong>: This schedule combines warmup with a stable decay mechanism.</p>
 <p>The most common ones to use are linear, cosine and cosine with restarts.</p>
 <p><strong>Linear Schedule</strong></p>
 <p>The linear learning rate schedule gradually decreases the learning rate from an initial value to a final value in a straight line. This simple approach works well for many fine-tuning tasks, especially when the number of training steps is relatively small. The linear schedule provides a good balance between early exploration with higher learning rates and final convergence with lower rates.</p>

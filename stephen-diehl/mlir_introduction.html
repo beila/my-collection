@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="stephen-diehl-content-hash" content="d62b61786f037dd406ebac90c9cc8659bbabec32f0b3328eed6738bea46eadde">
-  <meta name="stephen-diehl-article-format" content="5">
+  <meta name="stephen-diehl-content-hash" content="c19da7bfa6f2922905968d373384a4c429fb7b53ab069f7fc2b9d5ef262a567f">
+  <meta name="stephen-diehl-article-format" content="6">
   <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/mlir_introduction.html">
   <title>Introduction to MLIR</title>
   <style>
@@ -125,19 +125,7 @@ LLVM (http://llvm.org/):
 </code></pre>
 <h3 id="mlir-concepts">MLIR Concepts</h3>
 <p>MLIR is a programming language in its own right, it's very low-level but it contains many of the core primitives you might find in other languages. First some identifier conventions:</p>
-<ul>
-<li><code>%</code> prefix: SSA values (e.g. <code>%result</code>)</li>
-<li><code>@</code> prefix: Functions (e.g. <code>@fun</code>)</li>
-<li><code>^</code> prefix: Basic blocks (e.g. <code>^bb0</code>)</li>
-<li><code>#</code> prefix: Attribute aliases (e.g. <code>#map_1d_identity</code>)</li>
-<li><code>x</code> delimiter: Used in shapes and between shape and type (e.g. <code>10xf32</code>)</li>
-<li><code>:</code> and <code>-&gt;</code> are used to indicate the type of an operation or value (e.g. <code>%result: i32</code>)</li>
-<li><code>!</code> prefix: Type aliases (e.g. <code>!avx_m128 = vector&lt;4 x f32&gt;</code>)</li>
-<li><code>()</code> are used to represent arguments (e.g. <code>(%arg0, %arg1)</code>)</li>
-<li><code>{}</code> are used to represent regions</li>
-<li><code>//</code> is used for comments</li>
-<li><code>&lt;&gt;</code> are used to indicate type parameters (e.g. <code>tensor&lt;10xf32&gt;</code>)</li>
-</ul>
+<p class="unordered-list-item">- <code>%</code> prefix: SSA values (e.g. <code>%result</code>)</p><p class="unordered-list-item">- <code>@</code> prefix: Functions (e.g. <code>@fun</code>)</p><p class="unordered-list-item">- <code>^</code> prefix: Basic blocks (e.g. <code>^bb0</code>)</p><p class="unordered-list-item">- <code>#</code> prefix: Attribute aliases (e.g. <code>#map_1d_identity</code>)</p><p class="unordered-list-item">- <code>x</code> delimiter: Used in shapes and between shape and type (e.g. <code>10xf32</code>)</p><p class="unordered-list-item">- <code>:</code> and <code>-&gt;</code> are used to indicate the type of an operation or value (e.g. <code>%result: i32</code>)</p><p class="unordered-list-item">- <code>!</code> prefix: Type aliases (e.g. <code>!avx_m128 = vector&lt;4 x f32&gt;</code>)</p><p class="unordered-list-item">- <code>()</code> are used to represent arguments (e.g. <code>(%arg0, %arg1)</code>)</p><p class="unordered-list-item">- <code>{}</code> are used to represent regions</p><p class="unordered-list-item">- <code>//</code> is used for comments</p><p class="unordered-list-item">- <code>&lt;&gt;</code> are used to indicate type parameters (e.g. <code>tensor&lt;10xf32&gt;</code>)</p>
 <ol>
 <li>
 <p><strong>Modules</strong>: The top-level container for MLIR operations.</p>

@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="stephen-diehl-content-hash" content="79bbdf52e8da2a9492226399d608d889ae7d0df14fbc13bcf2eaac7dcef07474">
-  <meta name="stephen-diehl-article-format" content="5">
+  <meta name="stephen-diehl-content-hash" content="92858161d3e9cad938263869a74a13143ac557ba401083b5de6c67d480a99a98">
+  <meta name="stephen-diehl-article-format" content="6">
   <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/mlir_affine.html">
   <title>Affine Dialect and OpenMP</title>
   <style>
@@ -321,20 +321,7 @@ func.func @after(%A: memref&lt;32x32xf32&gt;) {
 }
 </code></pre>
 <p>These optimizations are available in the <code>mlir-opt</code> tool:</p>
-<ul>
-<li><code>-affine-loop-coalescing</code> - Merge consecutive loops into a single loop.</li>
-<li><code>-affine-loop-fusion</code> - Merge loops with the same bounds and steps.</li>
-<li><code>-affine-loop-invariant-code-motion</code> - Move loop invariant code outside the loop.</li>
-<li><code>-affine-loop-normalize</code> - Normalize loop bounds and steps.</li>
-<li><code>-affine-loop-tile</code> - Tile loops.</li>
-<li><code>-affine-loop-unroll</code> - Unroll loops.</li>
-<li><code>-affine-loop-unroll-jam</code> - Unroll loops and jam them together.</li>
-<li><code>-affine-parallelize</code> - Parallelize loops.</li>
-<li><code>-affine-pipeline-data-transfer</code> - Pipeline non-blocking data transfers between explicitly managed levels of the memory hierarchy</li>
-<li><code>-affine-scalrep</code> - Replace affine memref accesses by scalars by forwarding stores to loads and eliminating redundant loads</li>
-<li><code>-affine-simplify-structures</code> - Simplify affine expressions in maps/sets and normalize memrefs</li>
-<li><code>-affine-super-vectorize</code> - Vectorize to a target independent n-D vector abstraction</li>
-</ul>
+<p class="unordered-list-item">- <code>-affine-loop-coalescing</code> - Merge consecutive loops into a single loop.</p><p class="unordered-list-item">- <code>-affine-loop-fusion</code> - Merge loops with the same bounds and steps.</p><p class="unordered-list-item">- <code>-affine-loop-invariant-code-motion</code> - Move loop invariant code outside the loop.</p><p class="unordered-list-item">- <code>-affine-loop-normalize</code> - Normalize loop bounds and steps.</p><p class="unordered-list-item">- <code>-affine-loop-tile</code> - Tile loops.</p><p class="unordered-list-item">- <code>-affine-loop-unroll</code> - Unroll loops.</p><p class="unordered-list-item">- <code>-affine-loop-unroll-jam</code> - Unroll loops and jam them together.</p><p class="unordered-list-item">- <code>-affine-parallelize</code> - Parallelize loops.</p><p class="unordered-list-item">- <code>-affine-pipeline-data-transfer</code> - Pipeline non-blocking data transfers between explicitly managed levels of the memory hierarchy</p><p class="unordered-list-item">- <code>-affine-scalrep</code> - Replace affine memref accesses by scalars by forwarding stores to loads and eliminating redundant loads</p><p class="unordered-list-item">- <code>-affine-simplify-structures</code> - Simplify affine expressions in maps/sets and normalize memrefs</p><p class="unordered-list-item">- <code>-affine-super-vectorize</code> - Vectorize to a target independent n-D vector abstraction</p>
 <p>There is also the <code>-convert-affine-for-to-gpu</code>, which we'll use later, which converts affine loops to GPU kernels which can target multiple GPU architectures.</p>
 <h2 id="convolution-kernels">Convolution Kernels</h2>
 <p>Now that we understand the basic optimizations available in the affine dialect, let's look at a more practical example: implementing a 2D convolution. This operation is fundamental in image processing and deep learning, where it's used for feature extraction and pattern recognition.</p>
@@ -660,24 +647,7 @@ func.func private @main() {
 </code></pre>
 <p>The pass handles several important conversions, including the transformation of <code>scf.parallel</code> operations into <code>omp.parallel</code> regions that contain <code>omp.wsloop</code>, while preserving loop bounds and step sizes. Additionally, reduction operations in SCF are mapped to OpenMP reductions, and nested parallel loops are properly managed. This conversion is typically utilized as part of a larger lowering pipeline, which is often followed by <code>-convert-openmp-to-llvm</code> to generate LLVM IR that can be executed with OpenMP runtime support.</p>
 <h2 id="external-resources">External Resources</h2>
-<ul>
-<li><a href="https://mlir.llvm.org/docs/Dialects/Affine/">MLIR: Affine Dialect</a></li>
-<li><a href="https://mlir.llvm.org/docs/Dialects/Affine/#polyhedral-structures">MLIR: Polyhedral Structures</a></li>
-<li><a href="https://mlir.llvm.org/docs/Dialects/OpenMP/">MLIR: OpenMP Dialect</a></li>
-<li><a href="https://discourse.llvm.org/t/rfc-openmp-dialect-in-mlir/397">RFC: OpenMP dialect in MLIR</a></li>
-<li><a href="https://www.openmp.org/wp-content/uploads/openmp_flang.pdf">OpenMP: OpenMP 5.0 Specification</a></li>
-<li><a href="https://llvm.org/devmtg/2024-04/slides/QuickTalks/Martinez-ParallelizingApplicationsWithMLIR.pdf">Parallelizing Applications with MLIR</a></li>
-<li><a href="https://hps.vi4io.org/_media/events/2020/llvm-cth20_chandramohan.pdf">OpenMP in Flang using MLIR</a></li>
-<li><a href="https://github.com/llvm/llvm-project/blob/main/mlir/include/mlir/Dialect/OpenMP/OpenMPOps.td">OpenMPOps.td</a></li>
-<li><a href="https://mlir.llvm.org/doxygen/OpenMPToLLVMIRTranslation_8cpp.html">OpenMPToLLVMIRTranslation.cpp</a></li>
-<li><a href="https://easychair.org/publications/preprint/Kp3L">Extending Polygeist to Generate OpenMP SIMD and GPU MLIR Code</a></li>
-<li><a href="https://tildesites.bowdoin.edu/~ltoma/teaching/cs3225-GIS/fall17/Lectures/openmp.html">OpenMP in a Nutshell</a></li>
-<li><a href="https://users.cs.utah.edu/~mhall/mlir4hpc/pienaar-MLIR-Tutorial.pdf">MLIR Tutorial: Building a Compiler with MLIR</a></li>
-<li><a href="https://www.youtube.com/watch?v=hIt6J1_E21c">2023 EuroLLVM - MLIR Dialect Design and Composition for Front-End Compilers</a></li>
-<li><a href="https://reviews.llvm.org/D119743">Add conversion from SCF parallel loops to OpenMP</a></li>
-<li><a href="https://www.youtube.com/watch?v=lOK6JPuVFYg">Open MLIR Meeting 2-15-2024: OpenMP GPU Target Offloading</a></li>
-<li><a href="https://reviews.llvm.org/D119743">Mark parallel regions as allocation scopes</a></li>
-</ul>
+<p class="unordered-list-item">- <a href="https://mlir.llvm.org/docs/Dialects/Affine/">MLIR: Affine Dialect</a></p><p class="unordered-list-item">- <a href="https://mlir.llvm.org/docs/Dialects/Affine/#polyhedral-structures">MLIR: Polyhedral Structures</a></p><p class="unordered-list-item">- <a href="https://mlir.llvm.org/docs/Dialects/OpenMP/">MLIR: OpenMP Dialect</a></p><p class="unordered-list-item">- <a href="https://discourse.llvm.org/t/rfc-openmp-dialect-in-mlir/397">RFC: OpenMP dialect in MLIR</a></p><p class="unordered-list-item">- <a href="https://www.openmp.org/wp-content/uploads/openmp_flang.pdf">OpenMP: OpenMP 5.0 Specification</a></p><p class="unordered-list-item">- <a href="https://llvm.org/devmtg/2024-04/slides/QuickTalks/Martinez-ParallelizingApplicationsWithMLIR.pdf">Parallelizing Applications with MLIR</a></p><p class="unordered-list-item">- <a href="https://hps.vi4io.org/_media/events/2020/llvm-cth20_chandramohan.pdf">OpenMP in Flang using MLIR</a></p><p class="unordered-list-item">- <a href="https://github.com/llvm/llvm-project/blob/main/mlir/include/mlir/Dialect/OpenMP/OpenMPOps.td">OpenMPOps.td</a></p><p class="unordered-list-item">- <a href="https://mlir.llvm.org/doxygen/OpenMPToLLVMIRTranslation_8cpp.html">OpenMPToLLVMIRTranslation.cpp</a></p><p class="unordered-list-item">- <a href="https://easychair.org/publications/preprint/Kp3L">Extending Polygeist to Generate OpenMP SIMD and GPU MLIR Code</a></p><p class="unordered-list-item">- <a href="https://tildesites.bowdoin.edu/~ltoma/teaching/cs3225-GIS/fall17/Lectures/openmp.html">OpenMP in a Nutshell</a></p><p class="unordered-list-item">- <a href="https://users.cs.utah.edu/~mhall/mlir4hpc/pienaar-MLIR-Tutorial.pdf">MLIR Tutorial: Building a Compiler with MLIR</a></p><p class="unordered-list-item">- <a href="https://www.youtube.com/watch?v=hIt6J1_E21c">2023 EuroLLVM - MLIR Dialect Design and Composition for Front-End Compilers</a></p><p class="unordered-list-item">- <a href="https://reviews.llvm.org/D119743">Add conversion from SCF parallel loops to OpenMP</a></p><p class="unordered-list-item">- <a href="https://www.youtube.com/watch?v=lOK6JPuVFYg">Open MLIR Meeting 2-15-2024: OpenMP GPU Target Offloading</a></p><p class="unordered-list-item">- <a href="https://reviews.llvm.org/D119743">Mark parallel regions as allocation scopes</a></p>
     </section>
   </article>
 </body>
