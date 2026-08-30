@@ -1,0 +1,1322 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bicycle Commute Progression Explorer</title>
+    <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+    <style>
+      :root {
+        color-scheme: light;
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+        color: #18212a;
+        background: #e9edef;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+      }
+
+      body {
+        overflow: hidden;
+      }
+
+      button,
+      input {
+        font: inherit;
+      }
+
+      .app {
+        display: grid;
+        width: 100%;
+        height: 100%;
+        min-width: 0;
+        overflow: hidden;
+        grid-template-rows: auto minmax(0, 1fr);
+      }
+
+      .topbar {
+        z-index: 1100;
+        display: flex;
+        min-width: 0;
+        min-height: 60px;
+        align-items: center;
+        gap: 18px;
+        padding: 9px 14px;
+        border-bottom: 1px solid #c8d0d6;
+        background: #ffffff;
+        box-shadow: 0 1px 5px rgb(24 33 42 / 12%);
+      }
+
+      .brand {
+        min-width: 300px;
+        margin-right: auto;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 16px;
+        line-height: 1.25;
+        letter-spacing: 0;
+      }
+
+      .subtitle {
+        margin-top: 2px;
+        color: #5b6873;
+        font-size: 12px;
+      }
+
+      .top-controls,
+      .control,
+      .destination-filters {
+        display: flex;
+        align-items: center;
+      }
+
+      .top-controls {
+        min-width: 0;
+        gap: 14px;
+      }
+
+      .control,
+      .destination-option {
+        gap: 6px;
+        min-height: 32px;
+        color: #27333d;
+        font-size: 12px;
+        font-weight: 700;
+        white-space: nowrap;
+      }
+
+      input[type="checkbox"] {
+        width: 16px;
+        height: 16px;
+        margin: 0;
+        accent-color: #146f7d;
+      }
+
+      .workspace {
+        display: grid;
+        width: 100%;
+        min-height: 0;
+        grid-template-columns: minmax(330px, 370px) minmax(0, 1fr);
+      }
+
+      .sidebar {
+        z-index: 900;
+        display: flex;
+        min-width: 0;
+        min-height: 0;
+        flex-direction: column;
+        border-right: 1px solid #c8d0d6;
+        background: #ffffff;
+      }
+
+      .summary {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        border-bottom: 1px solid #dbe1e5;
+      }
+
+      .metric {
+        min-width: 0;
+        padding: 12px 10px;
+        border-right: 1px solid #e2e6e9;
+      }
+
+      .metric:last-child {
+        border-right: 0;
+      }
+
+      .metric-label {
+        display: block;
+        margin-bottom: 3px;
+        color: #6a7680;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      .metric-value {
+        display: block;
+        overflow: hidden;
+        font-size: 14px;
+        font-weight: 750;
+        line-height: 1.25;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .filters {
+        padding: 12px 14px 11px;
+        border-bottom: 1px solid #dbe1e5;
+      }
+
+      .filter-heading {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        margin-bottom: 7px;
+      }
+
+      .filter-heading label,
+      .filter-label {
+        color: #3b4852;
+        font-size: 11px;
+        font-weight: 750;
+        text-transform: uppercase;
+      }
+
+      #ride-limit-output {
+        color: #146f7d;
+        font-size: 14px;
+        font-weight: 800;
+      }
+
+      #ride-limit {
+        width: 100%;
+        height: 20px;
+        margin: 0 0 9px;
+        accent-color: #146f7d;
+      }
+
+      .destination-filters {
+        gap: 12px;
+        margin-top: 7px;
+      }
+
+      .destination-option {
+        display: flex;
+        align-items: center;
+      }
+
+      .list-heading {
+        display: flex;
+        min-height: 38px;
+        flex: 0 0 auto;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 14px;
+        border-bottom: 1px solid #dbe1e5;
+        color: #53616d;
+        font-size: 11px;
+        font-weight: 750;
+        text-transform: uppercase;
+      }
+
+      #station-list {
+        min-height: 0;
+        flex: 1 1 auto;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+      }
+
+      .station-row {
+        display: grid;
+        width: 100%;
+        min-height: 64px;
+        grid-template-columns: 31px minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 9px;
+        padding: 8px 12px;
+        border: 0;
+        border-bottom: 1px solid #e2e7ea;
+        background: #ffffff;
+        color: inherit;
+        text-align: left;
+        cursor: pointer;
+      }
+
+      .station-row:hover {
+        background: #f4f7f8;
+      }
+
+      .station-row:focus-visible {
+        position: relative;
+        z-index: 1;
+        outline: 2px solid #146f7d;
+        outline-offset: -2px;
+      }
+
+      .station-row.selected {
+        background: #e9f4f4;
+        box-shadow: inset 4px 0 #146f7d;
+      }
+
+      .station-row.expansion-row {
+        background: #f5faf7;
+        box-shadow: inset 2px 0 #4c8064;
+      }
+
+      .station-row.expansion-row:hover {
+        background: #edf6f0;
+      }
+
+      .station-row.expansion-row.selected {
+        background: #e4f2e8;
+        box-shadow: inset 4px 0 #2f6d4d;
+      }
+
+      .full-commute-row {
+        position: sticky;
+        z-index: 3;
+        top: 0;
+        border-left: 4px solid #9f3151;
+        background: #f8f3f2;
+        box-shadow: 0 1px 3px rgb(24 33 42 / 14%);
+      }
+
+      .full-commute-row:hover {
+        background: #f3eae8;
+      }
+
+      .full-commute-row.over-limit {
+        opacity: 0.72;
+      }
+
+      .full-commute-row.selected {
+        background: #f1e4e3;
+        box-shadow:
+          inset 4px 0 #9f3151,
+          0 1px 3px rgb(24 33 42 / 14%);
+      }
+
+      .full-route-symbol {
+        font-size: 9px;
+      }
+
+      .rank {
+        display: grid;
+        width: 28px;
+        height: 28px;
+        place-items: center;
+        border: 2px solid var(--station-color);
+        border-radius: 50%;
+        color: #26323c;
+        font-size: 11px;
+        font-weight: 800;
+      }
+
+      .station-copy {
+        min-width: 0;
+      }
+
+      .station-name {
+        display: block;
+        overflow: hidden;
+        font-size: 13px;
+        font-weight: 750;
+        line-height: 1.25;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .station-service,
+      .station-comparison {
+        display: block;
+        overflow: hidden;
+        margin-top: 3px;
+        color: #66737e;
+        font-size: 10px;
+        line-height: 1.25;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .station-comparison {
+        color: #7a5b31;
+      }
+
+      .station-duration {
+        min-width: 64px;
+        text-align: right;
+      }
+
+      .station-minutes {
+        display: block;
+        color: var(--station-color);
+        font-size: 15px;
+        font-weight: 850;
+      }
+
+      .station-distance {
+        display: block;
+        margin-top: 2px;
+        color: #6b7781;
+        font-size: 10px;
+      }
+
+      .empty-state {
+        padding: 24px 16px;
+        color: #66737e;
+        font-size: 13px;
+        text-align: center;
+      }
+
+      #map {
+        min-width: 0;
+        min-height: 0;
+        background: #eef0ed;
+      }
+
+      .leaflet-popup-content {
+        min-width: 230px;
+        margin: 12px 14px;
+        line-height: 1.45;
+      }
+
+      .popup-title {
+        margin-bottom: 5px;
+        font-size: 14px;
+        font-weight: 800;
+      }
+
+      .popup-row {
+        color: #43515c;
+        font-size: 12px;
+      }
+
+      .popup-source {
+        color: #146f7d;
+        font-weight: 750;
+      }
+
+      .popup-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 8px;
+      }
+
+      .popup-link {
+        color: #146f7d;
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .station-tooltip {
+        padding: 3px 6px;
+        border: 0;
+        border-radius: 3px;
+        background: rgb(255 255 255 / 94%);
+        box-shadow: 0 1px 4px rgb(0 0 0 / 20%);
+        color: #18212a;
+        font-size: 11px;
+        font-weight: 750;
+      }
+
+      .map-legend {
+        padding: 7px 9px;
+        border: 1px solid rgb(0 0 0 / 12%);
+        border-radius: 4px;
+        background: rgb(255 255 255 / 94%);
+        box-shadow: 0 1px 4px rgb(0 0 0 / 14%);
+        color: #35424c;
+        font-size: 10px;
+        line-height: 1.65;
+      }
+
+      .legend-row {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .legend-swatch {
+        width: 10px;
+        height: 10px;
+        border: 1px solid rgb(0 0 0 / 16%);
+        border-radius: 50%;
+      }
+
+      .legend-line {
+        width: 16px;
+        height: 3px;
+        border-radius: 0;
+      }
+
+      @media (max-width: 980px) {
+        .topbar {
+          flex-wrap: wrap;
+          gap: 4px 14px;
+        }
+
+        .brand {
+          width: 100%;
+          min-width: 0;
+        }
+
+        .top-controls {
+          width: 100%;
+          max-width: 100%;
+          min-width: 0;
+          gap: 14px;
+          overflow-x: auto;
+        }
+
+        .workspace {
+          grid-template-rows: minmax(300px, 54vh) minmax(220px, 1fr);
+          grid-template-columns: minmax(0, 1fr);
+        }
+
+        #map {
+          grid-row: 1;
+        }
+
+        .sidebar {
+          grid-row: 2;
+          border-top: 1px solid #c8d0d6;
+          border-right: 0;
+        }
+
+        .filters {
+          padding-top: 9px;
+          padding-bottom: 8px;
+        }
+      }
+
+      @media (max-width: 430px) {
+        h1 {
+          font-size: 15px;
+        }
+
+        .subtitle {
+          font-size: 11px;
+        }
+
+        .control,
+        .destination-option {
+          font-size: 11px;
+        }
+
+        .summary {
+          display: none;
+        }
+
+        .workspace {
+          grid-template-rows: minmax(285px, 52vh) minmax(240px, 1fr);
+        }
+
+        .station-row {
+          min-height: 61px;
+        }
+
+        .map-legend {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <header class="topbar">
+        <div class="brand">
+          <h1>Bicycle Commute Progression</h1>
+          <div id="app-subtitle" class="subtitle">
+            DA16 3QU to Shoreditch - 52 independently routed stations
+          </div>
+        </div>
+        <div class="top-controls">
+          <label class="control">
+            <input id="toggle-circles" type="checkbox" checked>
+            Circles
+          </label>
+          <label class="control">
+            <input id="toggle-routes" type="checkbox">
+            Station routes
+          </label>
+          <label class="control">
+            <input id="toggle-full-commute" type="checkbox" checked>
+            Full commute
+          </label>
+          <label class="control">
+            <input id="toggle-custom-house" type="checkbox">
+            Custom audit
+          </label>
+        </div>
+      </header>
+
+      <div class="workspace">
+        <aside class="sidebar">
+          <section class="summary" aria-label="Filtered result summary">
+            <div class="metric">
+              <span class="metric-label">Stations</span>
+              <span id="station-count" class="metric-value">52</span>
+            </div>
+            <div class="metric">
+              <span class="metric-label">Shortest</span>
+              <span id="shortest-time" class="metric-value">19.7 min</span>
+            </div>
+            <div class="metric">
+              <span class="metric-label">Full Commute</span>
+              <span id="full-commute-time" class="metric-value">83.2 min</span>
+            </div>
+          </section>
+
+          <section class="filters">
+            <div class="filter-heading">
+              <label for="ride-limit">Ride Limit</label>
+              <output id="ride-limit-output" for="ride-limit">84 min</output>
+            </div>
+            <input id="ride-limit" type="range" step="1">
+            <div class="filter-label">Reachable Destination</div>
+            <div class="destination-filters">
+              <label class="destination-option">
+                <input
+                  class="destination-toggle"
+                  type="checkbox"
+                  value="Liverpool Street"
+                  checked
+                >
+                Liverpool Street
+              </label>
+              <label class="destination-option">
+                <input
+                  class="destination-toggle"
+                  type="checkbox"
+                  value="Shoreditch High Street"
+                  checked
+                >
+                Shoreditch High Street
+              </label>
+            </div>
+          </section>
+
+          <div class="list-heading">
+            <span>Ride Progression</span>
+            <span id="visible-range">19.7-83.4 min</span>
+          </div>
+          <div id="station-list" aria-live="polite"></div>
+        </aside>
+
+        <main id="map" aria-label="Bicycle commute station map"></main>
+      </div>
+    </div>
+
+    <script src="vendor/leaflet/leaflet.js"></script>
+    <script src="local-basemap-data.js"></script>
+    <script src="map-data.js"></script>
+    <script>
+      const byKind = (collection) => collection.features.reduce(
+        (groups, feature) => {
+          const kind = feature.properties.kind;
+          if (!groups[kind]) groups[kind] = [];
+          groups[kind].push(feature);
+          return groups;
+        },
+        {},
+      );
+
+      const featuresByKind = byKind(window.COMMUTE_DATA);
+      const candidates = [...(featuresByKind.candidate || [])].sort(
+        (left, right) => left.properties.rank - right.properties.rank,
+      );
+      const expansionCount = candidates.filter(
+        (feature) =>
+          feature.properties.expansion_scope
+          === "at-most-one-change-faster-than-brockley",
+      ).length;
+      const minimumMinutes = Math.floor(
+        candidates[0].properties.cycle_minutes_exact,
+      );
+      const maximumMinutes = Math.ceil(
+        Math.max(
+          ...candidates.map(
+            (feature) => feature.properties.cycle_minutes_exact,
+          ),
+        ),
+      );
+
+      const state = {
+        maxMinutes: maximumMinutes,
+        destinations: new Set([
+          "Liverpool Street",
+          "Shoreditch High Street",
+        ]),
+        showRoutes: false,
+        selectedStationId: null,
+        selectedFullCommute: false,
+      };
+
+      const formatMinutes = (minutes) => `${minutes.toFixed(1)} min`;
+
+      const durationColor = (minutes) => {
+        if (minutes <= 25) return "#23887d";
+        if (minutes <= 55) return "#277da1";
+        if (minutes <= 70) return "#d7772e";
+        return "#c43f55";
+      };
+
+      const map = L.map("map", {
+        zoomControl: true,
+        preferCanvas: true,
+        fadeAnimation: false,
+        zoomAnimation: false,
+        markerZoomAnimation: false,
+      });
+
+      map.createPane("local-basemap");
+      map.getPane("local-basemap").style.zIndex = 200;
+      const basemapRenderer = L.canvas({ padding: 0.5 });
+
+      const basemapStyle = (feature) => {
+        const { kind, class: featureClass } = feature.properties;
+        if (kind === "water") {
+          return {
+            color: "#8ebac5",
+            fillColor: "#c7e0e5",
+            weight: 0.7,
+            opacity: 0.8,
+            fillOpacity: 0.9,
+          };
+        }
+        if (kind === "green-space") {
+          return {
+            color: "#b8ceb2",
+            fillColor: "#dce8d7",
+            weight: 0.5,
+            opacity: 0.7,
+            fillOpacity: 0.85,
+          };
+        }
+        if (kind === "waterway") {
+          return {
+            color: "#85b7c4",
+            weight: featureClass === "river" ? 2.2 : 1.3,
+            opacity: 0.9,
+          };
+        }
+        if (kind === "railway") {
+          return {
+            color: "#8c8c87",
+            weight: featureClass === "rail" ? 1 : 0.7,
+            opacity: 0.62,
+            dashArray: featureClass === "subway" ? "2 4" : null,
+          };
+        }
+        const roadWeights = {
+          motorway: 2.3,
+          motorway_link: 1.5,
+          trunk: 2.1,
+          trunk_link: 1.4,
+          primary: 1.8,
+          primary_link: 1.3,
+          secondary: 1.35,
+          secondary_link: 1.1,
+          tertiary: 0.85,
+        };
+        return {
+          color:
+            featureClass === "motorway" || featureClass === "trunk"
+              ? "#d3a36b"
+              : "#c7b9a4",
+          weight: roadWeights[featureClass] || 0.7,
+          opacity: 0.82,
+        };
+      };
+
+      L.geoJSON(window.LOCAL_BASEMAP_DATA, {
+        pane: "local-basemap",
+        renderer: basemapRenderer,
+        interactive: false,
+        style: basemapStyle,
+      }).addTo(map);
+
+      map.attributionControl.addAttribution(
+        'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a> (ODbL), local extract',
+      );
+
+      const popupHtml = (properties) => {
+        const comparison = properties.tfl_comparison_available
+          ? `TfL: ${properties.tfl_cycle_minutes} min / ${properties.tfl_cycle_distance_km.toFixed(2)} km`
+          : "Expansion route - no TfL bicycle comparison";
+        const scope = properties.expansion_scope
+          === "original-direct-circle"
+          ? "Original direct circle result"
+          : "At-most-one-change expansion";
+        const changes = properties.minimal_interchanges === 1
+          ? "1 change"
+          : "Direct";
+        return `
+          <div class="popup-title">#${properties.rank} ${properties.name}</div>
+          <div class="popup-row popup-source">${properties.cycle_source_name}</div>
+          <div class="popup-row">${formatMinutes(properties.cycle_minutes_exact)} / ${properties.cycle_distance_km.toFixed(2)} km</div>
+          <div class="popup-row">${properties.transport_summary}</div>
+          <div class="popup-row">${changes} - ${properties.mode_groups.join(", ")}</div>
+          <div class="popup-row">${comparison}</div>
+          <div class="popup-row">${scope}</div>
+          <div class="popup-links">
+            <a class="popup-link" href="${properties.independent_route_url}" target="_blank" rel="noreferrer">OpenStreetMap.de route</a>
+            <a class="popup-link" href="${properties.google_maps_url}" target="_blank" rel="noreferrer">Google route</a>
+            <a class="popup-link" href="${properties.apple_maps_url}" target="_blank" rel="noreferrer">Apple route</a>
+          </div>
+        `;
+      };
+
+      const pointLayer = L.geoJSON(
+        [
+          ...(featuresByKind.home || []),
+          ...(featuresByKind.workplace || []),
+          ...(featuresByKind.destination || []),
+        ],
+        {
+          pointToLayer: (feature, latlng) => {
+            const styles = {
+              home: { radius: 8, fillColor: "#18212a", color: "#ffffff" },
+              workplace: { radius: 8, fillColor: "#c43f55", color: "#ffffff" },
+              destination: { radius: 7, fillColor: "#ffffff", color: "#18212a" },
+            };
+            return L.circleMarker(latlng, {
+              ...styles[feature.properties.kind],
+              weight: 2,
+              fillOpacity: 1,
+            });
+          },
+          onEachFeature: (feature, layer) => {
+            layer.bindTooltip(feature.properties.name, {
+              direction: "top",
+              offset: [0, -7],
+            });
+          },
+        },
+      ).addTo(map);
+
+      const circleLayer = L.geoJSON(
+        [
+          ...(featuresByKind.circle || []),
+          ...(featuresByKind.diameter || []),
+        ],
+        {
+          style: (feature) => {
+            if (feature.properties.kind === "diameter") {
+              return {
+                color: "#146f7d",
+                weight: 2.5,
+                opacity: 0.9,
+                dashArray: "7 5",
+              };
+            }
+            return {
+              color: "#146f7d",
+              weight: 1.5,
+              opacity: 0.85,
+              fillColor: "#66b9b5",
+              fillOpacity: 0.08,
+            };
+          },
+          onEachFeature: (feature, layer) => {
+            const value =
+              feature.properties.kind === "circle"
+                ? `${feature.properties.radius_km.toFixed(2)} km radius`
+                : `${feature.properties.diameter_km.toFixed(2)} km diameter`;
+            layer.bindTooltip(`${feature.properties.name}: ${value}`);
+          },
+        },
+      ).addTo(map);
+
+      const stationLayer = L.layerGroup().addTo(map);
+      const routeLayer = L.layerGroup();
+      const stationMarkers = new Map();
+      const cycleRoutes = new Map();
+
+      candidates.forEach((feature) => {
+        const properties = feature.properties;
+        const [lon, lat] = feature.geometry.coordinates;
+        const expanded = properties.expansion_scope
+          !== "original-direct-circle";
+        const marker = L.circleMarker([lat, lon], {
+          radius: 6,
+          color: expanded ? "#2f6d4d" : "#ffffff",
+          weight: expanded ? 2.4 : 1.5,
+          fillColor: durationColor(properties.cycle_minutes_exact),
+          fillOpacity: 0.96,
+        });
+        marker.bindPopup(popupHtml(properties));
+        marker.bindTooltip(
+          `#${properties.rank} ${properties.name} - ${formatMinutes(properties.cycle_minutes_exact)}`,
+          {
+            className: "station-tooltip",
+            direction: "top",
+            offset: [0, -6],
+          },
+        );
+        marker.on("click", () => selectStation(properties.station_id));
+        stationMarkers.set(properties.station_id, marker);
+      });
+
+      (featuresByKind["cycle-route"] || []).forEach((feature) => {
+        const layer = L.geoJSON(feature, {
+          style: {
+            color: durationColor(feature.properties.cycle_minutes_exact),
+            weight: 2.6,
+            opacity: 0.66,
+            dashArray:
+              feature.properties.expansion_scope
+                === "original-direct-circle"
+                ? null
+                : "5 4",
+          },
+        });
+        layer.bindTooltip(
+          `#${feature.properties.rank} ${feature.properties.name}: ${formatMinutes(feature.properties.cycle_minutes_exact)}`,
+        );
+        cycleRoutes.set(feature.properties.station_id, layer);
+      });
+
+      const fullCommuteLayer = L.layerGroup();
+      const independentFullFeature = featuresByKind["full-commute-route"][0];
+      const tflFullFeature = featuresByKind["full-commute-tfl-route"][0];
+      const independentFullLayer = L.geoJSON(independentFullFeature, {
+        style: { color: "#9f3151", weight: 4, opacity: 0.9 },
+      }).bindPopup(`
+        <div class="popup-title">Full route to workplace</div>
+        <div class="popup-row popup-source">${independentFullFeature.properties.source_name}</div>
+        <div class="popup-row">${formatMinutes(independentFullFeature.properties.cycle_minutes_exact)} / ${independentFullFeature.properties.cycle_distance_km.toFixed(2)} km</div>
+        <div class="popup-links">
+          <a class="popup-link" href="${independentFullFeature.properties.route_url}" target="_blank" rel="noreferrer">OpenStreetMap.de route</a>
+        </div>
+      `).bindTooltip(
+        `Independent full commute: ${formatMinutes(independentFullFeature.properties.cycle_minutes_exact)} / ${independentFullFeature.properties.cycle_distance_km.toFixed(2)} km`,
+      );
+      const tflFullLayer = L.geoJSON(tflFullFeature, {
+        style: {
+          color: "#655b4d",
+          weight: 3,
+          opacity: 0.8,
+          dashArray: "7 6",
+        },
+      }).bindTooltip(
+        `TfL full commute: ${tflFullFeature.properties.cycle_minutes} min / ${tflFullFeature.properties.cycle_distance_km.toFixed(2)} km`,
+      );
+      fullCommuteLayer.addLayer(independentFullLayer);
+      fullCommuteLayer.addLayer(tflFullLayer);
+      fullCommuteLayer.addTo(map);
+
+      const customHouseFeature = (featuresByKind["cycle-route"] || []).find(
+        (feature) => feature.properties.station_id === "910GCUSTMHS",
+      );
+      const customTflFeature = featuresByKind["custom-house-tfl-route"][0];
+      const customHouseAuditLayer = L.layerGroup([
+        L.geoJSON(customHouseFeature, {
+          style: { color: "#008b8b", weight: 5, opacity: 0.95 },
+        }).bindTooltip(
+          `Independent Custom House: ${formatMinutes(customHouseFeature.properties.cycle_minutes_exact)} / ${customHouseFeature.properties.cycle_distance_km.toFixed(2)} km`,
+        ),
+        L.geoJSON(customTflFeature, {
+          style: {
+            color: "#c43f55",
+            weight: 4,
+            opacity: 0.88,
+            dashArray: "8 6",
+          },
+        }).bindTooltip(
+          `TfL Custom House detour: ${customTflFeature.properties.cycle_minutes} min / ${customTflFeature.properties.cycle_distance_km.toFixed(2)} km`,
+        ),
+      ]);
+
+      const list = document.querySelector("#station-list");
+      const stationCount = document.querySelector("#station-count");
+      const shortestTime = document.querySelector("#shortest-time");
+      const fullCommuteTime = document.querySelector("#full-commute-time");
+      const rideLimit = document.querySelector("#ride-limit");
+      const rideLimitOutput = document.querySelector("#ride-limit-output");
+      const visibleRange = document.querySelector("#visible-range");
+
+      rideLimit.min = minimumMinutes;
+      rideLimit.max = maximumMinutes;
+      rideLimit.value = maximumMinutes;
+      fullCommuteTime.textContent = formatMinutes(
+        independentFullFeature.properties.cycle_minutes_exact,
+      );
+      document.querySelector("#app-subtitle").textContent =
+        `${candidates.length} routes - ${expansionCount} additions - full ride ${formatMinutes(independentFullFeature.properties.cycle_minutes_exact)} / ${independentFullFeature.properties.cycle_distance_km.toFixed(2)} km`;
+
+      const featureMatches = (feature) => {
+        const properties = feature.properties;
+        return (
+          properties.cycle_minutes_exact <= state.maxMinutes
+          && properties.reachable_destinations.some((destination) =>
+            state.destinations.has(destination)
+          )
+        );
+      };
+
+      const resetMarkerStyles = () => {
+        stationMarkers.forEach((marker, stationId) => {
+          const feature = candidates.find(
+            (candidate) => candidate.properties.station_id === stationId,
+          );
+          const expanded = feature.properties.expansion_scope
+            !== "original-direct-circle";
+          marker.setRadius(stationId === state.selectedStationId ? 8 : 6);
+          marker.setStyle({
+            color:
+              stationId === state.selectedStationId
+                ? "#18212a"
+                : expanded
+                  ? "#2f6d4d"
+                  : "#ffffff",
+            weight:
+              stationId === state.selectedStationId
+                ? 2.8
+                : expanded
+                  ? 2.4
+                  : 1.5,
+            fillColor: durationColor(
+              feature.properties.cycle_minutes_exact,
+            ),
+          });
+        });
+      };
+
+      function selectStation(stationId, pan = true) {
+        state.selectedStationId = stationId;
+        state.selectedFullCommute = false;
+        syncRouteLayer();
+        resetMarkerStyles();
+        document.querySelectorAll(".station-row").forEach((row) => {
+          row.classList.toggle(
+            "selected",
+            row.dataset.stationId === stationId,
+          );
+        });
+
+        const marker = stationMarkers.get(stationId);
+        if (!marker || !stationLayer.hasLayer(marker)) return;
+        const selectedRoute = cycleRoutes.get(stationId);
+        if (pan && selectedRoute) {
+          map.fitBounds(selectedRoute.getBounds().pad(0.08), {
+            animate: false,
+          });
+        }
+        marker.openPopup();
+
+        const selectedRow = document.querySelector(
+          `.station-row[data-station-id="${stationId}"]`,
+        );
+        if (selectedRow) {
+          selectedRow.scrollIntoView({ block: "nearest" });
+        }
+      }
+
+      function focusFullCommute() {
+        state.selectedStationId = null;
+        state.selectedFullCommute = true;
+        syncRouteLayer();
+        resetMarkerStyles();
+        document.querySelectorAll(".station-row").forEach((row) => {
+          row.classList.toggle(
+            "selected",
+            row.dataset.routeId === "full-commute",
+          );
+        });
+
+        const toggle = document.querySelector("#toggle-full-commute");
+        if (!toggle.checked) {
+          toggle.checked = true;
+          fullCommuteLayer.addTo(map);
+        }
+        map.closePopup();
+        map.fitBounds(independentFullLayer.getBounds().pad(0.08), {
+          animate: false,
+        });
+      }
+
+      const createFullCommuteRow = () => {
+        const independent = independentFullFeature.properties;
+        const tfl = tflFullFeature.properties;
+        const row = document.createElement("button");
+        row.type = "button";
+        row.className = "station-row full-commute-row";
+        row.dataset.routeId = "full-commute";
+        row.style.setProperty("--station-color", "#9f3151");
+        row.classList.toggle("selected", state.selectedFullCommute);
+        row.classList.toggle(
+          "over-limit",
+          independent.cycle_minutes_exact > state.maxMinutes,
+        );
+        row.setAttribute(
+          "aria-label",
+          `Full route to workplace, ${formatMinutes(independent.cycle_minutes_exact)}, TfL ${tfl.cycle_minutes} minutes`,
+        );
+
+        const symbol = document.createElement("span");
+        symbol.className = "rank full-route-symbol";
+        symbol.textContent = "A-B";
+
+        const copy = document.createElement("span");
+        copy.className = "station-copy";
+        const name = document.createElement("span");
+        name.className = "station-name";
+        name.textContent = "Full route to workplace";
+        const service = document.createElement("span");
+        service.className = "station-service";
+        service.textContent = "Home to workplace - independent route";
+        const comparison = document.createElement("span");
+        comparison.className = "station-comparison";
+        comparison.textContent =
+          `TfL ${tfl.cycle_minutes} min / `
+          + `${tfl.cycle_distance_km.toFixed(2)} km`;
+        copy.append(name, service, comparison);
+
+        const duration = document.createElement("span");
+        duration.className = "station-duration";
+        const minutes = document.createElement("span");
+        minutes.className = "station-minutes";
+        minutes.textContent = formatMinutes(
+          independent.cycle_minutes_exact,
+        );
+        const distance = document.createElement("span");
+        distance.className = "station-distance";
+        distance.textContent =
+          `${independent.cycle_distance_km.toFixed(2)} km`;
+        duration.append(minutes, distance);
+
+        row.append(symbol, copy, duration);
+        row.addEventListener("click", focusFullCommute);
+        return row;
+      };
+
+      const createStationRow = (feature) => {
+        const properties = feature.properties;
+        const row = document.createElement("button");
+        row.type = "button";
+        row.className = "station-row";
+        row.classList.toggle(
+          "expansion-row",
+          properties.expansion_scope
+            !== "original-direct-circle",
+        );
+        row.dataset.stationId = properties.station_id;
+        row.classList.toggle(
+          "selected",
+          properties.station_id === state.selectedStationId,
+        );
+        row.style.setProperty(
+          "--station-color",
+          durationColor(properties.cycle_minutes_exact),
+        );
+        row.setAttribute(
+          "aria-label",
+          `${properties.name}, ${formatMinutes(properties.cycle_minutes_exact)} cycling`,
+        );
+
+        const rank = document.createElement("span");
+        rank.className = "rank";
+        rank.textContent = properties.rank;
+
+        const copy = document.createElement("span");
+        copy.className = "station-copy";
+        const name = document.createElement("span");
+        name.className = "station-name";
+        name.textContent = properties.name;
+        const service = document.createElement("span");
+        service.className = "station-service";
+        service.textContent = properties.transport_summary;
+        const comparison = document.createElement("span");
+        comparison.className = "station-comparison";
+        comparison.textContent = properties.tfl_comparison_available
+          ? `TfL ${properties.tfl_cycle_minutes} min / ${properties.tfl_cycle_distance_km.toFixed(2)} km`
+          : `${properties.minimal_interchanges} change - ${properties.mode_groups.join(", ")}`;
+        copy.append(name, service, comparison);
+
+        const duration = document.createElement("span");
+        duration.className = "station-duration";
+        const minutes = document.createElement("span");
+        minutes.className = "station-minutes";
+        minutes.textContent = formatMinutes(properties.cycle_minutes_exact);
+        const distance = document.createElement("span");
+        distance.className = "station-distance";
+        distance.textContent = `${properties.cycle_distance_km.toFixed(2)} km`;
+        duration.append(minutes, distance);
+
+        row.append(rank, copy, duration);
+        row.addEventListener("click", () =>
+          selectStation(properties.station_id)
+        );
+        return row;
+      };
+
+      const syncRouteLayer = (
+        visibleCandidates = candidates.filter(featureMatches),
+      ) => {
+        routeLayer.clearLayers();
+        visibleCandidates.forEach((feature) => {
+          const stationId = feature.properties.station_id;
+          const route = cycleRoutes.get(stationId);
+          const selected = stationId === state.selectedStationId;
+          route.setStyle({
+            color: durationColor(feature.properties.cycle_minutes_exact),
+            weight: selected ? 4.6 : 2.3,
+            opacity: selected ? 0.96 : 0.45,
+            dashArray:
+              feature.properties.expansion_scope
+                === "original-direct-circle"
+                ? null
+                : "5 4",
+          });
+          if (state.showRoutes || selected) {
+            routeLayer.addLayer(route);
+          }
+          if (selected) route.bringToFront();
+        });
+        if (!map.hasLayer(routeLayer)) routeLayer.addTo(map);
+      };
+
+      const render = () => {
+        const visibleCandidates = candidates.filter(featureMatches);
+        stationLayer.clearLayers();
+        list.replaceChildren();
+        list.append(createFullCommuteRow());
+
+        visibleCandidates.forEach((feature) => {
+          const stationId = feature.properties.station_id;
+          stationLayer.addLayer(stationMarkers.get(stationId));
+          list.append(createStationRow(feature));
+        });
+        syncRouteLayer(visibleCandidates);
+
+        if (visibleCandidates.length === 0) {
+          const empty = document.createElement("div");
+          empty.className = "empty-state";
+          empty.textContent = "No stations match the current filters.";
+          list.append(empty);
+        }
+
+        stationCount.textContent = visibleCandidates.length;
+        shortestTime.textContent =
+          visibleCandidates.length > 0
+            ? formatMinutes(
+                visibleCandidates[0].properties.cycle_minutes_exact,
+              )
+            : "--";
+        rideLimitOutput.textContent = `${state.maxMinutes} min`;
+        visibleRange.textContent =
+          visibleCandidates.length > 0
+            ? `${visibleCandidates[0].properties.cycle_minutes_exact.toFixed(1)}-${state.maxMinutes} min`
+            : `0-${state.maxMinutes} min`;
+
+        if (
+          state.selectedStationId
+          && !visibleCandidates.some(
+            (feature) =>
+              feature.properties.station_id === state.selectedStationId,
+          )
+        ) {
+          state.selectedStationId = null;
+          syncRouteLayer(visibleCandidates);
+          map.closePopup();
+        }
+        resetMarkerStyles();
+      };
+
+      rideLimit.addEventListener("input", (event) => {
+        state.maxMinutes = Number(event.target.value);
+        render();
+      });
+
+      document
+        .querySelectorAll(".destination-toggle")
+        .forEach((checkbox) => {
+          checkbox.addEventListener("change", (event) => {
+            if (event.target.checked) {
+              state.destinations.add(event.target.value);
+            } else {
+              state.destinations.delete(event.target.value);
+            }
+            render();
+          });
+        });
+
+      document
+        .querySelector("#toggle-circles")
+        .addEventListener("change", (event) => {
+          if (event.target.checked) circleLayer.addTo(map);
+          else circleLayer.removeFrom(map);
+        });
+
+      document
+        .querySelector("#toggle-routes")
+        .addEventListener("change", (event) => {
+          state.showRoutes = event.target.checked;
+          render();
+        });
+
+      document
+        .querySelector("#toggle-full-commute")
+        .addEventListener("change", (event) => {
+          if (event.target.checked) fullCommuteLayer.addTo(map);
+          else {
+            fullCommuteLayer.removeFrom(map);
+            state.selectedFullCommute = false;
+            const row = document.querySelector(
+              '[data-route-id="full-commute"]',
+            );
+            if (row) row.classList.remove("selected");
+          }
+        });
+
+      document
+        .querySelector("#toggle-custom-house")
+        .addEventListener("change", (event) => {
+          if (event.target.checked) customHouseAuditLayer.addTo(map);
+          else customHouseAuditLayer.removeFrom(map);
+        });
+
+      const legend = L.control({ position: "bottomright" });
+      legend.onAdd = () => {
+        const container = L.DomUtil.create("div", "map-legend");
+        [
+          ["#23887d", "0-25 min", "dot"],
+          ["#277da1", "26-55 min", "dot"],
+          ["#d7772e", "56-70 min", "dot"],
+          ["#c43f55", "71+ min", "dot"],
+          ["#9f3151", "Full commute", "line"],
+          ["#655b4d", "TfL comparison", "line"],
+        ].forEach(([color, label, type]) => {
+          const row = document.createElement("div");
+          row.className = "legend-row";
+          const swatch = document.createElement("span");
+          swatch.className =
+            `legend-swatch${type === "line" ? " legend-line" : ""}`;
+          swatch.style.background = color;
+          const text = document.createElement("span");
+          text.textContent = label;
+          row.append(swatch, text);
+          container.append(row);
+        });
+        return container;
+      };
+      legend.addTo(map);
+
+      const allBounds = L.featureGroup([
+        pointLayer,
+        circleLayer,
+        ...stationMarkers.values(),
+      ]).getBounds();
+      const fitMap = () => {
+        map.invalidateSize();
+        map.fitBounds(allBounds.pad(0.04), { animate: false });
+      };
+
+      render();
+      fitMap();
+      const mapResizeObserver = new ResizeObserver(fitMap);
+      mapResizeObserver.observe(document.querySelector("#map"));
+      window.addEventListener("load", () => {
+        window.requestAnimationFrame(fitMap);
+        window.setTimeout(fitMap, 250);
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,117 @@
+{
+  "tested_on": "2026-08-30",
+  "browser": "Mozilla Firefox 154.0",
+  "url": "http://127.0.0.1:8765/map.html",
+  "desktop": {
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "screenshot": "validation-firefox-desktop.png",
+    "sha256": "5b8e8e8db307f1a78bd4a483a75702ea9cb9a669094279a48bf4da99d62ca2f7",
+    "dom": {
+      "station_rows": 52,
+      "expansion_rows": 19,
+      "first_station_id": "HUBWWA",
+      "first_station": "Woolwich Arsenal",
+      "horizontal_overflow": false,
+      "remote_runtime_requests": 0
+    },
+    "map_crop": {
+      "geometry": "1070x840+370+60",
+      "mean": 0.885193,
+      "entropy": 0.418803,
+      "colors": 25479,
+      "nonblank": true
+    }
+  },
+  "mobile": {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "screenshot": "validation-firefox-mobile.png",
+    "sha256": "bab5bba80508d2c449b723f89790b62fef689c706b92cf23808d90d592664f7a",
+    "dom": {
+      "station_rows": 52,
+      "expansion_rows": 19,
+      "first_station_id": "HUBWWA",
+      "first_station": "Woolwich Arsenal",
+      "horizontal_overflow": false,
+      "remote_runtime_requests": 0
+    },
+    "map_crop": {
+      "geometry": "390x439+0+104",
+      "mean": 0.837107,
+      "entropy": 0.647736,
+      "colors": 18702,
+      "nonblank": true
+    }
+  },
+  "selected_route": {
+    "station_id": "HUBWWA",
+    "station": "Woolwich Arsenal",
+    "source_name": "OpenStreetMap.de bicycle router",
+    "transport_summary": "DLR to Stratford, then Elizabeth line to Liverpool Street",
+    "all_station_routes_toggle": false,
+    "popup_links": {
+      "source_route": "https://www.openstreetmap.org/directions?engine=fossgis_osrm_bike&route=51.465997%2C0.090441%3B51.490009%2C0.069127",
+      "google_route": "https://www.google.com/maps/dir/?api=1&origin=51.465997%2C0.090441&destination=51.490009%2C0.069127&travelmode=bicycling",
+      "apple_route": "https://maps.apple.com/?saddr=51.465997%2C0.090441&daddr=51.490009%2C0.069127"
+    },
+    "desktop": {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "screenshot": "validation-firefox-desktop-selected-route.png",
+      "sha256": "f6b0b36861e38b09be8c9c1459668f40c74a9f04f5c864a5b6b2d7f3c26ecf09",
+      "popup_visible": true,
+      "pixel_difference_from_default": 584308,
+      "normalized_rmse_from_default": 0.123763,
+      "map_crop": {
+        "geometry": "1070x840+370+60",
+        "mean": 0.889305,
+        "entropy": 0.366639,
+        "colors": 11333,
+        "nonblank": true
+      }
+    },
+    "mobile": {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "screenshot": "validation-firefox-mobile-selected-route.png",
+      "sha256": "74f944c5eefa1ef6cb39ee41fedb83e300cffc1429340b3d68fa26a66f8a223e",
+      "popup_visible": true,
+      "pixel_difference_from_default": 147434,
+      "normalized_rmse_from_default": 0.207563,
+      "map_crop": {
+        "geometry": "390x439+0+104",
+        "mean": 0.893606,
+        "entropy": 0.494976,
+        "colors": 7549,
+        "nonblank": true
+      }
+    }
+  },
+  "visual_assertions": {
+    "local_basemap_visible": true,
+    "basemap_has_real_map_detail": true,
+    "no_error_or_api_key_watermark": true,
+    "station_markers_visible": true,
+    "circles_visible": true,
+    "full_commute_routes_visible": true,
+    "full_route_benchmark_visible_and_unclipped": true,
+    "selected_route_visible_with_all_station_routes_off": true,
+    "selected_route_popup_has_all_three_route_links": true,
+    "desktop_controls_and_list_fit": true,
+    "mobile_controls_map_and_list_fit": true,
+    "mobile_values_not_horizontally_clipped": true,
+    "station_row_count_is_52": true,
+    "expansion_row_count_is_19": true,
+    "no_remote_runtime_requests": true
+  },
+  "passed": true
+}
