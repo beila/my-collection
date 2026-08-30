@@ -4803,6 +4803,14 @@
           "post_id": "4228284307316394",
           "status": "complete"
         },
+        "https://www.facebook.com/monan.doll/posts/pfbid021bgXS4QGhpLG2T1wGPM3PeA6NN2p6A9VpsyPnjo34Y4tPjoep3tiM5YhwobQdKvFl": {
+          "completed_at": "2026-08-29T11:57:03+00:00",
+          "discovered_at": "2026-08-30T09:37:36+00:00",
+          "last_error": null,
+          "not_before_timestamp": null,
+          "post_id": "4228959633915528",
+          "status": "complete"
+        },
         "https://www.facebook.com/monan.doll/posts/pfbid02BLjP9YeHXo2Y1g8JSoTvSXnSu6asU4AqGM23KQQep5YADjLYTWAKLJtiYYpxEXsKl": {
           "completed_at": "2026-08-23T13:34:20+00:00",
           "discovered_at": "2026-08-23T13:24:04+00:00",
@@ -5550,7 +5558,7 @@
       },
       "initial_cutoff_timestamp": 1784813044,
       "initialized_at": "2026-08-23T13:24:04+00:00",
-      "last_scan_timestamp": 1788075717,
+      "last_scan_timestamp": 1788082636,
       "name": "monan.doll"
     },
     "https://www.facebook.com/nunLeeFanpage": {
@@ -5951,5 +5959,5 @@
     }
   },
   "schema_version": 1,
-  "updated_at": "2026-08-30T09:37:34+00:00"
+  "updated_at": "2026-08-30T09:37:47+00:00"
 }
