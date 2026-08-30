@@ -4227,6 +4227,14 @@
           "post_id": "10165546121585903",
           "status": "complete"
         },
+        "https://www.facebook.com/joyce.park1/posts/pfbid02Ef47BZVJwvCFBeL1WaemWABBkvwjXG78VosXXfbvsmozMEaTJ63QTGHwNoLQRL64l": {
+          "completed_at": "2026-08-29T10:18:00+00:00",
+          "discovered_at": "2026-08-30T07:36:49+00:00",
+          "last_error": null,
+          "not_before_timestamp": null,
+          "post_id": "10165605447175903",
+          "status": "complete"
+        },
         "https://www.facebook.com/joyce.park1/posts/pfbid02Gfo73ruNygjLQwQ58wAKgxbHQfEgHevynW2ZEZKW6Jp8dhpit23t15MPbpjwnYY3l": {
           "completed_at": "2026-08-23T13:36:23+00:00",
           "discovered_at": "2026-08-23T13:24:16+00:00",
@@ -4265,6 +4273,14 @@
           "last_error": null,
           "not_before_timestamp": 1784813056,
           "post_id": "10165464004015903",
+          "status": "complete"
+        },
+        "https://www.facebook.com/joyce.park1/posts/pfbid02K4w76QqG7crnZKAZfe28dgHP83KdnhauwNWFuWqyKBC7eqvfpwZcf6fjTiz6zbUxl": {
+          "completed_at": "2026-08-28T00:30:48+00:00",
+          "discovered_at": "2026-08-30T07:36:49+00:00",
+          "last_error": null,
+          "not_before_timestamp": null,
+          "post_id": "10165596781290903",
           "status": "complete"
         },
         "https://www.facebook.com/joyce.park1/posts/pfbid02KwAokQNVKodxCNM2j5dPeNyu8bPvmQHpU4GmVVjoyqiizdQ8NmYVECv9wNiDwidXl": {
@@ -4329,6 +4345,14 @@
           "last_error": null,
           "not_before_timestamp": 1784813056,
           "post_id": "10165496855725903",
+          "status": "complete"
+        },
+        "https://www.facebook.com/joyce.park1/posts/pfbid02XUC4FBWxMeUtMNmXgGxE11HEjw8XsMXgKy7tBQcp6cVu7a73gNXpLxZoMn6j5oPSl": {
+          "completed_at": "2026-08-27T15:37:34+00:00",
+          "discovered_at": "2026-08-30T07:36:49+00:00",
+          "last_error": null,
+          "not_before_timestamp": null,
+          "post_id": "10165597613445903",
           "status": "complete"
         },
         "https://www.facebook.com/joyce.park1/posts/pfbid02XeM4YKnhBM2pAWCH5wRNczMHikDrSpo9NCze2u8r6jsqGtGvZuLtUyTUAZw8f18bl": {
@@ -4758,7 +4782,7 @@
       },
       "initial_cutoff_timestamp": 1784813056,
       "initialized_at": "2026-08-23T13:24:16+00:00",
-      "last_scan_timestamp": 1788044167,
+      "last_scan_timestamp": 1788075394,
       "name": "Joyce Park"
     },
     "https://www.facebook.com/monan.doll": {
@@ -5919,5 +5943,5 @@
     }
   },
   "schema_version": 1,
-  "updated_at": "2026-08-30T07:26:13+00:00"
+  "updated_at": "2026-08-30T07:37:34+00:00"
 }
