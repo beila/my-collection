@@ -1,13 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="stephen-diehl-content-hash" content="c4cbfdfb0083331a62af8e67a20dddbf2116917fca73f2f221349bf659205f21">
-  <meta name="stephen-diehl-article-format" content="10">
-  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/python_cuda.html">
-  <title>Linking CUDA Kernels into Python</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="c4cbfdfb0083331a62af8e67a20dddbf2116917fca73f2f221349bf659205f21" name="stephen-diehl-content-hash"/>
+<meta content="14" name="stephen-diehl-article-format"/>
+<link href="https://beila.github.io/my-collection/stephen-diehl/python_cuda.html" rel="canonical"/>
+<title>Linking CUDA Kernels into Python</title>
+<style>
     :root { color-scheme: dark; }
     body { margin: 0; background: #171717; color: #f1f1f1;
             font: 18px/1.7 Georgia, serif; }
@@ -26,14 +27,18 @@
     .published { color: #b8b8b8; }
     .original-link { border-top: 1px solid #555; margin-top: 2rem;
                       padding-top: 1rem; }
+img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
+                      vertical-align: middle; }
+    img.math-display { display: block; height: auto; margin: 1.25rem auto;
+                       max-width: 100%; }
   </style>
 </head>
 <body>
-  <article>
-    <h1>Linking CUDA Kernels into Python</h1>
-    <p class="published">Published: Fri, 18 Nov 2022 00:00:00 +0000</p>
-    <section class="instapaper_body">
-      <p class="original-link"><a href="https://www.stephendiehl.com/posts/python_cuda/">Read the original article on Stephen Diehl's website</a></p>
+<article>
+<h1>Linking CUDA Kernels into Python</h1>
+<p class="published">Published: Fri, 18 Nov 2022 00:00:00 +0000</p>
+<section class="instapaper_body">
+<p class="original-link"><a href="https://www.stephendiehl.com/posts/python_cuda/">Read the original article on Stephen Diehl's website</a></p>
 <p>Gaussian blur is a common image processing operation that smooths images using a Gaussian kernel. While it's straightforward to implement on CPU, it can be quite slow for large images. Let's explore how to implement this efficiently using CUDA and then connect it to Python for easy use.</p>
 <p>First, install the CUDA toolkit which includes the NVIDIA CUDA compiler (nvcc):</p>
 <pre><code># Add NVIDIA package repositories
@@ -92,8 +97,8 @@ print(f"CUDA device name: {cuda.Device(0).name()}")
 }
 </code></pre>
 <p>Save this code in a file called <code>gaussian_blur.cu</code>.</p>
-<p>The kernel works by having each CUDA thread process one pixel in the output image. For each pixel, we calculate a weighted average of the surrounding pixels using a Gaussian distribution. The size of the kernel is determined by sigma - we use a radius of \(3\sigma\) to capture most of the Gaussian's significant values.</p>
-<p>Each thread first calculates its position in the image using the block and thread indices. We then iterate over a square neighborhood around the pixel, computing Gaussian weights based on the distance from the center pixel. The weights follow the 2D Gaussian function \(\exp(-\frac{r^2}{2\sigma^2})\), where \(r)) is the distance from the center.</p>
+<p>The kernel works by having each CUDA thread process one pixel in the output image. For each pixel, we calculate a weighted average of the surrounding pixels using a Gaussian distribution. The size of the kernel is determined by sigma - we use a radius of <img alt="Equation: 3 sigma" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/fa07e12ecf2578e51dbe3971086cbd78034b53fa8ceebdcd0319e506dd9fa9da.png" width="27"/> to capture most of the Gaussian's significant values.</p>
+<p>Each thread first calculates its position in the image using the block and thread indices. We then iterate over a square neighborhood around the pixel, computing Gaussian weights based on the distance from the center pixel. The weights follow the 2D Gaussian function <img alt="Equation: exp left-parenthesis minus StartFraction r squared Over 2 sigma squared EndFraction right-parenthesis" class="math-inline" height="44" src="https://beila.github.io/my-collection/math-images/0a394cbec6301b7a7dc4d7cf84358333c01f2b33243c660641ef96ea2e7520ca.png" width="100"/>, where \(r)) is the distance from the center.</p>
 <p>To handle image boundaries correctly, we clamp the pixel coordinates using min and max operations. This effectively extends the edge pixels when we would otherwise read outside the image bounds. While the CUDA implementation is efficient, it's more convenient to use it from Python. We can use PyCUDA to compile and run our CUDA kernel from Python code:</p>
 <pre><code>import numpy as np
 import pycuda.autoinit
@@ -167,7 +172,7 @@ plt.title('Blurred')
 plt.show()
 </code></pre>
 <p>This implementation provides a significant speedup over CPU-based implementations, especially for larger images. The parallel nature of CUDA allows us to process many pixels simultaneously, and the efficient memory access patterns in the kernel help maintain good performance. However, there is still overhead from copying memory between the CPU and GPU - the input image must be transferred to GPU memory before processing, and the result must be copied back to CPU memory afterwards. For optimal performance in a real application, you'd want to minimize these memory transfers by keeping data on the GPU as much as possible when doing multiple operations.</p>
-    </section>
-  </article>
+</section>
+</article>
 </body>
 </html>

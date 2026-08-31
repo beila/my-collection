@@ -1,13 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="stephen-diehl-content-hash" content="a801cd00f07d5c70533a48f34ddff418bcc15b0838afff78af61046786ab5f10">
-  <meta name="stephen-diehl-article-format" content="10">
-  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/portfolio_rebalance.html">
-  <title>Portfolio Rebalancing</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="a801cd00f07d5c70533a48f34ddff418bcc15b0838afff78af61046786ab5f10" name="stephen-diehl-content-hash"/>
+<meta content="14" name="stephen-diehl-article-format"/>
+<link href="https://beila.github.io/my-collection/stephen-diehl/portfolio_rebalance.html" rel="canonical"/>
+<title>Portfolio Rebalancing</title>
+<style>
     :root { color-scheme: dark; }
     body { margin: 0; background: #171717; color: #f1f1f1;
             font: 18px/1.7 Georgia, serif; }
@@ -26,14 +27,18 @@
     .published { color: #b8b8b8; }
     .original-link { border-top: 1px solid #555; margin-top: 2rem;
                       padding-top: 1rem; }
+img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
+                      vertical-align: middle; }
+    img.math-display { display: block; height: auto; margin: 1.25rem auto;
+                       max-width: 100%; }
   </style>
 </head>
 <body>
-  <article>
-    <h1>Portfolio Rebalancing</h1>
-    <p class="published">Published: Mon, 05 Feb 2024 00:00:00 +0000</p>
-    <section class="instapaper_body">
-      <p class="original-link"><a href="https://www.stephendiehl.com/posts/portfolio_rebalance/">Read the original article on Stephen Diehl's website</a></p>
+<article>
+<h1>Portfolio Rebalancing</h1>
+<p class="published">Published: Mon, 05 Feb 2024 00:00:00 +0000</p>
+<section class="instapaper_body">
+<p class="original-link"><a href="https://www.stephendiehl.com/posts/portfolio_rebalance/">Read the original article on Stephen Diehl's website</a></p>
 <p>Continuing on our topic of portfolio theory, we've already discussed how to optimize a portfolio given a set of constraints. Now we'll discuss how to use cvxopt to rebalance a portfolio to maintain the desired asset allocation.</p>
 <p>For example we're going to start with a simple portfolio that exists in a current portfolio and we'll rebalance it to a target portfolio. While the optimization techniques we've discussed in the last post determine optimal portfolio weights, maintaining these weights over time requires careful consideration of transaction costs and market impact. We will need to change the portfolio weights over time to either reflect a new thesis or in response to changing market conditions.</p>
 <p>The rebalancing problem can be formulated as a quadratic programming problem that balances three competing objectives:</p>
@@ -43,20 +48,14 @@
 <li>Maintaining risk-return characteristics</li>
 </ol>
 <p>The mathematical formulation looks like this:</p>
-<p>$$<br/>
-\begin{array}{ll}<br/>
-\text{minimize} &amp; \lambda_1(w - w_t)^T\Sigma(w - w_t) + \lambda_2|w - w_c|_2^2 + \lambda_3|w - w_c|_1 \\<br/>
-\text{subject to} &amp; \mathbf{1}^T w = 1 \\<br/>
-&amp; w_i \geq 0, \quad i = 1,\ldots,n<br/>
-\end{array}<br/>
-$$</p>
+<p><img alt="Equation: StartLayout 1st Row 1st Column minimize 2nd Column lamda 1 left-parenthesis w minus w Subscript t Baseline right-parenthesis Superscript upper T Baseline normal upper Sigma left-parenthesis w minus w Subscript t Baseline right-parenthesis plus lamda 2 StartAbsoluteValue w minus w Subscript c Baseline EndAbsoluteValue Subscript 2 Superscript 2 plus lamda 3 StartAbsoluteValue w minus w Subscript c Baseline EndAbsoluteValue Subscript 1 2nd Row 1st Column subject to 2nd Column bold 1 Superscript upper T Baseline w equals 1 3rd Row 1st Column Blank 2nd Column w Subscript i Baseline greater-than-or-equal-to 0 comma i equals 1 comma ellipsis comma n EndLayout" class="math-display" height="70" src="https://beila.github.io/my-collection/math-images/4867c55524d94f6211f3e51910166dd2b65ab21f5377e2a5d76b390db384580b.png" width="400"/></p>
 <p>Where:</p>
 <ul>
-<li>\(w_t\) are the target weights from our optimization</li>
-<li>\(w_c\) are the current weights</li>
-<li>\(\lambda_1\) controls the risk penalty</li>
-<li>\(\lambda_2\) controls the L2 transaction cost (quadratic cost)</li>
-<li>\(\lambda_3\) controls the L1 transaction cost (linear cost)</li>
+<li><img alt="Equation: w Subscript t" class="math-inline" height="23" src="https://beila.github.io/my-collection/math-images/86068e9bb9322197791151eb73a8e9aa2b2e86c3629af2997ee2b6da888165d8.png" width="27"/> are the target weights from our optimization</li>
+<li><img alt="Equation: w Subscript c" class="math-inline" height="23" src="https://beila.github.io/my-collection/math-images/325293c73427b6e066b87c8b004f4b166ed6cf87b26b3a2bb82dd65fef9530d2.png" width="28"/> are the current weights</li>
+<li><img alt="Equation: lamda 1" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/69bc919d9fdac7b5071c8bd4442cf59f97233be7dbb52fd13346fdf68fb57669.png" width="26"/> controls the risk penalty</li>
+<li><img alt="Equation: lamda 2" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/594ec9041110fcdb97ae9451dac9abcde41f37e019c4d8bdafab41adae2c0c86.png" width="26"/> controls the L2 transaction cost (quadratic cost)</li>
+<li><img alt="Equation: lamda 3" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/babeb30705a5bd1f560b56aa3d1307807d95b6a2a730ed0a3cf40689ade06079.png" width="26"/> controls the L1 transaction cost (linear cost)</li>
 </ul>
 <p>Here's a practical implementation:</p>
 <pre><code>import numpy as np
@@ -324,7 +323,7 @@ print(sector_exposures)
 </code></pre>
 <p>Ok this is a lot more realistic. We can see that the solution is respecting the sector constraints and the transaction costs are being minimized. Quite often the expected return of the portfolio is lower than the target return because of the additional constraints, especially with large position sizes.</p>
 <p>A more complicated model would also take into account the slippage that occurs when making large trades and the potential impact on the market price of the stocks. This isn't directly a constraint of the optimization problem, but it is something we can use other models to help mitigate.</p>
-    </section>
-  </article>
+</section>
+</article>
 </body>
 </html>

@@ -1,13 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="stephen-diehl-content-hash" content="f0a84a546b76d8cd678749e9457db8be92b55129be41f285012d3b5702e724b3">
-  <meta name="stephen-diehl-article-format" content="10">
-  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/tensor_canonicalization_rust.html">
-  <title>Fast Tensor Canonicalization in Rust</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="f0a84a546b76d8cd678749e9457db8be92b55129be41f285012d3b5702e724b3" name="stephen-diehl-content-hash"/>
+<meta content="14" name="stephen-diehl-article-format"/>
+<link href="https://beila.github.io/my-collection/stephen-diehl/tensor_canonicalization_rust.html" rel="canonical"/>
+<title>Fast Tensor Canonicalization in Rust</title>
+<style>
     :root { color-scheme: dark; }
     body { margin: 0; background: #171717; color: #f1f1f1;
             font: 18px/1.7 Georgia, serif; }
@@ -26,47 +27,41 @@
     .published { color: #b8b8b8; }
     .original-link { border-top: 1px solid #555; margin-top: 2rem;
                       padding-top: 1rem; }
+img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
+                      vertical-align: middle; }
+    img.math-display { display: block; height: auto; margin: 1.25rem auto;
+                       max-width: 100%; }
   </style>
 </head>
 <body>
-  <article>
-    <h1>Fast Tensor Canonicalization in Rust</h1>
-    <p class="published">Published: Sun, 29 Jun 2025 01:00:00 +0000</p>
-    <section class="instapaper_body">
-      <p class="original-link"><a href="https://www.stephendiehl.com/posts/tensor_canonicalization_rust/">Read the original article on Stephen Diehl's website</a></p>
+<article>
+<h1>Fast Tensor Canonicalization in Rust</h1>
+<p class="published">Published: Sun, 29 Jun 2025 01:00:00 +0000</p>
+<section class="instapaper_body">
+<p class="original-link"><a href="https://www.stephendiehl.com/posts/tensor_canonicalization_rust/">Read the original article on Stephen Diehl's website</a></p>
 <p>I recently had a need to do fast tensor canonicalization, but the library ecosystem for this was lacking. In physics and differential geometry, manipulating tensors and especially bringing them into canonical form under their index symmetries is a recurring and computationally intensive task. Every undergrad who takes their first relativity class understands the tensor gymnastics required can often be daunting, and in real-life problems they get even more gnarly.</p>
 <ul>
 <li><a href="https://github.com/sdiehl/butler-portugal">Github Source Code</a></li>
 <li><code>git clone https://github.com/sdiehl/butler-portugal.git</code></li>
 </ul>
 <p>While existing systems like Mathematica offer some support, and the Xperm.c library provides a high-performance C implementation, there was no, let's just say "modern" and open source solution. So I built a new <a href="https://docs.rs/butler-portugal/latest/butler_portugal/"><code>butler-portugal</code> library</a>, a pure Rust implementation of the Butler-Portugal algorithm for tensor canonicalization.</p>
-<p>The canonical algorithm for tensor canonicalization (har har) is the little known <strong>Butler-Portugal algorithm</strong>, which is a method for bringing tensors into a unique, minimal form under their symmetries. The algorithm approaches tensor canonicalization by recasting the problem in the language of permutation group theory, specifically as the search for a minimal representative in a double coset of the symmetric group. Given a tensor with a set of slot symmetries \( S \) (permutations of indices that leave the tensor invariant up to sign) and dummy symmetries \( D \) (arising from contracted or repeated indices), the algorithm considers the action of these groups on the set of all possible index arrangements. The set of all tensors equivalent under these symmetries forms the double coset \( DgS \), where \( g \) is the initial arrangement of indices. The canonicalization task is to find the lexicographically minimal element in this double coset, which serves as the unique canonical form. This is achieved by systematically generating the orbit of \( g \) under the action of \( S \), then, for each representative, applying the dummy symmetries \( D \) to further minimize the arrangement. To do this we use the <strong>Schreier-Sims algorithm</strong> to efficiently enumerate the relevant group elements and orbits, avoiding combinatorial explosion. By using the structure of the double coset and the efficient traversal of orbits, the Butler-Portugal algorithm ensures that all symmetry relations are respected and that the resulting canonical form is both unique and minimal, even for tensors with intricate and overlapping symmetry properties.</p>
+<p>The canonical algorithm for tensor canonicalization (har har) is the little known <strong>Butler-Portugal algorithm</strong>, which is a method for bringing tensors into a unique, minimal form under their symmetries. The algorithm approaches tensor canonicalization by recasting the problem in the language of permutation group theory, specifically as the search for a minimal representative in a double coset of the symmetric group. Given a tensor with a set of slot symmetries <img alt="Equation: upper S" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/77131b2f261cbaca160b05f48967f70ad07b36f1fa2d600fc03c40e64d27ddff.png" width="18"/> (permutations of indices that leave the tensor invariant up to sign) and dummy symmetries <img alt="Equation: upper D" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/f2dc4f25ef5c73f5823d393a623edb439237ec8254788291cc8a3f5dfae8c50b.png" width="22"/> (arising from contracted or repeated indices), the algorithm considers the action of these groups on the set of all possible index arrangements. The set of all tensors equivalent under these symmetries forms the double coset <img alt="Equation: upper D g upper S" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/435cfc2dd145a04f62891f4264080bd565e8a052f4a0d9155147b8b6269b4f7c.png" width="46"/>, where <img alt="Equation: g" class="math-inline" height="23" src="https://beila.github.io/my-collection/math-images/1982476abda501b93fcd6edef063f67e999704c9394fac63b77d21d0c23dce32.png" width="15"/> is the initial arrangement of indices. The canonicalization task is to find the lexicographically minimal element in this double coset, which serves as the unique canonical form. This is achieved by systematically generating the orbit of <img alt="Equation: g" class="math-inline" height="23" src="https://beila.github.io/my-collection/math-images/1982476abda501b93fcd6edef063f67e999704c9394fac63b77d21d0c23dce32.png" width="15"/> under the action of <img alt="Equation: upper S" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/77131b2f261cbaca160b05f48967f70ad07b36f1fa2d600fc03c40e64d27ddff.png" width="18"/>, then, for each representative, applying the dummy symmetries <img alt="Equation: upper D" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/f2dc4f25ef5c73f5823d393a623edb439237ec8254788291cc8a3f5dfae8c50b.png" width="22"/> to further minimize the arrangement. To do this we use the <strong>Schreier-Sims algorithm</strong> to efficiently enumerate the relevant group elements and orbits, avoiding combinatorial explosion. By using the structure of the double coset and the efficient traversal of orbits, the Butler-Portugal algorithm ensures that all symmetry relations are respected and that the resulting canonical form is both unique and minimal, even for tensors with intricate and overlapping symmetry properties.</p>
 <p>Let’s step back and consider what symbolic tensor manipulation actually means. Unlike in machine learning, in physics tensors aren’t just multidimensional arrays; they’re objects with named indices, each carrying a variance (covariant and contravariant, or downstairs and upstairs respectively), and they transform in specific ways under coordinate changes. Their symmetries, like being symmetric or antisymmetric under index exchange or more elaborate patterns as in the Riemann tensor, are essential algebraic properties that encode physical laws.</p>
 <p>Take general relativity as a motivating example. The Einstein field equations,<br/>
 $$<br/>
 G_{\mu\nu} = 8\pi T_{\mu\nu}<br/>
 $$</p>
-<p>relate the Einstein tensor \( G_{\mu\nu} \), which encodes spacetime curvature, to the stress-energy tensor \( T_{\mu\nu} \). Both are symmetric rank-2 tensors meaning we can permute their indices freely in our computations:</p>
-<p>$$<br/>
-G_{\mu\nu} = G_{\nu\mu}, \qquad T_{\mu\nu} = T_{\nu\mu}<br/>
-$$</p>
-<p>When working with these objects symbolically, you want to be able to manipulate expressions, contract indices, and simplify results, all while respecting these symmetries. For instance, the Riemann curvature tensor \( R_{\mu\nu\rho\sigma} \) is a rank-4 object with a rich set of symmetries:</p>
-<p>$$<br/>
-R_{\mu\nu\rho\sigma} = -R_{\nu\mu\rho\sigma} = -R_{\mu\nu\sigma\rho} = R_{\rho\sigma\mu\nu}<br/>
-$$</p>
+<p>relate the Einstein tensor <img alt="Equation: upper G Subscript mu nu" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/348a21456acb333a0ddf51a890373afc372513f5297ab0ed48ba8ea336df92fc.png" width="40"/>, which encodes spacetime curvature, to the stress-energy tensor <img alt="Equation: upper T Subscript mu nu" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/f10347328fd99e2ba5c9113f94be5bdddd5515242c375538ca6e5c3db1816595.png" width="36"/>. Both are symmetric rank-2 tensors meaning we can permute their indices freely in our computations:</p>
+<p><img alt="Equation: upper G Subscript mu nu Baseline equals upper G Subscript nu mu Baseline comma upper T Subscript mu nu Baseline equals upper T Subscript nu mu Baseline" class="math-display" height="26" src="https://beila.github.io/my-collection/math-images/93bb0bfdf5769d1cdb41d9ceb3b9bcf93a5bde6cde91a08a0c6d4bf664e72573.png" width="168"/></p>
+<p>When working with these objects symbolically, you want to be able to manipulate expressions, contract indices, and simplify results, all while respecting these symmetries. For instance, the Riemann curvature tensor <img alt="Equation: upper R Subscript mu nu rho sigma" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/1c688757bbc0ed0f087e0b1c51b2e39b0af65f4438d59e5a55194828b16c3c95.png" width="56"/> is a rank-4 object with a rich set of symmetries:</p>
+<p><img alt="Equation: upper R Subscript mu nu rho sigma Baseline equals minus upper R Subscript nu mu rho sigma Baseline equals minus upper R Subscript mu nu sigma rho Baseline equals upper R Subscript rho sigma mu nu" class="math-display" height="26" src="https://beila.github.io/my-collection/math-images/ea6fa285d987b82d5936363e8b78ccbe8bb96094b871653d1bab2bc052f2bf0c.png" width="222"/></p>
 <p>and it satisfies the so-called <a href="https://en.wikipedia.org/wiki/Curvature_form#Bianchi_identities">first Bianchi identity</a>,</p>
-<p>$$<br/>
-R_{\mu[\nu\rho\sigma]} = 0<br/>
-$$</p>
+<p><img alt="Equation: upper R Subscript mu left-bracket nu rho sigma right-bracket Baseline equals 0" class="math-display" height="26" src="https://beila.github.io/my-collection/math-images/9ee259c89480fa220ba86f4470ba86d6535386692bf8016c60033d27cb2e6109.png" width="73"/></p>
 <p>where the brackets denote antisymmetrization over the enclosed indices. These symmetry identities are crucial for simplifying calculations and for ensuring that derived quantities, like the Ricci tensor or scalar, have the right properties.</p>
 <p>Contraction is another fundamental operation. It reduces the rank of a tensor by summing over a pair of indices—one upper and one lower:</p>
-<p>$$<br/>
-T^\mu_{\ \mu} = \sum_{\mu} T^\mu_{\ \mu}<br/>
-$$</p>
+<p><img alt="Equation: upper T Subscript mu Superscript mu Baseline equals sigma-summation Underscript mu Endscripts upper T Subscript mu Superscript mu" class="math-display" height="44" src="https://beila.github.io/my-collection/math-images/22291d89db3d7dab760b4114af1d49abc36147b207d439710933400d5d4da1c8.png" width="87"/></p>
 <p>This is how you build invariants, like the Ricci scalar which is a single real number assigned to each point on a Riemannian manifold that measures the degree to which the geometry near that point deviates from flatness:</p>
-<p>$$<br/>
-R = g^{\mu\nu} R_{\mu\nu}<br/>
-$$</p>
+<p><img alt="Equation: upper R equals g Superscript mu nu Baseline upper R Subscript mu nu" class="math-display" height="26" src="https://beila.github.io/my-collection/math-images/c9399c7667ef37abc436cee84d8f3b0d92050261b2c3f0912c6e0d3d8ee720e6.png" width="80"/></p>
 <p>And it’s essential that any symbolic manipulation system handles these operations correctly, respecting all symmetries and producing results in a canonical, unambiguous form. To make this concrete, here’s a minimal Rust example using <code>butler-portugal</code> to canonicalize a symmetric tensor:</p>
 <pre><code>use butler_portugal::{Tensor, TensorIndex, Symmetry, canonicalize};
 
@@ -108,13 +103,13 @@ $$<br/>
 R_{abcd} = R_{cdab}<br/>
 $$</li>
 </ul>
-<p>The core challenge in the algorithm is the efficient enumeration of group elements. Naive approaches quickly become intractable as the number of indices grows, the worst-case behavior remains \( O(n!) \) time complexity. However we can use Schreier-Sims algorithm, a staple of computational group theory, provides a scalable solution by constructing a <a href="https://en.wikipedia.org/wiki/Strong_generating_set"><strong>base and strong generating set</strong></a> (or BSGS for short) for the permutation group generated by the tensor’s symmetries. This allows the algorithm to enumerate group elements without redundancy and with minimal overhead. Alternatively the library also supports projection onto irreducible representations specified by <a href="https://en.wikipedia.org/wiki/Young_tableau">Young tableaux</a>, enabling the decomposition of tensors into symmetry types corresponding to the representations of the symmetric group. I won't explain this here, but it's well-documented elsewhere and I put the lecture note links in the repository</p>
+<p>The core challenge in the algorithm is the efficient enumeration of group elements. Naive approaches quickly become intractable as the number of indices grows, the worst-case behavior remains <img alt="Equation: upper O left-parenthesis n factorial right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/076682c2d5cbcd4ed79ee04d9835ba70175a26258c2d36ed63a06a6e90e03d33.png" width="56"/> time complexity. However we can use Schreier-Sims algorithm, a staple of computational group theory, provides a scalable solution by constructing a <a href="https://en.wikipedia.org/wiki/Strong_generating_set"><strong>base and strong generating set</strong></a> (or BSGS for short) for the permutation group generated by the tensor’s symmetries. This allows the algorithm to enumerate group elements without redundancy and with minimal overhead. Alternatively the library also supports projection onto irreducible representations specified by <a href="https://en.wikipedia.org/wiki/Young_tableau">Young tableaux</a>, enabling the decomposition of tensors into symmetry types corresponding to the representations of the symmetric group. I won't explain this here, but it's well-documented elsewhere and I put the lecture note links in the repository</p>
 <p>My implementation draws inspiration from the <a href="https://xact.es/">Xperm.c library</a>, which is widely regarded as the gold standard for tensor canonicalization in symbolic computation. However, porting the algorithm to Rust was quite a challenge as the C and Mathematica and code is quite dated and not particularly well-documented. So hopefully if you're a practitioner in the field, you can look at my implementation, compare it with the reference and hopefully this makes it easier for some poor future physics grad student who doesn't need to build the same thing again to do their research.</p>
 <p>So that's <code>butler-portugal</code>, which hopefully brings high-performance tensor canonicalization to the Rust ecosystem. Can install it with:</p>
 <pre><code>cargo add butler-portugal
 </code></pre>
 <p>The library is quite efficient, MIT-licensed and hopefully useful in any domain where the manipulation of tensors with complex symmetries is required, and hopefuly useful for at least one other person besides myself!</p>
-    </section>
-  </article>
+</section>
+</article>
 </body>
 </html>

@@ -1,13 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="stephen-diehl-content-hash" content="9fc72df0a851a3a89c735932bbc544b092bd9268072857129fb5f5af4dbbbbf2">
-  <meta name="stephen-diehl-article-format" content="10">
-  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/types_of_types.html">
-  <title>Types of Types: Common → Exotic</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="9fc72df0a851a3a89c735932bbc544b092bd9268072857129fb5f5af4dbbbbf2" name="stephen-diehl-content-hash"/>
+<meta content="14" name="stephen-diehl-article-format"/>
+<link href="https://beila.github.io/my-collection/stephen-diehl/types_of_types.html" rel="canonical"/>
+<title>Types of Types: Common → Exotic</title>
+<style>
     :root { color-scheme: dark; }
     body { margin: 0; background: #171717; color: #f1f1f1;
             font: 18px/1.7 Georgia, serif; }
@@ -26,14 +27,18 @@
     .published { color: #b8b8b8; }
     .original-link { border-top: 1px solid #555; margin-top: 2rem;
                       padding-top: 1rem; }
+img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
+                      vertical-align: middle; }
+    img.math-display { display: block; height: auto; margin: 1.25rem auto;
+                       max-width: 100%; }
   </style>
 </head>
 <body>
-  <article>
-    <h1>Types of Types: Common → Exotic</h1>
-    <p class="published">Published: Wed, 04 Sep 2024 01:00:00 +0000</p>
-    <section class="instapaper_body">
-      <p class="original-link"><a href="https://www.stephendiehl.com/posts/types_of_types/">Read the original article on Stephen Diehl's website</a></p>
+<article>
+<h1>Types of Types: Common → Exotic</h1>
+<p class="published">Published: Wed, 04 Sep 2024 01:00:00 +0000</p>
+<section class="instapaper_body">
+<p class="original-link"><a href="https://www.stephendiehl.com/posts/types_of_types/">Read the original article on Stephen Diehl's website</a></p>
 <p>Programming languages offer various ways to model data through their type systems. Let's explore these concepts using Lean, which has a particularly rich type system supporting four fundamental kinds of types: function types (Pi types), product types, sum types (inductive types), and quotient types. In Lean, mathematical objects exist in a three-level hierarchy:</p>
 <ol>
 <li><strong>Universes</strong> (e.g., <code>Type</code>, <code>Prop</code>)</li>
@@ -188,7 +193,7 @@ def get_proof (n : NonZero) : n.val ≠ 0 := n.property
 <li>Making implicit assumptions explicit</li>
 <li>Strengthening function preconditions</li>
 </ul>
-    </section>
-  </article>
+</section>
+</article>
 </body>
 </html>

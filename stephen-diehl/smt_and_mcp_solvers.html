@@ -1,13 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="stephen-diehl-content-hash" content="db2b1ace732c00b1e3f896e9a7f21a76bd7eab49941c9ca1dbcf5eb712640d5a">
-  <meta name="stephen-diehl-article-format" content="10">
-  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/smt_and_mcp_solvers.html">
-  <title>Interfacing MCP with Combinatorial, Convex, and SMT Solvers</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="db2b1ace732c00b1e3f896e9a7f21a76bd7eab49941c9ca1dbcf5eb712640d5a" name="stephen-diehl-content-hash"/>
+<meta content="14" name="stephen-diehl-article-format"/>
+<link href="https://beila.github.io/my-collection/stephen-diehl/smt_and_mcp_solvers.html" rel="canonical"/>
+<title>Interfacing MCP with Combinatorial, Convex, and SMT Solvers</title>
+<style>
     :root { color-scheme: dark; }
     body { margin: 0; background: #171717; color: #f1f1f1;
             font: 18px/1.7 Georgia, serif; }
@@ -26,14 +27,18 @@
     .published { color: #b8b8b8; }
     .original-link { border-top: 1px solid #555; margin-top: 2rem;
                       padding-top: 1rem; }
+img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
+                      vertical-align: middle; }
+    img.math-display { display: block; height: auto; margin: 1.25rem auto;
+                       max-width: 100%; }
   </style>
 </head>
 <body>
-  <article>
-    <h1>Interfacing MCP with Combinatorial, Convex, and SMT Solvers</h1>
-    <p class="published">Published: Mon, 02 Jun 2025 01:00:00 +0000</p>
-    <section class="instapaper_body">
-      <p class="original-link"><a href="https://www.stephendiehl.com/posts/smt_and_mcp_solvers/">Read the original article on Stephen Diehl's website</a></p>
+<article>
+<h1>Interfacing MCP with Combinatorial, Convex, and SMT Solvers</h1>
+<p class="published">Published: Mon, 02 Jun 2025 01:00:00 +0000</p>
+<section class="instapaper_body">
+<p class="original-link"><a href="https://www.stephendiehl.com/posts/smt_and_mcp_solvers/">Read the original article on Stephen Diehl's website</a></p>
 <p>Lately I've been working on using MCP beyond just using it for <a href="https://www.stephendiehl.com/posts/computer_algebra_mcp/">symbolic algebra manipulations</a>, I've been thinking about how to interface large language models with a suite of dedicated solvers for scientific computing exposed as tools to the model. And particularly for automating workflows in physical engineering disciplines.</p>
 <ul>
 <li><a href="https://github.com/sdiehl/usolver">Github Source Code</a></li>
@@ -117,7 +122,7 @@
 <p class="unordered-list-item">- <strong>Z3</strong> - SMT solver for constraint satisfaction over booleans, integers, reals, and strings</p><p class="unordered-list-item">- <strong>CvxPy</strong> - Framework for convex optimization problems</p><p class="unordered-list-item">- <strong>Or-Tools</strong> - Suite for combinatorial optimization and constraint programming</p><p class="unordered-list-item">- <strong>HiGHS</strong> - LP, MIP, and QP solver</p><p class="unordered-list-item">- <strong>MiniZinc</strong> - Discrete optimization solver</p><p class="unordered-list-item">- <strong>GAP</strong> - Computational group theory solvers</p><p class="unordered-list-item">- <strong>Clingo</strong> - Answer set programming system</p><p class="unordered-list-item">- <strong>Flint</strong> - Number theory computations</p><p class="unordered-list-item">- <strong>TLA+ / Apalache</strong> - Temporal logic solver</p><p class="unordered-list-item">- <strong>Egglog</strong> - Term rewriting and equality saturation engine</p><p class="unordered-list-item">- <strong>SymPy</strong> - Comprehensive computer algebra system for differential equations solvers</p><p class="unordered-list-item">- <strong>Souffle</strong> - Datalog-based declarative logic programming framework</p><p class="unordered-list-item">- <strong>Mathematica</strong> - Risch-based symbolic integration solver and simplification routines</p><p class="unordered-list-item">- <strong>Sage</strong> - Umbrella project for many scientific computing packages</p>
 <p>The implementation of such a unified system would be a very powerful and useful piece of software. It would effectively be a meta-solver: an intelligent system capable of decomposing complex problems, identifying the optimal solver for each component, and orchestrating their collective execution. While developing a theoretically complete meta-solver is a substantial theoretical and practical challenge in it's generality, don't really need to solve the general problem to be incredibily useful.</p>
 <p>This project started as a weekend hobby project, but I believe this is a fascinating area with significant potential. I'm particularly interested in how these techniques could be applied to automation in physical engineering disciplines. If you're working on similar ideas in an open source or commercial context, I'd love to hear about your work, feel <a href="https://www.stephendiehl.com/hire/">free to reach out</a>.</p>
-    </section>
-  </article>
+</section>
+</article>
 </body>
 </html>

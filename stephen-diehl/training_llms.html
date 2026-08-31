@@ -1,13 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="stephen-diehl-content-hash" content="952c54adf7b46d7117d6f433786df5b2c272c3c854494992d5c04b352160d39d">
-  <meta name="stephen-diehl-article-format" content="10">
-  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/training_llms.html">
-  <title>Introduction to Fine-tuning Large Language Models</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="952c54adf7b46d7117d6f433786df5b2c272c3c854494992d5c04b352160d39d" name="stephen-diehl-content-hash"/>
+<meta content="14" name="stephen-diehl-article-format"/>
+<link href="https://beila.github.io/my-collection/stephen-diehl/training_llms.html" rel="canonical"/>
+<title>Introduction to Fine-tuning Large Language Models</title>
+<style>
     :root { color-scheme: dark; }
     body { margin: 0; background: #171717; color: #f1f1f1;
             font: 18px/1.7 Georgia, serif; }
@@ -26,14 +27,18 @@
     .published { color: #b8b8b8; }
     .original-link { border-top: 1px solid #555; margin-top: 2rem;
                       padding-top: 1rem; }
+img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
+                      vertical-align: middle; }
+    img.math-display { display: block; height: auto; margin: 1.25rem auto;
+                       max-width: 100%; }
   </style>
 </head>
 <body>
-  <article>
-    <h1>Introduction to Fine-tuning Large Language Models</h1>
-    <p class="published">Published: Mon, 25 Nov 2024 00:00:00 +0000</p>
-    <section class="instapaper_body">
-      <p class="original-link"><a href="https://www.stephendiehl.com/posts/training_llms/">Read the original article on Stephen Diehl's website</a></p>
+<article>
+<h1>Introduction to Fine-tuning Large Language Models</h1>
+<p class="published">Published: Mon, 25 Nov 2024 00:00:00 +0000</p>
+<section class="instapaper_body">
+<p class="original-link"><a href="https://www.stephendiehl.com/posts/training_llms/">Read the original article on Stephen Diehl's website</a></p>
 <p>I've been wanting to write an introduction on how to fine-tune large language models for a while now because it's such a vast and under-documented area, especially when it comes to the libraries, hyperparameters, and techniques involved. In short, fine-tuning allows us to adapt models for specific downstream tasks, improve performance on domain-specific problems, align model behavior with human preferences, and create specialized variants of base models. This is useful for a wide range of applications both in business and pure research.</p>
 <p><strong>Pre-training, Fine-tuning and Post-training</strong></p>
 <p>This is contrast to <strong>pre-training</strong>, which is the foundational phase in developing a large language model. During pre-training, the model learns general language understanding from massive text corpora. For example, Llama 3 was trained on approximately 15.2 trillion tokens. This process involves initializing random tensors and training them to recognize statistical patterns and relationships between words and concepts.</p>
@@ -1359,13 +1364,11 @@ trainer = SFTTrainer(
 <p><strong>Perplexity</strong></p>
 <p>Perplexity is a one of the most core metrics for evaluating language models that measures how well a model predicts a sample of text. Mathematically, perplexity is defined as the exponential of the average negative log-likelihood of a sequence. In simpler terms, it indicates how "confused" or "perplexed" the model is when predicting the next token in a sequence.</p>
 <p>Perplexity, derived directly from the cross-entropy loss through an exponential transformation, provides a more interpretable metric for language modeling tasks. It can be understood as how "confused" the model is when predicting the next token - lower values indicate better performance. For example, a perplexity of 10 means the model is as uncertain as if it were choosing between 10 equally likely options at each step. While base models might start with perplexities in the 15-30 range, well-fine-tuned models often achieve perplexities below 10 on their target domain. The formula for perplexity is:</p>
-<p>$$<br/>
-P = e^{-\frac{1}{N} \sum_{i=1}^{N} \log P(x_i | x_{&lt;i})}<br/>
-$$</p>
+<p><img alt="Equation: upper P equals e Superscript minus StartFraction 1 Over upper N EndFraction sigma-summation Underscript i equals 1 Overscript upper N Endscripts log upper P left-parenthesis x Super Subscript i Superscript vertical-bar x Super Subscript less-than i Superscript right-parenthesis" class="math-display" height="30" src="https://beila.github.io/my-collection/math-images/e83c57a70aed16649e3deff61878a5996fa49a6630e9f6dae17f4a430fabf0ab.png" width="152"/></p>
 <p>where:</p>
 <ul>
-<li>\(N\) is the number of tokens in the sequence</li>
-<li>\(P(x_i | x_{&lt;i})\) is the probability the model assigns to token \(x_i\) given the previous tokens</li>
+<li><img alt="Equation: upper N" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/3b2c53a3802f7f352dfc8ebdb9c97877f452586fc04f7d62cca47d804b6f617e.png" width="23"/> is the number of tokens in the sequence</li>
+<li><img alt="Equation: upper P left-parenthesis x Subscript i Baseline vertical-bar x Subscript less-than i Baseline right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/9b75240305d257d7e348c2b63fc07f06699d17e3d793f07363dc7027dfca53ac.png" width="92"/> is the probability the model assigns to token <img alt="Equation: x Subscript i" class="math-inline" height="23" src="https://beila.github.io/my-collection/math-images/335c3d3a12fa12069fd0f49e68eb2da51ac438c97f0c2fa36a48393724501362.png" width="24"/> given the previous tokens</li>
 <li>The sum is taken over all tokens in the sequence</li>
 </ul>
 <p>Lower perplexity scores indicate better performance:</p>
@@ -1693,9 +1696,7 @@ trainer.train()
 <p><strong>Proximal Policy Optimization</strong></p>
 <p>Finally, Proximal Policy Optimization (PPO) is a reinforcement learning algorithm for fine-tuning language models using reward signals. Unlike DPO and KTO which work with static preference data, PPO enables online learning where the model actively generates responses and receives feedback through a reward model.</p>
 <p>KL-divergence (Kullback-Leibler divergence) is a measure of the difference between two probability distributions P and Q. Mathematically, it is defined as:</p>
-<p>$$<br/>
-KL(P||Q) = \sum_{x} P(x) \cdot \log\left(\frac{P(x)}{Q(x)}\right)<br/>
-$$</p>
+<p><img alt="Equation: upper K upper L left-parenthesis upper P StartAbsoluteValue EndAbsoluteValue upper Q right-parenthesis equals sigma-summation Underscript x Endscripts upper P left-parenthesis x right-parenthesis dot log left-parenthesis StartFraction upper P left-parenthesis x right-parenthesis Over upper Q left-parenthesis x right-parenthesis EndFraction right-parenthesis" class="math-display" height="50" src="https://beila.github.io/my-collection/math-images/161dca0ff5302b709cc92f448658871047eb66f315e428cc7b7163dc1b2e44cc.png" width="224"/></p>
 <p>In the context of language model training, KL-divergence measures how much the model's output distribution diverges from a reference distribution (like the original pre-trained model). A higher KL-divergence indicates the fine-tuned model is producing significantly different probability distributions compared to the reference model.</p>
 <p>In simpler terms, KL-divergence helps us make sure the fine-tuned model doesn't "forget" what it learned during pre-training. In rough terms, it acts somewhat like a leash - allowing the model to adapt to new tasks while preventing it from straying too far from its original behavior. This is key because we want the model to learn new things without completely changing its fundamental understanding of language.</p>
 <p>The dataset should contain prompts and their corresponding responses. For example:</p>
@@ -2175,7 +2176,7 @@ if __name__ == "__main__":
         output_dir="./results"
     )
 </code></pre>
-    </section>
-  </article>
+</section>
+</article>
 </body>
 </html>

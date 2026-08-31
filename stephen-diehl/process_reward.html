@@ -1,13 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="stephen-diehl-content-hash" content="5f818efafd2ba64c762317902a11e4b94b41e1cafdc03876032bfe99c8ca014e">
-  <meta name="stephen-diehl-article-format" content="10">
-  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/process_reward.html">
-  <title>Process Reward Models</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="5f818efafd2ba64c762317902a11e4b94b41e1cafdc03876032bfe99c8ca014e" name="stephen-diehl-content-hash"/>
+<meta content="14" name="stephen-diehl-article-format"/>
+<link href="https://beila.github.io/my-collection/stephen-diehl/process_reward.html" rel="canonical"/>
+<title>Process Reward Models</title>
+<style>
     :root { color-scheme: dark; }
     body { margin: 0; background: #171717; color: #f1f1f1;
             font: 18px/1.7 Georgia, serif; }
@@ -26,14 +27,18 @@
     .published { color: #b8b8b8; }
     .original-link { border-top: 1px solid #555; margin-top: 2rem;
                       padding-top: 1rem; }
+img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
+                      vertical-align: middle; }
+    img.math-display { display: block; height: auto; margin: 1.25rem auto;
+                       max-width: 100%; }
   </style>
 </head>
 <body>
-  <article>
-    <h1>Process Reward Models</h1>
-    <p class="published">Published: Sun, 01 Dec 2024 00:00:00 +0000</p>
-    <section class="instapaper_body">
-      <p class="original-link"><a href="https://www.stephendiehl.com/posts/process_reward/">Read the original article on Stephen Diehl's website</a></p>
+<article>
+<h1>Process Reward Models</h1>
+<p class="published">Published: Sun, 01 Dec 2024 00:00:00 +0000</p>
+<section class="instapaper_body">
+<p class="original-link"><a href="https://www.stephendiehl.com/posts/process_reward/">Read the original article on Stephen Diehl's website</a></p>
 <p>Reasoning models are all the rage with the kids these days, and in particular the training data behind them is a hot topic. One particular case of this is the <a href="https://arxiv.org/abs/2405.15489">process reward models</a> which are a type of reward model used in complex reasoning and decision-making tasks where evaluating intermediate steps is crucial to achieving the desired outcome. In short we want to have a model that can help guide the reasoning of another model to tell it when it's on the right track or off track.</p>
 <p>The source code for this post is available <a href="https://github.com/sdiehl/prm">https://github.com/sdiehl/prm</a>.</p>
 <p>New approaches to scaling inference have recently led to breakthrough performance improvements in the world of LLMs. Through the use of basic sampling and search strategies, particularly when combined with custom verifiers, scoring functions, and process reward models, we're now seeing small models outperform vastly larger models. Which is quite an exciting development!</p>
@@ -83,37 +88,20 @@ verbosity: 0.38671875
 </code></pre>
 <p>If we have a problem specification</p>
 <ul>
-<li>\(x\): problem specification</li>
-<li>\(z_{1:T} \in \mathcal{S}^T\): sequence of steps taken to solve the problem</li>
-<li>\(y \in \mathcal{Y}\): final answer</li>
+<li><img alt="Equation: x" class="math-inline" height="20" src="https://beila.github.io/my-collection/math-images/da3ae1124928cdc0cf7f6434c3439af96259a8025612ab824685be59bd92a748.png" width="16"/>: problem specification</li>
+<li><img alt="Equation: z Subscript 1 colon upper T Baseline element-of script upper S Superscript upper T" class="math-inline" height="32" src="https://beila.github.io/my-collection/math-images/1b32161c92a20245dbe0291b878f1680a94c9219cbd5422f00ab6308aeb86496.png" width="90"/>: sequence of steps taken to solve the problem</li>
+<li><img alt="Equation: y element-of script upper Y" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/57552dbe16d9fb96595298483dbb2f6b07a4e303e313ee311ec389d33ea39390.png" width="56"/>: final answer</li>
 </ul>
-<p>A chain of thought is then a sequence such as \((x, z_{1:T}, y)\) like:</p>
-<p>$$<br/>
-S^4 = \{x, z_1, z_2, z_3, z_4, y\}<br/>
-$$</p>
+<p>A chain of thought is then a sequence such as <img alt="Equation: left-parenthesis x comma z Subscript 1 colon upper T Baseline comma y right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/6cea3defe963dd452a3b4bb56ae7db9c05f72db24737f0cc6559917d8a50d3b6.png" width="96"/> like:</p>
+<p><img alt="Equation: upper S Superscript 4 Baseline equals StartSet x comma z 1 comma z 2 comma z 3 comma z 4 comma y EndSet" class="math-display" height="28" src="https://beila.github.io/my-collection/math-images/7198251b3b3d29687b48e319dd6f151cfc4d076275ffa07e4f1978d8659ee6d9.png" width="154"/></p>
 <p>Might look like:</p>
-<p>$$<br/>
-\begin{align*}<br/>
-x &amp;= \text{Find the area of a circle with radius 5} \\<br/>
-z_1 &amp;= \text{Let's use the formula for circle area} \\<br/>
-z_2 &amp;= \text{The formula is} A = \pi r^2 \\<br/>
-z_3 &amp;= \text{Substituting } r=5 \\<br/>
-z_4 &amp;= \text{Computing } A = \pi(5)^2 = 25\pi \\<br/>
-y &amp;= 25\pi<br/>
-\end{align*}<br/>
-$$</p>
-<p>The probability of a chain of thought \((x, z_{1:T}, y)\) is given by</p>
-<p>$$<br/>
-p(y|x) = \mathbb{E}_z p(y | x, z)<br/>
-$$</p>
+<p><img alt="Equation: StartLayout 1st Row 1st Column x 2nd Column equals Find the area of a circle with radius 5 2nd Row 1st Column z 1 2nd Column equals Let prime s use the formula for circle area 3rd Row 1st Column z 2 2nd Column equals The formula is upper A equals pi r squared 4th Row 1st Column z 3 2nd Column equals Substituting r equals 5 5th Row 1st Column z 4 2nd Column equals Computing upper A equals pi left-parenthesis 5 right-parenthesis squared equals 25 pi 6th Row 1st Column y 2nd Column equals 25 pi EndLayout" class="math-display" height="120" src="https://beila.github.io/my-collection/math-images/a8e4ff201d0ea89a045d19b418bd7045562155c87d373924238ed886617109c5.png" width="267"/></p>
+<p>The probability of a chain of thought <img alt="Equation: left-parenthesis x comma z Subscript 1 colon upper T Baseline comma y right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/6cea3defe963dd452a3b4bb56ae7db9c05f72db24737f0cc6559917d8a50d3b6.png" width="96"/> is given by</p>
+<p><img alt="Equation: p left-parenthesis y vertical-bar x right-parenthesis equals double-struck upper E Subscript z Baseline p left-parenthesis y vertical-bar x comma z right-parenthesis" class="math-display" height="26" src="https://beila.github.io/my-collection/math-images/cadb2a4f96d2f0b2cc4a220fb1e24705e7ff52777fddd19f4b74ff1ee3a01233.png" width="128"/></p>
 <p>For some problems we will have a verifier function that can be used to evaluate the correctness of a final answer.</p>
-<p>$$<br/>
-\text{Ver}_x : \mathcal{Y} \to \{0, 1\}<br/>
-$$</p>
+<p><img alt="Equation: Ver Subscript x Baseline colon script upper Y right-arrow StartSet 0 comma 1 EndSet" class="math-display" height="26" src="https://beila.github.io/my-collection/math-images/b52b5b88939123fd6cb0a50db424045b25da533db6563d469b2ff51746745f79.png" width="115"/></p>
 <p>We may also have a verifier function that can be used to evaluate the correctness of a sequence of steps.</p>
-<p>$$<br/>
-\text{Ver}_x : \mathcal{S}^T \to \{0, 1\}<br/>
-$$</p>
+<p><img alt="Equation: Ver Subscript x Baseline colon script upper S Superscript upper T Baseline right-arrow StartSet 0 comma 1 EndSet" class="math-display" height="28" src="https://beila.github.io/my-collection/math-images/f55d04a158923adbe4d3e47bf2a8b9e80b46d0b16f08a54a5ee47e0a92fbf94d.png" width="122"/></p>
 <p>These functions are possible for certain domains like mathematical reasoning, it may be possible to formally verify proofs or calculations but this still remains an active area of research and is at minimum a very hard engineering problem and intractable in the general case (a la Rice's theorem). However we can still train probabilistic models to evaluate the quality of a chain of thought and in practice this can guide the inference of the model towards better behavior even in the case where the verifier function is intractable.</p>
 <p>Some other terminology:</p>
 <ul>
@@ -123,16 +111,14 @@ $$</p>
 <li>A process is said to be <strong>valid</strong> if and only if it is complete and correct.</li>
 </ul>
 <p>This is somewhat subtle, because a process can be correct and incomplete or incorrect and complete. For example, a process could reach the right answer but include unnecessary or irrelevant steps (correct but incomplete). Conversely, a process could follow a perfectly logical sequence of steps but arrive at the wrong conclusion due to a calculation error or faulty assumption (incorrect but complete). The ideal process is both complete and correct - containing only relevant steps that contribute to reaching the right answer.</p>
-<p>We will also use the term <em>trajectory</em> to refer to families of processes that start with the same initial state and may end with different final states. Formally, we denote a trajectory as \(\mathcal{T}(x)\) which represents the set of all possible process sequences \(S^T\) that begin with initial state \(x\):</p>
-<p>$$<br/>
-\mathcal{T}(x) = {S^T \in \mathcal{S}^T : S^T_1 = x}<br/>
-$$</p>
-<p>The goal of a <em>process reward model</em> is to learn a mapping from a trajectory to a reward value (i.e. \(r : \mathcal{S}^T \to \mathbb{R}\)) in order to guide sampling of valid processes.</p>
-<p>This is contrast to a <em>outcome reward model</em> which maps from a final answer to a reward value (i.e. \(r : \mathcal{Y} \to \mathbb{R}\)) which is common in traditional post-training in which the models learn to generate final answers that are correct.</p>
+<p>We will also use the term <em>trajectory</em> to refer to families of processes that start with the same initial state and may end with different final states. Formally, we denote a trajectory as <img alt="Equation: script upper T left-parenthesis x right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/da7bedc2f2f43b7f613adcb4e542e85c1d89dd6e88f82580fc6f03c07cc691b9.png" width="50"/> which represents the set of all possible process sequences <img alt="Equation: upper S Superscript upper T" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/6c493caac8fa32e85363085083e28fb8ae623598d7d578da9f120e54cf49fbeb.png" width="31"/> that begin with initial state <img alt="Equation: x" class="math-inline" height="20" src="https://beila.github.io/my-collection/math-images/da3ae1124928cdc0cf7f6434c3439af96259a8025612ab824685be59bd92a748.png" width="16"/>:</p>
+<p><img alt="Equation: script upper T left-parenthesis x right-parenthesis equals upper S Superscript upper T Baseline element-of script upper S Superscript upper T Baseline colon upper S 1 Superscript upper T Baseline equals x" class="math-display" height="28" src="https://beila.github.io/my-collection/math-images/15cca96aa157445454d9010335268e7fa05cffd6642160e630154fae7679c58a.png" width="165"/></p>
+<p>The goal of a <em>process reward model</em> is to learn a mapping from a trajectory to a reward value (i.e. <img alt="Equation: r colon script upper S Superscript upper T Baseline right-arrow double-struck upper R" class="math-inline" height="29" src="https://beila.github.io/my-collection/math-images/bf483f2b6ec0c9f8299343580e304b818bf7a1db3f85017ed9c9bd40daf3fec8.png" width="106"/>) in order to guide sampling of valid processes.</p>
+<p>This is contrast to a <em>outcome reward model</em> which maps from a final answer to a reward value (i.e. <img alt="Equation: r colon script upper Y right-arrow double-struck upper R" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/bcbc002d759433ac1980d90d9148ca28d1d147ffaf2e798b9dfab1be2cddb9c1.png" width="94"/>) which is common in traditional post-training in which the models learn to generate final answers that are correct.</p>
 <h2 id="generating-processes">Generating Processes</h2>
 <p>The simplest and most accurate way way to generate processes is to use a human experts to solve the problem and write the process. This however is not scalable so we need to develop other methods.</p>
 <p>A major breakthrough in the field came when researchers discovered that models could learn to reason better by generating and refining their own chains of thought through reinforcement learning, rather than just imitating human-written examples. This was a pivotal realization that unlocked the ability to scale reasoning capabilities far beyond what was possible with human demonstrations alone. The discovery that models could effectively bootstrap their own reasoning process through RL represented a fundamental shift in how we now approach training language models to solve complex problems.</p>
-<p>The simplest way to start bootstrapping these processes is to use the model itself to generate them using the <em>guess and check</em> method. Assuming we have a problem specification \(x\) and a set of known answers \(\mathcal{Y}\) we can generate a set of trajectories \(\mathcal{T}(x)\) by:</p>
+<p>The simplest way to start bootstrapping these processes is to use the model itself to generate them using the <em>guess and check</em> method. Assuming we have a problem specification <img alt="Equation: x" class="math-inline" height="20" src="https://beila.github.io/my-collection/math-images/da3ae1124928cdc0cf7f6434c3439af96259a8025612ab824685be59bd92a748.png" width="16"/> and a set of known answers <img alt="Equation: script upper Y" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/166202f8e768e97ecac2bdd1e5df0fc6e200a383e23d5ad58b92f5125f4be992.png" width="20"/> we can generate a set of trajectories <img alt="Equation: script upper T left-parenthesis x right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/da7bedc2f2f43b7f613adcb4e542e85c1d89dd6e88f82580fc6f03c07cc691b9.png" width="50"/> by:</p>
 <ol>
 <li>Generate multiple solution trajectories (typically around 15 per problem) by having the model attempt different reasoning paths</li>
 <li>For each intermediate step in a trajectory, sample multiple possible completions (around 16 per step)</li>
@@ -434,7 +420,7 @@ for i, step in enumerate(example["steps"], 1):
 </code></pre>
 <p>The model evaluates each step in the context of all previous steps, providing probabilities for positive and negative rewards. A higher probability for "+" indicates that the model considers the step to be correct and helpful in the reasoning process. The evaluation is cumulative, meaning it considers how each new step builds upon previous ones.</p>
 <p>The masking mechanism ensures that the model only predicts reward tokens ("+" or "-") by setting all other token probabilities to negative infinity. This forces the model to make a binary decision about the quality of each step. You can now use the PRM as either a reward model using trl's <code>RewardTrainer</code> or as a step-wise evaluator in your own custom training loops, or even at inference time to guide sampling.</p>
-    </section>
-  </article>
+</section>
+</article>
 </body>
 </html>
