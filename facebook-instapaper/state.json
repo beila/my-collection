@@ -3066,9 +3066,9 @@
       "status": "complete"
     },
     "4015670705230169": {
-      "article_format_version": 8,
-      "completed_at": "2026-08-30T21:06:07+00:00",
-      "content_hash": "e55527497280ddce373405754a21f379b2ce97b06c582bc095c5bd2a347f5816",
+      "article_format_version": 14,
+      "completed_at": "2026-08-31T20:27:40+00:00",
+      "content_hash": "52627acf997889ea2ffc89ca6bd824c02850b8a64ea39cb194e88e6d504398d7",
       "facebook_post_id": "4015670705230169",
       "facebook_timestamp": 1787125676,
       "has_video": false,
@@ -3077,9 +3077,21 @@
         "eb38b9bdc345927b530bc86b69c2a5c8cd8fc9915781fea4f3bf2c1d0cd7e173"
       ],
       "inline_links": [],
-      "instapaper_bookmark_id": "2037851196",
+      "instapaper_bookmark_id": "2038071381",
       "last_error": null,
       "linked_pages": [],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "1b910dd2607b68bbc314a49ad519db1b0f0c9523cbc36ccf64fe8310103e2557"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "eb38b9bdc345927b530bc86b69c2a5c8cd8fc9915781fea4f3bf2c1d0cd7e173"
+        }
+      ],
       "omitted_photo_count": 0,
       "original_author": null,
       "original_inline_links": [],
@@ -3489,9 +3501,9 @@
       "status": "complete"
     },
     "4026530847477488": {
-      "article_format_version": 8,
-      "completed_at": "2026-08-30T21:06:30+00:00",
-      "content_hash": "5a6c6aedf570441a9c811aa39c33ed6004aa8f3eeb55a7a3eb9f4db78ef6890d",
+      "article_format_version": 14,
+      "completed_at": "2026-08-31T20:27:42+00:00",
+      "content_hash": "d5db288c20e97f390cf6fbad3b1d17c6e2edbf1afc1abb7cd5b189fee19a7f8e",
       "facebook_post_id": "4026530847477488",
       "facebook_timestamp": 1787907583,
       "has_video": false,
@@ -3501,9 +3513,26 @@
         "50824c346cd968b6c44a345fabce6a48e4b7b76cb779be917eafa4f2e6b80f8a"
       ],
       "inline_links": [],
-      "instapaper_bookmark_id": "2037851243",
+      "instapaper_bookmark_id": "2038071389",
       "last_error": null,
       "linked_pages": [],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "ab75442953f6d4cfa57510b176ba9672fb104fa7a9ee73b960d56c2ac99ffa67"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "45f9873031c7c412c022b981d3ed04f94624fc4fcc6b49805cc748b17a4ede3d"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "50824c346cd968b6c44a345fabce6a48e4b7b76cb779be917eafa4f2e6b80f8a"
+        }
+      ],
       "omitted_photo_count": 0,
       "original_author": null,
       "original_inline_links": [],
@@ -7632,5 +7661,5 @@
     }
   },
   "schema_version": 1,
-  "updated_at": "2026-08-31T20:10:45+00:00"
+  "updated_at": "2026-08-31T20:27:42+00:00"
 }
