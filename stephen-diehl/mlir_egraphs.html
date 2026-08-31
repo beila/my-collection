@@ -4,8 +4,8 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
-<meta content="1064f6bac715db8f0ddc381263ae3f6a0f47b6a975becc84ecb0454b09fc2f89" name="stephen-diehl-content-hash"/>
-<meta content="14" name="stephen-diehl-article-format"/>
+<meta content="714fbdb8215c34706628feb1c13a3369f1421be89dc198a018f5d7487a61be62" name="stephen-diehl-content-hash"/>
+<meta content="15" name="stephen-diehl-article-format"/>
 <link href="https://beila.github.io/my-collection/stephen-diehl/mlir_egraphs.html" rel="canonical"/>
 <title>Specializing Python with E-graphs</title>
 <style>
@@ -1176,7 +1176,29 @@ print(out)
 </code></pre>
 <p>Now this is a <em>very simple</em> example compiler, the symbolic interpretation approach is fundamentaly limited because it can only handle flat functions with no control flow operations and requires us to manually specify the argument types, and only supports a limited set of operations. But it's a good starting point for seeing something that works end to end to use MLIR and e-graphs for optimization.</p>
 <h2 id="external-resources">External Resources</h2>
-<p class="unordered-list-item">- <a href="https://cseweb.ucsd.edu/~rtate/publications/eqsat/">Equality Saturation: A New Approach to Optimization</a></p><p class="unordered-list-item">- <a href="https://effect.systems/doc/egraphs-2023-egglog/paper.pdf">E-graphs for Efficient Symbolic Compilation with Egglog</a></p><p class="unordered-list-item">- <a href="https://www.youtube.com/watch?v=N2RDQGRBrSY">egglog Tutorial (EGRAPHS 2023) | Next Generation Egraphs</a></p><p class="unordered-list-item">- <a href="https://www.csl.cornell.edu/~zhiruz/pdfs/dpopt-invited-dac2023.pdf">DPopt: Differentiable Placement Optimization for Hardware Acceleration</a></p><p class="unordered-list-item">- <a href="https://www.cl.cam.ac.uk/~ey204/teaching/ACS/R244_2024_2025/presentation/S8/ESMLIR_Timi.pdf">Equality Saturation for MLIR with Egglog</a></p><p class="unordered-list-item">- <a href="https://goens.org/publications/koehler-popl-24/popl24.pdf">Guided Equality Saturation</a></p><p class="unordered-list-item">- <a href="https://jianyicheng.github.io/assets/pdf/ChengASPLOS24.pdf">SEER: Super-Optimization Explorer for High-Level Synthesis using E-graph Rewriting</a></p><p class="unordered-list-item">- <a href="https://rosstate.org/publications/eqsat/eqsat_tate_lmcs11.pdf">Equality Saturation</a></p><p class="unordered-list-item">- <a href="http://www.chriswarbo.net/blog/2024-02-25-sk_logic_in_egglog_1.html">Sk Logic in Egglog (1)</a></p><p class="unordered-list-item">- <a href="https://goto.ucsd.edu/~mstepp/peggy/pubs/lmcs2010.pdf">PEG: Combining Program Analysis with Dynamic Programming</a></p><p class="unordered-list-item">- <a href="https://www.arxiv.org/pdf/2409.03864v2.pdf">RelBench: A Unified Benchmark for Relational Learning</a></p><p class="unordered-list-item">- <a href="https://www.philipzucker.com/egraph-chr/">Egraph-CHR</a></p><p class="unordered-list-item">- <a href="https://dl.acm.org/doi/10.1145/3696443.3708957">DialEgg: Dialect-Agnostic MLIR Optimizer using Equality Saturation with Egglog</a></p><p class="unordered-list-item">- <a href="https://www.philipzucker.com/egglog-checkpoint/">Egglog Checkpoint</a></p><p class="unordered-list-item">- <a href="https://blog.sigplan.org/2021/04/06/equality-saturation-with-egg/">Fast and Extensible Equality Saturation with egg</a></p><p class="unordered-list-item">- <a href="https://uwplse.org/2023/11/14/Eqsat-theory-i.html">The Theoretical Aspect of Equality Saturation (Part I)</a></p><p class="unordered-list-item">- <a href="https://www.youtube.com/watch?v=hL2MARuBCzw">Equality Saturation: A New Approach to Optimization (YouTube)</a></p><p class="unordered-list-item">- <a href="https://pl.cs.princeton.edu/generals/slides/dh7120.pdf">Equality Saturation: Term Extraction and an Application to Network Synthesis</a></p><p class="unordered-list-item">- <a href="https://egglog-python.readthedocs.io/latest/explanation/2023_11_09_portland_state.html">Egglog (for Equality Saturation) - Portland State Verification Seminar</a></p><p class="unordered-list-item">- <a href="https://dl.acm.org/doi/10.1145/3696443.3708922">End-to-End Compilation with Equality Saturation</a></p><p class="unordered-list-item">- <a href="https://egglog-python.readthedocs.io/latest/explanation/pldi_2023_presentation.html">Egglog (for Equality Saturation) - PLDI Presentation</a></p><p class="unordered-list-item">- <a href="https://news.ycombinator.com/item?id=35593635">Ask HN: What exciting research or projects are happening with compilers?</a></p>
+<p class="unordered-list-item">- Equality Saturation: A New Approach to Optimization
+URL: https://cseweb.ucsd.edu/~rtate/publications/eqsat/</p><p class="unordered-list-item">- E-graphs for Efficient Symbolic Compilation with Egglog
+URL: https://effect.systems/doc/egraphs-2023-egglog/paper.pdf</p><p class="unordered-list-item">- egglog Tutorial (EGRAPHS 2023) | Next Generation Egraphs
+URL: https://www.youtube.com/watch?v=N2RDQGRBrSY</p><p class="unordered-list-item">- DPopt: Differentiable Placement Optimization for Hardware Acceleration
+URL: https://www.csl.cornell.edu/~zhiruz/pdfs/dpopt-invited-dac2023.pdf</p><p class="unordered-list-item">- Equality Saturation for MLIR with Egglog
+URL: https://www.cl.cam.ac.uk/~ey204/teaching/ACS/R244_2024_2025/presentation/S8/ESMLIR_Timi.pdf</p><p class="unordered-list-item">- Guided Equality Saturation
+URL: https://goens.org/publications/koehler-popl-24/popl24.pdf</p><p class="unordered-list-item">- SEER: Super-Optimization Explorer for High-Level Synthesis using E-graph Rewriting
+URL: https://jianyicheng.github.io/assets/pdf/ChengASPLOS24.pdf</p><p class="unordered-list-item">- Equality Saturation
+URL: https://rosstate.org/publications/eqsat/eqsat_tate_lmcs11.pdf</p><p class="unordered-list-item">- Sk Logic in Egglog (1)
+URL: http://www.chriswarbo.net/blog/2024-02-25-sk_logic_in_egglog_1.html</p><p class="unordered-list-item">- PEG: Combining Program Analysis with Dynamic Programming
+URL: https://goto.ucsd.edu/~mstepp/peggy/pubs/lmcs2010.pdf</p><p class="unordered-list-item">- RelBench: A Unified Benchmark for Relational Learning
+URL: https://www.arxiv.org/pdf/2409.03864v2.pdf</p><p class="unordered-list-item">- Egraph-CHR
+URL: https://www.philipzucker.com/egraph-chr/</p><p class="unordered-list-item">- DialEgg: Dialect-Agnostic MLIR Optimizer using Equality Saturation with Egglog
+URL: https://dl.acm.org/doi/10.1145/3696443.3708957</p><p class="unordered-list-item">- Egglog Checkpoint
+URL: https://www.philipzucker.com/egglog-checkpoint/</p><p class="unordered-list-item">- Fast and Extensible Equality Saturation with egg
+URL: https://blog.sigplan.org/2021/04/06/equality-saturation-with-egg/</p><p class="unordered-list-item">- The Theoretical Aspect of Equality Saturation (Part I)
+URL: https://uwplse.org/2023/11/14/Eqsat-theory-i.html</p><p class="unordered-list-item">- Equality Saturation: A New Approach to Optimization (YouTube)
+URL: https://www.youtube.com/watch?v=hL2MARuBCzw</p><p class="unordered-list-item">- Equality Saturation: Term Extraction and an Application to Network Synthesis
+URL: https://pl.cs.princeton.edu/generals/slides/dh7120.pdf</p><p class="unordered-list-item">- Egglog (for Equality Saturation) - Portland State Verification Seminar
+URL: https://egglog-python.readthedocs.io/latest/explanation/2023_11_09_portland_state.html</p><p class="unordered-list-item">- End-to-End Compilation with Equality Saturation
+URL: https://dl.acm.org/doi/10.1145/3696443.3708922</p><p class="unordered-list-item">- Egglog (for Equality Saturation) - PLDI Presentation
+URL: https://egglog-python.readthedocs.io/latest/explanation/pldi_2023_presentation.html</p><p class="unordered-list-item">- Ask HN: What exciting research or projects are happening with compilers?
+URL: https://news.ycombinator.com/item?id=35593635</p>
 </section>
 </article>
 </body>

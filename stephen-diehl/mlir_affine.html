@@ -4,8 +4,8 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
-<meta content="92858161d3e9cad938263869a74a13143ac557ba401083b5de6c67d480a99a98" name="stephen-diehl-content-hash"/>
-<meta content="14" name="stephen-diehl-article-format"/>
+<meta content="af976eed9cb30938d9d31faa8669357b51d160d80088b6624de67e9fc5aa8e4e" name="stephen-diehl-content-hash"/>
+<meta content="15" name="stephen-diehl-article-format"/>
 <link href="https://beila.github.io/my-collection/stephen-diehl/mlir_affine.html" rel="canonical"/>
 <title>Affine Dialect and OpenMP</title>
 <style>
@@ -647,7 +647,23 @@ func.func private @main() {
 </code></pre>
 <p>The pass handles several important conversions, including the transformation of <code>scf.parallel</code> operations into <code>omp.parallel</code> regions that contain <code>omp.wsloop</code>, while preserving loop bounds and step sizes. Additionally, reduction operations in SCF are mapped to OpenMP reductions, and nested parallel loops are properly managed. This conversion is typically utilized as part of a larger lowering pipeline, which is often followed by <code>-convert-openmp-to-llvm</code> to generate LLVM IR that can be executed with OpenMP runtime support.</p>
 <h2 id="external-resources">External Resources</h2>
-<p class="unordered-list-item">- <a href="https://mlir.llvm.org/docs/Dialects/Affine/">MLIR: Affine Dialect</a></p><p class="unordered-list-item">- <a href="https://mlir.llvm.org/docs/Dialects/Affine/#polyhedral-structures">MLIR: Polyhedral Structures</a></p><p class="unordered-list-item">- <a href="https://mlir.llvm.org/docs/Dialects/OpenMP/">MLIR: OpenMP Dialect</a></p><p class="unordered-list-item">- <a href="https://discourse.llvm.org/t/rfc-openmp-dialect-in-mlir/397">RFC: OpenMP dialect in MLIR</a></p><p class="unordered-list-item">- <a href="https://www.openmp.org/wp-content/uploads/openmp_flang.pdf">OpenMP: OpenMP 5.0 Specification</a></p><p class="unordered-list-item">- <a href="https://llvm.org/devmtg/2024-04/slides/QuickTalks/Martinez-ParallelizingApplicationsWithMLIR.pdf">Parallelizing Applications with MLIR</a></p><p class="unordered-list-item">- <a href="https://hps.vi4io.org/_media/events/2020/llvm-cth20_chandramohan.pdf">OpenMP in Flang using MLIR</a></p><p class="unordered-list-item">- <a href="https://github.com/llvm/llvm-project/blob/main/mlir/include/mlir/Dialect/OpenMP/OpenMPOps.td">OpenMPOps.td</a></p><p class="unordered-list-item">- <a href="https://mlir.llvm.org/doxygen/OpenMPToLLVMIRTranslation_8cpp.html">OpenMPToLLVMIRTranslation.cpp</a></p><p class="unordered-list-item">- <a href="https://easychair.org/publications/preprint/Kp3L">Extending Polygeist to Generate OpenMP SIMD and GPU MLIR Code</a></p><p class="unordered-list-item">- <a href="https://tildesites.bowdoin.edu/~ltoma/teaching/cs3225-GIS/fall17/Lectures/openmp.html">OpenMP in a Nutshell</a></p><p class="unordered-list-item">- <a href="https://users.cs.utah.edu/~mhall/mlir4hpc/pienaar-MLIR-Tutorial.pdf">MLIR Tutorial: Building a Compiler with MLIR</a></p><p class="unordered-list-item">- <a href="https://www.youtube.com/watch?v=hIt6J1_E21c">2023 EuroLLVM - MLIR Dialect Design and Composition for Front-End Compilers</a></p><p class="unordered-list-item">- <a href="https://reviews.llvm.org/D119743">Add conversion from SCF parallel loops to OpenMP</a></p><p class="unordered-list-item">- <a href="https://www.youtube.com/watch?v=lOK6JPuVFYg">Open MLIR Meeting 2-15-2024: OpenMP GPU Target Offloading</a></p><p class="unordered-list-item">- <a href="https://reviews.llvm.org/D119743">Mark parallel regions as allocation scopes</a></p>
+<p class="unordered-list-item">- MLIR: Affine Dialect
+URL: https://mlir.llvm.org/docs/Dialects/Affine/</p><p class="unordered-list-item">- MLIR: Polyhedral Structures
+URL: https://mlir.llvm.org/docs/Dialects/Affine/#polyhedral-structures</p><p class="unordered-list-item">- MLIR: OpenMP Dialect
+URL: https://mlir.llvm.org/docs/Dialects/OpenMP/</p><p class="unordered-list-item">- RFC: OpenMP dialect in MLIR
+URL: https://discourse.llvm.org/t/rfc-openmp-dialect-in-mlir/397</p><p class="unordered-list-item">- OpenMP: OpenMP 5.0 Specification
+URL: https://www.openmp.org/wp-content/uploads/openmp_flang.pdf</p><p class="unordered-list-item">- Parallelizing Applications with MLIR
+URL: https://llvm.org/devmtg/2024-04/slides/QuickTalks/Martinez-ParallelizingApplicationsWithMLIR.pdf</p><p class="unordered-list-item">- OpenMP in Flang using MLIR
+URL: https://hps.vi4io.org/_media/events/2020/llvm-cth20_chandramohan.pdf</p><p class="unordered-list-item">- OpenMPOps.td
+URL: https://github.com/llvm/llvm-project/blob/main/mlir/include/mlir/Dialect/OpenMP/OpenMPOps.td</p><p class="unordered-list-item">- OpenMPToLLVMIRTranslation.cpp
+URL: https://mlir.llvm.org/doxygen/OpenMPToLLVMIRTranslation_8cpp.html</p><p class="unordered-list-item">- Extending Polygeist to Generate OpenMP SIMD and GPU MLIR Code
+URL: https://easychair.org/publications/preprint/Kp3L</p><p class="unordered-list-item">- OpenMP in a Nutshell
+URL: https://tildesites.bowdoin.edu/~ltoma/teaching/cs3225-GIS/fall17/Lectures/openmp.html</p><p class="unordered-list-item">- MLIR Tutorial: Building a Compiler with MLIR
+URL: https://users.cs.utah.edu/~mhall/mlir4hpc/pienaar-MLIR-Tutorial.pdf</p><p class="unordered-list-item">- 2023 EuroLLVM - MLIR Dialect Design and Composition for Front-End Compilers
+URL: https://www.youtube.com/watch?v=hIt6J1_E21c</p><p class="unordered-list-item">- Add conversion from SCF parallel loops to OpenMP
+URL: https://reviews.llvm.org/D119743</p><p class="unordered-list-item">- Open MLIR Meeting 2-15-2024: OpenMP GPU Target Offloading
+URL: https://www.youtube.com/watch?v=lOK6JPuVFYg</p><p class="unordered-list-item">- Mark parallel regions as allocation scopes
+URL: https://reviews.llvm.org/D119743</p>
 </section>
 </article>
 </body>
