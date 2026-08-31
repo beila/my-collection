@@ -3183,9 +3183,9 @@
       "status": "complete"
     },
     "4019394528191120": {
-      "article_format_version": 8,
-      "completed_at": "2026-08-30T21:06:17+00:00",
-      "content_hash": "e401822166453ab63815dcebf9cb21068e5a0889933b9daf3088b3a721d5b86a",
+      "article_format_version": 12,
+      "completed_at": "2026-08-31T19:16:43+00:00",
+      "content_hash": "826d8d62c527db511f0a6ac34857c2de7d4f44c13a5c56b523eacde6ece49f86",
       "facebook_post_id": "4019394528191120",
       "facebook_timestamp": 1787393689,
       "has_video": false,
@@ -3197,9 +3197,36 @@
         "fecc0143b789b6f951c0a5642f144e6dfc439a290738cb62d6403dfa12faadc2"
       ],
       "inline_links": [],
-      "instapaper_bookmark_id": "2037851216",
+      "instapaper_bookmark_id": "2038057622",
       "last_error": null,
       "linked_pages": [],
+      "media": [
+        {
+          "description": "May be an image of one or more people, turnstile and crowd",
+          "is_video_thumbnail": false,
+          "sha256": "deb73c6819fdb5081dc7caf3a9d9270754b3cc9628d127058f34a62deb6edd92"
+        },
+        {
+          "description": "May be an image of newsagent and text",
+          "is_video_thumbnail": false,
+          "sha256": "1c3921dc17cafa9e0708b3eab2d6081800434f03dbb2aad30b2c31c15a23f8fc"
+        },
+        {
+          "description": "May be an image of text that says \"HBmTacRTRиaTиcToH CUNELACISCIRA \"HEISPURE PURE ENTERTAINMENT. THE THEMASTEROF OF CAMP COMEDY ...MIXING THE EXPECTED WITH THE SPONTANEOUS SG DEY REVIEWS Julian T මුകා Clary 5FLOORS OF DILATED FULLY ิ ้่ FANTASTIC 11I 1 III \"JULIAN CLARY UNLEASHES A TSUNAMI OFSMUT\" OF bat lorb prlmuk vadte nnaaub ជំរចជ្នាំ 兒童 MHRRNIO B 17:30 23 AUG SSEMBLY ROOMS: MUSIC HALL assembly 5O0 サーち\"",
+          "is_video_thumbnail": false,
+          "sha256": "601ca920c621138c732d85a86451f723309aea83e0737cf780b0466eb711d48f"
+        },
+        {
+          "description": "May be an image of text",
+          "is_video_thumbnail": false,
+          "sha256": "ecf036e3ba7d9555abb118ae3a10492976dc350b53a05599c55b0ca162ec78bf"
+        },
+        {
+          "description": "May be an image of text",
+          "is_video_thumbnail": false,
+          "sha256": "fecc0143b789b6f951c0a5642f144e6dfc439a290738cb62d6403dfa12faadc2"
+        }
+      ],
       "omitted_photo_count": 3,
       "original_author": null,
       "original_inline_links": [],
@@ -7584,5 +7611,5 @@
     }
   },
   "schema_version": 1,
-  "updated_at": "2026-08-31T19:15:18+00:00"
+  "updated_at": "2026-08-31T19:16:43+00:00"
 }
