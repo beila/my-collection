@@ -3466,9 +3466,9 @@
       "status": "complete"
     },
     "4028874367243136": {
-      "article_format_version": 8,
-      "completed_at": "2026-08-30T21:06:31+00:00",
-      "content_hash": "f5f765c8014b91cda0388ee484f5c26b31bda2422f924670933753063707e98e",
+      "article_format_version": 12,
+      "completed_at": "2026-08-31T19:15:18+00:00",
+      "content_hash": "dd111215c44b8916a30be907c2981164f53e7e6566360e775b024136e0c295f3",
       "facebook_post_id": "4028874367243136",
       "facebook_timestamp": 1788078639,
       "has_video": false,
@@ -3479,9 +3479,31 @@
         "d8de1a30de6d9a3ebc149b42e228e884b13afbf227a24f4c3836f3eaba2e52c4"
       ],
       "inline_links": [],
-      "instapaper_bookmark_id": "2037851246",
+      "instapaper_bookmark_id": "2038057316",
       "last_error": null,
       "linked_pages": [],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "1c54e507cf365b4e7058dba285900d2ab900ef7edd00d28badef18f05128f0b4"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "355d6347af4fba7ca18f73f6c1bcc4e4b78f15b4ac746d0b4aa154a641fb7888"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "6d53d7588acfe9eb7476dca035ac74c489f370eb75aaba7c5c4eb415488af485"
+        },
+        {
+          "description": "May be an image of book and text that says \"FORTNUM FORTNUM&MASON & MASON EST 1707 ي BAR BAR AND RESTAURANT\"",
+          "is_video_thumbnail": false,
+          "sha256": "d8de1a30de6d9a3ebc149b42e228e884b13afbf227a24f4c3836f3eaba2e52c4"
+        }
+      ],
       "omitted_photo_count": 0,
       "original_author": null,
       "original_inline_links": [],
@@ -7562,5 +7584,5 @@
     }
   },
   "schema_version": 1,
-  "updated_at": "2026-08-31T17:19:36+00:00"
+  "updated_at": "2026-08-31T19:15:18+00:00"
 }
