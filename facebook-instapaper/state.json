@@ -3184,8 +3184,8 @@
     },
     "4019394528191120": {
       "article_format_version": 12,
-      "completed_at": "2026-08-31T19:25:36+00:00",
-      "content_hash": "936d28639c46c220d6378c2c89bdff87ffb883fc81bf9edea048275965b08d62",
+      "completed_at": "2026-08-31T19:28:14+00:00",
+      "content_hash": "38dcfcb7fb3d7da7a543e805f38348aa8968c774b130b594d399d8a6ab4ef943",
       "facebook_post_id": "4019394528191120",
       "facebook_timestamp": 1787393689,
       "has_video": false,
@@ -3200,7 +3200,7 @@
         "c3ee9e5e2c6a11e5eeab98a765909ea51d9c007759eabec7f5a16b950dcf57cf"
       ],
       "inline_links": [],
-      "instapaper_bookmark_id": "2038059334",
+      "instapaper_bookmark_id": "2038059817",
       "last_error": null,
       "linked_pages": [],
       "media": [
@@ -3245,7 +3245,7 @@
           "sha256": "c3ee9e5e2c6a11e5eeab98a765909ea51d9c007759eabec7f5a16b950dcf57cf"
         }
       ],
-      "omitted_photo_count": 3,
+      "omitted_photo_count": 0,
       "original_author": null,
       "original_inline_links": [],
       "original_paragraphs": [],
@@ -7629,5 +7629,5 @@
     }
   },
   "schema_version": 1,
-  "updated_at": "2026-08-31T19:25:36+00:00"
+  "updated_at": "2026-08-31T19:28:14+00:00"
 }
