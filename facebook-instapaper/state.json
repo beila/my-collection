@@ -3493,20 +3493,42 @@
     },
     "4029988940465012": {
       "article_format_version": 8,
-      "completed_at": null,
+      "completed_at": "2026-08-31T09:23:29+00:00",
       "content_hash": "c6d78986a3172b719f9199f026189ce19bfc9fa0c2bce96b26b4a8ac0c376221",
       "facebook_post_id": "4029988940465012",
       "facebook_timestamp": 1788162138,
+      "has_video": false,
       "image_sha256": [
         "edf68121800b468be9d7db74799e5ce149d6c265bd305c67b753e726ae49c4b7"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [
+        {
+          "end": 43,
+          "paragraph_index": 15,
+          "start": 0,
+          "url": "https://otterletter.com/parton-and-walters/"
+        }
+      ],
+      "instapaper_bookmark_id": "2037936024",
       "last_error": null,
+      "linked_pages": [
+        {
+          "article_image_sha256": [],
+          "article_sha256": "cc8913a655df9fd2c4bf1d98958a0763ccfc08922c23139580074781833793cf",
+          "description": "",
+          "site_name": "otterletter.com",
+          "title": "https://otterletter.com/parton-and-walters/",
+          "url": "https://otterletter.com/parton-and-walters/"
+        }
+      ],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "permalink": "https://www.facebook.com/sanghyun.simon.park/posts/4029988940465012",
       "profile_url": "https://www.facebook.com/sanghyun.simon.park",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/sanghyun.simon.park/4029988940465012.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "4184691808342311": {
       "completed_at": "2026-08-23T13:34:47+00:00",
@@ -7061,11 +7083,12 @@
           "status": "complete"
         },
         "https://www.facebook.com/sanghyun.simon.park/posts/pfbid02WHwDRkSuy1irbjUdB9MhScwu443hKEEmfpQJ3SpZgeuv1c7nXe6fZagdcyonQXuQl": {
+          "completed_at": "2026-08-31T09:23:29+00:00",
           "discovered_at": "2026-08-31T09:21:51+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "4029988940465012",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/sanghyun.simon.park/posts/pfbid02X8RZxVukKmjE3JLRNnZGWkrmvzW43FRXo2KMYMJUBY9Ra4ezt68oAbLf8RQjxy4ql": {
           "completed_at": "2026-08-30T21:05:49+00:00",
@@ -7491,5 +7514,5 @@
     }
   },
   "schema_version": 1,
-  "updated_at": "2026-08-31T09:22:54+00:00"
+  "updated_at": "2026-08-31T09:23:29+00:00"
 }
