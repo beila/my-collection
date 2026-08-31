@@ -1,13 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="stephen-diehl-content-hash" content="ffaaf6796ed212774968d0999b83e5b7d6328855121b622be6e71c9dd481be5b">
-  <meta name="stephen-diehl-article-format" content="10">
-  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/mlir_linear_algebra.html">
-  <title>Linear Algebra in MLIR</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="ffaaf6796ed212774968d0999b83e5b7d6328855121b622be6e71c9dd481be5b" name="stephen-diehl-content-hash"/>
+<meta content="14" name="stephen-diehl-article-format"/>
+<link href="https://beila.github.io/my-collection/stephen-diehl/mlir_linear_algebra.html" rel="canonical"/>
+<title>Linear Algebra in MLIR</title>
+<style>
     :root { color-scheme: dark; }
     body { margin: 0; background: #171717; color: #f1f1f1;
             font: 18px/1.7 Georgia, serif; }
@@ -26,18 +27,21 @@
     .published { color: #b8b8b8; }
     .original-link { border-top: 1px solid #555; margin-top: 2rem;
                       padding-top: 1rem; }
+img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
+                      vertical-align: middle; }
+    img.math-display { display: block; height: auto; margin: 1.25rem auto;
+                       max-width: 100%; }
   </style>
 </head>
 <body>
-  <article>
-    <h1>Linear Algebra in MLIR</h1>
-    <p class="published">Published: Fri, 14 Mar 2025 00:00:00 +0000</p>
-    <section class="instapaper_body">
-      <p class="original-link"><a href="https://www.stephendiehl.com/posts/mlir_linear_algebra/">Read the original article on Stephen Diehl's website</a></p>
+<article>
+<h1>Linear Algebra in MLIR</h1>
+<p class="published">Published: Fri, 14 Mar 2025 00:00:00 +0000</p>
+<section class="instapaper_body">
+<p class="original-link"><a href="https://www.stephendiehl.com/posts/mlir_linear_algebra/">Read the original article on Stephen Diehl's website</a></p>
 <p>
 <img alt="mlir-egglog" src="https://beila.github.io/my-collection/stephen-diehl/assets/0ce022743beeb1d719aebae1f1320c27e78e712de5358c0a97ab86ff36d10c3f.jpg"/>
 </p>
-
 <p>The Linalg dialect is a core idea in the MLIR ecosystem, it was built to make high-level tensor computations easier and more efficient. Essentially, it's all about simplifying the way we handle complex mathematical operations in a way that can be translated into fast, optimized code. At its core, the Linalg dialect uses a straightforward, declarative approach. This means it lays out operations and transformations in a way that keeps the math intact while also allowing for a variety of optimizations. It provides high-level linear algebra operations like pointwise calculations, matrix multiplications, and convolutions as single operations.</p>
 <h2 id="linalg.generic"><code>linalg.generic</code></h2>
 <p>The most generic operation in the Linalg dialect is <code>linalg.generic</code>. This operation allows us to define a generic tensor manipulation operations over indices. It is the most generic operation and all other operations are defined as specializations of this operation. You probably won't use this directly much, but it's useful to discuss first because it's the most fundamental operation.</p>
@@ -163,23 +167,21 @@ np.multiply.reduce([2,3,5]) # 30
 </code></pre>
 <h2 id="linalg.matmul"><code>linalg.matmul</code></h2>
 <p>We can also define a generic matrix multiplication operation in terms of direct tensor contractions. The matrix multiplication operation shown in the MLIR code can be written in conventional tensor notation as:</p>
-<p>$$<br/>
-C_{ij} = \sum_{k=1}^{10} A_{ik} B_{kj}<br/>
-$$</p>
+<p><img alt="Equation: upper C Subscript i j Baseline equals sigma-summation Underscript k equals 1 Overscript 10 Endscripts upper A Subscript i k Baseline upper B Subscript k j" class="math-display" height="52" src="https://beila.github.io/my-collection/math-images/f5623e8323e57cd38c1c7c474624261d60d67c79412640eb54b1218b81870d9d.png" width="110"/></p>
 <p>Where:</p>
 <ul>
-<li>$A$ is the 8×10 input matrix (<code>memref&lt;8x10xf32&gt;</code>)</li>
-<li>$B$ is the 10×16 input matrix (<code>memref&lt;10x16xf32&gt;</code>)</li>
-<li>$C$ is the 8×16 output matrix (<code>memref&lt;8x16xf32&gt;</code>)</li>
-<li>$i$ ranges from 1 to 8</li>
-<li>$j$ ranges from 1 to 16</li>
-<li>$k$ is the summation index ranging from 1 to 10</li>
+<li><img alt="Equation: upper A" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/b82947fdd348103b4f64ebb8fe74539de1e5b71794cc0a971f20936c4b7be5fe.png" width="20"/> is the 8×10 input matrix (<code>memref&lt;8x10xf32&gt;</code>)</li>
+<li><img alt="Equation: upper B" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/b2affa0ba756b0dcbda6301d951888810b79314376f5d0203c91cf141277a809.png" width="21"/> is the 10×16 input matrix (<code>memref&lt;10x16xf32&gt;</code>)</li>
+<li><img alt="Equation: upper C" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/72a1e1fdd31941ccfab33a0efdebeaa40b0abd42f51a10785822f741e82b7c30.png" width="21"/> is the 8×16 output matrix (<code>memref&lt;8x16xf32&gt;</code>)</li>
+<li><img alt="Equation: i" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/4b82b784ea03d07a4694b886e8e19ebf1f142094b826600a27ebb0986a58cc06.png" width="12"/> ranges from 1 to 8</li>
+<li><img alt="Equation: j" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/4f71a4ad1ed9d5231a90cd52ff2f6e7228e4a8483d9211fdb322b2d3a941db07.png" width="14"/> ranges from 1 to 16</li>
+<li><img alt="Equation: k" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/1b7480c19db2cd59e64dca16ef148c4d02910c375db58a784ddfdb3ebdb44054.png" width="16"/> is the summation index ranging from 1 to 10</li>
 </ul>
 <p>This matches the MLIR implementation where:</p>
 <ul>
-<li>The <code>parallel</code> iterator types correspond to the free indices $i$ and $j$</li>
-<li>The <code>reduction</code> iterator type corresponds to the summation over $k$</li>
-<li>The indexing maps <code>(i, j, k) -&gt; (i, k)</code>, <code>(i, j, k) -&gt; (k, j)</code>, and <code>(i, j, k) -&gt; (i, j)</code> correspond to accessing $A_{ik}$, $B_{kj}$, and $C_{ij}$ respectively</li>
+<li>The <code>parallel</code> iterator types correspond to the free indices <img alt="Equation: i" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/4b82b784ea03d07a4694b886e8e19ebf1f142094b826600a27ebb0986a58cc06.png" width="12"/> and <img alt="Equation: j" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/4f71a4ad1ed9d5231a90cd52ff2f6e7228e4a8483d9211fdb322b2d3a941db07.png" width="14"/></li>
+<li>The <code>reduction</code> iterator type corresponds to the summation over <img alt="Equation: k" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/1b7480c19db2cd59e64dca16ef148c4d02910c375db58a784ddfdb3ebdb44054.png" width="16"/></li>
+<li>The indexing maps <code>(i, j, k) -&gt; (i, k)</code>, <code>(i, j, k) -&gt; (k, j)</code>, and <code>(i, j, k) -&gt; (i, j)</code> correspond to accessing <img alt="Equation: upper A Subscript i k" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/8de22fcfeef10e961817fc556205eb1a78a7bf92d2ac2f959654941a5184143d.png" width="35"/>, <img alt="Equation: upper B Subscript k j" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/4785cdebd866ca518bc5eeb035cc14a67792039345c7c5c9042d81d6dab24fb1.png" width="37"/>, and <img alt="Equation: upper C Subscript i j" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/a97853fdf14f33bc31859297b5a431b64500a703546332ef059ef74ea8acb544.png" width="33"/> respectively</li>
 </ul>
 <pre><code>func.func @matmul(
     %A: memref&lt;8x10xf32&gt;,
@@ -386,7 +388,7 @@ result = fused_addmul(a, b, c)  # [(1+1)*2, (2+1)*2, (3+1)*2, ...]
 <li><code>--linalg-generalize-named-ops</code>: Converts named ops (like <code>linalg.add</code>) to generic form</li>
 <li><code>--convert-linalg-to-loops</code>: Converts the fused operations to explicit loops</li>
 </ol>
-<p>We can run these passes and output the fused <code>addmul</code> operation to <code>fused_ops.mlir</code>, reducing the time complexity from two loops over $n$ to a single loop over $n$.</p>
+<p>We can run these passes and output the fused <code>addmul</code> operation to <code>fused_ops.mlir</code>, reducing the time complexity from two loops over <img alt="Equation: n" class="math-inline" height="20" src="https://beila.github.io/my-collection/math-images/0f57c81ff5279a1eba456b3c43e9896758f44809a9ecb08d5eae4c4d0cf1308b.png" width="17"/> to a single loop over <img alt="Equation: n" class="math-inline" height="20" src="https://beila.github.io/my-collection/math-images/0f57c81ff5279a1eba456b3c43e9896758f44809a9ecb08d5eae4c4d0cf1308b.png" width="17"/>.</p>
 <pre><code>mlir-opt separate_ops.mlir \
   --canonicalize \
   --linalg-fuse-elementwise-ops \
@@ -485,7 +487,7 @@ module {
 <li><a href="https://mlir.llvm.org/OpenMeetings/2022-01-27-Intro-to-Linalg.pdf">Anatomy of Linalg.generic</a></li>
 <li><a href="https://gist.github.com/bjacob/2e662b3d2259d99aec15a43bf0e7b325">IREE/MLIR/Linalg tutorial</a></li>
 </ul>
-    </section>
-  </article>
+</section>
+</article>
 </body>
 </html>

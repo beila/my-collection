@@ -1,13 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="stephen-diehl-content-hash" content="bf3b7ad8b673438ea1f4dfb914bd043be5b5781f8fc19b33ddbff7fb332677db">
-  <meta name="stephen-diehl-article-format" content="10">
-  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/ghc_02.html">
-  <title>Dive into GHC: Intermediate Forms</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="dd4a9cda6ba0536069e7beb0e1746955e790e08cbe886c8f1663fa731a04eee3" name="stephen-diehl-content-hash"/>
+<meta content="14" name="stephen-diehl-article-format"/>
+<link href="https://beila.github.io/my-collection/stephen-diehl/ghc_02.html" rel="canonical"/>
+<title>Dive into GHC: Intermediate Forms</title>
+<style>
     :root { color-scheme: dark; }
     body { margin: 0; background: #171717; color: #f1f1f1;
             font: 18px/1.7 Georgia, serif; }
@@ -26,14 +27,18 @@
     .published { color: #b8b8b8; }
     .original-link { border-top: 1px solid #555; margin-top: 2rem;
                       padding-top: 1rem; }
+img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
+                      vertical-align: middle; }
+    img.math-display { display: block; height: auto; margin: 1.25rem auto;
+                       max-width: 100%; }
   </style>
 </head>
 <body>
-  <article>
-    <h1>Dive into GHC: Intermediate Forms</h1>
-    <p class="published">Published: Mon, 11 Jul 2016 01:00:00 +0000</p>
-    <section class="instapaper_body">
-      <p class="original-link"><a href="https://www.stephendiehl.com/posts/ghc_02/">Read the original article on Stephen Diehl's website</a></p>
+<article>
+<h1>Dive into GHC: Intermediate Forms</h1>
+<p class="published">Published: Mon, 11 Jul 2016 01:00:00 +0000</p>
+<section class="instapaper_body">
+<p class="original-link"><a href="https://www.stephendiehl.com/posts/ghc_02/">Read the original article on Stephen Diehl's website</a></p>
 <p>In the <a href="http://www.stephendiehl.com/posts/ghc_01.html">last blog post</a>, we<br/>
 discussed the high-level API used inside the GHC compiler. This time let's zoom<br/>
 into the pieces that comprise the frontend of the compilation pipeline, namely:</p>
@@ -255,8 +260,7 @@ add :: Int -&gt; Int -&gt; Int
 add x y = x + y
 </code></pre>
 <hr/>
-<h3 id="renaming">Renaming</h3>
-<p>After parsing we run the renamer pass which is responsible for resolving scopes,<br/>
+<p>Renaming. After parsing we run the renamer pass which is responsible for resolving scopes,<br/>
 operator precedences, and unique'ifying all names so that clashes cannot occur.<br/>
 The renamer resolves <code>RdrName</code>s into <code>Name</code>s across all syntax elements.<br/>
 In addition it annotates each name with whether they are qualified and global or<br/>
@@ -272,8 +276,7 @@ Just (add :: Int -&gt; Int -&gt; Int
       Nothing)
 </code></pre>
 <hr/>
-<h3 id="typechecking">Typechecking</h3>
-<p>The renamed AST is then run through the typechecker which maps <code>Name</code>s into<br/>
+<p>Typechecking. The renamed AST is then run through the typechecker which maps <code>Name</code>s into<br/>
 <code>Id</code> and enriches them with inferred types using type inference.</p>
 <pre><code>data TypecheckedModule = TypecheckedModule
   { tm_parsed_module :: ParsedModule
@@ -354,8 +357,7 @@ modInfoExports :: ModuleInfo -&gt; [Name]
 [Animal, Cat, Dog, add]
 </code></pre>
 <hr/>
-<h3 id="core">Core</h3>
-<p>The Core language is GHC's most central data types. Core is a very small,<br/>
+<p>Core. The Core language is GHC's most central data types. Core is a very small,<br/>
 explicitly-typed, variant of System FC. The output of the <code>typecheckModule</code><br/>
 function is a datatype <code>CoreModule</code> which contains the Core program as the<br/>
 typing environment.</p>
@@ -383,12 +385,11 @@ closure has an associated <em>Static Reference Table</em> or SRT. More on this l
      \r srt:SRT:[r6ry :-&gt; $fNumInt] [x y] + $fNumInt x y;]
 </code></pre>
 <hr/>
-<h3 id="summary-%26-next-steps">Summary &amp; Next Steps</h3>
-<p>We mentioned Core and STG only briefly. The process by which frontend syntax is<br/>
+<p>Summary &amp; Next Steps. We mentioned Core and STG only briefly. The process by which frontend syntax is<br/>
 transformed into Core will be our next topic. The design of Core defines a great<br/>
 deal of aspects about how the language is structured and informs the type system<br/>
 as well as code-generation.</p>
-    </section>
-  </article>
+</section>
+</article>
 </body>
 </html>

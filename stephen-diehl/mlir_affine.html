@@ -1,13 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="stephen-diehl-content-hash" content="92858161d3e9cad938263869a74a13143ac557ba401083b5de6c67d480a99a98">
-  <meta name="stephen-diehl-article-format" content="10">
-  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/mlir_affine.html">
-  <title>Affine Dialect and OpenMP</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="92858161d3e9cad938263869a74a13143ac557ba401083b5de6c67d480a99a98" name="stephen-diehl-content-hash"/>
+<meta content="14" name="stephen-diehl-article-format"/>
+<link href="https://beila.github.io/my-collection/stephen-diehl/mlir_affine.html" rel="canonical"/>
+<title>Affine Dialect and OpenMP</title>
+<style>
     :root { color-scheme: dark; }
     body { margin: 0; background: #171717; color: #f1f1f1;
             font: 18px/1.7 Georgia, serif; }
@@ -26,18 +27,21 @@
     .published { color: #b8b8b8; }
     .original-link { border-top: 1px solid #555; margin-top: 2rem;
                       padding-top: 1rem; }
+img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
+                      vertical-align: middle; }
+    img.math-display { display: block; height: auto; margin: 1.25rem auto;
+                       max-width: 100%; }
   </style>
 </head>
 <body>
-  <article>
-    <h1>Affine Dialect and OpenMP</h1>
-    <p class="published">Published: Thu, 13 Mar 2025 00:00:00 +0000</p>
-    <section class="instapaper_body">
-      <p class="original-link"><a href="https://www.stephendiehl.com/posts/mlir_affine/">Read the original article on Stephen Diehl's website</a></p>
+<article>
+<h1>Affine Dialect and OpenMP</h1>
+<p class="published">Published: Thu, 13 Mar 2025 00:00:00 +0000</p>
+<section class="instapaper_body">
+<p class="original-link"><a href="https://www.stephendiehl.com/posts/mlir_affine/">Read the original article on Stephen Diehl's website</a></p>
 <p>
 <img alt="mlir-egglog" src="https://beila.github.io/my-collection/stephen-diehl/assets/fd8e3f315127d9391ef72412cb434a6e46162872b50aafdbb117e51f9982bc55.jpg"/>
 </p>
-
 <p>The affine dialect in MLIR provides abstractions for expressing loops and array accesses that are amenable to parallel execution. Unlike the <code>scf</code> dialect we've seen before, the affine dialect enables advanced loop transformations and automatic parallelization. It's esesntially "first class loops" which is something we always used to layer on top of our LLVM.</p>
 <p>The affine dialect many advantages, including automatic parallelization opportunities, built-in vectorization capabilities, sophisticated loop optimizations, a natural expression of array computations, and integration with OpenMP.</p>
 <h2 id="polyhedral-optimization-model">Polyhedral Optimization Model</h2>
@@ -59,10 +63,8 @@
 </ol>
 <p>Rather than front-load the theory, let's just look at some examples.</p>
 <h2 id="matrix-multiplication">Matrix Multiplication</h2>
-<p>The classic matrix product of two matrices $A_{ij}$ and $B_{jk}$ is:</p>
-<p>$$<br/>
-C_{ik} = (A B)_{ik} = \sum_{j=1}^{N} A_{ij}B_{jk}<br/>
-$$</p>
+<p>The classic matrix product of two matrices <img alt="Equation: upper A Subscript i j" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/46709b276eafeb03bdcc4ec8d4d9a51387a2f39e681236a93d5fd1a66325101f.png" width="34"/> and <img alt="Equation: upper B Subscript j k" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/c347f01b59ed2575364f8dbf0ef0b1ef770b68445edcfbc6aa463c94af415559.png" width="37"/> is:</p>
+<p><img alt="Equation: upper C Subscript i k Baseline equals left-parenthesis upper A upper B right-parenthesis Subscript i k Baseline equals sigma-summation Underscript j equals 1 Overscript upper N Endscripts upper A Subscript i j Baseline upper B Subscript j k" class="math-display" height="54" src="https://beila.github.io/my-collection/math-images/a1cc125df943fb7c11ef8d57bf5b3e44487f6ca8217d18e653841e5bbd6700b9.png" width="170"/></p>
 <p>Expressing this in MLIR as an explicit loop nest would look like this:</p>
 <pre><code>func.func @matmul(%A: memref&lt;?x?xf32&gt;, %B: memref&lt;?x?xf32&gt;, %C: memref&lt;?x?xf32&gt;) {
   %c0 = arith.constant 0 : index
@@ -326,9 +328,7 @@ func.func @after(%A: memref&lt;32x32xf32&gt;) {
 <h2 id="convolution-kernels">Convolution Kernels</h2>
 <p>Now that we understand the basic optimizations available in the affine dialect, let's look at a more practical example: implementing a 2D convolution. This operation is fundamental in image processing and deep learning, where it's used for feature extraction and pattern recognition.</p>
 <p>The mathematical formula for 2D convolution is:</p>
-<p>$$<br/>
-(A * K)_{ij} = \sum_{u} \sum_{v} K_{uv} A_{(i+u)(j+v)}<br/>
-$$</p>
+<p><img alt="Equation: left-parenthesis upper A asterisk upper K right-parenthesis Subscript i j Baseline equals sigma-summation Underscript u Endscripts sigma-summation Underscript v Endscripts upper K Subscript u v Baseline upper A Subscript left-parenthesis i plus u right-parenthesis left-parenthesis j plus v right-parenthesis" class="math-display" height="42" src="https://beila.github.io/my-collection/math-images/5594fac1fe136f84d4b560cdc530dc33373c4eed390b995194a9c04568cdc14a.png" width="212"/></p>
 <pre><code>module {
   func.func @conv_2d(%input: memref&lt;128x128xf32&gt;, %filter: memref&lt;16x16xf32&gt;, %output: memref&lt;113x113xf32&gt;) {
     // Loop over the output matrix dimensions (113x113)
@@ -648,7 +648,7 @@ func.func private @main() {
 <p>The pass handles several important conversions, including the transformation of <code>scf.parallel</code> operations into <code>omp.parallel</code> regions that contain <code>omp.wsloop</code>, while preserving loop bounds and step sizes. Additionally, reduction operations in SCF are mapped to OpenMP reductions, and nested parallel loops are properly managed. This conversion is typically utilized as part of a larger lowering pipeline, which is often followed by <code>-convert-openmp-to-llvm</code> to generate LLVM IR that can be executed with OpenMP runtime support.</p>
 <h2 id="external-resources">External Resources</h2>
 <p class="unordered-list-item">- <a href="https://mlir.llvm.org/docs/Dialects/Affine/">MLIR: Affine Dialect</a></p><p class="unordered-list-item">- <a href="https://mlir.llvm.org/docs/Dialects/Affine/#polyhedral-structures">MLIR: Polyhedral Structures</a></p><p class="unordered-list-item">- <a href="https://mlir.llvm.org/docs/Dialects/OpenMP/">MLIR: OpenMP Dialect</a></p><p class="unordered-list-item">- <a href="https://discourse.llvm.org/t/rfc-openmp-dialect-in-mlir/397">RFC: OpenMP dialect in MLIR</a></p><p class="unordered-list-item">- <a href="https://www.openmp.org/wp-content/uploads/openmp_flang.pdf">OpenMP: OpenMP 5.0 Specification</a></p><p class="unordered-list-item">- <a href="https://llvm.org/devmtg/2024-04/slides/QuickTalks/Martinez-ParallelizingApplicationsWithMLIR.pdf">Parallelizing Applications with MLIR</a></p><p class="unordered-list-item">- <a href="https://hps.vi4io.org/_media/events/2020/llvm-cth20_chandramohan.pdf">OpenMP in Flang using MLIR</a></p><p class="unordered-list-item">- <a href="https://github.com/llvm/llvm-project/blob/main/mlir/include/mlir/Dialect/OpenMP/OpenMPOps.td">OpenMPOps.td</a></p><p class="unordered-list-item">- <a href="https://mlir.llvm.org/doxygen/OpenMPToLLVMIRTranslation_8cpp.html">OpenMPToLLVMIRTranslation.cpp</a></p><p class="unordered-list-item">- <a href="https://easychair.org/publications/preprint/Kp3L">Extending Polygeist to Generate OpenMP SIMD and GPU MLIR Code</a></p><p class="unordered-list-item">- <a href="https://tildesites.bowdoin.edu/~ltoma/teaching/cs3225-GIS/fall17/Lectures/openmp.html">OpenMP in a Nutshell</a></p><p class="unordered-list-item">- <a href="https://users.cs.utah.edu/~mhall/mlir4hpc/pienaar-MLIR-Tutorial.pdf">MLIR Tutorial: Building a Compiler with MLIR</a></p><p class="unordered-list-item">- <a href="https://www.youtube.com/watch?v=hIt6J1_E21c">2023 EuroLLVM - MLIR Dialect Design and Composition for Front-End Compilers</a></p><p class="unordered-list-item">- <a href="https://reviews.llvm.org/D119743">Add conversion from SCF parallel loops to OpenMP</a></p><p class="unordered-list-item">- <a href="https://www.youtube.com/watch?v=lOK6JPuVFYg">Open MLIR Meeting 2-15-2024: OpenMP GPU Target Offloading</a></p><p class="unordered-list-item">- <a href="https://reviews.llvm.org/D119743">Mark parallel regions as allocation scopes</a></p>
-    </section>
-  </article>
+</section>
+</article>
 </body>
 </html>

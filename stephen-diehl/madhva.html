@@ -1,13 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="stephen-diehl-content-hash" content="c5580cf1caf8a7eb8f67906686d2b7b9702148edf7bb3c42f9acbd3bb68ca136">
-  <meta name="stephen-diehl-article-format" content="10">
-  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/madhva.html">
-  <title>Pi from String Amplitudes</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="c5580cf1caf8a7eb8f67906686d2b7b9702148edf7bb3c42f9acbd3bb68ca136" name="stephen-diehl-content-hash"/>
+<meta content="14" name="stephen-diehl-article-format"/>
+<link href="https://beila.github.io/my-collection/stephen-diehl/madhva.html" rel="canonical"/>
+<title>Pi from String Amplitudes</title>
+<style>
     :root { color-scheme: dark; }
     body { margin: 0; background: #171717; color: #f1f1f1;
             font: 18px/1.7 Georgia, serif; }
@@ -26,23 +27,23 @@
     .published { color: #b8b8b8; }
     .original-link { border-top: 1px solid #555; margin-top: 2rem;
                       padding-top: 1rem; }
+img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
+                      vertical-align: middle; }
+    img.math-display { display: block; height: auto; margin: 1.25rem auto;
+                       max-width: 100%; }
   </style>
 </head>
 <body>
-  <article>
-    <h1>Pi from String Amplitudes</h1>
-    <p class="published">Published: Sun, 01 Sep 2024 01:00:00 +0000</p>
-    <section class="instapaper_body">
-      <p class="original-link"><a href="https://www.stephendiehl.com/posts/madhva/">Read the original article on Stephen Diehl's website</a></p>
-<p>From the <a href="https://journals.aps.org/prl/pdf/10.1103/PhysRevLett.132.221601">paper by Arnab Priya Saha and Aninda Sinha</a>. A new series for \(\pi\) and its convergence.</p>
-<p>$$<br/>
-\pi = 4 + \sum_{n=1}^{\infty} \frac{1}{n!} \left( \frac{1}{n + \lambda} - \frac{4}{2n + 1} \right) \left( \frac{(2n + 1)^2}{4(n + \lambda)} - n \right)_{n-1}<br/>
-$$</p>
-<p>Where \((a)_{n-1}\) is the Pochhammer symbol.</p>
-<p>$$<br/>
-(a)_{n-1} = \frac{\Gamma(a + n - 1)}{\Gamma(a)}<br/>
-$$</p>
-<p>\(\lambda\) is a free parameter for optimizing convergence. As \(\lambda\) approaches infinity, the series reduces to the classic Madhava series. With \(\lambda\) between 10 and 100, the series takes 30 terms to converge to ten decimal places. Which is far more efficient than the classic <a href="https://en.wikipedia.org/wiki/Madhava_series">Madhava series</a>, which takes 5 billion terms to converge to ten decimal places.</p>
+<article>
+<h1>Pi from String Amplitudes</h1>
+<p class="published">Published: Sun, 01 Sep 2024 01:00:00 +0000</p>
+<section class="instapaper_body">
+<p class="original-link"><a href="https://www.stephendiehl.com/posts/madhva/">Read the original article on Stephen Diehl's website</a></p>
+<p>From the <a href="https://journals.aps.org/prl/pdf/10.1103/PhysRevLett.132.221601">paper by Arnab Priya Saha and Aninda Sinha</a>. A new series for <img alt="Equation: pi" class="math-inline" height="20" src="https://beila.github.io/my-collection/math-images/0a8c6aca37c4cc6db10a641ab5cc6be37fa6f044e5cd8dacae69f2f78d69f1fb.png" width="16"/> and its convergence.</p>
+<p><img alt="Equation: pi equals 4 plus sigma-summation Underscript n equals 1 Overscript normal infinity Endscripts StartFraction 1 Over n factorial EndFraction left-parenthesis StartFraction 1 Over n plus lamda EndFraction minus StartFraction 4 Over 2 n plus 1 EndFraction right-parenthesis left-parenthesis StartFraction left-parenthesis 2 n plus 1 right-parenthesis squared Over 4 left-parenthesis n plus lamda right-parenthesis EndFraction minus n right-parenthesis Subscript n minus 1" class="math-display" height="54" src="https://beila.github.io/my-collection/math-images/bd0972fd8a9010824897c7c0f4f82d613f4e612721e87659f65aa404efd00951.png" width="350"/></p>
+<p>Where <img alt="Equation: left-parenthesis a right-parenthesis Subscript n minus 1" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/7a7b19fd061515044228d7e6aa003f8e8c88b942491c0c03c055676227a95cdc.png" width="62"/> is the Pochhammer symbol.</p>
+<p><img alt="Equation: left-parenthesis a right-parenthesis Subscript n minus 1 Baseline equals StartFraction normal upper Gamma left-parenthesis a plus n minus 1 right-parenthesis Over normal upper Gamma left-parenthesis a right-parenthesis EndFraction" class="math-display" height="48" src="https://beila.github.io/my-collection/math-images/cde6ad52e62bb130aee2f27a01d9c204305cbd3c77b21b15f75e974d3394dc62.png" width="146"/></p>
+<p><img alt="Equation: lamda" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/aec740b6e2c0a94a7ce8ded01cf697d4481c7edd78f6c5f0f7e4d9f6bca86b70.png" width="17"/> is a free parameter for optimizing convergence. As <img alt="Equation: lamda" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/aec740b6e2c0a94a7ce8ded01cf697d4481c7edd78f6c5f0f7e4d9f6bca86b70.png" width="17"/> approaches infinity, the series reduces to the classic Madhava series. With <img alt="Equation: lamda" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/aec740b6e2c0a94a7ce8ded01cf697d4481c7edd78f6c5f0f7e4d9f6bca86b70.png" width="17"/> between 10 and 100, the series takes 30 terms to converge to ten decimal places. Which is far more efficient than the classic <a href="https://en.wikipedia.org/wiki/Madhava_series">Madhava series</a>, which takes 5 billion terms to converge to ten decimal places.</p>
 <p>This can be implemented in Python as follows:</p>
 <pre><code>import mpmath as mp
 
@@ -85,7 +86,7 @@ def mp_calculate_pi(lambda_val, iters):
 lambda_val = 42
 pi, n = mp_calculate_pi(lambda_val, 30)
 </code></pre>
-    </section>
-  </article>
+</section>
+</article>
 </body>
 </html>

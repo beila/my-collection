@@ -1,13 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="stephen-diehl-content-hash" content="943a57aa53e6befa52b81067910f6bab7baac4438a7c3744d8bec52d4b1846b2">
-  <meta name="stephen-diehl-article-format" content="10">
-  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/mtcs.html">
-  <title>Monte Carlo Tree Search</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="943a57aa53e6befa52b81067910f6bab7baac4438a7c3744d8bec52d4b1846b2" name="stephen-diehl-content-hash"/>
+<meta content="14" name="stephen-diehl-article-format"/>
+<link href="https://beila.github.io/my-collection/stephen-diehl/mtcs.html" rel="canonical"/>
+<title>Monte Carlo Tree Search</title>
+<style>
     :root { color-scheme: dark; }
     body { margin: 0; background: #171717; color: #f1f1f1;
             font: 18px/1.7 Georgia, serif; }
@@ -26,14 +27,18 @@
     .published { color: #b8b8b8; }
     .original-link { border-top: 1px solid #555; margin-top: 2rem;
                       padding-top: 1rem; }
+img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
+                      vertical-align: middle; }
+    img.math-display { display: block; height: auto; margin: 1.25rem auto;
+                       max-width: 100%; }
   </style>
 </head>
 <body>
-  <article>
-    <h1>Monte Carlo Tree Search</h1>
-    <p class="published">Published: Wed, 04 Sep 2024 01:00:00 +0000</p>
-    <section class="instapaper_body">
-      <p class="original-link"><a href="https://www.stephendiehl.com/posts/mtcs/">Read the original article on Stephen Diehl's website</a></p>
+<article>
+<h1>Monte Carlo Tree Search</h1>
+<p class="published">Published: Wed, 04 Sep 2024 01:00:00 +0000</p>
+<section class="instapaper_body">
+<p class="original-link"><a href="https://www.stephendiehl.com/posts/mtcs/">Read the original article on Stephen Diehl's website</a></p>
 <p>Monte Carlo Tree Search is a robust algorithm used for decision making in game playing and reinforcement learning. It is a heuristic search algorithm that combines the best aspects of tree search and Monte Carlo simulation. MCTS is particularly useful when dealing with large and complex search spaces, such as in neurosymbolic systems and reinforcement learning.</p>
 <p>Today let's implement MCTS in Python. First we need to define a <code>Node</code> class that will be used to represent the state.</p>
 <pre><code>rom dataclasses import dataclass, field
@@ -91,15 +96,13 @@ class MCTS:
             return node.get_random_child()
 </code></pre>
 <p>In the algorithm we'll use the UCT (Upper Confidence Trees) formula to select the best move.</p>
-<p>$$<br/>
-UCT(v) = \frac{w_v}{n_v} + c \sqrt{\frac{\ln(N)}{n_v}}<br/>
-$$</p>
+<p><img alt="Equation: upper U upper C upper T left-parenthesis v right-parenthesis equals StartFraction w Subscript v Baseline Over n Subscript v Baseline EndFraction plus c StartRoot StartFraction ln left-parenthesis upper N right-parenthesis Over n Subscript v Baseline EndFraction EndRoot" class="math-display" height="54" src="https://beila.github.io/my-collection/math-images/3bc537faad7cf9430895bc716fe81d22256edb17ec522dd9a86d756d778ad1bf.png" width="174"/></p>
 <p>Where:</p>
 <ul>
-<li>$w_v$ is the total reward of the node.</li>
-<li>$n_v$ is the number of times the node has been visited.</li>
-<li>$N$ is the total number of simulations.</li>
-<li>$c$ is the exploration constant.</li>
+<li><img alt="Equation: w Subscript v" class="math-inline" height="23" src="https://beila.github.io/my-collection/math-images/85c4cfb947b591111924e34224ff8160425594a226bb90e52ed057109932e187.png" width="29"/> is the total reward of the node.</li>
+<li><img alt="Equation: n Subscript v" class="math-inline" height="23" src="https://beila.github.io/my-collection/math-images/25f8ec3e8752e2ecc4fddc541f789e0753db4fecec2fa78651f56127fd572e42.png" width="27"/> is the number of times the node has been visited.</li>
+<li><img alt="Equation: upper N" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/3b2c53a3802f7f352dfc8ebdb9c97877f452586fc04f7d62cca47d804b6f617e.png" width="23"/> is the total number of simulations.</li>
+<li><img alt="Equation: c" class="math-inline" height="20" src="https://beila.github.io/my-collection/math-images/5edf831e3a36468482c1edce39cd6d54965227efb31302d8f0a974b7d5f379ca.png" width="14"/> is the exploration constant.</li>
 </ul>
 <pre><code>    def simulate(self, node: Node) -&gt; None:
         """Perform one iteration of the MCTS algorithm."""
@@ -272,7 +275,7 @@ def print_board(state: str):
 if __name__ == "__main__":
     play_game()
 </code></pre>
-    </section>
-  </article>
+</section>
+</article>
 </body>
 </html>

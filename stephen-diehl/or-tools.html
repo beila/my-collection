@@ -1,13 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="stephen-diehl-content-hash" content="bd20e099ba23c3e9d826f184282b188db9adcb1d9d9c408afb2ff27a5da470d0">
-  <meta name="stephen-diehl-article-format" content="10">
-  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/or-tools.html">
-  <title>Using Google OR-Tools to do Answer Set Programming</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="bd20e099ba23c3e9d826f184282b188db9adcb1d9d9c408afb2ff27a5da470d0" name="stephen-diehl-content-hash"/>
+<meta content="14" name="stephen-diehl-article-format"/>
+<link href="https://beila.github.io/my-collection/stephen-diehl/or-tools.html" rel="canonical"/>
+<title>Using Google OR-Tools to do Answer Set Programming</title>
+<style>
     :root { color-scheme: dark; }
     body { margin: 0; background: #171717; color: #f1f1f1;
             font: 18px/1.7 Georgia, serif; }
@@ -26,14 +27,18 @@
     .published { color: #b8b8b8; }
     .original-link { border-top: 1px solid #555; margin-top: 2rem;
                       padding-top: 1rem; }
+img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
+                      vertical-align: middle; }
+    img.math-display { display: block; height: auto; margin: 1.25rem auto;
+                       max-width: 100%; }
   </style>
 </head>
 <body>
-  <article>
-    <h1>Using Google OR-Tools to do Answer Set Programming</h1>
-    <p class="published">Published: Thu, 01 Feb 2018 00:00:00 +0000</p>
-    <section class="instapaper_body">
-      <p class="original-link"><a href="https://www.stephendiehl.com/posts/or-tools/">Read the original article on Stephen Diehl's website</a></p>
+<article>
+<h1>Using Google OR-Tools to do Answer Set Programming</h1>
+<p class="published">Published: Thu, 01 Feb 2018 00:00:00 +0000</p>
+<section class="instapaper_body">
+<p class="original-link"><a href="https://www.stephendiehl.com/posts/or-tools/">Read the original article on Stephen Diehl's website</a></p>
 <p>Ever tried manually figuring out the perfect schedule for your team or planning delivery routes? Enter Google OR-Tools, a free Swiss Army knife of a toolkit that tackles these headache-inducing optimization challenges. From constraint programming to linear programming and specialized routing solvers, it packs all the tools you need to solve complex puzzles in computer science. And since Google maintains and improves it, you can focus on solving your specific problems rather than reinventing optimization algorithms from scratch.</p>
 <p>Here's a simple example where we need to select people for a team while satisfying multiple constraints:</p>
 <pre><code>from ortools.sat.python import cp_model
@@ -158,7 +163,7 @@ def create_delivery_route():
 
 create_delivery_route()
 </code></pre>
-    </section>
-  </article>
+</section>
+</article>
 </body>
 </html>

@@ -1,13 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="stephen-diehl-content-hash" content="49972358255114259f17ff0e42e10e633be2bd9d8997deffe4f7bac6013f9ad5">
-  <meta name="stephen-diehl-article-format" content="11">
-  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/adjunctions.html">
-  <title>From Adjunctions to Monads</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="49972358255114259f17ff0e42e10e633be2bd9d8997deffe4f7bac6013f9ad5" name="stephen-diehl-content-hash"/>
+<meta content="14" name="stephen-diehl-article-format"/>
+<link href="https://beila.github.io/my-collection/stephen-diehl/adjunctions.html" rel="canonical"/>
+<title>From Adjunctions to Monads</title>
+<style>
     :root { color-scheme: dark; }
     body { margin: 0; background: #171717; color: #f1f1f1;
             font: 18px/1.7 Georgia, serif; }
@@ -26,14 +27,18 @@
     .published { color: #b8b8b8; }
     .original-link { border-top: 1px solid #555; margin-top: 2rem;
                       padding-top: 1rem; }
+img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
+                      vertical-align: middle; }
+    img.math-display { display: block; height: auto; margin: 1.25rem auto;
+                       max-width: 100%; }
   </style>
 </head>
 <body>
-  <article>
-    <h1>From Adjunctions to Monads</h1>
-    <p class="published">Published: Thu, 29 Aug 2013 01:00:00 +0000</p>
-    <section class="instapaper_body">
-      <p class="original-link"><a href="https://www.stephendiehl.com/posts/adjunctions/">Read the original article on Stephen Diehl's website</a></p>
+<article>
+<h1>From Adjunctions to Monads</h1>
+<p class="published">Published: Thu, 29 Aug 2013 01:00:00 +0000</p>
+<section class="instapaper_body">
+<p class="original-link"><a href="https://www.stephendiehl.com/posts/adjunctions/">Read the original article on Stephen Diehl's website</a></p>
 <p>I thought I would share one of my favorite constructions in<br/>
 Haskell, namely that adjoint functors give rise to monads.<br/>
 Although it's a trivial result in category theory how it<br/>
@@ -55,7 +60,7 @@ as points and objects as lines.</p>
 <img src="https://beila.github.io/my-collection/stephen-diehl/assets/861a096e5a41f6318c24787f2df78f62002b5f2f30547d4fcf309e4b61be44b7.png"/>
 </p>
 <p>Functor composition is defined for $F : \mathcal{A} \rightarrow<br/>
-\mathcal{B}$, $G : \mathcal{B} \rightarrow \mathcal{C}$ as $G<br/>
+\mathcal{B}$, <img alt="Equation: upper G colon script upper B right-arrow script upper C" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/d93c7fdcc748c7feb685e50019f28c88e2fc6e83f424545673da5e43d97f7356.png" width="96"/> as $G<br/>
 \circ F : \mathcal{A} \rightarrow \mathcal{C}$, and is drawn with<br/>
 parallel lines.</p>
 <pre><code>newtype FComp f g a = C { unC :: f (g a) }
@@ -66,10 +71,10 @@ instance (Functor f, Functor g) =&gt; Functor (FComp f g) where
 <p>
 <img src="https://beila.github.io/my-collection/stephen-diehl/assets/36b279f07f4e71e54af0a3c917377b3a012781f9032ca016dc558c51a0d309ac.png"/>
 </p>
-<p>Generally the composition of functors $F \circ G$ is written<br/>
-simply as $FG$. Composition diagrammatically allows us to<br/>
+<p>Generally the composition of functors <img alt="Equation: upper F ring upper G" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/90f0206df6a8d3e849be857a4bd7452305947676071397c10ffcaf23dd356a4d.png" width="57"/> is written<br/>
+simply as <img alt="Equation: upper F upper G" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/f60e85e2e2bce6ae75eb26935aee35f2b77c5e6e7d75cd09fb9f7853447e3fcc.png" width="37"/>. Composition diagrammatically allows us to<br/>
 collapse adjacent segments in our string diagram.</p>
-<p>The identity functor ( $\text{Id}$ ) is the functor that maps<br/>
+<p>The identity functor ( <img alt="Equation: Id" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/c41048a51f40ec244d85caf83e93f10076b6bb8bb8028e7683217cec348234c5.png" width="24"/> ) is the functor that maps<br/>
 each morphism and object to itself.</p>
 <pre><code>newtype Id a = Identity { unId :: a }
 
@@ -77,10 +82,7 @@ instance Functor Id where
     fmap f x = Identity (f (unId x))
 </code></pre>
 <p>Composition with the identity functor forms an identity relation:</p>
-<p>$$<br/>
-F \circ \text{Id}_B = F \<br/>
-\text{Id}_A \circ F = F<br/>
-$$</p>
+<p><img alt="Equation: upper F ring Id Subscript upper B Baseline equals upper F Id Subscript upper A Baseline ring upper F equals upper F" class="math-display" height="24" src="https://beila.github.io/my-collection/math-images/1091475b5dd52a1a3a363751789f4ca6a9f8d6f74de8f29e6be9b004950ad583.png" width="160"/></p>
 <p>As witnessed by the expressions:</p>
 <pre><code>left :: Functor f =&gt; FComp f Id a -&gt; f a
 left (C a) = fmap unId a
@@ -102,8 +104,8 @@ the following type synonym.</p>
 <p>
 <img src="https://beila.github.io/my-collection/stephen-diehl/assets/94e7cfb382a9a0de8b73d2c097e825dbaf4756ebf04ea0ab21640a3ab96d0b90.png"/>
 </p>
-<p>The identity natural transform mapping a functor $F$ to itself is<br/>
-written $1_F$ and in Haskell is just (<code>id</code>). The composition of<br/>
+<p>The identity natural transform mapping a functor <img alt="Equation: upper F" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/91d29477292b56738b80b86035aef8a38a74e7ba8b63f679d886c23d6b6d1614.png" width="20"/> to itself is<br/>
+written <img alt="Equation: 1 Subscript upper F" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/3f8b5e09c036ca91b19f07323f03d9c93e74fd5a0e4aa46af0a60d07be239e54.png" width="28"/> and in Haskell is just (<code>id</code>). The composition of<br/>
 natural transformations follows the associativity laws, shown<br/>
 below:</p>
 <p>
@@ -113,9 +115,7 @@ below:</p>
 transformations through the functors horizontally or compose<br/>
 natural transformation between functors vertically and still<br/>
 arrive at the same result.</p>
-<p>$$<br/>
-(\alpha \beta) \circ (\alpha' \beta') = (\alpha \alpha') \circ (\beta \beta')<br/>
-$$</p>
+<p><img alt="Equation: left-parenthesis alpha beta right-parenthesis ring left-parenthesis alpha prime beta prime right-parenthesis equals left-parenthesis alpha alpha prime right-parenthesis ring left-parenthesis beta beta prime right-parenthesis" class="math-display" height="26" src="https://beila.github.io/my-collection/math-images/7395455808ac4bbd8c6626ba4bda900a1565ec0362a911ec585edc910acbae1f.png" width="181"/></p>
 <pre><code>type NatComp f f' g g' = forall a. f' (f a) -&gt; g' (g a)
 
 vert :: (Functor f, Functor f', Functor g, Functor g') =&gt;
@@ -133,37 +133,31 @@ interchangable under composition. For natural transformations<br/>
 </code></pre>
 <p>A diagram example for a natural transformation $\eta : 1_\mathcal{C}<br/>
 \rightarrow {FG}$ between the identity functor and the<br/>
-composition functor of $FG$ would be drawn as:</p>
+composition functor of <img alt="Equation: upper F upper G" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/f60e85e2e2bce6ae75eb26935aee35f2b77c5e6e7d75cd09fb9f7853447e3fcc.png" width="37"/> would be drawn as:</p>
 <p>
 <img src="https://beila.github.io/my-collection/stephen-diehl/assets/35d42184d96cf5aa892105791e8d8459b2f57f4ec95536088c8a3666fd9d1cb4.png"/>
 </p>
 <hr/>
-<p>An isomorphism $F \cong G$ implies that composition of functors<br/>
-is invertible in that $F G = \text{Id}_C$ and $G F =<br/>
-\text{Id}_D$. An adjoint $F ⊣ G$ between a pair of functors $F :<br/>
-D \rightarrow C$ and $G : C \rightarrow D$ is a weaker statement<br/>
+<p>An isomorphism <img alt="Equation: upper F approximately-equals upper G" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/18da209c3ca5e33997c196e6000bfe5006ad8ea621fb32f1b87e636a8bb914c8.png" width="64"/> implies that composition of functors<br/>
+is invertible in that <img alt="Equation: upper F upper G equals Id Subscript upper C" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/214400f205f4eb4d892020c62ce7ade274dbf3aa186a1368b1d1aa792e5d0b46.png" width="98"/> and $G F =<br/>
+\text{Id}_D$. An adjoint <img alt="Equation: upper F left-tack upper G" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/22ea3a52a908f071df26562b68dcd5487556999fe99ae6f144aca8ea0e568c4f.png" width="62"/> between a pair of functors $F :<br/>
+D \rightarrow C$ and <img alt="Equation: upper G colon upper C right-arrow upper D" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/8d3dde4830bb25c85e72a020e35419daa494df08354ecbae3223d73f3561682e.png" width="104"/> is a weaker statement<br/>
 that there exists a pair of associated natural transformations<br/>
-$(F, G, \epsilon, \eta)$ with:</p>
-<p>$$<br/>
-\epsilon : FG \rightarrow 1_\mathcal{C} \<br/>
-\eta : 1_\mathcal{D} \rightarrow FG<br/>
-$$</p>
+<img alt="Equation: left-parenthesis upper F comma upper G comma epsilon comma eta right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/00d558bba2f77b0707119c974de1d0377a7e31ee4f3145a0a4f882b22ba25f3f.png" width="100"/> with:</p>
+<p><img alt="Equation: epsilon colon upper F upper G right-arrow 1 Subscript script upper C Baseline eta colon 1 Subscript script upper D Baseline right-arrow upper F upper G" class="math-display" height="24" src="https://beila.github.io/my-collection/math-images/80087ae2537e6cb15c7a2c15ce0ee6d9b4454f27985820fdc6e4754be9e4622c.png" width="164"/></p>
 <p>
 <img src="https://beila.github.io/my-collection/stephen-diehl/assets/5fe1d881ce6f2681cd3cfe7a53fae3550c08ebe88e9313770280243100645d73.png"/>
 </p>
 <p>Such that the following <em>triangle identities</em> hold:</p>
-<p>$$<br/>
-(\epsilon F) \circ (F \eta) = 1_F  \<br/>
-(G \epsilon) \circ (\eta G) = 1_G<br/>
-$$</p>
+<p><img alt="Equation: left-parenthesis epsilon upper F right-parenthesis ring left-parenthesis upper F eta right-parenthesis equals 1 Subscript upper F Baseline left-parenthesis upper G epsilon right-parenthesis ring left-parenthesis eta upper G right-parenthesis equals 1 Subscript upper G Baseline" class="math-display" height="26" src="https://beila.github.io/my-collection/math-images/2b1a51858ed5c018e6050851aeb1dddac3dbaabf618f769a208c76ebf454b727.png" width="218"/></p>
 <p>These are drawn below:</p>
 <p>
 <img src="https://beila.github.io/my-collection/stephen-diehl/assets/ec0c81a7fbf7392f9cf654e03d2b8425215965a90bc307eec6b254d618528dd2.png"/>
 </p>
-<p>In terms of the categories $C,D$ an adjoint is in some sense a<br/>
+<p>In terms of the categories <img alt="Equation: upper C comma upper D" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/183363c3fc7164cee905814318539bf789e56d3745b5f8e14707d21e411afe0d.png" width="47"/> an adjoint is in some sense a<br/>
 "half-isomorphism" or "almost inverse" but some structure is lost<br/>
 in one direction.</p>
-<p>$\eta$ and $\epsilon$ are also referred to respectively as the<br/>
+<p><img alt="Equation: eta" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/97617a925f72af3d7d08633f0164b9a45a7daabde2a8e2fc05e5b06d65cf8ea0.png" width="16"/> and <img alt="Equation: epsilon" class="math-inline" height="20" src="https://beila.github.io/my-collection/math-images/acda73fa8b332fc82349c005fb96367574e390309a63a9cdae9621d3fc3ba9d7.png" width="14"/> are also referred to respectively as the<br/>
 <em>unit</em> and <em>counit</em>.</p>
 <p>In Haskell we have the following typeclass which unfortunately<br/>
 requires a functional dependency in order for type inferencer to<br/>
@@ -172,33 +166,28 @@ deduce which <code>fmap</code> is to be used:</p>
   eta     :: a -&gt; g (f a)
   epsilon :: f (g a) -&gt; a
 </code></pre>
-<p>There are also two other natural transformations ($\phi, \psi$)<br/>
+<p>There are also two other natural transformations (<img alt="Equation: phi comma psi" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/b61334d563dc3d50ff11e1d5069c997f3e982cd8a39c954d505470401b971342.png" width="40"/>)<br/>
 which together with the adjoint functor pair form an<br/>
 <em>adjunction</em>. The adjunction can be defined in terms of the<br/>
 adjoint pair and this is most convenient definition in Haskell</p>
-<p>$$<br/>
-\psi \epsilon = 1_F \<br/>
-\phi \eta = 1_G<br/>
-$$</p>
+<p><img alt="Equation: psi epsilon equals 1 Subscript upper F Baseline phi eta equals 1 Subscript upper G Baseline" class="math-display" height="24" src="https://beila.github.io/my-collection/math-images/3b3347590a742d16b85764d06c2b7dafd341b888b03c6833c222dc1f0bd11b88.png" width="111"/></p>
 <pre><code>phi :: Adjoint f g =&gt; (f a -&gt; b) -&gt; a -&gt; g b
 phi f = fmap f . eta
 
 psi :: Adjoint f g =&gt; (a -&gt; g b) -&gt; f a -&gt; b
 psi f = epsilon . fmap f
 </code></pre>
-<p>Notably $\phi$ and $\psi$ form an isomorphism between the set of<br/>
+<p>Notably <img alt="Equation: phi" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/3c1b62c49e9482dd3eb9e1d05476af63d5254704e602a4b5312c1e0bc695cfd7.png" width="17"/> and <img alt="Equation: psi" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/fbaee0f577894616715b654f6f2043a2c1f29d5249c260c7c509377fd44d037a.png" width="19"/> form an isomorphism between the set of<br/>
 functions <code>(a -&gt; g b)</code> and <code>(f a -&gt; b)</code> which is the same<br/>
-relation as the above triangle identities. Alternatively $\eta$<br/>
-and $\epsilon$ can be expressed in terms of $\phi$ and $\psi$.</p>
+relation as the above triangle identities. Alternatively <img alt="Equation: eta" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/97617a925f72af3d7d08633f0164b9a45a7daabde2a8e2fc05e5b06d65cf8ea0.png" width="16"/><br/>
+and <img alt="Equation: epsilon" class="math-inline" height="20" src="https://beila.github.io/my-collection/math-images/acda73fa8b332fc82349c005fb96367574e390309a63a9cdae9621d3fc3ba9d7.png" width="14"/> can be expressed in terms of <img alt="Equation: phi" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/3c1b62c49e9482dd3eb9e1d05476af63d5254704e602a4b5312c1e0bc695cfd7.png" width="17"/> and <img alt="Equation: psi" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/fbaee0f577894616715b654f6f2043a2c1f29d5249c260c7c509377fd44d037a.png" width="19"/>.</p>
 <pre><code>phi eta = id
 psi epsilon = id
 </code></pre>
 <hr/>
 <p>From the Haskell Prelude we have the canonical adjoint namely<br/>
 <code>curry</code> and <code>uncurry</code>:</p>
-<p>$$<br/>
-\text{curry} \quad ⊣ \quad \text{uncurry}<br/>
-$$</p>
+<p><img alt="Equation: curry left-tack uncurry" class="math-display" height="24" src="https://beila.github.io/my-collection/math-images/b4dca1acf88b8bbe3aeff5c239b6876d200387443040041c663e6511a23c051f.png" width="132"/></p>
 <pre><code>instance Functor ((,) a) where
   fmap f (x,y) = (x, f y)
 
@@ -212,7 +201,7 @@ functor instances:</p>
   epsilon (y, f) = f y
 </code></pre>
 <p>We can check that the triangle equalities hold for this<br/>
-definition by showing both $(\epsilon F) \circ (F \eta)$ and $(G<br/>
+definition by showing both <img alt="Equation: left-parenthesis epsilon upper F right-parenthesis ring left-parenthesis upper F eta right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/420931c9779095f0de3f06c994d1901a2e8305d2a9af361ffee6b63c0063c115.png" width="107"/> and $(G<br/>
 \epsilon) \circ (\eta G)$ reduce to the identity natural<br/>
 transformation ( <code>id</code> ).</p>
 <pre><code>a0 :: (a -&gt; (b -&gt; c)) -&gt; a -&gt; (b -&gt; c)
@@ -226,19 +215,16 @@ a1 f = epsilon . fmap (\x y -&gt; f (y, x))
 a1 f = \(x, y) -&gt; f (x, y)
 </code></pre>
 <hr/>
-<p>We know a Monad is an endofunctor $T : C \rightarrow C$ with two<br/>
-natural transformations $(T, \mu, \eta)$ with the usual laws:</p>
-<p>$$<br/>
-\mu \circ T \mu = \mu \circ \mu T \<br/>
-\mu \circ T \eta = \mu \circ \eta T = 1_T \<br/>
-$$</p>
+<p>We know a Monad is an endofunctor <img alt="Equation: upper T colon upper C right-arrow upper C" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/da73c75bfe0e8f54426ca01dffd0ef45f3273bb43838995c5e284b7687c78a9c.png" width="101"/> with two<br/>
+natural transformations <img alt="Equation: left-parenthesis upper T comma mu comma eta right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/c96bb4e1530b28c90e7592be5a50e7e2256c73bcf68d462298c6dde62aac2ddb.png" width="78"/> with the usual laws:</p>
+<p><img alt="Equation: mu ring upper T mu equals mu ring mu upper T mu ring upper T eta equals mu ring eta upper T equals 1 Subscript upper T Baseline" class="math-display" height="24" src="https://beila.github.io/my-collection/math-images/5972d2d2f4cc27ad782698ab03fa0255586dfe09c339de17c74dbd59bd750097.png" width="242"/></p>
 <p>
 <img src="https://beila.github.io/my-collection/stephen-diehl/assets/01bbc86f107863d20189d907c65a223a484a380f9a57f69a10161c8093b225d3.png"/>
 </p>
 <p>The geometric intuition is that the monad laws are reflected as<br/>
-topological properties of the string diagrams. Both $\mu$ and<br/>
-$\eta$ exhibit reflection symmetry and that we topologically<br/>
-straighten out $\eta$ to yield the identity functor.</p>
+topological properties of the string diagrams. Both <img alt="Equation: mu" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/a9595298270bbcf1f43bac68bbbd499fe3930183308fb4df3c17f5c19d8db2b2.png" width="17"/> and<br/>
+<img alt="Equation: eta" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/97617a925f72af3d7d08633f0164b9a45a7daabde2a8e2fc05e5b06d65cf8ea0.png" width="16"/> exhibit reflection symmetry and that we topologically<br/>
+straighten out <img alt="Equation: eta" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/97617a925f72af3d7d08633f0164b9a45a7daabde2a8e2fc05e5b06d65cf8ea0.png" width="16"/> to yield the identity functor.</p>
 <p>
 <img src="https://beila.github.io/my-collection/stephen-diehl/assets/fdd0774e4da3f7decd14bd7b6269d01debcea0a507d24cba42c996685c0a0563.png"/>
 </p>
@@ -246,7 +232,7 @@ straighten out $\eta$ to yield the identity functor.</p>
 <img src="https://beila.github.io/my-collection/stephen-diehl/assets/1a68d7959d227baf814582b6e22cc50af6ec23ce549db9691780e65316642c37.png"/>
 </p>
 <p>In Haskell we can <a href="http://www.stephendiehl.com/posts/monads.html">normally construct</a> the<br/>
-Monad type class from an Endofunctor and ($\mu, \eta$) or<br/>
+Monad type class from an Endofunctor and (<img alt="Equation: mu comma eta" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/e6f148a56b8db2dd9eb37d95dd428fb6f90fa6622a9010eeb020f40bcccf6639.png" width="38"/>) or<br/>
 <code>join</code> and <code>return</code>.</p>
 <pre><code>class (Functor t) =&gt; Monad t where
   eta :: a -&gt; (t a)
@@ -259,16 +245,11 @@ return = eta
 join = mu
 </code></pre>
 <p>What is not immediately apparent though is that every adjoint<br/>
-pair of functors gives rise to a monad $(T, \mu, \eta)$ over a<br/>
-category $C$ induced by the composition of the functors to give<br/>
+pair of functors gives rise to a monad <img alt="Equation: left-parenthesis upper T comma mu comma eta right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/c96bb4e1530b28c90e7592be5a50e7e2256c73bcf68d462298c6dde62aac2ddb.png" width="78"/> over a<br/>
+category <img alt="Equation: upper C" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/72a1e1fdd31941ccfab33a0efdebeaa40b0abd42f51a10785822f741e82b7c30.png" width="21"/> induced by the composition of the functors to give<br/>
 rise to a endofunctor and natural transformations in terms of the<br/>
 unit and counit of the underlying adjunction:</p>
-<p>$$<br/>
-\begin{align}<br/>
-T &amp;= G \circ F &amp; : &amp;C \rightarrow C  \<br/>
-\mu &amp;= G \epsilon &amp; : &amp;T^2 \rightarrow T \<br/>
-\end{align}<br/>
-$$</p>
+<p><img alt="Equation: StartLayout 1st Row 1st Column upper T 2nd Column equals upper G ring upper F 3rd Column colon 4th Column upper C right-arrow upper C mu 5th Column equals upper G epsilon 6th Column colon 7th Column upper T squared right-arrow upper T EndLayout" class="math-display" height="28" src="https://beila.github.io/my-collection/math-images/7c24048883a450174f7efeec0e48169d41a04aed24a94227111b10106313ee49.png" width="308"/></p>
 <pre><code>class Adjoint f g =&gt; Monad f g where
   muM :: g (f (g (f a))) -&gt; g (f a)
   muM = fmap epsilon
@@ -300,7 +281,7 @@ instance Kleisli c f g =&gt; Monoid (c a (g (f a))) where
 <p>In retrospect this is trivial, but importantly leads us to the<br/>
 more important question: Can we recover an adjunction from a<br/>
 monad. The answer is Yes...</p>
-    </section>
-  </article>
+</section>
+</article>
 </body>
 </html>

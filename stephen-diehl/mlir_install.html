@@ -1,13 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="stephen-diehl-content-hash" content="67392508f29962ccf8e2e877d47be19112000e0107245ae4910ec401bca9d522">
-  <meta name="stephen-diehl-article-format" content="10">
-  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/mlir_install.html">
-  <title>MLIR Part 0 - Installing MLIR</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="67392508f29962ccf8e2e877d47be19112000e0107245ae4910ec401bca9d522" name="stephen-diehl-content-hash"/>
+<meta content="14" name="stephen-diehl-article-format"/>
+<link href="https://beila.github.io/my-collection/stephen-diehl/mlir_install.html" rel="canonical"/>
+<title>MLIR Part 0 - Installing MLIR</title>
+<style>
     :root { color-scheme: dark; }
     body { margin: 0; background: #171717; color: #f1f1f1;
             font: 18px/1.7 Georgia, serif; }
@@ -26,14 +27,18 @@
     .published { color: #b8b8b8; }
     .original-link { border-top: 1px solid #555; margin-top: 2rem;
                       padding-top: 1rem; }
+img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
+                      vertical-align: middle; }
+    img.math-display { display: block; height: auto; margin: 1.25rem auto;
+                       max-width: 100%; }
   </style>
 </head>
 <body>
-  <article>
-    <h1>MLIR Part 0 - Installing MLIR</h1>
-    <p class="published">Published: Fri, 07 Mar 2025 00:00:00 +0000</p>
-    <section class="instapaper_body">
-      <p class="original-link"><a href="https://www.stephendiehl.com/posts/mlir_install/">Read the original article on Stephen Diehl's website</a></p>
+<article>
+<h1>MLIR Part 0 - Installing MLIR</h1>
+<p class="published">Published: Fri, 07 Mar 2025 00:00:00 +0000</p>
+<section class="instapaper_body">
+<p class="original-link"><a href="https://www.stephendiehl.com/posts/mlir_install/">Read the original article on Stephen Diehl's website</a></p>
 <p>Installing MLIR can be a royal pain, so here are some notes on how to do it via various methods.</p>
 <section class="ordered-list-item"><a href="https://www.stephendiehl.com/posts/mlir_install/#from-homebrew-(macos)">1. From Homebrew (macOS)</a></section><section class="ordered-list-item"><a href="https://www.stephendiehl.com/posts/mlir_install/#using-apt-(ubuntu-22.04)">2. Using Apt (Ubuntu 22.04)</a></section><section class="ordered-list-item"><a href="https://www.stephendiehl.com/posts/mlir_install/#using-llvm.sh">3. Using <code>llvm.sh</code></a></section><section class="ordered-list-item"><a href="https://www.stephendiehl.com/posts/mlir_install/#precompiled-packages">4. Precompiled Packages</a></section><section class="ordered-list-item"><a href="https://www.stephendiehl.com/posts/mlir_install/#from-source-(macos)">5. From Source (macOS)</a></section><section class="ordered-list-item"><a href="https://www.stephendiehl.com/posts/mlir_install/#from-source-(ubuntu-22.04)">6. From Source (Ubuntu 22.04)</a></section><section class="ordered-list-item"><a href="https://www.stephendiehl.com/posts/mlir_install/#from-wheel-(pip)">7. From Wheel (pip)</a></section><section class="ordered-list-item"><a href="https://www.stephendiehl.com/posts/mlir_install/#from-wheel-(poetry)">8. From Wheel (Poetry)</a></section><section class="ordered-list-item"><a href="https://www.stephendiehl.com/posts/mlir_install/#from-wheel-(uv)">9. From Wheel (uv)</a></section><section class="ordered-list-item"><a href="https://www.stephendiehl.com/posts/mlir_install/#using-conda">10. Using Conda</a></section><section class="ordered-list-item"><a href="https://www.stephendiehl.com/posts/mlir_install/#using-docker">11. Using Docker</a></section><section class="ordered-list-item"><a href="https://www.stephendiehl.com/posts/mlir_install/#installing-mlir-python-bindings">12. Installing MLIR Python Bindings</a></section>
 <h2 id="from-homebrew-(macos)">From Homebrew (macOS)</h2>
@@ -276,7 +281,7 @@ python setup.py bdist_wheel
 <p>Or you can add them to your PYTHONPATH manually. Adjust the <code>$HOME</code> to be the place where you built the MLIR source tree.</p>
 <pre><code>export PYTHONPATH=$PYTHONPATH:$HOME/build/tools/mlir/python_packages/mlir_core
 </code></pre>
-    </section>
-  </article>
+</section>
+</article>
 </body>
 </html>

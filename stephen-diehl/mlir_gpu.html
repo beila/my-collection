@@ -1,13 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="stephen-diehl-content-hash" content="a22b6bc20e23f1e931cbd911209d868e8641b748e137e165318ff294cb881e66">
-  <meta name="stephen-diehl-article-format" content="10">
-  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/mlir_gpu.html">
-  <title>GPU Compilation with MLIR</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="a22b6bc20e23f1e931cbd911209d868e8641b748e137e165318ff294cb881e66" name="stephen-diehl-content-hash"/>
+<meta content="14" name="stephen-diehl-article-format"/>
+<link href="https://beila.github.io/my-collection/stephen-diehl/mlir_gpu.html" rel="canonical"/>
+<title>GPU Compilation with MLIR</title>
+<style>
     :root { color-scheme: dark; }
     body { margin: 0; background: #171717; color: #f1f1f1;
             font: 18px/1.7 Georgia, serif; }
@@ -26,18 +27,21 @@
     .published { color: #b8b8b8; }
     .original-link { border-top: 1px solid #555; margin-top: 2rem;
                       padding-top: 1rem; }
+img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
+                      vertical-align: middle; }
+    img.math-display { display: block; height: auto; margin: 1.25rem auto;
+                       max-width: 100%; }
   </style>
 </head>
 <body>
-  <article>
-    <h1>GPU Compilation with MLIR</h1>
-    <p class="published">Published: Sat, 19 Apr 2025 01:00:00 +0000</p>
-    <section class="instapaper_body">
-      <p class="original-link"><a href="https://www.stephendiehl.com/posts/mlir_gpu/">Read the original article on Stephen Diehl's website</a></p>
+<article>
+<h1>GPU Compilation with MLIR</h1>
+<p class="published">Published: Sat, 19 Apr 2025 01:00:00 +0000</p>
+<section class="instapaper_body">
+<p class="original-link"><a href="https://www.stephendiehl.com/posts/mlir_gpu/">Read the original article on Stephen Diehl's website</a></p>
 <p>
 <img alt="GPU Bear Teaches CUDA" src="https://beila.github.io/my-collection/stephen-diehl/assets/a193f1ab2dfe7be83005ab6003693cd754e792769dc48f429472a74b8f02e3ca.jpg"/>
 </p>
-
 <p>Continuing on from last time, now that we have our transformer primitives that we need to optimize, let's look at how we can translate high-level tensor operations (like <code>softmax</code>, <code>attention</code>, etc) expressed in MLIR down to low-level code that can run in parallel on Nvidia GPUs to improve our performance. To do that we're going to start to put together the making of a small compiler.</p>
 <p>Now we're going to need to switch to a machine with an Nvidia GPU (sorry no MacOS). So either fire up your Linux machine with a Nvidia GPU or go rent one from the various providers.</p>
 <ul>
@@ -1418,7 +1422,7 @@ finally:
 </code></pre>
 <h2 id="external-resources">External Resources</h2>
 <p class="unordered-list-item">- <a href="https://docs.nvidia.com/cuda/cuda-installation-guide-linux/">CUDA Installation Guide for Linux</a></p><p class="unordered-list-item">- <a href="https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html">CUDA C Programming Guide</a></p><p class="unordered-list-item">- <a href="https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/">CUDA C Best Practices Guide</a></p><p class="unordered-list-item">- <a href="https://docs.nvidia.com/cuda/archive/12.6.0/">CUDA Toolkit Documentation 12.6</a></p><p class="unordered-list-item">- <a href="https://nvidia.github.io/cuda-python/cuda-bindings/latest/api.html">CUDA Python API</a></p><p class="unordered-list-item">- <a href="https://nvidia.github.io/cuda-python/cuda-bindings/latest/module/driver.html#cuda.bindings.driver.cuLaunchKernel">CUDA Python launchKernel</a></p><p class="unordered-list-item">- <a href="https://developer.nvidia.com/blog/cuda-refresher-cuda-programming-model/">CUDA Refresher: The CUDA Programming Model</a></p><p class="unordered-list-item">- <a href="https://docs.nvidia.com/cuda/nvvm-ir-spec/">NVVM IR Specification</a></p><p class="unordered-list-item">- <a href="https://llvm.org/docs/NVPTXUsage.html">LLVM User Guide for NVPTX Back-end</a></p><p class="unordered-list-item">- <a href="https://docs.nvidia.com/cuda/cuda-quick-start-guide/#linux">Cuda Quick Start Guide</a></p><p class="unordered-list-item">- <a href="https://www.youtube.com/watch?v=V3Q9IjsgXvA">2024 EuroLLVM - Zero to Hero: Programming Nvidia Hopper Tensor Core with MLIR's NVGPU Dialect</a></p><p class="unordered-list-item">- <a href="https://llvm.org/docs/Docker.html">A guide to Dockerfiles for building LLVM</a></p><p class="unordered-list-item">- <a href="https://developer.nvidia.com/blog/understanding-ptx-the-assembly-language-of-cuda-gpu-computing/">Understanding PTX: The Assembly Language of CUDA GPU Computing</a></p><p class="unordered-list-item">- <a href="https://docs.nvidia.com/cuda/nvmath-python/latest/bindings/cublas.html">cuBLAS (nvmath.bindings.cublas)</a></p><p class="unordered-list-item">- <a href="https://nvidia.github.io/cuda-python/cuda-core/latest/">cuda.core - Pythonic access to CUDA Runtime</a></p>
-    </section>
-  </article>
+</section>
+</article>
 </body>
 </html>

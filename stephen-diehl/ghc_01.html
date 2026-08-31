@@ -1,13 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="stephen-diehl-content-hash" content="eac06ef1a8bfd076848fe3ddf5cb101b3e8c4a0d6526b24947ef64d59227a222">
-  <meta name="stephen-diehl-article-format" content="11">
-  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/ghc_01.html">
-  <title>Dive into GHC: Pipeline</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="eac06ef1a8bfd076848fe3ddf5cb101b3e8c4a0d6526b24947ef64d59227a222" name="stephen-diehl-content-hash"/>
+<meta content="14" name="stephen-diehl-article-format"/>
+<link href="https://beila.github.io/my-collection/stephen-diehl/ghc_01.html" rel="canonical"/>
+<title>Dive into GHC: Pipeline</title>
+<style>
     :root { color-scheme: dark; }
     body { margin: 0; background: #171717; color: #f1f1f1;
             font: 18px/1.7 Georgia, serif; }
@@ -26,14 +27,18 @@
     .published { color: #b8b8b8; }
     .original-link { border-top: 1px solid #555; margin-top: 2rem;
                       padding-top: 1rem; }
+img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
+                      vertical-align: middle; }
+    img.math-display { display: block; height: auto; margin: 1.25rem auto;
+                       max-width: 100%; }
   </style>
 </head>
 <body>
-  <article>
-    <h1>Dive into GHC: Pipeline</h1>
-    <p class="published">Published: Tue, 21 Jun 2016 01:00:00 +0000</p>
-    <section class="instapaper_body">
-      <p class="original-link"><a href="https://www.stephendiehl.com/posts/ghc_01/">Read the original article on Stephen Diehl's website</a></p>
+<article>
+<h1>Dive into GHC: Pipeline</h1>
+<p class="published">Published: Tue, 21 Jun 2016 01:00:00 +0000</p>
+<section class="instapaper_body">
+<p class="original-link"><a href="https://www.stephendiehl.com/posts/ghc_01/">Read the original article on Stephen Diehl's website</a></p>
 <p>After reading <a href="https://ghc.haskell.org/trac/ghc/blog/ContributingToGhc">Simon's</a><br/>
 call for more volunteer writing about GHC I thought it would be timely to share<br/>
 some knowledge I've accumulated over the years about working with the with GHC<br/>
@@ -51,7 +56,6 @@ internal structure of the compiler.</p>
 **[Accompaying Source Code](https://github.com/sdiehl/dive-into-ghc/tree/master/01-pipeline)**
 </p>
 <hr/>
-
 <p>Official Commentary. GHC core developers have actually spent a great deal of time over the sharing<br/>
 knowledge about the design of the compiler. Some good places to start are the<br/>
 following:</p>
@@ -65,7 +69,6 @@ following:</p>
 </ol>
 <p>On top of this there is a literature trail going back 25 years that shows how<br/>
 the historical context and the research that led up to GHC today.<br/>Resources: <a href="https://ghc.haskell.org/trac/ghc/wiki/ReadingList">GHC Reading List</a></p>
-
 <h3 id="toplevel">Toplevel</h3>
 <p>GHC is a quirky beast of a codebase, but as far compilers go it is a fairly<br/>
 well-engineered and documented project if you know where to look. Yes, it uses a<br/>
@@ -489,7 +492,7 @@ tool querying the original source code of any definition in scope.</p>
 <p>This is the "Very High Level" API we can use to interact with GHC. Next we'll<br/>
 concern ourselves with the guts of the internal artifacts used and how to<br/>
 introspect and build them programatically.</p>
-    </section>
-  </article>
+</section>
+</article>
 </body>
 </html>

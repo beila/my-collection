@@ -1,13 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="stephen-diehl-content-hash" content="830d10b8bb53f8fffb1eae0c14321db840535cf064c1cdba79972abb0cb16f54">
-  <meta name="stephen-diehl-article-format" content="10">
-  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/ghc_03.html">
-  <title>Dive into GHC: Targeting Core</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="830d10b8bb53f8fffb1eae0c14321db840535cf064c1cdba79972abb0cb16f54" name="stephen-diehl-content-hash"/>
+<meta content="14" name="stephen-diehl-article-format"/>
+<link href="https://beila.github.io/my-collection/stephen-diehl/ghc_03.html" rel="canonical"/>
+<title>Dive into GHC: Targeting Core</title>
+<style>
     :root { color-scheme: dark; }
     body { margin: 0; background: #171717; color: #f1f1f1;
             font: 18px/1.7 Georgia, serif; }
@@ -26,14 +27,18 @@
     .published { color: #b8b8b8; }
     .original-link { border-top: 1px solid #555; margin-top: 2rem;
                       padding-top: 1rem; }
+img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
+                      vertical-align: middle; }
+    img.math-display { display: block; height: auto; margin: 1.25rem auto;
+                       max-width: 100%; }
   </style>
 </head>
 <body>
-  <article>
-    <h1>Dive into GHC: Targeting Core</h1>
-    <p class="published">Published: Tue, 12 Jul 2016 01:00:00 +0000</p>
-    <section class="instapaper_body">
-      <p class="original-link"><a href="https://www.stephendiehl.com/posts/ghc_03/">Read the original article on Stephen Diehl's website</a></p>
+<article>
+<h1>Dive into GHC: Targeting Core</h1>
+<p class="published">Published: Tue, 12 Jul 2016 01:00:00 +0000</p>
+<section class="instapaper_body">
+<p class="original-link"><a href="https://www.stephendiehl.com/posts/ghc_03/">Read the original article on Stephen Diehl's website</a></p>
 <p>In the <a href="http://www.stephendiehl.com/posts/ghc_01.html">last blog post</a>, we<br/>
 discussed the intermediate structures used in the GHC compiler. This time let's<br/>
 discuss the Core language.</p>
@@ -44,7 +49,7 @@ discuss the Core language.</p>
 <p>GHC's most central data types. Core is a very small,<br/>
 explicitly-typed, variant of System FC; a typed lambda calculus that differs<br/>
 from the simply typed lambda calculus by the introduction of a mechanism of<br/>
-universal quantification over types denoted as capital lambda $\Lambda$.</p>
+universal quantification over types denoted as capital lambda <img alt="Equation: normal upper Lamda" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/de18c542404009a03b30cc70e3d2f526c30b4587a4b468a86e97a7538299b327.png" width="20"/>.</p>
 <pre><code>-- System-F Notation
 Λ b c a. λ (f1 : b -&gt; c) (g : a -&gt; b) (x1 : a). f1 (g x1)
 
@@ -146,20 +151,7 @@ type CoreProgram = [CoreBind]
 <p>As an aside the notation used in papers on the typing judgements for Haskell<br/>
 syntax typically uses the following convention and has a one-to-one mapping to<br/>
 each of the Haskell datatypes in <code>Expr</code>.</p>
-<p>$$<br/>
-\begin{aligned}<br/>
-e ::= \ &amp; n                                              &amp; \mathtt{Var}      &amp;\quad \text{Variable} \<br/>
-|\ &amp; \mathtt{lit}                                   &amp; \mathtt{Lam}      &amp;\quad \text{Literal} \<br/>
-|\ &amp; e_1 \ e_2                                      &amp; \mathtt{App}      &amp;\quad \text{Application} \<br/>
-|\ &amp; \lambda n . e                                  &amp; \mathtt{Lam}      &amp;\quad \text{Abstraction} \<br/>
-|\ &amp; \textbf{let}\ \mathit{binding}\ \textbf{in}\ e &amp; \mathtt{Let}      &amp;\quad \text{Variable binding} \<br/>
-|\ &amp; \textbf{case}\ e\ \textbf{as}\ n\ \textbf{return}\ \tau\ \textbf{of}\ \overline{alt} &amp; \mathtt{Case}     &amp;\quad \text{Pattern match} \<br/>
-|\ &amp; e \triangleright \gamma                        &amp; \mathtt{Cast}     &amp;\quad \text{Cast} \<br/>
-|\ &amp; e_{\lbrace \textit{tick} \rbrace }             &amp; \mathtt{Tick}     &amp;\quad \text{Internal note} \<br/>
-|\ &amp; \tau                                           &amp; \mathtt{Type}     &amp;\quad \text{Type} \<br/>
-|\ &amp; \gamma                                         &amp; \mathtt{Coercion} &amp;\quad \text{Coercion} \<br/>
-\end{aligned}<br/>
-$$</p>
+<p><img alt="Equation: StartLayout 1st Row 1st Column e colon colon equals 2nd Column n 3rd Column monospace upper V monospace a monospace r 4th Column Variable vertical-bar 5th Column monospace l monospace i monospace t 6th Column monospace upper L monospace a monospace m 7th Column Literal vertical-bar 8th Column e 1 e 2 9th Column monospace upper A monospace p monospace p 10th Column Application vertical-bar 11th Column lamda n period e 12th Column monospace upper L monospace a monospace m 13th Column Abstraction vertical-bar 14th Column bold let b i n d i n g bold in e 15th Column monospace upper L monospace e monospace t 16th Column Variable binding vertical-bar 17th Column bold case e bold as n bold return tau bold of ModifyingAbove a l t With bar 18th Column monospace upper C monospace a monospace s monospace e 19th Column Pattern match vertical-bar 20th Column e white right pointing small triangle gamma 21st Column monospace upper C monospace a monospace s monospace t 22nd Column Cast vertical-bar 23rd Column e Subscript left-brace italic tick right-brace 24th Column monospace upper T monospace i monospace c monospace k 25th Column Internal note vertical-bar 26th Column tau 27th Column monospace upper T monospace y monospace p monospace e 28th Column Type vertical-bar 29th Column gamma 30th Column monospace upper C monospace o monospace e monospace r monospace c monospace i monospace o monospace n 31st Column Coercion EndLayout" class="math-display" height="32" src="https://beila.github.io/my-collection/math-images/00c5344306953c7b231654d6a1db3f8dbfad94871dbd6a5a7542ee800151c50b.png" width="1748"/></p>
 <h3 id="var">Var</h3>
 <p>The <code>Var</code> type is central to most of the core definitions, it is the primary<br/>
 name type used in the later half of the compiler and contains is a synonym for<br/>
@@ -440,7 +432,7 @@ main = runGhc (Just libdir) $ do
 <p>And then we get a <code>Example.asm</code> file outputted from our synthetic core module.<br/>
 A next step project would be to target a more complicated language to GHC Core<br/>
 to take advantage of it's compiler optimizations and native code generation.</p>
-    </section>
-  </article>
+</section>
+</article>
 </body>
 </html>

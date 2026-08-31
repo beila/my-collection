@@ -1,13 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="stephen-diehl-content-hash" content="49b3e857d8a9fa62303f266e229c7c02aa8e6d5aee7c78680e5b44291176f0be">
-  <meta name="stephen-diehl-article-format" content="10">
-  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/diaconescu.html">
-  <title>Diaconescu&#x27;s Theorem</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="49b3e857d8a9fa62303f266e229c7c02aa8e6d5aee7c78680e5b44291176f0be" name="stephen-diehl-content-hash"/>
+<meta content="14" name="stephen-diehl-article-format"/>
+<link href="https://beila.github.io/my-collection/stephen-diehl/diaconescu.html" rel="canonical"/>
+<title>Diaconescu's Theorem</title>
+<style>
     :root { color-scheme: dark; }
     body { margin: 0; background: #171717; color: #f1f1f1;
             font: 18px/1.7 Georgia, serif; }
@@ -26,56 +27,60 @@
     .published { color: #b8b8b8; }
     .original-link { border-top: 1px solid #555; margin-top: 2rem;
                       padding-top: 1rem; }
+img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
+                      vertical-align: middle; }
+    img.math-display { display: block; height: auto; margin: 1.25rem auto;
+                       max-width: 100%; }
   </style>
 </head>
 <body>
-  <article>
-    <h1>Diaconescu&#x27;s Theorem</h1>
-    <p class="published">Published: Mon, 05 Aug 2024 01:00:00 +0000</p>
-    <section class="instapaper_body">
-      <p class="original-link"><a href="https://www.stephendiehl.com/posts/diaconescu/">Read the original article on Stephen Diehl's website</a></p>
+<article>
+<h1>Diaconescu's Theorem</h1>
+<p class="published">Published: Mon, 05 Aug 2024 01:00:00 +0000</p>
+<section class="instapaper_body">
+<p class="original-link"><a href="https://www.stephendiehl.com/posts/diaconescu/">Read the original article on Stephen Diehl's website</a></p>
 <p>Diaconescu's Theorem, discovered by Radu Diaconescu in 1975, reveals a fascinating and surprising connection between two fundamental principles in mathematics: the Axiom of Choice and the Law of Excluded Middle. In simple terms, the theorem states that if you accept the Axiom of Choice, you must also accept the Law of Excluded Middle. The theorem was independently discovered by Goodman and Myhill in 1978, and is sometimes called the Diaconescu-Goodman-Myhill theorem. Interestingly, the Errett Bishop had posed this result as an exercise in his 1967 book on constructive analysis, before Diaconescu's publication.</p>
-<p>As background, the Law of Excluded Middle states that for any proposition \(P\), either \(P\) is true or \(P\) is false - there is no middle condition. Or symbolically, \(P \lor \neg P\). For example, either a number is even or it's not even. This seems intuitive, but not all mathematical frameworks accept this principle!</p>
+<p>As background, the Law of Excluded Middle states that for any proposition <img alt="Equation: upper P" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/6cf81510550a1c06b10ff9eafed102f11f46e3134450752e3514fe96056de2cd.png" width="20"/>, either <img alt="Equation: upper P" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/6cf81510550a1c06b10ff9eafed102f11f46e3134450752e3514fe96056de2cd.png" width="20"/> is true or <img alt="Equation: upper P" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/6cf81510550a1c06b10ff9eafed102f11f46e3134450752e3514fe96056de2cd.png" width="20"/> is false - there is no middle condition. Or symbolically, <img alt="Equation: upper P logical-or normal not-sign upper P" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/8e0bab6084acdd23dcbb287a0d1950427caea45014706e3db6b9770abe1d196f.png" width="74"/>. For example, either a number is even or it's not even. This seems intuitive, but not all mathematical frameworks accept this principle!</p>
 <p>The Axiom of Choice states that given any collection of non-empty sets, it's possible to select exactly one element from each set to form a new set. While this also seems intuitive, it has some surprising consequences.</p>
 <p>Diaconescu's Theorem shows that:</p>
-<p>$$\text{Axiom of Choice} \implies \text{Law of Excluded Middle}$$</p>
+<p><img alt="Equation: Axiom of Choice long right double arrow Law of Excluded Middle" class="math-display" height="22" src="https://beila.github.io/my-collection/math-images/6a9d07ca71b41f4ce317fe7caf241c841695c9fc5680255ed17393cb55919925.png" width="292"/></p>
 <p>Before diving into the proof, let's establish some important concepts:</p>
 <ul>
-<li>A set is called <strong>decidable</strong> if for all elements, we can determine whether they belong to the set or not. Formally, for any element \(x\), either \(x \in S\) or \(x \notin S\).</li>
+<li>A set is called <strong>decidable</strong> if for all elements, we can determine whether they belong to the set or not. Formally, for any element <img alt="Equation: x" class="math-inline" height="20" src="https://beila.github.io/my-collection/math-images/da3ae1124928cdc0cf7f6434c3439af96259a8025612ab824685be59bd92a748.png" width="16"/>, either <img alt="Equation: x element-of upper S" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/4da040db94c988ab4884fe1c701a27acdd8403673dbf48b36dd4adfcba8f9044.png" width="56"/> or <img alt="Equation: x not-an-element-of upper S" class="math-inline" height="29" src="https://beila.github.io/my-collection/math-images/920629ca332bd3a54e0db03a2bf06484479bbac10466fd89153d72e8cccc76b2.png" width="56"/>.</li>
 <li>A set is called a <strong>choice set</strong> if every surjection onto it splits (meaning there exists a map going back such that their composition is the identity).</li>
 </ul>
 <p>The proof works through the following steps:</p>
 <ol>
 <li>
-<p>Start with any proposition \(P\) that we want to prove must be either true or false</p>
+<p>Start with any proposition <img alt="Equation: upper P" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/6cf81510550a1c06b10ff9eafed102f11f46e3134450752e3514fe96056de2cd.png" width="20"/> that we want to prove must be either true or false</p>
 </li>
 <li>
 <p>Construct two sets:</p>
 <ul>
-<li>\(U = {x \in {0,1} \mid (x = 0) \lor P}\)</li>
-<li>\(V = {x \in {0,1} \mid (x = 1) \lor P}\)</li>
+<li><img alt="Equation: upper U equals x element-of 0 comma 1 bar left-parenthesis x equals 0 right-parenthesis logical-or upper P" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/e9482db15093e65422be8847807c1fe57d7c1e63809ae3f23a2a13da52c78b93.png" width="239"/></li>
+<li><img alt="Equation: upper V equals x element-of 0 comma 1 bar left-parenthesis x equals 1 right-parenthesis logical-or upper P" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/cf9d494494a18a26df375e2788c84f96cd744d6163847cc566ac6447114aa2d1.png" width="239"/></li>
 </ul>
 </li>
 <li>
 <p>Both sets are guaranteed to be non-empty:</p>
 <ul>
-<li>\(U\) contains 0 (because \(x = 0\) is true for \(x = 0\))</li>
-<li>\(V\) contains 1 (because \(x = 1\) is true for \(x = 1\))</li>
+<li><img alt="Equation: upper U" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/60c39d06ab6e130ce63f139450c378e3e1bd237afe5fb647458899322f4dbdf9.png" width="21"/> contains 0 (because <img alt="Equation: x equals 0" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/123cb7360d16c9bc82ed94f75262daebc1b5876ba1243640cd38517d4f629ecd.png" width="56"/> is true for <img alt="Equation: x equals 0" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/123cb7360d16c9bc82ed94f75262daebc1b5876ba1243640cd38517d4f629ecd.png" width="56"/>)</li>
+<li><img alt="Equation: upper V" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/31bc5fc12dab3cfe762f9652a325d9d44cb5f7088a4a6d3b0b63adde64f51524.png" width="21"/> contains 1 (because <img alt="Equation: x equals 1" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/5572e4a7bd16d44a1986ee22483e2aef4deb2a2e3bf0bce9ee7fd67930311aa5.png" width="56"/> is true for <img alt="Equation: x equals 1" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/5572e4a7bd16d44a1986ee22483e2aef4deb2a2e3bf0bce9ee7fd67930311aa5.png" width="56"/>)</li>
 </ul>
 </li>
 <li>
-<p>Form the set \(X = {U, V}\). By the Axiom of Choice, since both \(U\) and \(V\) are non-empty, we can select one element from each set.</p>
+<p>Form the set <img alt="Equation: upper X equals upper U comma upper V" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/a4b1cc59e37817c8290a1136103f9a508e062e2ef363f710e7b6cd4d81c0ca00.png" width="92"/>. By the Axiom of Choice, since both <img alt="Equation: upper U" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/60c39d06ab6e130ce63f139450c378e3e1bd237afe5fb647458899322f4dbdf9.png" width="21"/> and <img alt="Equation: upper V" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/31bc5fc12dab3cfe762f9652a325d9d44cb5f7088a4a6d3b0b63adde64f51524.png" width="21"/> are non-empty, we can select one element from each set.</p>
 </li>
 <li>
-<p>Let \(f\) be our choice function. Since equality is decidable in choice sets (a key lemma from the formal proof), we can analyze \(f(U)\) and \(f(V)\):</p>
+<p>Let <img alt="Equation: f" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/f7d0cd14e692ff8fa1bb13ef7f758c25810d838c3e6e1ebfcee77dcb888a9f0c.png" width="16"/> be our choice function. Since equality is decidable in choice sets (a key lemma from the formal proof), we can analyze <img alt="Equation: f left-parenthesis upper U right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/ec60a0936bd2a9c01394e7d77c83a8ef761b209bacee82d6e066ed329b6d2988.png" width="49"/> and <img alt="Equation: f left-parenthesis upper V right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/4c4d7ef911e11ed8695033333589a3c63ede1e104c704c9add61d7e4d929159b.png" width="49"/>:</p>
 <ul>
-<li>If \(f(U) = 0\), then \(P\) must be false (\(\neg P\))</li>
-<li>If \(f(U) = 1\), then \(P\) must be true</li>
-<li>The same analysis applies to \(f(V)\)</li>
+<li>If <img alt="Equation: f left-parenthesis upper U right-parenthesis equals 0" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/a1f8df5a20afdfe597f47e8f1121cd17fdcdca8f7e8140ffb9567c91533ec988.png" width="87"/>, then <img alt="Equation: upper P" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/6cf81510550a1c06b10ff9eafed102f11f46e3134450752e3514fe96056de2cd.png" width="20"/> must be false (<img alt="Equation: normal not-sign upper P" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/77f1011f95030f83fdb5838da0eb87173b19929ceb3ac9c7bc994a0c8898100f.png" width="34"/>)</li>
+<li>If <img alt="Equation: f left-parenthesis upper U right-parenthesis equals 1" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/df09fe1c03a4280d818174ced304a5e48c78a7b64ed35786bf0e5722c6d3e5ad.png" width="87"/>, then <img alt="Equation: upper P" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/6cf81510550a1c06b10ff9eafed102f11f46e3134450752e3514fe96056de2cd.png" width="20"/> must be true</li>
+<li>The same analysis applies to <img alt="Equation: f left-parenthesis upper V right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/4c4d7ef911e11ed8695033333589a3c63ede1e104c704c9add61d7e4d929159b.png" width="49"/></li>
 </ul>
 </li>
 <li>
-<p>Through this analysis, we can conclude \(P \lor \neg P\) must hold.</p>
+<p>Through this analysis, we can conclude <img alt="Equation: upper P logical-or normal not-sign upper P" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/8e0bab6084acdd23dcbb287a0d1950427caea45014706e3db6b9770abe1d196f.png" width="74"/> must hold.</p>
 </li>
 </ol>
 <p>We can formalize this theorem in Lean. The proof uses function extensionality and propositional extensionality alongside choice. The Lean proof follows the same logical structure as our mathematical proof, but works with propositions instead of sets. It uses function and propositional extensionality to handle equality of predicates, and the Axiom of Choice appears in the form of the <code>choose</code> function, which selects witnesses from existential statements.</p>
@@ -139,7 +144,7 @@ have v_def : V v := choose_spec exV  -- v satisfies V
 </li>
 </ol>
 <p>Diaconescu's theorem demonstrates a profound connection between choice principles and classical logic. This result has significant metamathematical implications: it reveals that choice principles are inherently non-constructive, as they force classical reasoning even in otherwise constructive settings. From a foundational perspective, this shows that choice principles are not logically neutral - they implicitly commit us to classical logic. For constructive mathematics, this necessitates careful consideration of choice principles, as even seemingly innocuous uses of AC can inadvertently classical-ize an otherwise constructive development. The theorem thus exemplifies how foundational axioms can have subtle but far-reaching consequences for the logical character of mathematical theories. You could say that when it comes to the Axiom of Choice and the Law of Excluded Middle, there's no choosing the middle ground!</p>
-    </section>
-  </article>
+</section>
+</article>
 </body>
 </html>

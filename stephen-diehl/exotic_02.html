@@ -1,13 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="stephen-diehl-content-hash" content="c35df2e6a9eaf8cd4267027bc30ac870c3d5a8e6f95fe06dce0db46f22232453">
-  <meta name="stephen-diehl-article-format" content="10">
-  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/exotic_02.html">
-  <title>Exotic Programming Ideas: Part 2 (Term Rewriting)</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="c35df2e6a9eaf8cd4267027bc30ac870c3d5a8e6f95fe06dce0db46f22232453" name="stephen-diehl-content-hash"/>
+<meta content="14" name="stephen-diehl-article-format"/>
+<link href="https://beila.github.io/my-collection/stephen-diehl/exotic_02.html" rel="canonical"/>
+<title>Exotic Programming Ideas: Part 2 (Term Rewriting)</title>
+<style>
     :root { color-scheme: dark; }
     body { margin: 0; background: #171717; color: #f1f1f1;
             font: 18px/1.7 Georgia, serif; }
@@ -26,14 +27,18 @@
     .published { color: #b8b8b8; }
     .original-link { border-top: 1px solid #555; margin-top: 2rem;
                       padding-top: 1rem; }
+img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
+                      vertical-align: middle; }
+    img.math-display { display: block; height: auto; margin: 1.25rem auto;
+                       max-width: 100%; }
   </style>
 </head>
 <body>
-  <article>
-    <h1>Exotic Programming Ideas: Part 2 (Term Rewriting)</h1>
-    <p class="published">Published: Mon, 08 Mar 2021 00:00:00 +0000</p>
-    <section class="instapaper_body">
-      <p class="original-link"><a href="https://www.stephendiehl.com/posts/exotic_02/">Read the original article on Stephen Diehl's website</a></p>
+<article>
+<h1>Exotic Programming Ideas: Part 2 (Term Rewriting)</h1>
+<p class="published">Published: Mon, 08 Mar 2021 00:00:00 +0000</p>
+<section class="instapaper_body">
+<p class="original-link"><a href="https://www.stephendiehl.com/posts/exotic_02/">Read the original article on Stephen Diehl's website</a></p>
 <p>Continuing on from our series last week, this time we’re going to discuss the topic of term rewriting. Term rewriting is a very general model of computation that consists of programmatic systems for describing transformations (called rules) which transform expressions called terms into other sets of terms.</p>
 <ul>
 <li><a href="https://www.stephendiehl.com/posts/exotic_01">Week 1 - Module Systems</a></li>
@@ -89,7 +94,7 @@ Out[11]= Sin[x]
 In[12]:= x // Sin (* Postfix sugar *)
 Out[12]= Sin[x]
 </code></pre>
-<p>Complex mathematical expressions are simply nested combinations of terms. For example a simple monomial expression $x^3+(1+x)^2$</p>
+<p>Complex mathematical expressions are simply nested combinations of terms. For example a simple monomial expression <img alt="Equation: x cubed plus left-parenthesis 1 plus x right-parenthesis squared" class="math-inline" height="32" src="https://beila.github.io/my-collection/math-images/b1fef902c0e63c8036d86c5e71b482359f59ffd567eba26ba35d5841274b9380.png" width="126"/></p>
 <p>would be given by:</p>
 <pre><code>In[13]:= FullForm[x^3 + (1 + x)^2]
 Out[13]//FullForm= Plus[Power[x, 3], Power[Plus[1, x], 2]]
@@ -119,9 +124,7 @@ Out[18]= F[z, x, y]
 Out[20]//FullForm= SeriesData[x, 0, {1, 0, Rational[-1, 2], 0, Rational[1, 24], 0, Rational[-1, 720], 0, Rational[1, 40320], 0, Rational[-1, 3628800], 0, Rational[1, 39916800]}, 0, 11, 1]
 </code></pre>
 <p>This symbolic expression can be expanded into individual terms by evaluating the Series term into individual terms.</p>
-<p>$$<br/>
-\sum_{x=0}^{10} \frac{\cos x}{x} = \frac{1}{x} - \frac{x}{2} + \frac{x^3}{24} - \frac{x^5}{720} + \frac{x^7}{40320} - \frac{x^9}{3628800} + O(x^{11})<br/>
-$$</p>
+<p><img alt="Equation: sigma-summation Underscript x equals 0 Overscript 10 Endscripts StartFraction cosine x Over x EndFraction equals StartFraction 1 Over x EndFraction minus StartFraction x Over 2 EndFraction plus StartFraction x cubed Over 24 EndFraction minus StartFraction x Superscript 5 Baseline Over 720 EndFraction plus StartFraction x Superscript 7 Baseline Over 40320 EndFraction minus StartFraction x Superscript 9 Baseline Over 3628800 EndFraction plus upper O left-parenthesis x Superscript 11 Baseline right-parenthesis" class="math-display" height="52" src="https://beila.github.io/my-collection/math-images/6f2eadbeb99000e0b0ee8f386e7cf705924683780bfaa30ff4b725551c1596aa.png" width="391"/></p>
 <h2 id="evaluation-order">Evaluation Order</h2>
 <p>Evaluation in the language proceeds by reduction of terms until there are no more rules that apply to the reduced expression. Such an expression is said to be in normal form. This mode of evaluation differs from sequential, statement-based languages where sequential updates to memory and the sequencing of effectful statements is the mode of execution.</p>
 <p>For example the Range function produces a series of values as a list. This list can itself be passed to another function which applies a function over each element, such as the querying the primality of a given integer.</p>
@@ -189,12 +192,8 @@ ReplaceRepeated::rrlim: Exiting after {1, 2} scanned 65536 times.
 Out[35]= Plus[Power[x, 3], Times[2, x, y], z]
 </code></pre>
 <p>However we can introduce and extend these rule sets ourselves. For example if we wanted to encode a new simple set of rules for simplifying trigonometric functions according to given identity we could write a rule for the following math identity.</p>
-<p>$$<br/>
-\sin(\alpha + \beta) = \sin \alpha \cos \beta + \cos \alpha \sin \beta<br/>
-$$</p>
-<p>$$<br/>
-\cos(\alpha + \beta) = \cos \alpha \cos \beta - \sin \alpha \sin \beta<br/>
-$$</p>
+<p><img alt="Equation: sine left-parenthesis alpha plus beta right-parenthesis equals sine alpha cosine beta plus cosine alpha sine beta" class="math-display" height="26" src="https://beila.github.io/my-collection/math-images/e7bfe418195493078681357872c14b88cdd5e6c05122fd3added645419a7b77b.png" width="225"/></p>
+<p><img alt="Equation: cosine left-parenthesis alpha plus beta right-parenthesis equals cosine alpha cosine beta minus sine alpha sine beta" class="math-display" height="26" src="https://beila.github.io/my-collection/math-images/1c45bdc98cfc9e38a755dd9f54ebe2031cd813cf8738b39d64501f0dcc510880.png" width="226"/></p>
 <p>This would be encoded as the following two pattern and rewrites:</p>
 <pre><code>In[36]:= ElemTrigExpand = {
   Sin[a_ + b_] -&gt; Sin[a] Cos[b] + Cos[a] Sin[b], 
@@ -217,10 +216,8 @@ In[40]:= f[f[1]]  (* Idempotent *)
 Out[40]= f[1]
 </code></pre>
 <p>In addition to structural properties of functions, symbols can be enriched with assumptions about their origin and the domain or set from which they are defined. For exmaple whether a given number is nonzero, integral, prime, or a member of a given set. These properties are themselves symbolic expressions, so for example if we to encode the assumption that a given variable z is in the complex plane:</p>
-<p>$$<br/>
-z \in \mathbb{C}<br/>
-$$</p>
-<p>We could write the following expression, where Complexes is a given builtin standing for $\mathbb{C}$.</p>
+<p><img alt="Equation: z element-of double-struck upper C" class="math-display" height="22" src="https://beila.github.io/my-collection/math-images/b10610f7f71bcfa6c21b9802a963a6327bfdbac69356992dad539994e509c410.png" width="42"/></p>
+<p>We could write the following expression, where Complexes is a given builtin standing for <img alt="Equation: double-struck upper C" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/64172ff29fd0ae6473d1fed8678fe76600b6e02d474a3ab6c4d0d60b961fa78d.png" width="20"/>.</p>
 <p>These can be added to either the global assumption set which is defined by the variable <code>Assumptions</code>.</p>
 <pre><code>In[42]:= $Assumptions = {a &gt; 0, b &gt; 1}
 Out[42]= a &gt; 0
@@ -251,9 +248,7 @@ Out[48]= {0, x, 0}
 </code></pre>
 <h2 id="special-functions">Special Functions</h2>
 <p>Within the standard library there is a vast corpus of mathematical knowledge encoded in a library of assumptions and rules over symbolic quantities. For example the Riemann zeta function has hundreds of known idenities and representations in terms of other functions. For even integer quantities is a simple closed form expressed in terms of π and Bernoulli numbers.</p>
-<p>$$<br/>
-\zeta(2) = \frac{\pi^2}{6}<br/>
-$$</p>
+<p><img alt="Equation: zeta left-parenthesis 2 right-parenthesis equals StartFraction pi squared Over 6 EndFraction" class="math-display" height="42" src="https://beila.github.io/my-collection/math-images/d1d69e20bbc3d3123525dbf501ca630ad2e7e9ac052fddcd250775c2d3614e9b.png" width="70"/></p>
 <p>Mathematica is aware of these identities and will chose to transform the Zeta function to this reduced form automatically. For non-even values there is no simple closed form (in general) but there is a series approximation that can be computed to an arbitrary number of digits using the N function.</p>
 <pre><code>In[49]:= Zeta[2]
 Out[49]= Times[Rational[1, 6], Power[Pi, 2]]
@@ -282,25 +277,16 @@ Out[52]= Plus[x, Times[x, Log[Power[x, -1]]]]
 </code></pre>
 <p>While Mathematica’s symbolic integration capacities may seem like magic, they are indeed just the canonical example of rewriting machinery combined a corpus of transformations and some analysis from the 1930s. While there are certain integrals that are computable directly by pattern matching, there is a non-trivial result in the study of the Meijer G-function which admits a transformation of many types of transcendental functions into a convenient closed form to compute integrals.</p>
 <p>The Meijer G-function is an indexed function of 4 vector parameters expressed the following complex integral where L<br/>
-runs from $−i\infty$ to $i\infty$.</p>
-<p>$$<br/>
-G_{m,n}^{p,q}(z \mid \mid a_1, \ldots, a_n, a_{n+1}, \ldots, a_p \mid \mid b_1, \ldots, b_m, b_{m+1}, \ldots, b_q) = \frac{1}{2\pi i} \int_L \prod_{j=1}^m \Gamma(b_j - s) \prod_{j=1}^n \Gamma(1 - a_j + s) \prod_{j=m+1}^q \Gamma(1 - b_j + s) \prod_{j=n+1}^p \Gamma(a_j - s) z^s ds<br/>
-$$</p>
+runs from <img alt="Equation: minus i normal infinity" class="math-inline" height="26" src="https://beila.github.io/my-collection/math-images/0b342316e296f140ec7b4a9e7e3ce99822dcbc56b8871a98cbf7dd0984909c77.png" width="50"/> to <img alt="Equation: i normal infinity" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/12de1f6d0ccd71fa2451d77a6eb9c2ee632cf368d6e3aee6cda8d57cfb18a778.png" width="33"/>.</p>
+<p><img alt="Equation: upper G Subscript m comma n Superscript p comma q Baseline left-parenthesis z bar bar a 1 comma ellipsis comma a Subscript n Baseline comma a Subscript n plus 1 Baseline comma ellipsis comma a Subscript p Baseline bar bar b 1 comma ellipsis comma b Subscript m Baseline comma b Subscript m plus 1 Baseline comma ellipsis comma b Subscript q Baseline right-parenthesis equals StartFraction 1 Over 2 pi i EndFraction integral Underscript upper L Endscripts product Underscript j equals 1 Overscript m Endscripts normal upper Gamma left-parenthesis b Subscript j Baseline minus s right-parenthesis product Underscript j equals 1 Overscript n Endscripts normal upper Gamma left-parenthesis 1 minus a Subscript j Baseline plus s right-parenthesis product Underscript j equals m plus 1 Overscript q Endscripts normal upper Gamma left-parenthesis 1 minus b Subscript j Baseline plus s right-parenthesis product Underscript j equals n plus 1 Overscript p Endscripts normal upper Gamma left-parenthesis a Subscript j Baseline minus s right-parenthesis z Superscript s Baseline d s" class="math-display" height="90" src="https://beila.github.io/my-collection/math-images/1cc63b71a400bb7931540fee9cd0990506189133e311a236ff00c288ae22e7be.png" width="488"/></p>
 <p>This is well-studied function, and supririsngly a great many classes of special functions (trigonometric functions, Bessel functions, hypergeoemtric, etc) can be expresed in terms in terms of the G functions and thus we can reduce complex nestings of these functions down in terms of simply manipulating G-functino terms. Apply integration theorems over this reduced expression produces one or more other G-function terms. We can then expand that result back into the special functions to get the integration result. This practice does not work universally, but practically in enough cases to be incredibly useful.</p>
 <p>One of the very general indefinte integration theorems rexpressses the integrand in terms of permutations of the G-function indexes. On the left hand side we have an integral expression and on the right hande side we have the computed integral both in terms of G-functions.</p>
-<p>$$<br/>
-\int G_{m,n}^{p,q}(z \mid \mid a_1, \ldots, a_n, a_{n+1}, \ldots, a_p \mid \mid b_1, \ldots, b_m, b_{m+1}, \ldots, b_q) dz = G_{m,n}^{p+1,q+1}(z \mid \mid 1, a_1+1, \ldots, a_n+1, a_{n+1}+1, \ldots, a_p+1 \mid \mid b_1+1, \ldots, b_m+1, 0, b_{m+1}+1, \ldots, b_q+1)<br/>
-$$</p>
+<p><img alt="Equation: integral upper G Subscript m comma n Superscript p comma q Baseline left-parenthesis z bar bar a 1 comma ellipsis comma a Subscript n Baseline comma a Subscript n plus 1 Baseline comma ellipsis comma a Subscript p Baseline bar bar b 1 comma ellipsis comma b Subscript m Baseline comma b Subscript m plus 1 Baseline comma ellipsis comma b Subscript q Baseline right-parenthesis d z equals upper G Subscript m comma n Superscript p plus 1 comma q plus 1 Baseline left-parenthesis z bar bar 1 comma a 1 plus 1 comma ellipsis comma a Subscript n Baseline plus 1 comma a Subscript n plus 1 Baseline plus 1 comma ellipsis comma a Subscript p Baseline plus 1 bar bar b 1 plus 1 comma ellipsis comma b Subscript m Baseline plus 1 comma 0 comma b Subscript m plus 1 Baseline plus 1 comma ellipsis comma b Subscript q Baseline plus 1 right-parenthesis" class="math-display" height="86" src="https://beila.github.io/my-collection/math-images/b7d54b2b6678eed567659fe879e3b2b45d00297a716314bd8417b2527db65d9b.png" width="488"/></p>
 <p>A entire book of integrals can be reduced down to a simple set of multiplication and transform rules of G-functions in a few lines of term rewrite logic.</p>
 <p>At the core of Mathematica’s integration engine is transformations involving this approach along with a variety of other heuristics that work quite well. For example the MeijerGReduce function can be used to transform many clases of special functions into the G-function equiveleants and then FullSimplify and other identities can reduce these expressions further.</p>
 <pre><code>In[53]:= MeijerGReduce[Sqrt[x] Sqrt[1+x],x]
 </code></pre>
-<p>$$<br/>
-\sqrt{x} \sqrt{1+x} \quad \Rightarrow \quad<br/>
-\frac{- \sqrt{x} \quad<br/>
-{ G_{0,0}^{1,1}\left(x\left| \begin{array}{c} \frac{3}{2}, 0 \ - \ \end{array} \right.\right) }<br/>
-}{2 \sqrt{\pi }}<br/>
-$$</p>
+<p><img alt="Equation: StartRoot x EndRoot StartRoot 1 plus x EndRoot right double arrow StartFraction minus StartRoot x EndRoot upper G Subscript 0 comma 0 Superscript 1 comma 1 Baseline left-parenthesis x vertical-bar StartLayout 1st Row  three-halves comma 0 minus EndLayout right-parenthesis Over 2 StartRoot pi EndRoot EndFraction" class="math-display" height="60" src="https://beila.github.io/my-collection/math-images/45335106671f07cb3835fe16630da072e5c9e9d87f3065cc50e169b4a569d458.png" width="280"/></p>
 <p>The confluence of all of these features gives rise to a programming environment that is tailored for working with and abstract expressions in a way that differs drastically from the semantics of most mainstream languages.</p>
 <p>It is true that this system can be used to program arbitrary logic, it can however become a bit clunky when trying to code imperative logic that works with inplace references and mutable data structures. Nevertheless it is a very powerful domain tool for working in scientific computing and the number of functions related to technical domains that are surfaced in the language represents decades of meticulous expert domain expertise.</p>
 <p>Many universities have site licenses for this software so it is worth playing around with the ideas found in this system if you are keen on programming langauges with heterodox evaluation models and semantics.</p>
@@ -313,7 +299,7 @@ $$</p>
 <li><a href="https://www.wolfram.com/engine/">Wolfram Engine</a></li>
 <li><a href="https://reference.wolfram.com/language/guide/Expressions.html">Mathematica Expressions</a></li>
 </ul>
-    </section>
-  </article>
+</section>
+</article>
 </body>
 </html>

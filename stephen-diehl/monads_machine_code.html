@@ -1,13 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="stephen-diehl-content-hash" content="960217f4b848f4b490529088ec52d3df076b04e4bedbfb57935c519202f4b42c">
-  <meta name="stephen-diehl-article-format" content="11">
-  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/monads_machine_code.html">
-  <title>Monads to Machine Code</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="960217f4b848f4b490529088ec52d3df076b04e4bedbfb57935c519202f4b42c" name="stephen-diehl-content-hash"/>
+<meta content="14" name="stephen-diehl-article-format"/>
+<link href="https://beila.github.io/my-collection/stephen-diehl/monads_machine_code.html" rel="canonical"/>
+<title>Monads to Machine Code</title>
+<style>
     :root { color-scheme: dark; }
     body { margin: 0; background: #171717; color: #f1f1f1;
             font: 18px/1.7 Georgia, serif; }
@@ -26,14 +27,18 @@
     .published { color: #b8b8b8; }
     .original-link { border-top: 1px solid #555; margin-top: 2rem;
                       padding-top: 1rem; }
+img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
+                      vertical-align: middle; }
+    img.math-display { display: block; height: auto; margin: 1.25rem auto;
+                       max-width: 100%; }
   </style>
 </head>
 <body>
-  <article>
-    <h1>Monads to Machine Code</h1>
-    <p class="published">Published: Mon, 04 Jan 2016 00:00:00 +0000</p>
-    <section class="instapaper_body">
-      <p class="original-link"><a href="https://www.stephendiehl.com/posts/monads_machine_code/">Read the original article on Stephen Diehl's website</a></p>
+<article>
+<h1>Monads to Machine Code</h1>
+<p class="published">Published: Mon, 04 Jan 2016 00:00:00 +0000</p>
+<section class="instapaper_body">
+<p class="original-link"><a href="https://www.stephendiehl.com/posts/monads_machine_code/">Read the original article on Stephen Diehl's website</a></p>
 <p>Just-in-time or JIT compilation is compilation done by dynamically generating executable code. It's a common technique used in many language runtimes to generate optimized code for hot code paths as well ahead of time compilation for<br/>
 various tasks.</p>
 <p>So let's build a small LLVM-like intermediate language and JIT execution engine in Haskell. This will only function with modern Linux and x86-64 architecture, although in principle this will work on any platform if you can make the appropriate FFI calls to <code>mmap</code> and <code>mprotect</code> syscalls on your respective platform.</p>
@@ -649,7 +654,6 @@ b8 ff 00 00 00          mov    eax,0xff
 <h3 id="machine-code">Machine Code</h3>
 <p>Ok, let's look at the full structure of an instruction. It consists of several parts.</p>
 <p><img src="https://beila.github.io/my-collection/stephen-diehl/assets/48fa41391931c753c25c739691a32107fdfca71e185006165e7ae69c613dc387.png"/></p>
-
 <p>The sizes of these parts depend on the size and type of the opcode as well as prefix modifiers.</p>
 <p>Prefix Opcode Mod R/M Scale Index Base Displacement Immediate</p>
 <p>1-4 bytes 1-3 bytes 1 Byte 1 Byte 1-4 Bytes 1-4 Bytes</p>
@@ -664,7 +668,6 @@ b8 ff 00 00 00          mov    eax,0xff
 <li>REX.X -- Extends SIB.index</li>
 <li>REX.B -- Extends SIB.base or ModRM.r/m</li>
 </ul>
-
 <hr/>
 <p><strong>ModR/M byte</strong></p>
 <p><img src="https://beila.github.io/my-collection/stephen-diehl/assets/d0a92736484f99ccc91e8b806e6ff262cccf3da3c51aedade2485365fe8d4bfb.png"/></p>
@@ -679,7 +682,6 @@ b8 ff 00 00 00          mov    eax,0xff
 <li>Stack Addressing - A variant of register indirect with auto increment/decrement using the RSP register implicitly</li>
 <li>Jump relative addressing - RIP + offset</li>
 </ol>
-
 <p>mod meaning</p>
 <hr/>
 <p>00 Register indirect memory addressing mode<br/>
@@ -725,7 +727,6 @@ ModRM = 0xc3
 <p><img src="https://beila.github.io/my-collection/stephen-diehl/assets/baa2bce8fed295f2358ec36dabe9b238fd9f270a14bff0622ac2f4b1321b6d57.png"/></p>
 <p>Scale is the factor by which index is multipled before being added to base to<br/>
 specify the address of the operand. Scale can have value of 1, 2, 4, or 8. If scale is not specified, the default value is 1.</p>
-
 <p>scale factor</p>
 <hr/>
 <p>0b00 1<br/>
@@ -744,7 +745,6 @@ rbp 101<br/>
 rsi 110<br/>
 rdi 111</p>
 <hr/>
-
 <p>Instruction Builder. Moving forward we'll create several functions mapping to X86 monadic operators<br/>
 which assemble instructions in the state monad. Let's do some simple arithmetic<br/>
 logic first.</p>
@@ -971,7 +971,7 @@ main = do
 Hello Haskell
 </code></pre>
 <p>So that's basic JIT compilation in a nutshell.</p>
-    </section>
-  </article>
+</section>
+</article>
 </body>
 </html>

@@ -1,13 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="stephen-diehl-content-hash" content="efaacc940ac9b02568fc4201401f394c0da393aff0ca338dc7adb009823550e7">
-  <meta name="stephen-diehl-article-format" content="10">
-  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/mlir_transformers.html">
-  <title>Transformers</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="efaacc940ac9b02568fc4201401f394c0da393aff0ca338dc7adb009823550e7" name="stephen-diehl-content-hash"/>
+<meta content="14" name="stephen-diehl-article-format"/>
+<link href="https://beila.github.io/my-collection/stephen-diehl/mlir_transformers.html" rel="canonical"/>
+<title>Transformers</title>
+<style>
     :root { color-scheme: dark; }
     body { margin: 0; background: #171717; color: #f1f1f1;
             font: 18px/1.7 Georgia, serif; }
@@ -26,18 +27,21 @@
     .published { color: #b8b8b8; }
     .original-link { border-top: 1px solid #555; margin-top: 2rem;
                       padding-top: 1rem; }
+img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
+                      vertical-align: middle; }
+    img.math-display { display: block; height: auto; margin: 1.25rem auto;
+                       max-width: 100%; }
   </style>
 </head>
 <body>
-  <article>
-    <h1>Transformers</h1>
-    <p class="published">Published: Fri, 11 Apr 2025 01:00:00 +0000</p>
-    <section class="instapaper_body">
-      <p class="original-link"><a href="https://www.stephendiehl.com/posts/mlir_transformers/">Read the original article on Stephen Diehl's website</a></p>
+<article>
+<h1>Transformers</h1>
+<p class="published">Published: Fri, 11 Apr 2025 01:00:00 +0000</p>
+<section class="instapaper_body">
+<p class="original-link"><a href="https://www.stephendiehl.com/posts/mlir_transformers/">Read the original article on Stephen Diehl's website</a></p>
 <p>
 <img alt="Transformer Architecture" src="https://beila.github.io/my-collection/stephen-diehl/assets/a275b421c22c73fceef543685ccafb5f4a07d03315bfa6c879be32ae0ea0873c.jpg"/>
 </p>
-
 <p>The transformer architecture revolutionized the field of natural language processing when introduced in the landmark 2017 paper <a href="https://arxiv.org/abs/1706.03762"><em>Attention is All You Need</em></a>. Breaking away from traditional sequence models, transformers employ <strong>self-attention</strong> mechanisms (more on this later) as their core building block, enabling them to capture long-range dependencies in data with remarkable efficiency. In essence, the transformer can be viewed as a general-purpose computational substrate—a programmable logical tissue that reconfigures based on training data and can be stacked as layers build large models exhibiting fascinating emergent behaviors.</p>
 <p>Each of these layers contains two essential sublayers working in tandem: a <strong>multi-head self-attention mechanism</strong> and a <strong>position-wise feed-forward network</strong>. The multi-head attention allows the model to simultaneously focus on different parts of the input sequence, capturing various relationships between tokens from different representational perspectives. The feed-forward network, applied identically to each position, then introduces non-linearity and expands the model's capacity to learn complex patterns.</p>
 <p>Since the attention mechanism processes all tokens in parallel, transformers require an innovative approach to handling sequential information. This challenge is addressed through positional encodings—either learned embeddings or fixed sinusoidal functions—that are added to the token embeddings at the input layer. These encodings provide the model with crucial information about token positions that would otherwise be lost in the parallel processing.</p>
@@ -70,9 +74,7 @@ tokens = encoder.encode("Hello world")
 print(tokens) # [15496, 995]
 </code></pre>
 <p>Here we see the tokenizer has encoded the string "Hello world" into a list of tokens <code>[15496, 995]</code> which happens to have two words and two tokens. However the string "Barack Obama" is encoded into <code>[10374, 441, 2486]</code> which has two words and three tokens.</p>
-
 <img alt="Tokenization" src="https://beila.github.io/my-collection/stephen-diehl/assets/ef3312812ad36d0f3bbf5d7176d2e5b9df32019bf0f16c7ad8f845c2f55fffde.png"/>
-
 <h2 id="tokenization-and-position-embeddings">Tokenization and Position Embeddings</h2>
 <p>From the string input we first tokenize it into a list of tokens and then we look up the token embeddings for each token in the <code>params.wte</code> matrix.</p>
 <pre><code>x = params.wte[inputs] + params.wpe[range(len(inputs))]
@@ -86,22 +88,16 @@ print(tokens) # [15496, 995]
 <p>Transformers process tokens in parallel using self-attention, which doesn't inherently know the order of tokens. To provide this sequential information, we use position embeddings. The <code>len(inputs)</code> function calculates the length of your input sequence (e.g., 2 for <code>[15496, 995]</code>). Using <code>range(len(inputs))</code> generates a sequence of position indices starting from 0: <code>[0, 1]</code> in our example.</p>
 <p>The <code>params.wpe</code> refers to the <strong>W</strong>ord <strong>P</strong>osition <strong>E</strong>mbedding matrix. Similar to <code>wte</code>, it's a lookup table, but its rows correspond to positions in a sequence (0, 1, 2, ... up to the maximum sequence length the model can handle). Each row is a learned vector representing that specific position. GPT-2 uses <em>learned</em> positional embeddings, meaning these vectors are parameters learned during training.</p>
 <p>Finally, <code>params.wpe[range(len(inputs))]</code> performs a lookup using the position indices. It retrieves the embedding vector for position 0, then position 1, and so on, for the length of your input. The result is a matrix where each row is the position embedding for the corresponding position in the input sequence.</p>
-
 <img alt="Word Token &amp; Word Position Embeddings" src="https://beila.github.io/my-collection/stephen-diehl/assets/d60f729b18f9bf1a73220e554a488b71d2266d317dbf7436b0b0a04d0bb59141.png"/>
-
 <p><strong>Addition (<code>+</code>):</strong></p>
 <p>The token embedding matrix (representing <em>what</em> each token is) and the position embedding matrix (representing <em>where</em> each token is in the sequence) are simply added together element-wise. Both matrices have the same shape (sequence length × embedding dimension).</p>
 <p>The resulting matrix <code>x</code> now contains vectors where each vector encodes both the token's identity and its position. This combined representation is the final input that gets fed into the stack of transformer blocks for processing.</p>
 <p>In summary, this line <code>x = params.wte[inputs] + params.wpe[range(len(inputs))]</code> creates the initial representation for the input sequence by looking up the learned vector for each token and adding the learned vector for its position. This allows the subsequent transformer layers to process the tokens while being aware of their order.</p>
-
 <img alt="Token Embeddings" src="https://beila.github.io/my-collection/stephen-diehl/assets/6d11b961ba8ff734c7f6c60bcc2b019f8bb07e384e59b616f424d7e5b5666da0.png"/>
-
 <p>The size of the matrix is <code>[sequence_length, embedding_dimension]</code>. We denote sequence length as <code>N</code> in the code.</p>
 <h2 id="gelu">GELU</h2>
 <p>GELU (Gaussian Error Linear Unit) is an activation function used in the Transformer architecture, particularly within the feed-forward networks (FFN) of each block. Its primary role is to introduce non-linearity into the model, allowing it to learn more complex patterns and relationships in the data. Without non-linear activation functions, stacking multiple layers would be equivalent to a single linear transformation, severely limiting the model's representational power. In math it's defined as:</p>
-<p>$$<br/>
-\text{GELU}(x) = 0.5 \cdot x \cdot \left(1 + \text{erf}\left(\frac{x}{\sqrt{2}}\right)\right)<br/>
-$$</p>
+<p><img alt="Equation: GELU left-parenthesis x right-parenthesis equals 0.5 dot x dot left-parenthesis 1 plus erf left-parenthesis StartFraction x Over StartRoot 2 EndRoot EndFraction right-parenthesis right-parenthesis" class="math-display" height="48" src="https://beila.github.io/my-collection/math-images/ff38d4ca55ddb00365224adcb3d4f42230b8953e7c46500e6348a2c1c2bb33a7.png" width="238"/></p>
 <p>where <code>erf</code> is the <a href="https://en.wikipedia.org/wiki/Error_function">Guass error function</a>. In practice we'll use an approximation where we use the <code>tanh</code> function to approximate the error function so we don't have to compute integrals involved in the error function. In Python this approximation is implemented as:</p>
 <pre><code># gelu:
 #   x : (N, 768)
@@ -112,9 +108,7 @@ def gelu(x: np.ndarray) -&gt; np.ndarray:
 <p>Note that this is a scalar function that is applied element-wise to the input.</p>
 <h2 id="softmax">Softmax</h2>
 <p>While GELU handles non-linearity within feed-forward networks, the transformer architecture also needs a way to convert raw scores into meaningful probability distributions. This is where the softmax function comes into play. Softmax is a crucial function used primarily in two places within the Transformer architecture: within the attention mechanism and at the final output layer. Its purpose is to convert a vector of raw scores (logits) into a probability distribution. It takes an input vector and exponentiates each element, making them all positive, and then normalizes these values by dividing by their sum. The result is a vector where all elements are between 0 and 1, and they all sum up to 1.</p>
-<p>$$<br/>
-\text{softmax}(x)_i = \frac{e^{x_i}}{\sum_j e^{x_j}}<br/>
-$$</p>
+<p><img alt="Equation: softmax left-parenthesis x right-parenthesis Subscript i Baseline equals StartFraction e Superscript x Super Subscript i Superscript Baseline Over sigma-summation Underscript j Endscripts e Superscript x Super Subscript j Superscript Baseline EndFraction" class="math-display" height="46" src="https://beila.github.io/my-collection/math-images/e85181735c4136f2d60d4af5dc89e705eadc6f7acd77c059c0dcb49ac648fb79.png" width="144"/></p>
 <p>In the attention mechanism (<code>attention</code> function), softmax is applied to the scaled dot-product scores between queries and keys. This transforms the raw similarity scores into attention weights, which represent the probability distribution over the value vectors – indicating how much focus each value should receive.</p>
 <p>At the final layer of the model (just before generating the next token), softmax is typically applied to the logits produced by the final linear projection. This converts the model's raw output scores for each word in the vocabulary into probabilities, allowing us to interpret the scores and sample the next token based on this distribution.</p>
 <pre><code># softmax:
@@ -126,10 +120,8 @@ def softmax(x: np.ndarray) -&gt; np.ndarray:
 </code></pre>
 <h2 id="layer-normalization">Layer Normalization</h2>
 <p>Beyond activation functions and probability conversions, neural networks need methods to stabilize training, especially in deep architectures like transformers. Layer Normalization (LayerNorm) serves this critical purpose. Unlike Batch Normalization which normalizes across the batch dimension, Layer Normalization normalizes the inputs across the features (embedding dimension) for <em>each</em> data sample independently.</p>
-<p>$$<br/>
-\text{LayerNorm}(x) = \gamma \cdot \frac{x - \mu}{\sqrt{\sigma^2}} + \beta<br/>
-$$</p>
-<p>Where $\mu$ is the mean and $\sigma^2$ is the variance of the input, and $\gamma$ and $\beta$ are learnable gain and bias parameters.</p>
+<p><img alt="Equation: LayerNorm left-parenthesis x right-parenthesis equals gamma dot StartFraction x minus mu Over StartRoot sigma squared EndRoot EndFraction plus beta" class="math-display" height="46" src="https://beila.github.io/my-collection/math-images/82f9e83af56a2c56e717ed859e78cc7e828102f968bde960b5a25a29baf29804.png" width="196"/></p>
+<p>Where <img alt="Equation: mu" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/a9595298270bbcf1f43bac68bbbd499fe3930183308fb4df3c17f5c19d8db2b2.png" width="17"/> is the mean and <img alt="Equation: sigma squared" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/8277b5f3f227e5a064773cf991836ffa875c7e299bb5122fadf805ee386d4f1b.png" width="26"/> is the variance of the input, and <img alt="Equation: gamma" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/ae13f91337b8b3ca895ca65fd942055efb7cf7bbb96eb1b7f891c431caf0a51f.png" width="16"/> and <img alt="Equation: beta" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/3c2c1def7d57b8d93ba72641fe59ee166e36fb984921919f012620c4b99888a0.png" width="16"/> are learnable gain and bias parameters.</p>
 <p>In a Transformer block, LayerNorm is typically applied <em>before</em> the multi-head attention sub-layer and <em>before</em> the feed-forward network sub-layer (this is known as pre-LN). It works by calculating the mean and variance of all the activations within a single layer for a single training example. It then normalizes the activations using this mean and variance. Crucially, it also introduces learnable gain (<code>g</code>) and bias (<code>b</code>) parameters, allowing the network to scale and shift the normalized output, preserving its representational capacity.</p>
 <p>LayerNorm helps mitigate issues like vanishing or exploding gradients, allows for higher learning rates, and makes the model less sensitive to the scale of the parameters and initialization. By normalizing the activations within each layer, it ensures that the inputs to the subsequent layers are consistently scaled, leading to smoother and more stable training dynamics.</p>
 <pre><code># layer_norm:
@@ -158,9 +150,7 @@ def linear(x: np.ndarray, w: np.ndarray, b: np.ndarray) -&gt; np.ndarray:
 <h2 id="feed-forward-network">Feed-Forward Network</h2>
 <p>Having covered the individual building blocks of normalization, activation, and linear transformation, we can now examine how these components come together in the Feed-Forward Network (FFN). The FFN, sometimes called the position-wise feed-forward network, is the second main sub-layer within each Transformer block (following the multi-head attention sub-layer).</p>
 <p>It consists of two linear transformations with a non-linear activation function (the GELU function we explored earlier) applied in between. The first linear layer usually expands the dimensionality of the input (e.g., from 768 to 3072 in GPT-2), the GELU activation introduces non-linearity, and the second linear layer projects the result back down to the original input dimensionality (e.g., 3072 back to 768).</p>
-
 <img alt="Feed-Forward Network" src="https://beila.github.io/my-collection/stephen-diehl/assets/ea541f6188e680c6270963761b5576d8635fefc0400ecdfce4f91372818e7d13.png"/>
-
 <p>This FFN is applied independently to each position in the sequence. While the attention mechanism allows tokens to interact with each other, the FFN processes the information at each position separately, transforming the representation based on the features learned by the model. It adds significant representational capacity to the model, allowing it to learn more complex functions beyond what the attention mechanism alone can capture.</p>
 <pre><code># ffn:
 #   x : (N, 768)
@@ -187,18 +177,14 @@ def ffn(
 <li><strong>Value (V):</strong> Also represents all tokens in the sequence. Think of it as the actual content or representation of each token: "What is the actual information conveyed by each token?"</li>
 </ol>
 <p>The process begins with an initial projection where the input sequence <code>x</code> passes through three separate linear layers to generate initial Q, K, and V matrices spanning the entire input dimension. These large matrices are then split into smaller chunks along their embedding dimension, creating separate Q, K, and V sets for each attention "head". Formally self-attention is computed as:</p>
-<p>$$<br/>
-\text{Attention}(Q,K,V)=\text{softmax} \left( \frac{QK^T}{\sqrt{d_k}} \right) \cdot V<br/>
-$$</p>
+<p><img alt="Equation: Attention left-parenthesis upper Q comma upper K comma upper V right-parenthesis equals softmax left-parenthesis StartFraction upper Q upper K Superscript upper T Baseline Over StartRoot d Subscript k Baseline EndRoot EndFraction right-parenthesis dot upper V" class="math-display" height="54" src="https://beila.github.io/my-collection/math-images/bcb955ecef7672c8406092bc3724c9fda220508751adc69a0685489d3f4db5d9.png" width="274"/></p>
 <p>where:</p>
 <ul>
 <li><code>Q</code>, <code>K</code>, <code>V</code> are the query, key, and value matrices, and</li>
 <li><code>d_k</code> is the dimension of the key vectors.</li>
 </ul>
 <p>The <code>attention</code> function implements the core scaled dot-product attention mechanism, the fundamental building block used within each head of the Multi-Head Attention layer. It calculates how much focus or "attention" each input token (represented by its Value vector) should receive when processing a specific token (represented by its Query vector).</p>
-
 <img alt="Attention" src="https://beila.github.io/my-collection/stephen-diehl/assets/2410a91657d5d5db0fb26841cc0b3589ba3546ee9f544c13cdd28a7a48e99488.png"/>
-
 <p>The process starts by computing the dot product between the Q matrix and the transpose of the K matrix (<code>q @ k.T</code>). This step measures the raw similarity or compatibility between each query and all keys. These raw scores are then scaled down by dividing them by the square root of the dimension of the key vectors (<code>np.sqrt(q.shape[-1])</code>).</p>
 <p>The causal mask is a mask that is added to these scaled scores. This mask prevents positions from attending to subsequent positions, ensuring predictions are based only on previous tokens. The mask effectively assigns very large negative values to scores corresponding to future tokens.</p>
 <p>Next, a <code>softmax</code> function is applied to the masked, scaled scores. This converts the scores into probability distributions (attention weights) where each weight indicates the relative importance of a specific key (and its corresponding value) to the query.</p>
@@ -217,15 +203,11 @@ def attention(
     return attention_weights @ v
 </code></pre>
 <p>We can visualize the attention mechanism by plotting the attention weights for each head. For example for the phrase <em>"The quick brown fox jumps over the lazy dog"</em> we can plot the attention weights in the first block of the transformer stack to see which pairs of words are attended to most by each head. Here we see <em>"jumps"</em> and <em>"fox"</em> are attended to most by the first head.</p>
-
 <img alt="Attention" src="https://beila.github.io/my-collection/stephen-diehl/assets/d6d0c4c31b1d5d5e4578478e9bc1ce8f505ddbcebc8d2f97be71c20cc48d05b3.png"/>
-
 <h2 id="multi-head-attention">Multi-Head Attention</h2>
 <p>While the basic attention mechanism provides a way to capture relationships between tokens, transformers take this a step further with Multi-Head Attention. This enhancement allows the model to capture different types of relationships simultaneously, greatly expanding its representational power. Multi-Head Attention is a core component that allows the model to jointly attend to information from different representation subspaces at different positions. Instead of performing a single attention calculation, MHA runs the attention mechanism multiple times ("heads") in parallel on different learned linear transformations of the input. This allows the model to capture various types of relationships (e.g., syntactic, semantic) simultaneously.</p>
 <p>Within each head, scaled dot-product attention is performed. Attention scores are computed by taking the dot product of the Q with all Ks, measuring the relevance between the current token and every other token. These scores are scaled (divided by the square root of the key dimension) and passed through a softmax function to become probabilities (attention weights). These weights indicate how much focus to place on each V.</p>
-
 <img alt="Multi-Head Attention" src="https://beila.github.io/my-collection/stephen-diehl/assets/7f7e45141d50590ef9fa98c45ece4c7d586aff8e3872e4d8a69403f59e1460d2.png"/>
-
 <p>The size of each attention head's query matrix (64) is derived by dividing the model's embedding dimension (768) by the number of attention heads (12). When the outputs of all heads are concatenated back together, we recover the original embedding dimension:</p>
 <pre><code>768/n_head = 768/12 = 64
 </code></pre>
@@ -267,9 +249,7 @@ def mha(
 <h2 id="transformer-block">Transformer Block</h2>
 <p>With both the attention mechanism and feed-forward networks defined, we can now see how these components are integrated into the complete Transformer block. The Transformer block is the fundamental repeating unit of the GPT-2 architecture, combining multi-head attention with feed-forward processing, normalization, and residual connections to create a computational unit that can be stacked multiple times.</p>
 <p>Each block takes a sequence of input vectors and processes them through two main sub-layers, incorporating residual connections and layer normalization around each. This structure creates a balanced flow of information that allows both preservation of original inputs (through residual connections) and transformation into new representations.</p>
-
 <img alt="Transformer Block Sequence" src="https://beila.github.io/my-collection/stephen-diehl/assets/d482d18972feffffaf48594c6041329b5efea8f4d4798eeb84c5c7eca996dd9f.png"/>
-
 <p>The first sub-layer is the Multi-Head Attention mechanism we just explored. Before the input enters the MHA, it undergoes layer normalization. The output of the MHA is then added back to the original input (a residual connection), combining the attention-derived context with the original positional representation. This sum then passes to the second sub-layer.</p>
 <p>The second sub-layer is the Feed-Forward Network described earlier. Similar to the first sub-layer, the input (which is the output of the first residual connection) first goes through layer normalization. The normalized output is then processed by the FFN. The output of the FFN is then added back to its input via another residual connection. The final output of the transformer block is this sum, which then serves as the input to the next identical transformer block in the stack.</p>
 <pre><code># transformer_block:
@@ -304,9 +284,7 @@ def transformer_block(
 <h2 id="full-model">Full Model</h2>
 <p>Now that we've examined the individual components and the Transformer block structure, we can assemble everything into a complete model. These blocks are stacked multiple times (e.g., 12 times in the smallest GPT-2 model) to build a deep network capable of sophisticated language understanding and generation. The combination of attention mechanisms, feed-forward networks, layer normalization, and residual connections creates an architecture that effectively processes sequential information, captures complex dependencies, and trains stably despite its depth.</p>
 <p>The <code>gpt2</code> function represents the complete forward pass of the GPT-2 model for a given sequence of input token IDs. It orchestrates the flow of data through all the previously defined components, transforming raw token IDs into contextual representations and ultimately into predictions for the next token.</p>
-
 <img alt="GPT-2 Model" src="https://beila.github.io/my-collection/stephen-diehl/assets/b6134ab746abd3f107e30b3abe2e3c100e419ef8e29fc46cc529d7726759fb39.png"/>
-
 <p>The journey begins with embedding the input tokens. This is achieved by summing the token embeddings (looked up in <code>params.wte</code>) and the positional embeddings (looked up in <code>params.wpe</code>) for each token in the input sequence. This initial combined embedding captures both the semantic meaning of each token and its position in the sequence, providing the foundation for all subsequent processing.</p>
 <p>This embedded sequence then flows through the stack of Transformer blocks. Each block refines the representation through its attention and feed-forward mechanisms, gradually building more sophisticated contextual understanding. The code explicitly implements this stacking for a 12-layer model, where the output of one block becomes the input to the next. With each successive layer, the model can capture increasingly complex patterns and relationships in the data.</p>
 <pre><code>def gpt2(inputs: list[int], params: ModelParams, n_head: int) -&gt; np.ndarray:
@@ -508,7 +486,7 @@ params = ModelParams(
 <li><a href="https://nlp.seas.harvard.edu/annotated-transformer/">The Annotated Transformer</a></li>
 <li><a href="https://github.com/pytorch-labs/attention-gym">attention-gym</a></li>
 </ul>
-    </section>
-  </article>
+</section>
+</article>
 </body>
 </html>

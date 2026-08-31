@@ -1,13 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="stephen-diehl-content-hash" content="02ac4eb5959086f5c48b2c8878da7589ac6f83ba30bd31bd3a0f768598edeff9">
-  <meta name="stephen-diehl-article-format" content="10">
-  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/exotic_04.html">
-  <title>Exotic Programming Ideas, Part 4 (Datalog)</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="02ac4eb5959086f5c48b2c8878da7589ac6f83ba30bd31bd3a0f768598edeff9" name="stephen-diehl-content-hash"/>
+<meta content="14" name="stephen-diehl-article-format"/>
+<link href="https://beila.github.io/my-collection/stephen-diehl/exotic_04.html" rel="canonical"/>
+<title>Exotic Programming Ideas, Part 4 (Datalog)</title>
+<style>
     :root { color-scheme: dark; }
     body { margin: 0; background: #171717; color: #f1f1f1;
             font: 18px/1.7 Georgia, serif; }
@@ -26,14 +27,18 @@
     .published { color: #b8b8b8; }
     .original-link { border-top: 1px solid #555; margin-top: 2rem;
                       padding-top: 1rem; }
+img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
+                      vertical-align: middle; }
+    img.math-display { display: block; height: auto; margin: 1.25rem auto;
+                       max-width: 100%; }
   </style>
 </head>
 <body>
-  <article>
-    <h1>Exotic Programming Ideas, Part 4 (Datalog)</h1>
-    <p class="published">Published: Thu, 04 Mar 2021 00:00:00 +0000</p>
-    <section class="instapaper_body">
-      <p class="original-link"><a href="https://www.stephendiehl.com/posts/exotic_04/">Read the original article on Stephen Diehl's website</a></p>
+<article>
+<h1>Exotic Programming Ideas, Part 4 (Datalog)</h1>
+<p class="published">Published: Thu, 04 Mar 2021 00:00:00 +0000</p>
+<section class="instapaper_body">
+<p class="original-link"><a href="https://www.stephendiehl.com/posts/exotic_04/">Read the original article on Stephen Diehl's website</a></p>
 <p>Continuing on in our series on exotic programming ideas, we’re going to explore the topic of logic programming and a particular form known as datalog.</p>
 <ul>
 <li><a href="https://www.stephendiehl.com/posts/exotic_01">Week 1 - Module Systems</a></li>
@@ -146,13 +151,9 @@ Rank("Officer", "Data").
 <p>Clauses in Souffle are known in logic as Horn clauses. They are comprised of subterms joined together with a conjunction (∧) (logical AND in programming) that implies a statement u. Can read the following statement in math as</p>
 <pre><code>if a and b and … and z all hold, then also u holds
 </code></pre>
-<p>$$<br/>
-u \leftarrow a \land b \land \ldots \land z<br/>
-$$</p>
+<p><img alt="Equation: u left-arrow a logical-and b logical-and ellipsis logical-and z" class="math-display" height="22" src="https://beila.github.io/my-collection/math-images/b187b2585d6d94d9efbfd8b4ef86ff32cb95ff1943f2f7e1d5febcef051bb240.png" width="120"/></p>
 <p>The above is known as the implicative form. Logically this is equivalent to the statement written in terms of disjunction (∨) (logical OR in programming) and negation (¬) (logical NOT in programming).</p>
-<p>$$<br/>
-\neg a \lor \neg b \lor \ldots \lor z<br/>
-$$</p>
+<p><img alt="Equation: normal not-sign a logical-or normal not-sign b logical-or ellipsis logical-or z" class="math-display" height="22" src="https://beila.github.io/my-collection/math-images/38c4e318e52b30b0e8e7b2e050b89b027402a0161aa1c40a99b6c2d3db3ea8cc.png" width="110"/></p>
 <p>In Datalog notation we write this Horn clause in the following syntax.</p>
 <pre><code>u :- a, c, ..., z.
 </code></pre>
@@ -161,9 +162,7 @@ $$</p>
 <pre><code>A(x,y) :- B(x,y).
 </code></pre>
 <p>Is equivalent to the Horn clause.</p>
-<p>$$<br/>
-\forall x. \forall y. \neg B(x,y) \lor A(x,y)<br/>
-$$</p>
+<p><img alt="Equation: for-all x period for-all y period normal not-sign upper B left-parenthesis x comma y right-parenthesis logical-or upper A left-parenthesis x comma y right-parenthesis" class="math-display" height="26" src="https://beila.github.io/my-collection/math-images/5c42e3821fb05ce7d9bc45b974971e57f4752cec948827943a84ad12111cd120.png" width="161"/></p>
 <p>So for example we know that Klingons and Humans both eat food, but obviously androids do not. We write the following rules over a variable term X of type symbol.</p>
 <pre><code>.decl Eats(x:symbol)
 
@@ -267,15 +266,9 @@ FriendOfFriend(X, Y) :- Friend(X, Z), FriendOfFriend(Z, Y).
 </tbody>
 </table>
 <p>An important class of relations are that of equivalence relations. These are relations between two terms that satisfy an additional set of constraints: reflexivity, symmetry, and transitivity. Relations of this form behave similar to how the equality symbol is treated in algebra.</p>
-<p>$$<br/>
-a = a<br/>
-$$</p>
-<p>$$<br/>
-a = b \Rightarrow b = a<br/>
-$$</p>
-<p>$$<br/>
-a = c, b = c \Rightarrow a = c<br/>
-$$</p>
+<p><img alt="Equation: a equals a" class="math-display" height="18" src="https://beila.github.io/my-collection/math-images/a5a7763aadb73e3de70532c8ca7a9a6d8860c7c4c685241e3d97c565cfe16411.png" width="42"/></p>
+<p><img alt="Equation: a equals b right double arrow b equals a" class="math-display" height="22" src="https://beila.github.io/my-collection/math-images/302728666b655f4916812a3bc3b222fa907525bbe8f4b875f9bd593f233dcfd6.png" width="94"/></p>
+<p><img alt="Equation: a equals c comma b equals c right double arrow a equals c" class="math-display" height="24" src="https://beila.github.io/my-collection/math-images/b9597e1312a5bffb5b371bb79c6bc9d543ec7acba2eeebc60ebae4b53ce56b81.png" width="131"/></p>
 <pre><code>.decl equivalence(x:number, y:number)
 equivalence(a, b) :- R(a), R(b).
 
@@ -334,7 +327,7 @@ MyList( [1, [2, nil]] ).
 <li><a href="https://www.youtube.com/watch?v=Z_Z_Z_Z_Z">Tool Talk: Souffle</a></li>
 <li><a href="https://www.youtube.com/watch?v=Z_Z_Z_Z_Z">Domain Modeling with Datalog</a></li>
 </ul>
-    </section>
-  </article>
+</section>
+</article>
 </body>
 </html>

@@ -1,13 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="stephen-diehl-content-hash" content="fd023a7930fcc79e5793e9a37ea16a17dcbc75957e3675dd186b1d7b9055b0d7">
-  <meta name="stephen-diehl-article-format" content="11">
-  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/geometric_algebra.html">
-  <title>Space-time Algebra in Python</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="fd023a7930fcc79e5793e9a37ea16a17dcbc75957e3675dd186b1d7b9055b0d7" name="stephen-diehl-content-hash"/>
+<meta content="14" name="stephen-diehl-article-format"/>
+<link href="https://beila.github.io/my-collection/stephen-diehl/geometric_algebra.html" rel="canonical"/>
+<title>Space-time Algebra in Python</title>
+<style>
     :root { color-scheme: dark; }
     body { margin: 0; background: #171717; color: #f1f1f1;
             font: 18px/1.7 Georgia, serif; }
@@ -26,14 +27,18 @@
     .published { color: #b8b8b8; }
     .original-link { border-top: 1px solid #555; margin-top: 2rem;
                       padding-top: 1rem; }
+img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
+                      vertical-align: middle; }
+    img.math-display { display: block; height: auto; margin: 1.25rem auto;
+                       max-width: 100%; }
   </style>
 </head>
 <body>
-  <article>
-    <h1>Space-time Algebra in Python</h1>
-    <p class="published">Published: Sun, 21 Apr 2013 01:00:00 +0000</p>
-    <section class="instapaper_body">
-      <p class="original-link"><a href="https://www.stephendiehl.com/posts/geometric_algebra/">Read the original article on Stephen Diehl's website</a></p>
+<article>
+<h1>Space-time Algebra in Python</h1>
+<p class="published">Published: Sun, 21 Apr 2013 01:00:00 +0000</p>
+<section class="instapaper_body">
+<p class="original-link"><a href="https://www.stephendiehl.com/posts/geometric_algebra/">Read the original article on Stephen Diehl's website</a></p>
 <p>Geometric Algebra is a very cool alternative formulation of linear algebra that provides a succinct framework for representing geometric transformations and physical phenomena. One of my favourite books is <em>Geometric Algebra for Computer Science</em> by Leo Dorst, Daniel Fontijne, and Stephen Mann. While it implements the code in a language called <em>GAViewer</em> which is a very cool environment for visualizing geometric algebra, I wanted to implement my own version in Python to really understand the concepts.</p>
 <ol>
 <li><strong>Blades</strong>: These are the fundamental building blocks in geometric algebra representing oriented subspaces. For example:
@@ -149,7 +154,7 @@ biv_product = v1 | v2
 print("Wedge Product Bivector (v1 ∧ v2):", biv_product)
 </code></pre>
 <p>Building upon our foundation we can extend the implementation to Space-Time Algebra (STA). STA integrates time as a dimension alongside space, allowing us to represent entities and transformations in a four-dimensional context (3 spatial dimensions and 1 temporal dimension).</p>
-<p>In STA, we introduce the concept of a time vector, allowing the treatment of events and transformations in both space and time. We'll define a time unit (often represented as $c$, the speed of light, for consistency in relativistic contexts) to relate spatial and temporal components.</p>
+<p>In STA, we introduce the concept of a time vector, allowing the treatment of events and transformations in both space and time. We'll define a time unit (often represented as <img alt="Equation: c" class="math-inline" height="20" src="https://beila.github.io/my-collection/math-images/5edf831e3a36468482c1edce39cd6d54965227efb31302d8f0a974b7d5f379ca.png" width="14"/>, the speed of light, for consistency in relativistic contexts) to relate spatial and temporal components.</p>
 <p>We'll modify our <code>Vector</code> class to include time as a component, creating a <code>SpaceTimeVector</code> class that encompasses three spatial dimensions and one temporal dimension.</p>
 <pre><code>class SpaceTimeVector(Blade):
     def __init__(self, components):
@@ -215,7 +220,7 @@ print("Wedge Product Space-Time Bivector:", st_bivector)
 magnitude = st_vector1.magnitude()
 print("Magnitude of Space-Time Vector 1:", magnitude)
 </code></pre>
-    </section>
-  </article>
+</section>
+</article>
 </body>
 </html>

@@ -1,13 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="stephen-diehl-content-hash" content="bc09e5e8da88508d1a482a9935f3d095fd4eb7a49d1dd439ce0143b1a9264bbf">
-  <meta name="stephen-diehl-article-format" content="10">
-  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/cvxopt.html">
-  <title>Portfolio Theory with CVXOPT</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="bc09e5e8da88508d1a482a9935f3d095fd4eb7a49d1dd439ce0143b1a9264bbf" name="stephen-diehl-content-hash"/>
+<meta content="14" name="stephen-diehl-article-format"/>
+<link href="https://beila.github.io/my-collection/stephen-diehl/cvxopt.html" rel="canonical"/>
+<title>Portfolio Theory with CVXOPT</title>
+<style>
     :root { color-scheme: dark; }
     body { margin: 0; background: #171717; color: #f1f1f1;
             font: 18px/1.7 Georgia, serif; }
@@ -26,14 +27,18 @@
     .published { color: #b8b8b8; }
     .original-link { border-top: 1px solid #555; margin-top: 2rem;
                       padding-top: 1rem; }
+img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
+                      vertical-align: middle; }
+    img.math-display { display: block; height: auto; margin: 1.25rem auto;
+                       max-width: 100%; }
   </style>
 </head>
 <body>
-  <article>
-    <h1>Portfolio Theory with CVXOPT</h1>
-    <p class="published">Published: Thu, 01 Feb 2024 00:00:00 +0000</p>
-    <section class="instapaper_body">
-      <p class="original-link"><a href="https://www.stephendiehl.com/posts/cvxopt/">Read the original article on Stephen Diehl's website</a></p>
+<article>
+<h1>Portfolio Theory with CVXOPT</h1>
+<p class="published">Published: Thu, 01 Feb 2024 00:00:00 +0000</p>
+<section class="instapaper_body">
+<p class="original-link"><a href="https://www.stephendiehl.com/posts/cvxopt/">Read the original article on Stephen Diehl's website</a></p>
 <p>In this tutorial, we will use the <code>cvxopt</code> library in Python to implement Markowitz Portfolio Theory, which allows us to optimize a portfolio of assets by calculating the efficient frontier. The efficient frontier represents the set of optimal portfolios that offer the highest expected return for a given level of risk (standard deviation).</p>
 <p>In plain English, what we want is a mix of investments that generally go up over time, but don't all tank at once when things go bad. Ideally, when some investments are going down, we want others that tend to go up to balance things out. It's like not putting all your eggs in one basket, but being really smart about which baskets you choose and how many eggs go in each one. We'll go through three different ways of being "smarter" about our portfolio choice.</p>
 <ol>
@@ -55,36 +60,16 @@
 <p>At its core, portfolio theory deals with the relationship between risk and return. Return is typically measured as the expected value (mean) of historical returns, representing our best estimate of what we might earn in the future. Risk, on the other hand, is quantified through the standard deviation of returns, also known as <em>volatility</em>. This volatility measure captures the uncertainty in our expected returns. We call <em>weights</em> the fraction of our portfolio allocated to each asset (for example, 60% of our portfolio in stocks and 40% in bonds).</p>
 <p>Volatility plays a crucial role in investment decisions for several reasons. First, it represents the market's perception of risk – assets with higher volatility are generally considered riskier and thus should offer higher expected returns. Second, volatility directly impacts trading costs and opportunities, as more volatile assets typically have wider bid-ask spreads and require larger position sizes to achieve the same economic exposure. Finally, volatility affects an investor's ability to meet future cash flow needs, as high volatility can force liquidation at inopportune times.</p>
 <p>The power of MPT comes from understanding how assets move together, measured through their correlation. The portfolio risk is determined not just by the individual asset risks, but by how they move together. This relationship is captured in the portfolio risk formula:</p>
-<p>$$<br/>
-\sigma = \sqrt{w_1^2 \sigma_1^2 + w_2^2 \sigma_2^2 + 2w_1w_2\sigma_1\sigma_2\rho_{12}}<br/>
-$$</p>
-<p>In this equation, \(w\) represents weights, \(\sigma\) represents individual asset volatilities, and \(\rho\) represents the correlation coefficient between the assets. This formula reveals something remarkable: by combining assets with less than perfect positive correlation, we can achieve better risk-adjusted returns than by holding either asset alone. For a portfolio of n assets, the expected return is a weighted sum of individual asset returns:</p>
-<p>$$<br/>
-E(R_p) = \sum_{i=1}^n w_i E(R_i)<br/>
-$$</p>
-<p>where \(w_i\) represents the weight of asset i and \(E(R_i)\) is its expected return. This is the simpler part of the theory. The portfolio variance (risk squared) is given by:</p>
-<p>$$<br/>
-\sigma_p^2 = \sum_{i=1}^n \sum_{j=1}^n w_i w_j \sigma_{ij}<br/>
-$$</p>
-<p>where \(\sigma*{ij}\) represents the covariance between assets i and j. When \(i=j\), this becomes the variance of asset i. This equation captures the critical insight that portfolio risk depends not just on individual asset risks but on how assets move together. This can be captured in the so-called _covariance matrix*, which shows how different investments tend to move together. Think of it as a big table - if you look at any two investments in the table, their intersection tells you whether they tend to move in the same direction (positive relationship), opposite directions (negative relationship), or independently of each other (no relationship). The diagonal of this table shows how much each investment bounces around on its own (its volatility). This is a useful view because it helps us understand not just how risky individual investments are, but how they might work together to reduce overall portfolio risk.</p>
-<p>$$<br/>
-\Sigma = \begin{bmatrix}<br/>
-\sigma_{11} &amp; \sigma_{12} &amp; \cdots &amp; \sigma_{1n} \\<br/>
-\sigma_{21} &amp; \sigma_{22} &amp; \cdots &amp; \sigma_{2n} \\<br/>
-\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\<br/>
-\sigma_{n1} &amp; \sigma_{n2} &amp; \cdots &amp; \sigma_{nn}<br/>
-\end{bmatrix}<br/>
-$$</p>
-<p>The matrix is symmetric and the diagonal elements are the variances of the individual assets. The off-diagonal elements are the covariances between the assets. In our case, \(\Sigma\) is a \(4\)x\(4\) matrix because we have four investments: U.S. Treasury Bonds (denoted \(A\)), Corporate Bonds (denoted \(B\)), Stocks (denoted \(C\)), and T-Bills (denoted \(D\)).</p>
-<p>$$<br/>
-\Sigma = \begin{bmatrix}<br/>
-\sigma_{A,A} &amp; \sigma_{A,B} &amp; \sigma_{A,C} &amp; \sigma_{A,D} \\<br/>
-\sigma_{B,A} &amp; \sigma_{B,B} &amp; \sigma_{B,C} &amp; \sigma_{B,D} \\<br/>
-\sigma_{C,A} &amp; \sigma_{C,B} &amp; \sigma_{C,C} &amp; \sigma_{C,D} \\<br/>
-\sigma_{D,A} &amp; \sigma_{D,B} &amp; \sigma_{D,C} &amp; \sigma_{D,D}<br/>
-\end{bmatrix}<br/>
-$$</p>
-<p>Now in order to find the optimal portfolio, we need to solve the problem of minimizing the portfolio risk \(\sigma_p^2\) subject to constraints: \(\sum_{i=1}^n w_i = 1\) (weights sum to 1), \(E(R_p) = R_{target}\) (target return constraint), and often \(w_i \geq 0\) (no short selling).</p>
+<p><img alt="Equation: sigma equals StartRoot w 1 squared sigma 1 squared plus w 2 squared sigma 2 squared plus 2 w 1 w 2 sigma 1 sigma 2 rho 12 EndRoot" class="math-display" height="38" src="https://beila.github.io/my-collection/math-images/7500fcc8197ae24c55a509001b4c187db1450b877c7da18e24cac75b1567c40e.png" width="230"/></p>
+<p>In this equation, <img alt="Equation: w" class="math-inline" height="20" src="https://beila.github.io/my-collection/math-images/5ef173595e7811e19af4ff2eb8ec4bf5f2ee9c4bbfe3e5a679d71db83f89e6e1.png" width="20"/> represents weights, <img alt="Equation: sigma" class="math-inline" height="20" src="https://beila.github.io/my-collection/math-images/81b93d40119dc6c4b957f8782b766f0b7ca66aeb8b9a05826baff00e6698cf8d.png" width="16"/> represents individual asset volatilities, and <img alt="Equation: rho" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/4929b8116fa4217bad3bcb0d0f5c833ba2a27b86a879386301ad3852833ac19e.png" width="16"/> represents the correlation coefficient between the assets. This formula reveals something remarkable: by combining assets with less than perfect positive correlation, we can achieve better risk-adjusted returns than by holding either asset alone. For a portfolio of n assets, the expected return is a weighted sum of individual asset returns:</p>
+<p><img alt="Equation: upper E left-parenthesis upper R Subscript p Baseline right-parenthesis equals sigma-summation Underscript i equals 1 Overscript n Endscripts w Subscript i Baseline upper E left-parenthesis upper R Subscript i Baseline right-parenthesis" class="math-display" height="50" src="https://beila.github.io/my-collection/math-images/606577a9b38dc2be72d88e769c314cd222bd22d95e403fdae51da2fc9e7482c0.png" width="140"/></p>
+<p>where <img alt="Equation: w Subscript i" class="math-inline" height="23" src="https://beila.github.io/my-collection/math-images/0c94b9c7a3f42c44cf79dca44b63785a5dba7877414f45be4b6c111d8812a398.png" width="27"/> represents the weight of asset i and <img alt="Equation: upper E left-parenthesis upper R Subscript i Baseline right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/3cfba8bbb270e8abe9b22d82726b1286bf7f892efbd22f9f1fdd2fe30361bbd6.png" width="60"/> is its expected return. This is the simpler part of the theory. The portfolio variance (risk squared) is given by:</p>
+<p><img alt="Equation: sigma Subscript p Superscript 2 Baseline equals sigma-summation Underscript i equals 1 Overscript n Endscripts sigma-summation Underscript j equals 1 Overscript n Endscripts w Subscript i Baseline w Subscript j Baseline sigma Subscript i j" class="math-display" height="52" src="https://beila.github.io/my-collection/math-images/740fa498e4ed27892cb9b9c1804ab518cc22bb756ebab3bd65299fe62fbe0d67.png" width="133"/></p>
+<p>where <img alt="Equation: sigma asterisk i j" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/8d5ab502293baffe3612fda77fa02f6c40abd1e395514c90c6f51e38f9e975db.png" width="52"/> represents the covariance between assets i and j. When <img alt="Equation: i equals j" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/452c1f7896de49063eb18b0b401a00606eb475a3c38093354e6c368e2c4e6b83.png" width="49"/>, this becomes the variance of asset i. This equation captures the critical insight that portfolio risk depends not just on individual asset risks but on how assets move together. This can be captured in the so-called _covariance matrix*, which shows how different investments tend to move together. Think of it as a big table - if you look at any two investments in the table, their intersection tells you whether they tend to move in the same direction (positive relationship), opposite directions (negative relationship), or independently of each other (no relationship). The diagonal of this table shows how much each investment bounces around on its own (its volatility). This is a useful view because it helps us understand not just how risky individual investments are, but how they might work together to reduce overall portfolio risk.</p>
+<p><img alt="Equation: normal upper Sigma equals Start 4 By 4 Matrix 1st Row 1st Column sigma 11 2nd Column sigma 12 3rd Column midline-horizontal-ellipsis 4th Column sigma Subscript 1 n Baseline 2nd Row 1st Column sigma 21 2nd Column sigma 22 3rd Column midline-horizontal-ellipsis 4th Column sigma Subscript 2 n Baseline 3rd Row 1st Column vertical-ellipsis 2nd Column vertical-ellipsis 3rd Column down-right-diagonal-ellipsis 4th Column vertical-ellipsis 4th Row 1st Column sigma Subscript n Baseline 1 Baseline 2nd Column sigma Subscript n Baseline 2 Baseline 3rd Column midline-horizontal-ellipsis 4th Column sigma Subscript n n EndMatrix" class="math-display" height="94" src="https://beila.github.io/my-collection/math-images/a9911d285fb271deab4910756cf17e50117dc444f4d9522de7afd307fd9e9038.png" width="182"/></p>
+<p>The matrix is symmetric and the diagonal elements are the variances of the individual assets. The off-diagonal elements are the covariances between the assets. In our case, <img alt="Equation: normal upper Sigma" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/400e0c67c0ff80f021d2abeaea06b76cfe47e43c72a13cfc9c1b7383f6813cb6.png" width="20"/> is a <img alt="Equation: 4" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/5e9eca7564d692d109ade5497b02092656d480d99c46061c316c6163d47aff5b.png" width="15"/>x<img alt="Equation: 4" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/5e9eca7564d692d109ade5497b02092656d480d99c46061c316c6163d47aff5b.png" width="15"/> matrix because we have four investments: U.S. Treasury Bonds (denoted <img alt="Equation: upper A" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/b82947fdd348103b4f64ebb8fe74539de1e5b71794cc0a971f20936c4b7be5fe.png" width="20"/>), Corporate Bonds (denoted <img alt="Equation: upper B" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/b2affa0ba756b0dcbda6301d951888810b79314376f5d0203c91cf141277a809.png" width="21"/>), Stocks (denoted <img alt="Equation: upper C" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/72a1e1fdd31941ccfab33a0efdebeaa40b0abd42f51a10785822f741e82b7c30.png" width="21"/>), and T-Bills (denoted <img alt="Equation: upper D" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/f2dc4f25ef5c73f5823d393a623edb439237ec8254788291cc8a3f5dfae8c50b.png" width="22"/>).</p>
+<p><img alt="Equation: normal upper Sigma equals Start 4 By 4 Matrix 1st Row 1st Column sigma Subscript upper A comma upper A Baseline 2nd Column sigma Subscript upper A comma upper B Baseline 3rd Column sigma Subscript upper A comma upper C Baseline 4th Column sigma Subscript upper A comma upper D Baseline 2nd Row 1st Column sigma Subscript upper B comma upper A Baseline 2nd Column sigma Subscript upper B comma upper B Baseline 3rd Column sigma Subscript upper B comma upper C Baseline 4th Column sigma Subscript upper B comma upper D Baseline 3rd Row 1st Column sigma Subscript upper C comma upper A Baseline 2nd Column sigma Subscript upper C comma upper B Baseline 3rd Column sigma Subscript upper C comma upper C Baseline 4th Column sigma Subscript upper C comma upper D Baseline 4th Row 1st Column sigma Subscript upper D comma upper A Baseline 2nd Column sigma Subscript upper D comma upper B Baseline 3rd Column sigma Subscript upper D comma upper C Baseline 4th Column sigma Subscript upper D comma upper D EndMatrix" class="math-display" height="90" src="https://beila.github.io/my-collection/math-images/5f9d1d1445907ea0a841762f9a15bd33508cdb2be4f2741fb80272c876522759.png" width="214"/></p>
+<p>Now in order to find the optimal portfolio, we need to solve the problem of minimizing the portfolio risk <img alt="Equation: sigma Subscript p Superscript 2" class="math-inline" height="34" src="https://beila.github.io/my-collection/math-images/f0a74cb755e523beb6104c9e10b3aed09ecdc5775d06c01a687d36929ecc03de.png" width="26"/> subject to constraints: <img alt="Equation: sigma-summation Underscript i equals 1 Overscript n Endscripts w Subscript i Baseline equals 1" class="math-inline" height="34" src="https://beila.github.io/my-collection/math-images/83621e767c784afbacbe37bbf3112d5a5bd8405caba4bd4f8d5cdb60c7e2c7a4.png" width="117"/> (weights sum to 1), <img alt="Equation: upper E left-parenthesis upper R Subscript p Baseline right-parenthesis equals upper R Subscript t a r g e t" class="math-inline" height="32" src="https://beila.github.io/my-collection/math-images/41e53bea04432e3ef050dd355ff7404ecd538c4ee87ab740ee6c9917aeae5ff7.png" width="148"/> (target return constraint), and often <img alt="Equation: w Subscript i Baseline greater-than-or-equal-to 0" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/eea4b64b0a06aa4f38d3a88c3f830b563441d299ab8c2e80602a74cb97358cda.png" width="65"/> (no short selling).</p>
 <p><strong>Classical Portfolio Optimization</strong></p>
 <p>Using the theory above, our model aims to find the optimal portfolio allocation by balancing two competing objectives:</p>
 <ol>
@@ -92,28 +77,23 @@ $$</p>
 <li>Minimizing risk (variance)</li>
 </ol>
 <p>The optimization problem is formulated as:</p>
-<p>$$<br/>
-\begin{array}{ll}<br/>
-\text{maximize} &amp; \mu^T w - \gamma w^T\Sigma w \\<br/>
-\text{subject to} &amp; \mathbf{1}^T w = 1, \quad w \in \mathcal{W}<br/>
-\end{array}<br/>
-$$</p>
+<p><img alt="Equation: StartLayout 1st Row 1st Column maximize 2nd Column mu Superscript upper T Baseline w minus gamma w Superscript upper T Baseline normal upper Sigma w 2nd Row 1st Column subject to 2nd Column bold 1 Superscript upper T Baseline w equals 1 comma w element-of script upper W EndLayout" class="math-display" height="48" src="https://beila.github.io/my-collection/math-images/23a8741be4f5b389fc24836000c96cf77f4da8a8e3d7f82b74a4340887a2f7d5.png" width="199"/></p>
 <p>Where:</p>
 <ul>
-<li>\(w \in \mathbb{R}^n\) is the portfolio allocation vector (the weights for each asset)</li>
-<li>\(\mu\) is the vector of expected returns</li>
-<li>\(\Sigma\) is the covariance matrix</li>
-<li>\(\gamma &gt; 0\) is the risk aversion parameter</li>
-<li>\(\mathcal{W}\) is the set of allowed portfolios (e.g., \(\mathcal{W} = \mathbb{R}_+^n\) for long-only portfolios)</li>
-<li>\(\mathbf{1}^T w = 1\) ensures the weights sum to 1</li>
+<li><img alt="Equation: w element-of double-struck upper R Superscript n" class="math-inline" height="26" src="https://beila.github.io/my-collection/math-images/d92c446c55de33626e55c6bd62ccceebf57c1f906b924bceab0669c6585bccac.png" width="71"/> is the portfolio allocation vector (the weights for each asset)</li>
+<li><img alt="Equation: mu" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/a9595298270bbcf1f43bac68bbbd499fe3930183308fb4df3c17f5c19d8db2b2.png" width="17"/> is the vector of expected returns</li>
+<li><img alt="Equation: normal upper Sigma" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/400e0c67c0ff80f021d2abeaea06b76cfe47e43c72a13cfc9c1b7383f6813cb6.png" width="20"/> is the covariance matrix</li>
+<li><img alt="Equation: gamma greater-than 0" class="math-inline" height="29" src="https://beila.github.io/my-collection/math-images/53d001fafa79744851fd95ca1ba4afdd62c0fd1238b42e5a4a4c08f82529d514.png" width="55"/> is the risk aversion parameter</li>
+<li><img alt="Equation: script upper W" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/9d4b69345ad749457e0ee30c5f37ec610694c35c2baee022d675d4b24a05ce8a.png" width="26"/> is the set of allowed portfolios (e.g., <img alt="Equation: script upper W equals double-struck upper R Subscript plus Superscript n" class="math-inline" height="32" src="https://beila.github.io/my-collection/math-images/6fc88cc954b5c3f8908ec1683867a20910467d1029f1d114455f0d4ee4c89bee.png" width="83"/> for long-only portfolios)</li>
+<li><img alt="Equation: bold 1 Superscript upper T Baseline w equals 1" class="math-inline" height="29" src="https://beila.github.io/my-collection/math-images/09e14e4c360714533cece8fd445d5b63eab21ed2c3af31140cbbd8e6a59cedca.png" width="82"/> ensures the weights sum to 1</li>
 </ul>
-<p>The objective function \(\mu^T w - \gamma w^T\Sigma w\) represents the risk-adjusted return where:</p>
+<p>The objective function <img alt="Equation: mu Superscript upper T Baseline w minus gamma w Superscript upper T Baseline normal upper Sigma w" class="math-inline" height="32" src="https://beila.github.io/my-collection/math-images/18d7c0454e1f3e1f99862812dab0ac4b36f2dd7fbe74455d3748d33b4bbc0094.png" width="140"/> represents the risk-adjusted return where:</p>
 <ul>
-<li>\(\mu^T w\) is the expected portfolio return</li>
-<li>\(w^T\Sigma w\) is the portfolio variance (risk)</li>
-<li>\(\gamma\) controls the trade-off between return and risk</li>
+<li><img alt="Equation: mu Superscript upper T Baseline w" class="math-inline" height="32" src="https://beila.github.io/my-collection/math-images/47579366d36bf4b64667ca71fbf0a7d9cb7b47b5d5804f9f1c7c485738ac54c4.png" width="45"/> is the expected portfolio return</li>
+<li><img alt="Equation: w Superscript upper T Baseline normal upper Sigma w" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/421bc0c013a4a7b9c664d65f1cf4324010508a0de043c0f3fa2dbf306cca2a0e.png" width="62"/> is the portfolio variance (risk)</li>
+<li><img alt="Equation: gamma" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/ae13f91337b8b3ca895ca65fd942055efb7cf7bbb96eb1b7f891c431caf0a51f.png" width="16"/> controls the trade-off between return and risk</li>
 </ul>
-<p>By varying the risk aversion parameter \(\gamma\), you can trace out the efficient frontier, which shows the optimal risk-return trade-offs available to investors. A higher \(\gamma\) results in more conservative portfolios (lower risk, lower return), while a lower \(\gamma\) leads to more aggressive portfolios (higher risk, higher return). The same risk-return trade-off can also be obtained by fixing a target return and minimizing risk, or fixing a risk level and maximizing return.</p>
+<p>By varying the risk aversion parameter <img alt="Equation: gamma" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/ae13f91337b8b3ca895ca65fd942055efb7cf7bbb96eb1b7f891c431caf0a51f.png" width="16"/>, you can trace out the efficient frontier, which shows the optimal risk-return trade-offs available to investors. A higher <img alt="Equation: gamma" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/ae13f91337b8b3ca895ca65fd942055efb7cf7bbb96eb1b7f891c431caf0a51f.png" width="16"/> results in more conservative portfolios (lower risk, lower return), while a lower <img alt="Equation: gamma" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/ae13f91337b8b3ca895ca65fd942055efb7cf7bbb96eb1b7f891c431caf0a51f.png" width="16"/> leads to more aggressive portfolios (higher risk, higher return). The same risk-return trade-off can also be obtained by fixing a target return and minimizing risk, or fixing a risk level and maximizing return.</p>
 <p>The so-called <em>efficient frontier</em> represents the set of portfolios that offer the highest expected return for a given level of risk, or conversely, the lowest risk for a given expected return. This concept is powerful because it shows that there exists an optimal set of portfolios that dominate all others – any portfolio not on the efficient frontier can be improved by either increasing return while maintaining the same risk or reducing risk while maintaining the same return.</p>
 <p>In short, it's the set of portfolios that given a target risk and return any rational investor would choose. And the efficient frontier is the boundary of the set of achievable portfolios. And we can can empirically estimate the efficient frontier by calculating the returns and risks of portfolios with different weights.</p>
 <p>Theory aside, when implementing portfolio optimization in practice, several real-world considerations come into play. The theory assumes we know the true expected returns and covariances of assets, but in reality, we must estimate these from historical data. These estimates contain uncertainty, which can lead to optimization error.</p>
@@ -236,25 +216,18 @@ print(f"Portfolio Risk: {min_vol_risk:.2%}")
 <p>Interest rate exposure is a systematic risk factor since it affects all assets. Market exposure is also a systematic risk factor since it affects all assets, broadly as the S&amp;P 500 trends upwards or downwards it can affect all assets. And then company-specific events are idiosyncratic risk since they are specific to each asset (i.e. new product launches, earnings reports, accounting scandals, etc.).</p>
 <p>The theoretical foundation of factor models rests on the observation that assets often move together in response to common economic drivers. These common movements can be captured by a set of factors – such as market returns, interest rates, inflation, or more abstract statistical factors. The famous Capital Asset Pricing Model (CAPM) can be viewed as the simplest factor model, using only the market return as a single factor. More sophisticated models like the Fama-French three-factor model add size and value factors, while modern approaches might include dozens of factors capturing various market anomalies and risk premia. The key insight is that by identifying these common factors, we can build more robust portfolios that are deliberately exposed to or protected from specific economic risks.</p>
 <p>This represents the mathematical optimization problem:</p>
-<p>$$<br/>
-\begin{array}{ll}<br/>
-\text{maximize} &amp; \mu^T w - \gamma(f^T \tilde{\Sigma} f + w^T D w) \\<br/>
-\text{subject to} &amp; \mathbf{1}^T w = 1 \\<br/>
-&amp; |w|_1 \leq L^{\text{max}} \\<br/>
-&amp; f = F^T w<br/>
-\end{array}<br/>
-$$</p>
+<p><img alt="Equation: StartLayout 1st Row 1st Column maximize 2nd Column mu Superscript upper T Baseline w minus gamma left-parenthesis f Superscript upper T Baseline normal upper Sigma overTilde f plus w Superscript upper T Baseline upper D w right-parenthesis 2nd Row 1st Column subject to 2nd Column bold 1 Superscript upper T Baseline w equals 1 3rd Row 1st Column Blank 2nd Column StartAbsoluteValue w EndAbsoluteValue Subscript 1 Baseline less-than-or-equal-to upper L Superscript max Baseline 4th Row 1st Column Blank 2nd Column f equals upper F Superscript upper T Baseline w EndLayout" class="math-display" height="90" src="https://beila.github.io/my-collection/math-images/8b80f9f5e187334b7c4c79926b700ff245aeb2873d7314df469f342674a00ed9.png" width="239"/></p>
 <p>Where:</p>
 <ul>
-<li>\(n\) is the number of assets</li>
-<li>\(w \in \mathbb{R}^n\) is the portfolio allocation vector</li>
-<li>\(f \in \mathbb{R}^k\) represents the factor exposures</li>
-<li>\(\mu\) is the vector of expected returns</li>
-<li>\(F\) is the factor loading matrix</li>
-<li>\(\tilde{\Sigma}\) is the factor covariance matrix</li>
-<li>\(D\) is the diagonal matrix of idiosyncratic risks</li>
-<li>\(\gamma = 0.1\) is the risk aversion parameter</li>
-<li>\(L^{\text{max}} = 2\) is the leverage limit</li>
+<li><img alt="Equation: n" class="math-inline" height="20" src="https://beila.github.io/my-collection/math-images/0f57c81ff5279a1eba456b3c43e9896758f44809a9ecb08d5eae4c4d0cf1308b.png" width="17"/> is the number of assets</li>
+<li><img alt="Equation: w element-of double-struck upper R Superscript n" class="math-inline" height="26" src="https://beila.github.io/my-collection/math-images/d92c446c55de33626e55c6bd62ccceebf57c1f906b924bceab0669c6585bccac.png" width="71"/> is the portfolio allocation vector</li>
+<li><img alt="Equation: f element-of double-struck upper R Superscript k" class="math-inline" height="32" src="https://beila.github.io/my-collection/math-images/c29145dc09c87949b6846a6c9e2d36f14de5eb6141bfae1a64324c6ed35f1a44.png" width="67"/> represents the factor exposures</li>
+<li><img alt="Equation: mu" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/a9595298270bbcf1f43bac68bbbd499fe3930183308fb4df3c17f5c19d8db2b2.png" width="17"/> is the vector of expected returns</li>
+<li><img alt="Equation: upper F" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/91d29477292b56738b80b86035aef8a38a74e7ba8b63f679d886c23d6b6d1614.png" width="20"/> is the factor loading matrix</li>
+<li><img alt="Equation: normal upper Sigma overTilde" class="math-inline" height="29" src="https://beila.github.io/my-collection/math-images/3f9f642e3c3277662c0db6b4cedb906d14174e3bc1947f9e32b5cbeb393f7590.png" width="20"/> is the factor covariance matrix</li>
+<li><img alt="Equation: upper D" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/f2dc4f25ef5c73f5823d393a623edb439237ec8254788291cc8a3f5dfae8c50b.png" width="22"/> is the diagonal matrix of idiosyncratic risks</li>
+<li><img alt="Equation: gamma equals 0.1" class="math-inline" height="29" src="https://beila.github.io/my-collection/math-images/6fd82cb37a200331de49b283cd2463c42dbafd85c61d7ff63381b0752a0205e7.png" width="70"/> is the risk aversion parameter</li>
+<li><img alt="Equation: upper L Superscript max Baseline equals 2" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/81bbf061c24ade5776ea5eb16d70454d5c3cdfe10dc78b7addd05936c3575bd6.png" width="87"/> is the leverage limit</li>
 </ul>
 <p>In cvxopt, the optimization problem is formulated as:</p>
 <pre><code># Variables:
@@ -348,37 +321,29 @@ print(assets.cov())
 <p><strong>Black-Litterman Model</strong></p>
 <p>The culmination of the analysis comes with the Black-Litterman model implementation, which represents a more practical approach used by institutional investors. This is a Bayesian model that starts with market equilibrium returns derived from market capitalizations, rather than historical returns, and allows investors to incorporate their specific views with varying levels of confidence. The model demonstrates how to combine market "wisdom" (through equilibrium returns) with investor insights (through explicit views) to create more intuitive and stable portfolio allocations.</p>
 <p>The core of Black-Litterman is captured in the posterior return equation:</p>
-<p>$$<br/>
-E(R) = [(τΣ)^{-1} + P^T Ω^{-1} P]^{-1}[(τΣ)^{-1} Π + P^T Ω^{-1} Q]<br/>
-$$</p>
+<p><img alt="Equation: upper E left-parenthesis upper R right-parenthesis equals left-bracket left-parenthesis normal tau normal upper Sigma right-parenthesis Superscript negative 1 Baseline plus upper P Superscript upper T Baseline normal upper Omega Superscript negative 1 Baseline upper P right-bracket Superscript negative 1 Baseline left-bracket left-parenthesis normal tau normal upper Sigma right-parenthesis Superscript negative 1 Baseline normal upper Pi plus upper P Superscript upper T Baseline normal upper Omega Superscript negative 1 Baseline upper Q right-bracket" class="math-display" height="28" src="https://beila.github.io/my-collection/math-images/dcc68df6b4981722293b33c5c75326f8b679502157a9f7c09253dad1ca3a227f.png" width="323"/></p>
 <p>Where:</p>
 <ul>
-<li>\(R\) is a \(N\)x\(1\) vector of returns</li>
-<li>\(Q\) is a \(K\)x\(1\) vector of views.</li>
-<li>\(\Sigma\) is the \(N\)x\(N\) covariance matrix of asset returns</li>
-<li>\(E(R)\) is a \(N\)x\(1\) vector of expected returns, where \(N\) is the number of assets.</li>
-<li>\(P\) is the \(K\)x\(N\) picking matrix which maps views to the universe of assets.</li>
-<li>\(\Omega\) is the \(K\)x\(K\) uncertainty matrix of views.</li>
-<li>\(\Pi\) is the \(N\)x\(1\) vector of prior expected returns.</li>
-<li>\(\tau\) is a scalar tuning constant.</li>
+<li><img alt="Equation: upper R" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/336321910350ef836fb80bc62fdedefee38da8271d80552c7c87e4680ccb0bbb.png" width="21"/> is a <img alt="Equation: upper N" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/3b2c53a3802f7f352dfc8ebdb9c97877f452586fc04f7d62cca47d804b6f617e.png" width="23"/>x<img alt="Equation: 1" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/5209cabad9ec4da81e1d983aad65779bf84ca8e9aac477ade2d45257cfa86d94.png" width="15"/> vector of returns</li>
+<li><img alt="Equation: upper Q" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/2b62e9b48a9af1044b0d18eabbef683bc62f1cd29d5f32f9cd0f280d8b327fc0.png" width="22"/> is a <img alt="Equation: upper K" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/bf6942d005b806e83c7ddc995a182b6cdc58bb712be624c83236dd543f8b7188.png" width="23"/>x<img alt="Equation: 1" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/5209cabad9ec4da81e1d983aad65779bf84ca8e9aac477ade2d45257cfa86d94.png" width="15"/> vector of views.</li>
+<li><img alt="Equation: normal upper Sigma" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/400e0c67c0ff80f021d2abeaea06b76cfe47e43c72a13cfc9c1b7383f6813cb6.png" width="20"/> is the <img alt="Equation: upper N" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/3b2c53a3802f7f352dfc8ebdb9c97877f452586fc04f7d62cca47d804b6f617e.png" width="23"/>x<img alt="Equation: upper N" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/3b2c53a3802f7f352dfc8ebdb9c97877f452586fc04f7d62cca47d804b6f617e.png" width="23"/> covariance matrix of asset returns</li>
+<li><img alt="Equation: upper E left-parenthesis upper R right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/12e9db215f1321ee8503d3ae6fcf3e33ea734e34f2fad4d7572607b7d80657fc.png" width="53"/> is a <img alt="Equation: upper N" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/3b2c53a3802f7f352dfc8ebdb9c97877f452586fc04f7d62cca47d804b6f617e.png" width="23"/>x<img alt="Equation: 1" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/5209cabad9ec4da81e1d983aad65779bf84ca8e9aac477ade2d45257cfa86d94.png" width="15"/> vector of expected returns, where <img alt="Equation: upper N" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/3b2c53a3802f7f352dfc8ebdb9c97877f452586fc04f7d62cca47d804b6f617e.png" width="23"/> is the number of assets.</li>
+<li><img alt="Equation: upper P" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/6cf81510550a1c06b10ff9eafed102f11f46e3134450752e3514fe96056de2cd.png" width="20"/> is the <img alt="Equation: upper K" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/bf6942d005b806e83c7ddc995a182b6cdc58bb712be624c83236dd543f8b7188.png" width="23"/>x<img alt="Equation: upper N" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/3b2c53a3802f7f352dfc8ebdb9c97877f452586fc04f7d62cca47d804b6f617e.png" width="23"/> picking matrix which maps views to the universe of assets.</li>
+<li><img alt="Equation: normal upper Omega" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/d89a641e12d72b125ce05f3db8601ef83eee7854e279ecdb8f014745bb4bf1ee.png" width="20"/> is the <img alt="Equation: upper K" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/bf6942d005b806e83c7ddc995a182b6cdc58bb712be624c83236dd543f8b7188.png" width="23"/>x<img alt="Equation: upper K" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/bf6942d005b806e83c7ddc995a182b6cdc58bb712be624c83236dd543f8b7188.png" width="23"/> uncertainty matrix of views.</li>
+<li><img alt="Equation: normal upper Pi" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/1234c7f8068cc9e474e4c912af6e4befcfb6107417b70ba39387c8781aa590af.png" width="20"/> is the <img alt="Equation: upper N" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/3b2c53a3802f7f352dfc8ebdb9c97877f452586fc04f7d62cca47d804b6f617e.png" width="23"/>x<img alt="Equation: 1" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/5209cabad9ec4da81e1d983aad65779bf84ca8e9aac477ade2d45257cfa86d94.png" width="15"/> vector of prior expected returns.</li>
+<li><img alt="Equation: tau" class="math-inline" height="20" src="https://beila.github.io/my-collection/math-images/1ce69f737a6a76162e350a45c3a9b77e7db8d5b32579f41641eb311d4ad1d3e1.png" width="16"/> is a scalar tuning constant.</li>
 </ul>
-<p>This equation combines market equilibrium returns (\(\Pi\)) with investor views (\(Q\)) using Bayesian statistics. The model also produces a posterior covariance matrix</p>
-<p>$$<br/>
-\hat{\Sigma} = \sigma^2 + [(\tau \sigma^2)^{-1} + P^T \Omega^{-1} P]^{-1}<br/>
-$$</p>
+<p>This equation combines market equilibrium returns (<img alt="Equation: normal upper Pi" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/1234c7f8068cc9e474e4c912af6e4befcfb6107417b70ba39387c8781aa590af.png" width="20"/>) with investor views (<img alt="Equation: upper Q" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/2b62e9b48a9af1044b0d18eabbef683bc62f1cd29d5f32f9cd0f280d8b327fc0.png" width="22"/>) using Bayesian statistics. The model also produces a posterior covariance matrix</p>
+<p><img alt="Equation: ModifyingAbove normal upper Sigma With caret equals sigma squared plus left-bracket left-parenthesis tau sigma squared right-parenthesis Superscript negative 1 Baseline plus upper P Superscript upper T Baseline normal upper Omega Superscript negative 1 Baseline upper P right-bracket Superscript negative 1" class="math-display" height="28" src="https://beila.github.io/my-collection/math-images/def731db1b658e71ff0eb81f53eb4c5f383d817ecf10ce5aa96e0ca6a71eb2f9.png" width="207"/></p>
 <p>that accounts for uncertainty in both the market prior and investor views. The market-implied returns are calculated as</p>
-<p>$$<br/>
-(\Pi = \delta \sigma w_{mkt}),<br/>
-$$</p>
-<p>where the market risk aversion parameter \(\delta\) is derived from</p>
-<p>$$<br/>
-\delta = (R-R_f)/\sigma^2<br/>
-$$</p>
+<p><img alt="Equation: left-parenthesis normal upper Pi equals delta sigma w Subscript m k t Baseline right-parenthesis comma" class="math-display" height="26" src="https://beila.github.io/my-collection/math-images/96ef16757fbe75e2b0f7e0987d874fb8af62545fb5deb2303dd48819f5aed91f.png" width="95"/></p>
+<p>where the market risk aversion parameter <img alt="Equation: delta" class="math-inline" height="26" src="https://beila.github.io/my-collection/math-images/4750847d345966c785d444628989aa5da5a278d0a799a2de63930228d8a776d7.png" width="14"/> is derived from</p>
+<p><img alt="Equation: delta equals left-parenthesis upper R minus upper R Subscript f Baseline right-parenthesis slash sigma squared" class="math-display" height="28" src="https://beila.github.io/my-collection/math-images/cd4e063685142ccce1a21b3490fed7005c0e50ed92f0306a2f311d9f7cdcf9cf.png" width="110"/></p>
 <p>Think of the BL model as a sophisticated way of saying "I have some ideas about where the market is going, but I'm not entirely sure." The model starts with what the market is implying through current prices - this is like getting the wisdom of the crowd. Then, you add your own views, like "I think tech stocks will outperform" or "bonds will struggle this year." The clever part is that you can say how confident you are in each view and you can incorporate your uncertainty in the views.</p>
 <p>The model then does something similar to what we do naturally: if you're very confident in your view and it differs from the market consensus, the final expectation will move significantly toward your view. If you're less confident, it will stay closer to what the market implies. Even more impressively, if you have a view on one asset (like tech stocks), the model will automatically adjust related assets (like semiconductor manufacturers) in a sensible way based on their historical relationships.</p>
 <p>The beauty of this approach is that it produces much more reasonable portfolio allocations than traditional methods. Instead of putting all your money in the asset with the highest historical return (which traditional optimization often suggests), it creates a balanced portfolio that reflects both market wisdom and your personal insights, while accounting for how confident you are in each.</p>
 <p>Unlike the code above, this model addresses many of the limitations of traditional mean-variance optimization, such as extreme allocations and high sensitivity to input parameters, making it particularly valuable for real-world portfolio management. We'll use the implementation in PyPortfolioOpt library.</p>
-<p>Our code is going to use the so-called <em>Idzorek method</em> for estimating the views uncertainty matrix \(\Omega\). I'm not going to dive into the details of the method here, but it's a sophisticated way to estimate the uncertainty in the views that the underlying library will take care of Our example thesis for this code is:</p>
+<p>Our code is going to use the so-called <em>Idzorek method</em> for estimating the views uncertainty matrix <img alt="Equation: normal upper Omega" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/d89a641e12d72b125ce05f3db8601ef83eee7854e279ecdb8f014745bb4bf1ee.png" width="20"/>. I'm not going to dive into the details of the method here, but it's a sophisticated way to estimate the uncertainty in the views that the underlying library will take care of Our example thesis for this code is:</p>
 <ul>
 <li><strong>Market-Implied Returns:</strong> Instead of using historical returns, we start with market equilibrium returns derived from market capitalizations. This assumes that current market prices reflect collective wisdom.</li>
 <li><strong>Investor Views:</strong> We incorporate specific views on expected returns:
@@ -468,7 +433,7 @@ print("Posterior (Black-Litterman) Returns:")
 print(ret_bl)
 </code></pre>
 <p>When we run the efficient frontier optimizer with the Black-Litterman posterior returns and covariance matrix to maximize the Sharpe ratio, we get a well-diversified portfolio allocation with an expected annual return, volatility, and Sharpe ratio as shown above.</p>
-    </section>
-  </article>
+</section>
+</article>
 </body>
 </html>

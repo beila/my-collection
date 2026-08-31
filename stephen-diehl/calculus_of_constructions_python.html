@@ -1,13 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="stephen-diehl-content-hash" content="93e38e4674f03e554b084dc8a1fd453de1d2fe05632622f41476ac887c0468eb">
-  <meta name="stephen-diehl-article-format" content="10">
-  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/calculus_of_constructions_python.html">
-  <title>Dependent Types in 200 Lines of Python</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="93e38e4674f03e554b084dc8a1fd453de1d2fe05632622f41476ac887c0468eb" name="stephen-diehl-content-hash"/>
+<meta content="14" name="stephen-diehl-article-format"/>
+<link href="https://beila.github.io/my-collection/stephen-diehl/calculus_of_constructions_python.html" rel="canonical"/>
+<title>Dependent Types in 200 Lines of Python</title>
+<style>
     :root { color-scheme: dark; }
     body { margin: 0; background: #171717; color: #f1f1f1;
             font: 18px/1.7 Georgia, serif; }
@@ -26,14 +27,18 @@
     .published { color: #b8b8b8; }
     .original-link { border-top: 1px solid #555; margin-top: 2rem;
                       padding-top: 1rem; }
+img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
+                      vertical-align: middle; }
+    img.math-display { display: block; height: auto; margin: 1.25rem auto;
+                       max-width: 100%; }
   </style>
 </head>
 <body>
-  <article>
-    <h1>Dependent Types in 200 Lines of Python</h1>
-    <p class="published">Published: Mon, 18 Nov 2024 00:00:00 +0000</p>
-    <section class="instapaper_body">
-      <p class="original-link"><a href="https://www.stephendiehl.com/posts/calculus_of_constructions_python/">Read the original article on Stephen Diehl's website</a></p>
+<article>
+<h1>Dependent Types in 200 Lines of Python</h1>
+<p class="published">Published: Mon, 18 Nov 2024 00:00:00 +0000</p>
+<section class="instapaper_body">
+<p class="original-link"><a href="https://www.stephendiehl.com/posts/calculus_of_constructions_python/">Read the original article on Stephen Diehl's website</a></p>
 <p>The Calculus of Constructions (shortened as CoC) is one of the most common typed lambda calculi, forming the theoretical foundation for dependently typed programming languages like Coq. In this post, we'll implement a type checker for CoC in 200 lines of Python, breaking down the key components and explaining how they work. This is mostly a code-golf exercise, so the implementation is not super robust but it is fun that we can even implement this in Python.</p>
 <p>Some background, the CoC was developed by Thierry Coquand in 1985, and is a higher-order typed lambda calculus that combines two key ideas:</p>
 <ol>
@@ -379,7 +384,7 @@ def zip(n: Term, x: Term, y: Term) -&gt; Term:
 <li>Create a vector with a length that doesn't match its type</li>
 </ul>
 <p>This demonstrates how dependent types can encode precise specifications directly in the type system. While our implementation is just a type checker (we don't actually construct the vectors), it shows how these ideas work in languages like Coq or Agda where you would have real implementations.</p>
-    </section>
-  </article>
+</section>
+</article>
 </body>
 </html>

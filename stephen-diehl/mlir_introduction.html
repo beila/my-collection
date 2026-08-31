@@ -1,13 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="stephen-diehl-content-hash" content="c19da7bfa6f2922905968d373384a4c429fb7b53ab069f7fc2b9d5ef262a567f">
-  <meta name="stephen-diehl-article-format" content="10">
-  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/mlir_introduction.html">
-  <title>Introduction to MLIR</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="c19da7bfa6f2922905968d373384a4c429fb7b53ab069f7fc2b9d5ef262a567f" name="stephen-diehl-content-hash"/>
+<meta content="14" name="stephen-diehl-article-format"/>
+<link href="https://beila.github.io/my-collection/stephen-diehl/mlir_introduction.html" rel="canonical"/>
+<title>Introduction to MLIR</title>
+<style>
     :root { color-scheme: dark; }
     body { margin: 0; background: #171717; color: #f1f1f1;
             font: 18px/1.7 Georgia, serif; }
@@ -26,18 +27,21 @@
     .published { color: #b8b8b8; }
     .original-link { border-top: 1px solid #555; margin-top: 2rem;
                       padding-top: 1rem; }
+img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
+                      vertical-align: middle; }
+    img.math-display { display: block; height: auto; margin: 1.25rem auto;
+                       max-width: 100%; }
   </style>
 </head>
 <body>
-  <article>
-    <h1>Introduction to MLIR</h1>
-    <p class="published">Published: Mon, 10 Mar 2025 00:00:00 +0000</p>
-    <section class="instapaper_body">
-      <p class="original-link"><a href="https://www.stephendiehl.com/posts/mlir_introduction/">Read the original article on Stephen Diehl's website</a></p>
+<article>
+<h1>Introduction to MLIR</h1>
+<p class="published">Published: Mon, 10 Mar 2025 00:00:00 +0000</p>
+<section class="instapaper_body">
+<p class="original-link"><a href="https://www.stephendiehl.com/posts/mlir_introduction/">Read the original article on Stephen Diehl's website</a></p>
 <p>
 <img alt="mlir-egglog" src="https://beila.github.io/my-collection/stephen-diehl/assets/00ae6685ba832d4fd1e79e2690a779473c519675453bdfaed9d5c106b4a36121.jpg"/>
 </p>
-
 <p>LLVM is a powerful compiler infrastructure project that has revolutionized how we build programming languages and tools. At its core, LLVM provides a collection of modular compiler and toolchain technologies that can be used to develop frontend compilers for any programming language and generate optimized code for many target architectures.</p>
 <p>MLIR is a newer project within the LLVM ecosystem, designed to address the challenges of modern hardware accelerators and machine learning frameworks. While LLVM IR is powerful, it operates at a relatively low level. MLIR extends these concepts to support multiple levels of abstraction.</p>
 <p>Unfortunately, the modern compiler stack is often something that one has to learn from reading RFCs, papers, and mailing lists. With this tutorial, I'll try to give a concise overview of the modern compiler stack, how MLIR fits into it, and how to integrate it into the Python machine learning ecosystem.</p>
@@ -522,7 +526,7 @@ scf.for %iv = %lb to %ub step %step {
 <li><a href="https://arxiv.org/abs/2101.11365">A MLIR Dialect for Quantum Assembly Languages</a></li>
 <li><a href="https://llvm.org/devmtg/2022-11/slides/QuickTalk15-BuildingAnEnd-to-EndToolchainForFullyHomomorphicEncryptionWithMLIR.pdf">Building an End-to-End Toolchain for Fully Homomorphic Encryption with MLIR</a></li>
 </ul>
-    </section>
-  </article>
+</section>
+</article>
 </body>
 </html>

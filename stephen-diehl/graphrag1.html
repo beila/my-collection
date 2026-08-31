@@ -1,13 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="stephen-diehl-content-hash" content="6aaaff0898e78a6ebeb3e570c3510661fb5f2f1b3d67aa87c3797279a4afbe03">
-  <meta name="stephen-diehl-article-format" content="10">
-  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/graphrag1.html">
-  <title>Tiny GraphRAG (Part 1)</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="6aaaff0898e78a6ebeb3e570c3510661fb5f2f1b3d67aa87c3797279a4afbe03" name="stephen-diehl-content-hash"/>
+<meta content="14" name="stephen-diehl-article-format"/>
+<link href="https://beila.github.io/my-collection/stephen-diehl/graphrag1.html" rel="canonical"/>
+<title>Tiny GraphRAG (Part 1)</title>
+<style>
     :root { color-scheme: dark; }
     body { margin: 0; background: #171717; color: #f1f1f1;
             font: 18px/1.7 Georgia, serif; }
@@ -26,14 +27,18 @@
     .published { color: #b8b8b8; }
     .original-link { border-top: 1px solid #555; margin-top: 2rem;
                       padding-top: 1rem; }
+img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
+                      vertical-align: middle; }
+    img.math-display { display: block; height: auto; margin: 1.25rem auto;
+                       max-width: 100%; }
   </style>
 </head>
 <body>
-  <article>
-    <h1>Tiny GraphRAG (Part 1)</h1>
-    <p class="published">Published: Mon, 04 Nov 2024 00:00:00 +0000</p>
-    <section class="instapaper_body">
-      <p class="original-link"><a href="https://www.stephendiehl.com/posts/graphrag1/">Read the original article on Stephen Diehl's website</a></p>
+<article>
+<h1>Tiny GraphRAG (Part 1)</h1>
+<p class="published">Published: Mon, 04 Nov 2024 00:00:00 +0000</p>
+<section class="instapaper_body">
+<p class="original-link"><a href="https://www.stephendiehl.com/posts/graphrag1/">Read the original article on Stephen Diehl's website</a></p>
 <p>We're going to build a tiny 1000 line implementation of a GraphRAG algorithm originally invented by Microsoft. I consistently hear people talk about this algorithm at meetups, but it appears there are several orders of magnitude of people talking about it than actually using it or implementing it. Likely because the reference implementation is enormous and rather complex. So let's break it down and see if there's any merit to the hype around this approach.</p>
 <p>For some background, naive RAG is a basic approach to augmenting LLM outputs with external information that primarily relies on vector similarity search. The process involves converting documents to text, splitting that text into chunks, and embedding these chunks into a vector space where similar semantic meanings are represented by similar vector positions. When a user submits a query, it is embedded into the same vector space, and the text chunks with the nearest vector positions are retrieved and added to the LLM's context window along with the original query.</p>
 <p>GraphRAG is an alternative structured approach to goes beyond simple semantic search and uses a graph-based index of a document. The key idea is that it uses LLMs to build a knowledge graph from source documents, then detects communities of closely-related entities within that graph, and generates summaries for these communities. This creates a alternative structured index that can be leveraged for both local entity-specific queries and global document-wide analysis. For some tasks this can perform better than naive RAG.</p>
@@ -48,7 +53,6 @@
 </ul>
 <p>We could also trivially use a graph database (like <a href="https://memgraph.com/">Memgraph</a> or <a href="https://neo4j.com/">Neo4j</a>) but for the sake of simplicity we'll just store the networkx graph data serialized to disk.</p>
 <p>The source code is available on Github under a MIT license.<br/>Resources: <a href="https://github.com/sdiehl/tiny-graphrag">https://github.com/sdiehl/tiny-graphrag</a></p>
-
 <h2 id="core-ideas">Core Ideas</h2>
 <p>When doing naive RAG, we typically rely on vector similarity to find relevant context. This works well for simple cases but can miss important contextual relationships. For example, let's look at a basic vector similarity comparison using the <code>sentence-transformers</code> library.</p>
 <pre><code>from sentence_transformers import SentenceTransformer
@@ -720,7 +724,7 @@ print("Geographic Global Search:", result)
 <p>Both approaches require what amounts to a sequence of statistical "miracles" to align perfectly in order to produce accurate and contextually appropriate answers. The chunking must be just right, the embeddings must capture the relevant semantic relationships, the LLM must interpret the context correctly, and in GraphRAG's case, the entity and relation extraction must also be accurate. The failure of any single component can lead to irrelevant or misleading responses. GraphRAG is not uniformly "better" but it trades an embedding simliarity problem for a entity/relation extration problem, which may be easier to solve in some domains. The global search for GraphRAG is also significantly more computationally expensive and requires n+1 (where n is the communities in the graph) calls to LLMs to perform it's map-reduce operation, which for large documents could be considerable.</p>
 <p>For anyone considering implementing either approach, it's crucial to understand that end users of this system would need to accept a high degree of potential inaccuracy and out-of-context answers when relying on these chains of black box models. The current state of RAG, whether graph-based or naive, is not sufficiently reliable for production systems where accuracy and consistency are important. While these approaches can be interesting for experimental or research purposes, they are not yet mature enough to serve as dependable solutions for production information retrieval systems.</p>
 <p>GraphRAG is not some algorithmic panacea it seems to often be marketed as. It does not "solve hallucinations" or fix the "pre-training overflow problem" that all RAG approachs that use a language model as final synthesizer suffer from. However it might prove more useful in some specific low-risk domains and may show improvement over a naive RAG implementation. In conclusion, if you're looking for a way to turn perfectly good documents into unreliable answers while burning through GPU credits, both naive RAG and GraphRAG are excellent choices.</p>
-    </section>
-  </article>
+</section>
+</article>
 </body>
 </html>

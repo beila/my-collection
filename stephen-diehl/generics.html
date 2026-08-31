@@ -1,13 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="stephen-diehl-content-hash" content="25c7a9e290dbdcf836e68b5c33b063ace3843c5ed696e5e630ad8e7915afd996">
-  <meta name="stephen-diehl-article-format" content="11">
-  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/generics.html">
-  <title>Cooking Classes with Datatype Generic Programming</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="25c7a9e290dbdcf836e68b5c33b063ace3843c5ed696e5e630ad8e7915afd996" name="stephen-diehl-content-hash"/>
+<meta content="14" name="stephen-diehl-article-format"/>
+<link href="https://beila.github.io/my-collection/stephen-diehl/generics.html" rel="canonical"/>
+<title>Cooking Classes with Datatype Generic Programming</title>
+<style>
     :root { color-scheme: dark; }
     body { margin: 0; background: #171717; color: #f1f1f1;
             font: 18px/1.7 Georgia, serif; }
@@ -26,14 +27,18 @@
     .published { color: #b8b8b8; }
     .original-link { border-top: 1px solid #555; margin-top: 2rem;
                       padding-top: 1rem; }
+img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
+                      vertical-align: middle; }
+    img.math-display { display: block; height: auto; margin: 1.25rem auto;
+                       max-width: 100%; }
   </style>
 </head>
 <body>
-  <article>
-    <h1>Cooking Classes with Datatype Generic Programming</h1>
-    <p class="published">Published: Thu, 03 Mar 2016 00:00:00 +0000</p>
-    <section class="instapaper_body">
-      <p class="original-link"><a href="https://www.stephendiehl.com/posts/generics/">Read the original article on Stephen Diehl's website</a></p>
+<article>
+<h1>Cooking Classes with Datatype Generic Programming</h1>
+<p class="published">Published: Thu, 03 Mar 2016 00:00:00 +0000</p>
+<section class="instapaper_body">
+<p class="original-link"><a href="https://www.stephendiehl.com/posts/generics/">Read the original article on Stephen Diehl's website</a></p>
 <p>Haskell Generics are a somewhat misunderstood topic but are an extremely<br/>
 powerful technique for writing reusable and comparable interfaces across an<br/>
 enormous universe of types with very little effort. They are probably my<br/>
@@ -63,7 +68,6 @@ several types. Selecting a single field is called projection.</p>
   , flavor          :: String
   }
 </code></pre>
-
 <p>In Haskell all datatypes can be expressed as sums of products:</p>
 <pre><code>data Expr
   = Add { l :: Expr, r :: Expr }
@@ -93,7 +97,6 @@ runtime is which branch we're scrutinizing.</p>
 <p>So what if consider not tossing out all this information and instead exposed it<br/>
 to our program so that we could write generic logic that can introspect the<br/>
 "structure" of our datatypes.</p>
-
 <h3 id="compiler-hooks">Compiler Hooks</h3>
 <p>Since GHC 6.10 we've had type families which, among other things, allow us to<br/>
 associate data types with our typeclass. So the structure of our Generic class<br/>
@@ -524,7 +527,7 @@ instance (Menu a, Menu b) =&gt; Menu (a,b) where
 system and a few clever compiler hooks can make programmers lives easier by<br/>
 cooking our boilerplate for us and giving tastier more correct code.</p>
 <p><p class="image-unavailable">Source image unavailable. <a href="https://www.flickr.com/photos/theleggett/4409912246">Open the original image page</a></p></p>
-    </section>
-  </article>
+</section>
+</article>
 </body>
 </html>

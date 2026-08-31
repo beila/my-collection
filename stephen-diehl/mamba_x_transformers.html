@@ -1,13 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="stephen-diehl-content-hash" content="64adbaf4ddaab376b2c7ae36022f5eca733b65b4de906f588ee465db427e1b2d">
-  <meta name="stephen-diehl-article-format" content="10">
-  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/mamba_x_transformers.html">
-  <title>Hymba : Mamba × Transformers</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="64adbaf4ddaab376b2c7ae36022f5eca733b65b4de906f588ee465db427e1b2d" name="stephen-diehl-content-hash"/>
+<meta content="14" name="stephen-diehl-article-format"/>
+<link href="https://beila.github.io/my-collection/stephen-diehl/mamba_x_transformers.html" rel="canonical"/>
+<title>Hymba : Mamba × Transformers</title>
+<style>
     :root { color-scheme: dark; }
     body { margin: 0; background: #171717; color: #f1f1f1;
             font: 18px/1.7 Georgia, serif; }
@@ -26,14 +27,18 @@
     .published { color: #b8b8b8; }
     .original-link { border-top: 1px solid #555; margin-top: 2rem;
                       padding-top: 1rem; }
+img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
+                      vertical-align: middle; }
+    img.math-display { display: block; height: auto; margin: 1.25rem auto;
+                       max-width: 100%; }
   </style>
 </head>
 <body>
-  <article>
-    <h1>Hymba : Mamba × Transformers</h1>
-    <p class="published">Published: Wed, 20 Nov 2024 00:00:00 +0000</p>
-    <section class="instapaper_body">
-      <p class="original-link"><a href="https://www.stephendiehl.com/posts/mamba_x_transformers/">Read the original article on Stephen Diehl's website</a></p>
+<article>
+<h1>Hymba : Mamba × Transformers</h1>
+<p class="published">Published: Wed, 20 Nov 2024 00:00:00 +0000</p>
+<section class="instapaper_body">
+<p class="original-link"><a href="https://www.stephendiehl.com/posts/mamba_x_transformers/">Read the original article on Stephen Diehl's website</a></p>
 <p>Up until now we've had transformers, which are the core deep learning architecture based on the attention mechanism. But there are other experimental architectures that have been gaining a lot of attention lately. One of the more promising ones is the state-space model <strong>Mamba</strong>, an architecture developed by researchers at Carnegie Mellon University and Princeton University that aims to address some key limitations of transformer models, particularly in processing long sequences and large context windows.</p>
 <p>At its core, Mamba is built on three fundamental ideas. The first is its use of selective state spaces - rather than relying on attention mechanisms like transformers do, Mamba employs SSMs that can selectively process information based on the current input. This selective processing allows the model to effectively focus on relevant information while discarding what isn't needed. The theory is best described in this <a href="https://srush.github.io/annotated-s4/">blog post</a>.</p>
 <p>Mamba offers several key advantages over traditional transformer architectures. The most significant benefits is better scaling through linear-time processing, making it substantially more efficient when handling long sequences compared to transformers' quadratic scaling behavior. The architecture is also notably memory efficient, carefully avoiding the materialization of expanded states in memory-intensive layers that can bog down other models.</p>
@@ -60,23 +65,21 @@
 </tr>
 <tr>
 <td>Training Complexity</td>
-<td>\(O(n^2)\)</td>
-<td>\(O(n)\)</td>
+<td><img alt="Equation: upper O left-parenthesis n squared right-parenthesis" class="math-inline" height="32" src="https://beila.github.io/my-collection/math-images/19cf5aceeacf9a84fbcae47c0bebaf36978a498b2004f60ec043e58ea2da9f4d.png" width="59"/></td>
+<td><img alt="Equation: upper O left-parenthesis n right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/b14def988e200c44f80c13d62e4a185e280d568795d6dee422257a34d31e7776.png" width="50"/></td>
 </tr>
 <tr>
 <td>Inference Speed</td>
-<td>\(O(n)\)</td>
-<td>\(O(1)\)</td>
+<td><img alt="Equation: upper O left-parenthesis n right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/b14def988e200c44f80c13d62e4a185e280d568795d6dee422257a34d31e7776.png" width="50"/></td>
+<td><img alt="Equation: upper O left-parenthesis 1 right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/7d717a8b6a93268649587c3126b4e4bdae49e1ff710e1f3325d3b6145f35936c.png" width="47"/></td>
 </tr>
 </tbody>
 </table>
 <p><strong>Hymba</strong></p>
 <p>Nvidia <a href="https://www.arxiv.org/abs/2411.13676">recently explored</a> combining different computational paradigms to leverage their complementary strengths. A notable example is the Hymba architecture, which introduces a hybrid-head parallel design that integrates transformer attention mechanisms with state space models within the same layer. The end result is a model that outperforms larger models while using significantly less memory. On the self-reported benchmarks, Hymba-1.5B beats Llama-3.2-3B while using 11.67x less memory cache and running 3.49x faster. Which is incredibly impressive.</p>
-<p>The key innovation in hybrid architectures like Hymba is the parallel fusion of attention and SSM heads, allowing simultaneous processing of inputs through different computational paths. In contrast to sequential approaches that stack different layer types, parallel fusion enables each layer to simultaneously leverage both the high-resolution recall capabilities of attention and the efficient context summarization of SSMs. This is implemented through a unified formulation where the input is projected to both attention components (query, key, value) and SSM components (input features and gates) in parallel. The outputs from attention heads and SSM heads are normalized and combined using learnable scaling factors \(\beta_1\) and \(\beta_2\). Specifically, if we denote the attention output as \(Y_{attn}\) and the SSM output as \(Y_{ssm}\), the final layer output is computed as:</p>
-<p>$$<br/>
-Y = W_{out_proj}(\beta_1 \cdot \text{norm}(M_{attn} \cdot X) + \beta_2 \cdot \text{norm}(M_{ssm} \cdot X))<br/>
-$$</p>
-<p>where \(\beta_1\) and \(\beta_2\) are control the relative contribution of each path.</p>
+<p>The key innovation in hybrid architectures like Hymba is the parallel fusion of attention and SSM heads, allowing simultaneous processing of inputs through different computational paths. In contrast to sequential approaches that stack different layer types, parallel fusion enables each layer to simultaneously leverage both the high-resolution recall capabilities of attention and the efficient context summarization of SSMs. This is implemented through a unified formulation where the input is projected to both attention components (query, key, value) and SSM components (input features and gates) in parallel. The outputs from attention heads and SSM heads are normalized and combined using learnable scaling factors <img alt="Equation: beta 1" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/6f0a82614d81b09ccc9554e98d269617227e6388eae644cc7b57a38c73c61e9d.png" width="26"/> and <img alt="Equation: beta 2" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/0f652516ef3b3c70db760c6fbb33af12d367e478def824aab8c3f7ffa89eaf2c.png" width="26"/>. Specifically, if we denote the attention output as <img alt="Equation: upper Y Subscript a t t n" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/ba57c82e9b1990226a92950e36ec3800dff649714b1d5107a179c5b115e34e2c.png" width="46"/> and the SSM output as <img alt="Equation: upper Y Subscript s s m" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/0e23e53f1688fa129ec209c1546caebd660b3c9e72635e3b242176a240bfd28d.png" width="46"/>, the final layer output is computed as:</p>
+<p><img alt="Equation: upper Y equals upper W Subscript o u t Sub Subscript p Subscript r o j Baseline left-parenthesis beta 1 dot norm left-parenthesis upper M Subscript a t t n Baseline dot upper X right-parenthesis plus beta 2 dot norm left-parenthesis upper M Subscript s s m Baseline dot upper X right-parenthesis right-parenthesis" class="math-display" height="28" src="https://beila.github.io/my-collection/math-images/bf6279240e1eaa58be46953b0922a2611e1261adcce2959859b03ff4bc493f4f.png" width="356"/></p>
+<p>where <img alt="Equation: beta 1" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/6f0a82614d81b09ccc9554e98d269617227e6388eae644cc7b57a38c73c61e9d.png" width="26"/> and <img alt="Equation: beta 2" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/0f652516ef3b3c70db760c6fbb33af12d367e478def824aab8c3f7ffa89eaf2c.png" width="26"/> are control the relative contribution of each path.</p>
 <p><strong>Memory and Efficiency Optimizations</strong></p>
 <p>To address the memory demands of attention mechanisms, hybrid architectures employ several optimizations. These include combining global and local attention patterns, where only select layers (typically first, middle, and last) use full attention while others use sliding window attention. Additionally, key-value cache sharing between layers reduces memory requirements without significantly impacting model performance.</p>
 <p>The SSM components help maintain global context awareness even with localized attention, allowing more aggressive use of sliding window attention compared to pure transformer architectures. Empirical studies show that hybrid models can maintain comparable task performance while achieving significant reductions in memory usage and increased throughput.</p>
@@ -180,7 +183,7 @@ def main():
 
         print(f"Model: {response}")
 </code></pre>
-    </section>
-  </article>
+</section>
+</article>
 </body>
 </html>

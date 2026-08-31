@@ -1,13 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="stephen-diehl-content-hash" content="5101930696dd93a0ee4308ba6e56eceab84f96e72e6a47394ad2d18e9f0bb4f9">
-  <meta name="stephen-diehl-article-format" content="10">
-  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/graphrag2.html">
-  <title>Tiny GraphRAG (Part 2)</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="5101930696dd93a0ee4308ba6e56eceab84f96e72e6a47394ad2d18e9f0bb4f9" name="stephen-diehl-content-hash"/>
+<meta content="14" name="stephen-diehl-article-format"/>
+<link href="https://beila.github.io/my-collection/stephen-diehl/graphrag2.html" rel="canonical"/>
+<title>Tiny GraphRAG (Part 2)</title>
+<style>
     :root { color-scheme: dark; }
     body { margin: 0; background: #171717; color: #f1f1f1;
             font: 18px/1.7 Georgia, serif; }
@@ -26,14 +27,18 @@
     .published { color: #b8b8b8; }
     .original-link { border-top: 1px solid #555; margin-top: 2rem;
                       padding-top: 1rem; }
+img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
+                      vertical-align: middle; }
+    img.math-display { display: block; height: auto; margin: 1.25rem auto;
+                       max-width: 100%; }
   </style>
 </head>
 <body>
-  <article>
-    <h1>Tiny GraphRAG (Part 2)</h1>
-    <p class="published">Published: Tue, 12 Nov 2024 00:00:00 +0000</p>
-    <section class="instapaper_body">
-      <p class="original-link"><a href="https://www.stephendiehl.com/posts/graphrag2/">Read the original article on Stephen Diehl's website</a></p>
+<article>
+<h1>Tiny GraphRAG (Part 2)</h1>
+<p class="published">Published: Tue, 12 Nov 2024 00:00:00 +0000</p>
+<section class="instapaper_body">
+<p class="original-link"><a href="https://www.stephendiehl.com/posts/graphrag2/">Read the original article on Stephen Diehl's website</a></p>
 <p>In <a href="https://www.stephendiehl.com/posts/graphrag1">Part 1</a>, we built a minimal implementation of GraphRAG that demonstrated the core concepts. Now we'll extend our implementation with three significant improvements that make it more suitable for production use:</p>
 <ol>
 <li>Replacing serialized networkx graphs with Memgraph, a proper graph database.</li>
@@ -41,7 +46,6 @@
 <li>Implementing entity disambiguation to resolve different mentions of the same entity to a canonical form.</li>
 </ol>
 <p>The complete implementation of these features is available in the repository in the <code>micro-graphrag</code> branch. The expanded implementation comes in at around 1500 lines of code with the new additions.<br/>Resources: <a href="https://github.com/sdiehl/tiny-graphrag/tree/micro-graphrag">https://github.com/sdiehl/tiny-graphrag/tree/micro-graphrag</a></p>
-
 <h2 id="memgraph-configuration">Memgraph Configuration</h2>
 <p>To use Memgraph as our graph database, we'll add the necessary services to our <code>docker-compose.yml</code>:</p>
 <pre><code>services:
@@ -457,7 +461,7 @@ def build_hierarchical_communities(
 <p>These improvements significantly enhance the system's capabilities, but they do come with some notable computational costs. The use of Memgraph requires more memory compared to serialized graphs, though this tradeoff enables better scalability. The hierarchical community detection process is computationally more intensive than simple flat clustering approaches. Additionally, the vector similarity comparisons needed for entity resolution introduce extra processing overhead during document ingestion.</p>
 <p>The benefits provided by these improvements generally justify the additional resource usage. Query performance sees dramatic improvements, with Memgraph enabling graph queries that are 10 to 100 times faster than the previous approach. The quality of answers improves substantially through the combination of hierarchical community structure and more accurate entity disambiguation. Most importantly, the enhanced architecture allows the system to scale effectively to handle much larger documents and more complex knowledge graphs than was previously possible.</p>
 <p>While these improvements make our implementation more production-ready, it's worth remembering that like the original GraphRAG paper, there's still a fair bit of "graph goes in, magic comes out" happening under the hood. We've added better persistence with Memgraph, smarter community detection, and more robust entity handling, but at its core we're still essentially throwing a bunch of language models at a graph and hoping they play nice together. Sometimes they do, sometimes they don't, and sometimes they produce surprisingly good results through what can only be described as "accidental competence."</p>
-    </section>
-  </article>
+</section>
+</article>
 </body>
 </html>

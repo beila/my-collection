@@ -1,13 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="stephen-diehl-content-hash" content="f0584de9bbe396cac67dfbb3fbaf8a1928ce896df802dc4c5ed78163e159decc">
-  <meta name="stephen-diehl-article-format" content="10">
-  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/church.html">
-  <title>The Y-Combinator in Python</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="f0584de9bbe396cac67dfbb3fbaf8a1928ce896df802dc4c5ed78163e159decc" name="stephen-diehl-content-hash"/>
+<meta content="14" name="stephen-diehl-article-format"/>
+<link href="https://beila.github.io/my-collection/stephen-diehl/church.html" rel="canonical"/>
+<title>The Y-Combinator in Python</title>
+<style>
     :root { color-scheme: dark; }
     body { margin: 0; background: #171717; color: #f1f1f1;
             font: 18px/1.7 Georgia, serif; }
@@ -26,14 +27,18 @@
     .published { color: #b8b8b8; }
     .original-link { border-top: 1px solid #555; margin-top: 2rem;
                       padding-top: 1rem; }
+img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
+                      vertical-align: middle; }
+    img.math-display { display: block; height: auto; margin: 1.25rem auto;
+                       max-width: 100%; }
   </style>
 </head>
 <body>
-  <article>
-    <h1>The Y-Combinator in Python</h1>
-    <p class="published">Published: Thu, 10 Aug 2017 01:00:00 +0000</p>
-    <section class="instapaper_body">
-      <p class="original-link"><a href="https://www.stephendiehl.com/posts/church/">Read the original article on Stephen Diehl's website</a></p>
+<article>
+<h1>The Y-Combinator in Python</h1>
+<p class="published">Published: Thu, 10 Aug 2017 01:00:00 +0000</p>
+<section class="instapaper_body">
+<p class="original-link"><a href="https://www.stephendiehl.com/posts/church/">Read the original article on Stephen Diehl's website</a></p>
 <p>Lambda calculus holds a revered place as a foundational system in computation theory, influencing programming languages and paradigms. One fascinating application of lambda calculus is Church encoding, which allows representing data and operators using only functions. This blog post delves into how Church encoding can be implemented in Python to represent boolean values, basic arithmetic operations, and even complex functions like the Fibonacci sequence.</p>
 <p>Church encoding is a means of representing data and operators in lambda calculus, which uses functions instead of data types. Typical constructs such as numerals, boolean values, and basic arithmetic operations can be represented purely through functional abstractions and applications.</p>
 <p>Let's start by encoding boolean values and essential logical operations using lambda functions in Python.</p>
@@ -250,7 +255,7 @@ Fib = lambda x: (lambda a: (a)(lambda b: b + 1)(0))(
     )
 )
 </code></pre>
-    </section>
-  </article>
+</section>
+</article>
 </body>
 </html>

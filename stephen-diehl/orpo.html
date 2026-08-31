@@ -1,13 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="stephen-diehl-content-hash" content="4025fae5d47d48a6a52e54d152e7231192fe7ed51688ecf5db84b10a05db8a03">
-  <meta name="stephen-diehl-article-format" content="10">
-  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/orpo.html">
-  <title>Fine-tuning with ORPO and Unsloth</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="4025fae5d47d48a6a52e54d152e7231192fe7ed51688ecf5db84b10a05db8a03" name="stephen-diehl-content-hash"/>
+<meta content="14" name="stephen-diehl-article-format"/>
+<link href="https://beila.github.io/my-collection/stephen-diehl/orpo.html" rel="canonical"/>
+<title>Fine-tuning with ORPO and Unsloth</title>
+<style>
     :root { color-scheme: dark; }
     body { margin: 0; background: #171717; color: #f1f1f1;
             font: 18px/1.7 Georgia, serif; }
@@ -26,14 +27,18 @@
     .published { color: #b8b8b8; }
     .original-link { border-top: 1px solid #555; margin-top: 2rem;
                       padding-top: 1rem; }
+img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
+                      vertical-align: middle; }
+    img.math-display { display: block; height: auto; margin: 1.25rem auto;
+                       max-width: 100%; }
   </style>
 </head>
 <body>
-  <article>
-    <h1>Fine-tuning with ORPO and Unsloth</h1>
-    <p class="published">Published: Tue, 03 Sep 2024 01:00:00 +0000</p>
-    <section class="instapaper_body">
-      <p class="original-link"><a href="https://www.stephendiehl.com/posts/orpo/">Read the original article on Stephen Diehl's website</a></p>
+<article>
+<h1>Fine-tuning with ORPO and Unsloth</h1>
+<p class="published">Published: Tue, 03 Sep 2024 01:00:00 +0000</p>
+<section class="instapaper_body">
+<p class="original-link"><a href="https://www.stephendiehl.com/posts/orpo/">Read the original article on Stephen Diehl's website</a></p>
 <p>ORPO was introduced in the paper <a href="https://huggingface.co/docs/trl/main/en/orpo_trainer">"ORPO: Monolithic Preference Optimization without Reference Model"</a>. The key innovation is that it eliminates the need for a separate preference alignment phase by incorporating a minor penalty for disfavored generations during the training process.</p>
 <p>Traditional approaches like DPO require two steps:</p>
 <ol>
@@ -156,7 +161,7 @@ model.save_pretrained_gguf("ggufs", tokenizer, quantization_method="q4_k_m")
 <li><code>nll_loss</code>: Negative log likelihood loss from SFT component</li>
 </ul>
 <p>You can monitor these metrics using Weights &amp; Biases.</p>
-    </section>
-  </article>
+</section>
+</article>
 </body>
 </html>

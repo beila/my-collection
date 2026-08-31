@@ -1,13 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="stephen-diehl-content-hash" content="f180b1b971ea9d85b3956cb717bb251923b79308204430754b6e322b72949712">
-  <meta name="stephen-diehl-article-format" content="11">
-  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/monads.html">
-  <title>Monads Made Difficult</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="f180b1b971ea9d85b3956cb717bb251923b79308204430754b6e322b72949712" name="stephen-diehl-content-hash"/>
+<meta content="14" name="stephen-diehl-article-format"/>
+<link href="https://beila.github.io/my-collection/stephen-diehl/monads.html" rel="canonical"/>
+<title>Monads Made Difficult</title>
+<style>
     :root { color-scheme: dark; }
     body { margin: 0; background: #171717; color: #f1f1f1;
             font: 18px/1.7 Georgia, serif; }
@@ -26,24 +27,28 @@
     .published { color: #b8b8b8; }
     .original-link { border-top: 1px solid #555; margin-top: 2rem;
                       padding-top: 1rem; }
+img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
+                      vertical-align: middle; }
+    img.math-display { display: block; height: auto; margin: 1.25rem auto;
+                       max-width: 100%; }
   </style>
 </head>
 <body>
-  <article>
-    <h1>Monads Made Difficult</h1>
-    <p class="published">Published: Sun, 07 Jul 2013 01:00:00 +0000</p>
-    <section class="instapaper_body">
-      <p class="original-link"><a href="https://www.stephendiehl.com/posts/monads/">Read the original article on Stephen Diehl's website</a></p>
+<article>
+<h1>Monads Made Difficult</h1>
+<p class="published">Published: Sun, 07 Jul 2013 01:00:00 +0000</p>
+<section class="instapaper_body">
+<p class="original-link"><a href="https://www.stephendiehl.com/posts/monads/">Read the original article on Stephen Diehl's website</a></p>
 <p>This is a short, fast and analogy-free introduction to Haskell monads derived from a categorical perspective.<br/>
 This assumes you are familiar with Haskell and basic category theory.</p>
 <h3 id="categories">Categories</h3>
 <hr/>
-<p>We have a abstract <strong>category</strong> $\mathcal{C}$ which consists of objects and morphisms.</p>
+<p>We have a abstract <strong>category</strong> <img alt="Equation: script upper C" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/da542229a6251bdbbe0e73a0c0d2c976fa1e9129b57e481bdb9f65bab0940c79.png" width="16"/> which consists of objects and morphisms.</p>
 <ul>
 <li>Objects : $●$</li>
-<li>Morphisms : $● \rightarrow ●$</li>
+<li>Morphisms : <img alt="Equation: black circle right-arrow black circle" class="math-inline" height="35" src="https://beila.github.io/my-collection/math-images/d6c08fa94899ee241b9679ff9161bcf9f7109ff32365d6a49ca8ee84bc2923a7.png" width="63"/></li>
 </ul>
-<p>For each object there is an identity morphism <code>id</code> and a composition rule $(\circ)$ for combining morphisms<br/>
+<p>For each object there is an identity morphism <code>id</code> and a composition rule <img alt="Equation: left-parenthesis ring right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/7807e27d70c72c8682f1b2531049cfb34a7ad9f155186b77fce74b8ad27c673b.png" width="32"/> for combining morphisms<br/>
 associatively. We can model this with the following type class in Haskell with kind polymorphism.</p>
 <pre><code>-- Morphisms
 type (a ~&gt; b) c = c a b
@@ -69,11 +74,11 @@ the following are equivalent.</p>
 </code></pre>
 <h3 id="functors">Functors</h3>
 <hr/>
-<p>Between two categories we can construct a <strong>functor</strong> denoted $T$, which maps between objects and morphisms of<br/>
+<p>Between two categories we can construct a <strong>functor</strong> denoted <img alt="Equation: upper T" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/7cebde6d7a38d72e0bf5491aa60257838220c574c48cc43cef46b472c849009c.png" width="20"/>, which maps between objects and morphisms of<br/>
 categories that preserves morphism composition and identities.</p>
 <ul>
-<li>Objects : $T(●)$</li>
-<li>Morphisms : $T (● \rightarrow ●)$</li>
+<li>Objects : <img alt="Equation: upper T left-parenthesis black circle right-parenthesis" class="math-inline" height="35" src="https://beila.github.io/my-collection/math-images/91077833bdc84e7d2e29b2908a6fad7c2ac8ccbd15ef8c2da18cbff67eb544a3.png" width="49"/></li>
+<li>Morphisms : <img alt="Equation: upper T left-parenthesis black circle right-arrow black circle right-parenthesis" class="math-inline" height="35" src="https://beila.github.io/my-collection/math-images/fd85875966d47da0b6549f15ca92e6c2ed4411f7af202675b32a4fa521ae4336.png" width="94"/></li>
 </ul>
 <p>Represented in Haskell by:</p>
 <pre><code>class (Category c, Category d) =&gt; Functor c d t where
@@ -83,7 +88,7 @@ categories that preserves morphism composition and identities.</p>
 <pre><code>fmap id ≡ id
 fmap (a . b) ≡ (fmap a) . (fmap b)
 </code></pre>
-<p>The identity functor $1_\mathcal{C}$ for a category $\mathcal{C}$ is a functor mapping all objects to<br/>
+<p>The identity functor <img alt="Equation: 1 Subscript script upper C" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/ca61c3f9d8b71dd3b249f0b9168f9aaa9fba829749918e1d0bee1c51a9ae41b1.png" width="26"/> for a category <img alt="Equation: script upper C" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/da542229a6251bdbbe0e73a0c0d2c976fa1e9129b57e481bdb9f65bab0940c79.png" width="16"/> is a functor mapping all objects to<br/>
 themselves and all morphisms to themselves.</p>
 <pre><code>newtype Id a = Id a
 
@@ -98,7 +103,7 @@ instance Functor Hask Hask Maybe where
   fmap f Nothing = Nothing
   fmap f (Just x) = Just (f x)
 </code></pre>
-<p>An <strong>endofunctor</strong> is a functor from a category to itself, i.e. ($T : \mathcal{C} \to \mathcal{C}$).</p>
+<p>An <strong>endofunctor</strong> is a functor from a category to itself, i.e. (<img alt="Equation: upper T colon script upper C right-arrow script upper C" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/b5202224f6d1e6d273ec0c54cd67ddeb57e9b8cdd97bfef9cc8201619dae0569.png" width="92"/>).</p>
 <pre><code>type Endofunctor c t = Functor c c t
 </code></pre>
 <p>The composition of two functors is itself a functor as well. Convincing Haskell of this fact requires some<br/>
@@ -113,30 +118,18 @@ instance (Functor a b f, Functor b c g, c ~ Hom k) =&gt; Functor a c (FComp g f)
       fmapg = fmap :: b s t -&gt; c (g s) (g t)
 </code></pre>
 <p>The repeated composition of an endofunctor over a category is written with exponential notation:</p>
-<p>$$<br/>
-\begin{align*}<br/>
-T^2 &amp;= T T : \mathcal{C} \rightarrow \mathcal{C} \<br/>
-T^3 &amp;= T T T: \mathcal{C} \rightarrow \mathcal{C}<br/>
-\end{align*}<br/>
-$$</p>
-<p>The category of small categories $\textbf{Cat}$ is a category with categories as objects and functors as morphisms between categories.</p>
+<p><img alt="Equation: StartLayout 1st Row 1st Column upper T squared 2nd Column equals upper T upper T colon script upper C right-arrow script upper C upper T cubed 3rd Column equals upper T upper T upper T colon script upper C right-arrow script upper C EndLayout" class="math-display" height="28" src="https://beila.github.io/my-collection/math-images/b99117f98f60c1e1a5a75364ba333dacd3549a3eddbfeda6a4da3237692c6a01.png" width="256"/></p>
+<p>The category of small categories <img alt="Equation: bold Cat" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/1c4d3a22479942e10502fe9cac52c6482b591c3258cf1905e15b2eeb3516467c.png" width="44"/> is a category with categories as objects and functors as morphisms between categories.</p>
 <h3 id="natural-transformations">Natural Transformations</h3>
 <hr/>
-<p>For two functors $F,G$ between two categories $\mathcal{A,B}$:</p>
-<p>$$<br/>
-F : \mathcal{A} \rightarrow \mathcal{B} \<br/>
-G : \mathcal{A} \rightarrow \mathcal{B}<br/>
-$$</p>
-<p>We can construct a mapping called a <strong>natural transformation</strong> $\eta$ which is a mapping between functors<br/>
-$\eta : F \rightarrow G$ that associates every object $X$ in $\mathcal{A}$ to a morphism in $\mathcal{B}$:</p>
-<p>$$<br/>
-\eta_X : F(X) \rightarrow G(X)<br/>
-$$</p>
-<p>Such that the following <em>naturality condition</em> holds for any morphism $f : X \rightarrow Y$. Shown as a<br/>
+<p>For two functors <img alt="Equation: upper F comma upper G" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/83f6aa64ac247bb96ad5ed5e392fc2a5d49c7a6dd33d497b2de5123bffb4231b.png" width="46"/> between two categories <img alt="Equation: script upper A script comma script upper B" class="math-inline" height="29" src="https://beila.github.io/my-collection/math-images/504509b02f439dea82dcbf1e1b1b424e445f2d5dec4a95bc5e1db26c147fb2b2.png" width="45"/>:</p>
+<p><img alt="Equation: upper F colon script upper A right-arrow script upper B upper G colon script upper A right-arrow script upper B" class="math-display" height="22" src="https://beila.github.io/my-collection/math-images/dfb6ced4095fda496f91ab977d8fbcab6eb70e38d61878c6d9479c46c57796ab.png" width="141"/></p>
+<p>We can construct a mapping called a <strong>natural transformation</strong> <img alt="Equation: eta" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/97617a925f72af3d7d08633f0164b9a45a7daabde2a8e2fc05e5b06d65cf8ea0.png" width="16"/> which is a mapping between functors<br/>
+<img alt="Equation: eta colon upper F right-arrow upper G" class="math-inline" height="29" src="https://beila.github.io/my-collection/math-images/7720aeb35b79d9ecbf94691b30eff081644231a54195ce1b6e2020acf66d596d.png" width="98"/> that associates every object <img alt="Equation: upper X" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/f41b0d7a438a9dd43ec189a886021d3504d8d5cb639d70b702edf7939c83704a.png" width="22"/> in <img alt="Equation: script upper A" class="math-inline" height="26" src="https://beila.github.io/my-collection/math-images/103dc0b1eb57ca894d003e0c43080473c22748cf25effe2a1b3070a45dded235.png" width="22"/> to a morphism in <img alt="Equation: script upper B" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/14364ce2cb5760dfc95da3ccb97d1dc2caffde26914f03d2baa574f727c767a8.png" width="19"/>:</p>
+<p><img alt="Equation: eta Subscript upper X Baseline colon upper F left-parenthesis upper X right-parenthesis right-arrow upper G left-parenthesis upper X right-parenthesis" class="math-display" height="26" src="https://beila.github.io/my-collection/math-images/c9a69a61ab9a3e351a175f35b47ef5bf6f0f68b4262c070953e27c507d48a2e7.png" width="125"/></p>
+<p>Such that the following <em>naturality condition</em> holds for any morphism <img alt="Equation: f colon upper X right-arrow upper Y" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/9645ab3cd68a614c9c143567362fc911ee781f98fca8e77d582fb43afadc9623.png" width="100"/>. Shown as a<br/>
 <em>naturality square</em>:</p>
-<p>$$<br/>
-\eta_Y \circ F(f) = G(f) \circ \eta_X<br/>
-$$</p>
+<p><img alt="Equation: eta Subscript upper Y Baseline ring upper F left-parenthesis f right-parenthesis equals upper G left-parenthesis f right-parenthesis ring eta Subscript upper X" class="math-display" height="26" src="https://beila.github.io/my-collection/math-images/46d26296132ba0ed7e3d8df304bd8c9dfef26256e2d72d067b35bdef020701c5.png" width="144"/></p>
 <p>
 <img src="https://beila.github.io/my-collection/stephen-diehl/assets/31bf56f67149bd9317ea739ad4ef9974172d944e0efb02f11cd87f9639ed84a4.png"/>
 </p>
@@ -183,9 +176,9 @@ headMay (fmap f (x:xs))
 </code></pre>
 <h3 id="functor-categories">Functor Categories</h3>
 <hr/>
-<p>A natural transformation $\eta : C \rightarrow D$ is itself a morphism in the <strong>functor category</strong><br/>
-$\textbf{Fun}(\mathcal{C}, \mathcal{D})$ of functors between $\mathcal{C}$ and $\mathcal{D}$. The category<br/>
-$\textbf{End}$ is the category of endofunctors between a category and itself.</p>
+<p>A natural transformation <img alt="Equation: eta colon upper C right-arrow upper D" class="math-inline" height="29" src="https://beila.github.io/my-collection/math-images/e424067d1a18058b38c84b7c7fc3c31b5d36ad362f30104fd1eead3777039f47.png" width="98"/> is itself a morphism in the <strong>functor category</strong><br/>
+<img alt="Equation: bold Fun left-parenthesis script upper C comma script upper D right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/27731bcdaff39bb8b108904fda7806a2b60e3cb8ec4f595a0048c48c049f4b7f.png" width="100"/> of functors between <img alt="Equation: script upper C" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/da542229a6251bdbbe0e73a0c0d2c976fa1e9129b57e481bdb9f65bab0940c79.png" width="16"/> and <img alt="Equation: script upper D" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/3742c0a4b8a4d6808abda868cf02aa5ee28313c6857ef512d6d58408b6c38008.png" width="21"/>. The category<br/>
+<img alt="Equation: bold End" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/24086cb61e0b338ac185b1dbb4901d660f1b23fcd2fcf51e7ba0913f82b4e367.png" width="47"/> is the category of endofunctors between a category and itself.</p>
 <pre><code>-- Functor category
 newtype Fun f g a b = FNat (f a -&gt; g b)
 
@@ -198,27 +191,23 @@ instance Category (End f) where
 </code></pre>
 <h3 id="monads">Monads</h3>
 <hr/>
-<p>We can finally define a <em>monad</em> over a category $\mathcal{C}$ to be a triple $(T, \eta, \mu)$ of:</p>
+<p>We can finally define a <em>monad</em> over a category <img alt="Equation: script upper C" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/da542229a6251bdbbe0e73a0c0d2c976fa1e9129b57e481bdb9f65bab0940c79.png" width="16"/> to be a triple <img alt="Equation: left-parenthesis upper T comma eta comma mu right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/6b135ef48c99a7aa6c5b80f9a5e67b1c1ca6579f438269be1aeb1b9c4ca7ce01.png" width="78"/> of:</p>
 <ol>
-<li>An endofunctor $T: \mathcal{C} \rightarrow \mathcal{C}$</li>
-<li>A natural transformation $\eta : 1_\mathcal{C} \rightarrow T$</li>
-<li>A natural transformation $\mu : T^2 \rightarrow T$</li>
+<li>An endofunctor <img alt="Equation: upper T colon script upper C right-arrow script upper C" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/b5202224f6d1e6d273ec0c54cd67ddeb57e9b8cdd97bfef9cc8201619dae0569.png" width="92"/></li>
+<li>A natural transformation <img alt="Equation: eta colon 1 Subscript script upper C Baseline right-arrow upper T" class="math-inline" height="29" src="https://beila.github.io/my-collection/math-images/74e9459761d02e2dd7706228631ac6f67efb0a08a5f2b6e9a3496635ff2ab43e.png" width="100"/></li>
+<li>A natural transformation <img alt="Equation: mu colon upper T squared right-arrow upper T" class="math-inline" height="32" src="https://beila.github.io/my-collection/math-images/258106633219d8180ec92c0a17c48868fffc8f8e13c42e2667074e6a62380374.png" width="107"/></li>
 </ol>
 <pre><code>class Endofunctor c t =&gt; Monad c t where
   eta :: c a (t a)
   mu  :: c (t (t a)) (t a)
 </code></pre>
 <p>With an associativity square:</p>
-<p>$$<br/>
-\mu \circ T \mu = \mu \circ \mu T \<br/>
-$$</p>
+<p><img alt="Equation: mu ring upper T mu equals mu ring mu upper T" class="math-display" height="24" src="https://beila.github.io/my-collection/math-images/11160e8d3c2a6278053a8fc8b6738b7fe59a2a92d28dae29e9820e2029c257f0.png" width="110"/></p>
 <p>
 <img src="https://beila.github.io/my-collection/stephen-diehl/assets/b1ffc68386a3619764bbd8d1f61667b1953ff0ba41e2cad3cba6e7824d5d1184.png"/>
 </p>
 <p>And a triangle equality:</p>
-<p>$$<br/>
-\mu \circ T \eta = \mu \circ \eta T = 1_C \<br/>
-$$</p>
+<p><img alt="Equation: mu ring upper T eta equals mu ring eta upper T equals 1 Subscript upper C Baseline" class="math-display" height="24" src="https://beila.github.io/my-collection/math-images/38e5b6b9fed489482994b051c30517b7f77810a260530682353a5266d6a252ce.png" width="142"/></p>
 <p>
 <img src="https://beila.github.io/my-collection/stephen-diehl/assets/7676663f3b9e4ca62b055f0f865499bd21f32d19213024a9798f6dc623825c54.png"/>
 </p>
@@ -265,29 +254,22 @@ m &gt;&gt;= return     ≡  m
 objects are embedded in our original <code>c</code> category, but our arrows are now Kleisli arrows <code>a -&gt; T b</code>. Given<br/>
 this class of "actions" we'd like to write an operator which combined these morphisms just like we combine<br/>
 functions in our host category.</p>
-<p>$$<br/>
-\begin{align}<br/>
-&amp; (b \to T c) \to (a \to T b) \to (a \to T c) \<br/>
-&amp; (b \to c) \to (a \to b) \to (a \to c)<br/>
-\end{align}<br/>
-$$</p>
-<p>In turns we out can for a specific function <code>(&lt;=&lt;)</code> expressed in terms of $\mu$ and the underlying functor,<br/>
+<p><img alt="Equation: StartLayout 1st Row 1st Column Blank 2nd Column left-parenthesis b right-arrow upper T c right-parenthesis right-arrow left-parenthesis a right-arrow upper T b right-parenthesis right-arrow left-parenthesis a right-arrow upper T c right-parenthesis 3rd Column left-parenthesis b right-arrow c right-parenthesis right-arrow left-parenthesis a right-arrow b right-parenthesis right-arrow left-parenthesis a right-arrow c right-parenthesis EndLayout" class="math-display" height="26" src="https://beila.github.io/my-collection/math-images/0695e1542bfd1e621e19239f42392215d43ff45193d77f979cad395187f3f753.png" width="433"/></p>
+<p>In turns we out can for a specific function <code>(&lt;=&lt;)</code> expressed in terms of <img alt="Equation: mu" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/a9595298270bbcf1f43bac68bbbd499fe3930183308fb4df3c17f5c19d8db2b2.png" width="17"/> and the underlying functor,<br/>
 which gives associative composition operator of Kleisli arrows. The Kleisli category models "composition of<br/>
 actions" and form a very general model of computation.</p>
-<p>The mapping between a Kleisli category formed from a category $\mathcal{C}$ is that:</p>
+<p>The mapping between a Kleisli category formed from a category <img alt="Equation: script upper C" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/da542229a6251bdbbe0e73a0c0d2c976fa1e9129b57e481bdb9f65bab0940c79.png" width="16"/> is that:</p>
 <ol>
 <li>Objects in the Kleisli category are objects from the underlying<br/>
 category.</li>
 <li>Morphisms are Kleisli arrows of the form : $f : A \rightarrow<br/>
 T B$</li>
-<li>Identity morphisms in the Kleisli category are precisely $\eta$<br/>
+<li>Identity morphisms in the Kleisli category are precisely <img alt="Equation: eta" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/97617a925f72af3d7d08633f0164b9a45a7daabde2a8e2fc05e5b06d65cf8ea0.png" width="16"/><br/>
 in the underlying category.</li>
-<li>Composition of morphisms $f \circ g$ in terms of the host category is<br/>
+<li>Composition of morphisms <img alt="Equation: f ring g" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/7a300a1428f1ec3aacbad5b6971d38798fb29ba60eb9d9dafa07bbfd2fe285e9.png" width="46"/> in terms of the host category is<br/>
 defined by the mapping:</li>
 </ol>
-<p>$$<br/>
-f \circ g = \mu ( T f ) g<br/>
-$$</p>
+<p><img alt="Equation: f ring g equals mu left-parenthesis upper T f right-parenthesis g" class="math-display" height="26" src="https://beila.github.io/my-collection/math-images/1400df355bfbc4272a9533def853eac5c433296f29791efda5301970d77af5a7.png" width="98"/></p>
 <pre><code>-- Kleisli category
 newtype Kleisli c t a b = K (c a (t b))
 
@@ -354,9 +336,9 @@ right f = f . just
 <hr/>
 <p>For instance the <strong>List monad</strong> would have:</p>
 <ol>
-<li>$\eta$ returns a singleton list from a single element.</li>
-<li>$\mu$ turns a nested list into a flat list.</li>
-<li>$\mathtt{fmap}$ applies a function over the elements of a<br/>
+<li><img alt="Equation: eta" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/97617a925f72af3d7d08633f0164b9a45a7daabde2a8e2fc05e5b06d65cf8ea0.png" width="16"/> returns a singleton list from a single element.</li>
+<li><img alt="Equation: mu" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/a9595298270bbcf1f43bac68bbbd499fe3930183308fb4df3c17f5c19d8db2b2.png" width="17"/> turns a nested list into a flat list.</li>
+<li><img alt="Equation: monospace f monospace m monospace a monospace p" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/1b3a5fb45889b0d38e6c0a0f6af420dce4a6ea9d68145c95159e0e46d9f8c3e2.png" width="49"/> applies a function over the elements of a<br/>
 list.</li>
 </ol>
 <pre><code>instance Functor [] where
@@ -372,9 +354,9 @@ instance Monad [] where
 </code></pre>
 <p>The <strong>Maybe monad</strong> would have:</p>
 <ol>
-<li>$\eta$ is the Just constructor.</li>
-<li>$\mu$ combines two levels of Just constructors yielding the inner value or Nothing.</li>
-<li>$\mathtt{fmap}$ applies a function under the Just constructor or nothing for Nothing.</li>
+<li><img alt="Equation: eta" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/97617a925f72af3d7d08633f0164b9a45a7daabde2a8e2fc05e5b06d65cf8ea0.png" width="16"/> is the Just constructor.</li>
+<li><img alt="Equation: mu" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/a9595298270bbcf1f43bac68bbbd499fe3930183308fb4df3c17f5c19d8db2b2.png" width="17"/> combines two levels of Just constructors yielding the inner value or Nothing.</li>
+<li><img alt="Equation: monospace f monospace m monospace a monospace p" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/1b3a5fb45889b0d38e6c0a0f6af420dce4a6ea9d68145c95159e0e46d9f8c3e2.png" width="49"/> applies a function under the Just constructor or nothing for Nothing.</li>
 </ol>
 <pre><code>instance Functor [] where
   -- fmap :: (a -&gt; b) -&gt; Maybe a -&gt; Maybe b
@@ -391,11 +373,11 @@ instance Monad Maybe where
 </code></pre>
 <p>The <strong>IO monad</strong> would intuitively have the implementation:</p>
 <ol>
-<li>$\eta$ returns a pure value to a value within the context of<br/>
+<li><img alt="Equation: eta" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/97617a925f72af3d7d08633f0164b9a45a7daabde2a8e2fc05e5b06d65cf8ea0.png" width="16"/> returns a pure value to a value within the context of<br/>
 the computation.</li>
-<li>$\mu$ turns a sequence of IO operation into a single<br/>
+<li><img alt="Equation: mu" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/a9595298270bbcf1f43bac68bbbd499fe3930183308fb4df3c17f5c19d8db2b2.png" width="17"/> turns a sequence of IO operation into a single<br/>
 IO operation.</li>
-<li>$\mathtt{fmap}$ applies a function over the result<br/>
+<li><img alt="Equation: monospace f monospace m monospace a monospace p" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/1b3a5fb45889b0d38e6c0a0f6af420dce4a6ea9d68145c95159e0e46d9f8c3e2.png" width="49"/> applies a function over the result<br/>
 of the computation.</li>
 </ol>
 <pre><code>instance Functor IO where
@@ -405,7 +387,7 @@ instance Monad Maybe where
   -- eta :: a -&gt; IO a
   -- mu :: (IO (IO a)) -&gt; IO a
 </code></pre>
-    </section>
-  </article>
+</section>
+</article>
 </body>
 </html>

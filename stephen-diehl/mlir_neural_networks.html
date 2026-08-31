@@ -1,13 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="stephen-diehl-content-hash" content="130b1d8fc6017dd6908d258dfcc59266871b2446ac30250de5bda9510144e4f4">
-  <meta name="stephen-diehl-article-format" content="10">
-  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/mlir_neural_networks.html">
-  <title>Neural Networks</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="130b1d8fc6017dd6908d258dfcc59266871b2446ac30250de5bda9510144e4f4" name="stephen-diehl-content-hash"/>
+<meta content="14" name="stephen-diehl-article-format"/>
+<link href="https://beila.github.io/my-collection/stephen-diehl/mlir_neural_networks.html" rel="canonical"/>
+<title>Neural Networks</title>
+<style>
     :root { color-scheme: dark; }
     body { margin: 0; background: #171717; color: #f1f1f1;
             font: 18px/1.7 Georgia, serif; }
@@ -26,18 +27,21 @@
     .published { color: #b8b8b8; }
     .original-link { border-top: 1px solid #555; margin-top: 2rem;
                       padding-top: 1rem; }
+img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
+                      vertical-align: middle; }
+    img.math-display { display: block; height: auto; margin: 1.25rem auto;
+                       max-width: 100%; }
   </style>
 </head>
 <body>
-  <article>
-    <h1>Neural Networks</h1>
-    <p class="published">Published: Sat, 15 Mar 2025 00:00:00 +0000</p>
-    <section class="instapaper_body">
-      <p class="original-link"><a href="https://www.stephendiehl.com/posts/mlir_neural_networks/">Read the original article on Stephen Diehl's website</a></p>
+<article>
+<h1>Neural Networks</h1>
+<p class="published">Published: Sat, 15 Mar 2025 00:00:00 +0000</p>
+<section class="instapaper_body">
+<p class="original-link"><a href="https://www.stephendiehl.com/posts/mlir_neural_networks/">Read the original article on Stephen Diehl's website</a></p>
 <p>
 <img alt="mlir-egglog" src="https://beila.github.io/my-collection/stephen-diehl/assets/849323220e0f73c7d74c24ec173de0db083f91d404dfa2791bbdd324928a713b.png"/>
 </p>
-
 <p>In our journey through MLIR and modern compiler technology, we've explored how to build efficient systems for numerical computation. Now, we turn our attention to one of the most important applications of these systems: deep learning. Before diving into how MLIR can optimize neural network computations, it's crucial to understand how neural networks work from first principles.</p>
 <p>This section presents a ground-up implementation of a neural network library in pure Python. While this implementation prioritizes clarity over performance, it serves as an excellent foundation for understanding the optimizations that MLIR can provide. By building everything from scratch, we'll gain deep insights into:</p>
 <ol>
@@ -50,67 +54,46 @@
 <p>The complete source code for this section is available in a <a href="https://github.com/sdiehl/tinynn">separate repository</a> for reference.</p>
 <p>Neural networks are everywhere these days, I won't explain too much about why they're useful but if you've used any of the popular libraries like Jax, PyTorch, or TensorFlow, you know they make it easy to build and train complex models. Understanding how these frameworks work under the hood is invaluable. In this section, we'll build a very minimal neural network library from first principles, providing insight into the core mechanisms that power modern deep learning.</p>
 <h2 id="gradients-and-optimization">Gradients and Optimization</h2>
-<p>At the heart of neural network training lies the concept of gradients. Think of a gradient as a compass that points in the direction of steepest increase for a function. For a function with multiple inputs $f(x_1, x_2, ..., x_n)$, the gradient $\nabla f$ is a vector containing the rate of change in each direction:</p>
-<p>$$\nabla f = \begin{bmatrix}<br/>
-\frac{\partial f}{\partial x_1} \<br/>
-\frac{\partial f}{\partial x_2} \<br/>
-\vdots \<br/>
-\frac{\partial f}{\partial x_n}<br/>
-\end{bmatrix}$$</p>
-<p>Each component $\frac{\partial f}{\partial x_i}$ tells us how much the function would change if we slightly adjusted that input while keeping all others constant. This information is crucial for training neural networks.</p>
-<p>In neural network training, we want to minimize a loss function $L(\theta)$ that measures how well our model performs. The parameters $\theta$ include all the weights and biases in the network - often thousands or millions of values. The gradient $\nabla L(\theta)$ tells us how to adjust each parameter to reduce the loss:</p>
-<p>$$<br/>
-\theta_{t+1} = \theta_t - \alpha \nabla L(\theta_t)<br/>
-$$</p>
-<p>This is gradient descent in action: we repeatedly take small steps (controlled by the learning rate $\alpha$) in the direction opposite to the gradient, gradually finding parameter values that minimize the loss.</p>
+<p>At the heart of neural network training lies the concept of gradients. Think of a gradient as a compass that points in the direction of steepest increase for a function. For a function with multiple inputs <img alt="Equation: f left-parenthesis x 1 comma x 2 comma period period period comma x Subscript n Baseline right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/f96f6dac6a8d11b1ad8bc1254d36051fee877c75d50bcf99b9d6c35fb7e15c79.png" width="154"/>, the gradient <img alt="Equation: nabla f" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/51de2ddad542f2dfd17f63d63921e8df7fdc9d3d2200c550f50a1cdc9b8dcf42.png" width="34"/> is a vector containing the rate of change in each direction:</p>
+<p><img alt="Equation: nabla f equals Start 1 By 1 Matrix 1st Row  StartFraction partial-differential f Over partial-differential x 1 EndFraction StartFraction partial-differential f Over partial-differential x 2 EndFraction vertical-ellipsis StartFraction partial-differential f Over partial-differential x Subscript n Baseline EndFraction EndMatrix" class="math-display" height="38" src="https://beila.github.io/my-collection/math-images/71bf8de18974d0d6e73611375ba896c9b132594995ee74d79b17615c42b02f7b.png" width="142"/></p>
+<p>Each component <img alt="Equation: StartFraction partial-differential f Over partial-differential x Subscript i Baseline EndFraction" class="math-inline" height="46" src="https://beila.github.io/my-collection/math-images/250bbde2c25428a2048d77787573f9fcc20a0dc3a69d0af1ee9e89a76e0169e7.png" width="34"/> tells us how much the function would change if we slightly adjusted that input while keeping all others constant. This information is crucial for training neural networks.</p>
+<p>In neural network training, we want to minimize a loss function <img alt="Equation: upper L left-parenthesis theta right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/df2ea81e3da3342cc17b00386996296e446e79825a24624bbcc1b20c44dc2d20.png" width="45"/> that measures how well our model performs. The parameters <img alt="Equation: theta" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/707e652176a41a0384b29620a1e10e48b0fdfca6bd402dd82b482116c010a6a4.png" width="15"/> include all the weights and biases in the network - often thousands or millions of values. The gradient <img alt="Equation: nabla upper L left-parenthesis theta right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/e95b4f9d1956e7856aa303025577cbc3b6b5a06bc8e30d0ae8a64091e3ee3a6c.png" width="63"/> tells us how to adjust each parameter to reduce the loss:</p>
+<p><img alt="Equation: theta Subscript t plus 1 Baseline equals theta Subscript t Baseline minus alpha nabla upper L left-parenthesis theta Subscript t Baseline right-parenthesis" class="math-display" height="26" src="https://beila.github.io/my-collection/math-images/e6a681e4090fb38053ea107d99f7993a4e2033049dcdc7fea450a28e1da6fae5.png" width="132"/></p>
+<p>This is gradient descent in action: we repeatedly take small steps (controlled by the learning rate <img alt="Equation: alpha" class="math-inline" height="20" src="https://beila.github.io/my-collection/math-images/0861cf062db7b3a4410d4e45faa9b0a93dd9b7f4fae6c27f2347628ee7b9ed7a.png" width="18"/>) in the direction opposite to the gradient, gradually finding parameter values that minimize the loss.</p>
 <p>Computing these gradients efficiently is crucial. While we could use numerical approximations:</p>
-<p>$$<br/>
-\frac{\partial f}{\partial x_i} \approx \frac{f(x + h\mathbf{e}_i) - f(x)}{h}<br/>
-$$</p>
-<p>where $h$ is a small number and $\mathbf{e}_i$ is the unit vector in direction $i$, this approach is both slow and numerically unstable. Instead, we use automatic differentiation, which computes exact gradients by systematically applying the chain rule through a computation graph.</p>
+<p><img alt="Equation: StartFraction partial-differential f Over partial-differential x Subscript i Baseline EndFraction almost-equals StartFraction f left-parenthesis x plus h bold e Subscript i Baseline right-parenthesis minus f left-parenthesis x right-parenthesis Over h EndFraction" class="math-display" height="46" src="https://beila.github.io/my-collection/math-images/8cf06eb1103cd2fb3aedcb86f84f06f225edd02624b7266a029c965452ad0461.png" width="165"/></p>
+<p>where <img alt="Equation: h" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/c780af2f4f6dabe32fee33f4bea282598e8936473c62a7d6c812e085b0a470d0.png" width="17"/> is a small number and <img alt="Equation: bold e Subscript i" class="math-inline" height="23" src="https://beila.github.io/my-collection/math-images/4fc306d8ed148b9a0fe14cedf245c696416a44c110626ec8d0b997e105c0274e.png" width="23"/> is the unit vector in direction <img alt="Equation: i" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/4b82b784ea03d07a4694b886e8e19ebf1f142094b826600a27ebb0986a58cc06.png" width="12"/>, this approach is both slow and numerically unstable. Instead, we use automatic differentiation, which computes exact gradients by systematically applying the chain rule through a computation graph.</p>
 <p>The chain rule states that for composite functions, derivatives multiply:</p>
-<p>$$<br/>
-\frac{d}{dx}(f(g(x))) = f'(g(x)) \cdot g'(x)<br/>
-$$</p>
+<p><img alt="Equation: StartFraction d Over d x EndFraction left-parenthesis f left-parenthesis g left-parenthesis x right-parenthesis right-parenthesis right-parenthesis equals f prime left-parenthesis g left-parenthesis x right-parenthesis right-parenthesis dot g prime left-parenthesis x right-parenthesis" class="math-display" height="42" src="https://beila.github.io/my-collection/math-images/134cb7b3260a4a907373b1930a0b8368e5cd23d0db211a6ba71124c9feb32c70.png" width="190"/></p>
 <p>In higher dimensions, this becomes:</p>
-<p>$$<br/>
-\frac{\partial f}{\partial x_i} = \sum_j \frac{\partial f}{\partial y_j} \frac{\partial y_j}{\partial x_i}<br/>
-$$</p>
-<p>where $y_j$ are intermediate values in our computation. This is the foundation of backpropagation, which we'll implement in our neural network library.</p>
+<p><img alt="Equation: StartFraction partial-differential f Over partial-differential x Subscript i Baseline EndFraction equals sigma-summation Underscript j Endscripts StartFraction partial-differential f Over partial-differential y Subscript j Baseline EndFraction StartFraction partial-differential y Subscript j Baseline Over partial-differential x Subscript i Baseline EndFraction" class="math-display" height="52" src="https://beila.github.io/my-collection/math-images/9b7191b6517712986db156d957f4207f3413149e182a23e83157132539487959.png" width="126"/></p>
+<p>where <img alt="Equation: y Subscript j" class="math-inline" height="26" src="https://beila.github.io/my-collection/math-images/0c3cfb31dee2b7b08ebb429ac18a105e5beb3948375a08778829b404757728cc.png" width="23"/> are intermediate values in our computation. This is the foundation of backpropagation, which we'll implement in our neural network library.</p>
 <h2 id="neural-network-theory">Neural Network Theory</h2>
 <p>A neural network is fundamentally a function that learns to map inputs to outputs through a series of adjustable transformations. The basic building block is the artificial neuron, which mimics how biological neurons process information:</p>
 <ol>
-<li>It receives multiple input signals ($x_1, x_2, ..., x_n$)</li>
-<li>Each input is weighted by a strength parameter ($w_1, w_2, ..., w_n$)</li>
-<li>The weighted inputs are summed together with a bias term ($b$)</li>
-<li>The result is passed through an activation function ($\sigma$)</li>
+<li>It receives multiple input signals (<img alt="Equation: x 1 comma x 2 comma period period period comma x Subscript n Baseline" class="math-inline" height="23" src="https://beila.github.io/my-collection/math-images/bc623601794708fec08a9120f91a3a8b588173d9b03bf9328a15802daacca2e8.png" width="127"/>)</li>
+<li>Each input is weighted by a strength parameter (<img alt="Equation: w 1 comma w 2 comma period period period comma w Subscript n Baseline" class="math-inline" height="23" src="https://beila.github.io/my-collection/math-images/b172ccd59f0e7ccdf273c7a8ce926b62e601017733925d1919283d1611f543e7.png" width="136"/>)</li>
+<li>The weighted inputs are summed together with a bias term (<img alt="Equation: b" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/02ab75b04dfe9b82d243cc3acf7f035606f22806248c3d6b4a45115647956cec.png" width="14"/>)</li>
+<li>The result is passed through an activation function (<img alt="Equation: sigma" class="math-inline" height="20" src="https://beila.github.io/my-collection/math-images/81b93d40119dc6c4b957f8782b766f0b7ca66aeb8b9a05826baff00e6698cf8d.png" width="16"/>)</li>
 </ol>
 <p>Mathematically, this process is described as:</p>
-<p>$$<br/>
-z = \sum_{i=1}^{n} w_i x_i + b<br/>
-$$</p>
-<p>$$<br/>
-a = \sigma(z)<br/>
-$$</p>
-<p>where $z$ is the weighted sum (often called the pre-activation), and $a$ is the neuron's output (or activation).</p>
-<p>Multiple neurons are organized into layers, and layers are stacked to form a network. In a fully-connected feed-forward neural network, each neuron connects to every neuron in the next layer. For a layer $l$, we can write this compactly in matrix form:</p>
-<p>$$<br/>
-\mathbf{Z}^{[l]} = \mathbf{W}^{[l]} \mathbf{A}^{[l-1]} + \mathbf{b}^{[l]}<br/>
-$$</p>
-<p>$$<br/>
-\mathbf{A}^{[l]} = \sigma(\mathbf{Z}^{[l]})<br/>
-$$</p>
+<p><img alt="Equation: z equals sigma-summation Underscript i equals 1 Overscript n Endscripts w Subscript i Baseline x Subscript i Baseline plus b" class="math-display" height="50" src="https://beila.github.io/my-collection/math-images/1f9cf25dcbe1025eb9d56d1c7012c165232522063d6e11dd9fcb2431c8950a83.png" width="106"/></p>
+<p><img alt="Equation: a equals sigma left-parenthesis z right-parenthesis" class="math-display" height="26" src="https://beila.github.io/my-collection/math-images/07a86566bd04811a8181e9bc9c8f10dd0090cff8777b31dc3c5af74a990b7292.png" width="60"/></p>
+<p>where <img alt="Equation: z" class="math-inline" height="20" src="https://beila.github.io/my-collection/math-images/d5b5f5d2397207bcecd119e4b16ad55d7f2008e078e844b1775b82b4390d6c4b.png" width="15"/> is the weighted sum (often called the pre-activation), and <img alt="Equation: a" class="math-inline" height="20" src="https://beila.github.io/my-collection/math-images/f3812eae8d5b3b698813696deadd0269738965c626a54b9cf41d520a87fd76e2.png" width="16"/> is the neuron's output (or activation).</p>
+<p>Multiple neurons are organized into layers, and layers are stacked to form a network. In a fully-connected feed-forward neural network, each neuron connects to every neuron in the next layer. For a layer <img alt="Equation: l" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/fcb0a35b064b1c94dcac0ac5e31de8326e653aec83fb91a8e0b1005364d4675d.png" width="11"/>, we can write this compactly in matrix form:</p>
+<p><img alt="Equation: bold upper Z Superscript left-bracket l right-bracket Baseline equals bold upper W Superscript left-bracket l right-bracket Baseline bold upper A Superscript left-bracket l minus 1 right-bracket Baseline plus bold b Superscript left-bracket l right-bracket" class="math-display" height="26" src="https://beila.github.io/my-collection/math-images/ae15f795c9ae4a51199996625c838bfa400208a759f23285bec2a07c3576a3f5.png" width="143"/></p>
+<p><img alt="Equation: bold upper A Superscript left-bracket l right-bracket Baseline equals sigma left-parenthesis bold upper Z Superscript left-bracket l right-bracket Baseline right-parenthesis" class="math-display" height="28" src="https://beila.github.io/my-collection/math-images/0e7be6803bcc99c82e3b8954b4b967241fe2ce7b60897b1c9c7725e38f61af7e.png" width="87"/></p>
 <p>where:</p>
 <ul>
-<li>$\mathbf{W}^{[l]}$ is the weight matrix for layer $l$</li>
-<li>$\mathbf{A}^{[l-1]}$ contains the activations from the previous layer</li>
-<li>$\mathbf{b}^{[l]}$ is the bias vector</li>
-<li>$\sigma$ applies the activation function to each element</li>
+<li><img alt="Equation: bold upper W Superscript left-bracket l right-bracket" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/c08c860f0ae256bbd175a51c38b2fa83a6b3c0a82ec3d467d90106f75cc2d088.png" width="44"/> is the weight matrix for layer <img alt="Equation: l" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/fcb0a35b064b1c94dcac0ac5e31de8326e653aec83fb91a8e0b1005364d4675d.png" width="11"/></li>
+<li><img alt="Equation: bold upper A Superscript left-bracket l minus 1 right-bracket" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/7cb548bc40491d14506459ae778bd53b146f3d1e006ce33028cacb1a788f62d9.png" width="57"/> contains the activations from the previous layer</li>
+<li><img alt="Equation: bold b Superscript left-bracket l right-bracket" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/6bf0dc450b87a951840d2c2ecf4711e3b0426a51168c65e51302edc3d7579c29.png" width="33"/> is the bias vector</li>
+<li><img alt="Equation: sigma" class="math-inline" height="20" src="https://beila.github.io/my-collection/math-images/81b93d40119dc6c4b957f8782b766f0b7ca66aeb8b9a05826baff00e6698cf8d.png" width="16"/> applies the activation function to each element</li>
 </ul>
 <p>The choice of activation function is crucial as it introduces non-linearity that allows the network to learn complex patterns. Without non-linearity, a neural network would behave like a linear model, regardless of the number of layers it has. This is because the composition of linear functions is still a linear function. Non-linear activation functions enable the network to approximate complex functions and capture intricate relationships in the data. They allow the model to learn from errors and adjust weights in a way that can represent a wider variety of functions. Common choices of activation functions are:</p>
 <ol>
 <li>
-<p><strong>ReLU (Rectified Linear Unit)</strong>: $\sigma(z) = \max(0, z)$</p>
+<p><strong>ReLU (Rectified Linear Unit)</strong>: <img alt="Equation: sigma left-parenthesis z right-parenthesis equals max left-parenthesis 0 comma z right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/ef9480cfbaeb14d94d3a24d90cec3cbfa5fa2f9bf53360f2d8b1377043645a1a.png" width="155"/></p>
 <ul>
 <li>Simple and computationally efficient</li>
 <li>Helps prevent vanishing gradients</li>
@@ -118,7 +101,7 @@ $$</p>
 </ul>
 </li>
 <li>
-<p><strong>Sigmoid</strong>: $\sigma(z) = \frac{1}{1 + e^{-z}}$</p>
+<p><strong>Sigmoid</strong>: <img alt="Equation: sigma left-parenthesis z right-parenthesis equals StartFraction 1 Over 1 plus e Superscript negative z Baseline EndFraction" class="math-inline" height="40" src="https://beila.github.io/my-collection/math-images/a2c21baa7bb0a8aa5a5bbfb98d80c16727989b2bb0aa7d126e477b32aff6dd11.png" width="121"/></p>
 <ul>
 <li>Squashes values to range [0,1]</li>
 <li>Historically popular but prone to vanishing gradients</li>
@@ -126,7 +109,7 @@ $$</p>
 </ul>
 </li>
 <li>
-<p><strong>Tanh</strong>: $\sigma(z) = \tanh(z) = \frac{e^z - e^{-z}}{e^z + e^{-z}}$</p>
+<p><strong>Tanh</strong>: <img alt="Equation: sigma left-parenthesis z right-parenthesis equals hyperbolic tangent left-parenthesis z right-parenthesis equals StartFraction e Superscript z Baseline minus e Superscript negative z Baseline Over e Superscript z Baseline plus e Superscript negative z Baseline EndFraction" class="math-inline" height="44" src="https://beila.github.io/my-collection/math-images/bfbf57a2ec83d8dda3af08ba46699ddad27ce28bb06c7eb971c33e821424da35.png" width="223"/></p>
 <ul>
 <li>Similar to sigmoid but ranges [-1,1]</li>
 <li>Often performs better than sigmoid</li>
@@ -134,7 +117,7 @@ $$</p>
 </ul>
 </li>
 <li>
-<p><strong>SwiGLU</strong>: $\sigma(z) = \text{ReLU}(zW_1 + b_1)V + b_2$</p>
+<p><strong>SwiGLU</strong>: <img alt="Equation: sigma left-parenthesis z right-parenthesis equals ReLU left-parenthesis z upper W 1 plus b 1 right-parenthesis upper V plus b 2" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/4584bb859f331786fa9c63ebe7d84200a1b62a776c3f2af71ac9d1523af03560.png" width="284"/></p>
 <ul>
 <li>Introduced in the GLU (Gated Linear Unit) family</li>
 <li>Often used in the Transformer architecture</li>
@@ -237,36 +220,22 @@ print(f"f.grad = {f.grad}")
 </p>
 <h2 id="backpropagation">Backpropagation</h2>
 <p>Backpropagation is the algorithm that enables neural networks to learn from data by efficiently computing gradients of the loss function with respect to the network parameters. It applies the chain rule of calculus to propagate error gradients backward through the network, from the output layer to the input layer.</p>
-<p>The process begins with a forward pass, where input data is fed through the network to produce predictions. The loss function $L$ quantifies the difference between these predictions and the true target values. For a mean squared error loss, this is:</p>
-<p>$$<br/>
-L = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2<br/>
-$$</p>
-<p>where $y_i$ are the true values and $\hat{y}_i$ are the predicted values.</p>
+<p>The process begins with a forward pass, where input data is fed through the network to produce predictions. The loss function <img alt="Equation: upper L" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/9678e700c9d46a2e4cbf26a1dbe9c64521200f5017c8c6849f8b71855c8fa3fc.png" width="19"/> quantifies the difference between these predictions and the true target values. For a mean squared error loss, this is:</p>
+<p><img alt="Equation: upper L equals StartFraction 1 Over n EndFraction sigma-summation Underscript i equals 1 Overscript n Endscripts left-parenthesis y Subscript i Baseline minus ModifyingAbove y With caret Subscript i Baseline right-parenthesis squared" class="math-display" height="50" src="https://beila.github.io/my-collection/math-images/2f7f06f7ef77ae88722feabdc18c4f16f5f08a86f999770a787d0573b3572f90.png" width="130"/></p>
+<p>where <img alt="Equation: y Subscript i" class="math-inline" height="23" src="https://beila.github.io/my-collection/math-images/885e894738e80fb488e23f1bbad2c0578f2cfbe3f4690bd38845e970c06d6067.png" width="22"/> are the true values and <img alt="Equation: ModifyingAbove y With caret Subscript i" class="math-inline" height="29" src="https://beila.github.io/my-collection/math-images/671e01ca3fc04145a496a95e14f7060de0784f98f150a152aa7817d3b3fee3d4.png" width="24"/> are the predicted values.</p>
 <p>The goal of training is to minimize this loss by adjusting the network parameters (weights and biases). This requires computing the gradient of the loss with respect to each parameter:</p>
-<p>$$<br/>
-\frac{\partial L}{\partial w_{ij}^{[l]}}<br/>
-\text{ and }<br/>
-\frac{\partial L}{\partial b_i^{[l]}}<br/>
-$$</p>
-<p>for each weight $w_{ij}^{[l]}$ and bias $b_i^{[l]}$ in layer $l$.</p>
-<p>Backpropagation computes these gradients efficiently by working backward through the network. For the output layer $L$, we first compute the error term:</p>
-<p>$$<br/>
-\delta^{[L]} = \nabla_a L \odot \sigma'(z^{[L]})<br/>
-$$</p>
-<p>where $\nabla_a L$ is the gradient of the loss with respect to the output activations, $\sigma'(z^{[L]})$ is the derivative of the activation function evaluated at the pre-activation values $z^{[L]}$, and $\odot$ denotes element-wise multiplication.</p>
+<p><img alt="Equation: StartFraction partial-differential upper L Over partial-differential w Subscript i j Superscript left-bracket l right-bracket Baseline EndFraction and StartFraction partial-differential upper L Over partial-differential b Subscript i Superscript left-bracket l right-bracket Baseline EndFraction" class="math-display" height="52" src="https://beila.github.io/my-collection/math-images/1bfe06d16edb8330eca6b18afb91e6fd4153aecac5d7547fc648075f81b8b8a0.png" width="99"/></p>
+<p>for each weight <img alt="Equation: w Subscript i j Superscript left-bracket l right-bracket" class="math-inline" height="41" src="https://beila.github.io/my-collection/math-images/8558c6d28da20c51939a23ed0249223dd6cd40beb342f12d9d2cbaf69fb3acb2.png" width="34"/> and bias <img alt="Equation: b Subscript i Superscript left-bracket l right-bracket" class="math-inline" height="38" src="https://beila.github.io/my-collection/math-images/e6f27419deafbb07b290b78c9f57d897fb40b1d8a25bf759baeabc7c7d374653.png" width="28"/> in layer <img alt="Equation: l" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/fcb0a35b064b1c94dcac0ac5e31de8326e653aec83fb91a8e0b1005364d4675d.png" width="11"/>.</p>
+<p>Backpropagation computes these gradients efficiently by working backward through the network. For the output layer <img alt="Equation: upper L" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/9678e700c9d46a2e4cbf26a1dbe9c64521200f5017c8c6849f8b71855c8fa3fc.png" width="19"/>, we first compute the error term:</p>
+<p><img alt="Equation: delta Superscript left-bracket upper L right-bracket Baseline equals nabla Subscript a Baseline upper L circled-dot sigma prime left-parenthesis z Superscript left-bracket upper L right-bracket Baseline right-parenthesis" class="math-display" height="28" src="https://beila.github.io/my-collection/math-images/fd83a169721dfcb3519a37fd7852f059637ca879d731013fd6b05d7393909f0c.png" width="134"/></p>
+<p>where <img alt="Equation: nabla Subscript a Baseline upper L" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/33b9c917c11c97bdad67f5c26c990a39ae5674d952ccd45998b86945d552f241.png" width="46"/> is the gradient of the loss with respect to the output activations, <img alt="Equation: sigma prime left-parenthesis z Superscript left-bracket upper L right-bracket Baseline right-parenthesis" class="math-inline" height="34" src="https://beila.github.io/my-collection/math-images/22945abc325e1810cfa746acf1ed8f8e76cb2b8e34597cf06a0112eeac7d285b.png" width="70"/> is the derivative of the activation function evaluated at the pre-activation values <img alt="Equation: z Superscript left-bracket upper L right-bracket" class="math-inline" height="29" src="https://beila.github.io/my-collection/math-images/5d90e258b8188df90ae14a2337059d10897c20d0c82ec4933eac1707b7bf437e.png" width="35"/>, and <img alt="Equation: circled-dot" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/01031fa951e3911a1e682a4a7c30718f6544c9f2370bc743683387f16c282c78.png" width="21"/> denotes element-wise multiplication.</p>
 <p>For hidden layers, the error term is computed recursively:</p>
-<p>$$<br/>
-\delta^{[l]} = ((w^{[l+1]})^T \delta^{[l+1]}) \odot \sigma'(z^{[l]})<br/>
-$$</p>
-<p>where $(w^{[l+1]})^T$ is the transpose of the weight matrix for layer $l+1$.</p>
+<p><img alt="Equation: delta Superscript left-bracket l right-bracket Baseline equals left-parenthesis left-parenthesis w Superscript left-bracket l plus 1 right-bracket Baseline right-parenthesis Superscript upper T Baseline delta Superscript left-bracket l plus 1 right-bracket Baseline right-parenthesis circled-dot sigma prime left-parenthesis z Superscript left-bracket l right-bracket Baseline right-parenthesis" class="math-display" height="28" src="https://beila.github.io/my-collection/math-images/2d43b5d0b7b4080a5b7eda5f384f4bfc3a04d0e1aea6b94855b2b1c0c03c23bc.png" width="190"/></p>
+<p>where <img alt="Equation: left-parenthesis w Superscript left-bracket l plus 1 right-bracket Baseline right-parenthesis Superscript upper T" class="math-inline" height="34" src="https://beila.github.io/my-collection/math-images/74576e465ef20db0f6f136088c2343c964de8cc3ec8d76b2ac20986621c6ff12.png" width="82"/> is the transpose of the weight matrix for layer <img alt="Equation: l plus 1" class="math-inline" height="26" src="https://beila.github.io/my-collection/math-images/7c19521a3d55b1bb2673a523e968691151e80d2dd74bc25c2748a086ae67f361.png" width="47"/>.</p>
 <p>Finally, the gradients of the loss with respect to the parameters are:</p>
-<p>$$<br/>
-\frac{\partial L}{\partial w_{ij}^{[l]}} = a_j^{[l-1]} \delta_i^{[l]}<br/>
-$$</p>
-<p>$$<br/>
-\frac{\partial L}{\partial b_i^{[l]}} = \delta_i^{[l]}<br/>
-$$</p>
-<p>where $a_j^{[l-1]}$ is the activation of neuron $j$ in layer $l-1$.</p>
+<p><img alt="Equation: StartFraction partial-differential upper L Over partial-differential w Subscript i j Superscript left-bracket l right-bracket Baseline EndFraction equals a Subscript j Superscript left-bracket l minus 1 right-bracket Baseline delta Subscript i Superscript left-bracket l right-bracket" class="math-display" height="52" src="https://beila.github.io/my-collection/math-images/ec9156c1a97b8ed29f01c7fd6a88dd699aa3e9fc4b2fbc3debf0726f6eca7b48.png" width="106"/></p>
+<p><img alt="Equation: StartFraction partial-differential upper L Over partial-differential b Subscript i Superscript left-bracket l right-bracket Baseline EndFraction equals delta Subscript i Superscript left-bracket l right-bracket" class="math-display" height="50" src="https://beila.github.io/my-collection/math-images/4eb24ae91195e10297ff83bbb6d88355484f581b64a21c841a45bf5690a10062.png" width="72"/></p>
+<p>where <img alt="Equation: a Subscript j Superscript left-bracket l minus 1 right-bracket" class="math-inline" height="41" src="https://beila.github.io/my-collection/math-images/88eced27f5e7cfbf26c74e291ec81279ec46be8bd0da64d8fa1602cfb8926643.png" width="50"/> is the activation of neuron <img alt="Equation: j" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/4f71a4ad1ed9d5231a90cd52ff2f6e7228e4a8483d9211fdb322b2d3a941db07.png" width="14"/> in layer <img alt="Equation: l minus 1" class="math-inline" height="26" src="https://beila.github.io/my-collection/math-images/1e065c632c6ead98d1cdddc99e2571e2dc971a9cd7ec16ad818d51c548341bcd.png" width="47"/>.</p>
 <p>In our implementation, these calculations are handled automatically by the <code>Value</code> class and its operations. When we call <code>loss.backward()</code>, the gradients are computed and stored in the <code>grad</code> attribute of each parameter.</p>
 <h2 id="building-neural-network-components">Building Neural Network Components</h2>
 <p>With our automatic differentiation engine in place, we can build neural network components. The <code>Module</code> class serves as the base for all neural network modules:</p>
@@ -375,10 +344,8 @@ model = MLP(nin=2, nouts=[8, 8, 1])
             p.data -= self.lr * p.grad
 </code></pre>
 <p>The optimizer stores references to model parameters, provides a method to zero gradients before each forward pass, and updates parameters using the gradient descent rule:</p>
-<p>$$<br/>
-\theta_{t+1} = \theta_t - \alpha \nabla_\theta L(\theta_t)<br/>
-$$</p>
-<p>where $\theta$ represents the parameters, $\alpha$ is the learning rate, and $\nabla_\theta L(\theta_t)$ is the gradient of the loss function with respect to the parameters.</p>
+<p><img alt="Equation: theta Subscript t plus 1 Baseline equals theta Subscript t Baseline minus alpha nabla Subscript theta Baseline upper L left-parenthesis theta Subscript t Baseline right-parenthesis" class="math-display" height="26" src="https://beila.github.io/my-collection/math-images/84acbc764d9518788ba528055c3514739da9c175a1393ffe95fb78c466223fae.png" width="138"/></p>
+<p>where <img alt="Equation: theta" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/707e652176a41a0384b29620a1e10e48b0fdfca6bd402dd82b482116c010a6a4.png" width="15"/> represents the parameters, <img alt="Equation: alpha" class="math-inline" height="20" src="https://beila.github.io/my-collection/math-images/0861cf062db7b3a4410d4e45faa9b0a93dd9b7f4fae6c27f2347628ee7b9ed7a.png" width="18"/> is the learning rate, and <img alt="Equation: nabla Subscript theta Baseline upper L left-parenthesis theta Subscript t Baseline right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/6f72154ec6dd093fe9cf035dd4ea789531beea751239d9c73a4fb1ab229b6cd4.png" width="79"/> is the gradient of the loss function with respect to the parameters.</p>
 <p>While more sophisticated optimizers like Adam or RMSProp offer better convergence properties by adapting the learning rate for each parameter based on historical gradient information, SGD illustrates the core principle of gradient-based optimization.</p>
 <p>The training process is encapsulated in the <code>Trainer</code> class, which handles data batching, forward and backward passes, parameter updates, and metric tracking:</p>
 <pre><code>import random
@@ -519,19 +486,12 @@ class Trainer:
 <h2 id="l2-regularization">L2 Regularization</h2>
 <p>Regularization techniques are essential in machine learning to prevent overfitting, where a model performs well on training data but poorly on unseen data. L2 regularization, also known as <strong>weight decay</strong>, is one of the most common regularization methods for neural networks.</p>
 <p>The core idea of L2 regularization is to add a penalty term to the loss function that discourages large weights:</p>
-<p>$$<br/>
-L_{regularized} = L_{original} + \lambda \sum_{w \in \text{weights}} w^2<br/>
-$$</p>
-<p>where $\lambda$ is the regularization strength, a hyperparameter that controls the trade-off between fitting the training data and keeping the weights small.</p>
+<p><img alt="Equation: upper L Subscript r e g u l a r i z e d Baseline equals upper L Subscript o r i g i n a l Baseline plus lamda sigma-summation Underscript w element-of weights Endscripts w squared" class="math-display" height="44" src="https://beila.github.io/my-collection/math-images/75293b7feac5b7e5264b3ac6d6878bd513cdcad179503de3d0bb479549149fa2.png" width="226"/></p>
+<p>where <img alt="Equation: lamda" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/aec740b6e2c0a94a7ce8ded01cf697d4481c7edd78f6c5f0f7e4d9f6bca86b70.png" width="17"/> is the regularization strength, a hyperparameter that controls the trade-off between fitting the training data and keeping the weights small.</p>
 <p>The gradient of this regularization term with respect to each weight is:</p>
-<p>$$<br/>
-\frac{\partial}{\partial w} \left( \lambda w^2 \right) = 2\lambda w<br/>
-$$</p>
+<p><img alt="Equation: StartFraction partial-differential Over partial-differential w EndFraction left-parenthesis lamda w squared right-parenthesis equals 2 lamda w" class="math-display" height="42" src="https://beila.github.io/my-collection/math-images/7afe9550a9ccfadc5ea09faccbb9d9c2df5ec7a1c9c93058a14b9e99c3938336.png" width="112"/></p>
 <p>This means that during the weight update step, each weight is not only adjusted based on the gradient of the original loss but also shrunk proportionally to its magnitude:</p>
-<p>$$<br/>
-w_{t+1} = w_t - \alpha \left( \frac{\partial L_{original}}{\partial w_t} + 2\lambda w_t \right)<br/>
-= (1 - 2\alpha\lambda)w_t - \alpha\frac{\partial L_{original}}{\partial w_t}<br/>
-$$</p>
+<p><img alt="Equation: w Subscript t plus 1 Baseline equals w Subscript t Baseline minus alpha left-parenthesis StartFraction partial-differential upper L Subscript o r i g i n a l Baseline Over partial-differential w Subscript t Baseline EndFraction plus 2 lamda w Subscript t Baseline right-parenthesis equals left-parenthesis 1 minus 2 alpha lamda right-parenthesis w Subscript t Baseline minus alpha StartFraction partial-differential upper L Subscript o r i g i n a l Baseline Over partial-differential w Subscript t Baseline EndFraction" class="math-display" height="46" src="https://beila.github.io/my-collection/math-images/d51fc3debd35e501d2d0751ee882a227a400a5ee150a0aa03366a3a6577a9b8e.png" width="401"/></p>
 <p>This has the effect of pushing weights toward zero, unless there is strong evidence from the data that they should be large. The result is a simpler model that is less likely to overfit.</p>
 <p>Implementing L2 regularization in our framework is straightforward. We can modify our loss function to include the regularization term:</p>
 <pre><code>def _mse_loss_with_l2(self, pred, target, lambda_reg=0.01):
@@ -562,7 +522,7 @@ $$</p>
 <li>It can improve generalization to unseen data</li>
 <li>It can help with numerical stability during training</li>
 </ol>
-<p>The regularization strength $\lambda$ is a hyperparameter that needs to be tuned. If $\lambda$ is too small, the regularization effect will be negligible; if it's too large, the model may underfit the data. Cross-validation is typically used to find an optimal value for $\lambda$.</p>
+<p>The regularization strength <img alt="Equation: lamda" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/aec740b6e2c0a94a7ce8ded01cf697d4481c7edd78f6c5f0f7e4d9f6bca86b70.png" width="17"/> is a hyperparameter that needs to be tuned. If <img alt="Equation: lamda" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/aec740b6e2c0a94a7ce8ded01cf697d4481c7edd78f6c5f0f7e4d9f6bca86b70.png" width="17"/> is too small, the regularization effect will be negligible; if it's too large, the model may underfit the data. Cross-validation is typically used to find an optimal value for <img alt="Equation: lamda" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/aec740b6e2c0a94a7ce8ded01cf697d4481c7edd78f6c5f0f7e4d9f6bca86b70.png" width="17"/>.</p>
 <h2 id="end-to-end-usage">End-to-End Usage</h2>
 <p>To demonstrate our library in action, we train a neural network on a simple classification task: the "moons" dataset from scikit-learn. This dataset consists of two interleaving half-circles, requiring a non-linear decision boundary to separate the classes:</p>
 <pre><code>from sklearn.datasets import make_moons
@@ -593,9 +553,7 @@ trainer.train(X, y, n_epochs=500, batch_size=10, verbose=True)
 <p><strong>Batch Size</strong>: Determines how many training examples are processed together in each forward/backward pass. Smaller batches introduce more noise in gradient updates (which can help escape local minima) but converge more slowly. Larger batches provide more stable updates but may get stuck in suboptimal solutions.</p>
 <p><strong>Epochs</strong>: One complete pass through the training dataset. Multiple epochs are needed for the model to learn effectively. The optimal number depends on factors like dataset size, model complexity, and optimization parameters.</p>
 <p><strong>Training Loss</strong>: Measures how well the model's predictions match the true values. We use Mean Squared Error (MSE):</p>
-<p>$$<br/>
-MSE = \frac{1}{n}\sum_{i=1}^n(y_{pred_i} - y_{target_i})^2<br/>
-$$</p>
+<p><img alt="Equation: upper M upper S upper E equals StartFraction 1 Over n EndFraction sigma-summation Underscript i equals 1 Overscript n Endscripts left-parenthesis y Subscript p r e d Sub Subscript i Subscript Baseline minus y Subscript t a r g e t Sub Subscript i Subscript Baseline right-parenthesis squared" class="math-display" height="50" src="https://beila.github.io/my-collection/math-images/366af87cbbfa10c07e9b99d9379c5322cc5356c72b5aa4089e2acb9d9a6aec7c.png" width="200"/></p>
 <p>MSE is particularly suitable for our binary classification task because:</p>
 <ul>
 <li>It heavily penalizes large errors through the squared term</li>
@@ -631,7 +589,7 @@ $$</p>
 <li><a href="https://www.tomasbeuzen.com/deep-learning-with-pytorch/chapters/chapter3_pytorch-neural-networks-pt1.html">Deep Learning with PyTorch</a></li>
 <li><a href="https://uvadlc-notebooks.readthedocs.io/en/latest/tutorial_notebooks/JAX/tutorial4/Optimization_and_Initialization.html">Optimization and Initialization</a></li>
 </ol>
-    </section>
-  </article>
+</section>
+</article>
 </body>
 </html>

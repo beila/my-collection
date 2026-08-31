@@ -1,13 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="stephen-diehl-content-hash" content="3347798a6f3aec541816e5133d72156f6e588c274191c2a3df9dc31eb52c7c42">
-  <meta name="stephen-diehl-article-format" content="10">
-  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/lean.html">
-  <title>Proving Trivial Theorems in Lean</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="3347798a6f3aec541816e5133d72156f6e588c274191c2a3df9dc31eb52c7c42" name="stephen-diehl-content-hash"/>
+<meta content="14" name="stephen-diehl-article-format"/>
+<link href="https://beila.github.io/my-collection/stephen-diehl/lean.html" rel="canonical"/>
+<title>Proving Trivial Theorems in Lean</title>
+<style>
     :root { color-scheme: dark; }
     body { margin: 0; background: #171717; color: #f1f1f1;
             font: 18px/1.7 Georgia, serif; }
@@ -26,14 +27,18 @@
     .published { color: #b8b8b8; }
     .original-link { border-top: 1px solid #555; margin-top: 2rem;
                       padding-top: 1rem; }
+img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
+                      vertical-align: middle; }
+    img.math-display { display: block; height: auto; margin: 1.25rem auto;
+                       max-width: 100%; }
   </style>
 </head>
 <body>
-  <article>
-    <h1>Proving Trivial Theorems in Lean</h1>
-    <p class="published">Published: Thu, 01 Feb 2024 00:00:00 +0000</p>
-    <section class="instapaper_body">
-      <p class="original-link"><a href="https://www.stephendiehl.com/posts/lean/">Read the original article on Stephen Diehl's website</a></p>
+<article>
+<h1>Proving Trivial Theorems in Lean</h1>
+<p class="published">Published: Thu, 01 Feb 2024 00:00:00 +0000</p>
+<section class="instapaper_body">
+<p class="original-link"><a href="https://www.stephendiehl.com/posts/lean/">Read the original article on Stephen Diehl's website</a></p>
 <p>When starting with a proof assistant like Lean 4, it's best to begin with the most elementary proofs possible. While these may seem trivially obvious to a mathematician, implementing them in a formal system helps build intuition for how the proof assistant works. By starting with basic logical statements that we know are true, we can focus on learning the syntax and mechanics of formal verification without getting lost in complex mathematics. Let's look at some of these foundational proofs to get comfortable with Lean's proof system.</p>
 <h2 id="example-1%3A-identity">Example 1: Identity</h2>
 <p>Our first theorem shows that any proposition implies itself:</p>
@@ -81,7 +86,7 @@ theorem self_implies_self'' (p : Prop) :
   | Or.inl h  =&gt; Or.inl h    -- if p is true, return p
   | Or.inr h  =&gt; Or.inr h    -- if ¬p is true, return ¬p
 </code></pre>
-    </section>
-  </article>
+</section>
+</article>
 </body>
 </html>
