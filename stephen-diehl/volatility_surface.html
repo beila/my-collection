@@ -1,13 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="stephen-diehl-content-hash" content="26dd40ded04c54d3556e210b306bc815e98a79f6212e3091b58bf3485af115db">
-  <meta name="stephen-diehl-article-format" content="10">
-  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/volatility_surface.html">
-  <title>Volatility Surface</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="26dd40ded04c54d3556e210b306bc815e98a79f6212e3091b58bf3485af115db" name="stephen-diehl-content-hash"/>
+<meta content="14" name="stephen-diehl-article-format"/>
+<link href="https://beila.github.io/my-collection/stephen-diehl/volatility_surface.html" rel="canonical"/>
+<title>Volatility Surface</title>
+<style>
     :root { color-scheme: dark; }
     body { margin: 0; background: #171717; color: #f1f1f1;
             font: 18px/1.7 Georgia, serif; }
@@ -26,14 +27,18 @@
     .published { color: #b8b8b8; }
     .original-link { border-top: 1px solid #555; margin-top: 2rem;
                       padding-top: 1rem; }
+img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
+                      vertical-align: middle; }
+    img.math-display { display: block; height: auto; margin: 1.25rem auto;
+                       max-width: 100%; }
   </style>
 </head>
 <body>
-  <article>
-    <h1>Volatility Surface</h1>
-    <p class="published">Published: Fri, 01 Mar 2024 00:00:00 +0000</p>
-    <section class="instapaper_body">
-      <p class="original-link"><a href="https://www.stephendiehl.com/posts/volatility_surface/">Read the original article on Stephen Diehl's website</a></p>
+<article>
+<h1>Volatility Surface</h1>
+<p class="published">Published: Fri, 01 Mar 2024 00:00:00 +0000</p>
+<section class="instapaper_body">
+<p class="original-link"><a href="https://www.stephendiehl.com/posts/volatility_surface/">Read the original article on Stephen Diehl's website</a></p>
 <p>We're going to use Python to generate an implied volatility surface for a family of options contracts. This is an extremely common tool for analyzing options and is a key component of many quantitative trading strategies.</p>
 <p>The Black-Scholes model is like a recipe for pricing options - it takes ingredients like the current stock price, strike price, time until expiration, interest rates, and volatility, and spits out what an option should theoretically cost. But in the real world, traders often work backwards - they look at actual market prices of options and try to figure out what volatility number would make the Black-Scholes formula give that price. This reverse-engineered number is called the <em>implied volatility</em> or IV. Think of implied volatility as the market's forecast of how much a stock might bounce around in the future. Higher IV means traders expect bigger price swings (and are willing to pay more for options as insurance), while lower IV suggests they expect smoother sailing ahead. It's like a fear gauge - when investors are nervous about the future, they'll pay more for options protection, driving up IVs.</p>
 <p>What makes this really interesting is that options with different strike prices and expiration dates often have different IVs, even for the same underlying stock. When you plot these IVs, you get what's called the <em>volatility surface</em> - a 3D visualization that shows how the market's expectations of future volatility vary across strikes and time. This surface often shows patterns like the <em>volatility smile</em> or <em>volatility skew</em>, where out-of-the-money puts have higher IVs than calls, reflecting the market's tendency to worry more about crashes than rallies. And we can use this surface to identify inefficiencies and arbitrage opportunities.</p>
@@ -135,21 +140,17 @@ from py_vollib.black_scholes import black_scholes as bs
 </tbody>
 </table>
 <p>Recall that the Black-Scholes formula for a call option is given by:</p>
-<p>$$<br/>
-C = S \cdot N(d_1) - K \cdot e^{-rT} \cdot N(d_2) \<br/>
-$$</p>
-<p>$$<br/>
-d_1 = \frac{\ln(S/K) + (r + \sigma^2/2)T}{\sigma\sqrt{T}},\quad d_2 = d_1 - \sigma\sqrt{T}<br/>
-$$</p>
+<p><img alt="Equation: upper C equals upper S dot upper N left-parenthesis d 1 right-parenthesis minus upper K dot e Superscript minus r upper T Baseline dot upper N left-parenthesis d 2 right-parenthesis" class="math-display" height="28" src="https://beila.github.io/my-collection/math-images/3a2ce0bb45a60d6962415b9bfcd9c2c0b56a7868821d5f229ea278da020616a4.png" width="210"/></p>
+<p><img alt="Equation: d 1 equals StartFraction ln left-parenthesis upper S slash upper K right-parenthesis plus left-parenthesis r plus sigma squared slash 2 right-parenthesis upper T Over sigma StartRoot upper T EndRoot EndFraction comma d 2 equals d 1 minus sigma StartRoot upper T EndRoot" class="math-display" height="50" src="https://beila.github.io/my-collection/math-images/b0da80bbfdd5e77f07ab3c651eec383e5088a6a37c97e90699ec59e4d42fffe9.png" width="298"/></p>
 <p>where:</p>
 <ul>
-<li>\(C\) is the price of the call option</li>
-<li>\(S\) is the current price of the underlying asset</li>
-<li>\(K\) is the strike price of the option</li>
-<li>\(r\) is the risk-free interest rate (i.e. the yield on a 3-month US Treasury bill)</li>
-<li>\(\sigma\) is the volatility of the underlying asset</li>
-<li>\(T\) is the time until expiration</li>
-<li>\(N(x)\) is the cumulative distribution function of the standard normal distribution</li>
+<li><img alt="Equation: upper C" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/72a1e1fdd31941ccfab33a0efdebeaa40b0abd42f51a10785822f741e82b7c30.png" width="21"/> is the price of the call option</li>
+<li><img alt="Equation: upper S" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/77131b2f261cbaca160b05f48967f70ad07b36f1fa2d600fc03c40e64d27ddff.png" width="18"/> is the current price of the underlying asset</li>
+<li><img alt="Equation: upper K" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/bf6942d005b806e83c7ddc995a182b6cdc58bb712be624c83236dd543f8b7188.png" width="23"/> is the strike price of the option</li>
+<li><img alt="Equation: r" class="math-inline" height="20" src="https://beila.github.io/my-collection/math-images/9d0059384ca1ae03776d74294840394ada2609c5146a557b6c54bc16bce630d4.png" width="14"/> is the risk-free interest rate (i.e. the yield on a 3-month US Treasury bill)</li>
+<li><img alt="Equation: sigma" class="math-inline" height="20" src="https://beila.github.io/my-collection/math-images/81b93d40119dc6c4b957f8782b766f0b7ca66aeb8b9a05826baff00e6698cf8d.png" width="16"/> is the volatility of the underlying asset</li>
+<li><img alt="Equation: upper T" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/7cebde6d7a38d72e0bf5491aa60257838220c574c48cc43cef46b472c849009c.png" width="20"/> is the time until expiration</li>
+<li><img alt="Equation: upper N left-parenthesis x right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/b6df0f02ea296321216a82b5edb4c4c7563578eb6eb0415342064b584a3afce4.png" width="52"/> is the cumulative distribution function of the standard normal distribution</li>
 </ul>
 <p>Out of Black-Sholes we get the concept of <em>moneyness</em> that describes the relationship between the current price of the underlying asset and the strike price of the option. An option is considered <em>in the money</em> (often abbreviated ITM or the opposite which is OTM or out of the money) when it has intrinsic value, meaning that exercising the option would lead to a positive cash flow. For call options, this occurs when the strike price is lower than the current market price of the underlying asset, allowing the holder to buy the asset at a lower price than its market value. Conversely, for put options, an option is ITM when the strike price is higher than the current market price, enabling the holder to sell the asset at a price greater than its market value.</p>
 <ul>
@@ -313,7 +314,7 @@ def plot_volatility_surface(X, Y, Z):
     
     return slope
 </code></pre>
-    </section>
-  </article>
+</section>
+</article>
 </body>
 </html>

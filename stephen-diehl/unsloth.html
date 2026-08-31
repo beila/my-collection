@@ -1,13 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="stephen-diehl-content-hash" content="e43f4e619b44dcc10c1192f46dfc59260dc46ed6a69e9bd359a43e0b6cccb3b2">
-  <meta name="stephen-diehl-article-format" content="10">
-  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/unsloth.html">
-  <title>A Rapid Tutorial on Unsloth</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="e43f4e619b44dcc10c1192f46dfc59260dc46ed6a69e9bd359a43e0b6cccb3b2" name="stephen-diehl-content-hash"/>
+<meta content="14" name="stephen-diehl-article-format"/>
+<link href="https://beila.github.io/my-collection/stephen-diehl/unsloth.html" rel="canonical"/>
+<title>A Rapid Tutorial on Unsloth</title>
+<style>
     :root { color-scheme: dark; }
     body { margin: 0; background: #171717; color: #f1f1f1;
             font: 18px/1.7 Georgia, serif; }
@@ -26,14 +27,18 @@
     .published { color: #b8b8b8; }
     .original-link { border-top: 1px solid #555; margin-top: 2rem;
                       padding-top: 1rem; }
+img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
+                      vertical-align: middle; }
+    img.math-display { display: block; height: auto; margin: 1.25rem auto;
+                       max-width: 100%; }
   </style>
 </head>
 <body>
-  <article>
-    <h1>A Rapid Tutorial on Unsloth</h1>
-    <p class="published">Published: Sun, 28 Jul 2024 01:00:00 +0000</p>
-    <section class="instapaper_body">
-      <p class="original-link"><a href="https://www.stephendiehl.com/posts/unsloth/">Read the original article on Stephen Diehl's website</a></p>
+<article>
+<h1>A Rapid Tutorial on Unsloth</h1>
+<p class="published">Published: Sun, 28 Jul 2024 01:00:00 +0000</p>
+<section class="instapaper_body">
+<p class="original-link"><a href="https://www.stephendiehl.com/posts/unsloth/">Read the original article on Stephen Diehl's website</a></p>
 <p>Unsloth is a library for fast and efficient fine-tuning of large language models. It is built on top of the Hugging Face Transformers library and can be used to fine-tune models on a variety of tasks. In this case we'll train a Llama 3.1 model to do text to sql generation.</p>
 <p>Unsloth can be used to do 2x faster training and 60% less memory than standard fine-tuning on single GPU setups. It uses a technique called Quantized Low Rank Adaptation (QLoRA) to quantize the model and train a small number of additional trainable parameters instead of the entire model. This allows us to train the model on a single NVIDIA H100 GPU.</p>
 <p>We'll need to use raw pip to install flash-attn and xformers from source.</p>
@@ -222,7 +227,7 @@ Unsloth: Conversion completed! Output location: ./lora-fused/unsloth.F16.gguf
 <li><a href="https://huggingface.co/docs/trl/main/en/kto_trainer">Kahneman-Tversky Optimization (KTO)</a> can be used aligning language models with binary feedback data.</li>
 <li><a href="https://huggingface.co/docs/trl/main/en/dpo_trainer">Direct Preference Optimization (DPO)</a> can be used aligning language models with pairwise feedback data.</li>
 </ul>
-    </section>
-  </article>
+</section>
+</article>
 </body>
 </html>

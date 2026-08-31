@@ -1,13 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="stephen-diehl-content-hash" content="796b38bdaf93457e2148071c7590c68c08de49bc24b55ed50ec72cafa7a6f197">
-  <meta name="stephen-diehl-article-format" content="10">
-  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/using_cudnn.html">
-  <title>Using CUDA Deep Neural Network (cuDNN) in Python</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="796b38bdaf93457e2148071c7590c68c08de49bc24b55ed50ec72cafa7a6f197" name="stephen-diehl-content-hash"/>
+<meta content="14" name="stephen-diehl-article-format"/>
+<link href="https://beila.github.io/my-collection/stephen-diehl/using_cudnn.html" rel="canonical"/>
+<title>Using CUDA Deep Neural Network (cuDNN) in Python</title>
+<style>
     :root { color-scheme: dark; }
     body { margin: 0; background: #171717; color: #f1f1f1;
             font: 18px/1.7 Georgia, serif; }
@@ -26,14 +27,18 @@
     .published { color: #b8b8b8; }
     .original-link { border-top: 1px solid #555; margin-top: 2rem;
                       padding-top: 1rem; }
+img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
+                      vertical-align: middle; }
+    img.math-display { display: block; height: auto; margin: 1.25rem auto;
+                       max-width: 100%; }
   </style>
 </head>
 <body>
-  <article>
-    <h1>Using CUDA Deep Neural Network (cuDNN) in Python</h1>
-    <p class="published">Published: Thu, 15 May 2025 01:00:00 +0000</p>
-    <section class="instapaper_body">
-      <p class="original-link"><a href="https://www.stephendiehl.com/posts/using_cudnn/">Read the original article on Stephen Diehl's website</a></p>
+<article>
+<h1>Using CUDA Deep Neural Network (cuDNN) in Python</h1>
+<p class="published">Published: Thu, 15 May 2025 01:00:00 +0000</p>
+<section class="instapaper_body">
+<p class="original-link"><a href="https://www.stephendiehl.com/posts/using_cudnn/">Read the original article on Stephen Diehl's website</a></p>
 <p>Let's go through how to implement scaled dot product attention using the cuDNN Python API. This is the most computationally expensive part of inference in a transformer-style model, while also being partially parallelizable so it's usually offloaded to the GPU. Under the hood this uses the FlashAttention-2 algorithm but provides an API that is higher level than just the <a href="https://github.com/Dao-AILab/flash-attention">raw kernel implementation</a>.</p>
 <p>First, we import necessary libraries: <code>cudnn</code> for the cuDNN API, <code>torch</code> for tensor operations and comparison. Note that you will need a GPU with compute capability SM80 architecture (Ampere) or above in order to use the optimized kernels.</p>
 <pre><code>import cudnn
@@ -128,7 +133,7 @@ torch.testing.assert_close(o_ref, o_gpu_for_comparison, atol=5e-3, rtol=3e-3)
 print("PyTorch and cuDNN SDPA implementations match!")
 </code></pre>
 <p>In the modern AI tooling stack, tools like the cuDNN Frontend API sit at below high-level deep learning frameworks (like PyTorch or Jax) but above raw CUDA programming. Exposing this level of control over highly optimized kernels like SDPA directly allows for rapid prototyping and performance tuning of model components without needing to delve into C++ for every optimization.</p>
-    </section>
-  </article>
+</section>
+</article>
 </body>
 </html>
