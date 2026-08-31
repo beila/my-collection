@@ -7050,6 +7050,14 @@
           "post_id": "3994286700701903",
           "status": "complete"
         },
+        "https://www.facebook.com/sanghyun.simon.park/posts/pfbid02Jp5huKU7YAKJGDennJkYKW4Meupwt1Du6rbEKuy2WSswVsVcexyGJzC3kHUwkdhol": {
+          "completed_at": "2026-08-30T21:06:26+00:00",
+          "discovered_at": "2026-08-31T16:21:13+00:00",
+          "last_error": null,
+          "not_before_timestamp": null,
+          "post_id": "4024840634313176",
+          "status": "complete"
+        },
         "https://www.facebook.com/sanghyun.simon.park/posts/pfbid02KtmUmBQYk3kpgNtVrvnLL2vhhQHoHXM59HstbCA5gQgaaTeuptXey96DpejMBnBDl": {
           "completed_at": "2026-08-30T21:05:57+00:00",
           "discovered_at": "2026-08-30T20:51:48+00:00",
@@ -7064,6 +7072,14 @@
           "last_error": null,
           "not_before_timestamp": 1785444708,
           "post_id": "3997800907017149",
+          "status": "complete"
+        },
+        "https://www.facebook.com/sanghyun.simon.park/posts/pfbid02RrJsPf2ZwdzGBHMUqfen2G75iNQwynJQY1XNzGqLESpBTUQLmz3rp7656Nckvdmml": {
+          "completed_at": "2026-08-30T21:06:24+00:00",
+          "discovered_at": "2026-08-31T16:21:13+00:00",
+          "last_error": null,
+          "not_before_timestamp": null,
+          "post_id": "4024108567719716",
           "status": "complete"
         },
         "https://www.facebook.com/sanghyun.simon.park/posts/pfbid02S2uHXKEhzgHj1Sy5ggvGQx5pfgrE7Lm3dx7a2ASWe6ogCDq9fyqFXPLQc3TKfH7Tl": {
@@ -7389,7 +7405,7 @@
       },
       "initial_cutoff_timestamp": 1785444708,
       "initialized_at": "2026-08-30T20:51:48+00:00",
-      "last_scan_timestamp": 1788189234,
+      "last_scan_timestamp": 1788193265,
       "name": "Sanghyun Park"
     },
     "https://www.facebook.com/yulmonologue": {
@@ -7538,5 +7554,5 @@
     }
   },
   "schema_version": 1,
-  "updated_at": "2026-08-31T15:14:19+00:00"
+  "updated_at": "2026-08-31T16:21:35+00:00"
 }
