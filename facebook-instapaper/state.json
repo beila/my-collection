@@ -3302,8 +3302,8 @@
     },
     "4022475341216372": {
       "article_format_version": 12,
-      "completed_at": "2026-08-31T19:33:19+00:00",
-      "content_hash": "bcbd6882a8172e0c4dfcda6343fdad80a8238319b7338b0625a502b33dbb7e67",
+      "completed_at": "2026-08-31T19:40:26+00:00",
+      "content_hash": "a8188556460352ac0033916a656c732f95925591ff7d39df5d7819f34d2228aa",
       "facebook_post_id": "4022475341216372",
       "facebook_timestamp": 1787609806,
       "has_video": false,
@@ -3311,7 +3311,7 @@
         "33662b1bd00d783e6673bf804d665fa1a069347edd5fe6bb9e989b7ff58c1de6"
       ],
       "inline_links": [],
-      "instapaper_bookmark_id": "2038060770",
+      "instapaper_bookmark_id": "2038062114",
       "last_error": null,
       "linked_pages": [],
       "media": [
@@ -3322,13 +3322,9 @@
         }
       ],
       "omitted_photo_count": 0,
-      "original_author": "Jouhahn Lee",
+      "original_author": null,
       "original_inline_links": [],
-      "original_paragraphs": [
-        "최근 5년 동안 읽었던 글 중에 최고로 자극을 준 글.",
-        "Absolutely Brilliant!",
-        "[회사가 천재를 알아보지 못하면 무슨 일이 생기는가 - 반도체 영웅들]"
-      ],
+      "original_paragraphs": [],
       "permalink": "https://www.facebook.com/sanghyun.simon.park/posts/4022475341216372",
       "profile_url": "https://www.facebook.com/sanghyun.simon.park",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/sanghyun.simon.park/4022475341216372.html",
@@ -7636,5 +7632,5 @@
     }
   },
   "schema_version": 1,
-  "updated_at": "2026-08-31T19:33:19+00:00"
+  "updated_at": "2026-08-31T19:40:26+00:00"
 }
