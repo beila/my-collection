@@ -3514,9 +3514,9 @@
       "status": "complete"
     },
     "4028874367243136": {
-      "article_format_version": 12,
-      "completed_at": "2026-08-31T19:15:18+00:00",
-      "content_hash": "dd111215c44b8916a30be907c2981164f53e7e6566360e775b024136e0c295f3",
+      "article_format_version": 13,
+      "completed_at": "2026-08-31T20:00:00+00:00",
+      "content_hash": "f24e256c5914d67c63f1f37e2d4f24c01da8992efc61490c04d372d795ec41dd",
       "facebook_post_id": "4028874367243136",
       "facebook_timestamp": 1788078639,
       "has_video": false,
@@ -3527,7 +3527,7 @@
         "d8de1a30de6d9a3ebc149b42e228e884b13afbf227a24f4c3836f3eaba2e52c4"
       ],
       "inline_links": [],
-      "instapaper_bookmark_id": "2038057316",
+      "instapaper_bookmark_id": "2038065792",
       "last_error": null,
       "linked_pages": [],
       "media": [
@@ -3547,7 +3547,7 @@
           "sha256": "6d53d7588acfe9eb7476dca035ac74c489f370eb75aaba7c5c4eb415488af485"
         },
         {
-          "description": "May be an image of book and text that says \"FORTNUM FORTNUM&MASON & MASON EST 1707 ي BAR BAR AND RESTAURANT\"",
+          "description": "장 자크 상페의 그림인 줄 알았음. 스타일은 아주 비슷한데 눈이 상페가 그리는 스타일이 아니고, 상페의 작품이었으면 서명을 넣었을 거라서 상페는 아닌 걸로.",
           "is_video_thumbnail": false,
           "sha256": "d8de1a30de6d9a3ebc149b42e228e884b13afbf227a24f4c3836f3eaba2e52c4"
         }
@@ -7632,5 +7632,5 @@
     }
   },
   "schema_version": 1,
-  "updated_at": "2026-08-31T19:40:26+00:00"
+  "updated_at": "2026-08-31T20:00:00+00:00"
 }
