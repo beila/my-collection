@@ -2708,9 +2708,9 @@
       "status": "complete"
     },
     "4005128552951051": {
-      "article_format_version": 8,
-      "completed_at": "2026-08-30T21:05:52+00:00",
-      "content_hash": "007fb67cdcff56d8ac6d804bf5a8e313e6d32ee6bfc1909d167e18ffc0bf487d",
+      "article_format_version": 15,
+      "completed_at": "2026-08-31T21:21:25+00:00",
+      "content_hash": "dc11ca2e207ad2ff16460723e54934bd2afa65f22727f9b763e40764fda194f7",
       "facebook_post_id": "4005128552951051",
       "facebook_timestamp": 1786366510,
       "has_video": false,
@@ -2725,7 +2725,7 @@
           "url": "https://otterletter.com/ai-edition-3/"
         }
       ],
-      "instapaper_bookmark_id": "2037851140",
+      "instapaper_bookmark_id": "2038081801",
       "last_error": null,
       "linked_pages": [
         {
@@ -2735,6 +2735,13 @@
           "site_name": "otterletter.com",
           "title": "https://otterletter.com/ai-edition-3/",
           "url": "https://otterletter.com/ai-edition-3/"
+        }
+      ],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "9a83e9a832061a13c3b6d9034cd5ee09e2862dec32d8210ed330f61791873102"
         }
       ],
       "omitted_photo_count": 0,
@@ -2747,9 +2754,9 @@
       "status": "complete"
     },
     "4006870322776874": {
-      "article_format_version": 8,
-      "completed_at": "2026-08-30T21:05:54+00:00",
-      "content_hash": "473eb514079c41656260ad5166b498ab7a4aaff9de719b04d41c6c95f38c192e",
+      "article_format_version": 15,
+      "completed_at": "2026-08-31T21:21:27+00:00",
+      "content_hash": "be2daf3c5c03e893bafa2bf22d710221fe7645b2ceea86d06fbea86aaf7bb3b2",
       "facebook_post_id": "4006870322776874",
       "facebook_timestamp": 1786492365,
       "has_video": false,
@@ -2764,7 +2771,7 @@
           "url": "https://otterletter.com/ai-edition-4/"
         }
       ],
-      "instapaper_bookmark_id": "2037851141",
+      "instapaper_bookmark_id": "2038081804",
       "last_error": null,
       "linked_pages": [
         {
@@ -2774,6 +2781,13 @@
           "site_name": "otterletter.com",
           "title": "https://otterletter.com/ai-edition-4/",
           "url": "https://otterletter.com/ai-edition-4/"
+        }
+      ],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "025feca97e14726a17f0b892a46d1cc9a51b8078fa70e9884fb38c3995b08ae5"
         }
       ],
       "omitted_photo_count": 0,
@@ -2786,9 +2800,9 @@
       "status": "complete"
     },
     "4007216242742282": {
-      "article_format_version": 8,
-      "completed_at": "2026-08-30T21:05:55+00:00",
-      "content_hash": "46360a2d25f7e5b96da565bdd5426325d7b75441cf82f01335c22e2011164a43",
+      "article_format_version": 15,
+      "completed_at": "2026-08-31T21:21:29+00:00",
+      "content_hash": "c87b43edd703edc78f91f22602711672b58ed448f619040fb471544542aacdfb",
       "facebook_post_id": "4007216242742282",
       "facebook_timestamp": 1786519829,
       "has_video": false,
@@ -2796,9 +2810,16 @@
         "c70cf74be27f4477f4e985b29cba2547b5d83928251edd93d4574eef6fca1648"
       ],
       "inline_links": [],
-      "instapaper_bookmark_id": "2037851149",
+      "instapaper_bookmark_id": "2038081809",
       "last_error": null,
       "linked_pages": [],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "c70cf74be27f4477f4e985b29cba2547b5d83928251edd93d4574eef6fca1648"
+        }
+      ],
       "omitted_photo_count": 0,
       "original_author": null,
       "original_inline_links": [],
@@ -2809,9 +2830,9 @@
       "status": "complete"
     },
     "4009705769159996": {
-      "article_format_version": 8,
-      "completed_at": "2026-08-30T21:05:56+00:00",
-      "content_hash": "28ca3b73d4fd38a6a3574d29cadaf9d01045eb09f4ae44f04b37f1601f06661b",
+      "article_format_version": 15,
+      "completed_at": "2026-08-31T21:21:30+00:00",
+      "content_hash": "9ac750d0dd6f5436e4c43d9b89111f3f7c005a0d09d8dc0ac0bae670788261ff",
       "facebook_post_id": "4009705769159996",
       "facebook_timestamp": 1786697177,
       "has_video": false,
@@ -2819,9 +2840,16 @@
         "65ba62b8f36d19fae1af1e6ef7b171e239c1cc8743c3e5ae8c6c5d242ddd17f9"
       ],
       "inline_links": [],
-      "instapaper_bookmark_id": "2037851152",
+      "instapaper_bookmark_id": "2038081816",
       "last_error": null,
       "linked_pages": [],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "65ba62b8f36d19fae1af1e6ef7b171e239c1cc8743c3e5ae8c6c5d242ddd17f9"
+        }
+      ],
       "omitted_photo_count": 0,
       "original_author": null,
       "original_inline_links": [],
@@ -2832,17 +2860,18 @@
       "status": "complete"
     },
     "4009822805814959": {
-      "article_format_version": 8,
-      "completed_at": "2026-08-30T21:05:57+00:00",
+      "article_format_version": 15,
+      "completed_at": "2026-08-31T21:21:31+00:00",
       "content_hash": "5f146707faf6006f78764e2e6b701682befc918a8f0459c3e525158075ec21d8",
       "facebook_post_id": "4009822805814959",
       "facebook_timestamp": 1786705849,
       "has_video": false,
       "image_sha256": [],
       "inline_links": [],
-      "instapaper_bookmark_id": "2037851157",
+      "instapaper_bookmark_id": "2038081821",
       "last_error": null,
       "linked_pages": [],
+      "media": [],
       "omitted_photo_count": 0,
       "original_author": null,
       "original_inline_links": [],
@@ -2853,9 +2882,9 @@
       "status": "complete"
     },
     "4011102219020351": {
-      "article_format_version": 8,
-      "completed_at": "2026-08-30T21:05:58+00:00",
-      "content_hash": "152d068385731412533ba5799864712a68e277e5eb4e1729c75d5e25517a3b6d",
+      "article_format_version": 15,
+      "completed_at": "2026-08-31T21:21:33+00:00",
+      "content_hash": "ab391408198b531dd2af92422e3c385dd74c5bff0ce2639cd9d44cd414d61978",
       "facebook_post_id": "4011102219020351",
       "facebook_timestamp": 1786795169,
       "has_video": false,
@@ -2863,9 +2892,16 @@
         "a205f53e0e6ac15a4a5a8dacac64257d63917f610d4af7350a927e11bc5d193c"
       ],
       "inline_links": [],
-      "instapaper_bookmark_id": "2037851162",
+      "instapaper_bookmark_id": "2038081826",
       "last_error": null,
       "linked_pages": [],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "a205f53e0e6ac15a4a5a8dacac64257d63917f610d4af7350a927e11bc5d193c"
+        }
+      ],
       "omitted_photo_count": 0,
       "original_author": null,
       "original_inline_links": [],
@@ -2876,9 +2912,9 @@
       "status": "complete"
     },
     "4011712975625942": {
-      "article_format_version": 8,
-      "completed_at": "2026-08-30T21:05:59+00:00",
-      "content_hash": "724159d10e95a93eb3b63cb42916cdd958856984fa7ec1985be6ff77f2e5bd08",
+      "article_format_version": 15,
+      "completed_at": "2026-08-31T21:21:34+00:00",
+      "content_hash": "e2df170df70735f5b36fa1b39c34556bfe459b7bdb9faaf985aa43fb31840061",
       "facebook_post_id": "4011712975625942",
       "facebook_timestamp": 1786834914,
       "has_video": false,
@@ -2893,7 +2929,7 @@
           "url": "https://otterletter.com/future-of-dems/"
         }
       ],
-      "instapaper_bookmark_id": "2037851165",
+      "instapaper_bookmark_id": "2038081830",
       "last_error": null,
       "linked_pages": [
         {
@@ -2903,6 +2939,13 @@
           "site_name": "otterletter.com",
           "title": "https://otterletter.com/future-of-dems/",
           "url": "https://otterletter.com/future-of-dems/"
+        }
+      ],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "229163785020926fca6467a2c95e156eee908e10893180762961766e68ee3566"
         }
       ],
       "omitted_photo_count": 0,
@@ -2915,9 +2958,9 @@
       "status": "complete"
     },
     "4012134448917128": {
-      "article_format_version": 8,
-      "completed_at": "2026-08-30T21:06:00+00:00",
-      "content_hash": "7c70b595a346602d76f6ab735142e97128e4c40b872d8e4569b280be045ccb29",
+      "article_format_version": 15,
+      "completed_at": "2026-08-31T21:21:36+00:00",
+      "content_hash": "2ab0b1fa75fac024e4dfbbbe2006f8bac60c5166b1c9ce19d3829a21433efe7e",
       "facebook_post_id": "4012134448917128",
       "facebook_timestamp": 1786868101,
       "has_video": false,
@@ -2925,9 +2968,16 @@
         "ed77eccd6cbcff494de73345842b014bd6387ab7c12c72e36ee9a54e916b7a35"
       ],
       "inline_links": [],
-      "instapaper_bookmark_id": "2037851168",
+      "instapaper_bookmark_id": "2038081834",
       "last_error": null,
       "linked_pages": [],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "ed77eccd6cbcff494de73345842b014bd6387ab7c12c72e36ee9a54e916b7a35"
+        }
+      ],
       "omitted_photo_count": 0,
       "original_author": null,
       "original_inline_links": [],
@@ -2938,9 +2988,9 @@
       "status": "complete"
     },
     "4013264188804154": {
-      "article_format_version": 8,
-      "completed_at": "2026-08-30T21:06:02+00:00",
-      "content_hash": "7107bab1246c2020d4296e17ab2401a4ff4b5f830a0060403f40b3332653bc4a",
+      "article_format_version": 15,
+      "completed_at": "2026-08-31T21:21:38+00:00",
+      "content_hash": "09afc2e0af3266cae0ac01b238ddb3aed84c5136057940afcc30e52540f34689",
       "facebook_post_id": "4013264188804154",
       "facebook_timestamp": 1786949973,
       "has_video": false,
@@ -2951,9 +3001,31 @@
         "46d21847dfe50503fda681ecb3a9dd551a6d4b6fcaf7bab360e7c2611e493100"
       ],
       "inline_links": [],
-      "instapaper_bookmark_id": "2037851175",
+      "instapaper_bookmark_id": "2038081841",
       "last_error": null,
       "linked_pages": [],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "329b6a405d6a59b91c48c1890a1906469135ac4556d52e10a8b98989f31ec75b"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "0d2946ff65d1213b2ef5c751f493820837569454f43ec41b2b0a8758919c53c9"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "b5cce91f223ebc8f65974c6e0f87a85bf8eba9ff8efe74f5cef2460dd24528dc"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "46d21847dfe50503fda681ecb3a9dd551a6d4b6fcaf7bab360e7c2611e493100"
+        }
+      ],
       "omitted_photo_count": 0,
       "original_author": null,
       "original_inline_links": [],
@@ -2964,9 +3036,9 @@
       "status": "complete"
     },
     "4013480158782557": {
-      "article_format_version": 8,
-      "completed_at": "2026-08-30T21:06:03+00:00",
-      "content_hash": "fdf18512fd881b58ff76a924fbd90d60cda0c566e2ba598a1bd0b6db25489dca",
+      "article_format_version": 15,
+      "completed_at": "2026-08-31T21:21:39+00:00",
+      "content_hash": "c93c91a0f8b7da7dab6c88ecd7aa9be0b7f73097993511395c873e74ed29f3db",
       "facebook_post_id": "4013480158782557",
       "facebook_timestamp": 1786966367,
       "has_video": false,
@@ -2981,7 +3053,7 @@
           "url": "https://otterletter.com/future-of-dems-2/"
         }
       ],
-      "instapaper_bookmark_id": "2037851180",
+      "instapaper_bookmark_id": "2038081843",
       "last_error": null,
       "linked_pages": [
         {
@@ -2991,6 +3063,13 @@
           "site_name": "otterletter.com",
           "title": "https://otterletter.com/future-of-dems-2/",
           "url": "https://otterletter.com/future-of-dems-2/"
+        }
+      ],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "7c8c9885441504f72cf3d7df8ea2998d64938e3f6e429e664f3735c4aee0482e"
         }
       ],
       "omitted_photo_count": 0,
@@ -3003,9 +3082,9 @@
       "status": "complete"
     },
     "4014543558676217": {
-      "article_format_version": 8,
-      "completed_at": "2026-08-30T21:06:04+00:00",
-      "content_hash": "25d7ea57a5c1e724441937b4ed40d140743afff99456ba7e93fd6d3ddb542919",
+      "article_format_version": 15,
+      "completed_at": "2026-08-31T21:21:40+00:00",
+      "content_hash": "3be214fc613c179c5e38dab0c09e63352f615e51efc3e25650c3726443ae2d57",
       "facebook_post_id": "4014543558676217",
       "facebook_timestamp": 1787044110,
       "has_video": false,
@@ -3014,9 +3093,21 @@
         "845138a57c2c1b6d526a63f83b26f7d801f7b027991aa217abf8c12ab264f3d6"
       ],
       "inline_links": [],
-      "instapaper_bookmark_id": "2037851185",
+      "instapaper_bookmark_id": "2038081851",
       "last_error": null,
       "linked_pages": [],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "d646d195476af4ba6d47fab0f4ea45b358ebc886ac299c3c2ad8fba029a25ff8"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "845138a57c2c1b6d526a63f83b26f7d801f7b027991aa217abf8c12ab264f3d6"
+        }
+      ],
       "omitted_photo_count": 0,
       "original_author": null,
       "original_inline_links": [],
@@ -3027,9 +3118,9 @@
       "status": "complete"
     },
     "4015258131938093": {
-      "article_format_version": 8,
-      "completed_at": "2026-08-30T21:06:06+00:00",
-      "content_hash": "9be3a7ecf73647ac8fd8939e63fa8a3ab1ed6aa13a248c8e76f36dd4d8206b8b",
+      "article_format_version": 15,
+      "completed_at": "2026-08-31T21:21:42+00:00",
+      "content_hash": "0d3680a6a2c5d3d9a16cbc04845ee710ca955cb845844dcd22a181189c550520",
       "facebook_post_id": "4015258131938093",
       "facebook_timestamp": 1787093417,
       "has_video": false,
@@ -3044,7 +3135,7 @@
           "url": "https://otterletter.com/future-of-dems-3/"
         }
       ],
-      "instapaper_bookmark_id": "2037851190",
+      "instapaper_bookmark_id": "2038081855",
       "last_error": null,
       "linked_pages": [
         {
@@ -3054,6 +3145,13 @@
           "site_name": "otterletter.com",
           "title": "https://otterletter.com/future-of-dems-3/",
           "url": "https://otterletter.com/future-of-dems-3/"
+        }
+      ],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "8f0e7c7fd2d0405703ac0e075d68ec7337bca477e59299987ed6917363607543"
         }
       ],
       "omitted_photo_count": 0,
@@ -3066,8 +3164,8 @@
       "status": "complete"
     },
     "4015670705230169": {
-      "article_format_version": 14,
-      "completed_at": "2026-08-31T20:27:40+00:00",
+      "article_format_version": 15,
+      "completed_at": "2026-08-31T21:21:44+00:00",
       "content_hash": "52627acf997889ea2ffc89ca6bd824c02850b8a64ea39cb194e88e6d504398d7",
       "facebook_post_id": "4015670705230169",
       "facebook_timestamp": 1787125676,
@@ -3077,7 +3175,7 @@
         "eb38b9bdc345927b530bc86b69c2a5c8cd8fc9915781fea4f3bf2c1d0cd7e173"
       ],
       "inline_links": [],
-      "instapaper_bookmark_id": "2038071381",
+      "instapaper_bookmark_id": "2038081859",
       "last_error": null,
       "linked_pages": [],
       "media": [
@@ -4660,9 +4758,9 @@
       "status": "pending"
     },
     "575175962584723": {
-      "article_format_version": 7,
-      "completed_at": "2026-08-29T21:46:30+00:00",
-      "content_hash": "6c49f469cfa65a41c92b639c16c306030bf1d33c28078d649bfd7317ce28aa54",
+      "article_format_version": 15,
+      "completed_at": "2026-08-31T21:21:45+00:00",
+      "content_hash": "96416c7e02227c5abf3fa1aae449a63d47f7d2bb5a063ad1bc78373e6f3fe005",
       "facebook_post_id": "575175962584723",
       "facebook_timestamp": 1434884545,
       "has_video": false,
@@ -4674,9 +4772,36 @@
         "ef4837520400966f0b87c5399ef3031cc7070c9fbd266af64d45f40b3b74bc53"
       ],
       "inline_links": [],
-      "instapaper_bookmark_id": "2037666752",
+      "instapaper_bookmark_id": "2038081869",
       "last_error": null,
       "linked_pages": [],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "3da77d0b2eb5172b546ce5182a93efb4dfecc2332060d977f393e9b6c33fafa5"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "e6c7769d160c65459d4daeb1e23d830332cbe8a48261d40841b7d1f95199ddb1"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "e3ed2d069a4cd8835b57d210ba6a633c426e858ac321ebe8e4b9a48e4e612f47"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "96a799048eb837829d805eee9e243f17ac3dea84f8304939a4e5a2be23c51777"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "ef4837520400966f0b87c5399ef3031cc7070c9fbd266af64d45f40b3b74bc53"
+        }
+      ],
       "omitted_photo_count": 1,
       "original_author": "Vides Korea",
       "original_inline_links": [],
@@ -4703,9 +4828,9 @@
       "status": "complete"
     },
     "589273274508325": {
-      "article_format_version": 7,
-      "completed_at": "2026-08-29T21:46:32+00:00",
-      "content_hash": "fdaab2b6c88a2f79b12837d2017d7fac373cfb3d8fada25a1a4000a6523184a4",
+      "article_format_version": 15,
+      "completed_at": "2026-08-31T21:21:47+00:00",
+      "content_hash": "0d8ec80c5e64bc17ede429f49538e75411d17ed4da3f4dff9c701f8116efc48d",
       "facebook_post_id": "589273274508325",
       "facebook_timestamp": 1438764124,
       "has_video": false,
@@ -4715,9 +4840,26 @@
         "4f26ef3dc30131ef8694bbdd70c10e2b8cf3e652061cadc7fd5e0b83a80145e9"
       ],
       "inline_links": [],
-      "instapaper_bookmark_id": "2037666753",
+      "instapaper_bookmark_id": "2038081874",
       "last_error": null,
       "linked_pages": [],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "d9abc82cb3609c8068cf01aa5d3b08b744f6dd457551bf63f166c131b096e024"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "d0a63064ea6b692eadbbbcbbfec2ac79bd1c072d70580d89fef79d2cf66a8fda"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "4f26ef3dc30131ef8694bbdd70c10e2b8cf3e652061cadc7fd5e0b83a80145e9"
+        }
+      ],
       "omitted_photo_count": 0,
       "original_author": null,
       "original_inline_links": [],
@@ -4728,9 +4870,9 @@
       "status": "complete"
     },
     "597209713714681": {
-      "article_format_version": 7,
-      "completed_at": "2026-08-29T21:27:25+00:00",
-      "content_hash": "0ab90ad012073839ec1dceb3510707c4ca42b7e837cf27fbc3c40130316facb9",
+      "article_format_version": 15,
+      "completed_at": "2026-08-31T21:21:50+00:00",
+      "content_hash": "23aa4f78bd9fb01440bdd9028299b1abd9b19bf0dfb2c6179e71673d07066286",
       "facebook_post_id": "597209713714681",
       "facebook_timestamp": 1440982385,
       "has_video": false,
@@ -4739,26 +4881,34 @@
         "91db13c817cff6fc45e59362579585c6d4ad56bea58a3b0d9e1293b9e8a2f43a"
       ],
       "inline_links": [],
-      "instapaper_bookmark_id": "2037664130",
+      "instapaper_bookmark_id": "2038081882",
       "last_error": null,
       "linked_pages": [],
-      "omitted_photo_count": 0,
-      "original_author": "박성철",
-      "original_inline_links": [],
-      "original_paragraphs": [
-        "소프트웨어를 개발하는 방식에 충격적인 변화를 경험한 사건 중 하나가 있다.",
-        "닷컴 붐이 한창일 때, 한 포털 회사에 방문해서 황당한 장면을 목격했다. 엄청나게 넓은 사무실에 백여 명의 개발자들이 나란히 앉아서 코드를 찍어내고 있었다. 1970년대 청계천에서 직공들이 재봉틀을 열심히 돌리던 모습과 비슷했다.",
-        "당시에 내가 그리는 이상적인 개발 환경은 한두 명이 작은 사무실에서 다소 자율과 독립성을 부여받는 것이었고 그렇지 않아도 현실에서 넓은 책상과 높은 칸막이 정도는 쉽게 제공 받을 수 있었다."
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "61940b92200d6660e43769d19028c94594bfb3741b5e6d60c492e24a02da9e75"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "91db13c817cff6fc45e59362579585c6d4ad56bea58a3b0d9e1293b9e8a2f43a"
+        }
       ],
+      "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "permalink": "https://www.facebook.com/nunLeeFanpage/posts/597209713714681",
       "profile_url": "https://www.facebook.com/nunLeeFanpage",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/nunLeeFanpage/597209713714681.html",
       "status": "complete"
     },
     "608061159296203": {
-      "article_format_version": 7,
-      "completed_at": "2026-08-29T21:27:27+00:00",
-      "content_hash": "ead4ed38295fb33f2533ef60adc55d4616404c27067cf260cab4d1c7f6f396d1",
+      "article_format_version": 15,
+      "completed_at": "2026-08-31T21:21:52+00:00",
+      "content_hash": "6af1cd6496c44ef62e857e31eb95445fa122ef944c5ebac14dcf6463f006d1d0",
       "facebook_post_id": "608061159296203",
       "facebook_timestamp": 1443263772,
       "has_video": false,
@@ -4770,9 +4920,36 @@
         "fc0acf18821c4caa1a24616a1ae1024bb1b8dd787af1946c687532fdd32a6181"
       ],
       "inline_links": [],
-      "instapaper_bookmark_id": "2037664135",
+      "instapaper_bookmark_id": "2038081888",
       "last_error": null,
       "linked_pages": [],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "89c712315c4ebe14f1c84e008b73e8da791ca9af8c1ba070a4f842a5629f270a"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "963e99cf2b107751652b0d8e60d466aa9fe948dcfa736a9d31ca2f27f362737e"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "01500ee1b0eb539a5fcbde82364dd34835be7f7a54160bea863af9891ab14f45"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "b876df1cf58fb6eb686301e8f21e3482a2a72278321543da07874e8409a2e10b"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "fc0acf18821c4caa1a24616a1ae1024bb1b8dd787af1946c687532fdd32a6181"
+        }
+      ],
       "omitted_photo_count": 2,
       "original_author": "부자 되는법",
       "original_inline_links": [],
@@ -4785,9 +4962,9 @@
       "status": "complete"
     },
     "622650381170614": {
-      "article_format_version": 7,
-      "completed_at": "2026-08-29T21:27:28+00:00",
-      "content_hash": "b9472fb138edcff91a21395a55a5548437255ac33694c30654708d9251b4993b",
+      "article_format_version": 15,
+      "completed_at": "2026-08-31T21:21:53+00:00",
+      "content_hash": "1185aaaf83e1cd22ca4a5340ea3f582e191a9256df30c4f49cd42aad8aaa953c",
       "facebook_post_id": "622650381170614",
       "facebook_timestamp": 1447644613,
       "has_video": false,
@@ -4795,9 +4972,16 @@
         "1c51348edde22a737eeb5e9373e41d347b585562441599fd16b3dd9a63a44ea7"
       ],
       "inline_links": [],
-      "instapaper_bookmark_id": "2037664141",
+      "instapaper_bookmark_id": "2038081895",
       "last_error": null,
       "linked_pages": [],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "1c51348edde22a737eeb5e9373e41d347b585562441599fd16b3dd9a63a44ea7"
+        }
+      ],
       "omitted_photo_count": 0,
       "original_author": "천주교 서울대교구 Archdiocese of Seoul",
       "original_inline_links": [],
@@ -4815,9 +4999,9 @@
       "status": "complete"
     },
     "626278890807763": {
-      "article_format_version": 7,
-      "completed_at": "2026-08-29T21:27:31+00:00",
-      "content_hash": "bf3c59a880cc370235e7e4c364a2a81f25bd60a260f6c88422cbe1c727c14bc8",
+      "article_format_version": 15,
+      "completed_at": "2026-08-31T21:21:56+00:00",
+      "content_hash": "97f5d9460173910c4f83aa286844e876369e4c1349bcd56f8250a2f4d3dbae49",
       "facebook_post_id": "626278890807763",
       "facebook_timestamp": 1448685282,
       "has_video": false,
@@ -4829,9 +5013,36 @@
         "928773e4d477e70669b190a8d62a9f4858f99ad70cae82677e657caf5c6a321e"
       ],
       "inline_links": [],
-      "instapaper_bookmark_id": "2037664147",
+      "instapaper_bookmark_id": "2038081898",
       "last_error": null,
       "linked_pages": [],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "96a4e32255c6388d6bbe08457c077feaf018db942bf09688ff01e76da88ed226"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "5a2dd7e2c9a6a4d89b6a43a61a35b51ec09e8b4bba3caeb7e7f56011f7b6f81b"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "7dbf63836cc463ef7d9b70abb854d387d6589d1405c6d8fea43ba490d33d97bf"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "4db06595ce9bbef20a7904f7c48f2da696d8a208072ce9b9b27bcfcbf77a6e4b"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "928773e4d477e70669b190a8d62a9f4858f99ad70cae82677e657caf5c6a321e"
+        }
+      ],
       "omitted_photo_count": 15,
       "original_author": "스브스뉴스",
       "original_inline_links": [],
@@ -4846,9 +5057,9 @@
       "status": "complete"
     },
     "627635037338815": {
-      "article_format_version": 7,
-      "completed_at": "2026-08-29T21:27:32+00:00",
-      "content_hash": "06478f8f567af98b68b50c22dea1504f0c79969fc31b413bcf78610dd392d4dc",
+      "article_format_version": 15,
+      "completed_at": "2026-08-31T21:21:57+00:00",
+      "content_hash": "a171fdb38993a0a91926085a236b53d174224a7fd37d807a105d582fdd88a1eb",
       "facebook_post_id": "627635037338815",
       "facebook_timestamp": 1449061738,
       "has_video": false,
@@ -4857,7 +5068,7 @@
         "91c45355d6f88cc1250b644d859517bc6b161a051757b3d28c714ef83be0637d"
       ],
       "inline_links": [],
-      "instapaper_bookmark_id": "2037664151",
+      "instapaper_bookmark_id": "2038081905",
       "last_error": null,
       "linked_pages": [
         {
@@ -4867,6 +5078,18 @@
           "site_name": "obos.or.kr",
           "title": "http://obos.or.kr/?p=43798",
           "url": "http://obos.or.kr/?p=43798"
+        }
+      ],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "275959349c16543fa8914dddc58f61065a17d6b56ac29c6e4400e2bd13b1396c"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "91c45355d6f88cc1250b644d859517bc6b161a051757b3d28c714ef83be0637d"
         }
       ],
       "omitted_photo_count": 0,
@@ -4908,9 +5131,9 @@
       "status": "pending"
     },
     "647483832020602": {
-      "article_format_version": 7,
-      "completed_at": "2026-08-29T21:29:10+00:00",
-      "content_hash": "e306a259ac31281b8814d149c654e3bb11d2755e2b4f1f1a46fbf2160f06604f",
+      "article_format_version": 15,
+      "completed_at": "2026-08-31T21:21:58+00:00",
+      "content_hash": "b2af4a4574c187add3945a0d68cba6c18b1b952db65a2f2d2a83f8bcf04966cd",
       "facebook_post_id": "647483832020602",
       "facebook_timestamp": 1453969383,
       "has_video": false,
@@ -4918,7 +5141,7 @@
         "514b754dab957ae902d30a0551ae9eef552c3e89b07f06eddca2ab720591fb52"
       ],
       "inline_links": [],
-      "instapaper_bookmark_id": "2037664412",
+      "instapaper_bookmark_id": "2038081909",
       "last_error": null,
       "linked_pages": [
         {
@@ -4928,6 +5151,13 @@
           "site_name": "news.joins.com",
           "title": "전세계 27명에게 새삶주고 떠난 제주 소녀 유나",
           "url": "http://news.joins.com/article/19485362"
+        }
+      ],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "514b754dab957ae902d30a0551ae9eef552c3e89b07f06eddca2ab720591fb52"
         }
       ],
       "omitted_photo_count": 0,
@@ -4940,9 +5170,9 @@
       "status": "complete"
     },
     "689812831121035": {
-      "article_format_version": 7,
-      "completed_at": "2026-08-29T21:29:11+00:00",
-      "content_hash": "405ada301e71786c5bc3607d0647c8f26b627cd130d5015d79bf9833698fbaef",
+      "article_format_version": 15,
+      "completed_at": "2026-08-31T21:22:03+00:00",
+      "content_hash": "434dc32048664fe06ea3ce7549453d6c22c6b76116c993f1911e41877300f672",
       "facebook_post_id": "689812831121035",
       "facebook_timestamp": 1462371987,
       "has_video": false,
@@ -4950,7 +5180,7 @@
         "63ef318d96b5d0d0ceba6e04a4e622b1158335cdc67c49e27839132c6f655058"
       ],
       "inline_links": [],
-      "instapaper_bookmark_id": "2037664417",
+      "instapaper_bookmark_id": "2038081915",
       "last_error": null,
       "linked_pages": [
         {
@@ -4960,6 +5190,13 @@
           "site_name": "web.pbc.co.kr",
           "title": "이해인 수녀, 지난 이야기를 풀어놓다",
           "url": "http://www.pbc.co.kr/CMS/newspaper/view_body.php?cid=633828&path=201605"
+        }
+      ],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "63ef318d96b5d0d0ceba6e04a4e622b1158335cdc67c49e27839132c6f655058"
         }
       ],
       "omitted_photo_count": 0,
@@ -5041,9 +5278,9 @@
       "status": "complete"
     },
     "823840327718284": {
-      "article_format_version": 7,
-      "completed_at": "2026-08-29T21:29:12+00:00",
-      "content_hash": "8f7c03eb0b7e1f7cfe3887e2eb579d55a17c4b7c79a381a424010159988b445e",
+      "article_format_version": 15,
+      "completed_at": "2026-08-31T21:22:05+00:00",
+      "content_hash": "549620645dafd85756d08f74f5e2ea60274140a214dcc2c2c51dbe73b9b16a1b",
       "facebook_post_id": "823840327718284",
       "facebook_timestamp": 1481164649,
       "has_video": false,
@@ -5051,7 +5288,7 @@
         "63ef318d96b5d0d0ceba6e04a4e622b1158335cdc67c49e27839132c6f655058"
       ],
       "inline_links": [],
-      "instapaper_bookmark_id": "2037664422",
+      "instapaper_bookmark_id": "2038081932",
       "last_error": null,
       "linked_pages": [
         {
@@ -5061,6 +5298,13 @@
           "site_name": "cpbc.co.kr",
           "title": "중국인 피습으로 숨진 故김성현씨 유고시집 출판",
           "url": "http://www.cpbc.co.kr/CMS/newspaper/view_body.php?cid=663211&path=201612"
+        }
+      ],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "63ef318d96b5d0d0ceba6e04a4e622b1158335cdc67c49e27839132c6f655058"
         }
       ],
       "omitted_photo_count": 0,
@@ -6842,7 +7086,7 @@
     "https://www.facebook.com/nunLeeFanpage": {
       "discoveries": {
         "https://www.facebook.com/nunLeeFanpage/posts/575175962584723": {
-          "completed_at": "2026-08-29T21:46:30+00:00",
+          "completed_at": "2026-08-31T21:21:45+00:00",
           "discovered_at": "2026-08-29T21:42:55+00:00",
           "last_error": null,
           "not_before_timestamp": null,
@@ -6850,7 +7094,7 @@
           "status": "complete"
         },
         "https://www.facebook.com/nunLeeFanpage/posts/608061159296203": {
-          "completed_at": "2026-08-29T21:27:27+00:00",
+          "completed_at": "2026-08-31T21:21:52+00:00",
           "discovered_at": "2026-08-29T21:24:10+00:00",
           "last_error": null,
           "not_before_timestamp": null,
@@ -6864,7 +7108,7 @@
           "status": "pending"
         },
         "https://www.facebook.com/nunLeeFanpage/posts/622650381170614": {
-          "completed_at": "2026-08-29T21:27:28+00:00",
+          "completed_at": "2026-08-31T21:21:53+00:00",
           "discovered_at": "2026-08-29T21:24:10+00:00",
           "last_error": null,
           "not_before_timestamp": null,
@@ -6872,7 +7116,7 @@
           "status": "complete"
         },
         "https://www.facebook.com/nunLeeFanpage/posts/626278890807763": {
-          "completed_at": "2026-08-29T21:27:31+00:00",
+          "completed_at": "2026-08-31T21:21:56+00:00",
           "discovered_at": "2026-08-29T21:24:10+00:00",
           "last_error": null,
           "not_before_timestamp": null,
@@ -6880,7 +7124,7 @@
           "status": "complete"
         },
         "https://www.facebook.com/nunLeeFanpage/posts/627635037338815": {
-          "completed_at": "2026-08-29T21:27:32+00:00",
+          "completed_at": "2026-08-31T21:21:57+00:00",
           "discovered_at": "2026-08-29T21:24:10+00:00",
           "last_error": null,
           "not_before_timestamp": null,
@@ -6895,7 +7139,7 @@
           "status": "pending"
         },
         "https://www.facebook.com/nunLeeFanpage/posts/647483832020602": {
-          "completed_at": "2026-08-29T21:29:10+00:00",
+          "completed_at": "2026-08-31T21:21:58+00:00",
           "discovered_at": "2026-08-29T21:24:10+00:00",
           "last_error": null,
           "not_before_timestamp": null,
@@ -6903,7 +7147,7 @@
           "status": "complete"
         },
         "https://www.facebook.com/nunLeeFanpage/posts/689812831121035": {
-          "completed_at": "2026-08-29T21:29:11+00:00",
+          "completed_at": "2026-08-31T21:22:03+00:00",
           "discovered_at": "2026-08-29T21:24:10+00:00",
           "last_error": null,
           "not_before_timestamp": null,
@@ -6911,7 +7155,7 @@
           "status": "complete"
         },
         "https://www.facebook.com/nunLeeFanpage/posts/823840327718284": {
-          "completed_at": "2026-08-29T21:29:12+00:00",
+          "completed_at": "2026-08-31T21:22:05+00:00",
           "discovered_at": "2026-08-29T21:24:10+00:00",
           "last_error": null,
           "not_before_timestamp": null,
@@ -7661,5 +7905,5 @@
     }
   },
   "schema_version": 1,
-  "updated_at": "2026-08-31T20:39:36+00:00"
+  "updated_at": "2026-08-31T21:22:05+00:00"
 }
