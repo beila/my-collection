@@ -3183,9 +3183,9 @@
       "status": "complete"
     },
     "4019394528191120": {
-      "article_format_version": 12,
-      "completed_at": "2026-08-31T19:28:14+00:00",
-      "content_hash": "38dcfcb7fb3d7da7a543e805f38348aa8968c774b130b594d399d8a6ab4ef943",
+      "article_format_version": 13,
+      "completed_at": "2026-08-31T20:02:03+00:00",
+      "content_hash": "b9802e2c7a913c2040975e426b809ef5d96477d3326d0bc0f956e8714264e130",
       "facebook_post_id": "4019394528191120",
       "facebook_timestamp": 1787393689,
       "has_video": false,
@@ -3200,7 +3200,7 @@
         "c3ee9e5e2c6a11e5eeab98a765909ea51d9c007759eabec7f5a16b950dcf57cf"
       ],
       "inline_links": [],
-      "instapaper_bookmark_id": "2038059817",
+      "instapaper_bookmark_id": "2038066222",
       "last_error": null,
       "linked_pages": [],
       "media": [
@@ -3235,12 +3235,12 @@
           "sha256": "7888954ec746804f85628a2bb892f47d42fa11a19f3f53a871aa47a193699b90"
         },
         {
-          "description": "May be an image of text that says \"ESPACE NOW סלנייאם www.thespact thespaceuk.com com 0131 510 2384 38 EHS'S0P iiPiace Aug theSpace 97-20 Xace 29 Triplex Adam 3:05 3-056X 3:05(45m) (45m) thel Wizard Greene ZEMPIC GILDED BALLOON BOO PATTER HOUSE 17 5-31 KEEPI A hopeful one-per UK Theatre Theatre Web Emotic Emotional powerful storyteling. Highly @commended. ended. watchKoeping Secrets heal heart! Tranger en ー Pay 家島演T！ TEDANDPEAFORN NEDm JIM VETTER 19:10 ุ่นตอแรา PRRETC 3AULUSTIMOTA8 BIG DR CABARET DRAG KomaHKblR WIVE AFTERDLAY D3's MAYHEM BO SCOTSMAN RWAMEY\"",
+          "description": null,
           "is_video_thumbnail": false,
           "sha256": "90585f10fd583745af0c78b7fc6278b7bc1c88a51dd31ff47ecf94de30543ddb"
         },
         {
-          "description": "May be an image of castle and Calton Hill",
+          "description": null,
           "is_video_thumbnail": false,
           "sha256": "c3ee9e5e2c6a11e5eeab98a765909ea51d9c007759eabec7f5a16b950dcf57cf"
         }
@@ -7632,5 +7632,5 @@
     }
   },
   "schema_version": 1,
-  "updated_at": "2026-08-31T20:00:00+00:00"
+  "updated_at": "2026-08-31T20:02:03+00:00"
 }
