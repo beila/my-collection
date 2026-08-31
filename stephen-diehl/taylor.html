@@ -1,13 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="stephen-diehl-content-hash" content="c6b09b6389c87dc76542a626daaa7810809d104575a09f0846dfdc4e3a7ff600">
-  <meta name="stephen-diehl-article-format" content="11">
-  <link rel="canonical" href="https://beila.github.io/my-collection/stephen-diehl/taylor.html">
-  <title>From Newton to Einstein and Back</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="116f9c4423e502781126919a11e0e24d7a4ca8ce956620d17b9956d05372876d" name="stephen-diehl-content-hash"/>
+<meta content="12" name="stephen-diehl-article-format"/>
+<link href="https://beila.github.io/my-collection/stephen-diehl/taylor.html" rel="canonical"/>
+<title>From Newton to Einstein and Back</title>
+<style>
     :root { color-scheme: dark; }
     body { margin: 0; background: #171717; color: #f1f1f1;
             font: 18px/1.7 Georgia, serif; }
@@ -26,96 +27,62 @@
     .published { color: #b8b8b8; }
     .original-link { border-top: 1px solid #555; margin-top: 2rem;
                       padding-top: 1rem; }
+img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
+                      vertical-align: middle; }
+    img.math-display { display: block; height: auto; margin: 1.25rem auto;
+                       max-width: 100%; }
   </style>
 </head>
 <body>
-  <article>
-    <h1>From Newton to Einstein and Back</h1>
-    <p class="published">Published: Mon, 01 Feb 2016 00:00:00 +0000</p>
-    <section class="instapaper_body">
-      <p class="original-link"><a href="https://www.stephendiehl.com/posts/taylor/">Read the original article on Stephen Diehl's website</a></p>
-<p>One of my favourite proofs from undergraduate physics is the derivation of the classical kinetic energy formula from Einstein's energy-momentum relation. Specifically, we'll see how the classical expression for kinetic energy emerges as a first-degree Taylor approximation of the relativistic energy equation when velocities are much smaller than the speed of light \(c\).</p>
-<p>According to Einstein's theory of relativity, the total energy \(E\) of a particle with rest mass \(m_0\) is given by:</p>
-<p>$$<br/>
-E = \gamma m_0 c^2,<br/>
-$$</p>
-<p>where \(\gamma\), the Lorentz factor, is defined as:</p>
-<p>$$<br/>
-\gamma = \frac{1}{\sqrt{1 - \frac{v^2}{c^2}}}<br/>
-$$</p>
-<p>where \(v\) is the velocity of the particle and \(c\) is the speed of light in a vacuum. The relationship simplifies significantly when velocities are much smaller than \(c\).</p>
-<p>The kinetic energy \(K\) of a particle is defined as the difference between its total energy and its rest energy:</p>
-<p>$$<br/>
-K = E - E_0,<br/>
-$$</p>
-<p>where \(E_0 = m_0 c^2\) is the rest energy of the particle. Plugging in the expression for \(E\):</p>
-<p>$$<br/>
-K = \gamma m_0 c^2 - m_0 c^2 = (\gamma - 1) m_0 c^2.<br/>
-$$</p>
-<p>Now we need to simplify \(\gamma\) for small \(v\).</p>
-<p>To obtain a first-order approximation, we can expand \(\gamma\) using a Taylor series around \(v = 0\). The Taylor expansion of \(\gamma\) at \(v = 0\) is given by:</p>
-<p>$$<br/>
-\gamma(v) = \frac{1}{\sqrt{1 - \frac{v^2}{c^2}}} \approx 1 + \frac{1}{2} \frac{v^2}{c^2} + \text{higher order terms}.<br/>
-$$</p>
-<p>For our purposes, since we are interested in the first-order approximation, we can ignore the \(\frac{1}{2} \frac{v^2}{c^2}\) term and retain just the constant term:</p>
-<p>$$<br/>
-\gamma(v) \approx 1.<br/>
-$$</p>
+<article>
+<h1>From Newton to Einstein and Back</h1>
+<p class="published">Published: Mon Feb 01 2016 00:00:00 GMT+0000 (Greenwich Mean Time)</p>
+<section class="instapaper_body">
+<p class="original-link"><a href="https://www.stephendiehl.com/posts/taylor/">Read the original article on Stephen Diehl's website</a></p>
+<p>One of my favourite proofs from undergraduate physics is the derivation of the classical kinetic energy formula from Einstein's energy-momentum relation. Specifically, we'll see how the classical expression for kinetic energy emerges as a first-degree Taylor approximation of the relativistic energy equation when velocities are much smaller than the speed of light <img alt="Equation: c" class="math-inline" height="18" src="https://beila.github.io/my-collection/math-images/77f923e03fa4afdfe83625c25c8e18350b46fa8cdbc9ca17ac435f7a00ef30f7.png" width="14"/>.</p>
+<p>According to Einstein's theory of relativity, the total energy <img alt="Equation: upper E" class="math-inline" height="22" src="https://beila.github.io/my-collection/math-images/a3c293e06f13a6f6e876ea63eb6505ebdd27863f2428d86f97c921f450460c49.png" width="19"/> of a particle with rest mass <img alt="Equation: m 0" class="math-inline" height="20" src="https://beila.github.io/my-collection/math-images/6e2739fde1bce10d541461a2553c40de5083ca65ce90e9f9996cd05b6bfd3b8f.png" width="27"/> is given by:</p>
+<p><img alt="Equation: upper E equals gamma m 0 c squared comma" class="math-display" height="28" src="https://beila.github.io/my-collection/math-images/68b0376a9a6e2a08f7d7d92b5f8c7ad2d310b41694d1d25187804998a77cecf3.png" width="80"/></p>
+<p>where <img alt="Equation: gamma" class="math-inline" height="22" src="https://beila.github.io/my-collection/math-images/ae5524314a9f71efd21d96d7df1efe1e006de0405f4c323b3c195bf3411d4864.png" width="16"/>, the Lorentz factor, is defined as:</p>
+<p><img alt="Equation: gamma equals StartFraction 1 Over StartRoot 1 minus StartFraction v squared Over c squared EndFraction EndRoot EndFraction" class="math-display" height="56" src="https://beila.github.io/my-collection/math-images/088cf07c600ea1d78aa14c19babe456e366f22635c2eabfeb1994ed9112315e7.png" width="92"/></p>
+<p>where <img alt="Equation: v" class="math-inline" height="18" src="https://beila.github.io/my-collection/math-images/bf251024c77a89dd127e3ae4f0bbd7739cfee423dc2babbbf46088f5cea4f366.png" width="15"/> is the velocity of the particle and <img alt="Equation: c" class="math-inline" height="18" src="https://beila.github.io/my-collection/math-images/77f923e03fa4afdfe83625c25c8e18350b46fa8cdbc9ca17ac435f7a00ef30f7.png" width="14"/> is the speed of light in a vacuum. The relationship simplifies significantly when velocities are much smaller than <img alt="Equation: c" class="math-inline" height="18" src="https://beila.github.io/my-collection/math-images/77f923e03fa4afdfe83625c25c8e18350b46fa8cdbc9ca17ac435f7a00ef30f7.png" width="14"/>.</p>
+<p>The kinetic energy <img alt="Equation: upper K" class="math-inline" height="22" src="https://beila.github.io/my-collection/math-images/ea766346cdc31fb3546a17bb8a8401cd236f65180ee1d3a9b2e67c415302ebba.png" width="20"/> of a particle is defined as the difference between its total energy and its rest energy:</p>
+<p><img alt="Equation: upper K equals upper E minus upper E 0 comma" class="math-display" height="24" src="https://beila.github.io/my-collection/math-images/d5488eb017e935efe620374aa1f5c2371cae7bd8c6f25b10d868304f3e07fce4.png" width="88"/></p>
+<p>where <img alt="Equation: upper E 0 equals m 0 c squared" class="math-inline" height="26" src="https://beila.github.io/my-collection/math-images/19416936b437c707d8eb2dcc2ac56dab12f2bbee7e55bcb82bf6514c1e3962dd.png" width="74"/> is the rest energy of the particle. Plugging in the expression for <img alt="Equation: upper E" class="math-inline" height="22" src="https://beila.github.io/my-collection/math-images/a3c293e06f13a6f6e876ea63eb6505ebdd27863f2428d86f97c921f450460c49.png" width="19"/>:</p>
+<p><img alt="Equation: upper K equals gamma m 0 c squared minus m 0 c squared equals left-parenthesis gamma minus 1 right-parenthesis m 0 c squared period" class="math-display" height="28" src="https://beila.github.io/my-collection/math-images/4f3339c1d6f1c0272915c976c2c8f50bbaceff3967bde7fa4b5954536c48eef8.png" width="222"/></p>
+<p>Now we need to simplify <img alt="Equation: gamma" class="math-inline" height="22" src="https://beila.github.io/my-collection/math-images/ae5524314a9f71efd21d96d7df1efe1e006de0405f4c323b3c195bf3411d4864.png" width="16"/> for small <img alt="Equation: v" class="math-inline" height="18" src="https://beila.github.io/my-collection/math-images/bf251024c77a89dd127e3ae4f0bbd7739cfee423dc2babbbf46088f5cea4f366.png" width="15"/>.</p>
+<p>To obtain a first-order approximation, we can expand <img alt="Equation: gamma" class="math-inline" height="22" src="https://beila.github.io/my-collection/math-images/ae5524314a9f71efd21d96d7df1efe1e006de0405f4c323b3c195bf3411d4864.png" width="16"/> using a Taylor series around <img alt="Equation: v equals 0" class="math-inline" height="22" src="https://beila.github.io/my-collection/math-images/8014085586e67742168f00ba24e8108e61d70e544a92c5897657f01ced62dade.png" width="40"/>. The Taylor expansion of <img alt="Equation: gamma" class="math-inline" height="22" src="https://beila.github.io/my-collection/math-images/ae5524314a9f71efd21d96d7df1efe1e006de0405f4c323b3c195bf3411d4864.png" width="16"/> at <img alt="Equation: v equals 0" class="math-inline" height="22" src="https://beila.github.io/my-collection/math-images/8014085586e67742168f00ba24e8108e61d70e544a92c5897657f01ced62dade.png" width="40"/> is given by:</p>
+<p><img alt="Equation: gamma left-parenthesis v right-parenthesis equals StartFraction 1 Over StartRoot 1 minus StartFraction v squared Over c squared EndFraction EndRoot EndFraction almost-equals 1 plus one-half StartFraction v squared Over c squared EndFraction plus higher order terms period" class="math-display" height="60" src="https://beila.github.io/my-collection/math-images/3a53d90248d816d1d9beead845b0b46578f68eac0b7af9e62a83097970880bb9.png" width="314"/></p>
+<p>For our purposes, since we are interested in the first-order approximation, we can ignore the <img alt="Equation: one-half StartFraction v squared Over c squared EndFraction" class="math-inline" height="34" src="https://beila.github.io/my-collection/math-images/9c634cf893ea05cb5dc68835153a0d27cbe2cb46a7e0c2db90f48454f749545e.png" width="33"/> term and retain just the constant term:</p>
+<p><img alt="Equation: gamma left-parenthesis v right-parenthesis almost-equals 1 period" class="math-display" height="26" src="https://beila.github.io/my-collection/math-images/5c001402b00506aa7d2cbeb1b8f3557de0a9a9e4d5a6b861de0760297e2fde7d.png" width="63"/></p>
 <p>Thus, the kinetic energy expression simplifies to:</p>
-<p>$$<br/>
-K \approx \left(1 - 1\right) m_0 c^2 = 0 + \frac{1}{2} m_0 \frac{v^2}{c^2} = \frac{1}{2} m_0 v^2.<br/>
-$$</p>
-<p>We can now express the kinetic energy \(K\) for small velocities as:</p>
-<p>$$<br/>
-K \approx \frac{1}{2} m_0 v^2<br/>
-$$</p>
+<p><img alt="Equation: upper K almost-equals left-parenthesis 1 minus 1 right-parenthesis m 0 c squared equals 0 plus one-half m 0 StartFraction v squared Over c squared EndFraction equals one-half m 0 v squared period" class="math-display" height="44" src="https://beila.github.io/my-collection/math-images/41f59502b16cba52366084a350c6b32c7f79e670477ae1be3cae39fd33a080bf.png" width="272"/></p>
+<p>We can now express the kinetic energy <img alt="Equation: upper K" class="math-inline" height="22" src="https://beila.github.io/my-collection/math-images/ea766346cdc31fb3546a17bb8a8401cd236f65180ee1d3a9b2e67c415302ebba.png" width="20"/> for small velocities as:</p>
+<p><img alt="Equation: upper K almost-equals one-half m 0 v squared" class="math-display" height="40" src="https://beila.github.io/my-collection/math-images/878a60ed60d54d812d62d49423dd79e7b04af06a6004ff876df4cdec5f2f044f.png" width="83"/></p>
 <p>which is precisely the classical formula for the kinetic energy of an object. More generally, we can derive Newton's equations from Einstein's field equations, we consider the weak-field, slow-motion limit of general relativity. In the weak-field limit, we assume that spacetime is nearly flat, with only small perturbations due to gravity. The metric can be expressed as:</p>
-<p>$$<br/>
-g_{\mu\nu} = \eta_{\mu\nu} + h_{\mu\nu}<br/>
-$$</p>
-<p>where \(\eta*{\mu\nu}\) is the Minkowski metric of flat spacetime, and \(h*{\mu\nu}\) is a small perturbation. The Einstein field equations in their general form are:</p>
-<p>$$<br/>
-G_{\mu\nu} + \Lambda g_{\mu\nu} = \kappa T_{\mu\nu}<br/>
-$$</p>
-<p>where \(G*{\mu\nu}\) is the Einstein tensor, \(\Lambda\) is the cosmological constant, \(g*{\mu\nu}\) is the metric tensor, \(T_{\mu\nu}\) is the stress-energy tensor, and \(\kappa = 8\pi G/c^4\) is the Einstein gravitational constant. To simplify these equations and recover Newton's law, we need to make several key assumptions. First, we neglect the cosmological constant \(\Lambda = 0\). This is reasonable for local gravitational phenomena, as \(\Lambda\) only becomes significant at cosmological scales where it accounts for the universe's accelerating expansion.</p>
+<p><img alt="Equation: g Subscript mu nu Baseline equals eta Subscript mu nu Baseline plus h Subscript mu nu" class="math-display" height="26" src="https://beila.github.io/my-collection/math-images/36fbcd8453593d39cab0817febed8d814f9d7e3d1248962373c9476e606798c9.png" width="103"/></p>
+<p>where <img alt="Equation: eta asterisk mu nu" class="math-inline" height="22" src="https://beila.github.io/my-collection/math-images/1e350cc2797f581d1c8417934c2a5b5b329fdc0a39ed92886c8b2d435a6c7433.png" width="44"/> is the Minkowski metric of flat spacetime, and <img alt="Equation: h asterisk mu nu" class="math-inline" height="24" src="https://beila.github.io/my-collection/math-images/ac47b5ed351fd8f35494e5d54db3a9d7c6477926c43b65fc9234bc76e07bfbc7.png" width="46"/> is a small perturbation. The Einstein field equations in their general form are:</p>
+<p><img alt="Equation: upper G Subscript mu nu Baseline plus normal upper Lamda g Subscript mu nu Baseline equals kappa upper T Subscript mu nu" class="math-display" height="26" src="https://beila.github.io/my-collection/math-images/934ebe55015ca38c0fc3c1723fb849b7f268bb52fe12eacc85b1dfcfa3442005.png" width="125"/></p>
+<p>where <img alt="Equation: upper G asterisk mu nu" class="math-inline" height="24" src="https://beila.github.io/my-collection/math-images/ab384bcac62af2ecd84e5cea9e1aa6b68ccea80268c8c7be8512f405b1572e39.png" width="48"/> is the Einstein tensor, <img alt="Equation: normal upper Lamda" class="math-inline" height="22" src="https://beila.github.io/my-collection/math-images/a956b51f7907860866a21faa850aac36d5266ee5c0c80257378b7651e35370c6.png" width="18"/> is the cosmological constant, <img alt="Equation: g asterisk mu nu" class="math-inline" height="22" src="https://beila.github.io/my-collection/math-images/6fb069159882cb2c64d35b00690a81c9eca25c9522af25804f70e299f9675eb0.png" width="44"/> is the metric tensor, <img alt="Equation: upper T Subscript mu nu" class="math-inline" height="26" src="https://beila.github.io/my-collection/math-images/b5f8418463f597357bf911c996a4179b5acaf24b54fe021f1a37909ab8139bc3.png" width="29"/> is the stress-energy tensor, and <img alt="Equation: kappa equals 8 pi upper G slash c Superscript 4" class="math-inline" height="26" src="https://beila.github.io/my-collection/math-images/aae1dea4fbc795da469c8a8de6d795cd7f15823e172e26b40c274eb0ba46f1a0.png" width="80"/> is the Einstein gravitational constant. To simplify these equations and recover Newton's law, we need to make several key assumptions. First, we neglect the cosmological constant <img alt="Equation: normal upper Lamda equals 0" class="math-inline" height="22" src="https://beila.github.io/my-collection/math-images/4bb968f488807b5eb9e445192175f10e71583cab1bbb21c56619b082308d5012.png" width="44"/>. This is reasonable for local gravitational phenomena, as <img alt="Equation: normal upper Lamda" class="math-inline" height="22" src="https://beila.github.io/my-collection/math-images/a956b51f7907860866a21faa850aac36d5266ee5c0c80257378b7651e35370c6.png" width="18"/> only becomes significant at cosmological scales where it accounts for the universe's accelerating expansion.</p>
 <p>Second, we consider only static, weak gravitational fields. We mean "static" when the gravitational field doesn't change with time, and "weak" means we can treat spacetime as nearly flat with small perturbations. This is why we can write:</p>
-<p>$$<br/>
-g_{\mu\nu} = \eta_{\mu\nu} + h_{\mu\nu}<br/>
-$$</p>
-<p>where \(|h_{\mu\nu}| \ll 1\) represents small deviations from flat spacetime. Third, we assume non-relativistic matter where \(v \ll c\). This means the stress-energy tensor simplifies dramatically, with the energy density term dominating:</p>
-<p>$$<br/>
-T_{00} \approx \rho c^2<br/>
-$$</p>
+<p><img alt="Equation: g Subscript mu nu Baseline equals eta Subscript mu nu Baseline plus h Subscript mu nu" class="math-display" height="26" src="https://beila.github.io/my-collection/math-images/36fbcd8453593d39cab0817febed8d814f9d7e3d1248962373c9476e606798c9.png" width="103"/></p>
+<p>where <img alt="Equation: StartAbsoluteValue h Subscript mu nu Baseline EndAbsoluteValue much-less-than 1" class="math-inline" height="26" src="https://beila.github.io/my-collection/math-images/acb40d4b43a8d03a8ab498200d373c024cb1d3eed20236f66406d1053176dbdb.png" width="66"/> represents small deviations from flat spacetime. Third, we assume non-relativistic matter where <img alt="Equation: v much-less-than c" class="math-inline" height="20" src="https://beila.github.io/my-collection/math-images/454c3669384146e307141f105435031d26adc041b5a5a5c80b93e1a7137d37e5.png" width="42"/>. This means the stress-energy tensor simplifies dramatically, with the energy density term dominating:</p>
+<p><img alt="Equation: upper T 00 almost-equals rho c squared" class="math-display" height="28" src="https://beila.github.io/my-collection/math-images/f798e9366622289d3aaf617c83a6b3b8b9034d671026ec82b85f40a07e97a454.png" width="66"/></p>
 <p>while other components become negligible. This approximation is valid for most everyday situations on Earth and even for most astrophysical scenarios in our solar system. Under these assumptions, in the weak-field limit, the 00-component of the Ricci tensor can be approximated as:</p>
-<p>$$<br/>
-R_{00} \approx \frac{1}{c^2} \nabla^2 \Phi<br/>
-$$</p>
-<p>where \(\Phi\) is the gravitational potential. The Ricci scalar becomes:</p>
-<p>$$<br/>
-R \approx \frac{2}{c^2} \nabla^2 \Phi<br/>
-$$</p>
-<p>For non-relativistic matter, the dominant component of the stress-energy tensor is \(T_{00} \approx \rho c^2\), where \(\rho\) is the mass density. Substituting these into the 00-component of the Einstein field equations:</p>
-<p>$$<br/>
-R_{00} - \frac{1}{2}R g_{00} = \kappa T_{00}<br/>
-$$</p>
+<p><img alt="Equation: upper R 00 almost-equals StartFraction 1 Over c squared EndFraction nabla squared normal upper Phi" class="math-display" height="42" src="https://beila.github.io/my-collection/math-images/17a41cb20db88d095d68fa772603dba7f423b90b45c767d316b20490eed14980.png" width="94"/></p>
+<p>where <img alt="Equation: normal upper Phi" class="math-inline" height="22" src="https://beila.github.io/my-collection/math-images/3c234b3d4d4124dad3313dbecfe358d205e37bde7b8c3bae9285f491a330d4ed.png" width="18"/> is the gravitational potential. The Ricci scalar becomes:</p>
+<p><img alt="Equation: upper R almost-equals StartFraction 2 Over c squared EndFraction nabla squared normal upper Phi" class="math-display" height="42" src="https://beila.github.io/my-collection/math-images/3a6a2282ad41678f2116221dc8ce8e28cc50c5d1896678fef7e0e1880cd2db09.png" width="83"/></p>
+<p>For non-relativistic matter, the dominant component of the stress-energy tensor is <img alt="Equation: upper T 00 almost-equals rho c squared" class="math-inline" height="26" src="https://beila.github.io/my-collection/math-images/9e8d633724cdeee4a93e9582120376f99244288b55690dfaa784f073705520e2.png" width="66"/>, where <img alt="Equation: rho" class="math-inline" height="22" src="https://beila.github.io/my-collection/math-images/f496429cdb3c4c41ac996985027097e978e0b79ec9c2c91e57761fc43604f5fe.png" width="16"/> is the mass density. Substituting these into the 00-component of the Einstein field equations:</p>
+<p><img alt="Equation: upper R 00 minus one-half upper R g 00 equals kappa upper T 00" class="math-display" height="40" src="https://beila.github.io/my-collection/math-images/89a670f3db218517b5bbf6b32f06f0986557d403046c3d703cc2bba12c3979c3.png" width="134"/></p>
 <p>we get:</p>
-<p>$$<br/>
-\frac{1}{c^2} \nabla^2 \Phi - \frac{1}{c^2} \nabla^2 \Phi = \frac{8\pi G}{c^4} \rho c^2<br/>
-$$</p>
+<p><img alt="Equation: StartFraction 1 Over c squared EndFraction nabla squared normal upper Phi minus StartFraction 1 Over c squared EndFraction nabla squared normal upper Phi equals StartFraction 8 pi upper G Over c Superscript 4 Baseline EndFraction rho c squared" class="math-display" height="42" src="https://beila.github.io/my-collection/math-images/880773a6d1b9230d6a409b32212aee746679dc779d395552fd74a3c1bbb7e638.png" width="185"/></p>
 <p>Simplifying leads to Poisson's equation for Newtonian gravity:</p>
-<p>$$<br/>
-\nabla^2 \Phi = 4\pi G \rho<br/>
-$$</p>
-<p>For a point mass \(M\) at the origin, where \(\rho = M \delta(\mathbf{r})\), solving Poisson's equation in spherical coordinates gives:</p>
-<p>$$<br/>
-\Phi(r) = -\frac{GM}{r}<br/>
-$$</p>
+<p><img alt="Equation: nabla squared normal upper Phi equals 4 pi upper G rho" class="math-display" height="28" src="https://beila.github.io/my-collection/math-images/eb601842af21653e8a8e5bf15ac4ab94f43890fde711698c767b0df59cb68212.png" width="88"/></p>
+<p>For a point mass <img alt="Equation: upper M" class="math-inline" height="22" src="https://beila.github.io/my-collection/math-images/6b4c1e141f2e1e3651756e364e21cadafb6bc7e6cae3e3415231000c6b21ee36.png" width="23"/> at the origin, where <img alt="Equation: rho equals upper M delta left-parenthesis bold r right-parenthesis" class="math-inline" height="26" src="https://beila.github.io/my-collection/math-images/565f9b5fc01d3934c3ec18838b8a809cba37b01e05f0f23b2e8dbef4f7b7a782.png" width="72"/>, solving Poisson's equation in spherical coordinates gives:</p>
+<p><img alt="Equation: normal upper Phi left-parenthesis r right-parenthesis equals minus StartFraction upper G upper M Over r EndFraction" class="math-display" height="40" src="https://beila.github.io/my-collection/math-images/54b078ffa98f1a8b05f12817a0ec93eaafee3976b9711ce553df1cce2e531152.png" width="96"/></p>
 <p>The gravitational field is then:</p>
-<p>$$<br/>
-\mathbf{g} = -\nabla \Phi = -\frac{GM}{r^2} \hat{r}<br/>
-$$</p>
+<p><img alt="Equation: bold g equals minus nabla normal upper Phi equals minus StartFraction upper G upper M Over r squared EndFraction ModifyingAbove r With caret" class="math-display" height="42" src="https://beila.github.io/my-collection/math-images/cce4cdfbab846f859bf010e1a1aab6d8ff69ed892389538ccc56c0b93baa0299.png" width="135"/></p>
 <p>This is Newton's law of gravitation. Einstein's field equations reduce to Newton's law of gravity in the weak-field, slow-motion limit.</p>
-    </section>
-  </article>
+</section>
+</article>
 </body>
 </html>
