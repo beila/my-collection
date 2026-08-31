@@ -3184,8 +3184,8 @@
     },
     "4019394528191120": {
       "article_format_version": 12,
-      "completed_at": "2026-08-31T19:16:43+00:00",
-      "content_hash": "826d8d62c527db511f0a6ac34857c2de7d4f44c13a5c56b523eacde6ece49f86",
+      "completed_at": "2026-08-31T19:25:36+00:00",
+      "content_hash": "936d28639c46c220d6378c2c89bdff87ffb883fc81bf9edea048275965b08d62",
       "facebook_post_id": "4019394528191120",
       "facebook_timestamp": 1787393689,
       "has_video": false,
@@ -3194,10 +3194,13 @@
         "1c3921dc17cafa9e0708b3eab2d6081800434f03dbb2aad30b2c31c15a23f8fc",
         "601ca920c621138c732d85a86451f723309aea83e0737cf780b0466eb711d48f",
         "ecf036e3ba7d9555abb118ae3a10492976dc350b53a05599c55b0ca162ec78bf",
-        "fecc0143b789b6f951c0a5642f144e6dfc439a290738cb62d6403dfa12faadc2"
+        "fecc0143b789b6f951c0a5642f144e6dfc439a290738cb62d6403dfa12faadc2",
+        "7888954ec746804f85628a2bb892f47d42fa11a19f3f53a871aa47a193699b90",
+        "90585f10fd583745af0c78b7fc6278b7bc1c88a51dd31ff47ecf94de30543ddb",
+        "c3ee9e5e2c6a11e5eeab98a765909ea51d9c007759eabec7f5a16b950dcf57cf"
       ],
       "inline_links": [],
-      "instapaper_bookmark_id": "2038057622",
+      "instapaper_bookmark_id": "2038059334",
       "last_error": null,
       "linked_pages": [],
       "media": [
@@ -3225,6 +3228,21 @@
           "description": "May be an image of text",
           "is_video_thumbnail": false,
           "sha256": "fecc0143b789b6f951c0a5642f144e6dfc439a290738cb62d6403dfa12faadc2"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "7888954ec746804f85628a2bb892f47d42fa11a19f3f53a871aa47a193699b90"
+        },
+        {
+          "description": "May be an image of text that says \"ESPACE NOW סלנייאם www.thespact thespaceuk.com com 0131 510 2384 38 EHS'S0P iiPiace Aug theSpace 97-20 Xace 29 Triplex Adam 3:05 3-056X 3:05(45m) (45m) thel Wizard Greene ZEMPIC GILDED BALLOON BOO PATTER HOUSE 17 5-31 KEEPI A hopeful one-per UK Theatre Theatre Web Emotic Emotional powerful storyteling. Highly @commended. ended. watchKoeping Secrets heal heart! Tranger en ー Pay 家島演T！ TEDANDPEAFORN NEDm JIM VETTER 19:10 ุ่นตอแรา PRRETC 3AULUSTIMOTA8 BIG DR CABARET DRAG KomaHKblR WIVE AFTERDLAY D3's MAYHEM BO SCOTSMAN RWAMEY\"",
+          "is_video_thumbnail": false,
+          "sha256": "90585f10fd583745af0c78b7fc6278b7bc1c88a51dd31ff47ecf94de30543ddb"
+        },
+        {
+          "description": "May be an image of castle and Calton Hill",
+          "is_video_thumbnail": false,
+          "sha256": "c3ee9e5e2c6a11e5eeab98a765909ea51d9c007759eabec7f5a16b950dcf57cf"
         }
       ],
       "omitted_photo_count": 3,
@@ -7611,5 +7629,5 @@
     }
   },
   "schema_version": 1,
-  "updated_at": "2026-08-31T19:18:08+00:00"
+  "updated_at": "2026-08-31T19:25:36+00:00"
 }
