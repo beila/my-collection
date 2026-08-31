@@ -3301,9 +3301,9 @@
       "status": "complete"
     },
     "4022475341216372": {
-      "article_format_version": 8,
-      "completed_at": "2026-08-30T21:06:20+00:00",
-      "content_hash": "38427494b3a63305ee4ccaff6c70a2ab085a642f328aa79e1a74bbc1822c0cea",
+      "article_format_version": 12,
+      "completed_at": "2026-08-31T19:33:19+00:00",
+      "content_hash": "bcbd6882a8172e0c4dfcda6343fdad80a8238319b7338b0625a502b33dbb7e67",
       "facebook_post_id": "4022475341216372",
       "facebook_timestamp": 1787609806,
       "has_video": false,
@@ -3311,16 +3311,23 @@
         "33662b1bd00d783e6673bf804d665fa1a069347edd5fe6bb9e989b7ff58c1de6"
       ],
       "inline_links": [],
-      "instapaper_bookmark_id": "2037851227",
+      "instapaper_bookmark_id": "2038060770",
       "last_error": null,
       "linked_pages": [],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "33662b1bd00d783e6673bf804d665fa1a069347edd5fe6bb9e989b7ff58c1de6"
+        }
+      ],
       "omitted_photo_count": 0,
-      "original_author": "Hyunsik Lee",
+      "original_author": "Jouhahn Lee",
       "original_inline_links": [],
       "original_paragraphs": [
-        "공연장의 이른바 '휴대폰 관크'에 관해서 글을 쓰는 건 별로 즐거운 일이 아니라서 평소 피해왔지만, 결국 <아르떼>에 칼럼을 한 편 썼다. 지난 8월20일 베조드 압두라이모프 피아노 리사이틀이 계기가 됐다. 그런데...",
-        "초고를 써놓고 보니 나이든 표현들이 눈에 걸렸다. \"xxx 하다니, 말세다.\" \"다반사\" \"아뿔싸\" 뭐 이런 옛날 말들이 튀어나오는거라. 어휘들을 요즘 말로 바꿀까 하다가, 훈장질 하는 내용이니 어울리는 것도 같아서 그냥 놔뒀다. 요즘 AI로 칼럼 원고 쓰는 사람들 많다는데, AI는 이런 단어들 안 쓰겠지. 아래는 발췌.",
-        "'그래서 어쩌자는건데?'에 대한 나의 제언은 원문을 읽어주시면 감사."
+        "최근 5년 동안 읽었던 글 중에 최고로 자극을 준 글.",
+        "Absolutely Brilliant!",
+        "[회사가 천재를 알아보지 못하면 무슨 일이 생기는가 - 반도체 영웅들]"
       ],
       "permalink": "https://www.facebook.com/sanghyun.simon.park/posts/4022475341216372",
       "profile_url": "https://www.facebook.com/sanghyun.simon.park",
@@ -7629,5 +7636,5 @@
     }
   },
   "schema_version": 1,
-  "updated_at": "2026-08-31T19:28:14+00:00"
+  "updated_at": "2026-08-31T19:33:19+00:00"
 }
