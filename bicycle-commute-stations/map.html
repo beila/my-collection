@@ -77,8 +77,7 @@
       }
 
       .top-controls,
-      .control,
-      .destination-filters {
+      .control {
         display: flex;
         align-items: center;
       }
@@ -88,8 +87,7 @@
         gap: 14px;
       }
 
-      .control,
-      .destination-option {
+      .control {
         gap: 6px;
         min-height: 32px;
         color: #27333d;
@@ -156,49 +154,6 @@
         line-height: 1.25;
         text-overflow: ellipsis;
         white-space: nowrap;
-      }
-
-      .filters {
-        padding: 12px 14px 11px;
-        border-bottom: 1px solid #dbe1e5;
-      }
-
-      .filter-heading {
-        display: flex;
-        align-items: baseline;
-        justify-content: space-between;
-        margin-bottom: 7px;
-      }
-
-      .filter-heading label,
-      .filter-label {
-        color: #3b4852;
-        font-size: 11px;
-        font-weight: 750;
-        text-transform: uppercase;
-      }
-
-      #ride-limit-output {
-        color: #146f7d;
-        font-size: 14px;
-        font-weight: 800;
-      }
-
-      #ride-limit {
-        width: 100%;
-        height: 20px;
-        margin: 0 0 9px;
-        accent-color: #146f7d;
-      }
-
-      .destination-filters {
-        gap: 12px;
-        margin-top: 7px;
-      }
-
-      .destination-option {
-        display: flex;
-        align-items: center;
       }
 
       .list-heading {
@@ -282,10 +237,6 @@
         background: #f3eae8;
       }
 
-      .full-commute-row.over-limit {
-        opacity: 0.72;
-      }
-
       .full-commute-row.selected {
         background: #f1e4e3;
         box-shadow:
@@ -356,13 +307,6 @@
         margin-top: 2px;
         color: #6b7781;
         font-size: 10px;
-      }
-
-      .empty-state {
-        padding: 24px 16px;
-        color: #66737e;
-        font-size: 13px;
-        text-align: center;
       }
 
       #map {
@@ -481,10 +425,6 @@
           border-right: 0;
         }
 
-        .filters {
-          padding-top: 9px;
-          padding-bottom: 8px;
-        }
       }
 
       @media (max-width: 430px) {
@@ -496,8 +436,7 @@
           font-size: 11px;
         }
 
-        .control,
-        .destination-option {
+        .control {
           font-size: 11px;
         }
 
@@ -506,7 +445,8 @@
         }
 
         .workspace {
-          grid-template-rows: clamp(220px, 36dvh, 300px) minmax(0, 1fr);
+          grid-template-rows: clamp(260px, 43vh, 360px) minmax(0, 1fr);
+          grid-template-rows: clamp(260px, 43dvh, 360px) minmax(0, 1fr);
         }
 
         .station-row {
@@ -569,24 +509,6 @@
           display: none;
         }
 
-        .filters {
-          padding: 6px 10px 5px;
-        }
-
-        .filter-heading {
-          margin-bottom: 2px;
-        }
-
-        #ride-limit {
-          height: 16px;
-          margin-bottom: 3px;
-        }
-
-        .destination-filters {
-          gap: 8px;
-          margin-top: 3px;
-        }
-
         .list-heading {
           min-height: 32px;
           padding: 0 10px;
@@ -630,7 +552,7 @@
 
       <div class="workspace">
         <aside class="sidebar">
-          <section class="summary" aria-label="Filtered result summary">
+          <section class="summary" aria-label="Result summary">
             <div class="metric">
               <span class="metric-label">Stations</span>
               <span id="station-count" class="metric-value">52</span>
@@ -642,35 +564,6 @@
             <div class="metric">
               <span class="metric-label">Full Commute</span>
               <span id="full-commute-time" class="metric-value">83.2 min</span>
-            </div>
-          </section>
-
-          <section class="filters">
-            <div class="filter-heading">
-              <label for="ride-limit">Ride Limit</label>
-              <output id="ride-limit-output" for="ride-limit">84 min</output>
-            </div>
-            <input id="ride-limit" type="range" step="1">
-            <div class="filter-label">Reachable Destination</div>
-            <div class="destination-filters">
-              <label class="destination-option">
-                <input
-                  class="destination-toggle"
-                  type="checkbox"
-                  value="Liverpool Street"
-                  checked
-                >
-                Liverpool Street
-              </label>
-              <label class="destination-option">
-                <input
-                  class="destination-toggle"
-                  type="checkbox"
-                  value="Shoreditch High Street"
-                  checked
-                >
-                Shoreditch High Street
-              </label>
             </div>
           </section>
 
@@ -708,23 +601,14 @@
           feature.properties.expansion_scope
           === "at-most-one-change-faster-than-brockley",
       ).length;
-      const minimumMinutes = Math.floor(
-        candidates[0].properties.cycle_minutes_exact,
-      );
-      const maximumMinutes = Math.ceil(
-        Math.max(
-          ...candidates.map(
-            (feature) => feature.properties.cycle_minutes_exact,
-          ),
+      const minimumMinutes = candidates[0].properties.cycle_minutes_exact;
+      const maximumMinutes = Math.max(
+        ...candidates.map(
+          (feature) => feature.properties.cycle_minutes_exact,
         ),
       );
 
       const state = {
-        maxMinutes: maximumMinutes,
-        destinations: new Set([
-          "Liverpool Street",
-          "Shoreditch High Street",
-        ]),
         showRoutes: false,
         selectedStationId: null,
         selectedFullCommute: false,
@@ -988,28 +872,15 @@
       const stationCount = document.querySelector("#station-count");
       const shortestTime = document.querySelector("#shortest-time");
       const fullCommuteTime = document.querySelector("#full-commute-time");
-      const rideLimit = document.querySelector("#ride-limit");
-      const rideLimitOutput = document.querySelector("#ride-limit-output");
       const visibleRange = document.querySelector("#visible-range");
 
-      rideLimit.min = minimumMinutes;
-      rideLimit.max = maximumMinutes;
-      rideLimit.value = maximumMinutes;
+      visibleRange.textContent =
+        `${minimumMinutes.toFixed(1)}-${maximumMinutes.toFixed(1)} min`;
       fullCommuteTime.textContent = formatMinutes(
         independentFullFeature.properties.cycle_minutes_exact,
       );
       document.querySelector("#app-subtitle").textContent =
         `${candidates.length} routes - ${expansionCount} additions - full ride ${formatMinutes(independentFullFeature.properties.cycle_minutes_exact)} / ${independentFullFeature.properties.cycle_distance_km.toFixed(2)} km`;
-
-      const featureMatches = (feature) => {
-        const properties = feature.properties;
-        return (
-          properties.cycle_minutes_exact <= state.maxMinutes
-          && properties.reachable_destinations.some((destination) =>
-            state.destinations.has(destination)
-          )
-        );
-      };
 
       const resetMarkerStyles = () => {
         stationMarkers.forEach((marker, stationId) => {
@@ -1101,10 +972,6 @@
         row.dataset.routeId = "full-commute";
         row.style.setProperty("--station-color", "#9f3151");
         row.classList.toggle("selected", state.selectedFullCommute);
-        row.classList.toggle(
-          "over-limit",
-          independent.cycle_minutes_exact > state.maxMinutes,
-        );
         row.setAttribute(
           "aria-label",
           `Full route to workplace, ${formatMinutes(independent.cycle_minutes_exact)}, TfL ${tfl.cycle_minutes} minutes`,
@@ -1208,7 +1075,7 @@
       };
 
       const syncRouteLayer = (
-        visibleCandidates = candidates.filter(featureMatches),
+        visibleCandidates = candidates,
       ) => {
         routeLayer.clearLayers();
         visibleCandidates.forEach((feature) => {
@@ -1234,7 +1101,7 @@
       };
 
       const render = () => {
-        const visibleCandidates = candidates.filter(featureMatches);
+        const visibleCandidates = candidates;
         stationLayer.clearLayers();
         list.replaceChildren();
         list.append(createFullCommuteRow());
@@ -1246,57 +1113,12 @@
         });
         syncRouteLayer(visibleCandidates);
 
-        if (visibleCandidates.length === 0) {
-          const empty = document.createElement("div");
-          empty.className = "empty-state";
-          empty.textContent = "No stations match the current filters.";
-          list.append(empty);
-        }
-
         stationCount.textContent = visibleCandidates.length;
-        shortestTime.textContent =
-          visibleCandidates.length > 0
-            ? formatMinutes(
-                visibleCandidates[0].properties.cycle_minutes_exact,
-              )
-            : "--";
-        rideLimitOutput.textContent = `${state.maxMinutes} min`;
-        visibleRange.textContent =
-          visibleCandidates.length > 0
-            ? `${visibleCandidates[0].properties.cycle_minutes_exact.toFixed(1)}-${state.maxMinutes} min`
-            : `0-${state.maxMinutes} min`;
-
-        if (
-          state.selectedStationId
-          && !visibleCandidates.some(
-            (feature) =>
-              feature.properties.station_id === state.selectedStationId,
-          )
-        ) {
-          state.selectedStationId = null;
-          syncRouteLayer(visibleCandidates);
-          map.closePopup();
-        }
+        shortestTime.textContent = formatMinutes(
+          visibleCandidates[0].properties.cycle_minutes_exact,
+        );
         resetMarkerStyles();
       };
-
-      rideLimit.addEventListener("input", (event) => {
-        state.maxMinutes = Number(event.target.value);
-        render();
-      });
-
-      document
-        .querySelectorAll(".destination-toggle")
-        .forEach((checkbox) => {
-          checkbox.addEventListener("change", (event) => {
-            if (event.target.checked) {
-              state.destinations.add(event.target.value);
-            } else {
-              state.destinations.delete(event.target.value);
-            }
-            render();
-          });
-        });
 
       document
         .querySelector("#toggle-circles")
