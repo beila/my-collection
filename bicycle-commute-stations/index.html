@@ -625,10 +625,6 @@
             <input id="toggle-full-commute" type="checkbox" checked>
             Full commute
           </label>
-          <label class="control">
-            <input id="toggle-custom-house" type="checkbox">
-            Custom audit
-          </label>
         </div>
       </header>
 
@@ -988,28 +984,6 @@
       fullCommuteLayer.addLayer(tflFullLayer);
       fullCommuteLayer.addTo(map);
 
-      const customHouseFeature = (featuresByKind["cycle-route"] || []).find(
-        (feature) => feature.properties.station_id === "910GCUSTMHS",
-      );
-      const customTflFeature = featuresByKind["custom-house-tfl-route"][0];
-      const customHouseAuditLayer = L.layerGroup([
-        L.geoJSON(customHouseFeature, {
-          style: { color: "#008b8b", weight: 5, opacity: 0.95 },
-        }).bindTooltip(
-          `Independent Custom House: ${formatMinutes(customHouseFeature.properties.cycle_minutes_exact)} / ${customHouseFeature.properties.cycle_distance_km.toFixed(2)} km`,
-        ),
-        L.geoJSON(customTflFeature, {
-          style: {
-            color: "#c43f55",
-            weight: 4,
-            opacity: 0.88,
-            dashArray: "8 6",
-          },
-        }).bindTooltip(
-          `TfL Custom House detour: ${customTflFeature.properties.cycle_minutes} min / ${customTflFeature.properties.cycle_distance_km.toFixed(2)} km`,
-        ),
-      ]);
-
       const list = document.querySelector("#station-list");
       const stationCount = document.querySelector("#station-count");
       const shortestTime = document.querySelector("#shortest-time");
@@ -1350,13 +1324,6 @@
             );
             if (row) row.classList.remove("selected");
           }
-        });
-
-      document
-        .querySelector("#toggle-custom-house")
-        .addEventListener("change", (event) => {
-          if (event.target.checked) customHouseAuditLayer.addTo(map);
-          else customHouseAuditLayer.removeFrom(map);
         });
 
       const legend = L.control({ position: "bottomright" });
