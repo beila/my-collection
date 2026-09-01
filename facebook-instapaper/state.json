@@ -10366,6 +10366,14 @@
           "post_id": "3992993854164521",
           "status": "complete"
         },
+        "https://www.facebook.com/sanghyun.simon.park/posts/pfbid0jz7YxUhU2H9t5xTvH151H4HDVENW5ih8eFmjMNL55ZBxLdH5ozRkm3cEUVSi5CE1l": {
+          "completed_at": "2026-09-01T10:50:33+00:00",
+          "discovered_at": "2026-09-01T21:07:13+00:00",
+          "last_error": null,
+          "not_before_timestamp": null,
+          "post_id": "4031120960351810",
+          "status": "complete"
+        },
         "https://www.facebook.com/sanghyun.simon.park/posts/pfbid0ksDuErdnpZCmirKavGrRwA89PJ8UFF9YnAzzKf1KwKTeFR3ZPMUnnW5kueGoxf9jl": {
           "completed_at": "2026-08-30T21:06:27+00:00",
           "discovered_at": "2026-08-31T09:21:51+00:00",
@@ -10449,7 +10457,7 @@
       },
       "initial_cutoff_timestamp": 1785444708,
       "initialized_at": "2026-08-30T20:51:48+00:00",
-      "last_scan_timestamp": 1788280906,
+      "last_scan_timestamp": 1788296827,
       "name": "Sanghyun Park"
     },
     "https://www.facebook.com/youngho.youn.5": {
@@ -10721,7 +10729,7 @@
       },
       "initial_cutoff_timestamp": 1785578551,
       "initialized_at": "2026-09-01T10:02:31+00:00",
-      "last_scan_timestamp": 1788280899,
+      "last_scan_timestamp": 1788296821,
       "name": "Youngho Youn"
     },
     "https://www.facebook.com/yulmonologue": {
@@ -10870,5 +10878,5 @@
     }
   },
   "schema_version": 1,
-  "updated_at": "2026-09-01T20:41:39+00:00"
+  "updated_at": "2026-09-01T21:08:21+00:00"
 }
