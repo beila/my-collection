@@ -3656,9 +3656,9 @@
       "status": "complete"
     },
     "28417874234502907": {
-      "article_format_version": 15,
+      "article_format_version": 16,
       "completed_at": "2026-09-01T10:34:00+00:00",
-      "content_hash": "6fb0f99bd477aa55d613d2f517fd6d3a0aa91f0c86da34aae765383b631def4c",
+      "content_hash": "71203975e36aeb9c307d9c132ee959ece74e4e52f812e627e380c8f2f0f75b1a",
       "direct_media_keys": [
         "782492705_28417875544502776_3626897849576977283_n.jpg",
         "781979650_28417877831169214_8828760429694074505_n.jpg",
@@ -3675,20 +3675,20 @@
         "2cfedd2cf26b4e198d1eb965aae04aea81d9979361f42205791cd56b778c97df",
         "2fea5c10813930e3101d44ea2c2738d4a90006c1321d58f74bf624a226c1572d",
         "37f8bcc5a17abd9e69eb6e4f135a68398c8ac31d877bab6a1dbd11f0195089d8",
-        "2bc99d1e9e9ec89648dcd41b8e6d27b117d086e27db6d806f8099e7e9a27e099",
-        "70bfeb94b394359f7609c02e2e046571c3c1cc720d016e3df45b762f5862e58d",
-        "aa9d4cf74bfe0026ca5842332034c3ec67b1ea59484d5f381c169443933cc74b",
-        "815dbaaac5fd2df832f59a06a3ba856b58cedf1b69e01b446448608247255b7c",
-        "d5ec3100f9bb28f97154d196696764adef34dd3695fcbbcf71105058322a79f4",
-        "148421feaf6a55955d5463eea634aa5f99f4b0d23df5a1b119c0257563a86027",
-        "8f419d6a3864f0bc073c6502c68575d87577de8dc9aaa03169fde7b5640049a0",
-        "23e02fc6365ec69a19504d428cd580f710b343198f267fc83df17888f1116cf8",
-        "5ea5d6b2ca60ac4c5ea5424ac47c6461b5c020478b82fa498401d71874deb7ca",
-        "1a307223f9640de658373f1121ced63f534af796a3c1d4e49f3973bd41b7ea42",
-        "fe480a2f95bbfc2091986b41fe24815d6be034728c96e9a5e9b9ff80cccdb17c",
-        "2157cab4bd5614516a087089bc1dbabf9faf60701d3b7508b1d1ea1b20aa199e",
-        "a05445866fe3428b4fe7178e7a58721b839393e63d29ab97b17216948ad76366",
-        "ecb6e72f1ed75981584e49e5cc3c838f4a5468ec234fcd6a281ee611fabf24c3"
+        "fdff1db11e0b55d157ea39b1388bf703366240562bae404db2256215bf99a370",
+        "84478795ec260d92d7b589450be013f91ca7081bb5a073b0a1e07d49a4661145",
+        "14bcc3ff45db4c5f34c8dde04313cdb7114fbb224d8def1fe7897b3f30d6ed66",
+        "b0a3f32bd8945f0fcc9f4a30b44d5b060448fe258e9da0fe750e532b96832262",
+        "11f8e651e5a4423837699c92f57c7039d786e333142f038c2b9e3b2886816785",
+        "f5689e0692c88e59534310955d9723aafa2197b6b4f9588ba93a01a6872a26fb",
+        "0b5e74a94f8f570b953e1ebe91b1548793d2f982025f2d9b16ec13a9df3c7e05",
+        "8fce9d548cc03b7763578565c8f1bb6c13b2ec98eefb77a8e5c89ddf259f90f9",
+        "afb8ae0fdafb9943d86edb5735a4bb0fbebdb90fd0729ade6b9353ec67e66680",
+        "a2f2228329545add20f26941e8998983cc0bc2f6c543cde0c721ba6508cf190a",
+        "1b8c1dae3e6863c794f65cabe2ce1cd628b94f9302a504af99716afcccac8b88",
+        "c490f218e2de95722e33f2600160b92788fd5ef53b84998f0ae8378f76667bf9",
+        "4bc8194bf7244fa72c53e86de0d4f6a73803f5b077ce147d7c1f9187d5cf7da2",
+        "ea3ed8c3ecc954048d62916524ab9f6c1d1b93cd4198b6e6da92d735683803ac"
       ],
       "inline_links": [],
       "instapaper_bookmark_id": "2038200698",
@@ -3724,87 +3724,101 @@
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "2bc99d1e9e9ec89648dcd41b8e6d27b117d086e27db6d806f8099e7e9a27e099"
+          "sha256": "fdff1db11e0b55d157ea39b1388bf703366240562bae404db2256215bf99a370"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "70bfeb94b394359f7609c02e2e046571c3c1cc720d016e3df45b762f5862e58d"
+          "sha256": "84478795ec260d92d7b589450be013f91ca7081bb5a073b0a1e07d49a4661145"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "aa9d4cf74bfe0026ca5842332034c3ec67b1ea59484d5f381c169443933cc74b"
+          "sha256": "14bcc3ff45db4c5f34c8dde04313cdb7114fbb224d8def1fe7897b3f30d6ed66"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "815dbaaac5fd2df832f59a06a3ba856b58cedf1b69e01b446448608247255b7c"
+          "sha256": "b0a3f32bd8945f0fcc9f4a30b44d5b060448fe258e9da0fe750e532b96832262"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "d5ec3100f9bb28f97154d196696764adef34dd3695fcbbcf71105058322a79f4"
+          "sha256": "11f8e651e5a4423837699c92f57c7039d786e333142f038c2b9e3b2886816785"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "148421feaf6a55955d5463eea634aa5f99f4b0d23df5a1b119c0257563a86027"
+          "sha256": "f5689e0692c88e59534310955d9723aafa2197b6b4f9588ba93a01a6872a26fb"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "8f419d6a3864f0bc073c6502c68575d87577de8dc9aaa03169fde7b5640049a0"
+          "sha256": "0b5e74a94f8f570b953e1ebe91b1548793d2f982025f2d9b16ec13a9df3c7e05"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "23e02fc6365ec69a19504d428cd580f710b343198f267fc83df17888f1116cf8"
+          "sha256": "8fce9d548cc03b7763578565c8f1bb6c13b2ec98eefb77a8e5c89ddf259f90f9"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "5ea5d6b2ca60ac4c5ea5424ac47c6461b5c020478b82fa498401d71874deb7ca"
+          "sha256": "afb8ae0fdafb9943d86edb5735a4bb0fbebdb90fd0729ade6b9353ec67e66680"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "1a307223f9640de658373f1121ced63f534af796a3c1d4e49f3973bd41b7ea42"
+          "sha256": "a2f2228329545add20f26941e8998983cc0bc2f6c543cde0c721ba6508cf190a"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "fe480a2f95bbfc2091986b41fe24815d6be034728c96e9a5e9b9ff80cccdb17c"
+          "sha256": "1b8c1dae3e6863c794f65cabe2ce1cd628b94f9302a504af99716afcccac8b88"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "2157cab4bd5614516a087089bc1dbabf9faf60701d3b7508b1d1ea1b20aa199e"
+          "sha256": "c490f218e2de95722e33f2600160b92788fd5ef53b84998f0ae8378f76667bf9"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "a05445866fe3428b4fe7178e7a58721b839393e63d29ab97b17216948ad76366"
+          "sha256": "4bc8194bf7244fa72c53e86de0d4f6a73803f5b077ce147d7c1f9187d5cf7da2"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "ecb6e72f1ed75981584e49e5cc3c838f4a5468ec234fcd6a281ee611fabf24c3"
+          "sha256": "ea3ed8c3ecc954048d62916524ab9f6c1d1b93cd4198b6e6da92d735683803ac"
         }
       ],
       "omitted_photo_count": 0,
       "original_author": null,
       "original_inline_links": [],
       "original_paragraphs": [],
+      "paragraphs": [
+        "더 로얄 에딘버러 밀리터리 타투",
+        "매년 300만 명 이상이 찾아 온다는 에딘버러 페스티발 프린지, 그 와중에 호텔비는 평소보다 5배 가량 높네요. 홀리데이 인이 70만원 이상을 한다니 말 다했죠.",
+        "오늘은 26-08 고객들과 함께 밀리터리 타투를 관람했네요. Tattoo는 문신과는 관계없는 고대 게르만어로 taptoe에서 왔다고 하네요.",
+        "군인들이 저녁에 나가서 맥주를 마시는데, 군에서 밤에 복귀 명령을 내릴 때, 펍을 돌면서 turn off tap이라고 소리를 질렀다고 해요. 즉 맥주가 나오는 꼭지를 닫으라고 명령을 내리면 군인들이 복귀해야 했어요. 군대 복귀 명령이었던 셈이죠. 이후 군대의 야간 행사를 뜻하는 개념이 되었다고 해요.",
+        "에딘버러 타투에는 크게 다섯 가지가 드러나는 것 같아요.",
+        "첫째, 로마, 게르만, 잉글랜드 등 어디에도 정복되지 않았던, 스코틀랜드 군대의 높은 위상을 드러네요. 백파이프, 타르탄이 스코틀랜드 군의 위상을 잘 나타네요.",
+        "둘째, 세계를 정복한 영국군의 위상도 드러나고요. 전세계 군을 아우리는 느낌요.",
+        "세째, 미군의 위상, 영국에서 독립한 후에 자유의 수호신 같은 이미지 말이죠.",
+        "네째, 각국의 군대가 참여하여, 대립보다는 ‘우리는 하나다’라는 메세지를 주네요. 독일군이 등장할 때 나오는 베토벤 음악이 특히 인상적이었네요.",
+        "다섯째, 군대가 우리 곁에 있는 느낌요. 국민을 위로하기 위해 존재하는 것이 군대라는 인상을 주었네요. 군인들 너무 멋있어요.",
+        "에딘버러 페스티발의 밀리터리 타투는 must see네요. 제가 관람한 모든 퍼포먼스를 통틀어 최고였다고 생각해요.",
+        "London Life 3.0 - (275)"
+      ],
       "permalink": "https://www.facebook.com/youngho.youn.5/posts/28417874234502907",
       "profile_url": "https://www.facebook.com/youngho.youn.5",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/youngho.youn.5/28417874234502907.html",
       "status": "complete"
     },
     "28430007126622951": {
-      "article_format_version": 15,
+      "article_format_version": 16,
       "completed_at": "2026-09-01T10:34:05+00:00",
-      "content_hash": "4ec1c0a112574cc7c8fa3018b121259e235faa242d37a56dbfcd05b6b4b81f56",
+      "content_hash": "e2725a39ec134953b06b2f8dd41b215d8e3fe2d754ba9fed3dcf9eec9905d837",
       "direct_media_keys": [
         "784477573_28430008163289514_2927348948398224845_n.jpg",
         "784025777_28430009226622741_1081624478720848061_n.jpg",
@@ -3821,23 +3835,23 @@
         "f134b7710f8cad8655b36b237b901d7264d01907a9fef616ddb6fffe6c0477c2",
         "ecb6e72f1ed75981584e49e5cc3c838f4a5468ec234fcd6a281ee611fabf24c3",
         "8f61022beb217451cefee29b580855bdbdcaa06e16144aebf57d0510a4916f71",
-        "8df93e25763662133f6998e40affe12747bda86da5365ad287c7522b58c19cee",
-        "168dca4848842d0eeb28649ed408baa8a0e91bf34846bfdab06379508a7d32b8",
-        "577ccdceca95b1de44c9ac487ac27dfa47cefbf622386113c8894901e26acd43",
-        "e9552328f9184a819d21d1a4dd1073f0c1959a61f6ee5b0e65762a90b9e7e309",
-        "a8919d6841ddb49db5ecca217468057e8c53ee0b1ea75bdafe090ce1f91ac647",
-        "06587c1b625c4d36cfc58e894d40dbba7bd7cf38b969688a81696a0cb2260b8a",
-        "6c355ec6ec5c7a5ac06f8804e98b3f32235eb992c8c0370e676b028883010d68",
-        "11a08aae93349f290dbd46a2f44f0eb6d3c252bd899719b4b8e19755f14a0409",
-        "79de62fcc8f498c1a1a53aa2090a9bba423d862510b31158f44f46790eba18ef",
-        "1fc9792cd264cf34719606b081a791c2aa78ef3799ebf70e043ee84c4f1d1fb3",
-        "0c701bc79aaebb99c4d2a66ff3edb6f242e3ae85edebb3cac36ce2efe31b10d5",
-        "f9f446e5dd1b9bbf0b9a4066c03cb353969c0f959323db502e4cc917cfec5a72",
-        "d5632a35fefe7242b201a0b61b73ba456cfc3520c016016955eb5385b35deef9",
-        "8580e0e31d11c90ef9ed87858758f450066b0b68aa01223c93d508039012278e",
-        "0703ab752a983e37d085b9d809c4cd5b76ff426ae072137c3fd87930f805dc9c",
-        "b6243a5114f54532088d60747cd24a2b63fdd67abf637ab2a79cc11b3bced32b",
-        "a6cf7320fbd4ef9542092d7e5b8ec851a7f8750848da94350cd7c216fa6ac1f0"
+        "482d26c6508a53e690dee616b2ce2a07f1fa4e5251a164e68ad378ad583d674d",
+        "c08c027d77e353f3399d03260688d7919d33c35c023b96c101efac7b08284ee9",
+        "dcbbf0cfc09256d838535b72f2452367d20fef8123bf04c89dc9114243ca97e7",
+        "4083bdda2136d48cf5b9592be5d084ab5503c0ad330d69fa5150d989202c5195",
+        "55111a8874974d0b262dc5b0929fc5c8be62d52acab2d05a5a22926ff8be8d47",
+        "8cf0fc55d3fddc71e2cbabbc980658ea0f684e34de916bbd8248d5b55f80c858",
+        "2746ea39c8885429394e3343d6001e2f94e76d513ebd416fdafbfda905c8e9ed",
+        "14fccd6da50967e348f9947634a4497426ef1b17b4ad94110d05c9811991000a",
+        "d35c9478f5841134be85ec0b7bbce931cf4bc7d7e3fad8f5f14a1323168a1535",
+        "4acc2cd36d4d09d44859891c21fc8a4f7c785c6a8fa964bf24a2cd77dde74cb2",
+        "c28e60687cba99b7ff78ba7ac8eaa1838f354d1476237b022fa4b98339608c17",
+        "81bf85bc39cc647d68002ef8b4cd84b10c3b556a43075aad71256eddd96a9174",
+        "4b6798fb86693fd1b3d4adaa9df0b3c879cbb18eff775a63eff4735412c8e2fb",
+        "1d07249c0a61ea2adf0027b81cc8a552d8a5669ed9b74c36e7679a0a8284d947",
+        "6f7a92fd338c903f36e60fd8e3756c97067fed0d1bb913ff2ba28b7a7bbe3dce",
+        "39137fdd944b5fa00dd3224e64133c4408ad8615579601436b4164ba69c63901",
+        "fe9a1285dd8dac3c09018e695f19307f2f4bcbf9bc6ce807c0461d3db30300d1"
       ],
       "inline_links": [],
       "instapaper_bookmark_id": "2038200697",
@@ -3873,102 +3887,106 @@
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "8df93e25763662133f6998e40affe12747bda86da5365ad287c7522b58c19cee"
+          "sha256": "482d26c6508a53e690dee616b2ce2a07f1fa4e5251a164e68ad378ad583d674d"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "168dca4848842d0eeb28649ed408baa8a0e91bf34846bfdab06379508a7d32b8"
+          "sha256": "c08c027d77e353f3399d03260688d7919d33c35c023b96c101efac7b08284ee9"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "577ccdceca95b1de44c9ac487ac27dfa47cefbf622386113c8894901e26acd43"
+          "sha256": "dcbbf0cfc09256d838535b72f2452367d20fef8123bf04c89dc9114243ca97e7"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "e9552328f9184a819d21d1a4dd1073f0c1959a61f6ee5b0e65762a90b9e7e309"
+          "sha256": "4083bdda2136d48cf5b9592be5d084ab5503c0ad330d69fa5150d989202c5195"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "a8919d6841ddb49db5ecca217468057e8c53ee0b1ea75bdafe090ce1f91ac647"
+          "sha256": "55111a8874974d0b262dc5b0929fc5c8be62d52acab2d05a5a22926ff8be8d47"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "06587c1b625c4d36cfc58e894d40dbba7bd7cf38b969688a81696a0cb2260b8a"
+          "sha256": "8cf0fc55d3fddc71e2cbabbc980658ea0f684e34de916bbd8248d5b55f80c858"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "6c355ec6ec5c7a5ac06f8804e98b3f32235eb992c8c0370e676b028883010d68"
+          "sha256": "2746ea39c8885429394e3343d6001e2f94e76d513ebd416fdafbfda905c8e9ed"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "11a08aae93349f290dbd46a2f44f0eb6d3c252bd899719b4b8e19755f14a0409"
+          "sha256": "14fccd6da50967e348f9947634a4497426ef1b17b4ad94110d05c9811991000a"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "79de62fcc8f498c1a1a53aa2090a9bba423d862510b31158f44f46790eba18ef"
+          "sha256": "d35c9478f5841134be85ec0b7bbce931cf4bc7d7e3fad8f5f14a1323168a1535"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "1fc9792cd264cf34719606b081a791c2aa78ef3799ebf70e043ee84c4f1d1fb3"
+          "sha256": "4acc2cd36d4d09d44859891c21fc8a4f7c785c6a8fa964bf24a2cd77dde74cb2"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "0c701bc79aaebb99c4d2a66ff3edb6f242e3ae85edebb3cac36ce2efe31b10d5"
+          "sha256": "c28e60687cba99b7ff78ba7ac8eaa1838f354d1476237b022fa4b98339608c17"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "f9f446e5dd1b9bbf0b9a4066c03cb353969c0f959323db502e4cc917cfec5a72"
+          "sha256": "81bf85bc39cc647d68002ef8b4cd84b10c3b556a43075aad71256eddd96a9174"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "d5632a35fefe7242b201a0b61b73ba456cfc3520c016016955eb5385b35deef9"
+          "sha256": "4b6798fb86693fd1b3d4adaa9df0b3c879cbb18eff775a63eff4735412c8e2fb"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "8580e0e31d11c90ef9ed87858758f450066b0b68aa01223c93d508039012278e"
+          "sha256": "1d07249c0a61ea2adf0027b81cc8a552d8a5669ed9b74c36e7679a0a8284d947"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "0703ab752a983e37d085b9d809c4cd5b76ff426ae072137c3fd87930f805dc9c"
+          "sha256": "6f7a92fd338c903f36e60fd8e3756c97067fed0d1bb913ff2ba28b7a7bbe3dce"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "b6243a5114f54532088d60747cd24a2b63fdd67abf637ab2a79cc11b3bced32b"
+          "sha256": "39137fdd944b5fa00dd3224e64133c4408ad8615579601436b4164ba69c63901"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "a6cf7320fbd4ef9542092d7e5b8ec851a7f8750848da94350cd7c216fa6ac1f0"
+          "sha256": "fe9a1285dd8dac3c09018e695f19307f2f4bcbf9bc6ce807c0461d3db30300d1"
         }
       ],
       "omitted_photo_count": 0,
       "original_author": null,
       "original_inline_links": [],
       "original_paragraphs": [],
+      "paragraphs": [
+        "굴레인 언덕에서",
+        "London Life 3.0 - (276)"
+      ],
       "permalink": "https://www.facebook.com/youngho.youn.5/posts/28430007126622951",
       "profile_url": "https://www.facebook.com/youngho.youn.5",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/youngho.youn.5/28430007126622951.html",
       "status": "complete"
     },
     "28440700242220306": {
-      "article_format_version": 15,
+      "article_format_version": 16,
       "completed_at": "2026-09-01T10:34:11+00:00",
-      "content_hash": "f8e60628ae71a1700721b7edeba29d6103f3538f64fd242cdc3762354a08f4b1",
+      "content_hash": "b342a1e84c1b190ba04d558c51b21b01915013e93487a691685440c415d7b738",
       "direct_media_keys": [
         "785927905_28440701062220224_1399379504317719789_n.jpg",
         "784819082_28440703012220029_8127321801679547667_n.jpg",
@@ -3985,34 +4003,34 @@
         "4e1eaae4d86da97234c007a4b93def0f4d89cc9aa99f3ad0a398510e2fe9ca93",
         "6c5b90126c81a3efae61ff623b89018af5c64e724a046d4dbd275a21b0d68b8f",
         "ce454177d066bd504cc658490cfeb660ed98ae12471e56408c2ff19a5d57ac14",
-        "1e01e6bb33e781eba60bde574c7d235dbb54b9fd8298455221067b6585e1d0f6",
-        "5ab59a0e447e51382db3037d0bda8139e6ada1138529e961341cf4bd2a4c760c",
-        "743ce80e2848fa037fc0e31460d16a000018305af7c6efaeb7e80178634ac6bd",
-        "160030b229bbbd54e6920794671a4e40362b21dc1c0e97c769bce952533ec010",
-        "1b89318babfbf8cf594779490d3b5a5505441e26f8dc379926e8eb8cece570af",
-        "8c0389e5fb17a162f0fd069ee117137785b8971514e0b38e4d44a7b780aa78b1",
-        "a362c72a5610368bc0ebfa64d48ee29989a95ba5c15d7a0b2e7165ca09b70e9d",
-        "b88e00a5a91672b0ac187957e97492f66b8758f297d7c84934b5cd1cf54226fe",
-        "8246c27ac4a0c0138c8f25066b9971a30531c60d5cfcd94be81b339d5cc6bf54",
-        "68991414838fd239cb3d46c3a95a9fcdc92fd3c4e00ad78b49381ff811a9a89d",
-        "569ce929ea05581be6a7ed9e3537ee51b60ff123c6701793b3871e00234dd15f",
+        "f2abe330276eb41727c2066f57dfa82ceb546c707e8f373505b490fa8068ebcb",
+        "e44f5988cf6fc419553794e7579dba3ba28130e49077a29454fe38d7c67bbdfa",
+        "ca4d688dabe209fc0d236a9632ffd3cd4c4e95dc50e7b31db7901a512f66cdb1",
+        "ef262f908943445439ecb884738ec86f509bbae56ac73bd4641a4a9f7b7e064c",
+        "385cc228a7ed98c40b114e6fb8b0e0b22c3442e84d6827e3061054fc747e7e53",
+        "e4cbd1a0ec662884904f643a385d21671dfa7da40c68278e3c37d83960d37e07",
+        "879f777fb29082ee3b93ff23da4620fee92e31721987315bc18c46128ae34446",
+        "da4df6c7b72e6dab6183eccad5a7d87467939b3d3caabe92fbb7eed00505b9af",
+        "6b654e7a57fad3072f26d1fb3ae2db2ab1b982ce494504ea33cf3eae399a054f",
+        "51777395245ba61d095dc0b6406a11523ae2656e2a5563c15a877b324862ce32",
+        "c589d7d9cd470537632af77489bbd2b4b5a37087a6842c699df7f37a2295db43",
+        "6898749f006ff5046de7f4e00fdf4c77116ed2c1a3868164aed7aae1bbd06518",
+        "b5951a911570cd1198af07e4add207dc24d9d6cae9c5c378a73bad44c35c305a",
+        "f09c3eae9564a72661624a9d46f6e5dcb314dbdd3c74bf99302b9e9dcaaed5f4",
+        "39f15d266742395bf999775c045a38162dcbdbc59a08e87078963877cdfe839d",
+        "3aac74d63a82442eecfa50c4bd4c2e4562221b43b5485f0d68c964d2b8f60714",
+        "e38cc7ed17f830cf44f9202056e094ecbdd2fc138117a37271f58b3729ff5b72",
+        "eafecd39317ace1e5d92f65230ec9dd062ea88b82a52dc664f2377dc85c1506e",
+        "ffdf42db102c100315f2115cf4cb0c1e13c70cfe36b2dbed9989c76d7eb4c08b",
+        "f4f1a056c2fa77737964e42f4b057ec0d691b1801863d681ae48f602c147b6a2",
+        "aa3f20ad2471a0255d3755a169fa7beeaff36d309c2ba9188a7fe9ca2ec8ac08",
         "6e4082fafade16d509fe635dc212f0f5ccb930a9bcacbfe58310b9312454ea8b",
-        "e5e0985eaf520233fe6a07963aa8939cabc73ae7ddb1f53e2f36b4e7bae2daad",
         "8c0389e5fb17a162f0fd069ee117137785b8971514e0b38e4d44a7b780aa78b1",
-        "cb1d26e01edb07f39ff4d172315262f772f78ba2cccf605d1f0b5b557dd495a0",
-        "569ce929ea05581be6a7ed9e3537ee51b60ff123c6701793b3871e00234dd15f",
+        "743ce80e2848fa037fc0e31460d16a000018305af7c6efaeb7e80178634ac6bd",
         "b6243a5114f54532088d60747cd24a2b63fdd67abf637ab2a79cc11b3bced32b",
-        "eefbfeef21cc078f50ea09b419c6da3012bbfa2f97dc75769f5cf63414443685",
-        "b88e00a5a91672b0ac187957e97492f66b8758f297d7c84934b5cd1cf54226fe",
-        "05a119506c0ba7a20407dcf5a36faa1a7d2b2bb39f8d5dd7f4768b3a7b883c56",
-        "eb91c608a4869afc1f70b7d872c7b5fa191899ab53d5eb0656151c1fd8048e8b",
-        "41455887acf9ffb07ecdf027d8b8173c295314a6008b591dd2370dc9bf408d81",
-        "e189a6bd72daaf34017f6ca80331d12f7277bfc409b1b39eda5954bf791599ad",
-        "adbf8812f3c8cb135bae28cefe1b97c8fa2d13f4b363930f8599e9102680ae74",
-        "84286fb94b5223df628eac39d22f4d3f38c96695f42b8b317e78c3133ad5749a",
-        "0264811d9515b0d7bc00a070a642af35af6635b122b9fb247ac0385d08d86370",
-        "7cd355837a8c6c9d39bc97c8e79e0fca0f37658558d51cdfefe05e38a2bdd0ca",
-        "0d3196943e0c7753aaf402ae272416a510a4e362ec7602cc83bb45b2e31f96b4"
+        "cb1d26e01edb07f39ff4d172315262f772f78ba2cccf605d1f0b5b557dd495a0",
+        "1e01e6bb33e781eba60bde574c7d235dbb54b9fd8298455221067b6585e1d0f6",
+        "b88e00a5a91672b0ac187957e97492f66b8758f297d7c84934b5cd1cf54226fe"
       ],
       "inline_links": [],
       "instapaper_bookmark_id": "2038200696",
@@ -4048,57 +4066,107 @@
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "1e01e6bb33e781eba60bde574c7d235dbb54b9fd8298455221067b6585e1d0f6"
+          "sha256": "f2abe330276eb41727c2066f57dfa82ceb546c707e8f373505b490fa8068ebcb"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "5ab59a0e447e51382db3037d0bda8139e6ada1138529e961341cf4bd2a4c760c"
+          "sha256": "e44f5988cf6fc419553794e7579dba3ba28130e49077a29454fe38d7c67bbdfa"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "743ce80e2848fa037fc0e31460d16a000018305af7c6efaeb7e80178634ac6bd"
+          "sha256": "ca4d688dabe209fc0d236a9632ffd3cd4c4e95dc50e7b31db7901a512f66cdb1"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "160030b229bbbd54e6920794671a4e40362b21dc1c0e97c769bce952533ec010"
+          "sha256": "ef262f908943445439ecb884738ec86f509bbae56ac73bd4641a4a9f7b7e064c"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "1b89318babfbf8cf594779490d3b5a5505441e26f8dc379926e8eb8cece570af"
+          "sha256": "385cc228a7ed98c40b114e6fb8b0e0b22c3442e84d6827e3061054fc747e7e53"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "8c0389e5fb17a162f0fd069ee117137785b8971514e0b38e4d44a7b780aa78b1"
+          "sha256": "e4cbd1a0ec662884904f643a385d21671dfa7da40c68278e3c37d83960d37e07"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "a362c72a5610368bc0ebfa64d48ee29989a95ba5c15d7a0b2e7165ca09b70e9d"
+          "sha256": "879f777fb29082ee3b93ff23da4620fee92e31721987315bc18c46128ae34446"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "b88e00a5a91672b0ac187957e97492f66b8758f297d7c84934b5cd1cf54226fe"
+          "sha256": "da4df6c7b72e6dab6183eccad5a7d87467939b3d3caabe92fbb7eed00505b9af"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "8246c27ac4a0c0138c8f25066b9971a30531c60d5cfcd94be81b339d5cc6bf54"
+          "sha256": "6b654e7a57fad3072f26d1fb3ae2db2ab1b982ce494504ea33cf3eae399a054f"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "68991414838fd239cb3d46c3a95a9fcdc92fd3c4e00ad78b49381ff811a9a89d"
+          "sha256": "51777395245ba61d095dc0b6406a11523ae2656e2a5563c15a877b324862ce32"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "569ce929ea05581be6a7ed9e3537ee51b60ff123c6701793b3871e00234dd15f"
+          "sha256": "c589d7d9cd470537632af77489bbd2b4b5a37087a6842c699df7f37a2295db43"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "6898749f006ff5046de7f4e00fdf4c77116ed2c1a3868164aed7aae1bbd06518"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "b5951a911570cd1198af07e4add207dc24d9d6cae9c5c378a73bad44c35c305a"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "f09c3eae9564a72661624a9d46f6e5dcb314dbdd3c74bf99302b9e9dcaaed5f4"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "39f15d266742395bf999775c045a38162dcbdbc59a08e87078963877cdfe839d"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "3aac74d63a82442eecfa50c4bd4c2e4562221b43b5485f0d68c964d2b8f60714"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "e38cc7ed17f830cf44f9202056e094ecbdd2fc138117a37271f58b3729ff5b72"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "eafecd39317ace1e5d92f65230ec9dd062ea88b82a52dc664f2377dc85c1506e"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "ffdf42db102c100315f2115cf4cb0c1e13c70cfe36b2dbed9989c76d7eb4c08b"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "f4f1a056c2fa77737964e42f4b057ec0d691b1801863d681ae48f602c147b6a2"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "aa3f20ad2471a0255d3755a169fa7beeaff36d309c2ba9188a7fe9ca2ec8ac08"
         },
         {
           "description": null,
@@ -4108,22 +4176,12 @@
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "e5e0985eaf520233fe6a07963aa8939cabc73ae7ddb1f53e2f36b4e7bae2daad"
-        },
-        {
-          "description": null,
-          "is_video_thumbnail": false,
           "sha256": "8c0389e5fb17a162f0fd069ee117137785b8971514e0b38e4d44a7b780aa78b1"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "cb1d26e01edb07f39ff4d172315262f772f78ba2cccf605d1f0b5b557dd495a0"
-        },
-        {
-          "description": null,
-          "is_video_thumbnail": false,
-          "sha256": "569ce929ea05581be6a7ed9e3537ee51b60ff123c6701793b3871e00234dd15f"
+          "sha256": "743ce80e2848fa037fc0e31460d16a000018305af7c6efaeb7e80178634ac6bd"
         },
         {
           "description": null,
@@ -4133,72 +4191,37 @@
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "eefbfeef21cc078f50ea09b419c6da3012bbfa2f97dc75769f5cf63414443685"
+          "sha256": "cb1d26e01edb07f39ff4d172315262f772f78ba2cccf605d1f0b5b557dd495a0"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "1e01e6bb33e781eba60bde574c7d235dbb54b9fd8298455221067b6585e1d0f6"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
           "sha256": "b88e00a5a91672b0ac187957e97492f66b8758f297d7c84934b5cd1cf54226fe"
-        },
-        {
-          "description": null,
-          "is_video_thumbnail": false,
-          "sha256": "05a119506c0ba7a20407dcf5a36faa1a7d2b2bb39f8d5dd7f4768b3a7b883c56"
-        },
-        {
-          "description": null,
-          "is_video_thumbnail": false,
-          "sha256": "eb91c608a4869afc1f70b7d872c7b5fa191899ab53d5eb0656151c1fd8048e8b"
-        },
-        {
-          "description": null,
-          "is_video_thumbnail": false,
-          "sha256": "41455887acf9ffb07ecdf027d8b8173c295314a6008b591dd2370dc9bf408d81"
-        },
-        {
-          "description": null,
-          "is_video_thumbnail": false,
-          "sha256": "e189a6bd72daaf34017f6ca80331d12f7277bfc409b1b39eda5954bf791599ad"
-        },
-        {
-          "description": null,
-          "is_video_thumbnail": false,
-          "sha256": "adbf8812f3c8cb135bae28cefe1b97c8fa2d13f4b363930f8599e9102680ae74"
-        },
-        {
-          "description": null,
-          "is_video_thumbnail": false,
-          "sha256": "84286fb94b5223df628eac39d22f4d3f38c96695f42b8b317e78c3133ad5749a"
-        },
-        {
-          "description": null,
-          "is_video_thumbnail": false,
-          "sha256": "0264811d9515b0d7bc00a070a642af35af6635b122b9fb247ac0385d08d86370"
-        },
-        {
-          "description": null,
-          "is_video_thumbnail": false,
-          "sha256": "7cd355837a8c6c9d39bc97c8e79e0fca0f37658558d51cdfefe05e38a2bdd0ca"
-        },
-        {
-          "description": null,
-          "is_video_thumbnail": false,
-          "sha256": "0d3196943e0c7753aaf402ae272416a510a4e362ec7602cc83bb45b2e31f96b4"
         }
       ],
       "omitted_photo_count": 0,
       "original_author": null,
       "original_inline_links": [],
       "original_paragraphs": [],
+      "paragraphs": [
+        "마크리하니시, 내가 원했던 모든 것!!!",
+        "제가 원했던 지역, 제가 원했던 마을, 제가 원했던 바다, 제가 원했던 위스키, 제가 원했던 코스, 제가 원했던 골프, 제가 원했던 삶이 여기에 있네요. 캠벨타운, 스프링뱅크, 마크리하니시네요.",
+        "London Life 3.0 - (277)"
+      ],
       "permalink": "https://www.facebook.com/youngho.youn.5/posts/28440700242220306",
       "profile_url": "https://www.facebook.com/youngho.youn.5",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/youngho.youn.5/28440700242220306.html",
       "status": "complete"
     },
     "28452936224330041": {
-      "article_format_version": 15,
+      "article_format_version": 16,
       "completed_at": "2026-09-01T10:34:14+00:00",
-      "content_hash": "23c1428dad8ed414d2fd4c97d96fc7981922e1b57332503fcb97c3297a8af0e1",
+      "content_hash": "c707267766a0f4bccfe8cac80a3b4ac9f65bc727e14ff09b96c3f0d578bff879",
       "direct_media_keys": [
         "786141100_28452936754329988_951305666815549319_n.jpg",
         "786801832_28452937634329900_4854951129740590163_n.jpg",
@@ -4215,8 +4238,8 @@
         "569ce929ea05581be6a7ed9e3537ee51b60ff123c6701793b3871e00234dd15f",
         "8c0389e5fb17a162f0fd069ee117137785b8971514e0b38e4d44a7b780aa78b1",
         "b6243a5114f54532088d60747cd24a2b63fdd67abf637ab2a79cc11b3bced32b",
-        "cb1d26e01edb07f39ff4d172315262f772f78ba2cccf605d1f0b5b557dd495a0",
-        "b88e00a5a91672b0ac187957e97492f66b8758f297d7c84934b5cd1cf54226fe"
+        "855ccd47f8b18442ce2d0b580b694aa5fc166d1f179e4d194ce17ba0afa9cf3b",
+        "313b0e8a8cd747ef3127f55dcbb8f950da4fc15dde9adbed2f12a584a71735c1"
       ],
       "inline_links": [],
       "instapaper_bookmark_id": "2038200694",
@@ -4252,27 +4275,48 @@
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "cb1d26e01edb07f39ff4d172315262f772f78ba2cccf605d1f0b5b557dd495a0"
+          "sha256": "855ccd47f8b18442ce2d0b580b694aa5fc166d1f179e4d194ce17ba0afa9cf3b"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "b88e00a5a91672b0ac187957e97492f66b8758f297d7c84934b5cd1cf54226fe"
+          "sha256": "313b0e8a8cd747ef3127f55dcbb8f950da4fc15dde9adbed2f12a584a71735c1"
         }
       ],
       "omitted_photo_count": 0,
       "original_author": null,
       "original_inline_links": [],
       "original_paragraphs": [],
+      "paragraphs": [
+        "‘해안가 초지 속삭임‘ - 마크리하니시 후기",
+        "26-08 투어를 성공적으로 끝내고, 벤에서 SUV로 차를 바꿔 캠벨타운으로 향했다. 킨타이어 반도가 시작되는 지점을 향해 올라가는 길은 아름답고 장엄했으나 하이랜드에서 흔히 볼 수 있는 정도였다. 장엄함을 흔히 볼 수 있는 곳이 스코틀랜드 하일랜드다.",
+        "핸들 움직임이 종이장처럼 가벼웠는데, 여행을 마친 가이드 마음 같았다. 길은 좁지만 청량감이 있었고, 동네는 부유함과 동시에 전통이 느껴졌다. 동화속 단순미가 자연의 생동감 속에 담겨 있는 장면을 생각해 보라.",
+        "이러한 묘사는 킨타이어 반도를 본격적으로 내려 가면서 다시 바뀌기 시작했다. 코너 하나 하나를 돌 때마다 보이는 새로운 바다, 새로운 해변, 새로운 바위, 새로운 풍경은 이색적으로 아름다웠다. 스코틀랜드 여행 화보집이 있다면, 코너 하나 하나가 새로운 챕터였다.",
+        "비단길처럼 부드러운 도로 양쪽을 바람, 파도, 바위, 잔디, 들꽃이 수놓고 있었고, 양과 소의 속삼임이 들리는 것이 아니라, 보이는 것 같았다. 풍광이 마음 속 응어리를 씻겨 내는 것 같아서, 이곳 사람들에게 걱정 따위는 있을 턱이 없을 것 같았다.",
+        "“난 이제부터 여기서 살겠다.”라는 생각이 1시간을 운전하는 내내 떠나지 않았다. 오후 다섯 시에 마크리하니시 골프클럽에 도착했다.",
+        "아무 것도 먹지 못해서 클럽하우스에서 케익, 칩스와 콜라를 집어 들고 나왔다. 프로샵에서 기념품으로 마커를 하나 산 후에 1번 홀 티샷박스에 섰다. 푸른 바다, 베이지색 해변, 황금빛 페스큐 잔디, 초록의 페어웨이의 대조가 뛰어났지만, 1번 홀은 특이할 것이 없었다.",
+        "모래사장을 가로지르는 1번 홀이 최고라는 평가를 어딘가에서 봤지만, 이 정도를 일품이라고 하기에는 나는 장엄한 곳에서 많이 골프를 쳐 봤다.",
+        "네 시간의 운전과 0끼의 식사 후에 연습공 하나 쳐보지 못하고 1번 홀 티샷박스에 섰다. 바람과 파도 소리가 피로를 잊게 했기에 모래사장을 가르는 멋진 샷을 칠 수 있을 것만 같았다. 최대한 먼 쪽을 보고 쳤다. 직선으로 아름다운 포물선을 그리며 날아간 공이 모래사장을 완전히 넘어가지는 못한 것 같았다. 그래도 상관이 없었다. 모래사장에서는 더 좋은 세컷샷 각도가 나왔다.",
+        "2번 홀부터 시작되는 페어웨이의 언듈레이션과 러프의 마람그라스는 그 어떤 링크스 코스보다 자연스러웠다. ‘자연의 단조’라는 말이 이곳보다 잘 어울리는 곳이 있을까?",
+        "트럼프 에버딘이 미래의 월드 넘버1이라고 생각했지만, 듄스와 언듈레이션이 자연적으로 만들어져, 이런 아름다움과 편안함을 제공한다면, 트럼프 에버딘은 마크리하니시의 뒤쪽에 위치해야 함이 마땅하다는 생각이 들었다.",
+        "거리를 가늠케하는 150야드 표시목이 있지만, 그걸로 거리를 가늠하기에 충분하지 않아, 스프링쿨러를 찾았다. 보통은 그 위에 야드 표시가 있기 때문이다. 그러나 아무리 찾아도 스프링쿨러를 찾을 수가 없었다. 이곳은 물을 주는 곳이 아니었다. 자연주의를 표방하는 대부분의 코스가 코스 전역에 스프링클러를 가지고 있지만, 이곳은 그런 것이 필요하지 않았다. 유난히 덥고 가물었던 올해 여름을 통과하고 있지만, 페어웨이의 푸르름이 단단히 유지되고 있었고, 최상위 상태였다.",
+        "대부분의 홀에 타켓 방향을 표시하는 포스트가 있는 것도 특이했다. 홀이 좌우 도그렉으로 휘어지면서 낙구 지점이 보이지 않는 곳이 많았다. 이런 환경은 골퍼를 피곤하게 만들지만, 이곳은 재미와 호기심을 지속적으로 자극할 뿐이었다.",
+        "벙커가 많지 않은 것도 특징이었다. 팟벙커를 170개나 파놓고는 ‘자연의 단조’라고 말하는 어색함이 이곳에는 없었다. 굴려서 공을 그린에 올리기가 어려운 이유는 언듈레이션과 펄스 프론트가 그린을 잘 보호하고 있었기 때문이다.",
+        "좌우 러프의 마람그라스, 언덕 사이로 옛 바람이 또아리를 튼 페어웨이, 그 위를 자유로이 넘나드는 현 바람, 바람과 조화를 이루는 골퍼, 이곳은 골퍼의 천국이었다.",
+        "해가 서양으로 저물기 시작하자, 스코틀랜드 서해 바다가 노을로 물들었고, 비스듬히 비치는 태양과 페어웨이 둔덕이 만들어내는 명암이 마음을 서글프게 만들었다. ‘진실과 거짓? 명과 암? 그게 무슨 차이가 있느냐?’는 동의할 수 없었던 영화 속 대사가 떠올랐다.",
+        "17번 홀 티샷박스에 오르자, 왼쪽 언덕 위로 보름달이 뜨기 시작했다. 내 음력 생일이 가깝다는 의미다. 돌아가신 엄마와 기력이 약해진 아빠를 빼면, 내 어린 시절 생일을 누구도 기억하지 못할 것이라는 생각에 서글펐다. 둥근 달이 뜬 곳이 동쪽, 둥든 해가 지고 있는 곳이 서쪽일터였다. 왼쪽에 달을, 오른쪽에 해를 보고 공을 치는 스윙이 ‘마크리하니시 반도 골프’를 매우 특별하게 만들었다.",
+        "몇년 전에 마크리하니시라는 이름을 처음 들었을 때, 그 어감이 주는 신비함이 좋았다. 고대 스코틀랜드 지역의 언어였던 게일어로 ’해안가 초지의 속삭임‘이라는 의미다. 초지의 속삭임을 듣는 것이 골프이므로, 이곳 골프가 특별한 이유를 처음 그 이름을 들었을 때부터 직감했던 셈이다.",
+        "London Life 3.0 - (278)"
+      ],
       "permalink": "https://www.facebook.com/youngho.youn.5/posts/28452936224330041",
       "profile_url": "https://www.facebook.com/youngho.youn.5",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/youngho.youn.5/28452936224330041.html",
       "status": "complete"
     },
     "28458677083755955": {
-      "article_format_version": 15,
+      "article_format_version": 16,
       "completed_at": "2026-09-01T10:34:16+00:00",
-      "content_hash": "508156039a07a1453584830e6e1e2027094ab3e12db5734178c9bb538e426293",
+      "content_hash": "410d6af7a7f94892714da995dc46b0cef28a2be99474a606b37f5f1c34001d6b",
       "direct_media_keys": [
         "786563134_28458677733755890_8732293593315870244_n.jpg",
         "786629849_28458678177089179_4443309248004342323_n.jpg",
@@ -4289,11 +4333,11 @@
         "b87c59bc23db96eabf45bf210d2917fdc8fa3b5653961c2707917f7da21b8413",
         "7cd355837a8c6c9d39bc97c8e79e0fca0f37658558d51cdfefe05e38a2bdd0ca",
         "84286fb94b5223df628eac39d22f4d3f38c96695f42b8b317e78c3133ad5749a",
-        "0264811d9515b0d7bc00a070a642af35af6635b122b9fb247ac0385d08d86370",
-        "adbf8812f3c8cb135bae28cefe1b97c8fa2d13f4b363930f8599e9102680ae74",
-        "e189a6bd72daaf34017f6ca80331d12f7277bfc409b1b39eda5954bf791599ad",
-        "0d3196943e0c7753aaf402ae272416a510a4e362ec7602cc83bb45b2e31f96b4",
-        "4ddee78a6960df6068996cdf56338aee3d1934c19bc07d349cd0c8a3bd6b1899"
+        "67777b54b4ce8de7a9114d96dfd9931ec977d0d87bcdde8f664288742d9a874e",
+        "93bc12096173ac8f0714e3fb9e05823eb59e85939cc1da68d50701661c6f13df",
+        "89092588871d6c01636c159a43267676d30b737ae627e0cb3afc9de9b502f7cf",
+        "088ebc2d989412764c7df188f81e5dc2453ea1e08db950f8d1c92d65f1b0c465",
+        "2a13b4102040a342644ef72821f57eb11129f85c056c0c10f85b7acca6685d03"
       ],
       "inline_links": [],
       "instapaper_bookmark_id": "2038200693",
@@ -4329,42 +4373,62 @@
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "0264811d9515b0d7bc00a070a642af35af6635b122b9fb247ac0385d08d86370"
+          "sha256": "67777b54b4ce8de7a9114d96dfd9931ec977d0d87bcdde8f664288742d9a874e"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "adbf8812f3c8cb135bae28cefe1b97c8fa2d13f4b363930f8599e9102680ae74"
+          "sha256": "93bc12096173ac8f0714e3fb9e05823eb59e85939cc1da68d50701661c6f13df"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "e189a6bd72daaf34017f6ca80331d12f7277bfc409b1b39eda5954bf791599ad"
+          "sha256": "89092588871d6c01636c159a43267676d30b737ae627e0cb3afc9de9b502f7cf"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "0d3196943e0c7753aaf402ae272416a510a4e362ec7602cc83bb45b2e31f96b4"
+          "sha256": "088ebc2d989412764c7df188f81e5dc2453ea1e08db950f8d1c92d65f1b0c465"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "4ddee78a6960df6068996cdf56338aee3d1934c19bc07d349cd0c8a3bd6b1899"
+          "sha256": "2a13b4102040a342644ef72821f57eb11129f85c056c0c10f85b7acca6685d03"
         }
       ],
       "omitted_photo_count": 0,
       "original_author": null,
       "original_inline_links": [],
       "original_paragraphs": [],
+      "paragraphs": [
+        "지속가능한 골프: 그린피 공짜? 진짜요?",
+        "마크리하니시는 아주 특별한 링크스였어요. 늦게 골프가 끝나고, 1번 홀 티샷박스가 내려다 보이는 호텔에 숙소를 잡았어요.",
+        "우가데일 호텔인데, 캠벨타운에 로열 호텔도 가지고 있고, 마크리하니시 옆에 마크리하니시 듄스라는 골프코스도 가지고 있었어요. 2010년에 한 해에 세계 100대 코스 중 97개를 친 어느 코스 레이터가 그 중 단연 1등이라고 한 곳이 마크리하니시 듄스 골프코스라고 해요. 그래서 예정에 없이 그곳으로 골프를 치러 갔어요.",
+        "그린피는 마크리하니시와 유사한 수준이었어요. 오늘 생일을 맞게 된 아들의 나이를 물어보더라고요.",
+        "‘17세 364일요.’",
+        "‘그럼 내일 생일이네요. 축하해요.’",
+        "‘감사합니다. 그린피는 얼마죠?’",
+        "‘공짜에요.‘",
+        "’생일이라서요?‘",
+        "’아뇨. 18세 이하는 공짜에요.‘",
+        "18세 이하는 모두 공짜래요. 보통 18세 이하는 절반을 받는데, 이곳은 믿을 수 없게, 공짜라네요.",
+        "우리 링크스가게도 18세 이하는 공짜인 여행 프로그램을 만들어야겠어요.",
+        "’공짜면 오늘 무한정 라운드를 해도 되네요?‘",
+        "’그렇죠.‘",
+        "’그럼 내일은요?‘",
+        "’생일인데 그린피를 받겠어요? 그러나 모레부터는 그린피를 내야해요. ㅋㅋㅋ‘",
+        "우리 미래 세대에 대한 케어가 이 정도는 되어야 골프가 지속가능해지지 않겠어요?",
+        "London Life 3.0 - (279)"
+      ],
       "permalink": "https://www.facebook.com/youngho.youn.5/posts/28458677083755955",
       "profile_url": "https://www.facebook.com/youngho.youn.5",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/youngho.youn.5/28458677083755955.html",
       "status": "complete"
     },
     "28467321919558138": {
-      "article_format_version": 15,
+      "article_format_version": 16,
       "completed_at": "2026-09-01T10:34:19+00:00",
-      "content_hash": "bf0afb191d620d86e6382b7c945f944027ad17199439785fe5aa9e9433a9abb7",
+      "content_hash": "70b3b6695a451bd8b687076a6db083dcd573045f5dcdff924e0c727616f9dd5d",
       "direct_media_keys": [
         "787761575_28467322826224714_101665040960922897_n.jpg",
         "787460861_28467322872891376_4821376364766438569_n.jpg",
@@ -4381,13 +4445,13 @@
         "22deac2983c8124f7714788b617254553cb498bd9a68659a71ab1327a4c34892",
         "d5d98dc7669a8094bc7526db3476106595e1fefbbfeadeebfc94a07359dd5b46",
         "31ad819b963ef1e7e682649159f384914d3db1641326239cc988aa405683f8ef",
-        "fa2884ba42b27256b492e172cdce6ce992f0a2065b47ae361082c45f4dde7448",
-        "525749622561a809a797267033b317d97c0b3f13ea449945c8f1376b29189c5f",
-        "058031fdc955281292f436ea308a292798de345dc51356d7c8a55f83267a2ff6",
-        "34430aeb34a5412a7694c65907e119a535b3a2474139a76cc4f8dcd5ed3243a8",
-        "3006ad47f1358346a3e36300b7cea0199fd39d4cb82c00240f9587718d67904c",
-        "1fa68bffbd0aba9dce37eda995b19ea96a852980352332f9afa626ecc4015e68",
-        "c2ca01e8dd53996fbd32f3df35ccbefbef0b5e12c59e2f1fcdf877b15175f2df"
+        "e06243519b18b3b0676f7b4fe3583c777de2f3bf7ad4ace80b728bcf41d7c71e",
+        "e95a0d97e24557f82c3265148ab435c2954c701dfd277bcdffc81e338a4d1741",
+        "b462d83ea9c4e827bc6c2499179b76cc389063a6bd63a298dfd70a99371f0e91",
+        "b070273a9999cd29cbc1ffac51eb15a58eac4f1b70da06de4f971ccc5b566386",
+        "64a2e219782196f039f86128b4cb3b1cc0156ae0bcb3ebe3a6ff6b6b94162868",
+        "6abf0c6c2cbca77b97cc174b38dfd6d1d1cdc97ef59d16fac755cf44695d2d2a",
+        "daa654071129fd2a523521105a812769885e8885b7c75b6c5962e6304b49c329"
       ],
       "inline_links": [],
       "instapaper_bookmark_id": "2038200690",
@@ -4423,52 +4487,58 @@
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "fa2884ba42b27256b492e172cdce6ce992f0a2065b47ae361082c45f4dde7448"
+          "sha256": "e06243519b18b3b0676f7b4fe3583c777de2f3bf7ad4ace80b728bcf41d7c71e"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "525749622561a809a797267033b317d97c0b3f13ea449945c8f1376b29189c5f"
+          "sha256": "e95a0d97e24557f82c3265148ab435c2954c701dfd277bcdffc81e338a4d1741"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "058031fdc955281292f436ea308a292798de345dc51356d7c8a55f83267a2ff6"
+          "sha256": "b462d83ea9c4e827bc6c2499179b76cc389063a6bd63a298dfd70a99371f0e91"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "34430aeb34a5412a7694c65907e119a535b3a2474139a76cc4f8dcd5ed3243a8"
+          "sha256": "b070273a9999cd29cbc1ffac51eb15a58eac4f1b70da06de4f971ccc5b566386"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "3006ad47f1358346a3e36300b7cea0199fd39d4cb82c00240f9587718d67904c"
+          "sha256": "64a2e219782196f039f86128b4cb3b1cc0156ae0bcb3ebe3a6ff6b6b94162868"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "1fa68bffbd0aba9dce37eda995b19ea96a852980352332f9afa626ecc4015e68"
+          "sha256": "6abf0c6c2cbca77b97cc174b38dfd6d1d1cdc97ef59d16fac755cf44695d2d2a"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "c2ca01e8dd53996fbd32f3df35ccbefbef0b5e12c59e2f1fcdf877b15175f2df"
+          "sha256": "daa654071129fd2a523521105a812769885e8885b7c75b6c5962e6304b49c329"
         }
       ],
       "omitted_photo_count": 0,
       "original_author": null,
       "original_inline_links": [],
       "original_paragraphs": [],
+      "paragraphs": [
+        "운전하면서 찍은 사진",
+        "진짜 멋 있는 곳은 코너링이 위험해서 못찍었네요. 분위기만 보세요.",
+        "집을 짓거나 산다면 도로 좌측 해변가에 하시겠어요? 도로 우측 내륙쪽으로 접으시겠어요?",
+        "London Life 3.0 - (280)"
+      ],
       "permalink": "https://www.facebook.com/youngho.youn.5/posts/28467321919558138",
       "profile_url": "https://www.facebook.com/youngho.youn.5",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/youngho.youn.5/28467321919558138.html",
       "status": "complete"
     },
     "28479759598314370": {
-      "article_format_version": 15,
+      "article_format_version": 16,
       "completed_at": "2026-09-01T10:34:24+00:00",
-      "content_hash": "e66edbf28e5140697e07446bd0c519895e9e6ca893fb5b9bb28cf47aa4b71cf4",
+      "content_hash": "569680022906ba4d86e94b26244ad5d02823012b153cca7c3098c057ad2e0506",
       "direct_media_keys": [
         "788105992_28479760768314253_5183067845664925947_n.jpg",
         "787797544_28479761118314218_3540817839875523500_n.jpg",
@@ -4485,25 +4555,25 @@
         "ccc8da7552e00d62ae5bbfaf2f75c4ffb1c8087466744421fddb13602f0ff159",
         "0d0457ca6514414c90e885080d4863594284ceb138b0c39c4c47d8f2a11ec766",
         "97ec16704551281984ef94576a4f46aff66ab991d0a2640524a64af49c0e46b6",
-        "6ee28856b5ab8039e6d359e2f750204d5f1a68b1d5e86755eb4b7c78b2aac54e",
-        "627784c1f4618a60af889c23e0d67e8aadda2a9a0357239107bac8db423f528f",
-        "4e0a0aa5ee80631ecffe846065a800c97044ee352765930eb2ebf346c192bdc0",
-        "dca0338b7f7c3866c8939685436a1b8ccd91da15ec47e86f88cdc217fd8658ec",
-        "b9de3d83dd37d7e983dfc619c052a5605a67c0b19d62dcf2351fe79573bfe4a9",
-        "985d3fa52f792fa456e9d1172819993549d05e4b5813e9441b0c97b4113eda2a",
-        "baf73735bbab8625795e637925e77012fda3a3a45d8e63c072cee34008a4b386",
-        "75063f00cb4b135fa78ef1179a6e2cadb53eefec35952332172533b421b824a3",
-        "e4eea0b4fc04db3f43475a5236e463eb4c7774dfc29527819b004447bc820a65",
-        "019506e33d4cd52c852ab798f72518be51400f55fd426eda4d9c9c3a8ad9a574",
-        "01e7dca9eca2db9a3d264fb61dbe31606224d62ac09fb27cddca1be7ba7664d8",
-        "9cfef3697c727bf800266bd7197dfdb4e0d955436bba8240833174a725104601",
-        "cb161211e778545f9d6a2177aaa95aa0a453d1b4fa6a3774d46c1c0b55efcfce",
-        "ddbf7183c0165856d7d1539ab0f802919fee5eb8f00bb369441a76177e8d8bb0",
-        "c6f607ecad4fd3dcf950eb4d76cfff5e1989b4c6f60be23585557e2bd38b438d",
-        "7592f8cbe66388f5e53d34226d0f150675fdc9d78fa8cb22297fe159b220ca08",
-        "29bede8094e140171272edb840a3d629a9e66f9e6a09ecba9d0577e481575377",
-        "c7de7e6e6573d5d1cd458fd90cebc0aa661999a7f409f9803f1c9a568e4f208d",
-        "3cf8614a7bae853e522c055d3a815c26cca66c51bc41c7097c8580a92ae62647"
+        "f157a26a0c8311d818817a25e97175ee74cd1dd1cb983f94501abc68ffde3725",
+        "50d39a38ff99d799081fb7c4cf1563fc978190aa25495d47b99dafa023597306",
+        "bb9faea9eec260461c3bf9ba372050e8a44184a96bd1430acde346abe15dfa59",
+        "e77c46767cd5cafe38f23f4202bf5e540784a2e782df21295fb6d5bfbee9e6e4",
+        "183df0dba0853262a78168637c7c4b36db8739c1b6554df640fa0b38bdfabfc7",
+        "3e925ea6def24333077c92aabfc601126480f0c64e0b6fe1e6fca5715bca44e0",
+        "88624346635fa3089f7219b114976d941b8ee3e56491a99c51e0488d57e14b0d",
+        "5b4e088bf8f7b03b1a211b853c30f926a52e8646f81fcc98226d7156e5f4465c",
+        "5a39b939991e900a8e41dba76d96ff1442051538ad2272a7751e10854bfcb423",
+        "70eae0d2691b3cec6276eb95c9b0694cd6819582d0e68d9fb48c28340bd655c1",
+        "d7804ed3b15e6f233df16e74aac918a323eaee3246149533ab66f8aefec5f9f4",
+        "ef5d584541da291110fe6048caf0367fdcf89a8453e0af3e714db7858ff669ed",
+        "9203be06ad2b3fdde6e70c4e151bec9f11aae6df213d78c6ac53c2afaefaa9ee",
+        "2ae5837a6185b6ed5f86d710ed8cb19d734c3ab404be390987affb44e081db1c",
+        "b7f2dab49b10c1ca1e818e2c8d1a94d446038b493881eef3156a144387e1af98",
+        "38702761f2b16934f631f2cbf53b3aa4775cb5e769eaf5fc3c16b8a462cbd8c0",
+        "01316eeb8a8cb3d9df9176af968b6caf024e209830bff8903cd962cb701b1939",
+        "c0d1ec9b5aa6cb90b3616d20511c1016f01be15cc6270b4a888a337f05b56c7d",
+        "12240a3bad0d78900f2077a8399a55e0a3e28910f5cf03828093e90b0f4857ec"
       ],
       "inline_links": [],
       "instapaper_bookmark_id": "2038200688",
@@ -4539,112 +4609,124 @@
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "6ee28856b5ab8039e6d359e2f750204d5f1a68b1d5e86755eb4b7c78b2aac54e"
+          "sha256": "f157a26a0c8311d818817a25e97175ee74cd1dd1cb983f94501abc68ffde3725"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "627784c1f4618a60af889c23e0d67e8aadda2a9a0357239107bac8db423f528f"
+          "sha256": "50d39a38ff99d799081fb7c4cf1563fc978190aa25495d47b99dafa023597306"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "4e0a0aa5ee80631ecffe846065a800c97044ee352765930eb2ebf346c192bdc0"
+          "sha256": "bb9faea9eec260461c3bf9ba372050e8a44184a96bd1430acde346abe15dfa59"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "dca0338b7f7c3866c8939685436a1b8ccd91da15ec47e86f88cdc217fd8658ec"
+          "sha256": "e77c46767cd5cafe38f23f4202bf5e540784a2e782df21295fb6d5bfbee9e6e4"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "b9de3d83dd37d7e983dfc619c052a5605a67c0b19d62dcf2351fe79573bfe4a9"
+          "sha256": "183df0dba0853262a78168637c7c4b36db8739c1b6554df640fa0b38bdfabfc7"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "985d3fa52f792fa456e9d1172819993549d05e4b5813e9441b0c97b4113eda2a"
+          "sha256": "3e925ea6def24333077c92aabfc601126480f0c64e0b6fe1e6fca5715bca44e0"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "baf73735bbab8625795e637925e77012fda3a3a45d8e63c072cee34008a4b386"
+          "sha256": "88624346635fa3089f7219b114976d941b8ee3e56491a99c51e0488d57e14b0d"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "75063f00cb4b135fa78ef1179a6e2cadb53eefec35952332172533b421b824a3"
+          "sha256": "5b4e088bf8f7b03b1a211b853c30f926a52e8646f81fcc98226d7156e5f4465c"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "e4eea0b4fc04db3f43475a5236e463eb4c7774dfc29527819b004447bc820a65"
+          "sha256": "5a39b939991e900a8e41dba76d96ff1442051538ad2272a7751e10854bfcb423"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "019506e33d4cd52c852ab798f72518be51400f55fd426eda4d9c9c3a8ad9a574"
+          "sha256": "70eae0d2691b3cec6276eb95c9b0694cd6819582d0e68d9fb48c28340bd655c1"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "01e7dca9eca2db9a3d264fb61dbe31606224d62ac09fb27cddca1be7ba7664d8"
+          "sha256": "d7804ed3b15e6f233df16e74aac918a323eaee3246149533ab66f8aefec5f9f4"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "9cfef3697c727bf800266bd7197dfdb4e0d955436bba8240833174a725104601"
+          "sha256": "ef5d584541da291110fe6048caf0367fdcf89a8453e0af3e714db7858ff669ed"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "cb161211e778545f9d6a2177aaa95aa0a453d1b4fa6a3774d46c1c0b55efcfce"
+          "sha256": "9203be06ad2b3fdde6e70c4e151bec9f11aae6df213d78c6ac53c2afaefaa9ee"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "ddbf7183c0165856d7d1539ab0f802919fee5eb8f00bb369441a76177e8d8bb0"
+          "sha256": "2ae5837a6185b6ed5f86d710ed8cb19d734c3ab404be390987affb44e081db1c"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "c6f607ecad4fd3dcf950eb4d76cfff5e1989b4c6f60be23585557e2bd38b438d"
+          "sha256": "b7f2dab49b10c1ca1e818e2c8d1a94d446038b493881eef3156a144387e1af98"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "7592f8cbe66388f5e53d34226d0f150675fdc9d78fa8cb22297fe159b220ca08"
+          "sha256": "38702761f2b16934f631f2cbf53b3aa4775cb5e769eaf5fc3c16b8a462cbd8c0"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "29bede8094e140171272edb840a3d629a9e66f9e6a09ecba9d0577e481575377"
+          "sha256": "01316eeb8a8cb3d9df9176af968b6caf024e209830bff8903cd962cb701b1939"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "c7de7e6e6573d5d1cd458fd90cebc0aa661999a7f409f9803f1c9a568e4f208d"
+          "sha256": "c0d1ec9b5aa6cb90b3616d20511c1016f01be15cc6270b4a888a337f05b56c7d"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "3cf8614a7bae853e522c055d3a815c26cca66c51bc41c7097c8580a92ae62647"
+          "sha256": "12240a3bad0d78900f2077a8399a55e0a3e28910f5cf03828093e90b0f4857ec"
         }
       ],
       "omitted_photo_count": 0,
       "original_author": null,
       "original_inline_links": [],
       "original_paragraphs": [],
+      "paragraphs": [
+        "‘마크리’는 품질 보증이군요.",
+        "마크리하니시에서 너무 만족했어요. 아일라 섬으로 넘어가 보기로했죠. 더 마크리에 편지를 보냈어요. ‘골프저널에 골프코스와 골프 여행에 대해 글을 쓰는 사람이에요. 마크리하니시에서 너무 만족해서, ’마크리‘자가 붙은 곳은 다 커버해보고 싶어요. 기회를 주시겠어요?‘",
+        "그랬더니 골프를 치게 해주겠다며, 오래요. 티타임을 달라고 했더니, 숙소가 정해지면 알려 달래요. 이상하죠? 숙소야 알아서 구하면 되는데 왜 그럴까요? 숙소가 정해졌으니 오후 늦은 티타임을 달리고 했더니 줬어요.",
+        "킨타이어 반도에서 아일라로 가는 페리를 타려니 티켓이 모두 판매되고 없데요. 무작정 페리 항구에 가서, standby로 대기하니까, 안 온 차가 있어서 마지막 자리를 얻어 배를 탈 수 있었어요.",
+        "더 마크리에 오니 이곳은 리조트 코스에 가깝네요. 상태가 훨씬 좋네요.",
+        "마크리히니시, 마크리하니시 듄스, 더 마크리, 모두 자연미가 넘치는 최고 수준의 링크스에요. 굳이 비교하자면 전체적인 수준은 마크리하니시가 높고, 코스의 재미는 마크리하니시 듄스가 낫고, 풍광이나 운치는 더 마크리가 최고네요.",
+        "우측으로 바다가 바다를 이루고, 좌측으로 헤더가 바다를 이루는 풍광이 일품이네요.",
+        "골프가 끝나고 클럽하우스에서 사슴고기(venisons) 스테이크를 먹고 숙소를 잡으려는데, 섬 전체에 남은 숙소가 하나도 없는 거에요. 이렇게 대책없이 아일라에 오는 사람은 없는 거죠.",
+        "물어물어 아드벡 하우스를 찾았는데, 하루 숙박비가 90만원이래요. 눈 앞이 캄캄하군요. 이 외딴섬에 모든 것이 이렇게 비쌀줄은 몰랐어요.",
+        "London Life 3.0 - (282)"
+      ],
       "permalink": "https://www.facebook.com/youngho.youn.5/posts/28479759598314370",
       "profile_url": "https://www.facebook.com/youngho.youn.5",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/youngho.youn.5/28479759598314370.html",
       "status": "complete"
     },
     "28495501316740198": {
-      "article_format_version": 15,
+      "article_format_version": 16,
       "completed_at": "2026-09-01T10:34:27+00:00",
-      "content_hash": "d52cb3f84a969112393820e4a4696bfaff7017742462e94aa17f3122730e3ea2",
+      "content_hash": "1ce54cee92c4f02d9f031a60c2c189d5d5e512c8724ac5af1c3214b9427a6a64",
       "direct_media_keys": [
         "787842887_28495502620073401_4305565690327732853_n.jpg",
         "788326066_28495502960073367_9198496145258329222_n.jpg",
@@ -4661,12 +4743,12 @@
         "9bef729af23e3752fbc5a554fa0c791d3a5b99ae95f87fd1ae9b55e73ac86ac4",
         "dd0242af1315a51a83e112fb3f259402c71b14ce566013099c55211ce2f62cfe",
         "92f3c8b2adf0d70360e890cfac8b59fc72896c3f2714643976b76cf73e31f66c",
-        "917812e3dd81959c42b369aec0a0b15cc84ba439ee6dc71d781f383d5a2a3263",
-        "2db8ff6a028cb77deb49664bf812d4407debb498567639775c25ffcdd8b1aaec",
-        "0c20a89a20360f083c9b0dd5a8c009ca4ea47a34ff8349849dce6156c28e26c9",
-        "7d088fc7945ce3ecf0bf81a75d2286a2d4d8208a5b7bcf79491248723293f651",
-        "b032db0004e0a28358c9f60924ee50588a45a908f84d402dd0241d27caa66e09",
-        "c9fe67917f556af1f1c1c58133032a06bf59b2ebb36fe7615779a749a9bc9de1"
+        "bc5181ccadcdf05054c61625d482b719720f606ac29e2e459aeb363738cb9387",
+        "ed70a7767a8bad104c04367f481d33046f74d1d1bcce78e9caad7ffdc51aebda",
+        "9de580b7d72f7a9dc857232804df2cf942571d74831f107426482710b8ccf163",
+        "1c8837a8cc17110b744f5ed81ac3fe42b59af54baa451739f63dc73293791498",
+        "34316144318edcd77b2e166e84e6ae1dee081986fda273b974869311993a0cb0",
+        "92172c4750cccf3125e624073516f6238084ba88dbcf29951d1b355bcbb78822"
       ],
       "inline_links": [],
       "instapaper_bookmark_id": "2038200686",
@@ -4702,45 +4784,49 @@
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "917812e3dd81959c42b369aec0a0b15cc84ba439ee6dc71d781f383d5a2a3263"
+          "sha256": "bc5181ccadcdf05054c61625d482b719720f606ac29e2e459aeb363738cb9387"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "2db8ff6a028cb77deb49664bf812d4407debb498567639775c25ffcdd8b1aaec"
+          "sha256": "ed70a7767a8bad104c04367f481d33046f74d1d1bcce78e9caad7ffdc51aebda"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "0c20a89a20360f083c9b0dd5a8c009ca4ea47a34ff8349849dce6156c28e26c9"
+          "sha256": "9de580b7d72f7a9dc857232804df2cf942571d74831f107426482710b8ccf163"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "7d088fc7945ce3ecf0bf81a75d2286a2d4d8208a5b7bcf79491248723293f651"
+          "sha256": "1c8837a8cc17110b744f5ed81ac3fe42b59af54baa451739f63dc73293791498"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "b032db0004e0a28358c9f60924ee50588a45a908f84d402dd0241d27caa66e09"
+          "sha256": "34316144318edcd77b2e166e84e6ae1dee081986fda273b974869311993a0cb0"
         },
         {
           "description": null,
           "is_video_thumbnail": false,
-          "sha256": "c9fe67917f556af1f1c1c58133032a06bf59b2ebb36fe7615779a749a9bc9de1"
+          "sha256": "92172c4750cccf3125e624073516f6238084ba88dbcf29951d1b355bcbb78822"
         }
       ],
       "omitted_photo_count": 0,
       "original_author": null,
       "original_inline_links": [],
       "original_paragraphs": [],
+      "paragraphs": [
+        "아일라에서 주라 갔다가 다시 본토로 왔어요.",
+        "Ardfin + Jura Distillery"
+      ],
       "permalink": "https://www.facebook.com/youngho.youn.5/posts/28495501316740198",
       "profile_url": "https://www.facebook.com/youngho.youn.5",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/youngho.youn.5/28495501316740198.html",
       "status": "complete"
     },
     "28519280257695637": {
-      "article_format_version": 15,
+      "article_format_version": 16,
       "completed_at": "2026-09-01T10:34:28+00:00",
       "content_hash": "8267c47dd716426e5e48b5f6c99d45e9689817248bd0ed7315e2ee00602f8203",
       "direct_media_keys": [
@@ -4782,6 +4868,15 @@
       "original_author": null,
       "original_inline_links": [],
       "original_paragraphs": [],
+      "paragraphs": [
+        "마켓팅, 페북 시대를 넘어 그 다음 단계로!",
+        "페북으로만 올해 26-12까지 12개 상품을 팔고, 내년도 상품도 벌써 27-07까지 나왔어요. 대박이죠. 고맙죠.",
+        "이제 우리 회사가 처음으로 유료 광고라는 것을 해보네요. 그 시작은 서울대 동문 합창단 공연 팜플렛인데, 이게 광고 효과가 있을까요? 어떻게 생각하세요? 노래 부르기 좋아하는 사람이 골프를 좋아할까요?",
+        "광고 제목을 ‘합창단이라면, 스코틀랜드에 와서 바람의 노래를 들어봐야 하는 것 아닐까요?’라고 달려고 했는데, 그렇게는 못하고 평범하게 달았네요.",
+        "다음에는 정치외교학부 소식지에 광고를 내고, 그 다음에는 서울대 동창회보에 낼테니, 관계자분들은 연락 주시고요.",
+        "의사협회보나 어디나 광고를 원하시는 분들은 연락 주세요. 마구마구 광고 쏩니다. 대신 광고 효과 없을 때는 알아서 하세요.",
+        "London Life 3.0 - (284)"
+      ],
       "permalink": "https://www.facebook.com/youngho.youn.5/posts/28519280257695637",
       "profile_url": "https://www.facebook.com/youngho.youn.5",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/youngho.youn.5/28519280257695637.html",
@@ -5399,7 +5494,7 @@
       "status": "complete"
     },
     "4005128552951051": {
-      "article_format_version": 15,
+      "article_format_version": 16,
       "completed_at": "2026-08-31T21:21:25+00:00",
       "content_hash": "dc11ca2e207ad2ff16460723e54934bd2afa65f22727f9b763e40764fda194f7",
       "direct_media_keys": [
@@ -5442,6 +5537,14 @@
       "original_author": null,
       "original_inline_links": [],
       "original_paragraphs": [],
+      "paragraphs": [
+        "현재 미국 기업들의 AI 투자 금액을 과거 대표적인 경제 붐(운하 건설, 철도 건설, 1920년대 번영기, 닷컴 붐)과 비교한 그래프. 2023년 그래프가 이렇다는 얘기다.",
+        "지금은 다르다. 과거 투자처럼 아래로 꺾이기는커녕 위로 꺾인다. 아마존, 구글, 마이크로소프트 같은 기업들은 지난해 인프라에 4,500억 달러를 투자했고, 올해는 반도체와 데이터센터, 전력 등에 9,000억 달러를 쓸 전망인데, 내년에는 그 액수가 1조 4,000억 달러(약 2,000조 원)에 육박할 것으로 보인다.",
+        "미국이 이런데 중국은 훨씬 더 적은 비용으로 AI를 개발해서 무료로 풀고 있으니 다르지 않느냐는 말을 한다. 하지만 중국 기업이 발표하는 \"개발 비용\"에는 포함되지 않는 금액이 숨어 있다. 미국에서는 벤처캐피털 투자와 상장 빅테크 기업의 설비투자(CAPEX)가 AI 투자액의 상당 부분을 차지하고 통계에도 비교적 잘 드러나지만, 중국은 다르다.",
+        "중국도 AI의 수익성에서 자유롭지 않은 건 마찬가지다. 투자비와 낮은 수익성을 견디지 못하고 대대적인 구조조정으로 간다는 전망도 있다.",
+        "AI 에디션 ③",
+        "https://otterletter.com/ai-edition-3/"
+      ],
       "permalink": "https://www.facebook.com/sanghyun.simon.park/posts/4005128552951051",
       "profile_url": "https://www.facebook.com/sanghyun.simon.park",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/sanghyun.simon.park/4005128552951051.html",
@@ -11235,5 +11338,5 @@
     }
   },
   "schema_version": 1,
-  "updated_at": "2026-09-02T03:23:35+00:00"
+  "updated_at": "2026-09-02T04:36:32+00:00"
 }
