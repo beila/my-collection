@@ -10214,7 +10214,7 @@
       },
       "initial_cutoff_timestamp": 1785660935,
       "initialized_at": "2026-09-02T08:55:35+00:00",
-      "last_scan_timestamp": 1788377642,
+      "last_scan_timestamp": 1788378780,
       "name": "Minbok Wi"
     },
     "https://www.facebook.com/monan.doll": {
@@ -11911,6 +11911,14 @@
           "post_id": "28228480700108929",
           "status": "complete"
         },
+        "https://www.facebook.com/youngho.youn.5/posts/pfbid02ghXxPyu12fxa4BJHqRsgey4kTbH34oXCZtN5ebBZ8fy3rzyUBnGi6X3gZWVx5U7l": {
+          "completed_at": "2026-09-01T10:34:27+00:00",
+          "discovered_at": "2026-09-02T19:53:13+00:00",
+          "last_error": null,
+          "not_before_timestamp": null,
+          "post_id": "28495501316740198",
+          "status": "complete"
+        },
         "https://www.facebook.com/youngho.youn.5/posts/pfbid02hGQsr8gYM2iSG6x1zP8BWPQnUYT4vykcjeULZ9B3VFq32kaNsiQ5azS63rjdHF6Xl": {
           "completed_at": "2026-09-01T10:34:19+00:00",
           "discovered_at": "2026-09-01T10:02:31+00:00",
@@ -12098,7 +12106,7 @@
       },
       "initial_cutoff_timestamp": 1785578551,
       "initialized_at": "2026-09-01T10:02:31+00:00",
-      "last_scan_timestamp": 1788377650,
+      "last_scan_timestamp": 1788378787,
       "name": "Youngho Youn"
     },
     "https://www.facebook.com/yulmonologue": {
@@ -12247,5 +12255,5 @@
     }
   },
   "schema_version": 1,
-  "updated_at": "2026-09-02T19:34:26+00:00"
+  "updated_at": "2026-09-02T19:54:52+00:00"
 }
