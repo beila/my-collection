@@ -13271,6 +13271,14 @@
           "post_id": "28495501316740198",
           "status": "complete"
         },
+        "https://www.facebook.com/youngho.youn.5/posts/pfbid026Y9F94uirSj2UGWvW4KEFdm151HVPUTo9QSZj9oHPuLw6sz9rwFfSZGyU7UQPkNGl": {
+          "completed_at": "2026-09-01T10:34:27+00:00",
+          "discovered_at": "2026-09-03T20:29:00+00:00",
+          "last_error": null,
+          "not_before_timestamp": null,
+          "post_id": "28495501316740198",
+          "status": "complete"
+        },
         "https://www.facebook.com/youngho.youn.5/posts/pfbid028j9q34kK2b8AUNXLTPzWgf8gkbV2RgLvPLaawXVQ9r3VoVU2kdAKjfdDyKXQkNCYl": {
           "completed_at": "2026-09-01T10:33:36+00:00",
           "discovered_at": "2026-09-01T10:02:31+00:00",
@@ -13602,7 +13610,7 @@
       },
       "initial_cutoff_timestamp": 1785578551,
       "initialized_at": "2026-09-01T10:02:31+00:00",
-      "last_scan_timestamp": 1788457064,
+      "last_scan_timestamp": 1788467291,
       "name": "Youngho Youn"
     },
     "https://www.facebook.com/yulmonologue": {
@@ -13752,5 +13760,5 @@
   },
   "schema_version": 1,
   "unread_sources": {},
-  "updated_at": "2026-09-03T20:28:57+00:00"
+  "updated_at": "2026-09-03T20:30:48+00:00"
 }
