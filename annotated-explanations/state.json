@@ -1,38 +1,28 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-08-28T11:12:23Z",
+  "updated_at": "2026-09-03T23:35:20Z",
   "articles": {
     "1815258460": {
       "slug": "effectful-storage-abstraction-explained",
-      "title": "Effectful로 저장소 구현을 분리하는 법: 타입부터 인터프리터까지",
+      "title": "Effectful로 저장소 구현을 교체 가능하게 만드는 법",
       "source_bookmark_id": "1815258460",
-      "article_format": 5,
-      "source_sha256": "cbf9c2aa6f5f7ea7007e386acb94a741fc143111e12d755bd686eb975cd10289",
-      "html_sha256": "8ca4b330ecc3a555915d15d173700d84525acc8b40ba75f2c1b77ddf726cbf2f",
-      "epub_sha256": "9198d364d315fb34d419e32f83d875fa6e47de8f683059351b20e71379a0b892",
+      "article_format": 6,
+      "source_sha256": "7f6a14f1816adc5d3700702b672b481e9c332971cadecde3ca841de8704bd655",
+      "html_sha256": "31e87bf23cd5a64967c7a1dadbc6228fe66243cf80aa7ce0fba78569f3b6f76f",
+      "epub_sha256": "1a1abb0634f0bb8e5161ac9e455ca1baa2bc952e6fdfad26b567205e5aa7d4b4",
       "canonical_url": "https://beila.github.io/my-collection/annotated-explanations/effectful-storage-abstraction-explained/",
-      "instapaper_url": "https://beila.github.io/my-collection/annotated-explanations/effectful-storage-abstraction-explained/?instapaper_explanation=5-cbf9c2aa6f5f7ea7",
+      "instapaper_url": "https://beila.github.io/my-collection/annotated-explanations/effectful-storage-abstraction-explained/?instapaper_explanation=6-7f6a14f1816adc5d",
       "epub_url": "https://beila.github.io/my-collection/annotated-explanations/effectful-storage-abstraction-explained/effectful-storage-abstraction-explained.epub",
       "instapaper_bookmark_id": "2037332792",
       "instapaper_api_verification": {
-        "status": "passed",
-        "verified_at": "2026-08-28T11:12:23Z",
-        "title": "passed",
-        "substantial_text_blocks": "passed",
-        "reader_highlights": "27/27",
-        "reader_contexts": "27/27",
-        "verbatim_notes": "1/1",
-        "internal_process_metadata": "absent",
-        "epub_link": "passed"
+        "status": "not_run_publish_only",
+        "verified_at": null
       },
       "epub_validation": {
         "status": "passed",
-        "epub_standard": "3.3",
-        "epubcheck_version": "5.3.0",
         "errors": 0,
         "warnings": 0,
-        "public_bytes": "passed",
-        "content_type": "application/epub+zip"
+        "public_bytes": "pending"
       },
       "kindle_delivery_owner": "user_managed",
       "end_to_end_verification": {
@@ -46,7 +36,14 @@
         "2037323530",
         "2037325678",
         "2037329079"
-      ]
+      ],
+      "generation_workflow": {
+        "research_model": "openai.gpt-5.6-sol",
+        "writer_model": "openai.gpt-5.6-terra",
+        "reviewer_model": "openai.gpt-5.5",
+        "generation_model": "openai.gpt-5.6-sol"
+      },
+      "refreshed_at": "2026-09-03T23:35:20Z"
     }
   }
 }
