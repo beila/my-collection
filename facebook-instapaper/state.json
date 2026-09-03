@@ -11231,6 +11231,14 @@
           "post_id": "10164554369339831",
           "status": "complete"
         },
+        "https://www.facebook.com/minbok/posts/pfbid0Sgh6cqUPqgAbYPBzU7kKQB8RYxifX6odgE5ZJdzoYLXqAskHoJbW9ZkS4TPjEja5l": {
+          "completed_at": "2026-09-02T09:38:15+00:00",
+          "discovered_at": "2026-09-03T10:43:37+00:00",
+          "last_error": null,
+          "not_before_timestamp": null,
+          "post_id": "10164620163074831",
+          "status": "complete"
+        },
         "https://www.facebook.com/minbok/posts/pfbid0Srr6uyk8fDxtUpVwtGwBpW62GpXPXuTUsw5WtVpkw9z4Nf3JwcQp3S1Jwg1HinyKl": {
           "completed_at": "2026-09-02T09:38:15+00:00",
           "discovered_at": "2026-09-02T08:55:35+00:00",
@@ -11274,7 +11282,7 @@
       },
       "initial_cutoff_timestamp": 1785660935,
       "initialized_at": "2026-09-02T08:55:35+00:00",
-      "last_scan_timestamp": 1788422244,
+      "last_scan_timestamp": 1788432211,
       "name": "Minbok Wi"
     },
     "https://www.facebook.com/monan.doll": {
@@ -12870,7 +12878,7 @@
       },
       "initial_cutoff_timestamp": 1785444708,
       "initialized_at": "2026-08-30T20:51:48+00:00",
-      "last_scan_timestamp": 1788422237,
+      "last_scan_timestamp": 1788432204,
       "name": "Sanghyun Park"
     },
     "https://www.facebook.com/seungjoo.lee.545": {
@@ -13446,7 +13454,7 @@
       },
       "initial_cutoff_timestamp": 1785578551,
       "initialized_at": "2026-09-01T10:02:31+00:00",
-      "last_scan_timestamp": 1788422229,
+      "last_scan_timestamp": 1788432197,
       "name": "Youngho Youn"
     },
     "https://www.facebook.com/yulmonologue": {
@@ -13595,5 +13603,5 @@
     }
   },
   "schema_version": 1,
-  "updated_at": "2026-09-03T08:18:59+00:00"
+  "updated_at": "2026-09-03T10:43:53+00:00"
 }
