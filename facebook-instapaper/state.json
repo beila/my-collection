@@ -11350,7 +11350,7 @@
       },
       "initial_cutoff_timestamp": 1785660935,
       "initialized_at": "2026-09-02T08:55:35+00:00",
-      "last_scan_timestamp": 1788457051,
+      "last_scan_timestamp": 1788467278,
       "name": "Minbok Wi"
     },
     "https://www.facebook.com/monan.doll": {
@@ -12975,6 +12975,14 @@
     },
     "https://www.facebook.com/seungjoo.lee.545": {
       "discoveries": {
+        "https://www.facebook.com/seungjoo.lee.545/posts/pfbid021iEj1dXMSiqno8dseXWo5p9thbqFo2knXeK2L5twueArDNX7CrGjEPcfA3ce6WpZl": {
+          "completed_at": "2026-09-03T08:13:49+00:00",
+          "discovered_at": "2026-09-03T20:28:36+00:00",
+          "last_error": null,
+          "not_before_timestamp": null,
+          "post_id": "10242330796582242",
+          "status": "complete"
+        },
         "https://www.facebook.com/seungjoo.lee.545/posts/pfbid023LA6ngxRzvpCSUfp2otAxYZBnFBhuRKbgVToJjpLDUxuS9T75N3tA453qiCb4Hxpl": {
           "completed_at": "2026-09-03T08:06:47+00:00",
           "discovered_at": "2026-09-03T08:06:44+00:00",
@@ -13167,6 +13175,14 @@
           "post_id": "10242216937215829",
           "status": "complete"
         },
+        "https://www.facebook.com/seungjoo.lee.545/posts/pfbid0QLqNQiakx2syKSwLeEyCpU2Ttfr1tTSGoT6wFMF4UHgj6V8SDopdAchCrjBtACqJl": {
+          "completed_at": "2026-09-03T08:13:53+00:00",
+          "discovered_at": "2026-09-03T20:28:36+00:00",
+          "last_error": null,
+          "not_before_timestamp": null,
+          "post_id": "10242303051808640",
+          "status": "complete"
+        },
         "https://www.facebook.com/seungjoo.lee.545/posts/pfbid0RUuXa6ZJmrneEmNEBmtcPudwRuAMVbnipfx5h47AFUtLy3Ats8TiqPyqu6kvqHnvl": {
           "completed_at": "2026-09-03T08:13:58+00:00",
           "discovered_at": "2026-09-03T08:06:44+00:00",
@@ -13242,7 +13258,7 @@
       },
       "initial_cutoff_timestamp": 1785744404,
       "initialized_at": "2026-09-03T08:06:44+00:00",
-      "last_scan_timestamp": 1788457059,
+      "last_scan_timestamp": 1788467285,
       "name": "Seung-Joo Lee"
     },
     "https://www.facebook.com/youngho.youn.5": {
@@ -13736,5 +13752,5 @@
   },
   "schema_version": 1,
   "unread_sources": {},
-  "updated_at": "2026-09-03T17:38:01+00:00"
+  "updated_at": "2026-09-03T20:28:57+00:00"
 }
