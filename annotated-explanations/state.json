@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-09-03T23:35:20Z",
+  "updated_at": "2026-09-03T23:36:09Z",
   "articles": {
     "1815258460": {
       "slug": "effectful-storage-abstraction-explained",
@@ -22,7 +22,7 @@
         "status": "passed",
         "errors": 0,
         "warnings": 0,
-        "public_bytes": "pending"
+        "public_bytes": "passed"
       },
       "kindle_delivery_owner": "user_managed",
       "end_to_end_verification": {
