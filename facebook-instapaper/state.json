@@ -7503,19 +7503,35 @@
     },
     "4033168883480351": {
       "article_format_version": 16,
-      "completed_at": null,
+      "completed_at": "2026-09-03T08:03:07+00:00",
       "content_hash": "c1c66dd62d44362346b293ded017cdce40a4d53f818aa19896659f935b886f4b",
       "direct_media_keys": [
         "790318415_4033082040155702_5782758731247003606_n.jpg"
       ],
       "facebook_post_id": "4033168883480351",
       "facebook_timestamp": 1788389554,
+      "has_video": false,
       "image_sha256": [
         "1131c1f4a14e562dadbc95bae4626e0e5bd09f2cfa405ccc44a20e91ba55d343"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2038693448",
+      "instapaper_tags": [
+        "🌱"
+      ],
       "last_error": null,
+      "linked_pages": [],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "1131c1f4a14e562dadbc95bae4626e0e5bd09f2cfa405ccc44a20e91ba55d343"
+        }
+      ],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "paragraphs": [
         "이런 게 스레드를 돌아다니는데, 처음 읽고 장난으로 쓴 줄 알았다. 그런데 댓글을 보니 아빠들이 모여서 난리가 났다. 자기가 저렇다며, 몇 년 후의 자기라며, 아빠 좀 사랑해달라고 그냥 모두들 자기 연민에 빠져서 대환장 파티다.",
         "그 아빠들을 나무라려는 게 아니라, 냉정하게 분석을 좀 해보자. 내가 보기에는 딸이 저러는 이유는 글 안에 다 나와있다.",
@@ -7561,7 +7577,7 @@
       "permalink": "https://www.facebook.com/sanghyun.simon.park/posts/4033168883480351",
       "profile_url": "https://www.facebook.com/sanghyun.simon.park",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/sanghyun.simon.park/4033168883480351.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "4184691808342311": {
       "completed_at": "2026-08-23T13:34:47+00:00",
@@ -11454,11 +11470,12 @@
           "status": "complete"
         },
         "https://www.facebook.com/sanghyun.simon.park/posts/pfbid02XXgsfqsFGK6SK9xhc52LhPPAdnzH4iXe9j8ijTZqmbz15v8ECFZNRmvx2ztzFTJ7l": {
+          "completed_at": "2026-09-03T08:03:07+00:00",
           "discovered_at": "2026-09-03T08:01:35+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "4033168883480351",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/sanghyun.simon.park/posts/pfbid02XsnEvxYGtPFB2ySR4UC6u8f9tJysLr9jqqyScE8GbirB2qgk6Xk5uyT2FqDZsRJtl": {
           "completed_at": "2026-08-30T21:06:21+00:00",
@@ -12348,5 +12365,5 @@
     }
   },
   "schema_version": 1,
-  "updated_at": "2026-09-03T08:02:01+00:00"
+  "updated_at": "2026-09-03T08:03:07+00:00"
 }
