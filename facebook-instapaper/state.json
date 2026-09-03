@@ -598,9 +598,9 @@
       "status": "complete"
     },
     "10164596288029831": {
-      "article_format_version": 16,
+      "article_format_version": 17,
       "completed_at": "2026-09-02T09:33:13+00:00",
-      "content_hash": "c2f692fc95447f54dd6f59b7366a711cf64710a5f39be713ae1ff77cc12024f2",
+      "content_hash": "bd9aebe72cb2bcef76aba596660b0d124bee29e308062a3ca6cddbb085c0c837",
       "direct_media_keys": [
         "785364028_10164596282669831_2196679742523189001_n.webp"
       ],
@@ -612,15 +612,15 @@
       ],
       "inline_links": [
         {
-          "end": 714,
-          "paragraph_index": 1,
-          "start": 691,
+          "end": 127,
+          "paragraph_index": 12,
+          "start": 104,
           "url": "https://t.co/0qEmHIH0TG"
         },
         {
-          "end": 866,
-          "paragraph_index": 1,
-          "start": 838,
+          "end": 33,
+          "paragraph_index": 15,
+          "start": 5,
           "url": "https://www.togg.com.tr/t10f?utm_id=97758_v0_s00_e0_tv2_a1dennhb6qyyxa"
         }
       ],
@@ -640,8 +640,22 @@
       "original_inline_links": [],
       "original_paragraphs": [],
       "paragraphs": [
-        "목요일은 역시 통상법이죠. 튀르키예도 전기자동차를 생산하나요? 예, 생산합니다. TOGG라는 국영(!) 업체가 생산중이긴 한데, 사실 내 눈길을 끈 건 7월에 발표된 WTO 판례(참조 1)였다. 통상법 판례 중에서 전기자동차를 다룬 최초의 사례(DS629)가 나왔기 때문이다. 먼저 WTO 얘기를 하자면, 제아무리 상소기구가 불능 상태에 빠졌다 하더라도 이런 판례는 결국은 다 언제 가동될지 모를 미래의 법적 기반(참조 2)을 쌓는 것입니다요. 어차피 통상법 공부할 때 WTO가 있지도 않았던 195-60년대 GATT 판례도 다 공부하고 했었다. 자, 다시 주제를 얘기해 봅시다. 이번 분쟁은 2024년 중국이 튀르키예를 상대로 소를 제기한 것이었고, 무엇이 대상이었나? 튀르키예가 중국산 자동차에 매기는 전기차, 하이브리드차 및 기타 차량의 추가 관세 및 수입 허가 요건 도입 조치였다. 중국산 차량들만 기본 관세에 더해 추가적으로 관세를 부과했다는 얘기인데, FTA 체결국들(우리나라도 포함됩니다?)에게는 그런 조치를 하지 않았다. 물론 현대는 튀르키예에서 아이오닉3를 생산하고 있긴 한데, 그건 다른 얘기입니다. 이 차량도 한국에 들여오면 안 되나? 그래서 WTO 패널의 판단은 무엇인고 하니, (1) 추가관세는 제2조(양허표) 위반이다. 튀르키예는 국내 친환경차 육성 및 충전 인프라를 확충하고 이산화탄소 배출량을 줄여야 한다면서 추가관세가 필요하다고 주장했으나 받아들여지지 않았다. 예외 조항을 구성하는 제20조 일반예외(b목)도 위반이라는 뜻이다. (2) 수입허가제도 관련, 수입업체 자체 직영 정비소 보유 요구, 특정 자격증 요구, 40인 콜센터 설치 등 수입 전기차에만 차별적이고 과도한 사후관리(A/S) 요건을 부과하고, 이를 사전 수입허가와 연계하여 수입을 원천 차단한 조치도 내국민대우(제3조) 위반이라 나왔다. 자, 튀르키예는 여기에 대해 항고 통보(Notice of Appeal)하여 그냥 아무것도 해결되지 않는 상태로 갈 수 있다(참조 2). 8월 현재 아직은 안 한 상태이고, 잠깐만, 이 사태를 위해 MPIA가 있잖아요? 안타깝게도 중국은 여기에 가입했지만 튀르키예는 가입하지 않았습니다. 그렇다면 중국만 kibun이 좋은 걸로 끝나나요? 그게... 그리 흘러가지는 않을 듯 합니다?",
-        "사실 위에 거론했던 튀르키예산 전기자동차인 TOGG는 실제 구동 모터와 배터리 모두 다 중국이 도와줬다 할 수 있기도 하고, BYD가 튀르키예에 투자를 하고 있는 와중인 것도 있다. 두 나라 간 어른의 사정에 따라 조용히 합의로 이어질 수 있다는 뜻이다. 물론 이 판례가 아예 없었던 것처럼 작동하지는 않을 것이다. 중국에게 좋은 카드를 쥐어준 셈이니까. 하지만 뭣보다도 전기차량이 포함된 첫 번째 통상분쟁 사례가 이거라는 점이 중요하겠죠? 1994년 우루과이 라운드 시절 개념조차 희미했던 전기자동차도 기존 양허 항목에 따라 평가해야 한다는 점이 명확해졌기 때문이다. 게다가 여러 나라들이 참고해야 할 사항들이 있다. 기후 목표 달성을 위해 반드시 자국 산업 보호가 먼저라 주장할 수 없다는 점이다. 하지만 정치적으로는 이를 논리적으로 홍보하기가 쉽지 않기에, 언제인가 모를 미래형 통상규범 체제에 이를 맡길 수밖에 없다는 난점이 생겼다. 한마디로, 소비자가 구매해야 할 바로 그 친환경 제품(전기차)에 대해 '국내 산업과 경쟁한다'는 이유만으로 수입을 방해하거나 막지 말라는 얘기. 그래서 테슬라 FSD는 언제 풀어줍니까? ----------참조1. WTO panel issues report regarding Turkish measures on EVs and other types of vehicles(2026년 7월 28일): https://t.co/0qEmHIH0TG2. 다자간 임시상소중재약정(MPIA) 첫 결과(2022년 12월 25일): https://www.facebook.com/share/p/1EPYFsifpP/3. 짤방은 튀르키예에서 생산중인 세단형 전기차, T10F출처 : https://www.togg.com.tr/t10f"
+        "목요일은 역시 통상법이죠. 튀르키예도 전기자동차를 생산하나요? 예, 생산합니다. TOGG라는 국영(!) 업체가 생산중이긴 한데, 사실 내 눈길을 끈 건 7월에 발표된 WTO 판례(참조 1)였다. 통상법 판례 중에서 전기자동차를 다룬 최초의 사례(DS629)가 나왔기 때문이다.",
+        "먼저 WTO 얘기를 하자면, 제아무리 상소기구가 불능 상태에 빠졌다 하더라도 이런 판례는 결국은 다 언제 가동될지 모를 미래의 법적 기반(참조 2)을 쌓는 것입니다요. 어차피 통상법 공부할 때 WTO가 있지도 않았던 195-60년대 GATT 판례도 다 공부하고 했었다. 자, 다시 주제를 얘기해 봅시다.",
+        "이번 분쟁은 2024년 중국이 튀르키예를 상대로 소를 제기한 것이었고, 무엇이 대상이었나? 튀르키예가 중국산 자동차에 매기는 전기차, 하이브리드차 및 기타 차량의 추가 관세 및 수입 허가 요건 도입 조치였다. 중국산 차량들만 기본 관세에 더해 추가적으로 관세를 부과했다는 얘기인데, FTA 체결국들(우리나라도 포함됩니다?)에게는 그런 조치를 하지 않았다. 물론 현대는 튀르키예에서 아이오닉3를 생산하고 있긴 한데, 그건 다른 얘기입니다. 이 차량도 한국에 들여오면 안 되나?",
+        "그래서 WTO 패널의 판단은 무엇인고 하니, (1) 추가관세는 제2조(양허표) 위반이다. 튀르키예는 국내 친환경차 육성 및 충전 인프라를 확충하고 이산화탄소 배출량을 줄여야 한다면서 추가관세가 필요하다고 주장했으나 받아들여지지 않았다. 예외 조항을 구성하는 제20조 일반예외(b목)도 위반이라는 뜻이다.",
+        "(2) 수입허가제도 관련, 수입업체 자체 직영 정비소 보유 요구, 특정 자격증 요구, 40인 콜센터 설치 등 수입 전기차에만 차별적이고 과도한 사후관리(A/S) 요건을 부과하고, 이를 사전 수입허가와 연계하여 수입을 원천 차단한 조치도 내국민대우(제3조) 위반이라 나왔다.",
+        "자, 튀르키예는 여기에 대해 항고 통보(Notice of Appeal)하여 그냥 아무것도 해결되지 않는 상태로 갈 수 있다(참조 2). 8월 현재 아직은 안 한 상태이고, 잠깐만, 이 사태를 위해 MPIA가 있잖아요? 안타깝게도 중국은 여기에 가입했지만 튀르키예는 가입하지 않았습니다. 그렇다면 중국만 kibun이 좋은 걸로 끝나나요?",
+        "그게... 그리 흘러가지는 않을 듯 합니다? 사실 위에 거론했던 튀르키예산 전기자동차인 TOGG는 실제 구동 모터와 배터리 모두 다 중국이 도와줬다 할 수 있기도 하고, BYD가 튀르키예에 투자를 하고 있는 와중인 것도 있다. 두 나라 간 어른의 사정에 따라 조용히 합의로 이어질 수 있다는 뜻이다. 물론 이 판례가 아예 없었던 것처럼 작동하지는 않을 것이다. 중국에게 좋은 카드를 쥐어준 셈이니까.",
+        "하지만 뭣보다도 전기차량이 포함된 첫 번째 통상분쟁 사례가 이거라는 점이 중요하겠죠? 1994년 우루과이 라운드 시절 개념조차 희미했던 전기자동차도 기존 양허 항목에 따라 평가해야 한다는 점이 명확해졌기 때문이다.",
+        "게다가 여러 나라들이 참고해야 할 사항들이 있다. 기후 목표 달성을 위해 반드시 자국 산업 보호가 먼저라 주장할 수 없다는 점이다. 하지만 정치적으로는 이를 논리적으로 홍보하기가 쉽지 않기에, 언제인가 모를 미래형 통상규범 체제에 이를 맡길 수밖에 없다는 난점이 생겼다.",
+        "한마디로, 소비자가 구매해야 할 바로 그 친환경 제품(전기차)에 대해 '국내 산업과 경쟁한다'는 이유만으로 수입을 방해하거나 막지 말라는 얘기. 그래서 테슬라 FSD는 언제 풀어줍니까?",
+        "----------",
+        "참조",
+        "1. WTO panel issues report regarding Turkish measures on EVs and other types of vehicles(2026년 7월 28일): https://t.co/0qEmHIH0TG",
+        "2. 다자간 임시상소중재약정(MPIA) 첫 결과(2022년 12월 25일): https://www.facebook.com/share/p/1EPYFsifpP/",
+        "3. 짤방은 튀르키예에서 생산중인 세단형 전기차, T10F",
+        "출처 : https://www.togg.com.tr/t10f"
       ],
       "permalink": "https://www.facebook.com/minbok/posts/10164596288029831",
       "profile_url": "https://www.facebook.com/minbok",
@@ -649,9 +663,9 @@
       "status": "complete"
     },
     "10164600945229831": {
-      "article_format_version": 16,
+      "article_format_version": 17,
       "completed_at": "2026-09-02T09:33:11+00:00",
-      "content_hash": "8cbd807b4bae03d09a57d599b853c61fbf69cf46436d4f24f34ae2f2995dc622",
+      "content_hash": "10b36cb6e138ba454602db1d01abaabdc0261383b787ea4343a46b0170a9ae48",
       "direct_media_keys": [
         "785602876_10164600939254831_5021721867175776173_n.webp"
       ],
@@ -663,27 +677,27 @@
       ],
       "inline_links": [
         {
-          "end": 620,
-          "paragraph_index": 1,
-          "start": 562,
+          "end": 201,
+          "paragraph_index": 11,
+          "start": 143,
           "url": "https://information.tv5monde.com/france/annuler-une-partie-de-la-dette-la-proposition-de-melenchon-sous-le-feu-des-critiques-2834799"
         },
         {
-          "end": 820,
-          "paragraph_index": 1,
-          "start": 763,
+          "end": 200,
+          "paragraph_index": 12,
+          "start": 143,
           "url": "https://www.publicsenat.fr/actualites/politique/dette-publique-la-piste-dune-annulation-partielle-defendue-par-jean-luc-melenchon-se-heurte-a-de-nombreuses-difficultes"
         },
         {
-          "end": 879,
-          "paragraph_index": 1,
-          "start": 823,
+          "end": 59,
+          "paragraph_index": 13,
+          "start": 3,
           "url": "https://x.com/J_Bardella/status/2091477140793373045?s=20"
         },
         {
-          "end": 1166,
-          "paragraph_index": 1,
-          "start": 1111,
+          "end": 172,
+          "paragraph_index": 15,
+          "start": 117,
           "url": "https://www.leparisien.fr/elections/presidentielle/presidentielle-2027-un-nouveau-sondage-donne-jean-luc-melenchon-au-second-tour-face-a-marine-le-pen-26-08-2026-DR3G2VWKPJCRFEM2SHEQUD5SWQ.php"
         }
       ],
@@ -703,8 +717,22 @@
       "original_inline_links": [],
       "original_paragraphs": [],
       "paragraphs": [
-        "금요일은 역시 경제죠. 미국인(!) 경제학자인 리처드 쿠의 대차대조표 불황(balance sheet recession)을 들어보셨는지 모르겠는데, 일본의 경제불황을 설명하기 위한 수단으로 \"장부\"를 제기한 것으로 유명하다. 거품 붕괴로 인해, 대차대조표가 훼손되고, 그에 따라 기업을 포함한 민간이 부채상환에만 매달리기 때문에 불황이 온다는 논리다. 그래서 재정을 무한 투입해야 한다는 결론으로 이어지는데, 지금 일본을 보면 그 해결책이 딱히 맞진 않아 보인다. (물론 소방수의 역할을 했다는 반론도 존재한다.) 자, 그 개념을 깔고 한 번 멜랑숑(참조 1)의 주장을 봅시다. 기본적으로 그도 대차대조표를 바꾸면 된다고 주장한다. 중앙은행이 프랑스 국채를 사들여 국가 빚이 늘었는데, 중앙은행도 공공 기관 아니겠느냐, 따라서 자기 자신에게 진 빚인지라 갚을 필요가 없다(참조 2). 그러므로 국채들을 이자율 0%짜리 영구채(dettes perpétuelles à taux nul, 참조 3)로 바꾸면, 사실상 부채를 탕감받을 수 있다. 여기서 확보된 재정 여력으로 복지와 공공 투자를 늘리자... 언뜻 생각해도 이러면 안 될 것 같다. 영구채 개념은 영국의 콘솔(Consols)에도 있긴 했는데, 그래도 콘솔(현재는 존재하지 않는다)은 납부기한이 영구이기는 해도 이자는 갚는 형태다. 멜랑숑의 주장을 앞서 말한 대차대조표 불황과 비교해 보면 기본 구조는 같아보이기는 하지만, 훨씬 급진적이다. 국채를 모두 화폐화(화폐가 바로 0%의 영구채 개념)시키자이니 말이다. 일단 이거 EU 조약상 안 됩니다. 기능조약(TFEU) 제123조에서 명시적으로 이런 행위를 금지하기 때문이다. 그리고 프랑스 국채를 프랑스 중앙은행만 들고 있지 않다. 10% 정도를 ECB가 갖고 있고, 만약에 국채 가치가 0이 되어버리면, ECB 지분에 따라 다른 회원국들에게도 피해를 끼치게 된다. 그리고 대차대조표 상으로 프랑스 중앙은행에 손실이 생기므로? 세금으로 메꿔야 합니다. 프랑스 내 다른 시중 은행들도 지급준비금 이자(이는 프랑스가 아닌 ECB가 정한다)를 손해볼 테고 말이다. 프랑스 은행에 예금을 뒀다면 어떻게 하시겠습니까? 가령 독일 은행으로 다 이체해버리는 편이 낫겠죠? 그래서 순유출이 많아지면? 지급결제망인 Target-2 상에서도 부채가 커지고 이는 결국 채권국들 중앙은행으로 대규모로 손실이 이전된다는 얘기죠.",
-        "뱅크런만이 아니고 유로가 다시 위험해진다는 결과로 이어진다. 그래서 정부에서도 즉각적으로 반박하고 나섰다(참조 2). 아니 이걸 멜랑숑 혹은 LFI측 인사들이 모르고 한 말일까요? 잘 아니까 그런 주장을 할 수도 있을 듯 싶다. 근본적으로 이들도 결국 혁명적 변화를 추구하는 극우파와 별다를 것이 없다는 얘기인데, 사실 바르델라는 이 주장에 대해 마법의 돈(argent magique)은 없다며 참전했다(참조 4). 이러니까 멜랑숑이 2027년 대선에 나가서 만약 결선투표까지 갈 경우, 르펜이 대승하는 여론조사(참조 5)가 나오는 것이겠지요. 아마 실제로도 그러할 듯. ----------참조1. 장뤽 멜랑숑은 누구인가?(2017년 5월 29일): https://www.facebook.com/minbok/posts/101552557731748312. 짤방도 여기서 가져왔다. 멜랑숑의 시그니처는 역시 검지 손가락이지. Annuler une partie de la dette : la proposition de Mélenchon sous le feu des critiques(2026년 8월 24일): https://information.tv5monde.com/.../annuler-une-partie...3. Dette publique : la piste d’une annulation partielle, défendue par Jean-Luc Mélenchon, se heurte à de nombreuses difficultés(2026년 8월 25일): https://www.publicsenat.fr/.../dette-publique-la-piste...4. https://x.com/J_Bardella/status/2091477140793373045?s=205. 멜랑숑이 결선에 올라갈 가능성이 매우 높아진 상황이지만, 결선에서 붙을 경우 다른 후보들보다 훨씬 더 크게 르펜에게 패배한다(67대 33). 그나마 에두아르 필립이 선방(르펜에게 52:48로 진다). Présidentielle 2027 : un nouveau sondage donne Jean-Luc Mélenchon au second tour face à Marine Le Pen(2026년 8월 26일): https://www.leparisien.fr/.../presidentielle-2027-un..."
+        "금요일은 역시 경제죠. 미국인(!) 경제학자인 리처드 쿠의 대차대조표 불황(balance sheet recession)을 들어보셨는지 모르겠는데, 일본의 경제불황을 설명하기 위한 수단으로 \"장부\"를 제기한 것으로 유명하다. 거품 붕괴로 인해, 대차대조표가 훼손되고, 그에 따라 기업을 포함한 민간이 부채상환에만 매달리기 때문에 불황이 온다는 논리다. 그래서 재정을 무한 투입해야 한다는 결론으로 이어지는데, 지금 일본을 보면 그 해결책이 딱히 맞진 않아 보인다. (물론 소방수의 역할을 했다는 반론도 존재한다.)",
+        "자, 그 개념을 깔고 한 번 멜랑숑(참조 1)의 주장을 봅시다. 기본적으로 그도 대차대조표를 바꾸면 된다고 주장한다. 중앙은행이 프랑스 국채를 사들여 국가 빚이 늘었는데, 중앙은행도 공공 기관 아니겠느냐, 따라서 자기 자신에게 진 빚인지라 갚을 필요가 없다(참조 2).",
+        "그러므로 국채들을 이자율 0%짜리 영구채(dettes perpétuelles à taux nul, 참조 3)로 바꾸면, 사실상 부채를 탕감받을 수 있다. 여기서 확보된 재정 여력으로 복지와 공공 투자를 늘리자...",
+        "언뜻 생각해도 이러면 안 될 것 같다. 영구채 개념은 영국의 콘솔(Consols)에도 있긴 했는데, 그래도 콘솔(현재는 존재하지 않는다)은 납부기한이 영구이기는 해도 이자는 갚는 형태다. 멜랑숑의 주장을 앞서 말한 대차대조표 불황과 비교해 보면 기본 구조는 같아보이기는 하지만, 훨씬 급진적이다. 국채를 모두 화폐화(화폐가 바로 0%의 영구채 개념)시키자이니 말이다.",
+        "일단 이거 EU 조약상 안 됩니다. 기능조약(TFEU) 제123조에서 명시적으로 이런 행위를 금지하기 때문이다. 그리고 프랑스 국채를 프랑스 중앙은행만 들고 있지 않다. 10% 정도를 ECB가 갖고 있고, 만약에 국채 가치가 0이 되어버리면, ECB 지분에 따라 다른 회원국들에게도 피해를 끼치게 된다.",
+        "그리고 대차대조표 상으로 프랑스 중앙은행에 손실이 생기므로? 세금으로 메꿔야 합니다. 프랑스 내 다른 시중 은행들도 지급준비금 이자(이는 프랑스가 아닌 ECB가 정한다)를 손해볼 테고 말이다.",
+        "프랑스 은행에 예금을 뒀다면 어떻게 하시겠습니까? 가령 독일 은행으로 다 이체해버리는 편이 낫겠죠? 그래서 순유출이 많아지면? 지급결제망인 Target-2 상에서도 부채가 커지고 이는 결국 채권국들 중앙은행으로 대규모로 손실이 이전된다는 얘기죠. 뱅크런만이 아니고 유로가 다시 위험해진다는 결과로 이어진다. 그래서 정부에서도 즉각적으로 반박하고 나섰다(참조 2). 아니 이걸 멜랑숑 혹은 LFI측 인사들이 모르고 한 말일까요?",
+        "잘 아니까 그런 주장을 할 수도 있을 듯 싶다. 근본적으로 이들도 결국 혁명적 변화를 추구하는 극우파와 별다를 것이 없다는 얘기인데, 사실 바르델라는 이 주장에 대해 마법의 돈(argent magique)은 없다며 참전했다(참조 4). 이러니까 멜랑숑이 2027년 대선에 나가서 만약 결선투표까지 갈 경우, 르펜이 대승하는 여론조사(참조 5)가 나오는 것이겠지요. 아마 실제로도 그러할 듯.",
+        "----------",
+        "참조",
+        "1. 장뤽 멜랑숑은 누구인가?(2017년 5월 29일): https://www.facebook.com/minbok/posts/10155255773174831",
+        "2. 짤방도 여기서 가져왔다. 멜랑숑의 시그니처는 역시 검지 손가락이지. Annuler une partie de la dette : la proposition de Mélenchon sous le feu des critiques(2026년 8월 24일): https://information.tv5monde.com/.../annuler-une-partie...",
+        "3. Dette publique : la piste d’une annulation partielle, défendue par Jean-Luc Mélenchon, se heurte à de nombreuses difficultés(2026년 8월 25일): https://www.publicsenat.fr/.../dette-publique-la-piste...",
+        "4. https://x.com/J_Bardella/status/2091477140793373045?s=20",
+        "5. 멜랑숑이 결선에 올라갈 가능성이 매우 높아진 상황이지만, 결선에서 붙을 경우 다른 후보들보다 훨씬 더 크게 르펜에게 패배한다(67대 33). 그나마 에두아르 필립이 선방(르펜에게 52:48로 진다).",
+        "Présidentielle 2027 : un nouveau sondage donne Jean-Luc Mélenchon au second tour face à Marine Le Pen(2026년 8월 26일): https://www.leparisien.fr/.../presidentielle-2027-un..."
       ],
       "permalink": "https://www.facebook.com/minbok/posts/10164600945229831",
       "profile_url": "https://www.facebook.com/minbok",
@@ -755,7 +783,7 @@
       "status": "complete"
     },
     "10164619063314831": {
-      "article_format_version": 16,
+      "article_format_version": 17,
       "completed_at": "2026-09-02T09:13:35+00:00",
       "content_hash": "43e19e5c2ae2598b333fc5697fee2bd68506b9b41fa4d1610ed54d8fbf37588f",
       "direct_media_keys": [
@@ -850,9 +878,9 @@
       "status": "complete"
     },
     "10164623615294831": {
-      "article_format_version": 16,
+      "article_format_version": 17,
       "completed_at": "2026-09-02T09:33:01+00:00",
-      "content_hash": "a5ed6e93672bff7d4ec4254cf77f15fd0c51bc8a42139644855755eb45b96d1e",
+      "content_hash": "448e0363f07e8cba824453ce0811e205c8dc02247bf0aef1b2b06539d3620fe1",
       "direct_media_keys": [
         "786134481_10164623713949831_619205954495614917_n.jpg"
       ],
@@ -864,27 +892,27 @@
       ],
       "inline_links": [
         {
-          "end": 638,
-          "paragraph_index": 1,
-          "start": 596,
+          "end": 87,
+          "paragraph_index": 12,
+          "start": 45,
           "url": "https://substack.com/home/post/p-208727411?utm_id=97758_v0_s00_e0_tv2_a1dennhb6qyyxa"
         },
         {
-          "end": 1009,
-          "paragraph_index": 1,
-          "start": 973,
+          "end": 101,
+          "paragraph_index": 16,
+          "start": 65,
           "url": "https://www.mofcom.gov.cn/zwgk/zcfb/art/2025/art_1315078cebe04210bc35c72a4e7f7967.html"
         },
         {
-          "end": 1155,
-          "paragraph_index": 1,
-          "start": 1099,
+          "end": 146,
+          "paragraph_index": 17,
+          "start": 90,
           "url": "https://www.wsj.com/world/china-to-block-its-rare-earth-experts-from-spilling-their-secrets-8d69b75f"
         },
         {
-          "end": 202,
-          "paragraph_index": 2,
-          "start": 143,
+          "end": 139,
+          "paragraph_index": 19,
+          "start": 80,
           "url": "https://newsen.pku.edu.cn/news_events/news/people/9479.html"
         }
       ],
@@ -904,9 +932,26 @@
       "original_inline_links": [],
       "original_paragraphs": [],
       "paragraphs": [
-        "희토류가 전세계에 골고루 분포하고 있는 것이야 상식일 텐데, 실제로 그걸 캐고 정제하고 하는 주요국은 중국이 거의 유일하다. 그런데 우리가 중국의 희토류에 대해 얼마나 알고 있나 생각해보면 ...인지라 공부를 좀 해 봤습니다. 아래 사진의 출처는 China Talk이다(참조 1). 사진의 지도야말로 중국 희토류를 요약해주는 짤이라 할 수 있겠다. 우선 중국에 희토류를 다루는 (공)기업은 놀랍게도 딱 2개, 즉 과점이다. 북방희토류(北方稀土) 유한공사(中国稀土集团有限公司)와 남방희토류(南方稀土) 유한공사(中国南方稀土集团有限公司)이다. 지도에서 보듯 중국 내 희토류는 크게 북부와 남부로 나눌 수 있고, 중국 본사는 내몽골, 남방 본사는 장시성에 위치해 있다. 물론 남방 지도를 보면 훨씬 뭐가 막 넓게 퍼져 있고 그러한데 그것이 다 이유가 있습니다. 지질학적으로 경(轻)희토류(참조 2)가 집중적으로 매장된 곳이 내몽골이다. 노천탄광에 가깝게 매장되어 있고, 따라서 중국이 집중화시키기가 딱 좋은 위치와 매장 분포를 보이는지라, 2015년에 일찌기 난립했던 희토류 회사들을 통합할 수 있었다고 한다. 그런데 남쪽은 얘기가 다릅니다. 예로부터 화북 정권이 화남을 복속시키기가 매우 어렵... 아 아닙니다. 지도를 보시면 이온흡착형 광상 밀도의 색깔이 막 퍼져 있는 것을 보실 수 있는데, 여기는 중희토류가 넓게 존재한다는 의미이지요. 남부는 통일 작업은 쉽지 않았다. 광맥이 지역별로 넓게 퍼져 있어서 지방정부들 간의 갈등이 심했기 때문이다. 그래서 2024년에서야 통일 공사가 출범한다.그래서? 북부는 그냥 내몽골 자치구에 경영을 맡겨버립니다. 반면 남부는 중국 중앙정부가 지분을 통해 직접 개입한다. 지방의 각 시와 성들이 수입과 일자리를 지키기 위해 자산을 중앙에 넘기기 거부해서다. 여기서 중국! 하면 떠올리는 중앙정부의 통제력이 세계 제일 아닐까? 하는 주장이 정말 그럴까? 하는 의문을 떠올리는 사례가 나옵니다. 가령 2024년 중국의 네오디뮴 자석 생산은 26만 톤이었고, 여기에 필요한 디스프로슘이 1,750톤이라 하는데, 중국이 공식적으로 생산한 디스프로슘 쿼타는 900톤이 안 됐다고 한다. 그렇다면 거의 천 톤을 어디선가 가져왔다는 것이다. 즉, 2024년까지 여기저기 남방에 흩어져 있던, 우후죽순 지방정부들이 세웠던 기업들이 공급했다고 하고, 또 중요한 부분은 미얀마(카친)에서 밀수를 통해 채웠다는 의미다.",
-        "그러므로 우리는 중국이 미얀마에 개입하는 이유 중 한 가지를 알 수 있고, 희토류 수출 통제가 어째서 2025년부터였는지도 깨달을 수 있게 된다(참조 3). 아, 중국 중앙정부의 감시망은 완벽하지 않구나. 생각보다 중국이 1부터 10까지 완벽하게 통제 못 한다는 의미로서 중국이 안고 있는 문제점은 또 있다. 보수가 적다는 얘기다. 정말 경쟁이라 할 수가 없을 정도로 부끄럽고 비참한(!) 미국의 MP Materials의 중위 근로자 소득은 9만 달러 정도 된다. 이에 반해 중국의 북방희토 중위 근로자 소득은 25천 달러 정도밖에 안 된다. 물가 수준을 감안해도 엘리트들을 이렇게 대하면... 두 나라 모두 빅테크 근로자들은... 말을 맙시다. 이 사실을 당연히 정부도 잘 알고 있다. 그래서 나온 것이 여권 뺏어(..., 참조 4). 당연한 말이겠지만 우수인재 한 두 명 빼온다 하여 중국이 5-60년간(참조 5) 닦아온 희토류 공정 노하우(요새 유행어로는 \"암묵지\")를 빼올 수는 없는 노릇이다. 팀 전체를 스카웃한다면 모를까. ...여권을 주자! (아님) ----------참조1. China's Rare Earths Duopoly(2026년 9월 1일): https://substack.com/home/post/p-208727411짤방의 그래프는 Gemini로 한국어화시켰다. 2. 원자번호 57번(란타넘)부터 63번(유로피움)까지의 라이트란탄계열 원소이며, 상대적으로 매장량이 풍부하고 분리도 용이하다고 한다. 고성능 영구자석의 핵심 요소다. 원자번호 62번(사마륨)부터 66번(디스프로슘)까지는 중(中)희토류이고, 67번(홀뮴)부터 71번(루테튬) 그리고 39번 이트륨이 중(重)희토류다. 이온 반경이 작으므로 극도로 희소하기 때문에 분리와 정제 난이도가 확 높아진다. 방산, 전기모터, 레이저 등에 쓰인다. 3. 商务部 海关总署公告2025年第56号 公布对部分稀土设备和原辅料相关物项实施出口管制的决定(2025년 10월 9일): https://www.mofcom.gov.cn/.../art...4. China Is Tracking Down Its Rare-Earth Experts—and Taking Away Passports(2025년 6월 25일): https://www.wsj.com/.../china-to-block-its-rare-earth...5.",
-        "가령 '중국 희토류 화학의 아버지'로 불리는 쑤광선(徐光宪)은 1970년대에 역류 추출(SX) 공정을 개발했다. [70 years on] Xu Guangxian: Father of Chinese rare-earth metal(2019년 12월 31일) : https://newsen.pku.edu.cn/news_events/news/people/9479.html"
+        "희토류가 전세계에 골고루 분포하고 있는 것이야 상식일 텐데, 실제로 그걸 캐고 정제하고 하는 주요국은 중국이 거의 유일하다. 그런데 우리가 중국의 희토류에 대해 얼마나 알고 있나 생각해보면 ...인지라 공부를 좀 해 봤습니다. 아래 사진의 출처는 China Talk이다(참조 1). 사진의 지도야말로 중국 희토류를 요약해주는 짤이라 할 수 있겠다.",
+        "우선 중국에 희토류를 다루는 (공)기업은 놀랍게도 딱 2개, 즉 과점이다. 북방희토류(北方稀土) 유한공사(中国稀土集团有限公司)와 남방희토류(南方稀土) 유한공사(中国南方稀土集团有限公司)이다.",
+        "지도에서 보듯 중국 내 희토류는 크게 북부와 남부로 나눌 수 있고, 중국 본사는 내몽골, 남방 본사는 장시성에 위치해 있다. 물론 남방 지도를 보면 훨씬 뭐가 막 넓게 퍼져 있고 그러한데 그것이 다 이유가 있습니다.",
+        "지질학적으로 경(轻)희토류(참조 2)가 집중적으로 매장된 곳이 내몽골이다. 노천탄광에 가깝게 매장되어 있고, 따라서 중국이 집중화시키기가 딱 좋은 위치와 매장 분포를 보이는지라, 2015년에 일찌기 난립했던 희토류 회사들을 통합할 수 있었다고 한다.",
+        "그런데 남쪽은 얘기가 다릅니다. 예로부터 화북 정권이 화남을 복속시키기가 매우 어렵... 아 아닙니다. 지도를 보시면 이온흡착형 광상 밀도의 색깔이 막 퍼져 있는 것을 보실 수 있는데, 여기는 중희토류가 넓게 존재한다는 의미이지요. 남부는 통일 작업은 쉽지 않았다. 광맥이 지역별로 넓게 퍼져 있어서 지방정부들 간의 갈등이 심했기 때문이다. 그래서 2024년에서야 통일 공사가 출범한다.",
+        "그래서? 북부는 그냥 내몽골 자치구에 경영을 맡겨버립니다. 반면 남부는 중국 중앙정부가 지분을 통해 직접 개입한다. 지방의 각 시와 성들이 수입과 일자리를 지키기 위해 자산을 중앙에 넘기기 거부해서다. 여기서 중국! 하면 떠올리는 중앙정부의 통제력이 세계 제일 아닐까? 하는 주장이 정말 그럴까? 하는 의문을 떠올리는 사례가 나옵니다.",
+        "가령 2024년 중국의 네오디뮴 자석 생산은 26만 톤이었고, 여기에 필요한 디스프로슘이 1,750톤이라 하는데, 중국이 공식적으로 생산한 디스프로슘 쿼타는 900톤이 안 됐다고 한다. 그렇다면 거의 천 톤을 어디선가 가져왔다는 것이다. 즉, 2024년까지 여기저기 남방에 흩어져 있던, 우후죽순 지방정부들이 세웠던 기업들이 공급했다고 하고, 또 중요한 부분은 미얀마(카친)에서 밀수를 통해 채웠다는 의미다.",
+        "그러므로 우리는 중국이 미얀마에 개입하는 이유 중 한 가지를 알 수 있고, 희토류 수출 통제가 어째서 2025년부터였는지도 깨달을 수 있게 된다(참조 3). 아, 중국 중앙정부의 감시망은 완벽하지 않구나. 생각보다 중국이 1부터 10까지 완벽하게 통제 못 한다는 의미로서 중국이 안고 있는 문제점은 또 있다.",
+        "보수가 적다는 얘기다. 정말 경쟁이라 할 수가 없을 정도로 부끄럽고 비참한(!) 미국의 MP Materials의 중위 근로자 소득은 9만 달러 정도 된다. 이에 반해 중국의 북방희토 중위 근로자 소득은 25천 달러 정도밖에 안 된다. 물가 수준을 감안해도 엘리트들을 이렇게 대하면...",
+        "두 나라 모두 빅테크 근로자들은... 말을 맙시다. 이 사실을 당연히 정부도 잘 알고 있다. 그래서 나온 것이 여권 뺏어(..., 참조 4). 당연한 말이겠지만 우수인재 한 두 명 빼온다 하여 중국이 5-60년간(참조 5) 닦아온 희토류 공정 노하우(요새 유행어로는 \"암묵지\")를 빼올 수는 없는 노릇이다. 팀 전체를 스카웃한다면 모를까. ...여권을 주자! (아님)",
+        "----------",
+        "참조",
+        "1. China's Rare Earths Duopoly(2026년 9월 1일): https://substack.com/home/post/p-208727411",
+        "짤방의 그래프는 Gemini로 한국어화시켰다.",
+        "2. 원자번호 57번(란타넘)부터 63번(유로피움)까지의 라이트란탄계열 원소이며, 상대적으로 매장량이 풍부하고 분리도 용이하다고 한다. 고성능 영구자석의 핵심 요소다.",
+        "원자번호 62번(사마륨)부터 66번(디스프로슘)까지는 중(中)희토류이고, 67번(홀뮴)부터 71번(루테튬) 그리고 39번 이트륨이 중(重)희토류다. 이온 반경이 작으므로 극도로 희소하기 때문에 분리와 정제 난이도가 확 높아진다. 방산, 전기모터, 레이저 등에 쓰인다.",
+        "3. 商务部 海关总署公告2025年第56号 公布对部分稀土设备和原辅料相关物项实施出口管制的决定(2025년 10월 9일): https://www.mofcom.gov.cn/.../art...",
+        "4. China Is Tracking Down Its Rare-Earth Experts—and Taking Away Passports(2025년 6월 25일): https://www.wsj.com/.../china-to-block-its-rare-earth...",
+        "5. 가령 '중국 희토류 화학의 아버지'로 불리는 쑤광선(徐光宪)은 1970년대에 역류 추출(SX) 공정을 개발했다.",
+        "[70 years on] Xu Guangxian: Father of Chinese rare-earth metal(2019년 12월 31일) : https://newsen.pku.edu.cn/news_events/news/people/9479.html"
       ],
       "permalink": "https://www.facebook.com/minbok/posts/10164623615294831",
       "profile_url": "https://www.facebook.com/minbok",
@@ -1539,7 +1584,7 @@
       "status": "complete"
     },
     "10241848161316662": {
-      "article_format_version": 16,
+      "article_format_version": 17,
       "completed_at": "2026-09-03T08:18:56+00:00",
       "content_hash": "188235511fe26fa1c476c149b9c11238db5114452e337401fbc2c7d176680fa2",
       "direct_media_keys": [],
@@ -1571,7 +1616,7 @@
       "status": "complete"
     },
     "10241856163476711": {
-      "article_format_version": 16,
+      "article_format_version": 17,
       "completed_at": "2026-09-03T08:18:55+00:00",
       "content_hash": "f2276dfbc64e60346216f0c4e04c3bf2ca1f983d96ace477ff8219449e9257ff",
       "direct_media_keys": [
@@ -1612,7 +1657,7 @@
       "status": "complete"
     },
     "10242011438998502": {
-      "article_format_version": 16,
+      "article_format_version": 17,
       "completed_at": "2026-09-03T08:14:12+00:00",
       "content_hash": "525a6e67ce752e5ab3e7c5bc482e5d5e171ec4b25c1635d7ff7626640d61ca0c",
       "direct_media_keys": [
@@ -1667,7 +1712,7 @@
       "status": "complete"
     },
     "10242024279079496": {
-      "article_format_version": 16,
+      "article_format_version": 17,
       "completed_at": "2026-09-03T08:14:10+00:00",
       "content_hash": "7eabc28ca8e05dca25c191746b245e0dde5b3434bdebd6ea3112f147a30ce03a",
       "direct_media_keys": [],
@@ -1698,7 +1743,7 @@
       "status": "complete"
     },
     "10242059896609912": {
-      "article_format_version": 16,
+      "article_format_version": 17,
       "completed_at": "2026-09-03T08:14:10+00:00",
       "content_hash": "fe4f3282bf6979173f9e2a0d24d8764536e36b46f743b4a7b35599965e27c425",
       "direct_media_keys": [
@@ -1739,7 +1784,7 @@
       "status": "complete"
     },
     "10242065504910116": {
-      "article_format_version": 16,
+      "article_format_version": 17,
       "completed_at": "2026-09-03T08:14:08+00:00",
       "content_hash": "9415b505df610e138b379d4f663e2bee2bd2331ff16a26a7992e0402eea8b929",
       "direct_media_keys": [],
@@ -1802,7 +1847,7 @@
       "status": "complete"
     },
     "10242085985822126": {
-      "article_format_version": 16,
+      "article_format_version": 17,
       "completed_at": "2026-09-03T08:14:07+00:00",
       "content_hash": "fe3d385fa5b54590f043b033b290969ed66657d59b74dda382832af94e618663",
       "direct_media_keys": [
@@ -1839,7 +1884,7 @@
       "status": "complete"
     },
     "10242111005367599": {
-      "article_format_version": 16,
+      "article_format_version": 17,
       "completed_at": "2026-09-03T08:14:06+00:00",
       "content_hash": "6adee0882f6256755ff1b06fbb05e38c5de98496512e0affc52b45a417b9e772",
       "direct_media_keys": [],
@@ -1870,7 +1915,7 @@
       "status": "complete"
     },
     "10242139996212352": {
-      "article_format_version": 16,
+      "article_format_version": 17,
       "completed_at": "2026-09-03T08:14:05+00:00",
       "content_hash": "48e8556ff5fd56e752a0f001ccaaf9e2e62d4797e4aeef7c068c507a88cf6718",
       "direct_media_keys": [
@@ -1910,7 +1955,7 @@
       "status": "complete"
     },
     "10242153695274820": {
-      "article_format_version": 16,
+      "article_format_version": 17,
       "completed_at": "2026-09-03T08:14:04+00:00",
       "content_hash": "68ab97f866d132294b2a2adfe7b2d904cae72e1bbe6f0fb4f8d0ebc2ff19290a",
       "direct_media_keys": [
@@ -1951,7 +1996,7 @@
       "status": "complete"
     },
     "10242154418652904": {
-      "article_format_version": 16,
+      "article_format_version": 17,
       "completed_at": "2026-09-03T08:14:03+00:00",
       "content_hash": "f98cb724b65f47606cf53ef6d9305ffb3e313f607695fecd9376b8087ffca19c",
       "direct_media_keys": [
@@ -1988,7 +2033,7 @@
       "status": "complete"
     },
     "10242211636963326": {
-      "article_format_version": 16,
+      "article_format_version": 17,
       "completed_at": "2026-09-03T08:14:02+00:00",
       "content_hash": "c7080cc04ac7fbd6b18d02ef9d3dd5f9d37901398008abc8026b53bedbd094fb",
       "direct_media_keys": [],
@@ -2017,7 +2062,7 @@
       "status": "complete"
     },
     "10242216937215829": {
-      "article_format_version": 16,
+      "article_format_version": 17,
       "completed_at": "2026-09-03T08:14:01+00:00",
       "content_hash": "f5b2e32ea9d3e8103b41ca560a192a19c431c1d3f1cf064249ec629eb30e18ab",
       "direct_media_keys": [
@@ -2055,7 +2100,7 @@
       "status": "complete"
     },
     "10242219702764966": {
-      "article_format_version": 16,
+      "article_format_version": 17,
       "completed_at": "2026-09-03T08:14:00+00:00",
       "content_hash": "1cab24b1864913ccc8ef462b4b075f5aa6b9e7f42c8ddb3dd5322720a496eee4",
       "direct_media_keys": [],
@@ -2091,7 +2136,7 @@
       "status": "complete"
     },
     "10242224459363878": {
-      "article_format_version": 16,
+      "article_format_version": 17,
       "completed_at": "2026-09-03T08:13:59+00:00",
       "content_hash": "2f39d6552bc919fbf5075fafcab93434dae536555170d9462a1456e0c5b356ce",
       "direct_media_keys": [],
@@ -2119,7 +2164,7 @@
       "status": "complete"
     },
     "10242233570791658": {
-      "article_format_version": 16,
+      "article_format_version": 17,
       "completed_at": "2026-09-03T08:13:58+00:00",
       "content_hash": "abe41d3c827e77537706a07d1e4ec9c4c711b055445ce98c0a577b304e850683",
       "direct_media_keys": [],
@@ -2154,7 +2199,7 @@
       "status": "complete"
     },
     "10242262515795265": {
-      "article_format_version": 16,
+      "article_format_version": 17,
       "completed_at": "2026-09-03T08:13:58+00:00",
       "content_hash": "bdf6bea0da2f2c5230001e5443e511522af8388ad8651322b49a9f5b97902823",
       "direct_media_keys": [],
@@ -2185,7 +2230,7 @@
       "status": "complete"
     },
     "10242272825813009": {
-      "article_format_version": 16,
+      "article_format_version": 17,
       "completed_at": "2026-09-03T08:13:57+00:00",
       "content_hash": "f629e8cd15e2ca40d6b0f38f3a94606d06d5330dba891514e0661579073e66ae",
       "direct_media_keys": [
@@ -2250,7 +2295,7 @@
       "status": "complete"
     },
     "10242289562631419": {
-      "article_format_version": 16,
+      "article_format_version": 17,
       "completed_at": "2026-09-03T08:13:55+00:00",
       "content_hash": "e7955b2792921ce4f3bccb1cd3b3c0bdacd097f342f656d9b061e9bf0820868a",
       "direct_media_keys": [],
@@ -2282,7 +2327,7 @@
       "status": "complete"
     },
     "10242293427128029": {
-      "article_format_version": 16,
+      "article_format_version": 17,
       "completed_at": "2026-09-03T08:13:54+00:00",
       "content_hash": "42bee462f7753dc5ad6732c7baf39e29317f1976697a1cf31400169431305e57",
       "direct_media_keys": [],
@@ -2314,7 +2359,7 @@
       "status": "complete"
     },
     "10242303051808640": {
-      "article_format_version": 16,
+      "article_format_version": 17,
       "completed_at": "2026-09-03T08:13:53+00:00",
       "content_hash": "40353f67dff617939b844a05836791523bb3cfb4aa0f66f35a9d65b04d0d0577",
       "direct_media_keys": [],
@@ -2346,7 +2391,7 @@
       "status": "complete"
     },
     "10242314016082740": {
-      "article_format_version": 16,
+      "article_format_version": 17,
       "completed_at": "2026-09-03T08:13:51+00:00",
       "content_hash": "04f4b835e2ac8559b94dc173d29170a96d305073c069a8b1e97721dd4df9935e",
       "direct_media_keys": [
@@ -2383,7 +2428,7 @@
       "status": "complete"
     },
     "10242330796582242": {
-      "article_format_version": 16,
+      "article_format_version": 17,
       "completed_at": "2026-09-03T08:13:49+00:00",
       "content_hash": "86c14d4cfd7dadb4db8cb3693be0cbea3c91844f3ed89c1977f4ba7f3e59758f",
       "direct_media_keys": [],
@@ -2413,7 +2458,7 @@
       "status": "complete"
     },
     "10242360081634350": {
-      "article_format_version": 16,
+      "article_format_version": 17,
       "completed_at": "2026-09-03T08:13:48+00:00",
       "content_hash": "0ba364714d502cdd7c594ce6a11736672ca1dd6fe81d8c62b41c12aafab243e3",
       "direct_media_keys": [],
@@ -2442,7 +2487,7 @@
       "status": "complete"
     },
     "10242381058318754": {
-      "article_format_version": 16,
+      "article_format_version": 17,
       "completed_at": "2026-09-03T08:13:48+00:00",
       "content_hash": "18733bff0112a125506374de778e5894f279beb04b108d57ab1c93ebc06f1c37",
       "direct_media_keys": [],
@@ -2473,7 +2518,7 @@
       "status": "complete"
     },
     "10242397402007336": {
-      "article_format_version": 16,
+      "article_format_version": 17,
       "completed_at": "2026-09-03T08:13:46+00:00",
       "content_hash": "125ce2187733d35c1025e5f490639e39e97ffc45263d833141afc0b5786c4cb0",
       "direct_media_keys": [],
@@ -8483,9 +8528,9 @@
       "status": "complete"
     },
     "4033168883480351": {
-      "article_format_version": 16,
+      "article_format_version": 17,
       "completed_at": "2026-09-03T08:03:07+00:00",
-      "content_hash": "c1c66dd62d44362346b293ded017cdce40a4d53f818aa19896659f935b886f4b",
+      "content_hash": "9a983ffe85bf8093d404411a406845b27e3b9ebccff101430d12834f79d2a070",
       "direct_media_keys": [
         "790318415_4033082040155702_5782758731247003606_n.jpg"
       ],
@@ -8549,7 +8594,7 @@
         "내 경험에 진짜 노력은 불안해하지 않는 거다.",
         "부모는 불안이 디폴트 모드인 사람들이다. 하지만 그걸 아이들에게 자꾸 드러내면 아이들은 부모가 자기를 믿지 않는다고 생각한다. 아이들은 부모가 자기를 신뢰할 때 비로소 자기 자신의 가치를 믿는다. 세상에 하나 뿐인 부모도 자기를 안 믿고 잔소리를 하는데 어떤 아이가 자존감을 키울까?",
         "그걸 알면서도 부모들은 불안해서 잔소리를 한다. 그렇게 하는 잔소리는 부모 자신을 위한 것이지, 아이를 위한 게 아니다. 많은 잔소리가 효과가 없는 걸 알면서도 '나는 분명히 말했어'라며 던지는 disclaimer에 불과하다.",
-        "부모가 해야 하는 노력은 그런 잔소리와 충고를 참는 거다. 아이가 하고 싶은 말을 다 들어주고, 내가 하고 싶은 이 말을 하지 않아도 아이는 내가 하고 싶은 말을 이미 알고 있다고 믿어야 한다. 이거, 때로는 거의 초인적인 노력이 필요한 일이다. 하지만 그렇게 하면 아이가 먼저 이야기하자고 찾아온다. 못 믿겠으면 해 보라.",
+        "부모가 해야 하는 노력은 그런 잔소리와 충고를 참는 거다. 아이가 하고 싶은 말을 다 들어주고, 내가 하고 싶은 당연한 충고를 하지 않아도 아이는 내가 하려는 말을 이미 알고 있다고 믿어야 한다. 이거, 때로는 거의 초인적인 노력이 필요한 일이다. 하지만 그렇게 하면 아이가 먼저 이야기하자고 찾아온다. 못 믿겠으면 해 보라.",
         "그리고 아이들에게 중2병 환자 딱지 좀 붙이지 마시라. '중2병'이라는 말은 아이가 아니라, 부모가 어떤 사람인지 보여주는 표현이다.",
         "Edit:",
         "너무 잔인하게 쓴 것 같아 한 마디를 덧붙인다면, 이런 아빠도 과거의 아빠들보다는 백 배 나은 사람이다. 아이들이 버릇 없다며 야단치지 않고, ‘지나가는 시기’라고 생각하는 건 적어도 관계를 악화시키지는 않는다. 시간이 지나고 양쪽이 성숙하면 관계는 회복된다.",
@@ -13634,5 +13679,5 @@
     }
   },
   "schema_version": 1,
-  "updated_at": "2026-09-03T10:57:06+00:00"
+  "updated_at": "2026-09-03T11:18:27+00:00"
 }
