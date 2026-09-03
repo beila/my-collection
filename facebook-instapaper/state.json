@@ -11350,7 +11350,7 @@
       },
       "initial_cutoff_timestamp": 1785660935,
       "initialized_at": "2026-09-02T08:55:35+00:00",
-      "last_scan_timestamp": 1788432930,
+      "last_scan_timestamp": 1788438858,
       "name": "Minbok Wi"
     },
     "https://www.facebook.com/monan.doll": {
@@ -13007,6 +13007,14 @@
           "post_id": "10242219702764966",
           "status": "complete"
         },
+        "https://www.facebook.com/seungjoo.lee.545/posts/pfbid02Bd1YiGhDTEn97456ubW2VjgYiqfSivcZ8wV5Me1SpheRoNHuuALcSkDnJo1SwHtrl": {
+          "completed_at": "2026-09-03T08:13:46+00:00",
+          "discovered_at": "2026-09-03T12:36:45+00:00",
+          "last_error": null,
+          "not_before_timestamp": null,
+          "post_id": "10242397402007336",
+          "status": "complete"
+        },
         "https://www.facebook.com/seungjoo.lee.545/posts/pfbid02Pu4RARvgagv84s4EMvuxrYCVseELVkefp9SF4u1giZdRbiguwhRgbFq7KazsQv7zl": {
           "completed_at": "2026-09-03T08:14:10+00:00",
           "discovered_at": "2026-09-03T08:06:44+00:00",
@@ -13210,7 +13218,7 @@
       },
       "initial_cutoff_timestamp": 1785744404,
       "initialized_at": "2026-09-03T08:06:44+00:00",
-      "last_scan_timestamp": 1788434626,
+      "last_scan_timestamp": 1788438864,
       "name": "Seung-Joo Lee"
     },
     "https://www.facebook.com/youngho.youn.5": {
@@ -13696,5 +13704,5 @@
   },
   "schema_version": 1,
   "unread_sources": {},
-  "updated_at": "2026-09-03T12:36:43+00:00"
+  "updated_at": "2026-09-03T12:36:55+00:00"
 }
