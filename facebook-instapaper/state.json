@@ -6873,7 +6873,7 @@
     },
     "28571442185812777": {
       "article_format_version": 18,
-      "completed_at": null,
+      "completed_at": "2026-09-03T22:53:58+00:00",
       "content_hash": "5c3951c7c33f2e677d963d1e4dfaff843ab28cd31f90b6a1b2fec2de21fff6f0",
       "direct_media_keys": [
         "794096151_28571442985812697_4734936752776180075_n.jpg",
@@ -6883,15 +6883,46 @@
       ],
       "facebook_post_id": "28571442185812777",
       "facebook_timestamp": 1788382072,
+      "has_video": false,
       "image_sha256": [
         "623b7306a5813cbef2ce1eda592d2c6a62c3ba13dde65ef1d23dc32bfbe4a996",
         "1f785b5f0a6ec239449728aa0d524467d9f7c7aa0fdaa2f21839b74aa6f8a370",
         "d376e0b9a39d625bda37d91108834987a9ab45fe4463334371e89e38ea4a2e0b",
         "44ffc90cd7aa4c3daac161ec4ae8aff806ff521ad87376347f0d6339d634b02b"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2038880366",
+      "instapaper_tags": [
+        "🌱"
+      ],
       "last_error": null,
+      "linked_pages": [],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "623b7306a5813cbef2ce1eda592d2c6a62c3ba13dde65ef1d23dc32bfbe4a996"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "1f785b5f0a6ec239449728aa0d524467d9f7c7aa0fdaa2f21839b74aa6f8a370"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "d376e0b9a39d625bda37d91108834987a9ab45fe4463334371e89e38ea4a2e0b"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "44ffc90cd7aa4c3daac161ec4ae8aff806ff521ad87376347f0d6339d634b02b"
+        }
+      ],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "paragraphs": [
         "뭐가 소중하겠어요?",
         "링크스냐, 인랜드냐가 뭐가 중요하겠어요. fresh air가 중요하죠.",
@@ -6903,7 +6934,7 @@
       "permalink": "https://www.facebook.com/youngho.youn.5/posts/28571442185812777",
       "profile_url": "https://www.facebook.com/youngho.youn.5",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/youngho.youn.5/28571442185812777.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "3992993854164521": {
       "article_format_version": 8,
@@ -13322,11 +13353,12 @@
           "status": "complete"
         },
         "https://www.facebook.com/youngho.youn.5/posts/pfbid026xAjvRK3FqNFByW4xJrB9nnkh9JDRu7QfCpUAmKQ28bPWyeWqjsVb4r7hE3TcbTvl": {
+          "completed_at": "2026-09-03T22:53:58+00:00",
           "discovered_at": "2026-09-03T22:52:16+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "28571442185812777",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/youngho.youn.5/posts/pfbid028j9q34kK2b8AUNXLTPzWgf8gkbV2RgLvPLaawXVQ9r3VoVU2kdAKjfdDyKXQkNCYl": {
           "completed_at": "2026-09-01T10:33:36+00:00",
@@ -13809,5 +13841,5 @@
   },
   "schema_version": 1,
   "unread_sources": {},
-  "updated_at": "2026-09-03T22:53:07+00:00"
+  "updated_at": "2026-09-03T22:53:58+00:00"
 }
