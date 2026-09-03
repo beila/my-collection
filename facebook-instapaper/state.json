@@ -1525,15 +1525,23 @@
     },
     "10241848161316662": {
       "article_format_version": 16,
-      "completed_at": null,
+      "completed_at": "2026-09-03T08:18:56+00:00",
       "content_hash": "188235511fe26fa1c476c149b9c11238db5114452e337401fbc2c7d176680fa2",
       "direct_media_keys": [],
       "facebook_post_id": "10241848161316662",
       "facebook_timestamp": 1784663976,
+      "has_video": false,
       "image_sha256": [],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2038695889",
+      "instapaper_tags": [],
       "last_error": null,
+      "linked_pages": [],
+      "media": [],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "paragraphs": [
         "Ukrainian President Volodymyr Zelensky has sacked the country's commander-in-chief, Oleksandr Syrskyi.",
         "His dismissal comes just days after the removal of popular Defence Minister Mykhailo Fedorov - a move that triggered street protests across the country.",
@@ -1545,23 +1553,37 @@
       "permalink": "https://www.facebook.com/seungjoo.lee.545/posts/10241848161316662",
       "profile_url": "https://www.facebook.com/seungjoo.lee.545",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/seungjoo.lee.545/10241848161316662.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "10241856163476711": {
       "article_format_version": 16,
-      "completed_at": null,
+      "completed_at": "2026-09-03T08:18:55+00:00",
       "content_hash": "f2276dfbc64e60346216f0c4e04c3bf2ca1f983d96ace477ff8219449e9257ff",
       "direct_media_keys": [
         "751578492_10241856154196479_697805152641836256_n.jpg"
       ],
       "facebook_post_id": "10241856163476711",
       "facebook_timestamp": 1784722660,
+      "has_video": false,
       "image_sha256": [
         "212e47ed9e40fabf07f5af1f0f2292cf92c48e99d2547f2553934f673bdd83c8"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2038695888",
+      "instapaper_tags": [],
       "last_error": null,
+      "linked_pages": [],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "212e47ed9e40fabf07f5af1f0f2292cf92c48e99d2547f2553934f673bdd83c8"
+        }
+      ],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "paragraphs": [
         "날짜가 같은 마누님과 둘째의 생일을 위한,",
         "마누님 몫 생일 케이크",
@@ -1572,7 +1594,7 @@
       "permalink": "https://www.facebook.com/seungjoo.lee.545/posts/10241856163476711",
       "profile_url": "https://www.facebook.com/seungjoo.lee.545",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/seungjoo.lee.545/10241856163476711.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "10242011438998502": {
       "article_format_version": 16,
@@ -12862,11 +12884,12 @@
           "status": "skipped_initial"
         },
         "https://www.facebook.com/seungjoo.lee.545/posts/pfbid023TaRHckRpJ25noNpn1VasvzMLKUBjhrkXTpaQcB3ifNBc9Bu7MAxi83ZkTTCtR2l": {
+          "completed_at": "2026-09-03T08:18:56+00:00",
           "discovered_at": "2026-09-03T08:17:26+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "10241848161316662",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/seungjoo.lee.545/posts/pfbid025afTEss7QMXLj1Nk7xq6sXACunYqn77w3fcTC2Ewig5uQpChinKr3ZS3k6UkTFEel": {
           "completed_at": "2026-09-03T08:14:12+00:00",
@@ -12949,11 +12972,12 @@
           "status": "complete"
         },
         "https://www.facebook.com/seungjoo.lee.545/posts/pfbid033T2guP5Ph1CcJKysHWgUdDMZfMbv9cqAsnGgF8XM3FRwC4H5yNojLRuT7Gwnu38l": {
+          "completed_at": "2026-09-03T08:18:55+00:00",
           "discovered_at": "2026-09-03T08:17:26+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "10241856163476711",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/seungjoo.lee.545/posts/pfbid035Fsuvo9iHu7zzxqs77qy5d2Qe9qcWn1JEQTwMJ49yuRVwkoTWwpd2eDgPzApErgPl": {
           "completed_at": "2026-09-03T08:13:49+00:00",
@@ -13571,5 +13595,5 @@
     }
   },
   "schema_version": 1,
-  "updated_at": "2026-09-03T08:18:06+00:00"
+  "updated_at": "2026-09-03T08:18:56+00:00"
 }
