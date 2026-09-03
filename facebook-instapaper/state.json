@@ -6871,6 +6871,40 @@
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/youngho.youn.5/28543273218629674.html",
       "status": "complete"
     },
+    "28571442185812777": {
+      "article_format_version": 18,
+      "completed_at": null,
+      "content_hash": "5c3951c7c33f2e677d963d1e4dfaff843ab28cd31f90b6a1b2fec2de21fff6f0",
+      "direct_media_keys": [
+        "794096151_28571442985812697_4734936752776180075_n.jpg",
+        "790408520_28571443302479332_2227061638558246359_n.jpg",
+        "790491632_28571443252479337_5754926796817793190_n.jpg",
+        "790408461_28571442969146032_3860077372594015688_n.jpg"
+      ],
+      "facebook_post_id": "28571442185812777",
+      "facebook_timestamp": 1788382072,
+      "image_sha256": [
+        "623b7306a5813cbef2ce1eda592d2c6a62c3ba13dde65ef1d23dc32bfbe4a996",
+        "1f785b5f0a6ec239449728aa0d524467d9f7c7aa0fdaa2f21839b74aa6f8a370",
+        "d376e0b9a39d625bda37d91108834987a9ab45fe4463334371e89e38ea4a2e0b",
+        "44ffc90cd7aa4c3daac161ec4ae8aff806ff521ad87376347f0d6339d634b02b"
+      ],
+      "instapaper_bookmark_id": null,
+      "last_error": null,
+      "omitted_photo_count": 0,
+      "paragraphs": [
+        "뭐가 소중하겠어요?",
+        "링크스냐, 인랜드냐가 뭐가 중요하겠어요. fresh air가 중요하죠.",
+        "훅이냐 슬라이스나가 뭐가 중요하겠어요. 쪼로인들 어떻겠어요. 공을 찾아 어슬렁거린다는 것이 중요하죠.",
+        "보기냐 더불이냐가 뭐가 중요하겠어요. 양파인들 어떻겠어요. 스코어카드에 연필로 숫자를 쓸 수 있다는 것이 중요하죠.",
+        "자유롭게 거니는 것이 소중하죠. 우리 모두 그렇게 해요.",
+        "London Life 3.0 - (290)"
+      ],
+      "permalink": "https://www.facebook.com/youngho.youn.5/posts/28571442185812777",
+      "profile_url": "https://www.facebook.com/youngho.youn.5",
+      "published_url": "https://beila.github.io/my-collection/facebook-instapaper/youngho.youn.5/28571442185812777.html",
+      "status": "published_pending"
+    },
     "3992993854164521": {
       "article_format_version": 8,
       "completed_at": "2026-08-30T21:05:35+00:00",
@@ -11350,7 +11384,7 @@
       },
       "initial_cutoff_timestamp": 1785660935,
       "initialized_at": "2026-09-02T08:55:35+00:00",
-      "last_scan_timestamp": 1788469466,
+      "last_scan_timestamp": 1788475910,
       "name": "Minbok Wi"
     },
     "https://www.facebook.com/monan.doll": {
@@ -13266,7 +13300,7 @@
       },
       "initial_cutoff_timestamp": 1785744404,
       "initialized_at": "2026-09-03T08:06:44+00:00",
-      "last_scan_timestamp": 1788469473,
+      "last_scan_timestamp": 1788475917,
       "name": "Seung-Joo Lee"
     },
     "https://www.facebook.com/youngho.youn.5": {
@@ -13286,6 +13320,13 @@
           "not_before_timestamp": null,
           "post_id": "28495501316740198",
           "status": "complete"
+        },
+        "https://www.facebook.com/youngho.youn.5/posts/pfbid026xAjvRK3FqNFByW4xJrB9nnkh9JDRu7QfCpUAmKQ28bPWyeWqjsVb4r7hE3TcbTvl": {
+          "discovered_at": "2026-09-03T22:52:16+00:00",
+          "last_error": null,
+          "not_before_timestamp": null,
+          "post_id": "28571442185812777",
+          "status": "published_pending"
         },
         "https://www.facebook.com/youngho.youn.5/posts/pfbid028j9q34kK2b8AUNXLTPzWgf8gkbV2RgLvPLaawXVQ9r3VoVU2kdAKjfdDyKXQkNCYl": {
           "completed_at": "2026-09-01T10:33:36+00:00",
@@ -13618,7 +13659,7 @@
       },
       "initial_cutoff_timestamp": 1785578551,
       "initialized_at": "2026-09-01T10:02:31+00:00",
-      "last_scan_timestamp": 1788469479,
+      "last_scan_timestamp": 1788475923,
       "name": "Youngho Youn"
     },
     "https://www.facebook.com/yulmonologue": {
@@ -13768,5 +13809,5 @@
   },
   "schema_version": 1,
   "unread_sources": {},
-  "updated_at": "2026-09-03T22:39:01+00:00"
+  "updated_at": "2026-09-03T22:53:07+00:00"
 }
