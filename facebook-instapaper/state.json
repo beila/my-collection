@@ -12871,6 +12871,14 @@
           "post_id": "4031120960351810",
           "status": "complete"
         },
+        "https://www.facebook.com/sanghyun.simon.park/posts/pfbid0kHv5Dyzw2SEk4MorCYCPi8Q2rssvA4r24faeZAebJ4piSv6k3ssC6tqng9jTVjb6l": {
+          "completed_at": "2026-09-01T10:50:33+00:00",
+          "discovered_at": "2026-09-03T20:30:50+00:00",
+          "last_error": null,
+          "not_before_timestamp": null,
+          "post_id": "4031120960351810",
+          "status": "complete"
+        },
         "https://www.facebook.com/sanghyun.simon.park/posts/pfbid0ksDuErdnpZCmirKavGrRwA89PJ8UFF9YnAzzKf1KwKTeFR3ZPMUnnW5kueGoxf9jl": {
           "completed_at": "2026-08-30T21:06:27+00:00",
           "discovered_at": "2026-08-31T09:21:51+00:00",
@@ -12970,7 +12978,7 @@
       },
       "initial_cutoff_timestamp": 1785444708,
       "initialized_at": "2026-08-30T20:51:48+00:00",
-      "last_scan_timestamp": 1788457071,
+      "last_scan_timestamp": 1788467302,
       "name": "Sanghyun Park"
     },
     "https://www.facebook.com/seungjoo.lee.545": {
@@ -13760,5 +13768,5 @@
   },
   "schema_version": 1,
   "unread_sources": {},
-  "updated_at": "2026-09-03T20:30:48+00:00"
+  "updated_at": "2026-09-03T20:32:11+00:00"
 }
