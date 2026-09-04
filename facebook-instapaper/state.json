@@ -783,7 +783,7 @@
       "status": "complete"
     },
     "10164619063314831": {
-      "article_format_version": 21,
+      "article_format_version": 22,
       "completed_at": "2026-09-02T09:13:35+00:00",
       "content_hash": "43e19e5c2ae2598b333fc5697fee2bd68506b9b41fa4d1610ed54d8fbf37588f",
       "direct_media_keys": [
@@ -878,7 +878,7 @@
       "status": "complete"
     },
     "10164623615294831": {
-      "article_format_version": 21,
+      "article_format_version": 22,
       "completed_at": "2026-09-02T09:33:01+00:00",
       "content_hash": "448e0363f07e8cba824453ce0811e205c8dc02247bf0aef1b2b06539d3620fe1",
       "direct_media_keys": [
@@ -2243,7 +2243,7 @@
       "status": "complete"
     },
     "10242272825813009": {
-      "article_format_version": 21,
+      "article_format_version": 22,
       "completed_at": "2026-09-03T08:13:57+00:00",
       "content_hash": "f629e8cd15e2ca40d6b0f38f3a94606d06d5330dba891514e0661579073e66ae",
       "direct_media_keys": [
@@ -2308,7 +2308,7 @@
       "status": "complete"
     },
     "10242289562631419": {
-      "article_format_version": 21,
+      "article_format_version": 22,
       "completed_at": "2026-09-03T08:13:55+00:00",
       "content_hash": "e7955b2792921ce4f3bccb1cd3b3c0bdacd097f342f656d9b061e9bf0820868a",
       "direct_media_keys": [],
@@ -2340,7 +2340,7 @@
       "status": "complete"
     },
     "10242293427128029": {
-      "article_format_version": 21,
+      "article_format_version": 22,
       "completed_at": "2026-09-03T08:13:54+00:00",
       "content_hash": "42bee462f7753dc5ad6732c7baf39e29317f1976697a1cf31400169431305e57",
       "direct_media_keys": [],
@@ -2372,7 +2372,7 @@
       "status": "complete"
     },
     "10242303051808640": {
-      "article_format_version": 21,
+      "article_format_version": 22,
       "completed_at": "2026-09-03T08:13:53+00:00",
       "content_hash": "40353f67dff617939b844a05836791523bb3cfb4aa0f66f35a9d65b04d0d0577",
       "direct_media_keys": [],
@@ -2404,7 +2404,7 @@
       "status": "complete"
     },
     "10242314016082740": {
-      "article_format_version": 21,
+      "article_format_version": 22,
       "completed_at": "2026-09-03T08:13:51+00:00",
       "content_hash": "04f4b835e2ac8559b94dc173d29170a96d305073c069a8b1e97721dd4df9935e",
       "direct_media_keys": [
@@ -2471,7 +2471,7 @@
       "status": "complete"
     },
     "10242360081634350": {
-      "article_format_version": 21,
+      "article_format_version": 22,
       "completed_at": "2026-09-03T08:13:48+00:00",
       "content_hash": "0ba364714d502cdd7c594ce6a11736672ca1dd6fe81d8c62b41c12aafab243e3",
       "direct_media_keys": [],
@@ -2500,7 +2500,7 @@
       "status": "complete"
     },
     "10242381058318754": {
-      "article_format_version": 21,
+      "article_format_version": 22,
       "completed_at": "2026-09-03T08:13:48+00:00",
       "content_hash": "18733bff0112a125506374de778e5894f279beb04b108d57ab1c93ebc06f1c37",
       "direct_media_keys": [],
@@ -2531,7 +2531,7 @@
       "status": "complete"
     },
     "10242397402007336": {
-      "article_format_version": 21,
+      "article_format_version": 22,
       "completed_at": "2026-09-03T08:13:46+00:00",
       "content_hash": "125ce2187733d35c1025e5f490639e39e97ffc45263d833141afc0b5786c4cb0",
       "direct_media_keys": [],
@@ -8829,7 +8829,7 @@
       "status": "complete"
     },
     "4034710566659516": {
-      "article_format_version": 21,
+      "article_format_version": 22,
       "completed_at": "2026-09-04T18:19:09+00:00",
       "content_hash": "2b0ae219ef16cc5e4782c6634cf46f9ed25a5025c3a1bedd8c8f26da3b41a6e9",
       "direct_media_keys": [
@@ -14242,5 +14242,5 @@
   },
   "schema_version": 1,
   "unread_sources": {},
-  "updated_at": "2026-09-04T18:19:15+00:00"
+  "updated_at": "2026-09-04T18:29:38+00:00"
 }
