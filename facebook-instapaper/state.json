@@ -13504,6 +13504,14 @@
           "post_id": "10241856163476711",
           "status": "complete"
         },
+        "https://www.facebook.com/seungjoo.lee.545/posts/pfbid0355iudesyUPeZvrgYrrG9MirVH355c8XQe5k2UfEbqFpRqZAdaWR73pksQ5uJatk6l": {
+          "completed_at": "2026-09-03T08:13:49+00:00",
+          "discovered_at": "2026-09-04T20:17:35+00:00",
+          "last_error": null,
+          "not_before_timestamp": null,
+          "post_id": "10242330796582242",
+          "status": "complete"
+        },
         "https://www.facebook.com/seungjoo.lee.545/posts/pfbid035Fsuvo9iHu7zzxqs77qy5d2Qe9qcWn1JEQTwMJ49yuRVwkoTWwpd2eDgPzApErgPl": {
           "completed_at": "2026-09-03T08:13:49+00:00",
           "discovered_at": "2026-09-03T08:06:44+00:00",
@@ -13675,7 +13683,7 @@
       },
       "initial_cutoff_timestamp": 1785744404,
       "initialized_at": "2026-09-03T08:06:44+00:00",
-      "last_scan_timestamp": 1788547281,
+      "last_scan_timestamp": 1788553026,
       "name": "Seung-Joo Lee"
     },
     "https://www.facebook.com/youngho.youn.5": {
@@ -14241,5 +14249,5 @@
   },
   "schema_version": 1,
   "unread_sources": {},
-  "updated_at": "2026-09-04T19:30:11+00:00"
+  "updated_at": "2026-09-04T20:17:44+00:00"
 }
