@@ -6945,7 +6945,7 @@
     },
     "28586040214352974": {
       "article_format_version": 20,
-      "completed_at": null,
+      "completed_at": "2026-09-04T01:14:45+00:00",
       "content_hash": "43bc004390357d65134d41e71c1b990d3d889d105c703764271fa207c791c0c8",
       "direct_media_keys": [
         "793868449_28586041247686204_5970210560513138019_n.jpg",
@@ -6956,6 +6956,7 @@
       ],
       "facebook_post_id": "28586040214352974",
       "facebook_timestamp": 1788473882,
+      "has_video": false,
       "image_sha256": [
         "06b0d328ff72cb0cb04222669127e1885d7294e135ec7dafea6a6e50f4b44750",
         "e5e5747a791b8b66c0a9f66c5198b8e61c8afbf6ff439ef829e3ba8a3a4b89d0",
@@ -6966,9 +6967,59 @@
         "f0f32bac293b4e8d5cfcd12f4adedaf783a85cc6bc75374fbd4cfd7c03ee5678",
         "1495c8c31068db2ecf7566a91b463bb14bd3c451072f343e4a733a76fa27e87b"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2038898986",
+      "instapaper_tags": [
+        "🌱"
+      ],
       "last_error": null,
+      "linked_pages": [],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "06b0d328ff72cb0cb04222669127e1885d7294e135ec7dafea6a6e50f4b44750"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "e5e5747a791b8b66c0a9f66c5198b8e61c8afbf6ff439ef829e3ba8a3a4b89d0"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "592f3730915fbeb95f830abc7f9effd529a9c22d6aed439f9b3b310e8599101d"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "baec8d5fc8af3edb6700d5e99e6a8b098ad91d84e67504cfdd69d61eecc1b18e"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "22c5f058a2528bb843d0db3d613a476de6dd42c6e7c185cbc492518d361edcf0"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "820d13f1f9e096e8c70e687b7e216a16d33ebc412eec24983193689c8a39998e"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "f0f32bac293b4e8d5cfcd12f4adedaf783a85cc6bc75374fbd4cfd7c03ee5678"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "1495c8c31068db2ecf7566a91b463bb14bd3c451072f343e4a733a76fa27e87b"
+        }
+      ],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "paragraphs": [
         "오디세이 뒤늦게 봄",
         "우리는 배가 폭풍우를 만나는 것을 영화에서 많이 보죠. 배에 탄 사람들은 무엇인가를 사력을 다해 붙잡으며 파도에 대항하는데, 사실 그게 폭풍우에 맞서는 최선의 방법인지 의문이 가죠.",
@@ -6979,7 +7030,7 @@
       "permalink": "https://www.facebook.com/youngho.youn.5/posts/28586040214352974",
       "profile_url": "https://www.facebook.com/youngho.youn.5",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/youngho.youn.5/28586040214352974.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "3992993854164521": {
       "article_format_version": 8,
@@ -13606,11 +13657,12 @@
           "status": "complete"
         },
         "https://www.facebook.com/youngho.youn.5/posts/pfbid02yqgV2xRDDFeHHcEjC64Moqy4PgN8vF5JuYwtfPeYnheZTgMvYQNoBmydhB6abNvFl": {
+          "completed_at": "2026-09-04T01:14:45+00:00",
           "discovered_at": "2026-09-04T01:11:41+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "28586040214352974",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/youngho.youn.5/posts/pfbid037YgEYmdTWdCBRHQWQ8fQvPVeBzmPTLyESofznR6Zfrt2y4puv8cNJn332Go1hpANl": {
           "completed_at": "2026-09-01T10:33:42+00:00",
@@ -13917,5 +13969,5 @@
   },
   "schema_version": 1,
   "unread_sources": {},
-  "updated_at": "2026-09-04T01:13:54+00:00"
+  "updated_at": "2026-09-04T01:14:45+00:00"
 }
