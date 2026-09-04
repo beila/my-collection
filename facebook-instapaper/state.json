@@ -8830,19 +8830,53 @@
     },
     "4034710566659516": {
       "article_format_version": 21,
-      "completed_at": null,
+      "completed_at": "2026-09-04T18:19:09+00:00",
       "content_hash": "2b0ae219ef16cc5e4782c6634cf46f9ed25a5025c3a1bedd8c8f26da3b41a6e9",
       "direct_media_keys": [
         "793337093_4034679866662586_4127719526733497973_n.jpg"
       ],
       "facebook_post_id": "4034710566659516",
       "facebook_timestamp": 1788503860,
+      "has_video": false,
       "image_sha256": [
         "b8389936ecd9b3dfd4779096a2845fdb09398e86c1473802b70d41b5c199abff"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [
+        {
+          "end": 37,
+          "paragraph_index": 10,
+          "start": 0,
+          "url": "https://otterletter.com/dolly-parton/"
+        }
+      ],
+      "instapaper_bookmark_id": "2039101807",
+      "instapaper_tags": [
+        "🌱"
+      ],
       "last_error": null,
+      "linked_pages": [
+        {
+          "article_image_sha256": [
+            "80b1ab2c98ca3ab8f98e9e95c019dba2b798b77b82187e71cabd054be0d50e1e"
+          ],
+          "article_sha256": "80e93667aa66370e4384a25177fd10ee2c3e45b18b0bc2b961f7008ffd8fe039",
+          "description": "",
+          "site_name": "otterletter.com",
+          "title": "https://otterletter.com/dolly-parton/",
+          "url": "https://otterletter.com/dolly-parton/"
+        }
+      ],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "b8389936ecd9b3dfd4779096a2845fdb09398e86c1473802b70d41b5c199abff"
+        }
+      ],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "paragraphs": [
         "내 지인이 \"페미니즘의 큰 언니\"라고 부르던 글로리아 스타이넘이 세상을 떠났다는 소식이 나온 후, 언론에서 그의 일화들이 발굴되어 나온다.",
         "그가 40세 때 한 기자가 \"40세로 보이지 않는다\"고 (나름 칭찬을) 했단다. 그 말을 들은 스타이넘은 \"원래 40이 이렇게 보인다(This is what 40 looks like)\"라고 받아쳤다. 나중에 80이 된 후에는 \"This Is What 80 Looks Like\"라는 생일 행사를 열기도 했단다.",
@@ -8859,7 +8893,7 @@
       "permalink": "https://www.facebook.com/sanghyun.simon.park/posts/4034710566659516",
       "profile_url": "https://www.facebook.com/sanghyun.simon.park",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/sanghyun.simon.park/4034710566659516.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "4184691808342311": {
       "completed_at": "2026-08-23T13:34:47+00:00",
@@ -13016,11 +13050,12 @@
           "status": "complete"
         },
         "https://www.facebook.com/sanghyun.simon.park/posts/pfbid038HVJuvQQwzTcFbDDa93frE58fN9KBLi2egUiuxLPKZWXCmG3JigWT5Dk7nVUZrm4l": {
+          "completed_at": "2026-09-04T18:19:09+00:00",
           "discovered_at": "2026-09-04T18:17:47+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "4034710566659516",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/sanghyun.simon.park/posts/pfbid09gdc6mmnPkjyhcPWFfFwE36txEPMNcEgKhbdByhWU7Zwbh7iEziMuxwF9HhCdR9vl": {
           "completed_at": "2026-08-30T21:05:59+00:00",
@@ -14207,5 +14242,5 @@
   },
   "schema_version": 1,
   "unread_sources": {},
-  "updated_at": "2026-09-04T18:18:19+00:00"
+  "updated_at": "2026-09-04T18:19:09+00:00"
 }
