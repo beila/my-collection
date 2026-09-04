@@ -6943,6 +6943,44 @@
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/youngho.youn.5/28571442185812777.html",
       "status": "complete"
     },
+    "28586040214352974": {
+      "article_format_version": 20,
+      "completed_at": null,
+      "content_hash": "43bc004390357d65134d41e71c1b990d3d889d105c703764271fa207c791c0c8",
+      "direct_media_keys": [
+        "793868449_28586041247686204_5970210560513138019_n.jpg",
+        "793802901_28586042494352746_8421992864873736450_n.jpg",
+        "792093226_28586042684352727_2850495077826316530_n.jpg",
+        "795583009_28586041697686159_7647031146660832691_n.jpg",
+        "793945861_28586041261019536_6441010893140301159_n.jpg"
+      ],
+      "facebook_post_id": "28586040214352974",
+      "facebook_timestamp": 1788473882,
+      "image_sha256": [
+        "06b0d328ff72cb0cb04222669127e1885d7294e135ec7dafea6a6e50f4b44750",
+        "e5e5747a791b8b66c0a9f66c5198b8e61c8afbf6ff439ef829e3ba8a3a4b89d0",
+        "592f3730915fbeb95f830abc7f9effd529a9c22d6aed439f9b3b310e8599101d",
+        "baec8d5fc8af3edb6700d5e99e6a8b098ad91d84e67504cfdd69d61eecc1b18e",
+        "22c5f058a2528bb843d0db3d613a476de6dd42c6e7c185cbc492518d361edcf0",
+        "820d13f1f9e096e8c70e687b7e216a16d33ebc412eec24983193689c8a39998e",
+        "f0f32bac293b4e8d5cfcd12f4adedaf783a85cc6bc75374fbd4cfd7c03ee5678",
+        "1495c8c31068db2ecf7566a91b463bb14bd3c451072f343e4a733a76fa27e87b"
+      ],
+      "instapaper_bookmark_id": null,
+      "last_error": null,
+      "omitted_photo_count": 0,
+      "paragraphs": [
+        "오디세이 뒤늦게 봄",
+        "우리는 배가 폭풍우를 만나는 것을 영화에서 많이 보죠. 배에 탄 사람들은 무엇인가를 사력을 다해 붙잡으며 파도에 대항하는데, 사실 그게 폭풍우에 맞서는 최선의 방법인지 의문이 가죠.",
+        "그게 성난 파도를 이기는데에 도움이 되는지 안되는지 모른 채로, 어쩌면 오히려 해가 될 수도 있는 것을 사력을 다해 잡고 있는 것은 아닐까요? 어쩌면 힘을 아끼는 것이 최선의 방법인지도 몰라요. 아니면 아끼고 말 것도 없이 그냥 폭풍우에 맡기는 것은 어떨까요? 신의 뜻을 기다리면서요.",
+        "감동적인 영화였어요.",
+        "London Life 3.0 - (291)"
+      ],
+      "permalink": "https://www.facebook.com/youngho.youn.5/posts/28586040214352974",
+      "profile_url": "https://www.facebook.com/youngho.youn.5",
+      "published_url": "https://beila.github.io/my-collection/facebook-instapaper/youngho.youn.5/28586040214352974.html",
+      "status": "published_pending"
+    },
     "3992993854164521": {
       "article_format_version": 8,
       "completed_at": "2026-08-30T21:05:35+00:00",
@@ -13354,7 +13392,7 @@
       },
       "initial_cutoff_timestamp": 1785744404,
       "initialized_at": "2026-09-03T08:06:44+00:00",
-      "last_scan_timestamp": 1788475917,
+      "last_scan_timestamp": 1788484276,
       "name": "Seung-Joo Lee"
     },
     "https://www.facebook.com/youngho.youn.5": {
@@ -13567,12 +13605,27 @@
           "post_id": "28396906806599650",
           "status": "complete"
         },
+        "https://www.facebook.com/youngho.youn.5/posts/pfbid02yqgV2xRDDFeHHcEjC64Moqy4PgN8vF5JuYwtfPeYnheZTgMvYQNoBmydhB6abNvFl": {
+          "discovered_at": "2026-09-04T01:11:41+00:00",
+          "last_error": null,
+          "not_before_timestamp": null,
+          "post_id": "28586040214352974",
+          "status": "published_pending"
+        },
         "https://www.facebook.com/youngho.youn.5/posts/pfbid037YgEYmdTWdCBRHQWQ8fQvPVeBzmPTLyESofznR6Zfrt2y4puv8cNJn332Go1hpANl": {
           "completed_at": "2026-09-01T10:33:42+00:00",
           "discovered_at": "2026-09-01T10:02:31+00:00",
           "last_error": null,
           "not_before_timestamp": 1785578551,
           "post_id": "28316660254624306",
+          "status": "complete"
+        },
+        "https://www.facebook.com/youngho.youn.5/posts/pfbid03QXZ1FggQWpH2p6BZnciBdvPiAB6H6QuU3PEDRhW3yXzotPMYdMamCWpp1BQpEunl": {
+          "completed_at": "2026-09-03T22:53:58+00:00",
+          "discovered_at": "2026-09-04T01:11:41+00:00",
+          "last_error": null,
+          "not_before_timestamp": null,
+          "post_id": "28571442185812777",
           "status": "complete"
         },
         "https://www.facebook.com/youngho.youn.5/posts/pfbid0EWsBFHhgGYCrMiMKTuVT8e1m4zAt4PAo49fYDYDNxBxfp4kJRptzG1NXhKFTSz3Zl": {
@@ -13714,7 +13767,7 @@
       },
       "initial_cutoff_timestamp": 1785578551,
       "initialized_at": "2026-09-01T10:02:31+00:00",
-      "last_scan_timestamp": 1788475923,
+      "last_scan_timestamp": 1788484282,
       "name": "Youngho Youn"
     },
     "https://www.facebook.com/yulmonologue": {
@@ -13864,5 +13917,5 @@
   },
   "schema_version": 1,
   "unread_sources": {},
-  "updated_at": "2026-09-04T00:23:28+00:00"
+  "updated_at": "2026-09-04T01:13:54+00:00"
 }
