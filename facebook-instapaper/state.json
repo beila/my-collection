@@ -12736,6 +12736,14 @@
           "post_id": "3997922857004954",
           "status": "complete"
         },
+        "https://www.facebook.com/sanghyun.simon.park/posts/pfbid024FtbS7CrH5MxF9XN1EhG8RtKRtybyELHf7RDSUuVo2K3755W3byUSuyGPsAuJnK8l": {
+          "completed_at": "2026-09-04T18:19:09+00:00",
+          "discovered_at": "2026-09-04T20:17:47+00:00",
+          "last_error": null,
+          "not_before_timestamp": null,
+          "post_id": "4034710566659516",
+          "status": "complete"
+        },
         "https://www.facebook.com/sanghyun.simon.park/posts/pfbid024K47VLccKhFaznhsTbre1Cmkb5cur6gYURQVw16rNJyUV8TfYYxKmvcCui2EKbivl": {
           "completed_at": "2026-08-30T21:06:03+00:00",
           "discovered_at": "2026-08-30T20:51:48+00:00",
@@ -12910,6 +12918,14 @@
           "last_error": null,
           "not_before_timestamp": 1785444708,
           "post_id": "4005128552951051",
+          "status": "complete"
+        },
+        "https://www.facebook.com/sanghyun.simon.park/posts/pfbid02ofQFr1MZ3z5pxNx8KriDqgEQCQ59b1i1WYukzZgRaC6QoGD5bLQRaocUidBWFjBTl": {
+          "completed_at": "2026-09-01T10:50:33+00:00",
+          "discovered_at": "2026-09-04T20:17:47+00:00",
+          "last_error": null,
+          "not_before_timestamp": null,
+          "post_id": "4031120960351810",
           "status": "complete"
         },
         "https://www.facebook.com/sanghyun.simon.park/posts/pfbid02oqZG99dHscUNRoKxLqkkLH2Kc6eWvGshcmFrscssjsDrYmuVHSvDsgE7G3ZbJqcel": {
@@ -13347,7 +13363,7 @@
       },
       "initial_cutoff_timestamp": 1785444708,
       "initialized_at": "2026-08-30T20:51:48+00:00",
-      "last_scan_timestamp": 1788547296,
+      "last_scan_timestamp": 1788553038,
       "name": "Sanghyun Park"
     },
     "https://www.facebook.com/seungjoo.lee.545": {
@@ -14099,7 +14115,7 @@
       },
       "initial_cutoff_timestamp": 1785578551,
       "initialized_at": "2026-09-01T10:02:31+00:00",
-      "last_scan_timestamp": 1788547290,
+      "last_scan_timestamp": 1788553032,
       "name": "Youngho Youn"
     },
     "https://www.facebook.com/yulmonologue": {
@@ -14249,5 +14265,5 @@
   },
   "schema_version": 1,
   "unread_sources": {},
-  "updated_at": "2026-09-04T20:17:44+00:00"
+  "updated_at": "2026-09-04T20:19:42+00:00"
 }
