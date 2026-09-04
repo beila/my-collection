@@ -2563,15 +2563,23 @@
     },
     "10243132228942930": {
       "article_format_version": 25,
-      "completed_at": null,
+      "completed_at": "2026-09-04T23:29:40+00:00",
       "content_hash": "c972a2a49b1c2a1e5424ea10e9e68f6dabf505cb13a99b8da133eade7754e972",
       "direct_media_keys": [],
       "facebook_post_id": "10243132228942930",
       "facebook_timestamp": 1788482040,
+      "has_video": false,
       "image_sha256": [],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2039161887",
+      "instapaper_tags": [],
       "last_error": null,
+      "linked_pages": [],
+      "media": [],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "paragraphs": [
         "AI 슬롭(Slop)이 거의 사회 문제라고 할 정도로 논란이 되고 있다. 조사에 따르면 한국의 AI 생성 영상 보급 비율은 전 세계에서 압도적으로 높은 것으로 드러났으니 아마도 문제는 더욱 심각할 것이다. 그런데, 이 문제는 AI가 아닌 사람의 문제다.",
         "소프트웨어 공학에 한창 빠져 있을 때 한 교수님의 말씀이 평생 지침이 되었다.",
@@ -2580,19 +2588,27 @@
       "permalink": "https://www.facebook.com/fupfin/posts/10243132228942930",
       "profile_url": "https://www.facebook.com/fupfin",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/fupfin/10243132228942930.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "10243201578836634": {
       "article_format_version": 25,
-      "completed_at": null,
+      "completed_at": "2026-09-04T23:29:41+00:00",
       "content_hash": "9d1f084f59c193bbb7f2e8e5b05fa78d36b95ad39685bafc8c13ba184067726f",
       "direct_media_keys": [],
       "facebook_post_id": "10243201578836634",
       "facebook_timestamp": 1788482040,
+      "has_video": false,
       "image_sha256": [],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2039161891",
+      "instapaper_tags": [],
       "last_error": null,
+      "linked_pages": [],
+      "media": [],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "paragraphs": [
         "AI 슬롭(Slop)이 거의 사회 문제라고 할 정도로 논란이 되고 있다. 조사에 따르면 한국의 AI 생성 영상 보급 비율은 전 세계에서 압도적으로 높은 것으로 드러났으니 아마도 문제는 더욱 심각할 것이다. 그런데, 이 문제는 AI가 아닌 사람의 문제다.",
         "소프트웨어 공학에 한창 빠져 있을 때 한 교수님의 말씀이 평생 지침이 되었다.",
@@ -2601,23 +2617,37 @@
       "permalink": "https://www.facebook.com/fupfin/posts/10243201578836634",
       "profile_url": "https://www.facebook.com/fupfin",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/fupfin/10243201578836634.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "10243205510894933": {
       "article_format_version": 25,
-      "completed_at": null,
+      "completed_at": "2026-09-04T23:30:25+00:00",
       "content_hash": "7e399c5fd7864851e8b79f6d7b62c614f4160aa0010909823e615f7a722aaf87",
       "direct_media_keys": [
         "763309069_10243205503894758_1352280061654973726_n.jpg"
       ],
       "facebook_post_id": "10243205510894933",
       "facebook_timestamp": 1785916041,
+      "has_video": false,
       "image_sha256": [
         "f5224003c64d3b72f788b451941c394f1fa1b6401b3a81b77f2cf962ce98a386"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2039162059",
+      "instapaper_tags": [],
       "last_error": null,
+      "linked_pages": [],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "f5224003c64d3b72f788b451941c394f1fa1b6401b3a81b77f2cf962ce98a386"
+        }
+      ],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "paragraphs": [
         "카카오 지도 담당자님, 왜 제 인증은 이렇게 수시로 풀리는 걸까요?",
         "저 \"간편로그인 정보 저장\"을 선택해도 말이죠.",
@@ -2626,22 +2656,41 @@
       "permalink": "https://www.facebook.com/fupfin/posts/10243205510894933",
       "profile_url": "https://www.facebook.com/fupfin",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/fupfin/10243205510894933.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "10243207119055136": {
       "article_format_version": 25,
-      "completed_at": null,
+      "completed_at": "2026-09-04T23:29:41+00:00",
       "content_hash": "84a20a71a7e7d11a8cf0421455214c11bb057a97a320fcf839e2e6e732d07ff1",
       "direct_media_keys": [],
       "facebook_post_id": "10243207119055136",
       "facebook_timestamp": 1788482040,
+      "has_video": false,
       "image_sha256": [
         "1ede3d2d7db93cd5e3d8f256e8eb7260a77bb381c4d9c1e19edc9b8a896e7ca6",
         "01b60f399e7099d5c4a7779fd9124e3b17087575e5cce4cd3cf59610172921a0"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2039161899",
+      "instapaper_tags": [],
       "last_error": null,
+      "linked_pages": [],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "1ede3d2d7db93cd5e3d8f256e8eb7260a77bb381c4d9c1e19edc9b8a896e7ca6"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "01b60f399e7099d5c4a7779fd9124e3b17087575e5cce4cd3cf59610172921a0"
+        }
+      ],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "paragraphs": [
         "AI 슬롭(Slop)이 거의 사회 문제라고 할 정도로 논란이 되고 있다. 조사에 따르면 한국의 AI 생성 영상 보급 비율은 전 세계에서 압도적으로 높은 것으로 드러났으니 아마도 문제는 더욱 심각할 것이다. 그런데, 이 문제는 AI가 아닌 사람의 문제다.",
         "소프트웨어 공학에 한창 빠져 있을 때 한 교수님의 말씀이 평생 지침이 되었다.",
@@ -2650,23 +2699,46 @@
       "permalink": "https://www.facebook.com/fupfin/posts/10243207119055136",
       "profile_url": "https://www.facebook.com/fupfin",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/fupfin/10243207119055136.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "10243217975726546": {
       "article_format_version": 25,
-      "completed_at": null,
+      "completed_at": "2026-09-04T23:30:24+00:00",
       "content_hash": "3c690e4a89d4caeb5c867d10b711ecfbaedcb448f38a26339281a34e2d57ccc4",
       "direct_media_keys": [
         "352340021728305843"
       ],
       "facebook_post_id": "10243217975726546",
       "facebook_timestamp": 1785992113,
+      "has_video": false,
       "image_sha256": [
         "db16ed0262a6f96c97096241759a2dd8046308e06449bef552430966e9098fa2"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2039162058",
+      "instapaper_tags": [],
       "last_error": null,
+      "linked_pages": [
+        {
+          "article_image_sha256": [],
+          "article_sha256": null,
+          "description": "Callum Turner stars in the cyberpunk series adapted from William Gi...",
+          "site_name": "youtube.com",
+          "title": "Neuromancer — Official Teaser | Apple TV",
+          "url": "https://www.youtube.com/watch?v=g79GPZSQHBk"
+        }
+      ],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "db16ed0262a6f96c97096241759a2dd8046308e06449bef552430966e9098fa2"
+        }
+      ],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "paragraphs": [
         "세상에! 뉴로맨서가 TV 시리즈로 만들어진다고 한다!",
         "내년까지 인류가 멸망하지는 않겠지?"
@@ -2674,19 +2746,27 @@
       "permalink": "https://www.facebook.com/fupfin/posts/10243217975726546",
       "profile_url": "https://www.facebook.com/fupfin",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/fupfin/10243217975726546.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "10243219843293234": {
       "article_format_version": 25,
-      "completed_at": null,
+      "completed_at": "2026-09-04T23:30:23+00:00",
       "content_hash": "bc62361da4e0436bdc8ddb91e9071b8a1c94412d5ac75411d04a13e35676575e",
       "direct_media_keys": [],
       "facebook_post_id": "10243219843293234",
       "facebook_timestamp": 1786006809,
+      "has_video": false,
       "image_sha256": [],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2039162055",
+      "instapaper_tags": [],
       "last_error": null,
+      "linked_pages": [],
+      "media": [],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "paragraphs": [
         "이제는 인간이랑 뱀파이어랑 뭐가 다른 거지?",
         "햇빛에 타 죽음."
@@ -2694,42 +2774,64 @@
       "permalink": "https://www.facebook.com/fupfin/posts/10243219843293234",
       "profile_url": "https://www.facebook.com/fupfin",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/fupfin/10243219843293234.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "10243220749315884": {
       "article_format_version": 25,
-      "completed_at": null,
+      "completed_at": "2026-09-04T23:30:22+00:00",
       "content_hash": "ac100303c82dfc0ae7fc7cca5b3ddb7dc90a41696bc7d5f003718f1275825e36",
       "direct_media_keys": [
         "764953719_10243220746475813_800371242913830162_n.jpg"
       ],
       "facebook_post_id": "10243220749315884",
       "facebook_timestamp": 1786027140,
+      "has_video": false,
       "image_sha256": [
         "216d0ecdbf6c74f09cd106befba8d80b5c487a4c766ce36227034d217a226479"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2039162051",
+      "instapaper_tags": [],
       "last_error": null,
+      "linked_pages": [],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "216d0ecdbf6c74f09cd106befba8d80b5c487a4c766ce36227034d217a226479"
+        }
+      ],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "paragraphs": [
         "오늘 저녁은 생선묵"
       ],
       "permalink": "https://www.facebook.com/fupfin/posts/10243220749315884",
       "profile_url": "https://www.facebook.com/fupfin",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/fupfin/10243220749315884.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "10243232930820414": {
       "article_format_version": 25,
-      "completed_at": null,
+      "completed_at": "2026-09-04T23:29:43+00:00",
       "content_hash": "06d720229e3f5825a761b05d6c1637457ae97b7540d0a88486a16be344672ef9",
       "direct_media_keys": [],
       "facebook_post_id": "10243232930820414",
       "facebook_timestamp": 1788482040,
+      "has_video": false,
       "image_sha256": [],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2039161902",
+      "instapaper_tags": [],
       "last_error": null,
+      "linked_pages": [],
+      "media": [],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "paragraphs": [
         "AI 슬롭(Slop)이 거의 사회 문제라고 할 정도로 논란이 되고 있다. 조사에 따르면 한국의 AI 생성 영상 보급 비율은 전 세계에서 압도적으로 높은 것으로 드러났으니 아마도 문제는 더욱 심각할 것이다. 그런데, 이 문제는 AI가 아닌 사람의 문제다.",
         "소프트웨어 공학에 한창 빠져 있을 때 한 교수님의 말씀이 평생 지침이 되었다.",
@@ -2738,19 +2840,27 @@
       "permalink": "https://www.facebook.com/fupfin/posts/10243232930820414",
       "profile_url": "https://www.facebook.com/fupfin",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/fupfin/10243232930820414.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "10243236695194521": {
       "article_format_version": 25,
-      "completed_at": null,
+      "completed_at": "2026-09-04T23:29:44+00:00",
       "content_hash": "12d5e76d9789d3d3c90627a7551702e026404d313c4c3ae586703c8ab4f0f62c",
       "direct_media_keys": [],
       "facebook_post_id": "10243236695194521",
       "facebook_timestamp": 1788482040,
+      "has_video": false,
       "image_sha256": [],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2039161910",
+      "instapaper_tags": [],
       "last_error": null,
+      "linked_pages": [],
+      "media": [],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "paragraphs": [
         "AI 슬롭(Slop)이 거의 사회 문제라고 할 정도로 논란이 되고 있다. 조사에 따르면 한국의 AI 생성 영상 보급 비율은 전 세계에서 압도적으로 높은 것으로 드러났으니 아마도 문제는 더욱 심각할 것이다. 그런데, 이 문제는 AI가 아닌 사람의 문제다.",
         "소프트웨어 공학에 한창 빠져 있을 때 한 교수님의 말씀이 평생 지침이 되었다.",
@@ -2759,23 +2869,61 @@
       "permalink": "https://www.facebook.com/fupfin/posts/10243236695194521",
       "profile_url": "https://www.facebook.com/fupfin",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/fupfin/10243236695194521.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "10243249631717926": {
       "article_format_version": 25,
-      "completed_at": null,
+      "completed_at": "2026-09-04T23:30:21+00:00",
       "content_hash": "37ada3b001c697d3e63f4335f1c430c292047ae300aa178d82a4430393ab9284",
       "direct_media_keys": [
         "7520276530913269433"
       ],
       "facebook_post_id": "10243249631717926",
       "facebook_timestamp": 1786199890,
+      "has_video": false,
       "image_sha256": [
         "75af9fa4c9a16736f5f4690ed6f730fca0a19944b5f89c5ab3d573db143b06e0"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [
+        {
+          "end": 41,
+          "paragraph_index": 2,
+          "start": 0,
+          "url": "https://www.netflix.com/kr/title/81493703"
+        }
+      ],
+      "instapaper_bookmark_id": "2039162049",
+      "instapaper_tags": [],
       "last_error": null,
+      "linked_pages": [
+        {
+          "article_image_sha256": [],
+          "article_sha256": "b876786ec6c6076d0067efd0dd6e1486e725dd332224a27a806de11c549a075f",
+          "description": "괴물 네르갈에게 고향을 빼앗긴 망국의 공주 사파이어. 새롭게 머물 곳을 찾은 그녀는 리본 히어로가 되어 이 땅에 다시 찾아온 파멸의 운명에 맞선다.",
+          "site_name": "netflix.com",
+          "title": "리본 히어로, 지금 시청하세요 | 넷플릭스 공식 사이트",
+          "url": "https://www.netflix.com/kr/title/81493703?s=i&trkid=13747225&shareType=Title&shareUuid=EE7237EC-FC4E-4B0A-8709-B5AA1C76A5DB&trg=cp&unifiedEntityIdEncoded=Video%3A81493703&vlang=ko"
+        },
+        {
+          "article_image_sha256": [],
+          "article_sha256": null,
+          "description": "",
+          "site_name": "www.netflix.com",
+          "title": "https://www.netflix.com/kr/title/81493703",
+          "url": "https://www.netflix.com/kr/title/81493703"
+        }
+      ],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "75af9fa4c9a16736f5f4690ed6f730fca0a19944b5f89c5ab3d573db143b06e0"
+        }
+      ],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "paragraphs": [
         "어릴 때 재미있게 봤던 데즈카 오사무의 <리본의 기사>가 돌아왔다!",
         "기대되기도 하고 걱정 되기도 하고…",
@@ -2784,19 +2932,27 @@
       "permalink": "https://www.facebook.com/fupfin/posts/10243249631717926",
       "profile_url": "https://www.facebook.com/fupfin",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/fupfin/10243249631717926.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "10243256705294761": {
       "article_format_version": 25,
-      "completed_at": null,
+      "completed_at": "2026-09-04T23:29:44+00:00",
       "content_hash": "f9afa88123057f2ce48375234d8f4e882238180c6982a7867ad038fc5aa955be",
       "direct_media_keys": [],
       "facebook_post_id": "10243256705294761",
       "facebook_timestamp": 1788482040,
+      "has_video": false,
       "image_sha256": [],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2039161916",
+      "instapaper_tags": [],
       "last_error": null,
+      "linked_pages": [],
+      "media": [],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "paragraphs": [
         "AI 슬롭(Slop)이 거의 사회 문제라고 할 정도로 논란이 되고 있다. 조사에 따르면 한국의 AI 생성 영상 보급 비율은 전 세계에서 압도적으로 높은 것으로 드러났으니 아마도 문제는 더욱 심각할 것이다. 그런데, 이 문제는 AI가 아닌 사람의 문제다.",
         "소프트웨어 공학에 한창 빠져 있을 때 한 교수님의 말씀이 평생 지침이 되었다.",
@@ -2805,23 +2961,37 @@
       "permalink": "https://www.facebook.com/fupfin/posts/10243256705294761",
       "profile_url": "https://www.facebook.com/fupfin",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/fupfin/10243256705294761.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "10243258261813673": {
       "article_format_version": 25,
-      "completed_at": null,
+      "completed_at": "2026-09-04T23:30:21+00:00",
       "content_hash": "292f2b9ad2f59200adad075d5db9cba5a34d640f3ebb937c9eff27f72e9132bf",
       "direct_media_keys": [
         "769345737_10243258229332861_2196624635944979113_n.jpg"
       ],
       "facebook_post_id": "10243258261813673",
       "facebook_timestamp": 1786249185,
+      "has_video": false,
       "image_sha256": [
         "56e3605e0d76e07df5ef4c1a1fb33bd1131af8a5a0d4aad04af734e114955032"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2039162047",
+      "instapaper_tags": [],
       "last_error": null,
+      "linked_pages": [],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "56e3605e0d76e07df5ef4c1a1fb33bd1131af8a5a0d4aad04af734e114955032"
+        }
+      ],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "paragraphs": [
         "미금역에 팀 홀튼이 들어왔다. 원래 있던 카페가 문 닫은 지 반년 정도 지난 후에 이 카페(도넛집?)가 들어 선 것이다.",
         "한국 버거킹은 무슨 돈으로 이렇게 매장을 마구 여는 것인지 모르겠다. 직영이 아니라 가맹점인 건가?",
@@ -2830,46 +3000,74 @@
       "permalink": "https://www.facebook.com/fupfin/posts/10243258261813673",
       "profile_url": "https://www.facebook.com/fupfin",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/fupfin/10243258261813673.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "10243275917015042": {
       "article_format_version": 25,
-      "completed_at": null,
+      "completed_at": "2026-09-04T23:30:20+00:00",
       "content_hash": "162a1181508c5125a3ecd6f22ff696e074f09d1e066046210b0273a2438cbcbb",
       "direct_media_keys": [
         "770584813_10243275911774911_7403637981932930481_n.jpg"
       ],
       "facebook_post_id": "10243275917015042",
       "facebook_timestamp": 1786359928,
+      "has_video": false,
       "image_sha256": [
         "b2e5300778208b951252bf69c9db380f78e81dd4416cbd7bd00d95bdeb5383da"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2039162043",
+      "instapaper_tags": [],
       "last_error": null,
+      "linked_pages": [],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "b2e5300778208b951252bf69c9db380f78e81dd4416cbd7bd00d95bdeb5383da"
+        }
+      ],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "paragraphs": [
         "버거킹이 준 꽁짜 쿠폰으로 저녁 해결"
       ],
       "permalink": "https://www.facebook.com/fupfin/posts/10243275917015042",
       "profile_url": "https://www.facebook.com/fupfin",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/fupfin/10243275917015042.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "10243289504354717": {
       "article_format_version": 25,
-      "completed_at": null,
+      "completed_at": "2026-09-04T23:30:19+00:00",
       "content_hash": "f4f8223289ed452e54d85291b60f81982a8517d416ce993fbaddc611371cd708",
       "direct_media_keys": [
         "771821188_10243289436113011_7002668410222387998_n.jpg"
       ],
       "facebook_post_id": "10243289504354717",
       "facebook_timestamp": 1786528200,
+      "has_video": false,
       "image_sha256": [
         "130a02c062cb17097cac6b0dc0c374bb250f82834c0e7bbd50e7c1df4b37c165"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2039162041",
+      "instapaper_tags": [],
       "last_error": null,
+      "linked_pages": [],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "130a02c062cb17097cac6b0dc0c374bb250f82834c0e7bbd50e7c1df4b37c165"
+        }
+      ],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "paragraphs": [
         "오늘은 보드람 데이",
         "특별히 스페셜 치킨"
@@ -2877,42 +3075,64 @@
       "permalink": "https://www.facebook.com/fupfin/posts/10243289504354717",
       "profile_url": "https://www.facebook.com/fupfin",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/fupfin/10243289504354717.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "10243311971876391": {
       "article_format_version": 25,
-      "completed_at": null,
+      "completed_at": "2026-09-04T23:30:25+00:00",
       "content_hash": "9c94677fdf383b70d404375e69dc180fa4c507f2a0753e013eca9f1de67aaaa9",
       "direct_media_keys": [
         "772137049_1975384703133545_3853496366266093639_n.jpg"
       ],
       "facebook_post_id": "10243311971876391",
       "facebook_timestamp": null,
+      "has_video": true,
       "image_sha256": [
         "3b874153c0ac7e1ec692d82cb3e6f2c8b8f44fd7644011987d0662e143fee502"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2039162061",
+      "instapaper_tags": [],
       "last_error": null,
+      "linked_pages": [],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": true,
+          "sha256": "3b874153c0ac7e1ec692d82cb3e6f2c8b8f44fd7644011987d0662e143fee502"
+        }
+      ],
       "omitted_photo_count": 0,
+      "original_author": "𝗠𝘂𝘀𝗮𝘀𝗵𝗶 バガボンド",
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "paragraphs": [
         "Royal Space Force: The Wings of Honnêamise (1987)"
       ],
       "permalink": "https://www.facebook.com/fupfin/posts/10243311971876391",
       "profile_url": "https://www.facebook.com/fupfin",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/fupfin/10243311971876391.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "10243330218892555": {
       "article_format_version": 25,
-      "completed_at": null,
+      "completed_at": "2026-09-04T23:29:45+00:00",
       "content_hash": "e935334e697e9c252188731091a00f67d16a7806b9b6d20aa5cab6a6f56fedc0",
       "direct_media_keys": [],
       "facebook_post_id": "10243330218892555",
       "facebook_timestamp": 1788482040,
+      "has_video": false,
       "image_sha256": [],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2039161919",
+      "instapaper_tags": [],
       "last_error": null,
+      "linked_pages": [],
+      "media": [],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "paragraphs": [
         "AI 슬롭(Slop)이 거의 사회 문제라고 할 정도로 논란이 되고 있다. 조사에 따르면 한국의 AI 생성 영상 보급 비율은 전 세계에서 압도적으로 높은 것으로 드러났으니 아마도 문제는 더욱 심각할 것이다. 그런데, 이 문제는 AI가 아닌 사람의 문제다.",
         "소프트웨어 공학에 한창 빠져 있을 때 한 교수님의 말씀이 평생 지침이 되었다.",
@@ -2921,65 +3141,101 @@
       "permalink": "https://www.facebook.com/fupfin/posts/10243330218892555",
       "profile_url": "https://www.facebook.com/fupfin",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/fupfin/10243330218892555.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "10243347214917445": {
       "article_format_version": 25,
-      "completed_at": null,
+      "completed_at": "2026-09-04T23:30:18+00:00",
       "content_hash": "fcfaeeb10dbb0b3b3f05b219993bd94983442377c5e54c497c576510c773f455",
       "direct_media_keys": [
         "774557210_10243347201757116_8087869340076313425_n.jpg"
       ],
       "facebook_post_id": "10243347214917445",
       "facebook_timestamp": 1786791810,
+      "has_video": false,
       "image_sha256": [
         "8242e728eb46200483866d6ba0367f64a1e6440192a473737fb77c549096cee0"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2039162039",
+      "instapaper_tags": [],
       "last_error": null,
+      "linked_pages": [],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "8242e728eb46200483866d6ba0367f64a1e6440192a473737fb77c549096cee0"
+        }
+      ],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "paragraphs": [
         "오디세이 프리퀄 시청"
       ],
       "permalink": "https://www.facebook.com/fupfin/posts/10243347214917445",
       "profile_url": "https://www.facebook.com/fupfin",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/fupfin/10243347214917445.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "10243359136175469": {
       "article_format_version": 25,
-      "completed_at": null,
+      "completed_at": "2026-09-04T23:30:17+00:00",
       "content_hash": "149b42dd3918e5b73ecb8692172e24e0ca30df0b5a117c3ce507db93d02e3988",
       "direct_media_keys": [],
       "facebook_post_id": "10243359136175469",
       "facebook_timestamp": 1786860611,
+      "has_video": false,
       "image_sha256": [],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2039162037",
+      "instapaper_tags": [],
       "last_error": null,
+      "linked_pages": [],
+      "media": [],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "paragraphs": [
         "우리집은 냉장고 한 대입니다. 김치 냉장고나 와인 거시기도 없어요."
       ],
       "permalink": "https://www.facebook.com/fupfin/posts/10243359136175469",
       "profile_url": "https://www.facebook.com/fupfin",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/fupfin/10243359136175469.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "10243360946500726": {
       "article_format_version": 25,
-      "completed_at": null,
+      "completed_at": "2026-09-04T23:30:17+00:00",
       "content_hash": "6ce19e748728422575db54007dd728392e5c95adc303cb293c3192c04a116801",
       "direct_media_keys": [
         "775036980_10243360946180718_2018415380092923486_n.jpg"
       ],
       "facebook_post_id": "10243360946500726",
       "facebook_timestamp": 1786873938,
+      "has_video": false,
       "image_sha256": [
         "bb7cd566e3f87d836a4d55caf6d2ddadca769cee5d89242bdfe3e6cac3c97f0b"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2039162035",
+      "instapaper_tags": [],
       "last_error": null,
+      "linked_pages": [],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "bb7cd566e3f87d836a4d55caf6d2ddadca769cee5d89242bdfe3e6cac3c97f0b"
+        }
+      ],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "paragraphs": [
         "요즘 주말에 짬짬이 관심가는 장을 골라가며 읽는 책.",
         "이미 AI 판도에서 중국을 제외하고 이야기 할 수 없어서 어느 정도는 알아두어야 하겠다는 생각이 들 때 쯤 출간이 되었다.",
@@ -2990,23 +3246,37 @@
       "permalink": "https://www.facebook.com/fupfin/posts/10243360946500726",
       "profile_url": "https://www.facebook.com/fupfin",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/fupfin/10243360946500726.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "10243368665933707": {
       "article_format_version": 25,
-      "completed_at": null,
+      "completed_at": "2026-09-04T23:30:16+00:00",
       "content_hash": "d4cdced3d987f5a73edcc2267ebabc6ce7efd07d395c23e2c34d3d10a255207a",
       "direct_media_keys": [
         "777478485_10243368640853080_5933465123037267546_n.jpg"
       ],
       "facebook_post_id": "10243368665933707",
       "facebook_timestamp": 1786916994,
+      "has_video": false,
       "image_sha256": [
         "52a3b895a61d35df3e24c7ceb938b82e5dc9bfe31a3ea185cbf9cb4477af36a1"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2039162032",
+      "instapaper_tags": [],
       "last_error": null,
+      "linked_pages": [],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "52a3b895a61d35df3e24c7ceb938b82e5dc9bfe31a3ea185cbf9cb4477af36a1"
+        }
+      ],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "paragraphs": [
         "티맵 장애인가?",
         "….",
@@ -3017,19 +3287,27 @@
       "permalink": "https://www.facebook.com/fupfin/posts/10243368665933707",
       "profile_url": "https://www.facebook.com/fupfin",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/fupfin/10243368665933707.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "10243370745585697": {
       "article_format_version": 25,
-      "completed_at": null,
+      "completed_at": "2026-09-04T23:30:15+00:00",
       "content_hash": "4157bbaa11a5bbcf6bc593745b44ef651761e21bb04338541d67376d842ca5b3",
       "direct_media_keys": [],
       "facebook_post_id": "10243370745585697",
       "facebook_timestamp": 1786929903,
+      "has_video": false,
       "image_sha256": [],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2039162029",
+      "instapaper_tags": [],
       "last_error": null,
+      "linked_pages": [],
+      "media": [],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "paragraphs": [
         "어제 오디세이 관람의 만족도는 90점 정도로 아주 높았다. (참고로 나는 100점이나 0점은 안 주는 사람이다.)",
         "나는 오디세이를 영화화 한다는 소식을 들었을 때 지루한 사건이 나열되고 현대인에게 어색한 신화적인 이야기를 잘 풀어낼지 의심이 들었다. 항간에 아이맥스가 강조되는 모습을 보면서 역시나 웅장한 시각과 음향, 또는 규모로 이 간극을 채우나 보다 했다.",
@@ -3045,23 +3323,46 @@
       "permalink": "https://www.facebook.com/fupfin/posts/10243370745585697",
       "profile_url": "https://www.facebook.com/fupfin",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/fupfin/10243370745585697.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "10243375258058506": {
       "article_format_version": 25,
-      "completed_at": null,
+      "completed_at": "2026-09-04T23:30:14+00:00",
       "content_hash": "fc4a60c95d63431fb2f8c38be2cd4ea00f1a34991ca71bb2e3a353bf57d0d30f",
       "direct_media_keys": [
         "16376159246763161676"
       ],
       "facebook_post_id": "10243375258058506",
       "facebook_timestamp": 1786962687,
+      "has_video": false,
       "image_sha256": [
         "c69b172822a2343decec314ab7ed13a217627b17db9c8ec3a61a7a22018c1997"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2039162024",
+      "instapaper_tags": [],
       "last_error": null,
+      "linked_pages": [
+        {
+          "article_image_sha256": [],
+          "article_sha256": null,
+          "description": "민수(가명)은 소니 워크맨이 너~무 갖고 싶었습니다.그래서 아버지에게 졸랐습니다.\"아부지... 나도 워크맨 하나 사주...",
+          "site_name": "youtube.com",
+          "title": "[팩 보고드림] 90년대 소니 워크맨 대신 파나소닉을 선택하면 생기는 일 feat AIWA 삼성 마이마이",
+          "url": "https://youtu.be/U22D0iEJZns?si=9puTRln8Y7urJN-3"
+        }
+      ],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "c69b172822a2343decec314ab7ed13a217627b17db9c8ec3a61a7a22018c1997"
+        }
+      ],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "paragraphs": [
         "내 얘긴가?",
         "눈물이…"
@@ -3069,23 +3370,39 @@
       "permalink": "https://www.facebook.com/fupfin/posts/10243375258058506",
       "profile_url": "https://www.facebook.com/fupfin",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/fupfin/10243375258058506.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "10243376679734047": {
       "article_format_version": 25,
-      "completed_at": null,
+      "completed_at": "2026-09-04T23:30:13+00:00",
       "content_hash": "8d38dffdac37616c23fcb78b3019ddc8ddd65e71b4406535ab83acd0a95f9f30",
       "direct_media_keys": [
         "774803682_10244724082223727_1290671873815664224_n.jpg"
       ],
       "facebook_post_id": "10243376679734047",
       "facebook_timestamp": 1786970257,
+      "has_video": false,
       "image_sha256": [
         "85f1dcc43cc1223385bdc8da9ff3a36383828ab655f925e680e4f5d0a901ec27"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2039162021",
+      "instapaper_tags": [],
       "last_error": null,
+      "linked_pages": [],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "85f1dcc43cc1223385bdc8da9ff3a36383828ab655f925e680e4f5d0a901ec27"
+        }
+      ],
       "omitted_photo_count": 0,
+      "original_author": "Seunghwan Lee",
+      "original_inline_links": [],
+      "original_paragraphs": [
+        "12번은 뭐가 문제인 거죠.."
+      ],
       "paragraphs": [
         "파란불 ㅋㅋㅋㅋ",
         "우리 아들 발작 스위치"
@@ -3093,19 +3410,27 @@
       "permalink": "https://www.facebook.com/fupfin/posts/10243376679734047",
       "profile_url": "https://www.facebook.com/fupfin",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/fupfin/10243376679734047.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "10243408147240715": {
       "article_format_version": 25,
-      "completed_at": null,
+      "completed_at": "2026-09-04T23:30:12+00:00",
       "content_hash": "c55bf221bdc0712233243b87221d7da117f2b642cb9a15576014141eacb662d2",
       "direct_media_keys": [],
       "facebook_post_id": "10243408147240715",
       "facebook_timestamp": 1787178660,
+      "has_video": false,
       "image_sha256": [],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2039162018",
+      "instapaper_tags": [],
       "last_error": null,
+      "linked_pages": [],
+      "media": [],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "paragraphs": [
         "요즘은 씻을 때마다 “찬물 샤워는 오늘이 끝이겠지?”한다.",
         "미치도록 더웠던 여름이 지나니 또 뭔가 아쉽다."
@@ -3113,19 +3438,27 @@
       "permalink": "https://www.facebook.com/fupfin/posts/10243408147240715",
       "profile_url": "https://www.facebook.com/fupfin",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/fupfin/10243408147240715.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "10243415382581594": {
       "article_format_version": 25,
-      "completed_at": null,
+      "completed_at": "2026-09-04T23:30:11+00:00",
       "content_hash": "fc1e05425b4741d04061e01565f367252b9271840015fabf4f9839fc6fe5ba7c",
       "direct_media_keys": [],
       "facebook_post_id": "10243415382581594",
       "facebook_timestamp": 1787189954,
+      "has_video": false,
       "image_sha256": [],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2039162012",
+      "instapaper_tags": [],
       "last_error": null,
+      "linked_pages": [],
+      "media": [],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "paragraphs": [
         "동네 변압기가 터져서 구역 절반가량이 정전이다.",
         "20세기엔 흔했던 정전을 오랜만에 경험하니 예전 추억이 모락모락 피어난다.",
@@ -3135,57 +3468,94 @@
       "permalink": "https://www.facebook.com/fupfin/posts/10243415382581594",
       "profile_url": "https://www.facebook.com/fupfin",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/fupfin/10243415382581594.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "10243460309544740": {
       "article_format_version": 25,
-      "completed_at": null,
+      "completed_at": "2026-09-04T23:30:10+00:00",
       "content_hash": "f8c4b85844bdeb2f3ad77702b40b7d293b5c8ef894de466a77749e00434c1dbf",
       "direct_media_keys": [
         "782093326_37871309775850777_5530263470210653074_n.webp"
       ],
       "facebook_post_id": "10243460309544740",
       "facebook_timestamp": 1787456459,
+      "has_video": false,
       "image_sha256": [
         "bace89aac81b5c0ff49a2a3a135070cd7b0d2ed0e2ee94df6417712d25c0aaf7"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2039162006",
+      "instapaper_tags": [],
       "last_error": null,
+      "linked_pages": [],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "bace89aac81b5c0ff49a2a3a135070cd7b0d2ed0e2ee94df6417712d25c0aaf7"
+        }
+      ],
       "omitted_photo_count": 0,
+      "original_author": "희일이송",
+      "original_inline_links": [],
+      "original_paragraphs": [
+        "AI와 기술 산업에 대한 미국 청년들의 증오가 점점 증가하고 있다.",
+        "CNBC가 실시한 새로운 설문조사에 따르면, 18세에서 34세의 미국 청년들은 AI 기업 총수들을 대부분 싫어한다. AI 기업 총수 중 누구를 신뢰하냐는 질문에 90% 가량이 \"누구도 신뢰하지 않는다\"고 답했다.",
+        "가장 신뢰하지 않은 사람은 팔란티어의 알렉스 카프. 81%가 신뢰하지 않는다. 피터 틸은 응답자의 79%, 마크 주커버그는 71%, 일론 머크스는 70%, 젠슨 황은 70%, 샘 알트먼은 69%가 불신하는 것으로 나타났다.",
+        "10년 전만 해도 미국 내에서 기술 CEO에 대한 숭배는 공공연한 일이었다. 많은 청년들이 그들 기업에서 일하는 것을 꿈꿨다. 하지만 이제는 완연히 달라진 양상이다. 데이터 프라이버시, 기술 플랫폼의 퇴보, 민주주의 침식, 불평등 심화 등에 대한 우려가 점차 짙어지면서 평가 자체가 뒤집어진 것이다.",
+        "하기는 미 전역에서 감시 카메라 Flock 파괴 운동이 일어나는가 하면, AI에 대한 반대 운동이 도처에 증가하고 있다. AI 데이터센터에 대한 증오도 초당적으로 증가 추세이고, 아마도 이는 이번 11월 중간 선거에서 중요한 의제가 될 것이다.",
+        "최근 갤럽 조사에 따르면 10명 중 약 7명이 자기 지역에 데이터센터가 건설되는 것에 반대한다고 답했다. 이들이 반대하는 이유는 비밀유지협약과 국가 보조금으로 기업들에게 일방적으로 이익을 주면서, 부족한 토지, 물 전용, 막대한 전력 낭비 같은 피해를 지역에 전가하기 때문이다.",
+        "요컨대 미국 전반에 걸쳐 기술숭배주의가 무너지고 있다. 이러한 붕괴가 미국의 지역 운동과 민주주의, 그리고 기후운동에도 활력을 주고 있는 게 사실이다. 물론 어디로 튈지는 조금 더 지켜봐야 할 테고.",
+        "반면에 젠슨 황을 비롯한 미국 기술 자본가들에 대한 한국의 숭배는 확실히 기이한 측면이 있다. 온통 주식과 지대 자본주의에 잠식된 사회여서 그럴 수도 있겠고, 재벌과 자본가를 사회적 아이콘으로 숭배해 왔던 성장주의가 깊이 뿌리를 내려서 그럴 수도 있겠고. 아무튼 착잡하다."
+      ],
       "paragraphs": [
         "버틀레리안 지하드가 머지 읺았다"
       ],
       "permalink": "https://www.facebook.com/fupfin/posts/10243460309544740",
       "profile_url": "https://www.facebook.com/fupfin",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/fupfin/10243460309544740.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "10243475227437678": {
       "article_format_version": 25,
-      "completed_at": null,
+      "completed_at": "2026-09-04T23:30:09+00:00",
       "content_hash": "fa9db7baae446bde05b581ca419544e563e6a759bd2e3d05f49797731b2ff496",
       "direct_media_keys": [
         "783617027_10243475219517480_8310823472559907142_n.jpg"
       ],
       "facebook_post_id": "10243475227437678",
       "facebook_timestamp": 1787544480,
+      "has_video": false,
       "image_sha256": [
         "508b70339b5de518e8932c8ef1853ad5ae078c7e2bb82f23df763ad3c48d7874"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2039162003",
+      "instapaper_tags": [],
       "last_error": null,
+      "linked_pages": [],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "508b70339b5de518e8932c8ef1853ad5ae078c7e2bb82f23df763ad3c48d7874"
+        }
+      ],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "paragraphs": [
         "역시 공항식은 편의점"
       ],
       "permalink": "https://www.facebook.com/fupfin/posts/10243475227437678",
       "profile_url": "https://www.facebook.com/fupfin",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/fupfin/10243475227437678.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "10243475355960891": {
       "article_format_version": 25,
-      "completed_at": null,
+      "completed_at": "2026-09-04T23:30:08+00:00",
       "content_hash": "172b85f4a5b89673bbeeb7391a685b1d9e2f185ad1d6c8f3f9ed406cafc1e746",
       "direct_media_keys": [
         "782888864_10243475349440728_8224413896392076723_n.jpg",
@@ -3194,48 +3564,86 @@
       ],
       "facebook_post_id": "10243475355960891",
       "facebook_timestamp": 1787545020,
+      "has_video": false,
       "image_sha256": [
         "501e33d4733956b1ffd8145f2b313f04d82970511b67d8714071abf7ea999ed7",
         "b69417f011081be94a5c6ba1634452baddf27ca32355ade5554c96a996617984",
         "c81bf71f5c46e2641354c26815d72d50e8424d1b44bb85d0949f3b8707e69bf6"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2039161998",
+      "instapaper_tags": [],
       "last_error": null,
+      "linked_pages": [],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "501e33d4733956b1ffd8145f2b313f04d82970511b67d8714071abf7ea999ed7"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "b69417f011081be94a5c6ba1634452baddf27ca32355ade5554c96a996617984"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "c81bf71f5c46e2641354c26815d72d50e8424d1b44bb85d0949f3b8707e69bf6"
+        }
+      ],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "paragraphs": [
         "무화과는 먹을 때마다 우주 괴물이 생각난다"
       ],
       "permalink": "https://www.facebook.com/fupfin/posts/10243475355960891",
       "profile_url": "https://www.facebook.com/fupfin",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/fupfin/10243475355960891.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "10243495421502517": {
       "article_format_version": 25,
-      "completed_at": null,
+      "completed_at": "2026-09-04T23:30:07+00:00",
       "content_hash": "f5c5823dd47d48cdbbae350b7a91950c86dbabf85d1140ed286effd27138ceac",
       "direct_media_keys": [
         "786139602_10243495413702322_2925308175940302363_n.jpg"
       ],
       "facebook_post_id": "10243495421502517",
       "facebook_timestamp": 1787661937,
+      "has_video": false,
       "image_sha256": [
         "09a5e217f105ddf98d749a575892cd74eeee6e715e40a3152e7407882b7410d3"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2039161996",
+      "instapaper_tags": [],
       "last_error": null,
+      "linked_pages": [],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "09a5e217f105ddf98d749a575892cd74eeee6e715e40a3152e7407882b7410d3"
+        }
+      ],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "paragraphs": [
         "현지 음식을 먹는 것도 여행의 즐거움"
       ],
       "permalink": "https://www.facebook.com/fupfin/posts/10243495421502517",
       "profile_url": "https://www.facebook.com/fupfin",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/fupfin/10243495421502517.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "10243505658398433": {
       "article_format_version": 25,
-      "completed_at": null,
+      "completed_at": "2026-09-04T23:30:06+00:00",
       "content_hash": "065d39a7c9c2c1b4eeea5860265a55fc6a8fa7b1fc611fca7c62e26aeeda1427",
       "direct_media_keys": [
         "785362803_10243505659998473_3598021833339544714_n.jpg",
@@ -3245,15 +3653,44 @@
       ],
       "facebook_post_id": "10243505658398433",
       "facebook_timestamp": 1787719273,
+      "has_video": false,
       "image_sha256": [
         "562c6187a6638f3c079379d2c19becf93dc6b2b9d4e2e010b72a7f568c7d2409",
         "2d7e64b1fe7f6d0e09d1bce3703f4f4d3d9cb28b7d6d680a87298a4b7b324b4f",
         "12e067b3c619d4e4f1dce3113a37d897e3b3740d2772f0f5210b0d13493783d8",
         "55cff997b6482ada39509ea2736120c6f0e14a7832c33a48840a8566f1a5afe1"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2039161991",
+      "instapaper_tags": [],
       "last_error": null,
+      "linked_pages": [],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "562c6187a6638f3c079379d2c19becf93dc6b2b9d4e2e010b72a7f568c7d2409"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "2d7e64b1fe7f6d0e09d1bce3703f4f4d3d9cb28b7d6d680a87298a4b7b324b4f"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "12e067b3c619d4e4f1dce3113a37d897e3b3740d2772f0f5210b0d13493783d8"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "55cff997b6482ada39509ea2736120c6f0e14a7832c33a48840a8566f1a5afe1"
+        }
+      ],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "paragraphs": [
         "드디어 먹어 보는 “서황 돈카츠“",
         "30분 이상 기다려 먹을 만큼 맛있는 음식은 세상에 없다고 믿는 내가 가족을 위해 한 시간 반을 기다렸다."
@@ -3261,19 +3698,27 @@
       "permalink": "https://www.facebook.com/fupfin/posts/10243505658398433",
       "profile_url": "https://www.facebook.com/fupfin",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/fupfin/10243505658398433.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "10243520328485176": {
       "article_format_version": 25,
-      "completed_at": null,
+      "completed_at": "2026-09-04T23:30:05+00:00",
       "content_hash": "9ff858ef86ca5209ae19c07f16587e60ebd7ed717f1e4324adfb294b63ea4893",
       "direct_media_keys": [],
       "facebook_post_id": "10243520328485176",
       "facebook_timestamp": 1787805411,
+      "has_video": false,
       "image_sha256": [],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2039161989",
+      "instapaper_tags": [],
       "last_error": null,
+      "linked_pages": [],
+      "media": [],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "paragraphs": [
         "제주는 오늘도 해가 살인적이다.",
         "개마고원은 요즘 살기 좋을까?",
@@ -3282,42 +3727,64 @@
       "permalink": "https://www.facebook.com/fupfin/posts/10243520328485176",
       "profile_url": "https://www.facebook.com/fupfin",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/fupfin/10243520328485176.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "10243547606567111": {
       "article_format_version": 25,
-      "completed_at": null,
+      "completed_at": "2026-09-04T23:30:04+00:00",
       "content_hash": "9c4badbcc02d4574a63b80fc3730c2aae85080eabf8b68ac3404aacde210bc50",
       "direct_media_keys": [
         "785281385_10243547597966896_2216993227898640760_n.jpg"
       ],
       "facebook_post_id": "10243547606567111",
       "facebook_timestamp": 1787973402,
+      "has_video": false,
       "image_sha256": [
         "cf9ceff1b5f0116ba4341746555fef8b431d70001fe1def7335a5e7eea897d96"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2039161986",
+      "instapaper_tags": [],
       "last_error": null,
+      "linked_pages": [],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "cf9ceff1b5f0116ba4341746555fef8b431d70001fe1def7335a5e7eea897d96"
+        }
+      ],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "paragraphs": [
         "주말엔 야채 구이"
       ],
       "permalink": "https://www.facebook.com/fupfin/posts/10243547606567111",
       "profile_url": "https://www.facebook.com/fupfin",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/fupfin/10243547606567111.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "10243579854773296": {
       "article_format_version": 25,
-      "completed_at": null,
+      "completed_at": "2026-09-04T23:30:02+00:00",
       "content_hash": "068e273f5551517d569dc99981a955e7fddfbcb07e733cf7deac7e3507a84c6c",
       "direct_media_keys": [],
       "facebook_post_id": "10243579854773296",
       "facebook_timestamp": 1788219420,
+      "has_video": false,
       "image_sha256": [],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2039161977",
+      "instapaper_tags": [],
       "last_error": null,
+      "linked_pages": [],
+      "media": [],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "paragraphs": [
         "왜 내 주식은",
         "폭락했다고 난리나서 들어가 보면 똑같고",
@@ -3326,65 +3793,101 @@
       "permalink": "https://www.facebook.com/fupfin/posts/10243579854773296",
       "profile_url": "https://www.facebook.com/fupfin",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/fupfin/10243579854773296.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "10243580521989976": {
       "article_format_version": 25,
-      "completed_at": null,
+      "completed_at": "2026-09-04T23:30:03+00:00",
       "content_hash": "5232e22dddb7f824f78db0996394a599a318342cfc0641075f3e43d56131e7f5",
       "direct_media_keys": [
         "788838326_10243580512709744_4455249938186722144_n.jpg"
       ],
       "facebook_post_id": "10243580521989976",
       "facebook_timestamp": 1788174597,
+      "has_video": false,
       "image_sha256": [
         "f5fd00d8073eb608ca83d643d98cae2f4c73640309a0b577e93c43c785f239f5"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2039161984",
+      "instapaper_tags": [],
       "last_error": null,
+      "linked_pages": [],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "f5fd00d8073eb608ca83d643d98cae2f4c73640309a0b577e93c43c785f239f5"
+        }
+      ],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "paragraphs": [
         "아! 어지럽다! 토 나올 거 같아."
       ],
       "permalink": "https://www.facebook.com/fupfin/posts/10243580521989976",
       "profile_url": "https://www.facebook.com/fupfin",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/fupfin/10243580521989976.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "10243594363296000": {
       "article_format_version": 25,
-      "completed_at": null,
+      "completed_at": "2026-09-04T23:30:00+00:00",
       "content_hash": "17259e44dfc78217bc296c9deba537f9b4512a5dc864cacb214e5cdef362c39b",
       "direct_media_keys": [
         "790412062_10243594359695910_2165026936449994181_n.jpg"
       ],
       "facebook_post_id": "10243594363296000",
       "facebook_timestamp": 1788272760,
+      "has_video": false,
       "image_sha256": [
         "79853945e072275bc65d07a9f719662f819b90697d56ba6881d0c7eb3bca1cec"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2039161969",
+      "instapaper_tags": [],
       "last_error": null,
+      "linked_pages": [],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "79853945e072275bc65d07a9f719662f819b90697d56ba6881d0c7eb3bca1cec"
+        }
+      ],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "paragraphs": [
         "기력이 떨어져서 보양하려고 보드람"
       ],
       "permalink": "https://www.facebook.com/fupfin/posts/10243594363296000",
       "profile_url": "https://www.facebook.com/fupfin",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/fupfin/10243594363296000.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "10243594752305725": {
       "article_format_version": 25,
-      "completed_at": null,
+      "completed_at": "2026-09-04T23:30:01+00:00",
       "content_hash": "209c2dd258c4eb582e0112ea5923ec74690aab63d792d60d9c36e12d358b6309",
       "direct_media_keys": [],
       "facebook_post_id": "10243594752305725",
       "facebook_timestamp": 1788260639,
+      "has_video": false,
       "image_sha256": [],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2039161973",
+      "instapaper_tags": [],
       "last_error": null,
+      "linked_pages": [],
+      "media": [],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "paragraphs": [
         "용혜인이 이렇게 시끄러울 일인가?",
         "십자포화 당하는 거 보니 더욱 지지해야겠다."
@@ -3392,30 +3895,44 @@
       "permalink": "https://www.facebook.com/fupfin/posts/10243594752305725",
       "profile_url": "https://www.facebook.com/fupfin",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/fupfin/10243594752305725.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "10243608377566348": {
       "article_format_version": 25,
-      "completed_at": null,
+      "completed_at": "2026-09-04T23:29:59+00:00",
       "content_hash": "018b320e3201f8776f6995be1410e561fb42630b78444f15940931eb3ec3d59c",
       "direct_media_keys": [
         "791974669_10243608373326242_990337401201909189_n.jpg"
       ],
       "facebook_post_id": "10243608377566348",
       "facebook_timestamp": 1788345240,
+      "has_video": false,
       "image_sha256": [
         "8691d388992ebb8f9777782d6de60d753b5fb78d522c26415ba7c0aa7e37844b"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2039161922",
+      "instapaper_tags": [],
       "last_error": null,
+      "linked_pages": [],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "8691d388992ebb8f9777782d6de60d753b5fb78d522c26415ba7c0aa7e37844b"
+        }
+      ],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "paragraphs": [
         "그래서 오늘도 역삼 보드람"
       ],
       "permalink": "https://www.facebook.com/fupfin/posts/10243608377566348",
       "profile_url": "https://www.facebook.com/fupfin",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/fupfin/10243608377566348.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "1098303984995397": {
       "article_format_version": 2,
@@ -11581,39 +12098,44 @@
     "https://www.facebook.com/fupfin": {
       "discoveries": {
         "https://www.facebook.com/fupfin/posts/pfbid01FNbkEQ4LQ7ecXXkG5WUU77dZraNsPSRJntCaLU379hRau3Si1n6HFQ7NYjQgyWwl": {
+          "completed_at": "2026-09-04T23:30:10+00:00",
           "discovered_at": "2026-09-04T23:18:33+00:00",
           "last_error": null,
           "not_before_timestamp": 1785885513,
           "post_id": "10243460309544740",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/fupfin/posts/pfbid0228GGfTCsXMVeyKo6QcrDKQYF1mZnfu8uLNnmrwwsaHLkB83hDLdzaSS99QM2LAfFl": {
+          "completed_at": "2026-09-04T23:29:40+00:00",
           "discovered_at": "2026-09-04T23:18:33+00:00",
           "last_error": null,
           "not_before_timestamp": 1785885513,
           "post_id": "10243132228942930",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/fupfin/posts/pfbid023rxR3YiBKTWSRWW7qRYYu6CjxJsyqXuV57qkWkvVLyJKCxmRK4iTfXeTk76366gWl": {
+          "completed_at": "2026-09-04T23:30:03+00:00",
           "discovered_at": "2026-09-04T23:18:33+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "10243580521989976",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/fupfin/posts/pfbid027oeBChV9VFHgmC6USfsNNjiKu7Csm95pfGvpy2q89MACMFSXZG6c8h4GT8LGjNbCl": {
+          "completed_at": "2026-09-04T23:30:17+00:00",
           "discovered_at": "2026-09-04T23:18:33+00:00",
           "last_error": null,
           "not_before_timestamp": 1785885513,
           "post_id": "10243360946500726",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/fupfin/posts/pfbid02AECGsXq6JEfqTdYmHCtGAwE3bmHMBUTjJmRjW97TrudJ7ge7bxzW3r68GnKKZ7Eal": {
+          "completed_at": "2026-09-04T23:30:14+00:00",
           "discovered_at": "2026-09-04T23:18:33+00:00",
           "last_error": null,
           "not_before_timestamp": 1785885513,
           "post_id": "10243375258058506",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/fupfin/posts/pfbid02BYeEGdnRzgT6xhrhac42KxsjgAY4tM7CFotKyyhQ5VSgLJuvPPcPidGpKkML8DrNl": {
           "completed_at": "2026-09-04T23:18:40+00:00",
@@ -11624,32 +12146,36 @@
           "status": "skipped_initial"
         },
         "https://www.facebook.com/fupfin/posts/pfbid02BgPw1njL55NjsahUa6iUcR3hLNja78voFJdnjjX5ZB3PbgKwTdHdxCkqWTQ9P8uUl": {
+          "completed_at": "2026-09-04T23:30:09+00:00",
           "discovered_at": "2026-09-04T23:18:33+00:00",
           "last_error": null,
           "not_before_timestamp": 1785885513,
           "post_id": "10243475227437678",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/fupfin/posts/pfbid02FNzcE2nUKR5msa6q9ckMtfztv9PHnK4u7rx64mpWeoyed12Kkku8NnQiqhYKNjeol": {
+          "completed_at": "2026-09-04T23:30:20+00:00",
           "discovered_at": "2026-09-04T23:18:33+00:00",
           "last_error": null,
           "not_before_timestamp": 1785885513,
           "post_id": "10243275917015042",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/fupfin/posts/pfbid02Lcbfrgb32SQssEk9jzjyT4F2GNJqEQYZM8iUds2AShwfYefiNK32dkydujNsJuDMl": {
+          "completed_at": "2026-09-04T23:30:21+00:00",
           "discovered_at": "2026-09-04T23:18:33+00:00",
           "last_error": null,
           "not_before_timestamp": 1785885513,
           "post_id": "10243258261813673",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/fupfin/posts/pfbid02NZrCPccDuQYpQEB1VWcqk1K5PhrGfcNJkhdLC8G719RLML9JBpU6ZvfWMCg8R6uXl": {
+          "completed_at": "2026-09-04T23:29:45+00:00",
           "discovered_at": "2026-09-04T23:18:33+00:00",
           "last_error": null,
           "not_before_timestamp": 1785885513,
           "post_id": "10243330218892555",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/fupfin/posts/pfbid02dGzrrrbcKtvAESCFPPCkj9yiTuwHKv4fsCezyobH1TQeJZdrhSADKV8M9UXxGWorl": {
           "completed_at": "2026-09-04T23:18:59+00:00",
@@ -11660,11 +12186,12 @@
           "status": "skipped_initial"
         },
         "https://www.facebook.com/fupfin/posts/pfbid02mjnhBeNnRJXFxkyaKfNJiVSqVDd1JDmrjLNmwfTGVQGyXELZHQ32kasYgUfhG29Ql": {
+          "completed_at": "2026-09-04T23:30:16+00:00",
           "discovered_at": "2026-09-04T23:18:33+00:00",
           "last_error": null,
           "not_before_timestamp": 1785885513,
           "post_id": "10243368665933707",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/fupfin/posts/pfbid02odmDfjPqHk8FSdvtL9JHkKgkHPpzFoTZnp7j9GoSHgYWS1LHmEyEw87Rwobrudowl": {
           "completed_at": "2026-09-04T23:18:34+00:00",
@@ -11675,109 +12202,124 @@
           "status": "skipped_initial"
         },
         "https://www.facebook.com/fupfin/posts/pfbid02vGctfw5crxmEZENmqAZ3c5xjoufqBMmNmijJm7b5ijivAEVJSwd5eRsyXnDd42TMl": {
+          "completed_at": "2026-09-04T23:30:19+00:00",
           "discovered_at": "2026-09-04T23:18:33+00:00",
           "last_error": null,
           "not_before_timestamp": 1785885513,
           "post_id": "10243289504354717",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/fupfin/posts/pfbid02vorU9twANtdCMs4MjaCr2siTCTrB5tMPoVDiitzB9GkyyGqyRdMDVHgs8Q5Fpwdel": {
+          "completed_at": "2026-09-04T23:29:43+00:00",
           "discovered_at": "2026-09-04T23:18:33+00:00",
           "last_error": null,
           "not_before_timestamp": 1785885513,
           "post_id": "10243232930820414",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/fupfin/posts/pfbid02yHMcbSJ86Gvh28ZzAcU2s4ET6gUeMEMcnik9ydWRkvTPLU54foQi9LbL6UB6UxTSl": {
+          "completed_at": "2026-09-04T23:30:08+00:00",
           "discovered_at": "2026-09-04T23:18:33+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "10243475355960891",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/fupfin/posts/pfbid02zKy4cgXwVthyThB5GaWWMUwMyTT7UfmHimAjnGpTLYGEdTu9SmYPT7KkPq8SYabJl": {
+          "completed_at": "2026-09-04T23:30:12+00:00",
           "discovered_at": "2026-09-04T23:18:33+00:00",
           "last_error": null,
           "not_before_timestamp": 1785885513,
           "post_id": "10243408147240715",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/fupfin/posts/pfbid031mQP5X9kmuoTQV6BzzoEG6mReyHphQQSaAm2xsfYPtCEE9aDtc4Y23YE5nFmJJbsl": {
+          "completed_at": "2026-09-04T23:30:25+00:00",
           "discovered_at": "2026-09-04T23:18:33+00:00",
           "last_error": null,
           "not_before_timestamp": 1785885513,
           "post_id": "10243205510894933",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/fupfin/posts/pfbid032ENvdaa65j1FqVAcApJmNuRuhxNW76zz71DBGCH9Pks4RredB8RRQ6y7gqRbPLjpl": {
+          "completed_at": "2026-09-04T23:30:07+00:00",
           "discovered_at": "2026-09-04T23:18:33+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "10243495421502517",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/fupfin/posts/pfbid037QNwCJpzK3peMPXPHhKdJLiEmT1KUmX5GiHAsdWEPs51HYU4sY1bdXMyuAasqrR3l": {
+          "completed_at": "2026-09-04T23:30:15+00:00",
           "discovered_at": "2026-09-04T23:18:33+00:00",
           "last_error": null,
           "not_before_timestamp": 1785885513,
           "post_id": "10243370745585697",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/fupfin/posts/pfbid037UrdtcmkNmSYYpbTzURTmhMb9ftSSu9491Q8U2hmCT6dVdv3BghCjeHtiSSNV24Dl": {
+          "completed_at": "2026-09-04T23:30:17+00:00",
           "discovered_at": "2026-09-04T23:18:33+00:00",
           "last_error": null,
           "not_before_timestamp": 1785885513,
           "post_id": "10243359136175469",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/fupfin/posts/pfbid06oeoqYG5nxJx8KctpqRUdzFvtL4hvJi4zz91H2nRwGaxthaXvi8eWv6k5pA4BQuHl": {
+          "completed_at": "2026-09-04T23:30:11+00:00",
           "discovered_at": "2026-09-04T23:18:33+00:00",
           "last_error": null,
           "not_before_timestamp": 1785885513,
           "post_id": "10243415382581594",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/fupfin/posts/pfbid09FJDuAWg3njgJnXEUVoTRLwDkQyPjs5dwEtp5tUrDNq29R5Qzxgv3Ac94X5ecDHql": {
+          "completed_at": "2026-09-04T23:29:44+00:00",
           "discovered_at": "2026-09-04T23:18:33+00:00",
           "last_error": null,
           "not_before_timestamp": 1785885513,
           "post_id": "10243236695194521",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/fupfin/posts/pfbid0BCYmsLAxmVVTdJD2EAiCNxfhxHvtK1QdN1hrRCRX5NSfyBFGu1MdHar8Kf2PNV9vl": {
+          "completed_at": "2026-09-04T23:30:04+00:00",
           "discovered_at": "2026-09-04T23:18:33+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "10243547606567111",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/fupfin/posts/pfbid0C2Gp9tzUU6ruyGe8HPEPaPrsSTg4NPj7GrmkXKSaeSvBEfR8HzyHAh8Wse6tMoQ1l": {
+          "completed_at": "2026-09-04T23:30:24+00:00",
           "discovered_at": "2026-09-04T23:18:33+00:00",
           "last_error": null,
           "not_before_timestamp": 1785885513,
           "post_id": "10243217975726546",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/fupfin/posts/pfbid0DU38mLscXMKnDpimf74sJ89bo2YXUSHpUfJhbn8Mdsi3wiy7ajYSBxsRQ8tQALoxl": {
+          "completed_at": "2026-09-04T23:30:25+00:00",
           "discovered_at": "2026-09-04T23:18:33+00:00",
           "last_error": null,
           "not_before_timestamp": 1785885513,
           "post_id": "10243311971876391",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/fupfin/posts/pfbid0FTahmmPAjxEkcZmrnhJGiwJBMWfuxruhnVk7aRZ7Zd1FtBzdB6Mc2VEfaArEWQm1l": {
+          "completed_at": "2026-09-04T23:29:41+00:00",
           "discovered_at": "2026-09-04T23:18:33+00:00",
           "last_error": null,
           "not_before_timestamp": 1785885513,
           "post_id": "10243201578836634",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/fupfin/posts/pfbid0GrqLaYuVSrEHthtvfnE12JAHaCW18wYaiqiaL73oJCctF1xk6A4znV4AjSyUrTa8l": {
+          "completed_at": "2026-09-04T23:30:02+00:00",
           "discovered_at": "2026-09-04T23:18:33+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "10243579854773296",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/fupfin/posts/pfbid0J1Lt9DBLfXVBxDMMjJTdyNAEE1kdp9wuZvNHDKNk76fgar9prn3EC7EiFv5jyK2nl": {
           "completed_at": "2026-09-04T23:18:40+00:00",
@@ -11788,39 +12330,44 @@
           "status": "skipped_initial"
         },
         "https://www.facebook.com/fupfin/posts/pfbid0JYMmRXtEUoppuqW7s1sUM51Xk7kwY2gLc64n1hbwC4g87j7ukEUHn7z2eAF9Earzl": {
+          "completed_at": "2026-09-04T23:30:05+00:00",
           "discovered_at": "2026-09-04T23:18:33+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "10243520328485176",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/fupfin/posts/pfbid0MktZFgyJ8oQzcgA9CCEqxAg1JV58JV7B3QFLt2kEXxrXvKyQt4wQaMwazVy5ptKol": {
+          "completed_at": "2026-09-04T23:30:23+00:00",
           "discovered_at": "2026-09-04T23:18:33+00:00",
           "last_error": null,
           "not_before_timestamp": 1785885513,
           "post_id": "10243219843293234",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/fupfin/posts/pfbid0TGDiaHpJh2LdN18UbbRcnW7fBxPTo6K7wMUR9rStGtr1spYZRJkKZzfnS9X5Mzxel": {
+          "completed_at": "2026-09-04T23:29:59+00:00",
           "discovered_at": "2026-09-04T23:18:33+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "10243608377566348",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/fupfin/posts/pfbid0WLZShFJGieVgh38NrsebTPXJhV3j3dSqBRDFdn4SCXFdhBz84ZzwDui6uVvcYLQBl": {
+          "completed_at": "2026-09-04T23:30:22+00:00",
           "discovered_at": "2026-09-04T23:18:33+00:00",
           "last_error": null,
           "not_before_timestamp": 1785885513,
           "post_id": "10243220749315884",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/fupfin/posts/pfbid0XjA5CpHwrXXUw2Da8jvFUu19VP1yZ9FPFnPgPjSSBD2G765js13MSrh78RPaWaJ4l": {
+          "completed_at": "2026-09-04T23:30:01+00:00",
           "discovered_at": "2026-09-04T23:18:33+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "10243594752305725",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/fupfin/posts/pfbid0b66bWaVezUYmNT5RVj9NAVcFX4pmpta6T17TsivU6n5YSh97MMJ3GfAag6WsRRmul": {
           "completed_at": "2026-09-04T23:18:34+00:00",
@@ -11831,53 +12378,60 @@
           "status": "skipped_initial"
         },
         "https://www.facebook.com/fupfin/posts/pfbid0dMaxQbCJkQKizwaN9E9rPmkqcf4adbwt8YDwFpat6VHEPJ2uVoLgKeLXQBJZU5xvl": {
+          "completed_at": "2026-09-04T23:30:00+00:00",
           "discovered_at": "2026-09-04T23:18:33+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "10243594363296000",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/fupfin/posts/pfbid0i1LPwBPdpePPsE7a4pWP9L4XXMaobGjp1yvZM1GX9LVjzBDMtXtnXd5rJMeM3jZdl": {
+          "completed_at": "2026-09-04T23:30:06+00:00",
           "discovered_at": "2026-09-04T23:18:33+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "10243505658398433",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/fupfin/posts/pfbid0k1CzXSocfMyLhZmuMnX557Q38GWHXZggbRL9ooeSfbZbaeYeFNAyXThBSESUQxewl": {
+          "completed_at": "2026-09-04T23:30:18+00:00",
           "discovered_at": "2026-09-04T23:18:33+00:00",
           "last_error": null,
           "not_before_timestamp": 1785885513,
           "post_id": "10243347214917445",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/fupfin/posts/pfbid0qDW28RunPWZW5D4CdYcj1sBeNWMuYRTaexgcwKYkwbm2KZhmw5rXZ8tAywVJoLCal": {
+          "completed_at": "2026-09-04T23:29:44+00:00",
           "discovered_at": "2026-09-04T23:18:33+00:00",
           "last_error": null,
           "not_before_timestamp": 1785885513,
           "post_id": "10243256705294761",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/fupfin/posts/pfbid0rBxo3D7GMZfYpKGAyR1Tn6Bcxm9fFGYrWUQHYv6PmNpbJvye2sqyHFAaFzaqMod9l": {
+          "completed_at": "2026-09-04T23:30:13+00:00",
           "discovered_at": "2026-09-04T23:18:33+00:00",
           "last_error": null,
           "not_before_timestamp": 1785885513,
           "post_id": "10243376679734047",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/fupfin/posts/pfbid0sjjVhoW1Ub5oWQpFgpjxG6hgRWUsGYb2zJarfAodxMhX9HqwdgEFcZ3tEr6EWLdpl": {
+          "completed_at": "2026-09-04T23:29:41+00:00",
           "discovered_at": "2026-09-04T23:18:33+00:00",
           "last_error": null,
           "not_before_timestamp": 1785885513,
           "post_id": "10243207119055136",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/fupfin/posts/pfbid0tEthUgNjWffdVsMCm2jQYBbsMkPTqQmcjJ6iMJJbaoZvdJF1jG6KtFLcZbDZ49Lml": {
+          "completed_at": "2026-09-04T23:30:21+00:00",
           "discovered_at": "2026-09-04T23:18:33+00:00",
           "last_error": null,
           "not_before_timestamp": 1785885513,
           "post_id": "10243249631717926",
-          "status": "published_pending"
+          "status": "complete"
         }
       },
       "initial_cutoff_timestamp": 1785885513,
@@ -15428,5 +15982,5 @@
   },
   "schema_version": 1,
   "unread_sources": {},
-  "updated_at": "2026-09-04T23:28:37+00:00"
+  "updated_at": "2026-09-04T23:30:25+00:00"
 }
