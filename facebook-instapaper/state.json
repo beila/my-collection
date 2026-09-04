@@ -783,30 +783,29 @@
       "status": "complete"
     },
     "10164619063314831": {
-      "article_format_version": 22,
+      "article_format_version": 23,
       "completed_at": "2026-09-02T09:13:35+00:00",
-      "content_hash": "43e19e5c2ae2598b333fc5697fee2bd68506b9b41fa4d1610ed54d8fbf37588f",
-      "direct_media_keys": [
-        "1f923.png"
-      ],
+      "content_hash": "9249483092107750a2e00991d0a65a223bfccdd31e6f6d3d9d77f29b0f5b1cca",
+      "direct_media_keys": [],
       "facebook_post_id": "10164619063314831",
       "facebook_timestamp": 1788264000,
       "has_video": false,
-      "image_sha256": [
-        "e7ea7c6ce2f5d6f7b4f5613f6dd485826c5fc68cac16667813a87d8a570e6605"
-      ],
+      "image_sha256": [],
       "inline_links": [],
       "instapaper_bookmark_id": "2038444518",
       "instapaper_tags": [],
       "last_error": null,
-      "linked_pages": [],
-      "media": [
+      "linked_pages": [
         {
-          "description": null,
-          "is_video_thumbnail": false,
-          "sha256": "e7ea7c6ce2f5d6f7b4f5613f6dd485826c5fc68cac16667813a87d8a570e6605"
+          "article_image_sha256": [],
+          "article_sha256": null,
+          "description": "",
+          "site_name": "www.instagram.com",
+          "title": "AI 로판 <빙의는 했는데 얼굴이 따라왔습니다> 1화 #ai광고 #로판 #병맛 #로맨스판타지 #숏폼드라마",
+          "url": "https://www.instagram.com/reel/Dcr3SxSSZJ0/?igsi=MjAyZTYwOWFjOA%3D%3D"
         }
       ],
+      "media": [],
       "omitted_photo_count": 0,
       "original_author": null,
       "original_inline_links": [],
@@ -878,7 +877,7 @@
       "status": "complete"
     },
     "10164623615294831": {
-      "article_format_version": 22,
+      "article_format_version": 23,
       "completed_at": "2026-09-02T09:33:01+00:00",
       "content_hash": "448e0363f07e8cba824453ce0811e205c8dc02247bf0aef1b2b06539d3620fe1",
       "direct_media_keys": [
@@ -2308,7 +2307,7 @@
       "status": "complete"
     },
     "10242289562631419": {
-      "article_format_version": 22,
+      "article_format_version": 23,
       "completed_at": "2026-09-03T08:13:55+00:00",
       "content_hash": "e7955b2792921ce4f3bccb1cd3b3c0bdacd097f342f656d9b061e9bf0820868a",
       "direct_media_keys": [],
@@ -2340,7 +2339,7 @@
       "status": "complete"
     },
     "10242293427128029": {
-      "article_format_version": 22,
+      "article_format_version": 23,
       "completed_at": "2026-09-03T08:13:54+00:00",
       "content_hash": "42bee462f7753dc5ad6732c7baf39e29317f1976697a1cf31400169431305e57",
       "direct_media_keys": [],
@@ -2372,7 +2371,7 @@
       "status": "complete"
     },
     "10242303051808640": {
-      "article_format_version": 22,
+      "article_format_version": 23,
       "completed_at": "2026-09-03T08:13:53+00:00",
       "content_hash": "40353f67dff617939b844a05836791523bb3cfb4aa0f66f35a9d65b04d0d0577",
       "direct_media_keys": [],
@@ -2404,7 +2403,7 @@
       "status": "complete"
     },
     "10242314016082740": {
-      "article_format_version": 22,
+      "article_format_version": 23,
       "completed_at": "2026-09-03T08:13:51+00:00",
       "content_hash": "04f4b835e2ac8559b94dc173d29170a96d305073c069a8b1e97721dd4df9935e",
       "direct_media_keys": [
@@ -2471,7 +2470,7 @@
       "status": "complete"
     },
     "10242360081634350": {
-      "article_format_version": 22,
+      "article_format_version": 23,
       "completed_at": "2026-09-03T08:13:48+00:00",
       "content_hash": "0ba364714d502cdd7c594ce6a11736672ca1dd6fe81d8c62b41c12aafab243e3",
       "direct_media_keys": [],
@@ -2500,7 +2499,7 @@
       "status": "complete"
     },
     "10242381058318754": {
-      "article_format_version": 22,
+      "article_format_version": 23,
       "completed_at": "2026-09-03T08:13:48+00:00",
       "content_hash": "18733bff0112a125506374de778e5894f279beb04b108d57ab1c93ebc06f1c37",
       "direct_media_keys": [],
@@ -2531,7 +2530,7 @@
       "status": "complete"
     },
     "10242397402007336": {
-      "article_format_version": 22,
+      "article_format_version": 23,
       "completed_at": "2026-09-03T08:13:46+00:00",
       "content_hash": "125ce2187733d35c1025e5f490639e39e97ffc45263d833141afc0b5786c4cb0",
       "direct_media_keys": [],
@@ -8829,7 +8828,7 @@
       "status": "complete"
     },
     "4034710566659516": {
-      "article_format_version": 22,
+      "article_format_version": 23,
       "completed_at": "2026-09-04T18:19:09+00:00",
       "content_hash": "2b0ae219ef16cc5e4782c6634cf46f9ed25a5025c3a1bedd8c8f26da3b41a6e9",
       "direct_media_keys": [
@@ -14242,5 +14241,5 @@
   },
   "schema_version": 1,
   "unread_sources": {},
-  "updated_at": "2026-09-04T18:41:58+00:00"
+  "updated_at": "2026-09-04T19:06:24+00:00"
 }
