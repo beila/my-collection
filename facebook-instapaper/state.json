@@ -11426,6 +11426,14 @@
           "post_id": "10164596288029831",
           "status": "complete"
         },
+        "https://www.facebook.com/minbok/posts/pfbid02QfBUgn7qKfGwQxz4JJiQ8iYBE6EZpfsUEKNnQuVbk3EzvKbhofCZLnBjDeBf5wpAl": {
+          "completed_at": "2026-09-02T09:33:01+00:00",
+          "discovered_at": "2026-09-04T09:33:35+00:00",
+          "last_error": null,
+          "not_before_timestamp": null,
+          "post_id": "10164623615294831",
+          "status": "complete"
+        },
         "https://www.facebook.com/minbok/posts/pfbid02QqLUyvPa9C49y5busJEU4y2rFwiW4827DbeLLmjp8wAHh8WP3jkZ7MbatwsYqPWVl": {
           "completed_at": "2026-09-02T09:33:01+00:00",
           "discovered_at": "2026-09-02T08:55:35+00:00",
@@ -11589,7 +11597,7 @@
       },
       "initial_cutoff_timestamp": 1785660935,
       "initialized_at": "2026-09-02T08:55:35+00:00",
-      "last_scan_timestamp": 1788502836,
+      "last_scan_timestamp": 1788514386,
       "name": "Minbok Wi"
     },
     "https://www.facebook.com/monan.doll": {
@@ -14063,5 +14071,5 @@
   },
   "schema_version": 1,
   "unread_sources": {},
-  "updated_at": "2026-09-04T08:19:36+00:00"
+  "updated_at": "2026-09-04T09:33:51+00:00"
 }
