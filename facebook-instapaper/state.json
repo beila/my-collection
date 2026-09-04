@@ -7034,19 +7034,35 @@
     },
     "28588091347481194": {
       "article_format_version": 20,
-      "completed_at": null,
+      "completed_at": "2026-09-04T02:28:26+00:00",
       "content_hash": "3fc9b6a2dc6861245b90c2a9e2709069dc69bb8d1ee7bdafe03de401781944bd",
       "direct_media_keys": [
         "791388319_28588090127481316_4456358917456188925_n.jpg"
       ],
       "facebook_post_id": "28588091347481194",
       "facebook_timestamp": 1788487229,
+      "has_video": false,
       "image_sha256": [
         "2226538f0f3db5a933ea9649896fd1e03eed764d29cbe17ca62f10a0e2edec03"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2038909863",
+      "instapaper_tags": [
+        "🌱"
+      ],
       "last_error": null,
+      "linked_pages": [],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "2226538f0f3db5a933ea9649896fd1e03eed764d29cbe17ca62f10a0e2edec03"
+        }
+      ],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "paragraphs": [
         "생일 선언, 제 생일은 9월 4일이에요.",
         "제게는 생일이 세 개가 있는데, 우리 시대 많은 사람들이 그랬어요. 음력 생일, 실제 태어난 양력 생일, 그리고 주민등록상의 생일 말이죠. 우리 세대 사람들 중 양력 생일과 주민등록상 생일이 같은 사람은 서울 출신, 그것도 부자들만 그랬던 것으로 저는 기억해요.",
@@ -7070,7 +7086,7 @@
       "permalink": "https://www.facebook.com/youngho.youn.5/posts/28588091347481194",
       "profile_url": "https://www.facebook.com/youngho.youn.5",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/youngho.youn.5/28588091347481194.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "3992993854164521": {
       "article_format_version": 8,
@@ -13569,11 +13585,12 @@
           "status": "complete"
         },
         "https://www.facebook.com/youngho.youn.5/posts/pfbid02HfMbKCF7pZmMwFUY2GpeQH8T3T8zG9iCyEt6mZ3Vcud7upi2EqgNPWCmctSbUKbvl": {
+          "completed_at": "2026-09-04T02:28:26+00:00",
           "discovered_at": "2026-09-04T02:26:55+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "28588091347481194",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/youngho.youn.5/posts/pfbid02SkcyByBiUE4s2Ji9rxJQwcv4zme7e6kLpm9ANAeTLqwicyh8MKbyNwBQQDT675gGl": {
           "completed_at": "2026-09-01T10:34:00+00:00",
@@ -14032,5 +14049,5 @@
   },
   "schema_version": 1,
   "unread_sources": {},
-  "updated_at": "2026-09-04T02:27:22+00:00"
+  "updated_at": "2026-09-04T02:28:26+00:00"
 }
