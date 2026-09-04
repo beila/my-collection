@@ -11442,6 +11442,14 @@
           "post_id": "10164623615294831",
           "status": "complete"
         },
+        "https://www.facebook.com/minbok/posts/pfbid02WY8ooWQDhDNecSd5uXSyqNeBAvH9DUWvpejje1jp9EbTnnqvLbkZJyufCKPzpQVYl": {
+          "completed_at": "2026-09-02T09:38:15+00:00",
+          "discovered_at": "2026-09-04T11:24:13+00:00",
+          "last_error": null,
+          "not_before_timestamp": null,
+          "post_id": "10164620163074831",
+          "status": "complete"
+        },
         "https://www.facebook.com/minbok/posts/pfbid02WiHp6efxWeiD3sDSNkRrWEcrZGDcRvZTwn85PyAJify9kG3y5Vtbk91Tm5qV9Ktjl": {
           "completed_at": "2026-09-02T09:38:15+00:00",
           "discovered_at": "2026-09-02T10:28:41+00:00",
@@ -11530,6 +11538,14 @@
           "post_id": "10164623615294831",
           "status": "complete"
         },
+        "https://www.facebook.com/minbok/posts/pfbid0PEqZXBwvmGzXsnQukR6CPcghe3w82sqtiPp8seY6Bwwb1jjqkpC5X3km3wwMoQ2Gl": {
+          "completed_at": "2026-09-02T09:33:11+00:00",
+          "discovered_at": "2026-09-04T11:24:13+00:00",
+          "last_error": null,
+          "not_before_timestamp": null,
+          "post_id": "10164600945229831",
+          "status": "complete"
+        },
         "https://www.facebook.com/minbok/posts/pfbid0PQzZpLDfaoWwdfhX2jgHstMFDQPRLTyKVmDfv3Z8MtEYLWvMq1gnN4AkCJ4iUBzul": {
           "completed_at": "2026-09-02T09:33:11+00:00",
           "discovered_at": "2026-09-02T08:55:35+00:00",
@@ -11597,7 +11613,7 @@
       },
       "initial_cutoff_timestamp": 1785660935,
       "initialized_at": "2026-09-02T08:55:35+00:00",
-      "last_scan_timestamp": 1788516418,
+      "last_scan_timestamp": 1788520737,
       "name": "Minbok Wi"
     },
     "https://www.facebook.com/monan.doll": {
@@ -13233,7 +13249,7 @@
       },
       "initial_cutoff_timestamp": 1785444708,
       "initialized_at": "2026-08-30T20:51:48+00:00",
-      "last_scan_timestamp": 1788514407,
+      "last_scan_timestamp": 1788520731,
       "name": "Sanghyun Park"
     },
     "https://www.facebook.com/seungjoo.lee.545": {
@@ -14095,5 +14111,5 @@
   },
   "schema_version": 1,
   "unread_sources": {},
-  "updated_at": "2026-09-04T11:24:10+00:00"
+  "updated_at": "2026-09-04T11:24:44+00:00"
 }
