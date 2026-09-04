@@ -783,7 +783,7 @@
       "status": "complete"
     },
     "10164619063314831": {
-      "article_format_version": 20,
+      "article_format_version": 21,
       "completed_at": "2026-09-02T09:13:35+00:00",
       "content_hash": "43e19e5c2ae2598b333fc5697fee2bd68506b9b41fa4d1610ed54d8fbf37588f",
       "direct_media_keys": [
@@ -878,7 +878,7 @@
       "status": "complete"
     },
     "10164623615294831": {
-      "article_format_version": 20,
+      "article_format_version": 21,
       "completed_at": "2026-09-02T09:33:01+00:00",
       "content_hash": "448e0363f07e8cba824453ce0811e205c8dc02247bf0aef1b2b06539d3620fe1",
       "direct_media_keys": [
@@ -1847,9 +1847,9 @@
       "status": "complete"
     },
     "10242085985822126": {
-      "article_format_version": 20,
+      "article_format_version": 21,
       "completed_at": "2026-09-03T08:14:07+00:00",
-      "content_hash": "fe3d385fa5b54590f043b033b290969ed66657d59b74dda382832af94e618663",
+      "content_hash": "13addf122220e49e8f984f4003bcc4362c652b6868944b0a6945ad7b035efc2b",
       "direct_media_keys": [
         "68793909_10219455819442110_8167330073729302528_n.jpg"
       ],
@@ -1872,9 +1872,15 @@
         }
       ],
       "omitted_photo_count": 0,
-      "original_author": null,
+      "original_author": "Seung-Joo Lee",
       "original_inline_links": [],
-      "original_paragraphs": [],
+      "original_paragraphs": [
+        "출근해서 모니터를 켜자마자 헠...",
+        "모하자는 거냐... 잉?",
+        "P.S.",
+        "밑에 달린 댓글들 보고, 귀가 얇은 나는 \"잉? 나랑 닯았나?\" 하고 진지하게 화장실 거울을 찾아봄...",
+        "한개도 안 닮았구만... (밑에 있는 놈이 더 귀여움... ㅠ.ㅠ)"
+      ],
       "paragraphs": [
         "상해 사무실로 넘어가기 전 Pall Mall 에 있던 사무실 컴퓨터였던 것 같은데, 댓글들이 왜 쎌카를 바탕화면(사실 저건 로그인 화면)에 썼냐는 댓글 일색이었던... ㅋㅋㅋ"
       ],
@@ -2107,7 +2113,7 @@
       "status": "complete"
     },
     "10242219702764966": {
-      "article_format_version": 20,
+      "article_format_version": 21,
       "completed_at": "2026-09-03T08:14:00+00:00",
       "content_hash": "1cab24b1864913ccc8ef462b4b075f5aa6b9e7f42c8ddb3dd5322720a496eee4",
       "direct_media_keys": [],
@@ -2143,7 +2149,7 @@
       "status": "complete"
     },
     "10242224459363878": {
-      "article_format_version": 20,
+      "article_format_version": 21,
       "completed_at": "2026-09-03T08:13:59+00:00",
       "content_hash": "2f39d6552bc919fbf5075fafcab93434dae536555170d9462a1456e0c5b356ce",
       "direct_media_keys": [],
@@ -2171,7 +2177,7 @@
       "status": "complete"
     },
     "10242233570791658": {
-      "article_format_version": 20,
+      "article_format_version": 21,
       "completed_at": "2026-09-03T08:13:58+00:00",
       "content_hash": "abe41d3c827e77537706a07d1e4ec9c4c711b055445ce98c0a577b304e850683",
       "direct_media_keys": [],
@@ -2206,7 +2212,7 @@
       "status": "complete"
     },
     "10242262515795265": {
-      "article_format_version": 20,
+      "article_format_version": 21,
       "completed_at": "2026-09-03T08:13:58+00:00",
       "content_hash": "bdf6bea0da2f2c5230001e5443e511522af8388ad8651322b49a9f5b97902823",
       "direct_media_keys": [],
@@ -2237,7 +2243,7 @@
       "status": "complete"
     },
     "10242272825813009": {
-      "article_format_version": 20,
+      "article_format_version": 21,
       "completed_at": "2026-09-03T08:13:57+00:00",
       "content_hash": "f629e8cd15e2ca40d6b0f38f3a94606d06d5330dba891514e0661579073e66ae",
       "direct_media_keys": [
@@ -2302,7 +2308,7 @@
       "status": "complete"
     },
     "10242289562631419": {
-      "article_format_version": 20,
+      "article_format_version": 21,
       "completed_at": "2026-09-03T08:13:55+00:00",
       "content_hash": "e7955b2792921ce4f3bccb1cd3b3c0bdacd097f342f656d9b061e9bf0820868a",
       "direct_media_keys": [],
@@ -2334,7 +2340,7 @@
       "status": "complete"
     },
     "10242293427128029": {
-      "article_format_version": 20,
+      "article_format_version": 21,
       "completed_at": "2026-09-03T08:13:54+00:00",
       "content_hash": "42bee462f7753dc5ad6732c7baf39e29317f1976697a1cf31400169431305e57",
       "direct_media_keys": [],
@@ -2366,7 +2372,7 @@
       "status": "complete"
     },
     "10242303051808640": {
-      "article_format_version": 20,
+      "article_format_version": 21,
       "completed_at": "2026-09-03T08:13:53+00:00",
       "content_hash": "40353f67dff617939b844a05836791523bb3cfb4aa0f66f35a9d65b04d0d0577",
       "direct_media_keys": [],
@@ -2398,7 +2404,7 @@
       "status": "complete"
     },
     "10242314016082740": {
-      "article_format_version": 20,
+      "article_format_version": 21,
       "completed_at": "2026-09-03T08:13:51+00:00",
       "content_hash": "04f4b835e2ac8559b94dc173d29170a96d305073c069a8b1e97721dd4df9935e",
       "direct_media_keys": [
@@ -2465,7 +2471,7 @@
       "status": "complete"
     },
     "10242360081634350": {
-      "article_format_version": 20,
+      "article_format_version": 21,
       "completed_at": "2026-09-03T08:13:48+00:00",
       "content_hash": "0ba364714d502cdd7c594ce6a11736672ca1dd6fe81d8c62b41c12aafab243e3",
       "direct_media_keys": [],
@@ -2494,7 +2500,7 @@
       "status": "complete"
     },
     "10242381058318754": {
-      "article_format_version": 20,
+      "article_format_version": 21,
       "completed_at": "2026-09-03T08:13:48+00:00",
       "content_hash": "18733bff0112a125506374de778e5894f279beb04b108d57ab1c93ebc06f1c37",
       "direct_media_keys": [],
@@ -2525,7 +2531,7 @@
       "status": "complete"
     },
     "10242397402007336": {
-      "article_format_version": 20,
+      "article_format_version": 21,
       "completed_at": "2026-09-03T08:13:46+00:00",
       "content_hash": "125ce2187733d35c1025e5f490639e39e97ffc45263d833141afc0b5786c4cb0",
       "direct_media_keys": [],
@@ -6879,7 +6885,7 @@
       "status": "complete"
     },
     "28571442185812777": {
-      "article_format_version": 20,
+      "article_format_version": 21,
       "completed_at": "2026-09-03T22:53:58+00:00",
       "content_hash": "5c3951c7c33f2e677d963d1e4dfaff843ab28cd31f90b6a1b2fec2de21fff6f0",
       "direct_media_keys": [
@@ -6944,7 +6950,7 @@
       "status": "complete"
     },
     "28586040214352974": {
-      "article_format_version": 20,
+      "article_format_version": 21,
       "completed_at": "2026-09-04T01:14:45+00:00",
       "content_hash": "43bc004390357d65134d41e71c1b990d3d889d105c703764271fa207c791c0c8",
       "direct_media_keys": [
@@ -7033,7 +7039,7 @@
       "status": "complete"
     },
     "28588091347481194": {
-      "article_format_version": 20,
+      "article_format_version": 21,
       "completed_at": "2026-09-04T02:28:26+00:00",
       "content_hash": "3fc9b6a2dc6861245b90c2a9e2709069dc69bb8d1ee7bdafe03de401781944bd",
       "direct_media_keys": [
@@ -14057,5 +14063,5 @@
   },
   "schema_version": 1,
   "unread_sources": {},
-  "updated_at": "2026-09-04T06:20:47+00:00"
+  "updated_at": "2026-09-04T08:11:44+00:00"
 }
