@@ -14592,7 +14592,7 @@
           "not_before_timestamp": null,
           "post_id": "4034710566659516",
           "profile_position": 0,
-          "profile_position_scanned_at": "2026-09-05T13:30:59+00:00",
+          "profile_position_scanned_at": "2026-09-05T14:52:23+00:00",
           "status": "complete"
         },
         "https://www.facebook.com/sanghyun.simon.park/posts/pfbid024K47VLccKhFaznhsTbre1Cmkb5cur6gYURQVw16rNJyUV8TfYYxKmvcCui2EKbivl": {
@@ -14730,7 +14730,7 @@
           "not_before_timestamp": null,
           "post_id": "4033168883480351",
           "profile_position": 1,
-          "profile_position_scanned_at": "2026-09-05T13:30:59+00:00",
+          "profile_position_scanned_at": "2026-09-05T14:52:23+00:00",
           "status": "complete"
         },
         "https://www.facebook.com/sanghyun.simon.park/posts/pfbid02XXgsfqsFGK6SK9xhc52LhPPAdnzH4iXe9j8ijTZqmbz15v8ECFZNRmvx2ztzFTJ7l": {
@@ -15179,6 +15179,16 @@
           "post_id": "4022966704500569",
           "status": "complete"
         },
+        "https://www.facebook.com/sanghyun.simon.park/posts/pfbid0ubxhVt5mL6qRzB6kCMhFfbK666Q9M5cnKzBKY44FropAdQvtZi39rMS61CNJNuial": {
+          "completed_at": "2026-09-01T12:33:08+00:00",
+          "discovered_at": "2026-09-05T14:52:23+00:00",
+          "last_error": null,
+          "not_before_timestamp": null,
+          "post_id": "4031168793680360",
+          "profile_position": 2,
+          "profile_position_scanned_at": "2026-09-05T14:52:23+00:00",
+          "status": "complete"
+        },
         "https://www.facebook.com/sanghyun.simon.park/posts/pfbid0un7ho2MW9erXsbBj1qihpjzuJGKv3jx4mymyQfuaVJfpYmWshaYqYfmqLMo3WAHTl": {
           "completed_at": "2026-09-01T12:33:08+00:00",
           "discovered_at": "2026-09-03T14:20:01+00:00",
@@ -15230,9 +15240,9 @@
       },
       "initial_cutoff_timestamp": 1785444708,
       "initialized_at": "2026-08-30T20:51:48+00:00",
-      "last_scan_timestamp": 1788615034,
+      "last_scan_timestamp": 1788619906,
       "name": "Sanghyun Park",
-      "profile_position_scanned_at": "2026-09-05T13:30:59+00:00"
+      "profile_position_scanned_at": "2026-09-05T14:52:23+00:00"
     },
     "https://www.facebook.com/seungjoo.lee.545": {
       "discoveries": {
@@ -16255,5 +16265,5 @@
   },
   "schema_version": 1,
   "unread_sources": {},
-  "updated_at": "2026-09-05T14:52:20+00:00"
+  "updated_at": "2026-09-05T14:54:39+00:00"
 }
