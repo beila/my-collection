@@ -8468,7 +8468,7 @@
     },
     "28607173302239665": {
       "article_format_version": 25,
-      "completed_at": null,
+      "completed_at": "2026-09-05T11:42:58+00:00",
       "content_hash": "e974ca8171344789de345d0434c64045e25b0344b5252752e13dbbc902f870b3",
       "direct_media_keys": [
         "793868510_28607173992239596_9064545277867893410_n.jpg",
@@ -8478,15 +8478,46 @@
       ],
       "facebook_post_id": "28607173302239665",
       "facebook_timestamp": 1788605717,
+      "has_video": false,
       "image_sha256": [
         "f99ea2a1c9893f573a3481b28916015205a525ad5fb8032f90fccd19a26e5f58",
         "53cb41331f1f5508a896490af94ed48d2f24c335ca3225bea55b35bc1a590ff3",
         "979978c3e96c4335bde2ebfff08af67cb034a95f1f0e22c89f7d3d1e1e8d4d60",
         "a6e75e7e3f7e1df8dd1c3fdda42ce78b382be8d7afc966f3366df93a0a45ba83"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2039252851",
+      "instapaper_tags": [
+        "🌱"
+      ],
       "last_error": null,
+      "linked_pages": [],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "f99ea2a1c9893f573a3481b28916015205a525ad5fb8032f90fccd19a26e5f58"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "53cb41331f1f5508a896490af94ed48d2f24c335ca3225bea55b35bc1a590ff3"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "979978c3e96c4335bde2ebfff08af67cb034a95f1f0e22c89f7d3d1e1e8d4d60"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "a6e75e7e3f7e1df8dd1c3fdda42ce78b382be8d7afc966f3366df93a0a45ba83"
+        }
+      ],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "paragraphs": [
         "보석과 영화 배우",
         "# 상품 구성",
@@ -8508,7 +8539,7 @@
       "permalink": "https://www.facebook.com/youngho.youn.5/posts/28607173302239665",
       "profile_url": "https://www.facebook.com/youngho.youn.5",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/youngho.youn.5/28607173302239665.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "3992993854164521": {
       "article_format_version": 8,
@@ -15627,13 +15658,14 @@
           "status": "complete"
         },
         "https://www.facebook.com/youngho.youn.5/posts/pfbid029UqdLJqfaGWcVWn8kwFBXCicGWXsabseMwyjFg6B3F3S8SJ2kqHY5XWS9hqXfpTcl": {
+          "completed_at": "2026-09-05T11:42:58+00:00",
           "discovered_at": "2026-09-05T11:41:12+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "28607173302239665",
           "profile_position": 0,
           "profile_position_scanned_at": "2026-09-05T11:41:12+00:00",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/youngho.youn.5/posts/pfbid02D41TLbNdVhJ3KB3qqAd9j2uizp3o5m16ANnk8vUXTmbWhPHC1pCVMTRyM3GVVjRJl": {
           "completed_at": "2026-09-01T10:33:32+00:00",
@@ -16203,5 +16235,5 @@
   },
   "schema_version": 1,
   "unread_sources": {},
-  "updated_at": "2026-09-05T11:42:07+00:00"
+  "updated_at": "2026-09-05T11:42:58+00:00"
 }
