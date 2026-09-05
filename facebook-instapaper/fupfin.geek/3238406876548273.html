@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="3238406876548273" name="facebook-post-id"/>
+<meta content="e7646998fbe32a67682dbada51aa9803beb9f04cb918685a8e462f653dc8956a" name="facebook-content-hash"/>
+<meta content="28" name="facebook-article-format"/>
+<title>박성철: 클로드 코드에서 한글 깨지는 문제의 원인을 규명하고 해결 방법까지 제시한 최우형님.</title>
+<style>
+    :root { color-scheme: dark; background: #121212; }
+    body { background: #121212; color: #e8eaed;
+            font: 18px/1.55 system-ui, sans-serif; margin: 2rem auto;
+            max-width: 42rem; padding: 0 1rem; }
+    h1 { font-size: 1.35rem; line-height: 1.25; }
+    h2 { font-size: 1.05rem; line-height: 1.35; }
+    h3 { font-size: 1rem; line-height: 1.35; }
+    .byline, time { color: #bdc1c6; font-size: .9rem; }
+    a { color: #8ab4f8; }
+    img { display: block; height: auto; margin: 1.5rem auto; max-width: 100%; }
+    figure { margin: 1.5rem 0; }
+    figure img { margin: 0 auto; }
+    .media-description { color: #bdc1c6; margin: .5rem auto 0;
+                          max-width: 38rem; }
+    .video-thumbnail a { display: block; text-decoration: none; }
+    blockquote.shared-quote { border: 1px solid #8ab4f8; border-radius: 6px;
+                              margin: 1.5rem 0; padding: .75rem 1rem; }
+    .shared-quote p { margin: .5rem 0; }
+    .repost-attribution { color: #bdc1c6; font-size: .9rem; }
+    .photo-notice { border-left: 3px solid #8ab4f8; padding-left: .75rem; }
+    .linked-page { border: 1px solid #3c4043; border-radius: 6px;
+                    margin: 1.5rem 0; padding: 1rem; }
+    .linked-page p { margin: .5rem 0; }
+    .linked-page table { border-collapse: collapse; max-width: 100%; }
+    .linked-page td, .linked-page th { border: 1px solid #5f6368;
+                                        padding: .25rem; }
+    .linked-site, .linked-url { color: #bdc1c6; font-size: .85rem;
+                                overflow-wrap: anywhere; }
+    .source { border-top: 1px solid #3c4043; margin-top: 2rem; padding-top: 1rem; }
+img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
+                      vertical-align: middle; }
+    img.math-display { display: block; height: auto; margin: 1.25rem auto;
+                       max-width: 100%; }
+.youtube-thumbnail { margin: 1.5rem 0; }
+    .youtube-thumbnail a { display: block; text-decoration: none; }
+    .youtube-thumbnail img { margin: 0 auto; }
+  </style>
+</head>
+<body>
+<article class="article-content">
+<h1>박성철: 클로드 코드에서 한글 깨지는 문제의 원인을 규명하고 해결 방법까지 제시한 최우형님.</h1>
+<p class="byline">박성철</p>
+<time datetime="2026-08-13T15:43:50+00:00">2026-08-13T15:43:50+00:00</time>
+<p>클로드 코드에서 한글 깨지는 문제의 원인을 규명하고 해결 방법까지 제시한 최우형님.</p>
+<p>같은 문제를 겪으면서 난 이 생각을 왜 못했을까?</p>
+<p>멋지다.</p>
+<p><a href="https://www.linkedin.com/posts/woohyungchoi_bug-sonnet-5-writes-korean-tool-call-parameters-share-7489171964033425408-kZnF/?utm_source=social_share_send&amp;utm_medium=ios_app&amp;rcm=ACoAAAvab7wBgIlSDoRvIKfx8VR-8gBH8KIRrzQ&amp;utm_campaign=copy_link">https://www.linkedin.com/.../woohyungchoi_bug-sonnet.../...</a></p>
+<p class="source"><a href="https://www.facebook.com/fupfin.geek/posts/3238406876548273">View the original Facebook post</a></p>
+<p class="linked-page-fallback"><strong>Linked page:</strong> https://www.linkedin.com/…/woohyungchoi_bug-sonnet-5-writ…/… (<a href="https://www.linkedin.com/posts/woohyungchoi_bug-sonnet-5-writes-korean-tool-call-parameters-share-7489171964033425408-kZnF/?utm_source=social_share_send&amp;utm_medium=ios_app&amp;rcm=ACoAAAvab7wBgIlSDoRvIKfx8VR-8gBH8KIRrzQ&amp;utm_campaign=copy_link">Open linked page</a>)</p>
+<section class="linked-page">
+<p class="linked-site">www.linkedin.com</p>
+<h2><a href="https://www.linkedin.com/posts/woohyungchoi_bug-sonnet-5-writes-korean-tool-call-parameters-share-7489171964033425408-kZnF/?utm_source=social_share_send&amp;utm_medium=ios_app&amp;rcm=ACoAAAvab7wBgIlSDoRvIKfx8VR-8gBH8KIRrzQ&amp;utm_campaign=copy_link">https://www.linkedin.com/…/woohyungchoi_bug-sonnet-5-writ…/…</a></h2>
+<h3>Linked article</h3>
+<p>📘  Claude Code에서 한글이 "잡모", "로까잉"처럼 깨져 나오는 문제의 원인을 찾아 Anthropic에 공식 보고했습니다. 일주일간 1,200여 런의 통제 실험으로 확인한 내용을 정리해 공유합니다.
+
+증상은 이렇습니다. AskUserQuestion/TodoWrite에서 "로그인"이 "로까잉"으로, "잘못"이 "잡모"로, "완료"가 "완릷"으로 바뀌어 출력됩니다. 
+에러도, 깨진 기호(�)도 없이 유효한 글자로 바뀐다는 게 특징입니다.
+Sonnet 5에서는 매우 빈번하고, Opus 5에서도 종종 등장합니다.
+
+1/ 원인은 의외로 인프라가 아니라 모델의 출력 습관이었습니다. 
+모델이 툴 호출 JSON의 한글을 글자 그대로 쓰지 않고 \uXXXX 유니코드 번호로 "받아쓰기"할 때가 있는데, 이때 번호 한 자리를 틀리는 것입니다. 
+한글 11,172자는 번호가 빈틈없이 연속 배치되어 있어서 한 자리 오기가 에러가 아니라 옆의 멀쩡한 글자가 됩니다. "잘못"(\uc798\ubabb)을 쓰려다 \uc7a1\ubaa8로 틀리면 그대로 "잡모"가 되는 식입니다.
+
+2/ 재현 시험으로 이슈를 확증했습니다. 
+같은 과제를 두 그룹으로 나눠 한쪽은 번호 표기를 유도하고 다른 쪽은 글자 그대로 쓰게 했더니, 번호 표기를 실제로 쓴 응답은 45건 중 45건(100%)이 손상됐고 글자 그대로 쓴 응답은 60건 중 1건(1.7%)에 그쳤습니다. 
+서로 다른 AWS 계정 두 개에서 Claude Enterprise , Claude code on Bedrock으로 동일하게 재현되어 특정 인프라의 문제가 아님도 확인했습니다. 
+조사 초기의 두 가설, 즉 "대화가 길어지면 깨진다"(컨텍스트 사용률 0~70,80%)와 "Bedrock에서만 깨진다"(1P/3P 유의차 없음)는 모두 아니었습니다.
+
+3/ 해결은 지시문 한 줄입니다. 
+<a href="https://www.linkedin.com/redir/redirect?url=http%3A%2F%2FCLAUDE%2Emd&amp;urlhash=onXc&amp;trk=public_post-text">CLAUDE.md</a> 또는 Claude 메모리에 "툴 호출 파라미터(JSON)의 한글 등 비ASCII 문자열은 항상 리터럴 UTF-8로 작성하고, \uXXXX 유니코드 이스케이프로 표기하지 않는다"를 추가하면 됩니다. 번호 받아쓰기 자체를 차단해 오기 기회를 없애는 원리이고, 적용 후 빈번한 증상이 완전히 사라졌습니다.
+
+솔직히 한마디 보태면, 이해하기 어려운 대목이 있습니다. 
+한국은 여러 지표에서 Claude Code 의 전 세계 최상위권으로 꼽히는 유료 사용자 시장입니다. 그런데 툴 호출에 한글을 넣으면 사실상 매번 깨지는 수준의 결함이, Sonnet 5에 이어 Opus 5까지 연달아 출시되는 동안 걸러지지 않았습니다. 
+영어 벤치마크 점수는 소수점까지 경쟁하면서, 최상위 과금 시장의 문자 체계가 제품 출시에서 부터 지금까지 깨지는 건 릴리스 QA 항목에 없었다는 뜻입니다. CJK 출력 무결성은 있으면 좋은 것이 아니라 출시 게이트이어야 합니다. 이번 이슈가 그 회귀 테스트를 추가하는 계기가 되길 바랍니다. 최근 행보는 점점 이해가 안가네요.
+
+재현 실험 데이터와 함께 Anthropic Claude Code 저장소에 공식 이슈로 등록해 두었습니다 ( <a href="https://www.linkedin.com/redir/redirect?url=https%3A%2F%2Flnkd%2Ein%2Fgqtn2x4W&amp;urlhash=JqGI&amp;trk=public_post-text">https://lnkd.in/gqtn2x4W</a> ). 
+같은 증상을 겪으셨다면 이슈에 👍나 사례 댓글을 남겨주세요. 우선순위 반영에 직접적인 도움이 됩니다. 한국어뿐 아니라 일본어, 중국어 등 CJK 전반에 해당되는 패턴이니, 해당 언어로 Claude Code를 쓰는 팀이라면 지시문 한 줄부터 적용해 보시길 권합니다.
+
+<a href="https://www.linkedin.com/signup/cold-join?session_redirect=https%3A%2F%2Fwww.linkedin.com%2Ffeed%2Fhashtag%2Fclaudecode&amp;trk=public_post-text">#ClaudeCode</a> <a href="https://www.linkedin.com/signup/cold-join?session_redirect=https%3A%2F%2Fwww.linkedin.com%2Ffeed%2Fhashtag%2Fanthropic&amp;trk=public_post-text">#Anthropic</a> <a href="https://www.linkedin.com/signup/cold-join?session_redirect=https%3A%2F%2Fwww.linkedin.com%2Ffeed%2Fhashtag%2Famazonbedrock&amp;trk=public_post-text">#AmazonBedrock</a> <a href="https://www.linkedin.com/signup/cold-join?session_redirect=https%3A%2F%2Fwww.linkedin.com%2Ffeed%2Fhashtag%2Fgenai&amp;trk=public_post-text">#GenAI</a> <a href="https://www.linkedin.com/signup/cold-join?session_redirect=https%3A%2F%2Fwww.linkedin.com%2Ffeed%2Fhashtag%2Fllm&amp;trk=public_post-text">#LLM</a> <a href="https://www.linkedin.com/signup/cold-join?session_redirect=https%3A%2F%2Fwww.linkedin.com%2Ffeed%2Fhashtag%2Fclaudesonnet5&amp;trk=public_post-text">#ClaudeSonnet5</a> <a href="https://www.linkedin.com/signup/cold-join?session_redirect=https%3A%2F%2Fwww.linkedin.com%2Ffeed%2Fhashtag%2Faiengineering&amp;trk=public_post-text">#AIEngineering</a></p>
+<p class="linked-url"><a href="https://www.linkedin.com/posts/woohyungchoi_bug-sonnet-5-writes-korean-tool-call-parameters-share-7489171964033425408-kZnF/?utm_source=social_share_send&amp;utm_medium=ios_app&amp;rcm=ACoAAAvab7wBgIlSDoRvIKfx8VR-8gBH8KIRrzQ&amp;utm_campaign=copy_link">https://www.linkedin.com/posts/woohyungchoi_bug-sonnet-5-writes-korean-tool-call-parameters-share-7489171964033425408-kZnF/?utm_source=social_share_send&amp;utm_medium=ios_app&amp;rcm=ACoAAAvab7wBgIlSDoRvIKfx8VR-8gBH8KIRrzQ&amp;utm_campaign=copy_link</a></p>
+</section>
+<p class="source"><a href="https://www.facebook.com/fupfin.geek/posts/3238406876548273">View the original Facebook post</a></p>
+</article>
+</body>
+</html>
