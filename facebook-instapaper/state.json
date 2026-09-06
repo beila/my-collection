@@ -5309,6 +5309,37 @@
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/seattleyangpa/1550251666465928.html",
       "status": "published_pending"
     },
+    "1550433993114362": {
+      "article_format_version": 31,
+      "completed_at": null,
+      "content_hash": "adf929cee6e2e45978931c047f4f8ee644239fe55591fbe113885de4b7c22024",
+      "direct_media_keys": [],
+      "facebook_post_id": "1550433993114362",
+      "facebook_timestamp": 1785275163,
+      "image_sha256": [],
+      "instapaper_bookmark_id": null,
+      "last_error": null,
+      "omitted_photo_count": 0,
+      "paragraphs": [
+        "이거슨 대강 민주당 + 좌파 욕.",
+        "1970년대의 영국 코미디 영화 몬티 파이썬의 기독교 풍자 영화에서 나온 얘기다.",
+        "젊고 혈기가 넘치는 유대인 청년 브라이언은 무자비하고 불의한 로마의 지배에 항거하는 이들과 함께하기 위해 묻는다.",
+        "브라이언: \"아, 혹시 당신들이... 유대 인민 전선...인가요?\"",
+        "당원들: \"뭐라고?? 유대 인민 전선?? 우리는 유대 민중 전선이야!!! 유대 인민 전선이라니 칵퉤!! 그딴 배신자들!! 분열주의자들!!\"",
+        "그렇다. 이들은 로마인들보다도 다른 노선의 혁명조직을 더 싫어했다. 원래 그렇다. 멀리 있는 주적 북한보다 옆동네 진상들이 더 미운 법이다.",
+        "1970년대에 사소한 이념차이나 지도권 문제로 끝없이 분열하는 영국 좌파들의 소규모 정파및 혁명단체를 비꼬는 농담이었다던데, 민주당 얘기 들을 때마다 생각난다. 같은 진영인듯 한 이들이 더 격렬하게 서로 공격하고 싸움. 반대편보다 더 미워함.",
+        "원문:",
+        "Brian: \"Excuse me. Are you the Judean People's Front?\"",
+        "Reg: \"Fuck off! 'Judean People's Front'... We're the People's Front of Judea! 'Judean People's Front' (칵퉤!).\"",
+        "Francis: \"Wankers.\"",
+        "Reg: \"And the Judean People's Liberation Front. They're over there.\" (Points to a single guy standing alone)",
+        "Split/People: \"Splitters!\""
+      ],
+      "permalink": "https://www.facebook.com/seattleyangpa/posts/1550433993114362",
+      "profile_url": "https://www.facebook.com/seattleyangpa",
+      "published_url": "https://beila.github.io/my-collection/facebook-instapaper/seattleyangpa/1550433993114362.html",
+      "status": "published_pending"
+    },
     "1551294183028343": {
       "article_format_version": 31,
       "completed_at": null,
@@ -5878,7 +5909,7 @@
       "permalink": "https://www.facebook.com/seattleyangpa/posts/1776868489265297",
       "profile_url": "https://www.facebook.com/seattleyangpa",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/seattleyangpa/1776868489265297.html",
-      "status": "published_pending"
+      "status": "skipped_initial"
     },
     "28168743166082683": {
       "article_format_version": 15,
@@ -16768,21 +16799,22 @@
     "https://www.facebook.com/seattleyangpa": {
       "discoveries": {
         "https://www.facebook.com/seattleyangpa/posts/1793298800955599": {
+          "completed_at": "2026-09-06T11:46:04+00:00",
           "discovered_at": "2026-09-06T08:28:29+00:00",
-          "last_error": "Authenticated Facebook page has no post text or images: https://www.facebook.com/seattleyangpa/posts/1793298800955599",
+          "last_error": null,
           "not_before_timestamp": null,
           "profile_position": 1,
           "profile_position_scanned_at": "2026-09-06T11:31:18+00:00",
-          "status": "pending"
+          "status": "skipped_initial"
         },
         "https://www.facebook.com/seattleyangpa/posts/pfbid02Mad8ftQX7n4hjn7ttZcR3CqZpcejjPvxgRaMmvi6m9DVnAg2jig9qBd6WQYt7QqHl": {
           "completed_at": "2026-09-06T08:28:30+00:00",
           "discovered_at": "2026-09-06T08:28:29+00:00",
           "last_error": null,
-          "not_before_timestamp": 1786004909,
+          "not_before_timestamp": null,
           "post_id": "1550952389729189",
-          "profile_position": 10,
-          "profile_position_scanned_at": "2026-09-06T11:31:18+00:00",
+          "profile_position": 8,
+          "profile_position_scanned_at": "2026-09-06T11:46:04+00:00",
           "status": "skipped_initial"
         },
         "https://www.facebook.com/seattleyangpa/posts/pfbid02R4mjgG4TNM2BWKpTpCSgQFTPYYvu1Qx7N5eji5SFj5AefzvjnNERSAhx1vQ7JbnCl": {
@@ -16790,8 +16822,8 @@
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "1562184405272654",
-          "profile_position": 4,
-          "profile_position_scanned_at": "2026-09-06T11:31:18+00:00",
+          "profile_position": 2,
+          "profile_position_scanned_at": "2026-09-06T11:46:04+00:00",
           "status": "published_pending"
         },
         "https://www.facebook.com/seattleyangpa/posts/pfbid02gjj9Kq5aM8bjsgx2DouGEsuaZ5pMG1azreohXocNSqm2QN4mx3X3Fek4wCTzyNkzl": {
@@ -16799,8 +16831,8 @@
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "1553820346109060",
-          "profile_position": 7,
-          "profile_position_scanned_at": "2026-09-06T11:31:18+00:00",
+          "profile_position": 5,
+          "profile_position_scanned_at": "2026-09-06T11:46:04+00:00",
           "status": "published_pending"
         },
         "https://www.facebook.com/seattleyangpa/posts/pfbid02uTDuQSoddX5t82kNg2pZV4UUd4G1Tad2chA9UnnPFEDefZPZShLiyPghzcpX6Fhpl": {
@@ -16808,8 +16840,8 @@
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "1567358088088619",
-          "profile_position": 3,
-          "profile_position_scanned_at": "2026-09-06T11:31:18+00:00",
+          "profile_position": 1,
+          "profile_position_scanned_at": "2026-09-06T11:46:04+00:00",
           "status": "published_pending"
         },
         "https://www.facebook.com/seattleyangpa/posts/pfbid02vokBeATb8EWckjE581ZgBAmVmfrJQDfEMhaNgHEJmbEopaDTP365yDkMx7hLRjM3l": {
@@ -16817,8 +16849,8 @@
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "1568439501313811",
-          "profile_position": 2,
-          "profile_position_scanned_at": "2026-09-06T11:31:18+00:00",
+          "profile_position": 0,
+          "profile_position_scanned_at": "2026-09-06T11:46:04+00:00",
           "status": "published_pending"
         },
         "https://www.facebook.com/seattleyangpa/posts/pfbid034a8NKxz9iudpfsjhWJkUtWkEQDf836N1NzWG3Woov1Lm2JyMLPKD1mDXFZhoWjril": {
@@ -16826,8 +16858,8 @@
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "1556141549210273",
-          "profile_position": 6,
-          "profile_position_scanned_at": "2026-09-06T11:31:18+00:00",
+          "profile_position": 4,
+          "profile_position_scanned_at": "2026-09-06T11:46:04+00:00",
           "status": "published_pending"
         },
         "https://www.facebook.com/seattleyangpa/posts/pfbid0BC19pngHomyuquUMdn9mNupozJoxhg6ayUv8jbfimadK6qH7rEj5mptQhcfjDxPul": {
@@ -16835,18 +16867,19 @@
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "1557029802454781",
-          "profile_position": 5,
-          "profile_position_scanned_at": "2026-09-06T11:31:18+00:00",
+          "profile_position": 3,
+          "profile_position_scanned_at": "2026-09-06T11:46:04+00:00",
           "status": "published_pending"
         },
         "https://www.facebook.com/seattleyangpa/posts/pfbid0FYAnikMuQsQW42mci6yNf1C5skPjsFzfiH5K4QuNFhLcgwfbap6YkgY31n81943Ql": {
+          "completed_at": "2026-09-06T11:46:04+00:00",
           "discovered_at": "2026-09-06T08:28:29+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "1776868489265297",
           "profile_position": 0,
           "profile_position_scanned_at": "2026-09-06T11:31:18+00:00",
-          "status": "published_pending"
+          "status": "skipped_initial"
         },
         "https://www.facebook.com/seattleyangpa/posts/pfbid0MhHZ4EhqLgWoiLyEBZ9QjwGZ5TkVTPKUK6ggvHcoXfKyuR61yQnD5DovZgPF1hUQl": {
           "discovered_at": "2026-09-06T08:28:29+00:00",
@@ -16857,13 +16890,22 @@
           "profile_position_scanned_at": "2026-09-06T09:58:20+00:00",
           "status": "published_pending"
         },
+        "https://www.facebook.com/seattleyangpa/posts/pfbid0VwByeM4hiyDWuda4GZSq1eCk9HxZrs526RpgMAH1UwY727pEnntQUFeT8GkLcefYl": {
+          "discovered_at": "2026-09-06T11:46:04+00:00",
+          "last_error": null,
+          "not_before_timestamp": null,
+          "post_id": "1550433993114362",
+          "profile_position": 9,
+          "profile_position_scanned_at": "2026-09-06T11:46:04+00:00",
+          "status": "published_pending"
+        },
         "https://www.facebook.com/seattleyangpa/posts/pfbid0iyuaXsGCEheDvHJPGa7qaEiHZ8RJAYQoo2kmBQymhuZqTXqNugdcAr7Jpyw7VtyCl": {
           "discovered_at": "2026-09-06T08:28:29+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "1552347836256311",
-          "profile_position": 8,
-          "profile_position_scanned_at": "2026-09-06T11:31:18+00:00",
+          "profile_position": 6,
+          "profile_position_scanned_at": "2026-09-06T11:46:04+00:00",
           "status": "published_pending"
         },
         "https://www.facebook.com/seattleyangpa/posts/pfbid0xQnyG4PjXfKk5f6dswiXDQs6wS4XFLo9mhTCTRQor4WZLzCS8pPi5fywShjNcS5jl": {
@@ -16880,16 +16922,16 @@
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "1551294183028343",
-          "profile_position": 9,
-          "profile_position_scanned_at": "2026-09-06T11:31:18+00:00",
+          "profile_position": 7,
+          "profile_position_scanned_at": "2026-09-06T11:46:04+00:00",
           "status": "published_pending"
         }
       },
       "initial_cutoff_timestamp": 1786004909,
       "initialized_at": "2026-09-06T08:28:29+00:00",
-      "last_scan_timestamp": 1788694267,
+      "last_scan_timestamp": 1788695151,
       "name": "Yangpa",
-      "profile_position_scanned_at": "2026-09-06T11:31:18+00:00"
+      "profile_position_scanned_at": "2026-09-06T11:46:04+00:00"
     },
     "https://www.facebook.com/seungjoo.lee.545": {
       "discoveries": {
@@ -17962,5 +18004,5 @@
   },
   "schema_version": 1,
   "unread_sources": {},
-  "updated_at": "2026-09-06T11:36:02+00:00"
+  "updated_at": "2026-09-06T11:50:42+00:00"
 }
