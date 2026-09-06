@@ -5276,7 +5276,7 @@
     },
     "1550251666465928": {
       "article_format_version": 31,
-      "completed_at": null,
+      "completed_at": "2026-09-06T11:51:38+00:00",
       "content_hash": "f343afc4629222b4737583ecdba6b240f8969f8a8693a17ebd9fca285694d10a",
       "direct_media_keys": [
         "759164349_1550250776466017_2521368132750686515_n.webp",
@@ -5287,6 +5287,7 @@
       ],
       "facebook_post_id": "1550251666465928",
       "facebook_timestamp": 1785256096,
+      "has_video": false,
       "image_sha256": [
         "c832b3dc5c1614589403e6d952f5c7829531ae68711931f0719b7b0f81e407bc",
         "011c08d92f40645b9dd66cbdfad452e5b8661738ba34d55b17865a2011c751e5",
@@ -5295,9 +5296,47 @@
         "edcfe09bc8c1454de1a57539f51829b0f2085b2a0752ca606b42037e8d1696dd",
         "55a7befa8ee4bf5be76dc50e9550de421ef1608d7d801b292ded48401688779a"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2039445953",
+      "instapaper_tags": [],
       "last_error": null,
+      "linked_pages": [],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "c832b3dc5c1614589403e6d952f5c7829531ae68711931f0719b7b0f81e407bc"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "011c08d92f40645b9dd66cbdfad452e5b8661738ba34d55b17865a2011c751e5"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "78dd29942e6e710b8d3981f7c2b30758c047a254b4c3cdca5f7c33a82f0d127d"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "6521898ebdbf46c61bd2fa4d394e83d38bdb1e3b71d7a61bfea6b1e5ab4a9c70"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "edcfe09bc8c1454de1a57539f51829b0f2085b2a0752ca606b42037e8d1696dd"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "55a7befa8ee4bf5be76dc50e9550de421ef1608d7d801b292ded48401688779a"
+        }
+      ],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "paragraphs": [
         "요즘 쓰레드에 자주 들락거리는데, 정말 우파는 댓글 알바 고용한다는 말 맞는 것 같아요. 뭔가 지령 내려오면 비슷한 내용으로 새로운 프로파일 만들어서 마구 돌려요.",
         "이재명 대통령에게 딱 하나 부탁한다면, 삼전 하닉 주가나 부동산 이런 거 안 바라고, 이 댓글 부대들 어케 처리해주셨으면 합니다. 얘네들만 없어져도 온라인 혐오 반은 사라지지 않을까 예상합니다.",
@@ -5307,19 +5346,27 @@
       "permalink": "https://www.facebook.com/seattleyangpa/posts/1550251666465928",
       "profile_url": "https://www.facebook.com/seattleyangpa",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/seattleyangpa/1550251666465928.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "1550433993114362": {
       "article_format_version": 31,
-      "completed_at": null,
+      "completed_at": "2026-09-06T11:51:40+00:00",
       "content_hash": "adf929cee6e2e45978931c047f4f8ee644239fe55591fbe113885de4b7c22024",
       "direct_media_keys": [],
       "facebook_post_id": "1550433993114362",
       "facebook_timestamp": 1785275163,
+      "has_video": false,
       "image_sha256": [],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2039445955",
+      "instapaper_tags": [],
       "last_error": null,
+      "linked_pages": [],
+      "media": [],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "paragraphs": [
         "이거슨 대강 민주당 + 좌파 욕.",
         "1970년대의 영국 코미디 영화 몬티 파이썬의 기독교 풍자 영화에서 나온 얘기다.",
@@ -5338,23 +5385,37 @@
       "permalink": "https://www.facebook.com/seattleyangpa/posts/1550433993114362",
       "profile_url": "https://www.facebook.com/seattleyangpa",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/seattleyangpa/1550433993114362.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "1551294183028343": {
       "article_format_version": 31,
-      "completed_at": null,
+      "completed_at": "2026-09-06T11:51:42+00:00",
       "content_hash": "1a3d1bfa6d1341f35a57e9e6cca092f7c610c06d1c288232e11f43390e59c351",
       "direct_media_keys": [
         "758943864_1551294103028351_2849533599315781775_n.jpg"
       ],
       "facebook_post_id": "1551294183028343",
       "facebook_timestamp": 1785358801,
+      "has_video": false,
       "image_sha256": [
         "76a2de9a4918b696cc3e80d8c006d1a35c86ed873460f3033baf03bcb3e08561"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2039445963",
+      "instapaper_tags": [],
       "last_error": null,
+      "linked_pages": [],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "76a2de9a4918b696cc3e80d8c006d1a35c86ed873460f3033baf03bcb3e08561"
+        }
+      ],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "paragraphs": [
         "제가 이 티셔츠 입고 나가서 동안이시네요 라는 칭찬을 이백 서른 다섯번 들었습니다.",
         "(주로 인터넷이 얼마나 오래 됐는지 모르는 사람들한테서 ㅋㅋㅋㅋ)",
@@ -5363,19 +5424,27 @@
       "permalink": "https://www.facebook.com/seattleyangpa/posts/1551294183028343",
       "profile_url": "https://www.facebook.com/seattleyangpa",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/seattleyangpa/1551294183028343.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "1552347836256311": {
       "article_format_version": 31,
-      "completed_at": null,
+      "completed_at": "2026-09-06T11:51:44+00:00",
       "content_hash": "fb3b80296592168335ca315f6513e7967ed71af52786de4a41f727d694efe455",
       "direct_media_keys": [],
       "facebook_post_id": "1552347836256311",
       "facebook_timestamp": 1785467568,
+      "has_video": false,
       "image_sha256": [],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2039445966",
+      "instapaper_tags": [],
       "last_error": null,
+      "linked_pages": [],
+      "media": [],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "paragraphs": [
         "어제 오늘 월스트리트에서 영화 한 편 찍었다고 합니다. 주인공은 20대의 독일계 수퍼 천재 갑부. 전 OpenAI 슈퍼얼라인먼트 팀 연구원이자 스물 네살의 나이에 2027년 AGI 도달을 예견한 165페이지짜리 에세이 Situational Awareness 로 세계최고천재로 등극한 레오폴트 아셴브레너입니다.",
         "무슨 판타지 웹소설 주인공 같은 레오폴트는 곧 투자로 이름을 더 날리게 되는데요, 자신의 에세이에서 반도체·메모리·데이터센터·전력 수요를 크게 늘린다고 예측했던대로, 약 200억 달러 (30조 원+) 규모의 헤지펀드를 설립해 직접 굴리기 시작합니다. 수익율은 수천 %, 초반에는 그야말로 백배로 돈을 뻥튀기하는 기계였다고 합니다. 이런 천재성에 월가는 열광했겠지요.",
@@ -5390,7 +5459,7 @@
       "permalink": "https://www.facebook.com/seattleyangpa/posts/1552347836256311",
       "profile_url": "https://www.facebook.com/seattleyangpa",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/seattleyangpa/1552347836256311.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "1553590180101205": {
       "article_format_version": 2,
@@ -5417,7 +5486,7 @@
     },
     "1553820346109060": {
       "article_format_version": 31,
-      "completed_at": null,
+      "completed_at": "2026-09-06T11:51:46+00:00",
       "content_hash": "8760109244ffa291acfa81fe9817c6c9bd935a87f1520e171d7654218cbc3509",
       "direct_media_keys": [
         "761819108_1553819956109099_328491123657505755_n.jpg",
@@ -5425,13 +5494,32 @@
       ],
       "facebook_post_id": "1553820346109060",
       "facebook_timestamp": 1785614966,
+      "has_video": false,
       "image_sha256": [
         "6b327f6d9f138a042dd6b431b57283f8603173b0a633aadd35a6046f7bc131ac",
         "fbcad88f65cc09d0551cb78ee9ae30e53f13303247904e76fff37ab387d88586"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2039445968",
+      "instapaper_tags": [],
       "last_error": null,
+      "linked_pages": [],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "6b327f6d9f138a042dd6b431b57283f8603173b0a633aadd35a6046f7bc131ac"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "fbcad88f65cc09d0551cb78ee9ae30e53f13303247904e76fff37ab387d88586"
+        }
+      ],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "paragraphs": [
         "이정도면 진짜 병임.",
         "베트남의 북남 고속철도를 북남 고속철도라고 했다고 종북이라는 스레드 우파분",
@@ -5440,23 +5528,37 @@
       "permalink": "https://www.facebook.com/seattleyangpa/posts/1553820346109060",
       "profile_url": "https://www.facebook.com/seattleyangpa",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/seattleyangpa/1553820346109060.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "1556141549210273": {
       "article_format_version": 31,
-      "completed_at": null,
+      "completed_at": "2026-09-06T11:51:48+00:00",
       "content_hash": "5d7352220dc13977bba05c1ba5c8dd0dc7493dc8ebc544b002c5c2c80705156a",
       "direct_media_keys": [
         "763028724_1556141059210322_8255272120443789870_n.jpg"
       ],
       "facebook_post_id": "1556141549210273",
       "facebook_timestamp": 1785853885,
+      "has_video": false,
       "image_sha256": [
         "e129d99259fb25d142e0deba8f074082fffe6063cb062cfc32d292b907537f78"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2039445971",
+      "instapaper_tags": [],
       "last_error": null,
+      "linked_pages": [],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "e129d99259fb25d142e0deba8f074082fffe6063cb062cfc32d292b907537f78"
+        }
+      ],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "paragraphs": [
         "투썸 홧팅!",
         "투썸 5∼7월 누적 결제액, 스타벅스보다 약 300억원 많아",
@@ -5465,23 +5567,37 @@
       "permalink": "https://www.facebook.com/seattleyangpa/posts/1556141549210273",
       "profile_url": "https://www.facebook.com/seattleyangpa",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/seattleyangpa/1556141549210273.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "1557029802454781": {
       "article_format_version": 31,
-      "completed_at": null,
+      "completed_at": "2026-09-06T11:51:50+00:00",
       "content_hash": "bc1177655024116311e9f27f8ddc937e061c8f3cd7a35252b6c43da6488d50da",
       "direct_media_keys": [
         "764006577_1557028539121574_121062550415341065_n.webp"
       ],
       "facebook_post_id": "1557029802454781",
       "facebook_timestamp": 1785942503,
+      "has_video": false,
       "image_sha256": [
         "5ad2a647b15e13bccc73d25c842ccdce49c066d2304eacc3d2ac2ca8c932eae2"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2039445975",
+      "instapaper_tags": [],
       "last_error": null,
+      "linked_pages": [],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "5ad2a647b15e13bccc73d25c842ccdce49c066d2304eacc3d2ac2ca8c932eae2"
+        }
+      ],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "paragraphs": [
         "민주당도 댓글 부대 돌릴거라는 얘기 많았는데 그럴지도 모른다고 생각하게 한 스레드 포스팅.",
         "진짜 국힘 지지하는 놈이 이딴 걸 올릴리가 없잖아?? 우파 욕하는 여론 조성하려고 돈 제대로 받지 않은 이상 지가 인간이라면 저딴 말을 할 수 없지 않을까??"
@@ -5489,11 +5605,11 @@
       "permalink": "https://www.facebook.com/seattleyangpa/posts/1557029802454781",
       "profile_url": "https://www.facebook.com/seattleyangpa",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/seattleyangpa/1557029802454781.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "1562184405272654": {
       "article_format_version": 31,
-      "completed_at": null,
+      "completed_at": "2026-09-06T11:51:36+00:00",
       "content_hash": "2929b6999d5a61aa26833d701f40fef639b4c552626097c7e8852797d066d53c",
       "direct_media_keys": [
         "772969530_1562183445272750_6414517122634171325_n.jpg",
@@ -5501,13 +5617,32 @@
       ],
       "facebook_post_id": "1562184405272654",
       "facebook_timestamp": 1786472763,
+      "has_video": false,
       "image_sha256": [
         "ecdd48abff574943184e62d3403ccde8708f40aed9678a79e33bc1ca2447163d",
         "111f7dfdb44b56794ab4567d3e3a606f9719946df7fb18d2ab47d4ce966c0c46"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2039445944",
+      "instapaper_tags": [],
       "last_error": null,
+      "linked_pages": [],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "ecdd48abff574943184e62d3403ccde8708f40aed9678a79e33bc1ca2447163d"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "111f7dfdb44b56794ab4567d3e3a606f9719946df7fb18d2ab47d4ce966c0c46"
+        }
+      ],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "paragraphs": [
         "기자님 이렇게 쓸 거면 그냥 그래프를 그리지 말아요...",
         "스타벅스 응원하고 싶은 거 알겠고 여자, 특히 어린 여자들 무시하고 싶은 것도 알겠는데 그래도 이건 왜곡 수준이..",
@@ -5517,19 +5652,27 @@
       "permalink": "https://www.facebook.com/seattleyangpa/posts/1562184405272654",
       "profile_url": "https://www.facebook.com/seattleyangpa",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/seattleyangpa/1562184405272654.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "1567358088088619": {
       "article_format_version": 31,
-      "completed_at": null,
+      "completed_at": "2026-09-06T11:51:52+00:00",
       "content_hash": "b7b976c77df073c8145c10c37b19a8f9011962ad2728baa6052cdb84d44a9b63",
       "direct_media_keys": [],
       "facebook_post_id": "1567358088088619",
       "facebook_timestamp": 1786995458,
+      "has_video": false,
       "image_sha256": [],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2039445982",
+      "instapaper_tags": [],
       "last_error": null,
+      "linked_pages": [],
+      "media": [],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "paragraphs": [
         "BTS 가 크리스 브라운 콘서트에 간 것으로 팬덤이 뒤집어졌음. 어쩌다가 간 거면 흐린눈 하고 넘어가주려 노력했을 테지만 크리스 브라운하고 사진까지 같이 찍고 올려서임.",
         "여성들이 거의 대부분인 팬덤에서 크리스 브라운은 이름만으로 구토 유발가능한, 가정폭력의 마스코트라 할 수 있는 인간임. 나이 있는 사람들에게는 특히 더. 리한나 최고 인기 시절에 크리스 브라운에게 맞고 얻어맞은 얼굴이 뉴스를 탔어서... 그 후에도 크리스 브라운은 강간 혐의 등 여러 사건이 더 있었던 것 같음.",
@@ -5538,19 +5681,27 @@
       "permalink": "https://www.facebook.com/seattleyangpa/posts/1567358088088619",
       "profile_url": "https://www.facebook.com/seattleyangpa",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/seattleyangpa/1567358088088619.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "1568439501313811": {
       "article_format_version": 31,
-      "completed_at": null,
+      "completed_at": "2026-09-06T11:51:54+00:00",
       "content_hash": "50675008729bdfd650275e20267ff4276b3a3c05e606b5ea12efe04d683428f0",
       "direct_media_keys": [],
       "facebook_post_id": "1568439501313811",
       "facebook_timestamp": 1787110019,
+      "has_video": false,
       "image_sha256": [],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2039445986",
+      "instapaper_tags": [],
       "last_error": null,
+      "linked_pages": [],
+      "media": [],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "paragraphs": [
         "경향 칼럼 나갔습니다 - 할머니 취미의 귀환",
         "90년대에 온 동네 먼지를 다 쓸고 다닌다며 어머니의 등짝스매싱을 유도했던 긴 통바지 유행이 다시 돌아왔다. 그런데 스키니진이 천하를 평정한 후에야 태어난 젠Z 들이 통바지 패션 뿐만이 아니라 그 시대의 아날로그 감성을 그리워한다는 기사를 보았다. 무려 \"노스탤지어\"를 느낀다고 한다. 뉴욕타임즈에서는 \"젠Z 들의 노스탤지어\"를 디지털 시대 이전의 단순한 삶과 Y2K 미학, 그리고 자신이 직접 경험하지 않은 시대를 향한 ‘빌려온 향수’에 대한 강한 그리움이라 설명했다.",
@@ -5563,7 +5714,7 @@
       "permalink": "https://www.facebook.com/seattleyangpa/posts/1568439501313811",
       "profile_url": "https://www.facebook.com/seattleyangpa",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/seattleyangpa/1568439501313811.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "1584715370322019": {
       "article_format_version": 2,
@@ -16818,58 +16969,64 @@
           "status": "skipped_initial"
         },
         "https://www.facebook.com/seattleyangpa/posts/pfbid02R4mjgG4TNM2BWKpTpCSgQFTPYYvu1Qx7N5eji5SFj5AefzvjnNERSAhx1vQ7JbnCl": {
+          "completed_at": "2026-09-06T11:51:36+00:00",
           "discovered_at": "2026-09-06T10:43:32+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "1562184405272654",
           "profile_position": 2,
           "profile_position_scanned_at": "2026-09-06T11:46:04+00:00",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/seattleyangpa/posts/pfbid02gjj9Kq5aM8bjsgx2DouGEsuaZ5pMG1azreohXocNSqm2QN4mx3X3Fek4wCTzyNkzl": {
+          "completed_at": "2026-09-06T11:51:46+00:00",
           "discovered_at": "2026-09-06T08:28:29+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "1553820346109060",
           "profile_position": 5,
           "profile_position_scanned_at": "2026-09-06T11:46:04+00:00",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/seattleyangpa/posts/pfbid02uTDuQSoddX5t82kNg2pZV4UUd4G1Tad2chA9UnnPFEDefZPZShLiyPghzcpX6Fhpl": {
+          "completed_at": "2026-09-06T11:51:52+00:00",
           "discovered_at": "2026-09-06T08:28:29+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "1567358088088619",
           "profile_position": 1,
           "profile_position_scanned_at": "2026-09-06T11:46:04+00:00",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/seattleyangpa/posts/pfbid02vokBeATb8EWckjE581ZgBAmVmfrJQDfEMhaNgHEJmbEopaDTP365yDkMx7hLRjM3l": {
+          "completed_at": "2026-09-06T11:51:54+00:00",
           "discovered_at": "2026-09-06T08:28:29+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "1568439501313811",
           "profile_position": 0,
           "profile_position_scanned_at": "2026-09-06T11:46:04+00:00",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/seattleyangpa/posts/pfbid034a8NKxz9iudpfsjhWJkUtWkEQDf836N1NzWG3Woov1Lm2JyMLPKD1mDXFZhoWjril": {
+          "completed_at": "2026-09-06T11:51:48+00:00",
           "discovered_at": "2026-09-06T08:28:29+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "1556141549210273",
           "profile_position": 4,
           "profile_position_scanned_at": "2026-09-06T11:46:04+00:00",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/seattleyangpa/posts/pfbid0BC19pngHomyuquUMdn9mNupozJoxhg6ayUv8jbfimadK6qH7rEj5mptQhcfjDxPul": {
+          "completed_at": "2026-09-06T11:51:50+00:00",
           "discovered_at": "2026-09-06T08:28:29+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "1557029802454781",
           "profile_position": 3,
           "profile_position_scanned_at": "2026-09-06T11:46:04+00:00",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/seattleyangpa/posts/pfbid0FYAnikMuQsQW42mci6yNf1C5skPjsFzfiH5K4QuNFhLcgwfbap6YkgY31n81943Ql": {
           "completed_at": "2026-09-06T11:46:04+00:00",
@@ -16882,49 +17039,54 @@
           "status": "skipped_initial"
         },
         "https://www.facebook.com/seattleyangpa/posts/pfbid0MhHZ4EhqLgWoiLyEBZ9QjwGZ5TkVTPKUK6ggvHcoXfKyuR61yQnD5DovZgPF1hUQl": {
+          "completed_at": "2026-09-06T11:51:36+00:00",
           "discovered_at": "2026-09-06T08:28:29+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "1562184405272654",
           "profile_position": 4,
           "profile_position_scanned_at": "2026-09-06T09:58:20+00:00",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/seattleyangpa/posts/pfbid0VwByeM4hiyDWuda4GZSq1eCk9HxZrs526RpgMAH1UwY727pEnntQUFeT8GkLcefYl": {
+          "completed_at": "2026-09-06T11:51:40+00:00",
           "discovered_at": "2026-09-06T11:46:04+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "1550433993114362",
           "profile_position": 9,
           "profile_position_scanned_at": "2026-09-06T11:46:04+00:00",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/seattleyangpa/posts/pfbid0iyuaXsGCEheDvHJPGa7qaEiHZ8RJAYQoo2kmBQymhuZqTXqNugdcAr7Jpyw7VtyCl": {
+          "completed_at": "2026-09-06T11:51:44+00:00",
           "discovered_at": "2026-09-06T08:28:29+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "1552347836256311",
           "profile_position": 6,
           "profile_position_scanned_at": "2026-09-06T11:46:04+00:00",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/seattleyangpa/posts/pfbid0xQnyG4PjXfKk5f6dswiXDQs6wS4XFLo9mhTCTRQor4WZLzCS8pPi5fywShjNcS5jl": {
+          "completed_at": "2026-09-06T11:51:38+00:00",
           "discovered_at": "2026-09-06T10:43:32+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "1550251666465928",
           "profile_position": 10,
           "profile_position_scanned_at": "2026-09-06T10:43:32+00:00",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/seattleyangpa/posts/pfbid0zTiu8mJJXR6fC4Sg6ynhy1QTNtzMELM9VDDmefq3SXbXoAzwcZMbBwJdbsjj2jAKl": {
+          "completed_at": "2026-09-06T11:51:42+00:00",
           "discovered_at": "2026-09-06T08:28:29+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "1551294183028343",
           "profile_position": 7,
           "profile_position_scanned_at": "2026-09-06T11:46:04+00:00",
-          "status": "published_pending"
+          "status": "complete"
         }
       },
       "initial_cutoff_timestamp": 1786004909,
@@ -18004,5 +18166,5 @@
   },
   "schema_version": 1,
   "unread_sources": {},
-  "updated_at": "2026-09-06T11:50:42+00:00"
+  "updated_at": "2026-09-06T11:51:54+00:00"
 }
