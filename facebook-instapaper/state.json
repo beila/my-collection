@@ -1050,7 +1050,7 @@
     "10164639761319831": {
       "article_format_version": 34,
       "completed_at": "2026-09-06T04:55:27+00:00",
-      "content_hash": "bd9da1fb3dca456ce20a10e07ece724930fc615ab74489174825fdb4ead30e31",
+      "content_hash": "3a7ed34b42e7113338700eb1eb956d96c0ae5b14d69a85642d6c635637ce2d35",
       "direct_media_keys": [
         "792133340_10164639760629831_4731467101805445906_n.jpg",
         "791438033_29379078648348924_5441108276584210399_n.jpg",
@@ -1061,8 +1061,8 @@
       "has_video": false,
       "image_sha256": [
         "f138b346c4cbd5c1ac5fcc1055eb140a473d7c384f5a7b7f5faa0e224f56668d",
-        "4a3012a5bc674a49ea2f55627581699ad20f2507bc093d12058ea7d69d9cc749",
-        "66ee4fe1a21b8055ff0cccbeb79b2c2cb3f990b847f27e0bbcb06679fc9e0491"
+        "89cfceb8729ea81a8f108efcae87bc9985cdb81b6311ad9966ea4c8014d4171c",
+        "fc35f345a3794f3a07879331d771844aeffb5f35719b43964f07237676c8b447"
       ],
       "inline_links": [
         {
@@ -1143,13 +1143,13 @@
           "description": null,
           "from_comment": true,
           "is_video_thumbnail": false,
-          "sha256": "4a3012a5bc674a49ea2f55627581699ad20f2507bc093d12058ea7d69d9cc749"
+          "sha256": "89cfceb8729ea81a8f108efcae87bc9985cdb81b6311ad9966ea4c8014d4171c"
         },
         {
           "description": null,
           "from_comment": true,
           "is_video_thumbnail": false,
-          "sha256": "66ee4fe1a21b8055ff0cccbeb79b2c2cb3f990b847f27e0bbcb06679fc9e0491"
+          "sha256": "fc35f345a3794f3a07879331d771844aeffb5f35719b43964f07237676c8b447"
         }
       ],
       "omitted_photo_count": 0,
@@ -18347,5 +18347,5 @@
       "source_url": "https://www.facebook.com/minbok/posts/pfbid02Y8xsBmveoeynak7gGdiaSPD1hrpEgvRKwAexQRkxiT7yc89TzAUDD9FL3gWUwW8ml?rdid=0Cu1Me8HfaP7Di36&share_url=https%253A%252F%252Fwww.facebook.com%252Fshare%252Fp%252F1GPieVyNga%252F"
     }
   },
-  "updated_at": "2026-09-06T15:05:25+00:00"
+  "updated_at": "2026-09-06T15:11:59+00:00"
 }
