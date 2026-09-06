@@ -17906,6 +17906,16 @@
           "post_id": "28571442185812777",
           "status": "complete"
         },
+        "https://www.facebook.com/youngho.youn.5/posts/pfbid05TEurVe6uQNnPYaG7E5YuZjJvNWfui5BfjXRH9LaKWq7G5611CCAnQiE1ABNq2uAl": {
+          "completed_at": "2026-09-05T11:42:58+00:00",
+          "discovered_at": "2026-09-06T13:06:05+00:00",
+          "last_error": null,
+          "not_before_timestamp": null,
+          "post_id": "28607173302239665",
+          "profile_position": 0,
+          "profile_position_scanned_at": "2026-09-06T13:06:05+00:00",
+          "status": "complete"
+        },
         "https://www.facebook.com/youngho.youn.5/posts/pfbid0DdksqP3Z9hGdAqoSQMPiGRhsSbbj6iRqXxEpXPoKKCi1vLUrXUrkPNiWigqUqJtJl": {
           "completed_at": "2026-09-04T02:28:26+00:00",
           "discovered_at": "2026-09-04T06:00:42+00:00",
@@ -17923,7 +17933,7 @@
           "not_before_timestamp": null,
           "post_id": "28588091347481194",
           "profile_position": 1,
-          "profile_position_scanned_at": "2026-09-06T08:34:29+00:00",
+          "profile_position_scanned_at": "2026-09-06T13:06:05+00:00",
           "status": "complete"
         },
         "https://www.facebook.com/youngho.youn.5/posts/pfbid0EWsBFHhgGYCrMiMKTuVT8e1m4zAt4PAo49fYDYDNxBxfp4kJRptzG1NXhKFTSz3Zl": {
@@ -18105,9 +18115,9 @@
       },
       "initial_cutoff_timestamp": 1785578551,
       "initialized_at": "2026-09-01T10:02:31+00:00",
-      "last_scan_timestamp": 1788683640,
+      "last_scan_timestamp": 1788699959,
       "name": "Youngho Youn",
-      "profile_position_scanned_at": "2026-09-06T08:34:29+00:00"
+      "profile_position_scanned_at": "2026-09-06T13:06:05+00:00"
     },
     "https://www.facebook.com/yulmonologue": {
       "discoveries": {
@@ -18264,5 +18274,5 @@
       "source_url": "https://www.facebook.com/minbok/posts/pfbid02Y8xsBmveoeynak7gGdiaSPD1hrpEgvRKwAexQRkxiT7yc89TzAUDD9FL3gWUwW8ml?rdid=0Cu1Me8HfaP7Di36&share_url=https%253A%252F%252Fwww.facebook.com%252Fshare%252Fp%252F1GPieVyNga%252F"
     }
   },
-  "updated_at": "2026-09-06T12:16:40+00:00"
+  "updated_at": "2026-09-06T13:06:59+00:00"
 }
