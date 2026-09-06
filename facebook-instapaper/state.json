@@ -16195,7 +16195,7 @@
           "not_before_timestamp": null,
           "post_id": "10164639761319831",
           "profile_position": 0,
-          "profile_position_scanned_at": "2026-09-06T21:04:12+00:00",
+          "profile_position_scanned_at": "2026-09-06T23:45:24+00:00",
           "status": "complete"
         },
         "https://www.facebook.com/minbok/posts/pfbid0fWP3KGwz9QgbdPuJQsquWswG76XRkG2RcxCdYVW8VYaGDnnBQtTmnWpLjk7hr56l": {
@@ -16243,9 +16243,9 @@
       },
       "initial_cutoff_timestamp": 1785660935,
       "initialized_at": "2026-09-02T08:55:35+00:00",
-      "last_scan_timestamp": 1788728648,
+      "last_scan_timestamp": 1788738320,
       "name": "Minbok Wi",
-      "profile_position_scanned_at": "2026-09-06T21:04:12+00:00"
+      "profile_position_scanned_at": "2026-09-06T23:45:24+00:00"
     },
     "https://www.facebook.com/monan.doll": {
       "discoveries": {
@@ -19165,7 +19165,7 @@
           "not_before_timestamp": null,
           "post_id": "28607173302239665",
           "profile_position": 0,
-          "profile_position_scanned_at": "2026-09-06T21:00:24+00:00",
+          "profile_position_scanned_at": "2026-09-06T23:45:20+00:00",
           "status": "complete"
         },
         "https://www.facebook.com/youngho.youn.5/posts/pfbid0DdksqP3Z9hGdAqoSQMPiGRhsSbbj6iRqXxEpXPoKKCi1vLUrXUrkPNiWigqUqJtJl": {
@@ -19367,9 +19367,9 @@
       },
       "initial_cutoff_timestamp": 1785578551,
       "initialized_at": "2026-09-01T10:02:31+00:00",
-      "last_scan_timestamp": 1788728420,
+      "last_scan_timestamp": 1788738316,
       "name": "Youngho Youn",
-      "profile_position_scanned_at": "2026-09-06T21:00:24+00:00"
+      "profile_position_scanned_at": "2026-09-06T23:45:20+00:00"
     },
     "https://www.facebook.com/yulmonologue": {
       "discoveries": {
@@ -19526,5 +19526,5 @@
       "source_url": "https://www.facebook.com/minbok/posts/pfbid02Y8xsBmveoeynak7gGdiaSPD1hrpEgvRKwAexQRkxiT7yc89TzAUDD9FL3gWUwW8ml?rdid=0Cu1Me8HfaP7Di36&share_url=https%253A%252F%252Fwww.facebook.com%252Fshare%252Fp%252F1GPieVyNga%252F"
     }
   },
-  "updated_at": "2026-09-06T22:27:25+00:00"
+  "updated_at": "2026-09-06T23:45:28+00:00"
 }
