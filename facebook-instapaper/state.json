@@ -959,19 +959,90 @@
     },
     "10164639761319831": {
       "article_format_version": 31,
-      "completed_at": null,
+      "completed_at": "2026-09-06T04:55:27+00:00",
       "content_hash": "3cc971a6b1573763335922c198ef1026bf2bdfff90a916a4a6fbaabea9bb1d04",
       "direct_media_keys": [
         "792133340_10164639760629831_4731467101805445906_n.jpg"
       ],
       "facebook_post_id": "10164639761319831",
       "facebook_timestamp": 1788672480,
+      "has_video": false,
       "image_sha256": [
         "f138b346c4cbd5c1ac5fcc1055eb140a473d7c384f5a7b7f5faa0e224f56668d"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [
+        {
+          "end": 137,
+          "paragraph_index": 17,
+          "start": 77,
+          "url": "https://www.lemonde.fr/series-d-ete/article/2026/07/19/bernard-arnault-a-la-cour-de-l-homme-le-plus-riche-de-france_6725963_3451060.html"
+        },
+        {
+          "end": 154,
+          "paragraph_index": 18,
+          "start": 94,
+          "url": "https://www.lemonde.fr/series-d-ete/article/2026/07/20/bernard-arnault-un-liberal-qui-murmure-a-l-oreille-de-tous-les-presidents_6727329_3451060.html"
+        },
+        {
+          "end": 177,
+          "paragraph_index": 19,
+          "start": 121,
+          "url": "https://www.lemonde.fr/series-d-ete/article/2026/07/21/de-trump-a-poutine-bernard-arnault-et-la-strategie-du-business-first-avec-les-chefs-d-etat-etrangers_6728711_3451060.html"
+        },
+        {
+          "end": 136,
+          "paragraph_index": 20,
+          "start": 77,
+          "url": "https://www.lemonde.fr/series-d-ete/article/2026/07/22/comment-bernard-arnault-tente-d-imposer-sa-ligne-a-ses-medias_6730040_3451060.html"
+        },
+        {
+          "end": 151,
+          "paragraph_index": 21,
+          "start": 94,
+          "url": "https://www.lemonde.fr/series-d-ete/article/2026/07/23/bernard-arnault-ce-genereux-mecene-amoureux-des-arts-et-de-la-defiscalisation_6730885_3451060.html"
+        },
+        {
+          "end": 129,
+          "paragraph_index": 22,
+          "start": 75,
+          "url": "https://www.lemonde.fr/series-d-ete/article/2026/07/24/la-succession-de-bernard-arnault-le-poison-au-c-ur-de-lvmh_6731519_3451060.html"
+        },
+        {
+          "end": 150,
+          "paragraph_index": 23,
+          "start": 93,
+          "url": "https://www.lemonde.fr/economie/article/2026/07/27/l-empire-bernard-arnault-le-pdg-de-lvmh-reagit-a-l-enquete-du-monde_6734198_3234.html"
+        },
+        {
+          "end": 110,
+          "paragraph_index": 30,
+          "start": 58,
+          "url": "https://luxus-plus.com/en/bernard-arnault-could-potentially-remain-ceo-of-lvmh-until-he-is-80/"
+        },
+        {
+          "end": 125,
+          "paragraph_index": 31,
+          "start": 67,
+          "url": "https://www.luxurytribune.com/bernard-arnault-assure-la-succession-du-groupe-lvmh"
+        }
+      ],
+      "instapaper_bookmark_id": "2039398983",
+      "instapaper_tags": [
+        "🌱"
+      ],
       "last_error": null,
+      "linked_pages": [],
+      "media": [
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "f138b346c4cbd5c1ac5fcc1055eb140a473d7c384f5a7b7f5faa0e224f56668d"
+        }
+      ],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "paragraphs": [
         "오래 기다리셨습니다. 지구 최대의 럭셔리 그룹, LVMH의 왕좌의 게임 이야기입니다. 사실 갈리마르의 왕좌의 게임을 얘기하면서(참조 1), 갈리마르를 결국 차지할 인물이 베르나르 아르노LVMH 회장밖에 없다는 언급이 있었다. 이게… 갈리마르와 관계가 없지는 않습니다.",
         "아르노가 소유한 프랑스의 월스트릿저널 혹은 FT라 할 수 있을 레제코(Les Echo)에서 갈리마르 출판사가 출간한 책, 에릭 오르세나의 소설 “오우거 이야기(Histoire d'un ogre, 아직 한국어판은 없다, 참조 2)”의 서평을 싣겠다고 아르노 회장님께 보고가 갔었다. 당시 볼로레로부터 파리마치 인수를 하려던 아르노는 레제코 편집국장을 바로 대기발령 시켜버린다.",
@@ -1009,7 +1080,7 @@
       "permalink": "https://www.facebook.com/minbok/posts/10164639761319831",
       "profile_url": "https://www.facebook.com/minbok",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/minbok/10164639761319831.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "10165430909625903": {
       "completed_at": "2026-08-23T13:37:07+00:00",
@@ -14439,13 +14510,14 @@
           "status": "complete"
         },
         "https://www.facebook.com/minbok/posts/pfbid02ZZJsFpdpdu7eiRzQBLtGGMvRBS2TqC7ZKsRP4VDRbBTApsyrvtJ2YrtSRzDZPY7Ll": {
+          "completed_at": "2026-09-06T04:55:27+00:00",
           "discovered_at": "2026-09-06T04:54:21+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "10164639761319831",
           "profile_position": 0,
           "profile_position_scanned_at": "2026-09-06T04:54:21+00:00",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/minbok/posts/pfbid02eotpA82rW6NmMtshsxsN2MJBJ8k7zEPs9S5wkQjPhJrCNMEe8n3GbfyCPHYwTNzLl": {
           "completed_at": "2026-09-02T09:06:26+00:00",
@@ -17432,5 +17504,5 @@
   },
   "schema_version": 1,
   "unread_sources": {},
-  "updated_at": "2026-09-06T04:54:37+00:00"
+  "updated_at": "2026-09-06T04:55:27+00:00"
 }
