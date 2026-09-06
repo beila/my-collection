@@ -9136,7 +9136,7 @@
       "facebook_timestamp": 1786635830,
       "image_sha256": [],
       "instapaper_bookmark_id": null,
-      "last_error": "Instapaper verification failed for bookmark 2039417310: missing paragraph: 클로드 코드에서 한글 깨지는 문제의 원인을 규명하고 해결 방법까지 제시한 최우형님.; missing paragraph: 같은 문제를 겪으면서 난 이 생각을 왜 못했을까?; missing paragraph: 멋지다.; missing inline link: https://www.linkedin.com/posts/woohyungchoi_bug-sonnet-5-writes-korean-tool-call-parameters-share-7489171964033425408-kZnF/?utm_source=social_share_send&utm_medium=ios_app&rcm=ACoAAAvab7wBgIlSDoRvIKfx8VR-8gBH8KIRrzQ&utm_campaign=copy_link; missing exact Facebook permalink",
+      "last_error": null,
       "omitted_photo_count": 0,
       "paragraphs": [
         "클로드 코드에서 한글 깨지는 문제의 원인을 규명하고 해결 방법까지 제시한 최우형님.",
@@ -9147,7 +9147,7 @@
       "permalink": "https://www.facebook.com/fupfin.geek/posts/3238406876548273",
       "profile_url": "https://www.facebook.com/fupfin.geek",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/fupfin.geek/3238406876548273.html",
-      "status": "pending"
+      "status": "published_pending"
     },
     "3240533176335643": {
       "article_format_version": 28,
@@ -9348,7 +9348,7 @@
         "50109eb247d6958c637868ac269b798e6d9d0f116f96b4a8c7e4ca0ec67c078c"
       ],
       "instapaper_bookmark_id": null,
-      "last_error": "Instapaper verification failed for bookmark 2039417167: missing original paragraph: ▶ 알라딘 http://aladin.kr/p/lSSFj; missing original paragraph: ▶ 알라딘 http://aladin.kr/p/xSTxF; missing original inline link: http://aladin.kr/p/lSSFj; missing original inline link: http://aladin.kr/p/xSTxF",
+      "last_error": null,
       "omitted_photo_count": 0,
       "paragraphs": [
         "이 책은 원서가 정식 출간되기 전에 오라일리 플랫폼에서 내용을 볼 기회가 있었고, 마침 당시 내가 고안하던 책의 내용과 무척 비슷해서 출간을 기대했었다.",
@@ -9359,7 +9359,7 @@
       "permalink": "https://www.facebook.com/fupfin.geek/posts/3253747131680914",
       "profile_url": "https://www.facebook.com/fupfin.geek",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/fupfin.geek/3253747131680914.html",
-      "status": "pending"
+      "status": "published_pending"
     },
     "3257658271289800": {
       "article_format_version": 28,
@@ -13425,7 +13425,7 @@
           "last_error": "Authenticated Facebook page has no target post container: https://www.facebook.com/fupfin.geek/posts/3261635507558743",
           "not_before_timestamp": null,
           "profile_position": 1,
-          "profile_position_scanned_at": "2026-09-06T07:51:07+00:00",
+          "profile_position_scanned_at": "2026-09-06T08:22:04+00:00",
           "status": "pending"
         },
         "https://www.facebook.com/fupfin.geek/posts/3261665227555771": {
@@ -13433,7 +13433,7 @@
           "last_error": "Authenticated Facebook page has no target post container: https://www.facebook.com/fupfin.geek/posts/3261665227555771",
           "not_before_timestamp": null,
           "profile_position": 0,
-          "profile_position_scanned_at": "2026-09-06T07:51:07+00:00",
+          "profile_position_scanned_at": "2026-09-06T08:22:04+00:00",
           "status": "pending"
         },
         "https://www.facebook.com/fupfin.geek/posts/pfbid023WRcWgTedPLzhMkordLiMQMmgffvvmL23kcxczU4TnkLdT74DFQpRkGzUh5Mhh5tl": {
@@ -13463,28 +13463,28 @@
           "not_before_timestamp": null,
           "post_id": "3260818874307073",
           "profile_position": 2,
-          "profile_position_scanned_at": "2026-09-06T07:51:07+00:00",
+          "profile_position_scanned_at": "2026-09-06T08:22:04+00:00",
           "status": "complete"
         },
         "https://www.facebook.com/fupfin.geek/posts/pfbid025wdiUjLF1SsQ7rqn4MCMJk8DjN9EBFSSpqhYMA6gsnqsg8ZyyQpLbrpn8QKbxpmal": {
           "completed_at": null,
           "discovered_at": "2026-09-05T22:13:36+00:00",
-          "last_error": "Instapaper verification failed for bookmark 2039417167: missing original paragraph: ▶ 알라딘 http://aladin.kr/p/lSSFj; missing original paragraph: ▶ 알라딘 http://aladin.kr/p/xSTxF; missing original inline link: http://aladin.kr/p/lSSFj; missing original inline link: http://aladin.kr/p/xSTxF",
+          "last_error": null,
           "not_before_timestamp": null,
           "post_id": "3253747131680914",
           "profile_position": 2,
           "profile_position_scanned_at": "2026-09-06T00:59:26+00:00",
-          "status": "pending"
+          "status": "published_pending"
         },
         "https://www.facebook.com/fupfin.geek/posts/pfbid026C1J4QR9vCe5A9NYXdL6DCmAHGfxM7UpTsfs5WkL4EQEZvMvgHK3QF1DRmfCx5il": {
           "completed_at": null,
           "discovered_at": "2026-09-05T21:43:43+00:00",
-          "last_error": "Instapaper verification failed for bookmark 2039417167: missing original paragraph: ▶ 알라딘 http://aladin.kr/p/lSSFj; missing original paragraph: ▶ 알라딘 http://aladin.kr/p/xSTxF; missing original inline link: http://aladin.kr/p/lSSFj; missing original inline link: http://aladin.kr/p/xSTxF",
+          "last_error": null,
           "not_before_timestamp": null,
           "post_id": "3253747131680914",
           "profile_position": 2,
           "profile_position_scanned_at": "2026-09-05T21:59:27+00:00",
-          "status": "pending"
+          "status": "published_pending"
         },
         "https://www.facebook.com/fupfin.geek/posts/pfbid02FADXsZ7wYBWPRmFxvbtMAzCNBancdvv6PpRi5aZmBTPdxFpbkzmwvcHvEdGHW2fol": {
           "completed_at": "2026-09-05T21:44:09+00:00",
@@ -13499,12 +13499,12 @@
         "https://www.facebook.com/fupfin.geek/posts/pfbid02H1F4TQQBBN7qFdwwZs61hoGBcjUeKpYGBjnT8Cy8UF1kTQVFJ8M7GhxasBz5TvSPl": {
           "completed_at": null,
           "discovered_at": "2026-09-05T21:43:43+00:00",
-          "last_error": "Instapaper verification failed for bookmark 2039417310: missing paragraph: 클로드 코드에서 한글 깨지는 문제의 원인을 규명하고 해결 방법까지 제시한 최우형님.; missing paragraph: 같은 문제를 겪으면서 난 이 생각을 왜 못했을까?; missing paragraph: 멋지다.; missing inline link: https://www.linkedin.com/posts/woohyungchoi_bug-sonnet-5-writes-korean-tool-call-parameters-share-7489171964033425408-kZnF/?utm_source=social_share_send&utm_medium=ios_app&rcm=ACoAAAvab7wBgIlSDoRvIKfx8VR-8gBH8KIRrzQ&utm_campaign=copy_link; missing exact Facebook permalink",
+          "last_error": null,
           "not_before_timestamp": null,
           "post_id": "3238406876548273",
           "profile_position": 8,
           "profile_position_scanned_at": "2026-09-06T00:28:35+00:00",
-          "status": "pending"
+          "status": "published_pending"
         },
         "https://www.facebook.com/fupfin.geek/posts/pfbid02Mh4rFqwDtbnUsuUVdhTGGE6nDavpgtqJJh2yUaSTBBAm7xFQ9DvUhCepZsSKJ5rvl": {
           "completed_at": "2026-09-06T01:07:39+00:00",
@@ -13613,7 +13613,7 @@
           "not_before_timestamp": null,
           "post_id": "3257658271289800",
           "profile_position": 3,
-          "profile_position_scanned_at": "2026-09-06T07:51:07+00:00",
+          "profile_position_scanned_at": "2026-09-06T08:22:04+00:00",
           "status": "complete"
         },
         "https://www.facebook.com/fupfin.geek/posts/pfbid0j2raS711TuKYuLk7iEPbf7Bjxo8vGcsPosoS2hukmnBEAEQwSZYXmrRDVw5jmyNZl": {
@@ -13679,9 +13679,9 @@
       },
       "initial_cutoff_timestamp": 1785966223,
       "initialized_at": "2026-09-05T21:43:43+00:00",
-      "last_scan_timestamp": 1788680785,
+      "last_scan_timestamp": 1788682897,
       "name": "박성철",
-      "profile_position_scanned_at": "2026-09-06T07:51:07+00:00"
+      "profile_position_scanned_at": "2026-09-06T08:22:04+00:00"
     },
     "https://www.facebook.com/hareem76": {
       "discoveries": {
@@ -16492,7 +16492,7 @@
           "not_before_timestamp": null,
           "post_id": "10242330796582242",
           "profile_position": 3,
-          "profile_position_scanned_at": "2026-09-06T07:50:47+00:00",
+          "profile_position_scanned_at": "2026-09-06T08:22:04+00:00",
           "status": "complete"
         },
         "https://www.facebook.com/seungjoo.lee.545/posts/pfbid021iEj1dXMSiqno8dseXWo5p9thbqFo2knXeK2L5twueArDNX7CrGjEPcfA3ce6WpZl": {
@@ -16576,7 +16576,7 @@
           "not_before_timestamp": null,
           "post_id": "10242397402007336",
           "profile_position": 0,
-          "profile_position_scanned_at": "2026-09-06T07:50:47+00:00",
+          "profile_position_scanned_at": "2026-09-06T08:22:04+00:00",
           "status": "complete"
         },
         "https://www.facebook.com/seungjoo.lee.545/posts/pfbid02EPYsju5Dg8GFiLrjdcjg8BD24fpTurd62Ysd9ruGdAcPySSegUHLUH7yLxaa8GDTl": {
@@ -16630,7 +16630,7 @@
           "not_before_timestamp": null,
           "post_id": "10242381058318754",
           "profile_position": 1,
-          "profile_position_scanned_at": "2026-09-06T07:50:47+00:00",
+          "profile_position_scanned_at": "2026-09-06T08:22:04+00:00",
           "status": "complete"
         },
         "https://www.facebook.com/seungjoo.lee.545/posts/pfbid02TtUZKtD7o6VbPT85gqWrseUYqK6mzip337vYwYmPmatpssroLfrFHwQxEemR8Nqgl": {
@@ -16828,7 +16828,7 @@
           "not_before_timestamp": null,
           "post_id": "10242360081634350",
           "profile_position": 2,
-          "profile_position_scanned_at": "2026-09-06T07:50:47+00:00",
+          "profile_position_scanned_at": "2026-09-06T08:22:04+00:00",
           "status": "complete"
         },
         "https://www.facebook.com/seungjoo.lee.545/posts/pfbid0SnNUXNig7brNmKEnQLkjCRyysBTNWgaQeyEuVmkLwWb6YYYQGTaEQkaceyp75kR8l": {
@@ -16898,9 +16898,9 @@
       },
       "initial_cutoff_timestamp": 1785744404,
       "initialized_at": "2026-09-03T08:06:44+00:00",
-      "last_scan_timestamp": 1788680777,
+      "last_scan_timestamp": 1788682891,
       "name": "Seung-Joo Lee",
-      "profile_position_scanned_at": "2026-09-06T07:50:47+00:00"
+      "profile_position_scanned_at": "2026-09-06T08:22:04+00:00"
     },
     "https://www.facebook.com/youngho.youn.5": {
       "discoveries": {
@@ -16953,7 +16953,7 @@
           "not_before_timestamp": null,
           "post_id": "28607173302239665",
           "profile_position": 0,
-          "profile_position_scanned_at": "2026-09-06T07:46:49+00:00",
+          "profile_position_scanned_at": "2026-09-06T08:22:04+00:00",
           "status": "complete"
         },
         "https://www.facebook.com/youngho.youn.5/posts/pfbid02D41TLbNdVhJ3KB3qqAd9j2uizp3o5m16ANnk8vUXTmbWhPHC1pCVMTRyM3GVVjRJl": {
@@ -17185,7 +17185,7 @@
           "not_before_timestamp": null,
           "post_id": "28586040214352974",
           "profile_position": 2,
-          "profile_position_scanned_at": "2026-09-06T07:46:49+00:00",
+          "profile_position_scanned_at": "2026-09-06T08:22:04+00:00",
           "status": "complete"
         },
         "https://www.facebook.com/youngho.youn.5/posts/pfbid037YgEYmdTWdCBRHQWQ8fQvPVeBzmPTLyESofznR6Zfrt2y4puv8cNJn332Go1hpANl": {
@@ -17221,7 +17221,7 @@
           "not_before_timestamp": null,
           "post_id": "28588091347481194",
           "profile_position": 1,
-          "profile_position_scanned_at": "2026-09-06T07:46:49+00:00",
+          "profile_position_scanned_at": "2026-09-06T08:22:04+00:00",
           "status": "complete"
         },
         "https://www.facebook.com/youngho.youn.5/posts/pfbid0EWsBFHhgGYCrMiMKTuVT8e1m4zAt4PAo49fYDYDNxBxfp4kJRptzG1NXhKFTSz3Zl": {
@@ -17295,7 +17295,7 @@
           "not_before_timestamp": null,
           "post_id": "28543273218629674",
           "profile_position": 3,
-          "profile_position_scanned_at": "2026-09-06T07:46:49+00:00",
+          "profile_position_scanned_at": "2026-09-06T08:22:04+00:00",
           "status": "complete"
         },
         "https://www.facebook.com/youngho.youn.5/posts/pfbid0YfDNWxgtCaWqSiDMsoncRJW7hsnejw6avLG1UgtbbQdE6CPUoNwRqbnxXBGSLNHwl": {
@@ -17331,7 +17331,7 @@
           "not_before_timestamp": null,
           "post_id": "28531414696482193",
           "profile_position": 4,
-          "profile_position_scanned_at": "2026-09-06T07:46:49+00:00",
+          "profile_position_scanned_at": "2026-09-06T08:22:04+00:00",
           "status": "complete"
         },
         "https://www.facebook.com/youngho.youn.5/posts/pfbid0h6oZ4kodvNvVz1HWcMSdesWK4NR284HXJ8TLBSqaKVASv6jvSYuDTaik3S6UNfVpl": {
@@ -17403,9 +17403,9 @@
       },
       "initial_cutoff_timestamp": 1785578551,
       "initialized_at": "2026-09-01T10:02:31+00:00",
-      "last_scan_timestamp": 1788680769,
+      "last_scan_timestamp": 1788682882,
       "name": "Youngho Youn",
-      "profile_position_scanned_at": "2026-09-06T07:46:49+00:00"
+      "profile_position_scanned_at": "2026-09-06T08:22:04+00:00"
     },
     "https://www.facebook.com/yulmonologue": {
       "discoveries": {
@@ -17554,5 +17554,5 @@
   },
   "schema_version": 1,
   "unread_sources": {},
-  "updated_at": "2026-09-06T07:55:36+00:00"
+  "updated_at": "2026-09-06T08:22:55+00:00"
 }
