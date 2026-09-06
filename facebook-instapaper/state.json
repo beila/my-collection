@@ -16427,7 +16427,7 @@
           "not_before_timestamp": null,
           "post_id": "4034710566659516",
           "profile_position": 0,
-          "profile_position_scanned_at": "2026-09-06T08:34:29+00:00",
+          "profile_position_scanned_at": "2026-09-06T11:11:45+00:00",
           "status": "complete"
         },
         "https://www.facebook.com/sanghyun.simon.park/posts/pfbid038HVJuvQQwzTcFbDDa93frE58fN9KBLi2egUiuxLPKZWXCmG3JigWT5Dk7nVUZrm4l": {
@@ -16761,9 +16761,9 @@
       },
       "initial_cutoff_timestamp": 1785444708,
       "initialized_at": "2026-08-30T20:51:48+00:00",
-      "last_scan_timestamp": 1788683633,
+      "last_scan_timestamp": 1788693099,
       "name": "Sanghyun Park",
-      "profile_position_scanned_at": "2026-09-06T08:34:29+00:00"
+      "profile_position_scanned_at": "2026-09-06T11:11:45+00:00"
     },
     "https://www.facebook.com/seattleyangpa": {
       "discoveries": {
@@ -17962,5 +17962,5 @@
   },
   "schema_version": 1,
   "unread_sources": {},
-  "updated_at": "2026-09-06T11:03:06+00:00"
+  "updated_at": "2026-09-06T11:11:48+00:00"
 }
