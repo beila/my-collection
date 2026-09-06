@@ -17332,7 +17332,7 @@
           "not_before_timestamp": null,
           "post_id": "10242381058318754",
           "profile_position": 1,
-          "profile_position_scanned_at": "2026-09-06T08:34:29+00:00",
+          "profile_position_scanned_at": "2026-09-06T13:07:08+00:00",
           "status": "complete"
         },
         "https://www.facebook.com/seungjoo.lee.545/posts/pfbid02TtUZKtD7o6VbPT85gqWrseUYqK6mzip337vYwYmPmatpssroLfrFHwQxEemR8Nqgl": {
@@ -17445,6 +17445,16 @@
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "10242397402007336",
+          "status": "complete"
+        },
+        "https://www.facebook.com/seungjoo.lee.545/posts/pfbid07uDMVxo7nW4fYsXYaswFnA1KRiHVDY9MxbPizuhFxkhn6pqbWid4JXWGiufwgZmdl": {
+          "completed_at": "2026-09-03T08:13:46+00:00",
+          "discovered_at": "2026-09-06T13:07:08+00:00",
+          "last_error": null,
+          "not_before_timestamp": null,
+          "post_id": "10242397402007336",
+          "profile_position": 0,
+          "profile_position_scanned_at": "2026-09-06T13:07:08+00:00",
           "status": "complete"
         },
         "https://www.facebook.com/seungjoo.lee.545/posts/pfbid07y2vit1j5ZR6ibFBmHDPXuKQ5f3JVA3a9s35FZVsWCGfdqKy8bx54JfGg3M528EPl": {
@@ -17600,9 +17610,9 @@
       },
       "initial_cutoff_timestamp": 1785744404,
       "initialized_at": "2026-09-03T08:06:44+00:00",
-      "last_scan_timestamp": 1788683648,
+      "last_scan_timestamp": 1788700022,
       "name": "Seung-Joo Lee",
-      "profile_position_scanned_at": "2026-09-06T08:34:29+00:00"
+      "profile_position_scanned_at": "2026-09-06T13:07:08+00:00"
     },
     "https://www.facebook.com/youngho.youn.5": {
       "discoveries": {
@@ -18274,5 +18284,5 @@
       "source_url": "https://www.facebook.com/minbok/posts/pfbid02Y8xsBmveoeynak7gGdiaSPD1hrpEgvRKwAexQRkxiT7yc89TzAUDD9FL3gWUwW8ml?rdid=0Cu1Me8HfaP7Di36&share_url=https%253A%252F%252Fwww.facebook.com%252Fshare%252Fp%252F1GPieVyNga%252F"
     }
   },
-  "updated_at": "2026-09-06T13:06:59+00:00"
+  "updated_at": "2026-09-06T13:07:18+00:00"
 }
