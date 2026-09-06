@@ -16482,7 +16482,7 @@
           "not_before_timestamp": null,
           "post_id": "10242330796582242",
           "profile_position": 3,
-          "profile_position_scanned_at": "2026-09-06T01:10:42+00:00",
+          "profile_position_scanned_at": "2026-09-06T07:50:47+00:00",
           "status": "complete"
         },
         "https://www.facebook.com/seungjoo.lee.545/posts/pfbid021iEj1dXMSiqno8dseXWo5p9thbqFo2knXeK2L5twueArDNX7CrGjEPcfA3ce6WpZl": {
@@ -16566,7 +16566,17 @@
           "not_before_timestamp": null,
           "post_id": "10242397402007336",
           "profile_position": 0,
-          "profile_position_scanned_at": "2026-09-06T01:10:42+00:00",
+          "profile_position_scanned_at": "2026-09-06T07:50:47+00:00",
+          "status": "complete"
+        },
+        "https://www.facebook.com/seungjoo.lee.545/posts/pfbid02EPYsju5Dg8GFiLrjdcjg8BD24fpTurd62Ysd9ruGdAcPySSegUHLUH7yLxaa8GDTl": {
+          "completed_at": "2026-09-03T08:13:54+00:00",
+          "discovered_at": "2026-09-06T07:50:47+00:00",
+          "last_error": null,
+          "not_before_timestamp": null,
+          "post_id": "10242293427128029",
+          "profile_position": 5,
+          "profile_position_scanned_at": "2026-09-06T07:50:47+00:00",
           "status": "complete"
         },
         "https://www.facebook.com/seungjoo.lee.545/posts/pfbid02Pu4RARvgagv84s4EMvuxrYCVseELVkefp9SF4u1giZdRbiguwhRgbFq7KazsQv7zl": {
@@ -16601,6 +16611,16 @@
           "post_id": "10242381058318754",
           "profile_position": 1,
           "profile_position_scanned_at": "2026-09-05T01:50:53+00:00",
+          "status": "complete"
+        },
+        "https://www.facebook.com/seungjoo.lee.545/posts/pfbid02SmiV4eDAdkDsHZUKYtFMfydVdqaYTuZqM1mJvSCyKcU9eGS9PmKB8XpGdtJftZWVl": {
+          "completed_at": "2026-09-03T08:13:48+00:00",
+          "discovered_at": "2026-09-06T07:50:47+00:00",
+          "last_error": null,
+          "not_before_timestamp": null,
+          "post_id": "10242381058318754",
+          "profile_position": 1,
+          "profile_position_scanned_at": "2026-09-06T07:50:47+00:00",
           "status": "complete"
         },
         "https://www.facebook.com/seungjoo.lee.545/posts/pfbid02TtUZKtD7o6VbPT85gqWrseUYqK6mzip337vYwYmPmatpssroLfrFHwQxEemR8Nqgl": {
@@ -16696,7 +16716,7 @@
           "not_before_timestamp": null,
           "post_id": "10242314016082740",
           "profile_position": 4,
-          "profile_position_scanned_at": "2026-09-05T23:35:56+00:00",
+          "profile_position_scanned_at": "2026-09-06T07:50:47+00:00",
           "status": "complete"
         },
         "https://www.facebook.com/seungjoo.lee.545/posts/pfbid0687kxU8NCodHbtGT1ghw7tzQjzEPbhpWneG1jzrMsY7UYqgasMsAV93K9ZV1tJXFl": {
@@ -16798,7 +16818,7 @@
           "not_before_timestamp": null,
           "post_id": "10242360081634350",
           "profile_position": 2,
-          "profile_position_scanned_at": "2026-09-06T01:10:42+00:00",
+          "profile_position_scanned_at": "2026-09-06T07:50:47+00:00",
           "status": "complete"
         },
         "https://www.facebook.com/seungjoo.lee.545/posts/pfbid0SnNUXNig7brNmKEnQLkjCRyysBTNWgaQeyEuVmkLwWb6YYYQGTaEQkaceyp75kR8l": {
@@ -16868,9 +16888,9 @@
       },
       "initial_cutoff_timestamp": 1785744404,
       "initialized_at": "2026-09-03T08:06:44+00:00",
-      "last_scan_timestamp": 1788657036,
+      "last_scan_timestamp": 1788680777,
       "name": "Seung-Joo Lee",
-      "profile_position_scanned_at": "2026-09-06T01:10:42+00:00"
+      "profile_position_scanned_at": "2026-09-06T07:50:47+00:00"
     },
     "https://www.facebook.com/youngho.youn.5": {
       "discoveries": {
@@ -17524,5 +17544,5 @@
   },
   "schema_version": 1,
   "unread_sources": {},
-  "updated_at": "2026-09-06T07:50:44+00:00"
+  "updated_at": "2026-09-06T07:51:04+00:00"
 }
