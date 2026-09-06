@@ -15306,7 +15306,7 @@
           "not_before_timestamp": null,
           "post_id": "10164639761319831",
           "profile_position": 0,
-          "profile_position_scanned_at": "2026-09-06T16:59:47+00:00",
+          "profile_position_scanned_at": "2026-09-06T19:05:00+00:00",
           "status": "complete"
         },
         "https://www.facebook.com/minbok/posts/pfbid0fWP3KGwz9QgbdPuJQsquWswG76XRkG2RcxCdYVW8VYaGDnnBQtTmnWpLjk7hr56l": {
@@ -15354,9 +15354,9 @@
       },
       "initial_cutoff_timestamp": 1785660935,
       "initialized_at": "2026-09-02T08:55:35+00:00",
-      "last_scan_timestamp": 1788713983,
+      "last_scan_timestamp": 1788721496,
       "name": "Minbok Wi",
-      "profile_position_scanned_at": "2026-09-06T16:59:47+00:00"
+      "profile_position_scanned_at": "2026-09-06T19:05:00+00:00"
     },
     "https://www.facebook.com/monan.doll": {
       "discoveries": {
@@ -16430,6 +16430,16 @@
           "post_id": "4013480158782557",
           "status": "complete"
         },
+        "https://www.facebook.com/sanghyun.simon.park/posts/pfbid024Zh7hcWKHLz2bZJSCiUVAX9idXK6eTi8Z9Ho9zNgH6WLgSNZLEreLgbvqbdmhoM4l": {
+          "completed_at": "2026-09-04T18:19:09+00:00",
+          "discovered_at": "2026-09-06T19:05:06+00:00",
+          "last_error": null,
+          "not_before_timestamp": null,
+          "post_id": "4034710566659516",
+          "profile_position": 0,
+          "profile_position_scanned_at": "2026-09-06T19:05:06+00:00",
+          "status": "complete"
+        },
         "https://www.facebook.com/sanghyun.simon.park/posts/pfbid028z7YB8E8hL1fmLriXGbZqdwqUTpzSpguM4kgy2JBg8LNi4DpzEr9FLdKDny7Q3nAl": {
           "completed_at": "2026-08-30T21:06:19+00:00",
           "discovered_at": "2026-08-30T20:51:48+00:00",
@@ -16903,7 +16913,7 @@
           "not_before_timestamp": null,
           "post_id": "4033168883480351",
           "profile_position": 1,
-          "profile_position_scanned_at": "2026-09-06T08:34:29+00:00",
+          "profile_position_scanned_at": "2026-09-06T19:05:06+00:00",
           "status": "complete"
         },
         "https://www.facebook.com/sanghyun.simon.park/posts/pfbid0Tz3gkgEtR9mgDiSxQcZKKN8YpRCzq6aMhaZbyqZdh8Ge4NEg79WgwVaQPq9xCSXSl": {
@@ -17097,9 +17107,9 @@
       },
       "initial_cutoff_timestamp": 1785444708,
       "initialized_at": "2026-08-30T20:51:48+00:00",
-      "last_scan_timestamp": 1788717712,
+      "last_scan_timestamp": 1788721500,
       "name": "Sanghyun Park",
-      "profile_position_scanned_at": "2026-09-06T18:01:59+00:00"
+      "profile_position_scanned_at": "2026-09-06T19:05:06+00:00"
     },
     "https://www.facebook.com/seattleyangpa": {
       "discoveries": {
@@ -18348,5 +18358,5 @@
       "source_url": "https://www.facebook.com/minbok/posts/pfbid02Y8xsBmveoeynak7gGdiaSPD1hrpEgvRKwAexQRkxiT7yc89TzAUDD9FL3gWUwW8ml?rdid=0Cu1Me8HfaP7Di36&share_url=https%253A%252F%252Fwww.facebook.com%252Fshare%252Fp%252F1GPieVyNga%252F"
     }
   },
-  "updated_at": "2026-09-06T18:42:34+00:00"
+  "updated_at": "2026-09-06T19:05:35+00:00"
 }
