@@ -1,7 +1,7 @@
 {
   "posts": {
     "10160046873384831": {
-      "article_format_version": 31,
+      "article_format_version": 32,
       "completed_at": "2026-09-06T12:16:40+00:00",
       "content_hash": "ece9534da179c5f6412955f1e5fb20982c5b8fe467e78b826d6790420efec711",
       "direct_media_keys": [
@@ -1048,19 +1048,29 @@
       "status": "complete"
     },
     "10164639761319831": {
-      "article_format_version": 31,
+      "article_format_version": 32,
       "completed_at": "2026-09-06T04:55:27+00:00",
-      "content_hash": "3cc971a6b1573763335922c198ef1026bf2bdfff90a916a4a6fbaabea9bb1d04",
+      "content_hash": "604cb27b414b2ba622acb054f89f7280481c0376a7b83f15bd10a15b6866fd91",
       "direct_media_keys": [
-        "792133340_10164639760629831_4731467101805445906_n.jpg"
+        "792133340_10164639760629831_4731467101805445906_n.jpg",
+        "791438033_29379078648348924_5441108276584210399_n.jpg",
+        "796903338_28455886487340687_6749353164116603696_n.jpg"
       ],
       "facebook_post_id": "10164639761319831",
       "facebook_timestamp": 1788672480,
       "has_video": false,
       "image_sha256": [
-        "f138b346c4cbd5c1ac5fcc1055eb140a473d7c384f5a7b7f5faa0e224f56668d"
+        "f138b346c4cbd5c1ac5fcc1055eb140a473d7c384f5a7b7f5faa0e224f56668d",
+        "a2d29d276664bd8eaf40217a18a883448917dce1e69d707c5360dcdbd9fc7541",
+        "403b6e76775247c9c0f0be18ffeefe3f16bcccfc7967e4dc7d1b565fec8e11f7"
       ],
       "inline_links": [
+        {
+          "end": 80,
+          "paragraph_index": 13,
+          "start": 36,
+          "url": "https://www.facebook.com/minbok/posts/pfbid0U7N9hxj68sNWEMoEm5gBttKYZE6jm4BrCGxn18UFueTmt3EkwePwa78qCEFAqjNxl"
+        },
         {
           "end": 137,
           "paragraph_index": 17,
@@ -1127,6 +1137,16 @@
           "description": null,
           "is_video_thumbnail": false,
           "sha256": "f138b346c4cbd5c1ac5fcc1055eb140a473d7c384f5a7b7f5faa0e224f56668d"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "a2d29d276664bd8eaf40217a18a883448917dce1e69d707c5360dcdbd9fc7541"
+        },
+        {
+          "description": null,
+          "is_video_thumbnail": false,
+          "sha256": "403b6e76775247c9c0f0be18ffeefe3f16bcccfc7967e4dc7d1b565fec8e11f7"
         }
       ],
       "omitted_photo_count": 0,
@@ -5365,7 +5385,7 @@
       "status": "complete"
     },
     "1550251666465928": {
-      "article_format_version": 31,
+      "article_format_version": 32,
       "completed_at": "2026-09-06T11:51:38+00:00",
       "content_hash": "f343afc4629222b4737583ecdba6b240f8969f8a8693a17ebd9fca285694d10a",
       "direct_media_keys": [
@@ -5439,7 +5459,7 @@
       "status": "complete"
     },
     "1550433993114362": {
-      "article_format_version": 31,
+      "article_format_version": 32,
       "completed_at": "2026-09-06T11:51:40+00:00",
       "content_hash": "adf929cee6e2e45978931c047f4f8ee644239fe55591fbe113885de4b7c22024",
       "direct_media_keys": [],
@@ -5478,7 +5498,7 @@
       "status": "complete"
     },
     "1551294183028343": {
-      "article_format_version": 31,
+      "article_format_version": 32,
       "completed_at": "2026-09-06T11:51:42+00:00",
       "content_hash": "1a3d1bfa6d1341f35a57e9e6cca092f7c610c06d1c288232e11f43390e59c351",
       "direct_media_keys": [
@@ -5517,7 +5537,7 @@
       "status": "complete"
     },
     "1552347836256311": {
-      "article_format_version": 31,
+      "article_format_version": 32,
       "completed_at": "2026-09-06T11:51:44+00:00",
       "content_hash": "fb3b80296592168335ca315f6513e7967ed71af52786de4a41f727d694efe455",
       "direct_media_keys": [],
@@ -5575,7 +5595,7 @@
       "status": "complete"
     },
     "1553820346109060": {
-      "article_format_version": 31,
+      "article_format_version": 32,
       "completed_at": "2026-09-06T11:51:46+00:00",
       "content_hash": "8760109244ffa291acfa81fe9817c6c9bd935a87f1520e171d7654218cbc3509",
       "direct_media_keys": [
@@ -5621,7 +5641,7 @@
       "status": "complete"
     },
     "1556141549210273": {
-      "article_format_version": 31,
+      "article_format_version": 32,
       "completed_at": "2026-09-06T11:51:48+00:00",
       "content_hash": "5d7352220dc13977bba05c1ba5c8dd0dc7493dc8ebc544b002c5c2c80705156a",
       "direct_media_keys": [
@@ -5660,7 +5680,7 @@
       "status": "complete"
     },
     "1557029802454781": {
-      "article_format_version": 31,
+      "article_format_version": 32,
       "completed_at": "2026-09-06T11:51:50+00:00",
       "content_hash": "bc1177655024116311e9f27f8ddc937e061c8f3cd7a35252b6c43da6488d50da",
       "direct_media_keys": [
@@ -5698,7 +5718,7 @@
       "status": "complete"
     },
     "1562184405272654": {
-      "article_format_version": 31,
+      "article_format_version": 32,
       "completed_at": "2026-09-06T11:51:36+00:00",
       "content_hash": "2929b6999d5a61aa26833d701f40fef639b4c552626097c7e8852797d066d53c",
       "direct_media_keys": [
@@ -5745,7 +5765,7 @@
       "status": "complete"
     },
     "1567358088088619": {
-      "article_format_version": 31,
+      "article_format_version": 32,
       "completed_at": "2026-09-06T11:51:52+00:00",
       "content_hash": "b7b976c77df073c8145c10c37b19a8f9011962ad2728baa6052cdb84d44a9b63",
       "direct_media_keys": [],
@@ -5774,7 +5794,7 @@
       "status": "complete"
     },
     "1568439501313811": {
-      "article_format_version": 31,
+      "article_format_version": 32,
       "completed_at": "2026-09-06T11:51:54+00:00",
       "content_hash": "50675008729bdfd650275e20267ff4276b3a3c05e606b5ea12efe04d683428f0",
       "direct_media_keys": [],
@@ -9221,7 +9241,7 @@
       "status": "complete"
     },
     "3215625725493055": {
-      "article_format_version": 28,
+      "article_format_version": 32,
       "completed_at": "2026-09-06T01:07:42+00:00",
       "content_hash": "750c69b9aae531e2080756606e1adb258ee66df458fa01455fed21a01bcd38d5",
       "direct_media_keys": [
@@ -9261,7 +9281,7 @@
       "status": "complete"
     },
     "3215710325484595": {
-      "article_format_version": 28,
+      "article_format_version": 32,
       "completed_at": "2026-09-06T01:07:52+00:00",
       "content_hash": "8b1858b42429968b255c0178b8ab933400aee57304142224742773884b131313",
       "direct_media_keys": [
@@ -9329,7 +9349,7 @@
       "status": "complete"
     },
     "3218533295202298": {
-      "article_format_version": 28,
+      "article_format_version": 32,
       "completed_at": "2026-09-06T01:07:45+00:00",
       "content_hash": "67d36b6cbced1c0207b105e0f59f707342c918ec001fe00ef3b0a3e398779694",
       "direct_media_keys": [
@@ -9382,9 +9402,9 @@
       "status": "complete"
     },
     "3221179604937667": {
-      "article_format_version": 28,
+      "article_format_version": 32,
       "completed_at": "2026-09-06T01:07:40+00:00",
-      "content_hash": "4bb0bd5ef1b164e3830986c69c1103ae424770b1efcd523da4116c0fd65612e3",
+      "content_hash": "228b7ac3046ca3096f12b4c5ef516a677c3067d300bb57b9a1c12b8d5b1fa5cd",
       "direct_media_keys": [],
       "facebook_post_id": "3221179604937667",
       "facebook_timestamp": 1785207120,
@@ -9399,7 +9419,7 @@
       "linked_pages": [
         {
           "article_image_sha256": [],
-          "article_sha256": null,
+          "article_sha256": "b876786ec6c6076d0067efd0dd6e1486e725dd332224a27a806de11c549a075f",
           "description": "",
           "site_name": "www.netflix.com",
           "title": "좋아해도 싫어하는, 지금 시청하세요 | 넷플릭스 공식 사이트",
@@ -9421,7 +9441,7 @@
       "status": "complete"
     },
     "3232718700450424": {
-      "article_format_version": 28,
+      "article_format_version": 32,
       "completed_at": "2026-09-06T01:07:51+00:00",
       "content_hash": "cf8b868b0819c90557edb50dbb7f8b152247a33c59a994f3dc8ea43fcee60fbf",
       "direct_media_keys": [
@@ -9471,7 +9491,7 @@
       "status": "complete"
     },
     "3233266877062273": {
-      "article_format_version": 28,
+      "article_format_version": 32,
       "completed_at": "2026-09-06T01:07:49+00:00",
       "content_hash": "5d60bbfd397f44c9412a8ef6adc577ed6b551daf144c93ca7717c683e58b4c09",
       "direct_media_keys": [
@@ -9513,7 +9533,7 @@
       "status": "complete"
     },
     "3233301160392178": {
-      "article_format_version": 28,
+      "article_format_version": 32,
       "completed_at": "2026-09-06T01:07:43+00:00",
       "content_hash": "71ec17bfa93b2bc5e9f967cd0869a8731a650e42d877d7e427003826d9de54e5",
       "direct_media_keys": [
@@ -9556,7 +9576,7 @@
       "status": "complete"
     },
     "3234734033582224": {
-      "article_format_version": 28,
+      "article_format_version": 32,
       "completed_at": "2026-09-06T01:07:46+00:00",
       "content_hash": "954ece1218281a2321aa31f83893b2e36cc4580c05dd32a18238267e98cfafde",
       "direct_media_keys": [
@@ -9596,7 +9616,7 @@
       "status": "complete"
     },
     "3237062153349412": {
-      "article_format_version": 28,
+      "article_format_version": 32,
       "completed_at": "2026-09-06T01:04:26+00:00",
       "content_hash": "b2cffbf43a419b5ce139256fb301df79c5a16fb46f469785844ae90d4241e116",
       "direct_media_keys": [
@@ -9643,7 +9663,7 @@
       "status": "complete"
     },
     "3238060496582911": {
-      "article_format_version": 28,
+      "article_format_version": 32,
       "completed_at": "2026-09-06T01:07:44+00:00",
       "content_hash": "c6b4edd6376f7994c998789960f1868aa8ef7e1584880200317e10fb70a9e89e",
       "direct_media_keys": [
@@ -9704,7 +9724,7 @@
       "status": "pending"
     },
     "3240533176335643": {
-      "article_format_version": 28,
+      "article_format_version": 32,
       "completed_at": "2026-09-06T01:04:25+00:00",
       "content_hash": "7b1645d1b5f5a7d56035227061b071d6c18985c1dbf1f9c8fdf3f3652d92978d",
       "direct_media_keys": [
@@ -9745,7 +9765,7 @@
       "status": "complete"
     },
     "3246378222417805": {
-      "article_format_version": 28,
+      "article_format_version": 32,
       "completed_at": "2026-09-06T01:07:50+00:00",
       "content_hash": "0be16a0db75631a7ac4f0b10923c5e547ff9027297765d5c9facbb102dd1de7f",
       "direct_media_keys": [
@@ -9786,7 +9806,7 @@
       "status": "complete"
     },
     "3248424048879889": {
-      "article_format_version": 28,
+      "article_format_version": 32,
       "completed_at": "2026-09-06T01:07:41+00:00",
       "content_hash": "924c52c5e201b5f324656fe705eed6950ad2ece6aaaf290a2dbb6d4094be394a",
       "direct_media_keys": [],
@@ -9825,7 +9845,7 @@
       "status": "complete"
     },
     "3249181222137505": {
-      "article_format_version": 28,
+      "article_format_version": 32,
       "completed_at": "2026-09-06T01:07:39+00:00",
       "content_hash": "511bfff8dc3cb42f2ff20dbebf97a848ab1cde3b1e01762619378a540c8d35b6",
       "direct_media_keys": [],
@@ -9855,7 +9875,7 @@
       "status": "complete"
     },
     "3253324445056516": {
-      "article_format_version": 28,
+      "article_format_version": 32,
       "completed_at": "2026-09-06T01:07:47+00:00",
       "content_hash": "149319e6060cbf6797bcbef3c95118bceb15e8179f8de27a26284dec6ccbb7ba",
       "direct_media_keys": [],
@@ -18284,5 +18304,5 @@
       "source_url": "https://www.facebook.com/minbok/posts/pfbid02Y8xsBmveoeynak7gGdiaSPD1hrpEgvRKwAexQRkxiT7yc89TzAUDD9FL3gWUwW8ml?rdid=0Cu1Me8HfaP7Di36&share_url=https%253A%252F%252Fwww.facebook.com%252Fshare%252Fp%252F1GPieVyNga%252F"
     }
   },
-  "updated_at": "2026-09-06T13:07:24+00:00"
+  "updated_at": "2026-09-06T13:45:55+00:00"
 }
