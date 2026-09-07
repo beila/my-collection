@@ -12715,19 +12715,54 @@
     },
     "4037917706338802": {
       "article_format_version": 34,
-      "completed_at": null,
+      "completed_at": "2026-09-07T00:50:23+00:00",
       "content_hash": "c719727e034fa52f731019ed3ff529c752e3272e4fcaa45b48053e0a822ddbba",
       "direct_media_keys": [
         "794096098_4037916683005571_6584302584775662371_n.jpg"
       ],
       "facebook_post_id": "4037917706338802",
       "facebook_timestamp": 1788740266,
+      "has_video": false,
       "image_sha256": [
         "109dc409567d747c6708c7946d65823229b44acf47c282f88f238241f7068223"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [
+        {
+          "end": 39,
+          "paragraph_index": 7,
+          "start": 0,
+          "url": "https://otterletter.com/dolly-parton-2/"
+        }
+      ],
+      "instapaper_bookmark_id": "2039554873",
+      "instapaper_tags": [
+        "🌱"
+      ],
       "last_error": null,
+      "linked_pages": [
+        {
+          "article_image_sha256": [
+            "135e60133889e91f076219ffb7276ef6a72df84b2ac4af10fe8a69ea697f1c30"
+          ],
+          "article_sha256": "5b498f7b84978f66fdad1de5bbcf4b84371a232259faa4f0eb554c704baa0704",
+          "description": "",
+          "site_name": "otterletter.com",
+          "title": "https://otterletter.com/dolly-parton-2/",
+          "url": "https://otterletter.com/dolly-parton-2/"
+        }
+      ],
+      "media": [
+        {
+          "description": null,
+          "from_comment": false,
+          "is_video_thumbnail": false,
+          "sha256": "109dc409567d747c6708c7946d65823229b44acf47c282f88f238241f7068223"
+        }
+      ],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "paragraphs": [
         "영미권에서 트루 크라임(true crime) 장르의 인기는 어제오늘의 일이 아니다. 특히 피해자가 죄 없는 아이나 여성일 경우 대중의 관심은 엄청나기 때문에 모든 언론이 대서특필하고, 악명 높은 범죄는 팟캐스트와 책으로 다시 소비되고, 세월이 흐르면 (런던의 잭 더 리퍼처럼) 관광 상품이 되기도 한다.",
         "1950년대까지 미국 애팔래치아 지역에서 인기를 끌었던 노래 중에 '녹스빌 걸'이라는 게 있다. 사귀던 여자를 아무런 이유도 없이 잔인하게 폭행해 살해한 남자가 부르는 노래다. 그런 노래를 아이들도 불렀단다.",
@@ -12741,7 +12776,7 @@
       "permalink": "https://www.facebook.com/sanghyun.simon.park/posts/4037917706338802",
       "profile_url": "https://www.facebook.com/sanghyun.simon.park",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/sanghyun.simon.park/4037917706338802.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "4184691808342311": {
       "completed_at": "2026-08-23T13:34:47+00:00",
@@ -17432,13 +17467,14 @@
           "status": "complete"
         },
         "https://www.facebook.com/sanghyun.simon.park/posts/pfbid02QS5Rcvq5bdqv2Nyevn4GUVY2mAbNvSM9UVeXbK51Sd1sQq2kfPW6uRmBKjenzHzil": {
+          "completed_at": "2026-09-07T00:50:23+00:00",
           "discovered_at": "2026-09-07T00:49:01+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "4037917706338802",
           "profile_position": 0,
           "profile_position_scanned_at": "2026-09-07T00:49:01+00:00",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/sanghyun.simon.park/posts/pfbid02RrJsPf2ZwdzGBHMUqfen2G75iNQwynJQY1XNzGqLESpBTUQLmz3rp7656Nckvdmml": {
           "completed_at": "2026-08-30T21:06:24+00:00",
@@ -19573,5 +19609,5 @@
       "source_url": "https://www.facebook.com/minbok/posts/pfbid02Y8xsBmveoeynak7gGdiaSPD1hrpEgvRKwAexQRkxiT7yc89TzAUDD9FL3gWUwW8ml?rdid=0Cu1Me8HfaP7Di36&share_url=https%253A%252F%252Fwww.facebook.com%252Fshare%252Fp%252F1GPieVyNga%252F"
     }
   },
-  "updated_at": "2026-09-07T00:49:32+00:00"
+  "updated_at": "2026-09-07T00:50:23+00:00"
 }
