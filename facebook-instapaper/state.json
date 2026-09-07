@@ -2802,15 +2802,25 @@
     },
     "10242469046358400": {
       "article_format_version": 34,
-      "completed_at": null,
+      "completed_at": "2026-09-07T08:30:08+00:00",
       "content_hash": "d1ca395a82961cfa23480c123791ae454c64450fc18c841f9f1cd97743e9a064",
       "direct_media_keys": [],
       "facebook_post_id": "10242469046358400",
       "facebook_timestamp": 1788765294,
+      "has_video": false,
       "image_sha256": [],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2039612822",
+      "instapaper_tags": [
+        "🌱"
+      ],
       "last_error": null,
+      "linked_pages": [],
+      "media": [],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "paragraphs": [
         "Iran Foreign Ministry Spokesperson on X: South Korea participation in Gulf, Hormuz operations would have serious consequences.",
         "이란 정부쪽에서 반응이 나오기 시작했습니다."
@@ -2818,7 +2828,7 @@
       "permalink": "https://www.facebook.com/seungjoo.lee.545/posts/10242469046358400",
       "profile_url": "https://www.facebook.com/seungjoo.lee.545",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/seungjoo.lee.545/10242469046358400.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "10243132228942930": {
       "article_format_version": 25,
@@ -18849,13 +18859,14 @@
           "status": "complete"
         },
         "https://www.facebook.com/seungjoo.lee.545/posts/pfbid02F1UsZ3fGnc7ERX3pdxemcd6G6rHpFnrVobxZihRE6rLwvBuPrZJCcaoyiYg9rZE2l": {
+          "completed_at": "2026-09-07T08:30:08+00:00",
           "discovered_at": "2026-09-07T08:29:08+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "10242469046358400",
           "profile_position": 0,
           "profile_position_scanned_at": "2026-09-07T08:29:08+00:00",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/seungjoo.lee.545/posts/pfbid02Pu4RARvgagv84s4EMvuxrYCVseELVkefp9SF4u1giZdRbiguwhRgbFq7KazsQv7zl": {
           "completed_at": "2026-09-03T08:14:10+00:00",
@@ -19860,5 +19871,5 @@
       "source_url": "https://www.facebook.com/minbok/posts/pfbid02Y8xsBmveoeynak7gGdiaSPD1hrpEgvRKwAexQRkxiT7yc89TzAUDD9FL3gWUwW8ml?rdid=0Cu1Me8HfaP7Di36&share_url=https%253A%252F%252Fwww.facebook.com%252Fshare%252Fp%252F1GPieVyNga%252F"
     }
   },
-  "updated_at": "2026-09-07T08:29:18+00:00"
+  "updated_at": "2026-09-07T08:30:08+00:00"
 }
