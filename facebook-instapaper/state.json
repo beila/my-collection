@@ -9246,7 +9246,7 @@
     },
     "28625890967034565": {
       "article_format_version": 34,
-      "completed_at": null,
+      "completed_at": "2026-09-07T03:20:18+00:00",
       "content_hash": "25591e5288f7a835c8c68d588df54c054208ea66474691a0a0718f15d7666067",
       "direct_media_keys": [
         "798080103_28625891907034471_6110132820629142576_n.jpg",
@@ -9257,6 +9257,7 @@
       ],
       "facebook_post_id": "28625890967034565",
       "facebook_timestamp": 1788732129,
+      "has_video": false,
       "image_sha256": [
         "320c266be08c0e81712b36dae26d2e0cd398b9f4e92fdc3d35844ef60ad190fa",
         "86150071d4588daf23261b69e93a3ddfd925c87ea8abd2c6ba974ee868b66f62",
@@ -9265,9 +9266,55 @@
         "ef383009ada7bc6a7fafac09c147022a11f787f3a6abfb94f1b3ef33c0c7a630",
         "dbcda19f8594b33f3dc13a340bf7173d7372f09b7dc92924e187c4fe7f031024"
       ],
-      "instapaper_bookmark_id": null,
+      "inline_links": [],
+      "instapaper_bookmark_id": "2039570658",
+      "instapaper_tags": [
+        "🌱"
+      ],
       "last_error": null,
+      "linked_pages": [],
+      "media": [
+        {
+          "description": null,
+          "from_comment": false,
+          "is_video_thumbnail": false,
+          "sha256": "320c266be08c0e81712b36dae26d2e0cd398b9f4e92fdc3d35844ef60ad190fa"
+        },
+        {
+          "description": null,
+          "from_comment": false,
+          "is_video_thumbnail": false,
+          "sha256": "86150071d4588daf23261b69e93a3ddfd925c87ea8abd2c6ba974ee868b66f62"
+        },
+        {
+          "description": null,
+          "from_comment": false,
+          "is_video_thumbnail": false,
+          "sha256": "73ded4e44b30216ca323a8394d61ac1ad86df33043a75a0355a16de752d8b7ce"
+        },
+        {
+          "description": null,
+          "from_comment": false,
+          "is_video_thumbnail": false,
+          "sha256": "56d274afef48528fe0d0be7b1cdf655fd8d189dd05d4852759859b000096a140"
+        },
+        {
+          "description": null,
+          "from_comment": false,
+          "is_video_thumbnail": false,
+          "sha256": "ef383009ada7bc6a7fafac09c147022a11f787f3a6abfb94f1b3ef33c0c7a630"
+        },
+        {
+          "description": null,
+          "from_comment": false,
+          "is_video_thumbnail": false,
+          "sha256": "dbcda19f8594b33f3dc13a340bf7173d7372f09b7dc92924e187c4fe7f031024"
+        }
+      ],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "paragraphs": [
         "골퍼의 버킷리스트, 라힌치의 감격",
         "라린치는 제 책이 태동한 곳이죠. 그곳에 초대되어 온가족이 골프를 쳤는데, 당시 7살이었던 막내가 1번 홀에서 티샷을 했는데 쪼로가 났어요. 제가 그 공을 주으려고하자, ‘아빠! 내비둬요. 여기까지 와서 제대로 골프를 치지 않을 수는 없죠!’라고 말했던 기억이 생생해요.",
@@ -9301,7 +9348,7 @@
       "permalink": "https://www.facebook.com/youngho.youn.5/posts/28625890967034565",
       "profile_url": "https://www.facebook.com/youngho.youn.5",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/youngho.youn.5/28625890967034565.html",
-      "status": "published_pending"
+      "status": "complete"
     },
     "28971599462429681": {
       "article_format_version": 34,
@@ -19509,13 +19556,14 @@
           "status": "complete"
         },
         "https://www.facebook.com/youngho.youn.5/posts/pfbid0Z3pkEo3369qkhNmy3fXBUA66Mvxud21PouqBA9pKHHNTqyUuXnrUa3V1BgnbLzhpl": {
+          "completed_at": "2026-09-07T03:20:18+00:00",
           "discovered_at": "2026-09-07T03:18:06+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "28625890967034565",
           "profile_position": 0,
           "profile_position_scanned_at": "2026-09-07T03:18:06+00:00",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/youngho.youn.5/posts/pfbid0bLjNojdTPs7AxGDv8mU2yz3j3kzk5J13ch1iEcxJNC9Xzfdq9eGuRaqXHQAEZ1o1l": {
           "completed_at": "2026-09-01T10:34:34+00:00",
@@ -19773,5 +19821,5 @@
       "source_url": "https://www.facebook.com/minbok/posts/pfbid02Y8xsBmveoeynak7gGdiaSPD1hrpEgvRKwAexQRkxiT7yc89TzAUDD9FL3gWUwW8ml?rdid=0Cu1Me8HfaP7Di36&share_url=https%253A%252F%252Fwww.facebook.com%252Fshare%252Fp%252F1GPieVyNga%252F"
     }
   },
-  "updated_at": "2026-09-07T03:19:26+00:00"
+  "updated_at": "2026-09-07T03:20:18+00:00"
 }
