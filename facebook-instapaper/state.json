@@ -10340,7 +10340,7 @@
     "29341199585469665": {
       "article_format_version": 34,
       "article_path": "facebook-instapaper/sejeoung.kim/29341199585469665.html",
-      "completed_at": null,
+      "completed_at": "2026-09-07T13:52:50+00:00",
       "content_hash": "fd79ce6363bcc6ba87bfe0781ca6b8fe7202cafa8afc0ca4b3f58d50d3af4f29",
       "delivery_mode": "instapaper-private",
       "direct_media_keys": [],
@@ -10349,7 +10349,10 @@
       "has_video": false,
       "image_sha256": [],
       "inline_links": [],
-      "instapaper_bookmark_id": null,
+      "instapaper_bookmark_id": "2039675880",
+      "instapaper_tags": [
+        "🌱"
+      ],
       "last_error": null,
       "linked_pages": [],
       "media": [],
@@ -10369,7 +10372,7 @@
       "profile_url": "https://www.facebook.com/sejeoung.kim",
       "published_url": null,
       "source_visibility": "authenticated-only",
-      "status": "published_pending"
+      "status": "complete"
     },
     "3215625725493055": {
       "article_format_version": 32,
@@ -18702,13 +18705,14 @@
           "status": "complete"
         },
         "https://www.facebook.com/sejeoung.kim/posts/pfbid02Vaz9E6pSE3Rwm1tHsWhQks5ay3unuHL5uytEzyvmpbKqgyjFEdFy7rzyJqjj69qnl": {
+          "completed_at": "2026-09-07T13:52:50+00:00",
           "discovered_at": "2026-09-07T13:52:31+00:00",
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "29341199585469665",
           "profile_position": 0,
           "profile_position_scanned_at": "2026-09-07T13:52:31+00:00",
-          "status": "published_pending"
+          "status": "complete"
         },
         "https://www.facebook.com/sejeoung.kim/posts/pfbid02VsFuq4dkiDbhBWQEhgmzi1Cza9DojB4M649No8DKNLVdggj19us6BkLUaFUBrrDHl": {
           "completed_at": "2026-09-06T19:55:09+00:00",
@@ -20186,5 +20190,5 @@
       "source_url": "https://www.facebook.com/minbok/posts/pfbid02Y8xsBmveoeynak7gGdiaSPD1hrpEgvRKwAexQRkxiT7yc89TzAUDD9FL3gWUwW8ml?rdid=0Cu1Me8HfaP7Di36&share_url=https%253A%252F%252Fwww.facebook.com%252Fshare%252Fp%252F1GPieVyNga%252F"
     }
   },
-  "updated_at": "2026-09-07T13:52:47+00:00"
+  "updated_at": "2026-09-07T13:52:50+00:00"
 }
