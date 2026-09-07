@@ -19,8 +19,6 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    env:
-      LEGACY_UNPUBLISHED_FACEBOOK_PROFILE: sejeoung.kim
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

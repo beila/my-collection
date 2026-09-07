@@ -1,26 +1,15 @@
 # My Collection
 
-Generated reading copies used by local automation. The
-`facebook-instapaper/` tree contains Facebook post articles, copied media, and
-the collector's deduplication and delivery state.
+Public generated reading copies used by local automation. The
+`facebook-instapaper/` tree contains only publicly accessible Facebook post
+articles and copied media.
 
-A filtered public artifact is deployed to GitHub Pages after each push to
-`main` when Pages is available for the repository. The source checkout can also
-retain articles intended only for Instapaper private-content delivery. GitHub
-Free automatically unpublishes Pages when a personal repository becomes
-private, so a private source repository may require a separate public
-deployment repository.
+A GitHub Pages artifact is deployed after each push to `main`.
 
-## Publication Filtering
+## Privacy Boundary
 
-The Pages workflow stages a separate artifact with
-`.github/scripts/prepare-pages.sh`. For every Facebook state record whose
-`delivery_mode` is `instapaper-private`, the script removes the exact generated
-HTML path and sibling media directory. It also removes private post records and
-the affected profile metadata from the deployed copy of
-`facebook-instapaper/state.json`.
-
-The repository source tree and canonical state remain unchanged. A temporary
-`LEGACY_UNPUBLISHED_FACEBOOK_PROFILE` workflow setting continues to exclude
-Se-Jeoung Kim records created before delivery modes were stored; it can be
-removed after those records are explicitly migrated.
+Facebook collector state and authenticated-only generated articles are stored
+outside this public repository under
+`instapaper-picker/private-facebook-content/`. The Pages staging script fails
+if a Facebook state file appears here, preventing private collector metadata
+from being deployed accidentally.
