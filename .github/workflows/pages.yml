@@ -19,13 +19,29 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    env:
+      UNPUBLISHED_FACEBOOK_PROFILE: sejeoung.kim
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
+      - name: Prepare public artifact
+        run: |
+          mkdir _site
+          rsync -a \
+            --exclude '.git/' \
+            --exclude '.github/' \
+            --exclude '.jj/' \
+            --exclude '_site/' \
+            --exclude "facebook-instapaper/${UNPUBLISHED_FACEBOOK_PROFILE}/" \
+            ./ _site/
+          jq --arg profile_url "https://www.facebook.com/${UNPUBLISHED_FACEBOOK_PROFILE}" '
+            .posts |= with_entries(select(.value.profile_url != $profile_url))
+            | .profiles |= with_entries(select(.key != $profile_url))
+          ' facebook-instapaper/state.json > _site/facebook-instapaper/state.json
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: _site
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
