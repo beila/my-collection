@@ -10837,15 +10837,40 @@
     },
     "3238406876548273": {
       "article_format_version": 34,
+      "article_path": "facebook-instapaper/fupfin.geek/3238406876548273.html",
       "completed_at": null,
-      "content_hash": "3c65d8351c44e811384c51ddcf13d8ce0eeceffec92a6c4c36b33899ff214707",
+      "content_hash": "e7646998fbe32a67682dbada51aa9803beb9f04cb918685a8e462f653dc8956a",
+      "delivery_mode": "public-web",
       "direct_media_keys": [],
       "facebook_post_id": "3238406876548273",
       "facebook_timestamp": 1786635830,
+      "has_video": false,
       "image_sha256": [],
+      "inline_links": [
+        {
+          "end": 59,
+          "paragraph_index": 3,
+          "start": 0,
+          "url": "https://www.linkedin.com/posts/woohyungchoi_bug-sonnet-5-writes-korean-tool-call-parameters-share-7489171964033425408-kZnF/?utm_source=social_share_send&utm_medium=ios_app&rcm=ACoAAAvab7wBgIlSDoRvIKfx8VR-8gBH8KIRrzQ&utm_campaign=copy_link"
+        }
+      ],
       "instapaper_bookmark_id": null,
-      "last_error": "Instapaper verification failed for bookmark 2039643316: missing paragraph: 클로드 코드에서 한글 깨지는 문제의 원인을 규명하고 해결 방법까지 제시한 최우형님.; missing paragraph: 같은 문제를 겪으면서 난 이 생각을 왜 못했을까?; missing paragraph: 멋지다.; missing inline link: https://www.linkedin.com/posts/woohyungchoi_bug-sonnet-5-writes-korean-tool-call-parameters-share-7489171964033425408-kZnF/?utm_source=social_share_send&utm_medium=ios_app&rcm=ACoAAAvab7wBgIlSDoRvIKfx8VR-8gBH8KIRrzQ&utm_campaign=copy_link; missing exact Facebook permalink",
+      "last_error": null,
+      "linked_pages": [
+        {
+          "article_image_sha256": [],
+          "article_sha256": "bc6292c009b59245232b039a391e09fb1e7d1c5521390e23bde189920aaf6940",
+          "description": "",
+          "site_name": "www.linkedin.com",
+          "title": "https://www.linkedin.com/…/woohyungchoi_bug-sonnet-5-writ…/…",
+          "url": "https://www.linkedin.com/posts/woohyungchoi_bug-sonnet-5-writes-korean-tool-call-parameters-share-7489171964033425408-kZnF/?utm_source=social_share_send&utm_medium=ios_app&rcm=ACoAAAvab7wBgIlSDoRvIKfx8VR-8gBH8KIRrzQ&utm_campaign=copy_link"
+        }
+      ],
+      "media": [],
       "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
       "paragraphs": [
         "클로드 코드에서 한글 깨지는 문제의 원인을 규명하고 해결 방법까지 제시한 최우형님.",
         "같은 문제를 겪으면서 난 이 생각을 왜 못했을까?",
@@ -10855,7 +10880,8 @@
       "permalink": "https://www.facebook.com/fupfin.geek/posts/3238406876548273",
       "profile_url": "https://www.facebook.com/fupfin.geek",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/fupfin.geek/3238406876548273.html",
-      "status": "pending"
+      "source_visibility": "public",
+      "status": "published_pending"
     },
     "3240533176335643": {
       "article_format_version": 32,
@@ -11045,19 +11071,98 @@
     },
     "3253747131680914": {
       "article_format_version": 34,
+      "article_path": "facebook-instapaper/fupfin.geek/3253747131680914.html",
       "completed_at": null,
       "content_hash": "be63970aaba8e0d5b229d30e0539bcaf75c9eb6abec9e8db18856d91c2b45f5c",
+      "delivery_mode": "public-web",
       "direct_media_keys": [
         "787036230_1684548289919919_4426027618208992769_n.jpg"
       ],
       "facebook_post_id": "3253747131680914",
       "facebook_timestamp": 1787908588,
+      "has_video": false,
       "image_sha256": [
         "50109eb247d6958c637868ac269b798e6d9d0f116f96b4a8c7e4ca0ec67c078c"
       ],
+      "inline_links": [],
       "instapaper_bookmark_id": null,
-      "last_error": "Instapaper verification failed for bookmark 2039643612: missing original paragraph: ▶ 알라딘 http://aladin.kr/p/lSSFj; missing original paragraph: ▶ 알라딘 http://aladin.kr/p/xSTxF; missing original inline link: http://aladin.kr/p/lSSFj; missing original inline link: http://aladin.kr/p/xSTxF",
+      "last_error": null,
+      "linked_pages": [],
+      "media": [
+        {
+          "description": null,
+          "from_comment": false,
+          "is_video_thumbnail": false,
+          "sha256": "50109eb247d6958c637868ac269b798e6d9d0f116f96b4a8c7e4ca0ec67c078c"
+        }
+      ],
       "omitted_photo_count": 0,
+      "original_author": "책만",
+      "original_inline_links": [
+        {
+          "end": 82,
+          "paragraph_index": 3,
+          "start": 79,
+          "url": "https://www.facebook.com/hanmomhanda"
+        },
+        {
+          "end": 29,
+          "paragraph_index": 5,
+          "start": 7,
+          "url": "https://bit.ly/4aCo19D"
+        },
+        {
+          "end": 29,
+          "paragraph_index": 6,
+          "start": 7,
+          "url": "https://bit.ly/4rzvz4w"
+        },
+        {
+          "end": 30,
+          "paragraph_index": 7,
+          "start": 6,
+          "url": "http://aladin.kr/p/lSSFj"
+        },
+        {
+          "end": 29,
+          "paragraph_index": 9,
+          "start": 7,
+          "url": "https://bit.ly/4rP8Sby"
+        },
+        {
+          "end": 29,
+          "paragraph_index": 10,
+          "start": 7,
+          "url": "https://bit.ly/4t4gTKK"
+        },
+        {
+          "end": 30,
+          "paragraph_index": 11,
+          "start": 6,
+          "url": "http://aladin.kr/p/xSTxF"
+        },
+        {
+          "end": 29,
+          "paragraph_index": 12,
+          "start": 7,
+          "url": "https://bit.ly/4dLHlnY"
+        }
+      ],
+      "original_paragraphs": [
+        "2026년 #세종도서 #학술부문 도서에 저희 <모던 자바 동시성 프로그래밍>이 선정됐습니다! 🎉🎊🎇🎆",
+        "#모던자바동시성프로그래밍 은 가상 스레드와 구조적 동시성 기능이 도입되며 편리함, 견고함, 고성능 등 모든 것을 추구하면서 새로운 가능성을 보여준 자바 21의 핵심 기능에 대해 깊이 있게 다룬 책으로서, 에이전틱 AI 시대에 좀 더 차별화된 결과물을 만들어내기 원하는 개발자들을 위해 근본적이고 견고한 프로그래밍 개념 지식을 전해줍니다.",
+        "AI 에이전틱 코딩 시대에서도 실무 운영 환경에서 발생하는 심각한 장애를 해결하고 대용량 트래픽을 안정적으로 처리하는 시스템을 만들기 위해 필수적인 동시성 문제를 깊이 있게 다루는 책이므로 그 어떤 도서와도 다른 전문적인 학술서로서의 가치를 인정받은 것이 아닌가 생각합니다.",
+        "자바 챔피언인 바즐루어 라만 저자분은 물론이거니와, 이 책이 국내에 출간될 수 있도록 산파가 되어주시고 최고의 번역으로 좋은 책을 만들어주신 오명운 님께 진심으로 축하와 감사를 전합니다!",
+        "📌종이책 읽으러가기",
+        "▶ 교보문고 https://bit.ly/4aCo19D",
+        "▶ 예스24 https://bit.ly/4rzvz4w",
+        "▶ 알라딘 http://aladin.kr/p/lSSFj",
+        "📌전자책 읽으러가기",
+        "▶ 교보문고 https://bit.ly/4rP8Sby",
+        "▶ 예스24 https://bit.ly/4t4gTKK",
+        "▶ 알라딘 http://aladin.kr/p/xSTxF",
+        "▶ 리디북스 https://bit.ly/4dLHlnY"
+      ],
       "paragraphs": [
         "이 책은 원서가 정식 출간되기 전에 오라일리 플랫폼에서 내용을 볼 기회가 있었고, 마침 당시 내가 고안하던 책의 내용과 무척 비슷해서 출간을 기대했었다.",
         "하지만 정작 번역서가 출판되었을 때는 반가우면서도 요즘 이런 기술서가 얼마나 읽힐까 반신반의했다.",
@@ -11067,7 +11172,8 @@
       "permalink": "https://www.facebook.com/fupfin.geek/posts/3253747131680914",
       "profile_url": "https://www.facebook.com/fupfin.geek",
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/fupfin.geek/3253747131680914.html",
-      "status": "pending"
+      "source_visibility": "public",
+      "status": "published_pending"
     },
     "3257658271289800": {
       "article_format_version": 28,
@@ -15340,22 +15446,22 @@
         "https://www.facebook.com/fupfin.geek/posts/pfbid025wdiUjLF1SsQ7rqn4MCMJk8DjN9EBFSSpqhYMA6gsnqsg8ZyyQpLbrpn8QKbxpmal": {
           "completed_at": null,
           "discovered_at": "2026-09-05T22:13:36+00:00",
-          "last_error": "Instapaper verification failed for bookmark 2039643612: missing original paragraph: ▶ 알라딘 http://aladin.kr/p/lSSFj; missing original paragraph: ▶ 알라딘 http://aladin.kr/p/xSTxF; missing original inline link: http://aladin.kr/p/lSSFj; missing original inline link: http://aladin.kr/p/xSTxF",
+          "last_error": null,
           "not_before_timestamp": null,
           "post_id": "3253747131680914",
           "profile_position": 4,
           "profile_position_scanned_at": "2026-09-06T14:30:18+00:00",
-          "status": "pending"
+          "status": "published_pending"
         },
         "https://www.facebook.com/fupfin.geek/posts/pfbid026C1J4QR9vCe5A9NYXdL6DCmAHGfxM7UpTsfs5WkL4EQEZvMvgHK3QF1DRmfCx5il": {
           "completed_at": null,
           "discovered_at": "2026-09-05T21:43:43+00:00",
-          "last_error": "Instapaper verification failed for bookmark 2039643612: missing original paragraph: ▶ 알라딘 http://aladin.kr/p/lSSFj; missing original paragraph: ▶ 알라딘 http://aladin.kr/p/xSTxF; missing original inline link: http://aladin.kr/p/lSSFj; missing original inline link: http://aladin.kr/p/xSTxF",
+          "last_error": null,
           "not_before_timestamp": null,
           "post_id": "3253747131680914",
           "profile_position": 2,
           "profile_position_scanned_at": "2026-09-05T21:59:27+00:00",
-          "status": "pending"
+          "status": "published_pending"
         },
         "https://www.facebook.com/fupfin.geek/posts/pfbid029uxYFPi2n3RTuqLXcx7LUZLCP1svzvL6gYBoEMkXbMgmvCdZYZWEBYFR5KVPE4CPl": {
           "completed_at": "2026-09-07T00:54:51+00:00",
@@ -15364,7 +15470,7 @@
           "not_before_timestamp": null,
           "post_id": "3263671254021835",
           "profile_position": 0,
-          "profile_position_scanned_at": "2026-09-07T11:34:46+00:00",
+          "profile_position_scanned_at": "2026-09-07T13:53:02+00:00",
           "status": "complete"
         },
         "https://www.facebook.com/fupfin.geek/posts/pfbid02FADXsZ7wYBWPRmFxvbtMAzCNBancdvv6PpRi5aZmBTPdxFpbkzmwvcHvEdGHW2fol": {
@@ -15380,12 +15486,12 @@
         "https://www.facebook.com/fupfin.geek/posts/pfbid02H1F4TQQBBN7qFdwwZs61hoGBcjUeKpYGBjnT8Cy8UF1kTQVFJ8M7GhxasBz5TvSPl": {
           "completed_at": null,
           "discovered_at": "2026-09-05T21:43:43+00:00",
-          "last_error": "Instapaper verification failed for bookmark 2039643316: missing paragraph: 클로드 코드에서 한글 깨지는 문제의 원인을 규명하고 해결 방법까지 제시한 최우형님.; missing paragraph: 같은 문제를 겪으면서 난 이 생각을 왜 못했을까?; missing paragraph: 멋지다.; missing inline link: https://www.linkedin.com/posts/woohyungchoi_bug-sonnet-5-writes-korean-tool-call-parameters-share-7489171964033425408-kZnF/?utm_source=social_share_send&utm_medium=ios_app&rcm=ACoAAAvab7wBgIlSDoRvIKfx8VR-8gBH8KIRrzQ&utm_campaign=copy_link; missing exact Facebook permalink",
+          "last_error": null,
           "not_before_timestamp": null,
           "post_id": "3238406876548273",
           "profile_position": 8,
           "profile_position_scanned_at": "2026-09-06T00:28:35+00:00",
-          "status": "pending"
+          "status": "published_pending"
         },
         "https://www.facebook.com/fupfin.geek/posts/pfbid02Lz1CKe9xpfwEnmFLXX31Mr4kiZFdrqKT8Nx3iq7XK7fc4RktRovRTuWCq9qdM4yKl": {
           "completed_at": "2026-09-07T00:54:53+00:00",
@@ -15590,9 +15696,9 @@
       },
       "initial_cutoff_timestamp": 1785966223,
       "initialized_at": "2026-09-05T21:43:43+00:00",
-      "last_scan_timestamp": 1788780882,
+      "last_scan_timestamp": 1788789177,
       "name": "박성철",
-      "profile_position_scanned_at": "2026-09-07T11:34:46+00:00"
+      "profile_position_scanned_at": "2026-09-07T13:53:02+00:00"
     },
     "https://www.facebook.com/hareem76": {
       "discoveries": {
@@ -19084,7 +19190,7 @@
           "not_before_timestamp": null,
           "post_id": "10242469046358400",
           "profile_position": 0,
-          "profile_position_scanned_at": "2026-09-07T11:34:42+00:00",
+          "profile_position_scanned_at": "2026-09-07T13:52:57+00:00",
           "status": "complete"
         },
         "https://www.facebook.com/seungjoo.lee.545/posts/pfbid02Pu4RARvgagv84s4EMvuxrYCVseELVkefp9SF4u1giZdRbiguwhRgbFq7KazsQv7zl": {
@@ -19406,9 +19512,9 @@
       },
       "initial_cutoff_timestamp": 1785744404,
       "initialized_at": "2026-09-03T08:06:44+00:00",
-      "last_scan_timestamp": 1788780878,
+      "last_scan_timestamp": 1788789173,
       "name": "Seung-Joo Lee",
-      "profile_position_scanned_at": "2026-09-07T11:34:42+00:00"
+      "profile_position_scanned_at": "2026-09-07T13:52:57+00:00"
     },
     "https://www.facebook.com/youngho.youn.5": {
       "discoveries": {
@@ -20190,5 +20296,5 @@
       "source_url": "https://www.facebook.com/minbok/posts/pfbid02Y8xsBmveoeynak7gGdiaSPD1hrpEgvRKwAexQRkxiT7yc89TzAUDD9FL3gWUwW8ml?rdid=0Cu1Me8HfaP7Di36&share_url=https%253A%252F%252Fwww.facebook.com%252Fshare%252Fp%252F1GPieVyNga%252F"
     }
   },
-  "updated_at": "2026-09-07T13:52:50+00:00"
+  "updated_at": "2026-09-07T13:53:54+00:00"
 }
