@@ -12713,6 +12713,36 @@
       "published_url": "https://beila.github.io/my-collection/facebook-instapaper/sanghyun.simon.park/4034710566659516.html",
       "status": "complete"
     },
+    "4037917706338802": {
+      "article_format_version": 34,
+      "completed_at": null,
+      "content_hash": "c719727e034fa52f731019ed3ff529c752e3272e4fcaa45b48053e0a822ddbba",
+      "direct_media_keys": [
+        "794096098_4037916683005571_6584302584775662371_n.jpg"
+      ],
+      "facebook_post_id": "4037917706338802",
+      "facebook_timestamp": 1788740266,
+      "image_sha256": [
+        "109dc409567d747c6708c7946d65823229b44acf47c282f88f238241f7068223"
+      ],
+      "instapaper_bookmark_id": null,
+      "last_error": null,
+      "omitted_photo_count": 0,
+      "paragraphs": [
+        "영미권에서 트루 크라임(true crime) 장르의 인기는 어제오늘의 일이 아니다. 특히 피해자가 죄 없는 아이나 여성일 경우 대중의 관심은 엄청나기 때문에 모든 언론이 대서특필하고, 악명 높은 범죄는 팟캐스트와 책으로 다시 소비되고, 세월이 흐르면 (런던의 잭 더 리퍼처럼) 관광 상품이 되기도 한다.",
+        "1950년대까지 미국 애팔래치아 지역에서 인기를 끌었던 노래 중에 '녹스빌 걸'이라는 게 있다. 사귀던 여자를 아무런 이유도 없이 잔인하게 폭행해 살해한 남자가 부르는 노래다. 그런 노래를 아이들도 불렀단다.",
+        "도대체 무슨 생각으로 그런 노래를 불렀을까? 알고 보니 이게 뿌리가 깊은 장르였다. 1600년대 영국에서 한 남성이 사귀던 여성이 임신해서 결혼을 요구하자 살해한 사건이 있었는데, 그 사연이 노래가 되어 큰 인기를 끌었단다.",
+        "그 후부터 비슷한 사건이 생기면 감옥을 찾아가 범인의 이야기를 듣고 노래로 만드는 게 영국에 유행했다. 이게 살인 발라드(murder ballad)라는 장르다.",
+        "1700년대에 잉글랜드, 웨일스, 스코틀랜드 사람들이 신대륙으로 건너와 애팔래치아에 정착했을 때 그런 살인 발라드 장르를 가져온 것으로 보인다. 살인자의 이야기를 노래로 불렀다면 특이한 행동처럼 보이지만, 팟캐스트가 없던 시절, 글을 읽지 못하는 사람들에게 들려주는 트루 크라임 장르였다.",
+        "흥미로운 건, 살인 발라드 노래 속 화자는 항상 범인인 남성이었다는 사실이다.",
+        "컨트리 가수 ② 살인 발라드",
+        "https://otterletter.com/dolly-parton-2/"
+      ],
+      "permalink": "https://www.facebook.com/sanghyun.simon.park/posts/4037917706338802",
+      "profile_url": "https://www.facebook.com/sanghyun.simon.park",
+      "published_url": "https://beila.github.io/my-collection/facebook-instapaper/sanghyun.simon.park/4037917706338802.html",
+      "status": "published_pending"
+    },
     "4184691808342311": {
       "completed_at": "2026-08-23T13:34:47+00:00",
       "content_hash": "fda9d700d0c7c58449bc71677d388a4b2fc0987baecc261000424794cb7b037c",
@@ -17333,8 +17363,8 @@
           "last_error": null,
           "not_before_timestamp": null,
           "post_id": "4034710566659516",
-          "profile_position": 0,
-          "profile_position_scanned_at": "2026-09-07T00:12:09+00:00",
+          "profile_position": 1,
+          "profile_position_scanned_at": "2026-09-07T00:49:01+00:00",
           "status": "complete"
         },
         "https://www.facebook.com/sanghyun.simon.park/posts/pfbid028z7YB8E8hL1fmLriXGbZqdwqUTpzSpguM4kgy2JBg8LNi4DpzEr9FLdKDny7Q3nAl": {
@@ -17400,6 +17430,15 @@
           "not_before_timestamp": 1785444708,
           "post_id": "3997800907017149",
           "status": "complete"
+        },
+        "https://www.facebook.com/sanghyun.simon.park/posts/pfbid02QS5Rcvq5bdqv2Nyevn4GUVY2mAbNvSM9UVeXbK51Sd1sQq2kfPW6uRmBKjenzHzil": {
+          "discovered_at": "2026-09-07T00:49:01+00:00",
+          "last_error": null,
+          "not_before_timestamp": null,
+          "post_id": "4037917706338802",
+          "profile_position": 0,
+          "profile_position_scanned_at": "2026-09-07T00:49:01+00:00",
+          "status": "published_pending"
         },
         "https://www.facebook.com/sanghyun.simon.park/posts/pfbid02RrJsPf2ZwdzGBHMUqfen2G75iNQwynJQY1XNzGqLESpBTUQLmz3rp7656Nckvdmml": {
           "completed_at": "2026-08-30T21:06:24+00:00",
@@ -18004,9 +18043,9 @@
       },
       "initial_cutoff_timestamp": 1785444708,
       "initialized_at": "2026-08-30T20:51:48+00:00",
-      "last_scan_timestamp": 1788739925,
+      "last_scan_timestamp": 1788742135,
       "name": "Sanghyun Park",
-      "profile_position_scanned_at": "2026-09-07T00:12:09+00:00"
+      "profile_position_scanned_at": "2026-09-07T00:49:01+00:00"
     },
     "https://www.facebook.com/seattleyangpa": {
       "discoveries": {
@@ -19534,5 +19573,5 @@
       "source_url": "https://www.facebook.com/minbok/posts/pfbid02Y8xsBmveoeynak7gGdiaSPD1hrpEgvRKwAexQRkxiT7yc89TzAUDD9FL3gWUwW8ml?rdid=0Cu1Me8HfaP7Di36&share_url=https%253A%252F%252Fwww.facebook.com%252Fshare%252Fp%252F1GPieVyNga%252F"
     }
   },
-  "updated_at": "2026-09-07T00:16:14+00:00"
+  "updated_at": "2026-09-07T00:49:32+00:00"
 }
