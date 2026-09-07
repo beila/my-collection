@@ -10337,6 +10337,40 @@
       "source_visibility": "authenticated-only",
       "status": "complete"
     },
+    "29341199585469665": {
+      "article_format_version": 34,
+      "article_path": "facebook-instapaper/sejeoung.kim/29341199585469665.html",
+      "completed_at": null,
+      "content_hash": "fd79ce6363bcc6ba87bfe0781ca6b8fe7202cafa8afc0ca4b3f58d50d3af4f29",
+      "delivery_mode": "instapaper-private",
+      "direct_media_keys": [],
+      "facebook_post_id": "29341199585469665",
+      "facebook_timestamp": 1788732600,
+      "has_video": false,
+      "image_sha256": [],
+      "inline_links": [],
+      "instapaper_bookmark_id": null,
+      "last_error": null,
+      "linked_pages": [],
+      "media": [],
+      "omitted_photo_count": 0,
+      "original_author": null,
+      "original_inline_links": [],
+      "original_paragraphs": [],
+      "paragraphs": [
+        "한동훈 의원이 위법하게 자료를 빼냈다고 주장하면 김승원 후보자가 한 언행들이 없던 게 되나. 그 자료들이 날조요 거짓이다 그런 주장도 아니고 말이다. 물론 정말로 자료를 위법하게 빼낸 거라면 한동훈(및 검사들)에 대해서‘도‘ 나쁜 이미지를 더할 순 있겠지만, 이게 지금 형사소송절차도 아닌데 위법수집 증거니까 유죄의 증거로 쓸 수 없다, 이런 주장이 성립할 리가 없다.",
+        ".",
+        "예전엔 후보자로 고른 사람이 뭔가 문제적이면 해당 진영에서라도 낙마시키기도 하고 스스로 물러나기도 하고 그랬던 거 같은데, 언젠가부터 한번 밀리면 안된다 뭐 이카더니 이젠 뭐 걍 무조건 싸고돌고 일단 버틴다. 피곤하다.",
+        ".",
+        "버티는 사람이야 본인 문제니 그렇다치고. 싸고도는 사람들은 진짜로 문제가 없다고 생각하는 걸까. 아니면, 어쩌자고 저런 사람을 후보로 골라서, 또는, 저런 주제에 어쩌자고 덜컥 수락은 해서, 뭐 이런 탄식이나 원망 같은 게 있기는 하지만 우리편 질까봐 우기고 있는 건가. 아니 좀 가슴에 손을 얹고 허심탄회하게 말해보시라니까."
+      ],
+      "permalink": "https://www.facebook.com/sejeoung.kim/posts/29341199585469665",
+      "private_source": "Facebook authenticated post",
+      "profile_url": "https://www.facebook.com/sejeoung.kim",
+      "published_url": null,
+      "source_visibility": "authenticated-only",
+      "status": "published_pending"
+    },
     "3215625725493055": {
       "article_format_version": 32,
       "completed_at": "2026-09-06T01:07:42+00:00",
@@ -18667,6 +18701,15 @@
           "profile_position_scanned_at": "2026-09-06T19:46:02+00:00",
           "status": "complete"
         },
+        "https://www.facebook.com/sejeoung.kim/posts/pfbid02Vaz9E6pSE3Rwm1tHsWhQks5ay3unuHL5uytEzyvmpbKqgyjFEdFy7rzyJqjj69qnl": {
+          "discovered_at": "2026-09-07T13:52:31+00:00",
+          "last_error": null,
+          "not_before_timestamp": null,
+          "post_id": "29341199585469665",
+          "profile_position": 0,
+          "profile_position_scanned_at": "2026-09-07T13:52:31+00:00",
+          "status": "published_pending"
+        },
         "https://www.facebook.com/sejeoung.kim/posts/pfbid02VsFuq4dkiDbhBWQEhgmzi1Cza9DojB4M649No8DKNLVdggj19us6BkLUaFUBrrDHl": {
           "completed_at": "2026-09-06T19:55:09+00:00",
           "discovered_at": "2026-09-06T19:46:02+00:00",
@@ -18920,9 +18963,9 @@
       },
       "initial_cutoff_timestamp": 1786045562,
       "initialized_at": "2026-09-06T19:46:02+00:00",
-      "last_scan_timestamp": 1788723935,
+      "last_scan_timestamp": 1788789138,
       "name": "Se-Jeoung Kim",
-      "profile_position_scanned_at": "2026-09-06T19:46:02+00:00"
+      "profile_position_scanned_at": "2026-09-07T13:52:31+00:00"
     },
     "https://www.facebook.com/seungjoo.lee.545": {
       "discoveries": {
@@ -20143,5 +20186,5 @@
       "source_url": "https://www.facebook.com/minbok/posts/pfbid02Y8xsBmveoeynak7gGdiaSPD1hrpEgvRKwAexQRkxiT7yc89TzAUDD9FL3gWUwW8ml?rdid=0Cu1Me8HfaP7Di36&share_url=https%253A%252F%252Fwww.facebook.com%252Fshare%252Fp%252F1GPieVyNga%252F"
     }
   },
-  "updated_at": "2026-09-07T13:47:16+00:00"
+  "updated_at": "2026-09-07T13:52:47+00:00"
 }

@@ -5,8 +5,11 @@ Generated reading copies used by local automation. The
 the collector's deduplication and delivery state.
 
 A filtered public artifact is deployed to GitHub Pages after each push to
-`main`. The source checkout can also retain articles intended only for
-Instapaper private-content delivery.
+`main` when Pages is available for the repository. The source checkout can also
+retain articles intended only for Instapaper private-content delivery. GitHub
+Free automatically unpublishes Pages when a personal repository becomes
+private, so a private source repository may require a separate public
+deployment repository.
 
 ## Publication Filtering
 
