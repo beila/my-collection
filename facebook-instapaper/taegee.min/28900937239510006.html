@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="28900937239510006" name="facebook-post-id"/>
+<meta content="0b44002eb06ab1013416fbdf1cd1da34c71d04dda6b30d7babb559975e00fc36" name="facebook-content-hash"/>
+<meta content="40" name="facebook-article-format"/>
+<title>Taegee Min: 혹시라도 오해할까 봐 새벽에 일어나 AI가 ‘나비에–스토크스 방정식을 풀었다’는 게 아니라는 포스팅을 올렸는데, 역시나 잘못된 이야기들이 계속 퍼지고 있다.</title>
+<style>
+    :root { color-scheme: dark; background: #121212; }
+    body { background: #121212; color: #e8eaed;
+            font: 18px/1.55 system-ui, sans-serif; margin: 2rem auto;
+            max-width: 42rem; padding: 0 1rem; }
+    h1 { font-size: 1.35rem; line-height: 1.25; }
+    h2 { font-size: 1.05rem; line-height: 1.35; }
+    h3 { font-size: 1rem; line-height: 1.35; }
+    .byline, time { color: #bdc1c6; font-size: .9rem; }
+    a { color: #8ab4f8; }
+    img { display: block; height: auto; margin: 1.5rem auto; max-width: 100%; }
+    figure { margin: 1.5rem 0; }
+    figure img { margin: 0 auto; }
+    .media-description { color: #bdc1c6; margin: .5rem auto 0;
+                          max-width: 38rem; }
+    .post-media-image { margin: 1.5rem 0 0; }
+    .post-media-image img { margin: 0 auto; }
+    .post-media-caption { margin-top: .5rem; }
+    .video-thumbnail a { display: block; text-decoration: none; }
+    blockquote.shared-quote { border: 1px solid #8ab4f8; border-radius: 6px;
+                              margin: 1.5rem 0; padding: .75rem 1rem; }
+    .shared-quote p { margin: .5rem 0; }
+    .repost-attribution { color: #bdc1c6; font-size: .9rem; }
+    .photo-notice { border-left: 3px solid #8ab4f8; padding-left: .75rem; }
+    .linked-page { border: 1px solid #3c4043; border-radius: 6px;
+                    margin: 1.5rem 0; padding: 1rem; }
+    .linked-page p { margin: .5rem 0; }
+    .linked-page table { border-collapse: collapse; max-width: 100%; }
+    .linked-page td, .linked-page th { border: 1px solid #5f6368;
+                                        padding: .25rem; }
+    .linked-site, .linked-url { color: #bdc1c6; font-size: .85rem;
+                                overflow-wrap: anywhere; }
+    .source { border-top: 1px solid #3c4043; margin-top: 2rem; padding-top: 1rem; }
+img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
+                      vertical-align: middle; }
+    img.math-display { display: block; height: auto; margin: 1.25rem auto;
+                       max-width: 100%; }
+.youtube-thumbnail { margin: 1.5rem 0; }
+    .youtube-thumbnail a { display: block; text-decoration: none; }
+    .youtube-thumbnail img { margin: 0 auto; }
+  </style>
+</head>
+<body>
+<article class="article-content">
+<h1>Taegee Min: 혹시라도 오해할까 봐 새벽에 일어나 AI가 ‘나비에–스토크스 방정식을 풀었다’는 게 아니라는 포스팅을 올렸는데, 역시나 잘못된 이야기들이 계속 퍼지고 있다.</h1>
+<p class="byline">Taegee Min</p>
+<time datetime="2026-09-09T01:00:46+00:00">2026-09-09T01:00:46+00:00</time>
+<p>혹시라도 오해할까 봐 새벽에 일어나 AI가 ‘나비에–스토크스 방정식을 풀었다’는 게 아니라는 포스팅을 올렸는데, 역시나 잘못된 이야기들이 계속 퍼지고 있다. 비행기 양력만큼이나 도시전설이 될듯^^ 그와 별개로 내가 주목한 것은 이번 발견이 이론·수치 유체역학에 미칠 영향이다.</p>
+<p>.</p>
+<p>OpenAI 발표를 보고 제일 먼저 든 생각은 “어, 그럼 PINN(Physics-Informed Neural Network)은 어떻게 되는 거지?”였다.</p>
+<p>.</p>
+<p>사진은 Karniadakis가 2021년 발표한 PINN 리뷰 논문이다. PINN은 AI가 예측한 속도와 압력을 나비에–스토크스 방정식에 대입해 얻은 PDE residual과 데이터·초기조건·경계조건의 오차를 loss(L)로 만들고 이를 최소화한다. 여기에는 L이 충분히 작아지면 신경망의 해도 실제 유동해에 가까워질 것이라는 전제가 숨어 있다.</p>
+<p>.</p>
+<p>그런데 이번 OpenAI 논문이 주장하는 해는 나비에–스토크스 방정식의 residual을 정확히 0으로 만들면서도, 매끄러운 외력 아래 속도가 유한시간에 blow-up한다. 전체 운동에너지는 유한하지만 점점 좁아지는 영역에서 최대속도가 발산한다. 이는 PDE를 정확히 만족한다는 사실 자체가 해의 전역적인 매끄러움까지 보장하지는 않는다는 뜻이다. 더욱이 특이점에 가까워질수록 PINN이 좁고 급격한 변화를 포착하기 어려워, L이 작아져도 AI의 해가 실제 해에 가깝다고 보장하기 어려워진다.</p>
+<p>.</p>
+<p>특히 일반적인 PINN은 매끄러운 신경망과 유한한 collocation point, 평균제곱 loss를 사용한다. 그러므로 점점 작은 영역에 집중되는 singularity를 평균화하거나 표본에서 놓친 채 loss만 작아질 가능성이 있다. 이러면 AI 학습은 수렴했는데 최대속도에 대한 오차는 오히려 커지는 상황이 된다.</p>
+<p>.</p>
+<p>정리하자면 이번 AI의 성과는 PINN이 깔고 있는 ‘작은 PDE residual은 정확한 유동해를 의미한다’는 전제가 성립하지 않을 수 있음을 보여준다. AI가 AI로 유체를 해석하려는 시도의 취약점을 드러낸 셈이다. 이 문제가 오히려 재미있을 듯하다.</p>
+<p>.</p>
+<p>#이게다들나비에스토크스를다뤄본적이없어셔서그런듯</p>
+<p>#교수님들왜이러세요</p>
+<p>#그것보다AI가AI유체해석의문제점을드러낸사례로보면재미있습니다</p>
+<figure><img alt="Photo from Taegee Min" src="https://beila.github.io/my-collection/facebook-instapaper/taegee.min/28900937239510006/2042584f6960f970ce2d7d6a7e497e8611db9393ceeb920a33b546f193b1d190.jpg"/></figure>
+<p class="source"><a href="https://www.facebook.com/taegee.min/posts/28900937239510006">View the original Facebook post</a></p>
+</article>
+</body>
+</html>
