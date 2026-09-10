@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="28914298818173848" name="facebook-post-id"/>
+<meta content="39708b722f14e131cfca740a997045a5444d9fb10f611bffe39f74ec1cf7dfd5" name="facebook-content-hash"/>
+<meta content="40" name="facebook-article-format"/>
+<title>Taegee Min: 왜 굳이 ‘비압축성의 매끄러운 해’였는지 생각해 볼 필요가 있다.</title>
+<style>
+    :root { color-scheme: dark; background: #121212; }
+    body { background: #121212; color: #e8eaed;
+            font: 18px/1.55 system-ui, sans-serif; margin: 2rem auto;
+            max-width: 42rem; padding: 0 1rem; }
+    h1 { font-size: 1.35rem; line-height: 1.25; }
+    h2 { font-size: 1.05rem; line-height: 1.35; }
+    h3 { font-size: 1rem; line-height: 1.35; }
+    .byline, time { color: #bdc1c6; font-size: .9rem; }
+    a { color: #8ab4f8; }
+    img { display: block; height: auto; margin: 1.5rem auto; max-width: 100%; }
+    figure { margin: 1.5rem 0; }
+    figure img { margin: 0 auto; }
+    .media-description { color: #bdc1c6; margin: .5rem auto 0;
+                          max-width: 38rem; }
+    .post-media-image { margin: 1.5rem 0 0; }
+    .post-media-image img { margin: 0 auto; }
+    .post-media-caption { margin-top: .5rem; }
+    .video-thumbnail a { display: block; text-decoration: none; }
+    blockquote.shared-quote { border: 1px solid #8ab4f8; border-radius: 6px;
+                              margin: 1.5rem 0; padding: .75rem 1rem; }
+    .shared-quote p { margin: .5rem 0; }
+    .repost-attribution { color: #bdc1c6; font-size: .9rem; }
+    .photo-notice { border-left: 3px solid #8ab4f8; padding-left: .75rem; }
+    .linked-page { border: 1px solid #3c4043; border-radius: 6px;
+                    margin: 1.5rem 0; padding: 1rem; }
+    .linked-page p { margin: .5rem 0; }
+    .linked-page table { border-collapse: collapse; max-width: 100%; }
+    .linked-page td, .linked-page th { border: 1px solid #5f6368;
+                                        padding: .25rem; }
+    .linked-site, .linked-url { color: #bdc1c6; font-size: .85rem;
+                                overflow-wrap: anywhere; }
+    .source { border-top: 1px solid #3c4043; margin-top: 2rem; padding-top: 1rem; }
+img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
+                      vertical-align: middle; }
+    img.math-display { display: block; height: auto; margin: 1.25rem auto;
+                       max-width: 100%; }
+.youtube-thumbnail { margin: 1.5rem 0; }
+    .youtube-thumbnail a { display: block; text-decoration: none; }
+    .youtube-thumbnail img { margin: 0 auto; }
+  </style>
+</head>
+<body>
+<article class="article-content">
+<h1>Taegee Min: 왜 굳이 ‘비압축성의 매끄러운 해’였는지 생각해 볼 필요가 있다.</h1>
+<p class="byline">Taegee Min</p>
+<time datetime="2026-09-09T23:31:13+00:00">2026-09-09T23:31:13+00:00</time>
+<p>왜 굳이 ‘비압축성의 매끄러운 해’였는지 생각해 볼 필요가 있다. 연속체는 미분 가능성이 전제라, 매끄럽지 않은 해는 불편하다. 하지만 1887년 마흐가 충격파를 촬영하면서 얘기가 달라졌다. 충격파는 밀도·압력·속도가 불연속적으로 변하는 면이다. 전통적인 수학은 이런 불연속을 어떻게 다룰 것인지 오래 고민해왔다. 이번 OpenAI의 blow-up 사례가 PINN에 별로 반가운 소식이 아닌 이유라고 앞서 포스팅한 이유다.</p>
+<p>.</p>
+<p>반면, 이론 유체역학은 수학으로 오랫동안 이 문제를 접근했다. 이전 포스팅에서 속도가 낮은 압축성 유동이 어렵다고 했는데, 사진은 이를 설명하는 수학이다. 압축성 나비에-스토크스 방정식을 Jacobian 행렬 형태로 표기한 것. 여기서 H=E+p/rho.</p>
+<p>.</p>
+<p>이렇게 표기하면, 열심히 선형대수를 전개하면 행렬 A의 eigenvalue가 u+c, u, u-c로 나오는 것을 알 수 있고, u&lt;&lt;c이면 세 고유치가 너무 멀리 떨어지게 된다. 즉, 이 행렬이 stiff해진다. 그래서 낮은 속도의 압축성 유동이 잘 안풀리는 것. 반면 초음속 유동은 신나게 풀 수 있다.</p>
+<p>.</p>
+<p>한편, 수학자들은 이런 특성을 이미 잘 알고 shock과 같은 불연속을 어떻게 다룰지 여러 기법들을 개발해 왔다. 그 중 하나가 테렌스 타오가 근무하는 UCLA 수학과의 원로 스탠리 오셔 교수. 이 Hamilton–Jacobi 계열의 수학을 움직이는 경계면 추적으로 확장했고, 그렇게 나온 것이 Level Set Method이다.</p>
+<p>.</p>
+<p>나도 이 수업 들었다. 그런데 이 기법은 conservative하지 않았다(보수적이지 않다?). 그래서 당시 나는 이 방식에 대해 회의적이었는데, 그때 대학원생인가 누군가 이걸로 애니메이션을 만든 사례를 보여주었다. Fedkiw였다. 그리고 그는 아카데미상을 두번이나 탔다. 픽사의 시대를 연 초기 개척자다.</p>
+<p>.</p>
+<p>#밀레니엄문제의나비에스토크스가비압축성매끄러운해를다루는이유 #연속과불연속 #알면뭐하나 #늘주변의좋은기회를날리는유체역학자들</p>
+<figure><img alt="Photo from Taegee Min" src="https://beila.github.io/my-collection/facebook-instapaper/taegee.min/28914298818173848/a447da818e4c8215ee9fee966b5a7c6b859a1cdef64495fd5cfdc86c8e36ac46.jpg"/></figure>
+<p class="source"><a href="https://www.facebook.com/taegee.min/posts/28914298818173848">View the original Facebook post</a></p>
+</article>
+</body>
+</html>
