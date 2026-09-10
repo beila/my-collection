@@ -1,18 +1,5 @@
 {
   "schema_version": 1,
-  "articles": {
-    "https://stibee.com/api/v1.0/emails/share/C5TT8miVW76vejUVdF0E9Rmw5Wx8b2o": {
-      "canonical_url": "https://stibee.com/api/v1.0/emails/share/C5TT8miVW76vejUVdF0E9Rmw5Wx8b2o",
-      "final_url": "https://stibee.com/api/v1.0/emails/share/C5TT8miVW76vejUVdF0E9Rmw5Wx8b2o",
-      "feed_item_url": "https://event.stibee.com/v2/click/MzY3MTU3LzM1ODk2NjYvMTEyMy8/aHR0cHM6Ly9zdGliLmVlL1RiSk8",
-      "feed_identity": "newsletter-j50w0hwaltovoqbe:urn:kill-the-newsletter:toyrey3mk52x3cc803a4",
-      "title": "왜노자A 다이아리 (4) - 나의 Ferragosto",
-      "published_url": "https://beila.github.io/my-collection/stibee/c5tt8mivw76vejuvdf0e9rmw5wx8b2o-522d1060d935.html",
-      "content_hash": "d79a873603a6414780d7995c5d16234b5268a9e647e3c2d4b0f1706b457983a5",
-      "article_format_version": 1
-    }
-  },
-  "feed_items": {
-    "newsletter-j50w0hwaltovoqbe:urn:kill-the-newsletter:toyrey3mk52x3cc803a4": "https://stibee.com/api/v1.0/emails/share/C5TT8miVW76vejUVdF0E9Rmw5Wx8b2o"
-  }
+  "articles": {},
+  "feed_items": {}
 }
