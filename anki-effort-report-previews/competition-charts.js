@@ -1,6 +1,12 @@
 (() => {
   const data = window.ankiCompetition;
   const svgNs = "http://www.w3.org/2000/svg";
+  const fullmetalTheme = document.body.classList.contains("fullmetal-theme");
+  const alchemistRoles = {
+    haren: { short: "ED", character: "Edward", chart: "ED · #1" },
+    insuk: { short: "AL", character: "Alphonse", chart: "AL · ×25" },
+    hojin: { short: "ROY", character: "Mustang", chart: "ROY · SUPPORT" }
+  };
 
   const sum = values => values.reduce((total, value) => total + value, 0);
   const cumulative = values => {
@@ -48,7 +54,7 @@
     const svg = svgElement("svg", {
       viewBox: `0 0 ${width} ${height}`,
       role: "img",
-      "aria-label": `Cumulative ${metric} competition from 8 August to 13 September`
+      "aria-label": `${fullmetalTheme ? "State Alchemist " : ""}cumulative ${metric} competition from 8 August to 13 September`
     });
 
     const lastIndex = data.days.length - 1;
@@ -79,22 +85,6 @@
       });
     });
 
-    if (metric === "reviews") {
-      const eventIndex = 13;
-      const eventX = x(eventIndex);
-      svg.append(svgElement("line", {
-        x1: eventX,
-        y1: margin.top,
-        x2: eventX,
-        y2: margin.top + plotHeight,
-        class: "chart-event-line"
-      }));
-      addText(svg, mobile ? "HAREN +174 · AUG 21" : "HAREN'S BIGGEST DAY · +174 · AUG 21", eventX + 7, margin.top + 13, {
-        class: "chart-event-label",
-        "text-anchor": "start"
-      });
-    }
-
     data.competitors.forEach(competitor => {
       const values = metricValues(competitor, metric);
       const pathData = values
@@ -118,6 +108,21 @@
         fill: competitor.color,
         class: "chart-endpoint"
       }));
+
+      if (fullmetalTheme) {
+        const role = alchemistRoles[competitor.id];
+        const offset = competitor.id === "insuk" ? 18 : -10;
+        addText(svg, `⚗ ${role.chart}`, x(seriesLastIndex) - 8, y(values[seriesLastIndex]) + offset, {
+          class: "chart-character-label",
+          "text-anchor": "end",
+          style: `fill:${competitor.color}`
+        });
+      } else if (root.dataset.highlight === competitor.id) {
+        addText(svg, "★ P1", x(seriesLastIndex) - 8, y(values[seriesLastIndex]) - 10, {
+          class: "chart-highlight-label",
+          "text-anchor": "end"
+        });
+      }
     });
 
     const focus = svgElement("g", { class: "chart-focus", visibility: "hidden" });
@@ -153,7 +158,8 @@
       const values = data.competitors
         .map(competitor => {
           const value = metricValues(competitor, metric)[index];
-          return `${competitor.name} ${Math.round(value)}`;
+          const role = fullmetalTheme ? `/${alchemistRoles[competitor.id].character}` : "";
+          return `${competitor.name}${role} ${Math.round(value)}`;
         })
         .join(" · ");
       focusLabel.textContent = `${data.days[index]} · ${values}`;
@@ -210,20 +216,23 @@
 
   const renderStandings = root => {
     const categories = [
-      { id: "reviews", label: "Reviews", value: competitor => competitor.totalReviews, suffix: "" },
-      { id: "days", label: "Active days", value: competitor => competitor.activeDays, suffix: "d" },
-      { id: "minutes", label: "Logged minutes", value: competitor => competitor.totalMinutes, suffix: "m" }
+      { id: "reviews", label: "Reviews", alchemy: "Philosopher’s Stone fragments", value: competitor => competitor.totalReviews, suffix: "" },
+      { id: "days", label: "Active days", alchemy: "Circle activations", value: competitor => competitor.activeDays, suffix: "d" },
+      { id: "minutes", label: "Logged minutes", alchemy: "Central laboratory time", value: competitor => competitor.totalMinutes, suffix: "m" }
     ];
     root.innerHTML = categories.map(category => {
       const ranked = [...data.competitors].sort((a, b) => category.value(b) - category.value(a));
       const max = category.value(ranked[0]);
       return `
-        <section class="standing-category">
-          <header><span>${category.label}</span><b>${ranked[0].name} leads</b></header>
+        <section class="standing-category" data-alchemy="${category.id}">
+          <header>
+            <span>${category.label}${fullmetalTheme ? `<small>${category.alchemy}</small>` : ""}</span>
+            <b>${ranked[0].name} leads</b>
+          </header>
           ${ranked.map((competitor, index) => `
             <div class="standing-row">
               <span class="standing-rank">0${index + 1}</span>
-              <span class="standing-name">${competitor.name}</span>
+              <span class="standing-name">${competitor.name}${fullmetalTheme ? `<small>${alchemistRoles[competitor.id].short}</small>` : ""}</span>
               <span class="standing-track"><i style="--series:${competitor.color};--value:${(category.value(competitor) / max) * 100}%"></i></span>
               <strong>${rounded(category.value(competitor))}${category.suffix}</strong>
             </div>
@@ -239,7 +248,7 @@
       <article class="summary-person" style="--series:${competitor.color}">
         <span class="summary-rank">0${index + 1}</span>
         <div>
-          <h3>${competitor.name}</h3>
+          <h3>${competitor.name}${fullmetalTheme ? ` · ${alchemistRoles[competitor.id].character}` : ""}</h3>
           <p>${competitor.activeDays} active days · ${competitor.totalMinutes} min</p>
         </div>
         <strong>${competitor.totalReviews}</strong>

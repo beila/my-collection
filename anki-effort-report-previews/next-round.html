@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Competition Preview 3 — Next Round</title>
+  <title>Fullmetal Family Grand Prix — Haren Holds First Place</title>
   <link rel="stylesheet" href="competition-v2.css">
   <style>
     :root {
@@ -24,9 +24,46 @@
     }
 
     .shell {
+      position: relative;
       width: min(1400px, 100%);
       margin: 0 auto;
       padding: 32px 42px 29px;
+    }
+
+    .shell::before {
+      content: "";
+      position: absolute;
+      top: 75px;
+      right: 9%;
+      z-index: -1;
+      width: 130px;
+      height: 130px;
+      opacity: 0.28;
+      background: radial-gradient(circle, rgba(75, 131, 230, 0.28) 1.5px, transparent 1.7px);
+      background-size: 13px 13px;
+      transform: rotate(9deg);
+    }
+
+    .shell::after {
+      content: "☿";
+      position: absolute;
+      top: 345px;
+      left: -112px;
+      z-index: -1;
+      display: grid;
+      width: 260px;
+      height: 260px;
+      place-items: center;
+      border: 2px solid rgba(75, 131, 230, 0.09);
+      border-radius: 50%;
+      box-shadow:
+        inset 0 0 0 18px var(--surface),
+        inset 0 0 0 20px rgba(75, 131, 230, 0.07),
+        inset 0 0 0 42px var(--surface),
+        inset 0 0 0 44px rgba(75, 131, 230, 0.05);
+      color: rgba(75, 131, 230, 0.12);
+      font-size: 100px;
+      transform: rotate(-17deg);
     }
 
     .nav {
@@ -51,9 +88,9 @@
 
     .hero {
       display: grid;
-      grid-template-columns: 1fr minmax(280px, 0.46fr);
-      gap: 50px;
-      align-items: end;
+      grid-template-columns: minmax(0, 0.94fr) minmax(500px, 0.72fr);
+      gap: 38px;
+      align-items: center;
       margin-bottom: 22px;
     }
 
@@ -65,14 +102,180 @@
       line-height: 0.84;
     }
 
-    h1 span {
+    h1 .lead-copy {
       color: var(--haren);
     }
 
+    h1 .rank-one {
+      position: relative;
+      z-index: 0;
+      display: inline-block;
+      margin-left: 0.03em;
+      padding: 0.02em 0.13em 0.06em;
+      border: 0.045em solid var(--ink);
+      border-radius: 0.16em;
+      background: var(--haren);
+      color: #fff;
+      line-height: 0.76;
+      letter-spacing: -0.08em;
+      box-shadow: 0.075em 0.085em 0 #f4c246;
+      text-shadow: 0 0.035em 0 rgba(28, 38, 50, 0.24);
+      transform: rotate(-2deg);
+    }
+
+    h1 .rank-one::before {
+      content: "";
+      position: absolute;
+      inset: -0.11em -0.1em;
+      z-index: -1;
+      border: 0.02em dashed #c92e35;
+      border-radius: 0.22em;
+      transform: rotate(3deg);
+    }
+
+    h1 .rank-one::after {
+      content: "✦";
+      position: absolute;
+      top: -0.55em;
+      right: -0.42em;
+      display: grid;
+      width: 0.66em;
+      height: 0.66em;
+      place-items: center;
+      border: 0.1em solid var(--ink);
+      border-radius: 50%;
+      background: #fff3cf;
+      color: #c92e35;
+      font-size: 0.32em;
+      line-height: 1;
+      box-shadow: 0.1em 0.1em 0 rgba(28, 38, 50, 0.14);
+      transform: rotate(12deg);
+    }
+
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 18px;
+    }
+
+    .hero-badges span {
+      padding: 7px 10px;
+      border: 1px solid rgba(75, 131, 230, 0.2);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.58);
+      color: #53606c;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .hero-badges .primary {
+      border-color: rgba(75, 131, 230, 0.38);
+      background: var(--haren);
+      color: #fff;
+      box-shadow: 0 7px 18px rgba(75, 131, 230, 0.17);
+      transform: rotate(-1deg);
+    }
+
     .reset-card {
+      margin-top: 10px;
       padding-left: 21px;
       border-left: 2px solid var(--haren);
     }
+
+    .hero-side {
+      min-width: 0;
+    }
+
+    .character-card {
+      position: relative;
+      overflow: hidden;
+      border: 2px solid rgba(28, 38, 50, 0.82);
+      border-radius: 20px;
+      background:
+        radial-gradient(circle at 17% 12%, rgba(201, 46, 53, 0.14), transparent 27%),
+        radial-gradient(circle at 88% 83%, rgba(75, 131, 230, 0.16), transparent 30%),
+        rgba(255, 255, 255, 0.65);
+      box-shadow: 5px 6px 0 rgba(28, 38, 50, 0.1), 0 22px 55px rgba(39, 49, 57, 0.08);
+      transform: rotate(0.5deg);
+    }
+
+    .character-card::before {
+      content: "FULLMETAL REVIEW ARC";
+      position: absolute;
+      top: 49px;
+      right: -39px;
+      z-index: 2;
+      width: 163px;
+      padding: 5px 0;
+      background: #c92e35;
+      color: #fff;
+      font-size: 7px;
+      font-weight: 950;
+      letter-spacing: 0.12em;
+      text-align: center;
+      transform: rotate(39deg);
+    }
+
+    .character-kicker {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      z-index: 2;
+      padding: 6px 8px;
+      border: 2px solid var(--ink);
+      border-radius: 7px;
+      background: #fff3cf;
+      color: var(--ink);
+      font-size: 8px;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      box-shadow: 3px 3px 0 rgba(28, 38, 50, 0.12);
+      transform: rotate(-2deg);
+    }
+
+    .character-card img {
+      display: block;
+      width: 100%;
+      height: 270px;
+      object-fit: contain;
+      object-position: center bottom;
+    }
+
+    .brainrot-ribbon {
+      position: relative;
+      right: auto;
+      bottom: auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 6px;
+      max-width: none;
+      margin-top: -3px;
+      padding: 0 12px 13px;
+    }
+
+    .brainrot-ribbon span {
+      padding: 6px 8px;
+      border: 2px solid var(--ink);
+      border-radius: 8px;
+      background: #fffefa;
+      color: var(--ink);
+      font-size: 8px;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      box-shadow: 3px 3px 0 rgba(28, 38, 50, 0.12);
+      transform: rotate(var(--tilt));
+    }
+
+    .brainrot-ribbon span:nth-child(1) { --tilt: -2deg; color: var(--haren); }
+    .brainrot-ribbon span:nth-child(2) { --tilt: 2deg; color: #258d58; }
+    .brainrot-ribbon span:nth-child(3) { --tilt: -1deg; color: #a16c08; }
+    .brainrot-ribbon span:nth-child(4) { --tilt: 2deg; color: #b52b31; }
 
     .reset-card span,
     .reset-card strong,
@@ -107,10 +310,43 @@
     }
 
     .panel {
+      position: relative;
+      overflow: hidden;
       border: 1px solid var(--line);
       border-radius: 14px;
       background: rgba(255, 254, 250, 0.94);
       box-shadow: 0 20px 55px rgba(39, 49, 57, 0.07);
+      transition: transform 160ms ease, box-shadow 160ms ease;
+    }
+
+    .panel[data-sigil]::after {
+      content: attr(data-sigil);
+      position: absolute;
+      top: -34px;
+      right: -31px;
+      z-index: 0;
+      display: grid;
+      width: 126px;
+      height: 126px;
+      place-items: center;
+      border: 1px solid color-mix(in srgb, var(--sigil, var(--haren)) 55%, transparent);
+      border-radius: 50%;
+      box-shadow:
+        inset 0 0 0 10px var(--panel),
+        inset 0 0 0 11px color-mix(in srgb, var(--sigil, var(--haren)) 42%, transparent),
+        inset 0 0 0 25px var(--panel),
+        inset 0 0 0 26px color-mix(in srgb, var(--sigil, var(--haren)) 33%, transparent);
+      color: var(--sigil, var(--haren));
+      font-size: 43px;
+      font-weight: 900;
+      opacity: 0.09;
+      pointer-events: none;
+      transform: rotate(13deg);
+    }
+
+    .panel[data-sigil] > * {
+      position: relative;
+      z-index: 1;
     }
 
     .panel-head {
@@ -140,6 +376,470 @@
       padding: 0 21px 10px;
     }
 
+    .story-mode {
+      grid-column: 1 / -1;
+      padding: 21px 22px 23px;
+      overflow: hidden;
+    }
+
+    .story-heading {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: end;
+      margin-bottom: 17px;
+    }
+
+    .story-heading h2 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .story-heading p {
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .story-heading > span {
+      padding: 7px 10px;
+      border: 2px solid var(--ink);
+      border-radius: 7px;
+      background: #fff3cf;
+      color: var(--ink);
+      font-size: 9px;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      box-shadow: 3px 3px 0 rgba(28, 38, 50, 0.12);
+      transform: rotate(2deg);
+    }
+
+    .alchemy-cast {
+      position: relative;
+      display: grid;
+      grid-template-columns: auto repeat(6, 1fr);
+      gap: 8px;
+      align-items: stretch;
+      margin: 2px 0 17px;
+      padding: 10px;
+      border: 2px solid rgba(28, 38, 50, 0.78);
+      border-radius: 15px;
+      background:
+        linear-gradient(110deg, rgba(201, 46, 53, 0.06), transparent 28%),
+        rgba(255, 254, 250, 0.9);
+      box-shadow: 4px 4px 0 rgba(28, 38, 50, 0.09);
+      transform: rotate(-0.15deg);
+    }
+
+    .race-control {
+      position: relative;
+      overflow: hidden;
+      margin: 0 0 17px;
+      border: 2px solid var(--ink);
+      border-radius: 17px;
+      background: rgba(255, 254, 250, 0.96);
+      box-shadow: 5px 6px 0 rgba(28, 38, 50, 0.1), 0 20px 55px rgba(39, 49, 57, 0.07);
+    }
+
+    .race-control::after {
+      content: "☿";
+      position: absolute;
+      right: 28px;
+      bottom: -73px;
+      color: rgba(75, 131, 230, 0.05);
+      font-size: 180px;
+      line-height: 1;
+      transform: rotate(13deg);
+      pointer-events: none;
+    }
+
+    .race-control-head {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+      padding: 12px 15px;
+      background: var(--ink);
+      color: #fff;
+    }
+
+    .race-control-head div {
+      display: flex;
+      gap: 11px;
+      align-items: center;
+    }
+
+    .race-control-head p {
+      margin: 0;
+    }
+
+    .race-control-head b {
+      display: grid;
+      width: 31px;
+      height: 31px;
+      place-items: center;
+      border-radius: 8px;
+      background: #c92e35;
+      font-size: 15px;
+      transform: rotate(-3deg);
+    }
+
+    .race-control-head strong,
+    .race-control-head span {
+      display: block;
+    }
+
+    .race-control-head strong {
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .race-control-head span {
+      margin-top: 2px;
+      color: rgba(255, 255, 255, 0.64);
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .race-control-head > em {
+      padding: 6px 8px;
+      border: 1px solid rgba(255, 255, 255, 0.32);
+      border-radius: 7px;
+      color: #fff3cf;
+      font-size: 8px;
+      font-style: normal;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .race-lanes {
+      position: relative;
+      z-index: 1;
+      padding: 13px 15px 5px;
+    }
+
+    .race-lane {
+      display: grid;
+      grid-template-columns: 39px 105px minmax(180px, 1fr) 83px;
+      gap: 10px;
+      align-items: center;
+      min-height: 47px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .race-lane:last-child {
+      border-bottom: 0;
+    }
+
+    .race-lane.leader {
+      margin-inline: -6px;
+      padding-inline: 6px;
+      border-radius: 10px;
+      background: rgba(75, 131, 230, 0.055);
+    }
+
+    .race-rank {
+      color: var(--series);
+      font-size: 17px;
+      font-weight: 950;
+      letter-spacing: -0.04em;
+    }
+
+    .race-name strong,
+    .race-name span {
+      display: block;
+    }
+
+    .race-name strong {
+      font-size: 12px;
+    }
+
+    .race-name span {
+      margin-top: 2px;
+      color: var(--series);
+      font-size: 8px;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .race-track {
+      position: relative;
+      height: 25px;
+      border-radius: 6px;
+      background:
+        linear-gradient(var(--line), var(--line)) center / 100% 1px no-repeat,
+        repeating-linear-gradient(90deg, transparent 0 10%, rgba(28, 38, 50, 0.035) 10% 10.5%);
+    }
+
+    .race-track::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 8px;
+      height: 25px;
+      border-radius: 2px;
+      background:
+        conic-gradient(#1c2632 25%, #fff 0 50%, #1c2632 0 75%, #fff 0) 0 0 / 8px 8px;
+      box-shadow: 0 0 0 1px rgba(28, 38, 50, 0.18);
+    }
+
+    .race-track i {
+      position: absolute;
+      top: 50%;
+      left: var(--pos);
+      display: grid;
+      min-width: 31px;
+      height: 24px;
+      padding: 0 5px;
+      place-items: center;
+      border: 2px solid var(--ink);
+      border-radius: 8px;
+      background: var(--series);
+      color: #fff;
+      font-size: 8px;
+      font-style: normal;
+      font-weight: 950;
+      box-shadow: 2px 2px 0 rgba(28, 38, 50, 0.14);
+      transform: translate(-50%, -50%) rotate(-2deg);
+    }
+
+    .race-lane.leader .race-track i {
+      min-width: 38px;
+      height: 29px;
+      box-shadow: 0 0 0 4px rgba(75, 131, 230, 0.1), 2px 2px 0 rgba(28, 38, 50, 0.14);
+    }
+
+    .race-score {
+      text-align: right;
+    }
+
+    .race-score strong,
+    .race-score span {
+      display: block;
+    }
+
+    .race-score strong {
+      color: var(--series);
+      font-size: 17px;
+    }
+
+    .race-score span {
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 8px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .race-callouts {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 8px;
+      padding: 8px 15px 14px;
+    }
+
+    .race-callout {
+      padding: 10px 12px;
+      border: 1px solid color-mix(in srgb, var(--callout) 25%, var(--line));
+      border-radius: 9px;
+      background: color-mix(in srgb, var(--callout) 6%, white);
+    }
+
+    .race-callout b,
+    .race-callout span {
+      display: block;
+    }
+
+    .race-callout b {
+      color: var(--callout);
+      font-size: 10px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .race-callout span {
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 9px;
+      line-height: 1.4;
+    }
+
+    .cast-title {
+      display: grid;
+      min-width: 108px;
+      padding: 9px 11px;
+      place-content: center;
+      border-radius: 10px;
+      background: var(--ink);
+      color: #fff;
+      font-size: 8px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      line-height: 1.45;
+      text-transform: uppercase;
+    }
+
+    .cast-chip {
+      position: relative;
+      min-width: 0;
+      padding: 8px 8px 7px 34px;
+      border: 1px solid color-mix(in srgb, var(--cast) 27%, var(--line));
+      border-radius: 9px;
+      background: color-mix(in srgb, var(--cast) 7%, white);
+    }
+
+    .cast-chip::before {
+      content: attr(data-icon);
+      position: absolute;
+      top: 50%;
+      left: 7px;
+      display: grid;
+      width: 21px;
+      height: 21px;
+      place-items: center;
+      border: 2px solid var(--ink);
+      border-radius: 50%;
+      background: #fff;
+      color: var(--cast);
+      font-size: 10px;
+      font-weight: 950;
+      transform: translateY(-50%) rotate(-5deg);
+    }
+
+    .cast-chip strong,
+    .cast-chip span {
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .cast-chip strong {
+      color: var(--cast);
+      font-size: 9px;
+      text-transform: uppercase;
+    }
+
+    .cast-chip span {
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 7px;
+      font-weight: 750;
+    }
+
+    .story-rail {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .story-beat {
+      position: relative;
+      min-height: 154px;
+      padding: 15px 15px 14px;
+      border: 1px solid color-mix(in srgb, var(--beat) 23%, var(--line));
+      border-radius: 13px;
+      background:
+        linear-gradient(155deg, color-mix(in srgb, var(--beat) 8%, white), rgba(255, 255, 255, 0.5)),
+        var(--panel);
+    }
+
+    .story-beat::after {
+      content: attr(data-character);
+      position: absolute;
+      right: 10px;
+      bottom: 9px;
+      color: var(--beat);
+      font-size: 25px;
+      font-weight: 950;
+      letter-spacing: -0.08em;
+      opacity: 0.11;
+      transform: rotate(-8deg);
+    }
+
+    .story-beat + .story-beat::before {
+      content: "→";
+      position: absolute;
+      top: 61px;
+      left: -16px;
+      z-index: 2;
+      display: grid;
+      width: 22px;
+      height: 22px;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: var(--panel);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .episode {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      align-items: center;
+      color: var(--beat);
+      font-size: 8px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .episode b {
+      display: grid;
+      min-width: 31px;
+      height: 31px;
+      padding: 0 7px;
+      place-items: center;
+      border-radius: 10px;
+      background: var(--beat);
+      color: #fff;
+      font-size: 12px;
+      box-shadow: 0 6px 15px color-mix(in srgb, var(--beat) 19%, transparent);
+      transform: rotate(var(--tilt));
+    }
+
+    .story-beat h3 {
+      margin: 15px 0 6px;
+      font-size: 20px;
+      letter-spacing: -0.025em;
+      line-height: 1.05;
+    }
+
+    .story-beat p {
+      margin: 0;
+      color: #596571;
+      font-size: 10px;
+      line-height: 1.5;
+    }
+
+    .story-beat .quote {
+      display: inline-block;
+      margin-top: 11px;
+      padding: 5px 7px;
+      border-radius: 5px;
+      background: var(--ink);
+      color: #fff;
+      font-size: 8px;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      transform: rotate(-1deg);
+    }
+
     .moment {
       grid-column: 1 / -1;
       display: grid;
@@ -151,6 +851,7 @@
       position: relative;
       min-height: 166px;
       padding: 20px 21px;
+      transition: background 160ms ease;
     }
 
     .moment article + article {
@@ -167,12 +868,82 @@
       background: var(--series);
     }
 
+    .moment article::after {
+      content: "△";
+      position: absolute;
+      right: 17px;
+      bottom: -22px;
+      color: var(--series);
+      font-size: 78px;
+      font-weight: 300;
+      line-height: 1;
+      opacity: 0.055;
+      transform: rotate(12deg);
+    }
+
     .moment .label {
       color: var(--series);
       font-size: 9px;
       font-weight: 850;
       letter-spacing: 0.09em;
       text-transform: uppercase;
+    }
+
+    .meme-caption {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 5px 7px;
+      border-radius: 6px;
+      background: color-mix(in srgb, var(--series) 10%, white);
+      color: var(--series);
+      font-size: 8px;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      transform: rotate(-1deg);
+    }
+
+    .character-role {
+      display: inline-flex;
+      gap: 6px;
+      align-items: center;
+      margin-top: 10px;
+      color: var(--series);
+      font-size: 8px;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .character-role b {
+      display: grid;
+      width: 23px;
+      height: 23px;
+      place-items: center;
+      border: 2px solid var(--ink);
+      border-radius: 50%;
+      background: color-mix(in srgb, var(--series) 13%, white);
+      color: var(--series);
+      box-shadow: 2px 2px 0 rgba(28, 38, 50, 0.12);
+      transform: rotate(-4deg);
+    }
+
+    .moment-icon {
+      position: absolute;
+      top: 18px;
+      right: 19px;
+      display: grid;
+      min-width: 28px;
+      height: 28px;
+      padding: 0 7px;
+      place-items: center;
+      border: 1px solid color-mix(in srgb, var(--series) 32%, transparent);
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--series) 9%, white);
+      color: var(--series);
+      font-size: 11px;
+      font-weight: 900;
+      transform: rotate(3deg);
     }
 
     .moment h3 {
@@ -269,11 +1040,54 @@
       font-size: 10px;
     }
 
+    @media (hover: hover) {
+      .panel:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 24px 62px rgba(39, 49, 57, 0.1);
+      }
+
+      .moment article:hover {
+        background: color-mix(in srgb, var(--series) 4%, transparent);
+      }
+    }
+
     @media (max-width: 760px) {
       .shell { padding: 24px 16px 30px; }
       .hero, .grid, .moment, .rules { grid-template-columns: 1fr; }
       .hero { gap: 22px; }
+      .alchemy-cast { grid-template-columns: repeat(2, 1fr); }
+      .cast-title { grid-column: 1 / -1; min-height: 42px; }
+      .race-control-head { align-items: flex-start; }
+      .race-control-head > em { max-width: 116px; text-align: right; }
+      .race-lane {
+        grid-template-areas:
+          "rank name score"
+          ". track track";
+        grid-template-columns: 28px 1fr auto;
+        gap: 4px 7px;
+        min-height: 68px;
+        padding-block: 7px;
+      }
+      .race-rank { grid-area: rank; }
+      .race-name { grid-area: name; }
+      .race-track { grid-area: track; width: 100%; }
+      .race-score { grid-area: score; }
+      .race-name strong { font-size: 10px; }
+      .race-name span { font-size: 7px; }
+      .race-score strong { font-size: 14px; }
+      .race-callouts { grid-template-columns: 1fr; }
+      .hero-badges { margin-top: 14px; }
+      .character-card img { height: 218px; }
+      .brainrot-ribbon { max-width: none; padding-inline: 8px; }
       .reset-card { padding: 13px 0 0; border-left: 0; border-top: 1px solid rgba(75, 131, 230, 0.4); }
+      .story-heading { align-items: start; flex-direction: column; }
+      .story-rail { grid-template-columns: 1fr; }
+      .story-beat { min-height: 0; }
+      .story-beat + .story-beat::before {
+        top: -17px;
+        left: 50%;
+        transform: translateX(-50%) rotate(90deg);
+      }
       .moment, .rules { grid-column: auto; }
       .moment article + article { border-left: 0; border-top: 1px solid var(--line); }
       .panel-head { display: block; }
@@ -281,83 +1095,200 @@
       .chart { min-height: 286px; padding-inline: 0; }
       footer { display: block; line-height: 1.5; }
     }
+
+    @media (max-width: 390px) {
+      .alchemy-cast { grid-template-columns: 1fr; }
+      .cast-title { grid-column: auto; }
+    }
   </style>
 </head>
-<body>
+<body class="fullmetal-theme">
   <main class="shell">
     <header class="nav">
-      <strong>ANKI · SEASON BOARD</strong>
+      <strong>ANKI · STATE ALCHEMIST GRAND PRIX</strong>
       <span>Competition preview 03 · mobile-first</span>
     </header>
 
     <section class="hero">
       <div>
-        <p class="eyebrow">Current race + next playable objective</p>
-        <h1>Haren leads reviews.<br><span>Now defend the lead.</span></h1>
+        <p class="eyebrow">The Fullmetal Family Grand Prix · live race</p>
+        <h1>Haren is <span class="rank-one">#1</span>.<br><span class="lead-copy">83 reviews ahead of Insuk.</span></h1>
+        <div class="hero-badges">
+          <span class="primary">★ Haren · 1st place</span>
+          <span>874 reviews</span>
+          <span>+83 ahead</span>
+        </div>
       </div>
-      <div class="reset-card">
-        <span>Fresh weekly sprint</span>
-        <strong>Starts tomorrow</strong>
-        <p>Monday 14 September. Previous totals become history, not a handicap.</p>
+      <div class="hero-side">
+        <div class="character-card">
+          <span class="character-kicker">Fullmetal Memory Squad · family cut</span>
+          <img src="fullmetal-memory-squad.svg" alt="Original Fullmetal Alchemist-inspired chibi scene: Haren as Edward Elric in the centre, Insuk as Alphonse Elric, Hojin as Roy Mustang, and an Armstrong cameo">
+          <div class="brainrot-ribbon" aria-label="Meme reactions">
+            <span>Built different</span>
+            <span>Armour streak</span>
+            <span>Flame support</span>
+            <span>Absolute cinema</span>
+          </div>
+        </div>
+        <div class="reset-card">
+          <span>Next race · clean start · crown on the line</span>
+          <strong>Round 2 starts tomorrow</strong>
+          <p>Monday 14 September. Every racer returns to zero; one active day earns one point.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="alchemy-cast" aria-label="Fullmetal Alchemist commentary desk">
+      <div class="cast-title">Grand Prix<br>commentary<br>desk</div>
+      <div class="cast-chip" data-icon="🔧" style="--cast:#d8a23a"><strong>Winry</strong><span>streak repair shop</span></div>
+      <div class="cast-chip" data-icon="◎" style="--cast:#4b83e6"><strong>Riza</strong><span>one-day precision</span></div>
+      <div class="cast-chip" data-icon="✦" style="--cast:#e277b1"><strong>Armstrong</strong><span>#1 sparkle audit</span></div>
+      <div class="cast-chip" data-icon="◇" style="--cast:#5d6873"><strong>Greed</strong><span>wants every review</span></div>
+      <div class="cast-chip" data-icon="×" style="--cast:#b52b31"><strong>Scar</strong><span>destroys overdue cards</span></div>
+      <div class="cast-chip" data-icon="▣" style="--cast:#3dbb77"><strong>Hughes</strong><span>family board photographer</span></div>
+    </section>
+
+    <section class="race-control" aria-label="Live review race standings">
+      <header class="race-control-head">
+        <div>
+          <b>🏁</b>
+          <p><strong>Central Race Control · live standings</strong><span>900-review checkpoint · exact totals since Haren started</span></p>
+        </div>
+        <em>Haren defending the Fullmetal crown</em>
+      </header>
+      <div class="race-lanes">
+        <div class="race-lane leader" style="--series:var(--haren)">
+          <span class="race-rank">#1</span>
+          <span class="race-name"><strong>Haren</strong><span>Edward · leader</span></span>
+          <span class="race-track"><i style="--pos:97.1%">ED</i></span>
+          <span class="race-score"><strong>874</strong><span>crown held</span></span>
+        </div>
+        <div class="race-lane" style="--series:var(--insuk)">
+          <span class="race-rank">#2</span>
+          <span class="race-name"><strong>Insuk</strong><span>Alphonse · rival</span></span>
+          <span class="race-track"><i style="--pos:87.9%">AL</i></span>
+          <span class="race-score"><strong>791</strong><span>−83 gap</span></span>
+        </div>
+        <div class="race-lane" style="--series:var(--hojin)">
+          <span class="race-rank">#3</span>
+          <span class="race-name"><strong>Hojin</strong><span>Mustang · chase</span></span>
+          <span class="race-track"><i style="--pos:20%">ROY</i></span>
+          <span class="race-score"><strong>180</strong><span>−694 gap</span></span>
+        </div>
+      </div>
+      <div class="race-callouts">
+        <div class="race-callout" style="--callout:var(--haren)">
+          <b>⚗ Leader alert · Haren remains #1</b>
+          <span>One return session restarts the protagonist arc before the 83-review lead comes under more pressure.</span>
+        </div>
+        <div class="race-callout" style="--callout:#c92e35">
+          <b>☉ Monday: new Grand Prix</b>
+          <span>Historical trophies stay on display, but the weekly scoreboard resets to 0–0–0.</span>
+        </div>
       </div>
     </section>
 
     <section class="grid">
-      <article class="panel">
+      <article class="panel" data-sigil="☿" style="--sigil:var(--haren)">
         <div class="panel-head">
-          <div><h2>Historical review race</h2><p>Every recorded day since Haren’s first session.</p></div>
+          <div><h2>Historical Grand Prix · the complete race</h2><p>Every recorded review since Haren entered. Follow the #1 line and the 83-review chase.</p></div>
           <div class="chart-legend">
-            <span><i style="--series:var(--hojin)"></i>Hojin</span>
-            <span><i style="--series:var(--insuk)"></i>Insuk</span>
-            <span><i style="--series:var(--haren)"></i>Haren</span>
+            <span><i style="--series:var(--hojin)"></i>Hojin · Roy</span>
+            <span><i style="--series:var(--insuk)"></i>Insuk · Al</span>
+            <span><i style="--series:var(--haren)"></i>Haren · Ed</span>
           </div>
         </div>
-        <div class="chart" data-race-chart data-metric="reviews"></div>
+        <div class="chart" data-race-chart data-metric="reviews" data-highlight="haren"></div>
       </article>
 
-      <aside class="panel">
-        <div class="panel-head"><div><h2>Category podiums</h2><p>Real values; no mystery points.</p></div></div>
+      <aside class="panel" data-sigil="⚖" style="--sigil:var(--insuk)">
+        <div class="panel-head"><div><h2>Podium control · three races</h2><p>Review crown, attendance crown, and lab-time crown. No mystery points.</p></div></div>
         <div class="standings" data-standings></div>
       </aside>
 
-      <section class="panel moment">
+      <section class="panel story-mode" data-sigil="☉" style="--sigil:#c92e35">
+        <div class="story-heading">
+          <div>
+            <h2>Previously on the Fullmetal Grand Prix…</h2>
+            <p>The real race, recut as a four-episode alchemy saga.</p>
+          </div>
+          <span>Season 01 · no filler · no cap</span>
+        </div>
+        <div class="story-rail">
+          <article class="story-beat" data-character="ED" style="--beat:var(--haren);--tilt:-3deg">
+            <div class="episode"><span>Episode 01 · Origin story</span><b>▶</b></div>
+            <h3>The Fullmetal lead is forged.</h3>
+            <p>Haren lands 247 reviews in week one. The blue line takes first place immediately.</p>
+            <span class="quote">Protagonist behaviour</span>
+          </article>
+          <article class="story-beat" data-character="ED" style="--beat:var(--haren);--tilt:3deg">
+            <div class="episode"><span>Episode 02 · Transmutation</span><b>+174</b></div>
+            <h3>The deck becomes XP.</h3>
+            <p>21 August: Haren transmutes 174 reviews in one day and turns the lead into a wall.</p>
+            <span class="quote">Lore-accurate power spike</span>
+          </article>
+          <article class="story-beat" data-character="AL" style="--beat:var(--insuk);--tilt:-2deg">
+            <div class="episode"><span>Episode 03 · Armour arc</span><b>×25</b></div>
+            <h3>The armour keeps walking.</h3>
+            <p>Insuk builds a 25-day streak and closes the gap—but Haren still owns the review crown.</p>
+            <span class="quote">Armour-plated consistency</span>
+          </article>
+          <article class="story-beat" data-character="ROY" style="--beat:var(--hojin);--tilt:2deg">
+            <div class="episode"><span>Episode 04 · Equivalent exchange</span><b>00</b></div>
+            <h3>A new circle activates.</h3>
+            <p>Monday starts at zero. Haren can now transmute first-place volume into a fresh streak.</p>
+            <span class="quote">NPC arc officially cancelled</span>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel moment" data-sigil="✦" style="--sigil:var(--hojin)">
         <article style="--series:var(--haren)">
-          <span class="label">Opening move</span>
+          <span class="moment-icon">★</span>
+          <span class="label">Race leader · #1</span>
           <h3>Haren: 874</h3>
           <p>Total reviews since starting. <b>First place for overall volume</b> in the family race.</p>
+          <span class="character-role"><b>ED</b> Edward protagonist mode</span>
+          <span class="meme-caption">Bro transmuted the whole deck</span>
         </article>
         <article style="--series:var(--insuk)">
-          <span class="label">Next upgrade</span>
-          <h3>Haren: 18 days</h3>
-          <p>Seven active days behind the consistency leader. The new round starts at zero.</p>
+          <span class="moment-icon">↗</span>
+          <span class="label">Closest rival · #2</span>
+          <h3>Insuk: 25 days</h3>
+          <p>Seven more active days than Haren, with a live 25-day streak.</p>
+          <span class="character-role"><b>AL</b> Alphonse armour mode</span>
+          <span class="meme-caption">Actually armour-plated</span>
         </article>
         <article style="--series:var(--hojin)">
-          <span class="label">Review margin</span>
+          <span class="moment-icon">+83</span>
+          <span class="label">Lead margin</span>
           <h3>Haren +83</h3>
           <p>Haren remains ahead in reviews even after eleven inactive days.</p>
+          <span class="character-role"><b>ROY</b> Mustang support cameo</span>
+          <span class="meme-caption">Still #1 · immaculate aura</span>
         </article>
       </section>
 
       <section class="rules">
-        <article class="panel rules-copy">
-          <h2>Why reset weekly?</h2>
-          <p>Haren has already shown he can win a short sprint. A weekly restart rewards returning today instead of punishing the eleven days already missed.</p>
+        <article class="panel rules-copy" data-sigil="△" style="--sigil:var(--haren)">
+          <h2>The law of equivalent exchange</h2>
+          <p>Haren has already proved he can dominate a short sprint. The weekly reset trades one visit for one point, instead of punishing the eleven days already missed.</p>
         </article>
-        <article class="panel score-rule">
-          <h2>Next competition rule</h2>
-          <p>Make frequency the main game. High review volume should not beat somebody who showed up more days.</p>
+        <article class="panel score-rule" data-sigil="☉" style="--sigil:#c92e35">
+          <h2>Round 2 Grand Prix rule</h2>
+          <p>Consistency becomes the race fuel. Huge review volume cannot beat somebody who showed up on more days.</p>
           <div class="score">
             <strong>+1</strong>
             <div><b>point for an active day</b><span>Review count breaks a tie only.</span></div>
-            <span>Low grind · high consistency</span>
+            <span>Simple circle · massive W</span>
           </div>
         </article>
       </section>
     </section>
 
     <footer>
-      <span>Snapshot: Sunday 13 September 2026.</span>
-      <span>The report compares activity, not ability or intelligence.</span>
+      <span>Central Command file 13·09·2026 · classified family alchemy.</span>
+      <span>The Truth confirms: this compares activity, not ability or intelligence.</span>
     </footer>
   </main>
   <script src="competition-data.js"></script>

@@ -55,21 +55,6 @@ body {
   font-weight: 650;
 }
 
-.chart-event-line {
-  stroke: var(--haren);
-  stroke-dasharray: 3 5;
-  stroke-opacity: 0.42;
-}
-
-.chart-event-label {
-  fill: var(--haren);
-  fill-opacity: 1;
-  font-family: Inter, sans-serif;
-  font-size: 10px;
-  font-weight: 850;
-  letter-spacing: 0.06em;
-}
-
 .chart-race-line {
   filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.08));
 }
@@ -77,6 +62,25 @@ body {
 .chart-endpoint {
   stroke: var(--panel);
   stroke-width: 3px;
+}
+
+.chart-highlight-label {
+  fill: var(--haren);
+  font-family: Inter, sans-serif;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+}
+
+.chart-character-label {
+  font-family: Inter, sans-serif;
+  font-size: 10px;
+  font-weight: 950;
+  letter-spacing: 0.035em;
+  paint-order: stroke;
+  stroke: var(--panel);
+  stroke-width: 4px;
+  stroke-linejoin: round;
 }
 
 .chart-focus-line {
@@ -211,6 +215,16 @@ body {
   font-weight: 800;
 }
 
+.standing-category header span small {
+  display: block;
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
 .standing-category header b {
   color: var(--muted);
   font-size: 10px;
@@ -235,6 +249,20 @@ body {
 
 .standing-name {
   font-weight: 750;
+}
+
+.standing-name small {
+  display: inline-grid;
+  min-width: 18px;
+  height: 18px;
+  margin-left: 4px;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(23, 32, 42, 0.07);
+  color: var(--muted);
+  font-size: 7px;
+  font-weight: 950;
+  vertical-align: middle;
 }
 
 .standing-row strong {
