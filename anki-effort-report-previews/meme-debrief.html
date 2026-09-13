@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Preview C — Meme Debrief</title>
+  <link rel="stylesheet" href="preview-base.css">
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #fff7df;
+      --ink-2: #121212;
+      --yellow: #ffd92f;
+      --blue: #5ad8ff;
+      --green: #8cff66;
+      --pink: #ff70b7;
+      --red: #ff4d3f;
+    }
+
+    body {
+      color: var(--ink-2);
+      background:
+        radial-gradient(circle at 12px 12px, rgba(18, 18, 18, 0.11) 2px, transparent 2px),
+        var(--paper);
+      background-size: 24px 24px;
+    }
+
+    .shell {
+      position: relative;
+      width: min(1400px, 100%);
+      min-height: 100vh;
+      margin: 0 auto;
+      overflow: hidden;
+      padding: 31px 42px 29px;
+    }
+
+    .shell::before {
+      content: "DEBRIEF";
+      position: absolute;
+      top: 158px;
+      left: -63px;
+      z-index: -1;
+      color: rgba(18, 18, 18, 0.045);
+      font-family: Impact, sans-serif;
+      font-size: 240px;
+      transform: rotate(-7deg);
+    }
+
+    header {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 20px;
+      align-items: center;
+      margin-bottom: 23px;
+    }
+
+    h1 {
+      max-width: 980px;
+      margin: 4px 0 0;
+      font-size: clamp(54px, 7vw, 100px);
+      line-height: 0.82;
+      text-shadow: 5px 5px 0 var(--yellow);
+    }
+
+    .classified {
+      padding: 11px 16px;
+      border: 5px solid var(--red);
+      color: var(--red);
+      font-size: 24px;
+      transform: rotate(5deg);
+    }
+
+    .answer {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 22px;
+      padding: 13px 18px;
+      border: 3px solid var(--ink-2);
+      background: var(--yellow);
+      box-shadow: 7px 7px 0 var(--ink-2);
+      font-size: 18px;
+      font-weight: 800;
+      transform: rotate(-0.35deg);
+    }
+
+    .answer b {
+      font-size: 27px;
+    }
+
+    .answer span {
+      margin-left: auto;
+      padding: 7px 10px;
+      background: var(--ink-2);
+      color: #fff;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 0.95fr 1.1fr 0.95fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .meme-card {
+      position: relative;
+      border: 4px solid var(--ink-2);
+      background: #fff;
+      box-shadow: 9px 9px 0 var(--ink-2);
+    }
+
+    .meme-card:nth-child(1) { transform: rotate(-1deg); }
+    .meme-card:nth-child(2) { transform: translateY(13px) rotate(0.7deg); }
+    .meme-card:nth-child(3) { transform: rotate(1.2deg); }
+
+    .reaction {
+      display: grid;
+      min-height: 155px;
+      padding: 22px;
+      place-items: center;
+      border-bottom: 4px solid var(--ink-2);
+      background: var(--accent);
+      text-align: center;
+    }
+
+    .reaction strong {
+      display: block;
+      max-width: 340px;
+      font-family: Impact, sans-serif;
+      font-size: 44px;
+      font-weight: 900;
+      letter-spacing: 0.03em;
+      line-height: 0.88;
+      text-transform: uppercase;
+      text-shadow: 2px 2px 0 #fff;
+    }
+
+    .sticker {
+      position: absolute;
+      top: -21px;
+      right: -13px;
+      z-index: 2;
+      display: grid;
+      width: 76px;
+      height: 76px;
+      place-items: center;
+      border: 3px solid var(--ink-2);
+      border-radius: 50%;
+      background: var(--sticker);
+      font-size: 13px;
+      font-weight: 1000;
+      line-height: 1;
+      text-align: center;
+      text-transform: uppercase;
+      transform: rotate(12deg);
+    }
+
+    .body {
+      padding: 18px 19px 20px;
+    }
+
+    .name-row {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .name-row h2 {
+      margin: 0;
+      font-size: 42px;
+      line-height: 0.9;
+    }
+
+    .name-row span {
+      padding: 5px 7px;
+      background: var(--ink-2);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .big-number {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .big-number b {
+      font-size: 63px;
+      line-height: 0.8;
+    }
+
+    .big-number span {
+      max-width: 95px;
+      font-size: 11px;
+      font-weight: 900;
+      line-height: 1.1;
+      text-transform: uppercase;
+    }
+
+    .strip {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      border: 2px solid var(--ink-2);
+    }
+
+    .strip div {
+      padding: 9px;
+      text-align: center;
+    }
+
+    .strip div + div {
+      border-left: 2px solid var(--ink-2);
+    }
+
+    .strip b {
+      display: block;
+      font-size: 25px;
+      line-height: 1;
+    }
+
+    .strip span {
+      font-size: 9px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .caption {
+      min-height: 61px;
+      margin: 14px 0 0;
+      font-size: 14px;
+      font-weight: 750;
+      line-height: 1.45;
+    }
+
+    .mission {
+      margin: 13px 0 0;
+      padding: 10px 11px;
+      border: 3px dashed var(--ink-2);
+      background: color-mix(in srgb, var(--accent) 45%, white);
+      font-size: 13px;
+      font-weight: 1000;
+      text-transform: uppercase;
+    }
+
+    .bottom {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 20px;
+      align-items: center;
+      margin-top: 31px;
+      padding: 15px 18px;
+      border: 3px solid var(--ink-2);
+      background: #fff;
+      box-shadow: 6px 6px 0 var(--blue);
+    }
+
+    .bottom b {
+      display: block;
+      margin-bottom: 3px;
+      font-size: 20px;
+    }
+
+    .bottom p {
+      margin: 0;
+      color: #3d3d3d;
+      font-size: 13px;
+    }
+
+    .dog-tag {
+      padding: 8px 14px;
+      border: 2px dashed #555;
+      border-radius: 7px;
+      background: #dddcd4;
+      font-family: "Courier New", monospace;
+      font-size: 12px;
+      font-weight: 900;
+      transform: rotate(-3deg);
+    }
+
+    @media (max-width: 900px) {
+      .shell { padding: 25px 17px 35px; }
+      header, .grid, .bottom { grid-template-columns: 1fr; }
+      .classified { justify-self: start; }
+      .answer { align-items: flex-start; flex-direction: column; }
+      .answer span { margin-left: 0; }
+      .meme-card:nth-child(n) { transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header>
+      <div>
+        <p class="eyebrow">Preview C · Meme-first debrief</p>
+        <h1 class="stencil">The Anki Lore<br>Just Dropped</h1>
+      </div>
+      <div class="classified stencil">Brainrot<br>Approved</div>
+    </header>
+
+    <div class="answer">
+      <b>TL;DR:</b> Insuk is farming consistency. Hojin has legacy XP. Haren’s comeback arc is one tiny session away.
+      <span>No yap · just receipts</span>
+    </div>
+
+    <section class="grid">
+      <article class="meme-card" style="--accent: var(--yellow); --sticker: var(--pink)">
+        <span class="sticker">legacy<br>aura</span>
+        <div class="reaction"><strong>Hojin completed every side quest</strong></div>
+        <div class="body">
+          <div class="name-row"><h2 class="stencil">Hojin</h2><span>Veteran build</span></div>
+          <div class="big-number"><b class="metric">3,358</b><span>career reviews</span></div>
+          <div class="strip">
+            <div><b class="metric">180</b><span>30d reviews</span></div>
+            <div><b class="metric">10</b><span>active days</span></div>
+          </div>
+          <p class="caption">Massive backstory. Current season has random raids instead of a routine.</p>
+          <p class="mission">Patch note: schedule three fixed days.</p>
+        </div>
+      </article>
+
+      <article class="meme-card" style="--accent: var(--green); --sticker: var(--yellow)">
+        <span class="sticker">aura<br>+67</span>
+        <div class="reaction"><strong>Bro is actually locked in</strong></div>
+        <div class="body">
+          <div class="name-row"><h2 class="stencil">Insuk</h2><span>Main quest</span></div>
+          <div class="big-number"><b class="metric">25🔥</b><span>day live streak</span></div>
+          <div class="strip">
+            <div><b class="metric">791</b><span>30d reviews</span></div>
+            <div><b class="metric">524m</b><span>study time</span></div>
+          </div>
+          <p class="caption">No NPC behavior detected. Showing up every day is the whole cheat code.</p>
+          <p class="mission">Protect the W. Keep sessions sustainable.</p>
+        </div>
+      </article>
+
+      <article class="meme-card" style="--accent: var(--blue); --sticker: var(--green)">
+        <span class="sticker">not<br>cooked</span>
+        <div class="reaction"><strong>Comeback arc loading…</strong></div>
+        <div class="body">
+          <div class="name-row"><h2 class="stencil">Haren</h2><span>Respawn ready</span></div>
+          <div class="big-number"><b class="metric">12🔥</b><span>day best streak</span></div>
+          <div class="strip">
+            <div><b class="metric">627</b><span>30d reviews</span></div>
+            <div><b class="metric">11</b><span>active days</span></div>
+          </div>
+          <p class="caption">The ability is real; the app just has not seen him for 11 days.</p>
+          <p class="mission">Press play: 10 cards today. That's it.</p>
+        </div>
+      </article>
+    </section>
+
+    <div class="bottom">
+      <div>
+        <b>Important plot point: effort is not intelligence.</b>
+        <p>This compares Anki activity—days, reviews, and answer time. The goal is more reps, not family ranking drama.</p>
+      </div>
+      <span class="dog-tag">13-SEP-2026 // MEMORY UNIT</span>
+    </div>
+  </main>
+</body>
+</html>

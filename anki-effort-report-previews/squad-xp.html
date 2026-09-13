@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Preview B — Squad XP</title>
+  <link rel="stylesheet" href="preview-base.css">
+  <style>
+    :root {
+      --bg: #060a10;
+      --panel: rgba(12, 19, 29, 0.88);
+      --cyan: #60e7ff;
+      --lime: #b8ff48;
+      --pink: #ff4dac;
+    }
+
+    body {
+      background:
+        linear-gradient(rgba(6, 10, 16, 0.86), rgba(6, 10, 16, 0.96)),
+        linear-gradient(90deg, rgba(96, 231, 255, 0.08) 1px, transparent 1px),
+        linear-gradient(rgba(96, 231, 255, 0.08) 1px, transparent 1px);
+      background-size: auto, 36px 36px, 36px 36px;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 15% 0%, rgba(255, 77, 172, 0.16), transparent 28%),
+        radial-gradient(circle at 85% 0%, rgba(184, 255, 72, 0.12), transparent 28%);
+    }
+
+    .shell {
+      position: relative;
+      width: min(1400px, 100%);
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: 34px 42px 28px;
+    }
+
+    header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: end;
+      gap: 30px;
+      margin-bottom: 23px;
+    }
+
+    h1 {
+      margin: 5px 0 0;
+      font-size: clamp(58px, 7vw, 99px);
+      line-height: 0.82;
+      background: linear-gradient(100deg, #fff 10%, var(--cyan) 48%, var(--lime));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .season {
+      padding: 12px 17px;
+      border: 1px solid var(--cyan);
+      background: rgba(96, 231, 255, 0.08);
+      color: var(--cyan);
+      font-family: "Courier New", monospace;
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      box-shadow: 0 0 28px rgba(96, 231, 255, 0.1);
+    }
+
+    .topline {
+      display: grid;
+      grid-template-columns: 1.3fr 0.7fr;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+
+    .boss-callout,
+    .quest {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      backdrop-filter: blur(16px);
+    }
+
+    .boss-callout {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 18px;
+      align-items: center;
+      padding: 17px 20px;
+    }
+
+    .boss-callout::after {
+      content: "W";
+      position: absolute;
+      right: 140px;
+      color: rgba(184, 255, 72, 0.08);
+      font-family: Impact, sans-serif;
+      font-size: 150px;
+      transform: rotate(-10deg);
+    }
+
+    .rank {
+      display: grid;
+      width: 58px;
+      height: 58px;
+      place-items: center;
+      border: 2px solid var(--lime);
+      color: var(--lime);
+      font-size: 26px;
+      clip-path: polygon(50% 0, 100% 20%, 91% 80%, 50% 100%, 9% 80%, 0 20%);
+    }
+
+    .boss-callout h2 {
+      margin: 0 0 3px;
+      font-size: 25px;
+    }
+
+    .boss-callout p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .boss-callout b {
+      z-index: 1;
+      color: var(--lime);
+      font-family: "Courier New", monospace;
+      font-size: 18px;
+    }
+
+    .quest {
+      padding: 17px 20px;
+      border-color: rgba(255, 77, 172, 0.55);
+      box-shadow: inset 4px 0 0 var(--pink);
+    }
+
+    .quest p {
+      margin: 4px 0 0;
+      color: #fff;
+      font-size: 21px;
+      font-weight: 900;
+    }
+
+    .roster {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+    }
+
+    .player {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      box-shadow: 0 22px 60px rgba(0, 0, 0, 0.28);
+      backdrop-filter: blur(14px);
+    }
+
+    .player::before,
+    .player::after {
+      content: "";
+      position: absolute;
+      z-index: 2;
+      width: 24px;
+      height: 24px;
+      border-color: var(--accent);
+      border-style: solid;
+    }
+
+    .player::before {
+      top: 9px;
+      left: 9px;
+      border-width: 2px 0 0 2px;
+    }
+
+    .player::after {
+      right: 9px;
+      bottom: 9px;
+      border-width: 0 2px 2px 0;
+    }
+
+    .portrait {
+      position: relative;
+      display: grid;
+      min-height: 130px;
+      padding: 23px 23px 18px;
+      align-content: end;
+      background:
+        linear-gradient(150deg, color-mix(in srgb, var(--accent) 20%, transparent), transparent 55%),
+        repeating-linear-gradient(135deg, transparent 0 17px, rgba(255, 255, 255, 0.025) 17px 18px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .level {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      color: var(--accent);
+      font-family: "Courier New", monospace;
+      font-weight: 900;
+    }
+
+    .player h2 {
+      margin: 0;
+      font-size: 48px;
+      line-height: 0.9;
+    }
+
+    .tag {
+      margin: 8px 0 0;
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 1000;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    .loadout {
+      padding: 19px 22px 21px;
+    }
+
+    .numbers {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    .numbers div {
+      min-width: 0;
+      padding: 10px 8px;
+      background: rgba(255, 255, 255, 0.035);
+      border-bottom: 2px solid var(--accent);
+    }
+
+    .numbers b {
+      display: block;
+      overflow: hidden;
+      font-size: 27px;
+      line-height: 1;
+      text-overflow: ellipsis;
+    }
+
+    .numbers span {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 9px;
+      font-weight: 900;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+    }
+
+    .statline {
+      display: grid;
+      grid-template-columns: 93px 1fr 43px;
+      gap: 10px;
+      align-items: center;
+      margin-top: 11px;
+      color: #d7dce3;
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .statline em {
+      color: var(--accent);
+      font-style: normal;
+      text-align: right;
+    }
+
+    .perk {
+      margin: 18px 0 0;
+      padding: 11px 12px;
+      border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
+      background: color-mix(in srgb, var(--accent) 7%, transparent);
+      color: #f7faff;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .meme-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 17px;
+    }
+
+    .meme-row span {
+      padding: 7px 10px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.04);
+      color: #dfe4eb;
+      font-family: "Courier New", monospace;
+      font-size: 11px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    footer {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 25px;
+      align-items: center;
+      margin-top: 16px;
+      padding: 13px 17px;
+      border: 1px solid rgba(96, 231, 255, 0.16);
+      background: rgba(6, 10, 16, 0.76);
+    }
+
+    footer strong {
+      color: var(--cyan);
+      font-size: 14px;
+    }
+
+    @media (max-width: 900px) {
+      .shell { padding: 25px 16px; }
+      header, .topline, .roster { grid-template-columns: 1fr; }
+      .boss-callout { grid-template-columns: auto 1fr; }
+      .boss-callout b { grid-column: 2; }
+      footer { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header>
+      <div>
+        <p class="eyebrow">Preview B · Tactical game HUD</p>
+        <h1 class="stencil">Anki Squad XP</h1>
+      </div>
+      <div class="season">Season snapshot // last 30 days</div>
+    </header>
+
+    <section class="topline">
+      <div class="boss-callout">
+        <span class="rank stencil">S</span>
+        <div>
+          <h2>Squad MVP: Insuk</h2>
+          <p>Consistency stat maxed. Bro understood the assignment.</p>
+        </div>
+        <b>25-DAY COMBO</b>
+      </div>
+      <div class="quest">
+        <span class="eyebrow">Priority side quest</span>
+        <p>Haren: +10 cards today = comeback arc started.</p>
+      </div>
+    </section>
+
+    <section class="roster">
+      <article class="player" style="--accent: var(--hojin)">
+        <div class="portrait">
+          <span class="level">LV. 3,358</span>
+          <h2 class="stencil">Hojin</h2>
+          <p class="tag">Veteran XP · irregular raids</p>
+        </div>
+        <div class="loadout">
+          <div class="numbers">
+            <div><b class="metric">180</b><span>reviews</span></div>
+            <div><b class="metric">10/30</b><span>active days</span></div>
+            <div><b class="metric">69m</b><span>time</span></div>
+          </div>
+          <div class="statline"><span>Consistency</span><div class="bar"><span style="--value: 33%; --accent: var(--hojin)"></span></div><em>33</em></div>
+          <div class="statline"><span>Review XP</span><div class="bar"><span style="--value: 23%; --accent: var(--hojin)"></span></div><em>23</em></div>
+          <div class="statline"><span>Time spent</span><div class="bar"><span style="--value: 13%; --accent: var(--hojin)"></span></div><em>13</em></div>
+          <p class="perk"><b>Passive perk:</b> largest career total. Needs a repeatable weekly loadout.</p>
+          <div class="meme-row"><span>legacy aura</span><span>side quests</span><span>not cooked</span></div>
+        </div>
+      </article>
+
+      <article class="player" style="--accent: var(--insuk)">
+        <div class="portrait">
+          <span class="level">COMBO ×25</span>
+          <h2 class="stencil">Insuk</h2>
+          <p class="tag">Main quest · fully locked in</p>
+        </div>
+        <div class="loadout">
+          <div class="numbers">
+            <div><b class="metric">791</b><span>reviews</span></div>
+            <div><b class="metric">25/30</b><span>active days</span></div>
+            <div><b class="metric">524m</b><span>time</span></div>
+          </div>
+          <div class="statline"><span>Consistency</span><div class="bar"><span style="--value: 83%; --accent: var(--insuk)"></span></div><em>83</em></div>
+          <div class="statline"><span>Review XP</span><div class="bar"><span style="--value: 100%; --accent: var(--insuk)"></span></div><em>100</em></div>
+          <div class="statline"><span>Time spent</span><div class="bar"><span style="--value: 100%; --accent: var(--insuk)"></span></div><em>100</em></div>
+          <p class="perk"><b>Legendary perk:</b> 25 straight active days. Final-boss health bar behavior.</p>
+          <div class="meme-row"><span>huge W</span><span>locked in</span><span>aura +67</span></div>
+        </div>
+      </article>
+
+      <article class="player" style="--accent: var(--haren)">
+        <div class="portrait">
+          <span class="level">RESPAWN READY</span>
+          <h2 class="stencil">Haren</h2>
+          <p class="tag">Comeback build · high burst damage</p>
+        </div>
+        <div class="loadout">
+          <div class="numbers">
+            <div><b class="metric">627</b><span>reviews</span></div>
+            <div><b class="metric">11/30</b><span>active days</span></div>
+            <div><b class="metric">101m</b><span>time</span></div>
+          </div>
+          <div class="statline"><span>Consistency</span><div class="bar"><span style="--value: 37%; --accent: var(--haren)"></span></div><em>37</em></div>
+          <div class="statline"><span>Review XP</span><div class="bar"><span style="--value: 79%; --accent: var(--haren)"></span></div><em>79</em></div>
+          <div class="statline"><span>Time spent</span><div class="bar"><span style="--value: 19%; --accent: var(--haren)"></span></div><em>19</em></div>
+          <p class="perk"><b>Rare perk:</b> already built a 12-day streak. One five-minute session reactivates the build.</p>
+          <div class="meme-row"><span>comeback arc</span><span>npc mode off</span><span>press play</span></div>
+        </div>
+      </article>
+    </section>
+
+    <footer>
+      <strong>EFFORT ≠ SCORE. This board measures showing up, cards answered, and time spent.</strong>
+      <span class="footnote">Local Anki logs · snapshot 13 Sep 2026</span>
+    </footer>
+  </main>
+</body>
+</html>

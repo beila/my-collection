@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Preview A — Full Memory Jacket</title>
+  <link rel="stylesheet" href="preview-base.css">
+  <style>
+    :root {
+      --paper: #d8d2b2;
+      --olive: #2b3224;
+      --olive-2: #3b442d;
+      --red: #e64b35;
+    }
+
+    body {
+      background:
+        linear-gradient(rgba(17, 21, 14, 0.94), rgba(17, 21, 14, 0.94)),
+        repeating-linear-gradient(112deg, #303a27 0 2px, #1b2117 2px 6px);
+    }
+
+    .shell {
+      width: min(1400px, 100%);
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: 34px 44px 30px;
+      background:
+        radial-gradient(circle at 74% -10%, rgba(216, 210, 178, 0.13), transparent 32%),
+        linear-gradient(130deg, transparent 0 75%, rgba(230, 75, 53, 0.08) 75%);
+    }
+
+    header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 34px;
+      align-items: start;
+      border-bottom: 2px solid rgba(216, 210, 178, 0.35);
+      padding-bottom: 22px;
+    }
+
+    h1 {
+      max-width: 950px;
+      margin: 6px 0 2px;
+      color: var(--paper);
+      font-size: clamp(54px, 7.1vw, 104px);
+      line-height: 0.82;
+      text-shadow: 5px 5px 0 rgba(0, 0, 0, 0.25);
+    }
+
+    .subtitle {
+      margin: 16px 0 0;
+      color: #e7e2c8;
+      font-family: Georgia, serif;
+      font-size: 18px;
+      font-style: italic;
+    }
+
+    .helmet {
+      position: relative;
+      width: 180px;
+      height: 148px;
+      margin-top: 2px;
+      border-radius: 90px 90px 32px 32px;
+      background: linear-gradient(145deg, #66704c, #252c1e 72%);
+      border: 3px solid #151a11;
+      box-shadow: inset 10px 8px 0 rgba(255, 255, 255, 0.07), 0 18px 30px rgba(0, 0, 0, 0.35);
+      transform: rotate(3deg);
+    }
+
+    .helmet::after {
+      content: "";
+      position: absolute;
+      right: -13px;
+      bottom: 9px;
+      width: 70px;
+      height: 21px;
+      border-radius: 50%;
+      background: #1a1f16;
+      transform: rotate(8deg);
+    }
+
+    .helmet-copy {
+      position: absolute;
+      top: 39px;
+      left: 24px;
+      color: var(--paper);
+      font-family: "Courier New", monospace;
+      font-size: 22px;
+      font-weight: 900;
+      line-height: 0.88;
+      transform: rotate(-8deg);
+    }
+
+    .peace {
+      position: absolute;
+      right: 21px;
+      bottom: 25px;
+      z-index: 2;
+      display: grid;
+      width: 39px;
+      height: 39px;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--paper);
+      color: #1a1f16;
+      font-size: 28px;
+      font-weight: 900;
+    }
+
+    .verdict {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 22px;
+      align-items: center;
+      margin: 22px 0;
+      padding: 16px 20px;
+      background: var(--paper);
+      color: #15180f;
+      box-shadow: 7px 7px 0 #000;
+      transform: rotate(-0.25deg);
+    }
+
+    .verdict .stamp {
+      padding: 7px 10px;
+      border: 4px solid var(--red);
+      color: var(--red);
+      font-size: 21px;
+      transform: rotate(-4deg);
+    }
+
+    .verdict strong {
+      font-size: 30px;
+      line-height: 1;
+    }
+
+    .verdict small {
+      max-width: 350px;
+      font-family: "Courier New", monospace;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .roster {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+    }
+
+    .card {
+      position: relative;
+      min-height: 386px;
+      overflow: hidden;
+      border: 1px solid rgba(216, 210, 178, 0.34);
+      background: rgba(43, 50, 36, 0.88);
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.22);
+    }
+
+    .card::before {
+      content: attr(data-number);
+      position: absolute;
+      top: -27px;
+      right: 8px;
+      color: rgba(216, 210, 178, 0.07);
+      font-family: Impact, sans-serif;
+      font-size: 148px;
+    }
+
+    .card-head {
+      position: relative;
+      padding: 20px 22px 16px;
+      border-bottom: 1px dashed rgba(216, 210, 178, 0.4);
+    }
+
+    .callsign {
+      display: inline-block;
+      margin-bottom: 10px;
+      padding: 5px 8px;
+      background: var(--accent);
+      color: #11150d;
+      font-size: 12px;
+      font-weight: 1000;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+      transform: rotate(-1deg);
+    }
+
+    .card h2 {
+      margin: 0;
+      font-size: 43px;
+      line-height: 0.9;
+    }
+
+    .status {
+      margin: 8px 0 0;
+      color: var(--accent);
+      font-family: "Courier New", monospace;
+      font-size: 15px;
+      font-weight: 900;
+    }
+
+    .stats {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      padding: 18px 22px 14px;
+    }
+
+    .stat {
+      padding: 10px 11px;
+      border-left: 3px solid var(--accent);
+      background: rgba(0, 0, 0, 0.19);
+    }
+
+    .stat b {
+      display: block;
+      color: var(--paper);
+      font-size: 30px;
+      line-height: 1;
+    }
+
+    .stat span {
+      display: block;
+      margin-top: 5px;
+      color: #bdc2ac;
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .intel {
+      margin: 0 22px 18px;
+      color: #e2dfcb;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .mission {
+      margin: 0 22px 20px;
+      padding: 11px 13px;
+      border: 2px solid var(--accent);
+      color: var(--accent);
+      font-family: "Courier New", monospace;
+      font-size: 13px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 30px;
+      margin-top: 18px;
+      padding-top: 15px;
+      border-top: 1px solid rgba(216, 210, 178, 0.25);
+    }
+
+    .creed {
+      max-width: 640px;
+      margin: 0;
+      color: var(--paper);
+      font-family: Georgia, serif;
+      font-size: 18px;
+      font-style: italic;
+    }
+
+    @media (max-width: 900px) {
+      .shell { padding: 25px 18px; }
+      header { grid-template-columns: 1fr; }
+      .helmet { display: none; }
+      .verdict { grid-template-columns: 1fr; }
+      .roster { grid-template-columns: 1fr; }
+      .card { min-height: 0; }
+      footer { display: block; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header>
+      <div>
+        <p class="eyebrow">Preview A · Boot-camp dossier · 13 Sep 2026</p>
+        <h1 class="stencil">Full Memory<br>Jacket</h1>
+        <p class="subtitle">“This is my deck. There are many like it. This one builds my brain.”</p>
+      </div>
+      <div class="helmet" aria-label="Military helmet marked Born to Review">
+        <span class="helmet-copy">BORN<br>TO<br>REVIEW</span>
+        <span class="peace">☮</span>
+      </div>
+    </header>
+
+    <section class="verdict" aria-label="Thirty-day verdict">
+      <span class="stamp stencil">30-Day Intel</span>
+      <strong class="stencil">Insuk is the most locked in right now.</strong>
+      <small>25 straight active days. Haren already proved he can streak; the next win is one tiny comeback session.</small>
+    </section>
+
+    <section class="roster">
+      <article class="card" data-number="01" style="--accent: var(--hojin)">
+        <div class="card-head">
+          <span class="callsign">Veteran lore</span>
+          <h2 class="stencil">Hojin</h2>
+          <p class="status">STATUS // SIDE-QUEST ENERGY</p>
+        </div>
+        <div class="stats">
+          <div class="stat"><b class="metric">180</b><span>reviews · 30d</span></div>
+          <div class="stat"><b class="metric">10</b><span>active days · 30d</span></div>
+          <div class="stat"><b class="metric">69m</b><span>study time · 30d</span></div>
+          <div class="stat"><b class="metric">3,358</b><span>career reviews</span></div>
+        </div>
+        <p class="intel">Biggest lifetime XP pile. Recent pattern is bursts, not a daily formation.</p>
+        <p class="mission">Next mission: turn random raids into 3 fixed days a week.</p>
+      </article>
+
+      <article class="card" data-number="02" style="--accent: var(--insuk)">
+        <div class="card-head">
+          <span class="callsign">Main-character grind</span>
+          <h2 class="stencil">Insuk</h2>
+          <p class="status">STATUS // ABSOLUTELY LOCKED IN</p>
+        </div>
+        <div class="stats">
+          <div class="stat"><b class="metric">791</b><span>reviews · 30d</span></div>
+          <div class="stat"><b class="metric">25</b><span>active days · 30d</span></div>
+          <div class="stat"><b class="metric">524m</b><span>study time · 30d</span></div>
+          <div class="stat"><b class="metric">25🔥</b><span>live streak</span></div>
+        </div>
+        <p class="intel">The streak has final-boss health. Consistency and time are both clear #1.</p>
+        <p class="mission">Next mission: protect the streak without turning it into a chore.</p>
+      </article>
+
+      <article class="card" data-number="03" style="--accent: var(--haren)">
+        <div class="card-head">
+          <span class="callsign">Comeback arc</span>
+          <h2 class="stencil">Haren</h2>
+          <p class="status">STATUS // RESPAWN READY</p>
+        </div>
+        <div class="stats">
+          <div class="stat"><b class="metric">627</b><span>reviews · 30d</span></div>
+          <div class="stat"><b class="metric">11</b><span>active days · 30d</span></div>
+          <div class="stat"><b class="metric">101m</b><span>study time · 30d</span></div>
+          <div class="stat"><b class="metric">12🔥</b><span>best streak</span></div>
+        </div>
+        <p class="intel">High review volume proves the engine works. Last session was 11 days ago; momentum needs a reboot, not a lecture.</p>
+        <p class="mission">Today's mission: 10 cards. Five minutes. Comeback unlocked.</p>
+      </article>
+    </section>
+
+    <footer>
+      <p class="creed">Discipline is just making tomorrow’s first card easier.</p>
+      <p class="footnote">Source: local Anki review logs. “Effort” shows active days, review count, and answer time—not intelligence or grades.</p>
+    </footer>
+  </main>
+</body>
+</html>

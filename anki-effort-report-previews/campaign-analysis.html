@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Competition Preview 2 — Campaign Analysis</title>
+  <link rel="stylesheet" href="competition-v2.css">
+  <style>
+    :root {
+      --ink: #20251f;
+      --muted: #737a70;
+      --line: rgba(32, 37, 31, 0.13);
+      --panel: #fffdf7;
+      --surface: #eceee7;
+    }
+
+    body {
+      background:
+        linear-gradient(rgba(236, 238, 231, 0.93), rgba(236, 238, 231, 0.97)),
+        repeating-radial-gradient(ellipse at 12% 10%, transparent 0 13px, rgba(47, 63, 44, 0.16) 14px 15px);
+    }
+
+    .shell {
+      width: min(1400px, 100%);
+      margin: 0 auto;
+      padding: 34px 42px 30px;
+    }
+
+    .masthead {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 25px;
+      align-items: end;
+      padding-bottom: 21px;
+      border-bottom: 1px solid rgba(32, 37, 31, 0.32);
+    }
+
+    .masthead h1 {
+      margin: 5px 0 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(48px, 6.6vw, 88px);
+      font-weight: 500;
+      letter-spacing: -0.05em;
+      line-height: 0.9;
+    }
+
+    .edition {
+      padding-left: 25px;
+      border-left: 1px solid rgba(32, 37, 31, 0.28);
+      text-align: right;
+    }
+
+    .edition strong,
+    .edition span {
+      display: block;
+    }
+
+    .edition strong {
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .edition span {
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .lede {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 40px;
+      padding: 24px 0;
+    }
+
+    .lede h2 {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(29px, 3.1vw, 44px);
+      font-weight: 500;
+      letter-spacing: -0.025em;
+      line-height: 1.06;
+    }
+
+    .lede h2 span {
+      color: var(--insuk);
+    }
+
+    .lede p {
+      margin: 2px 0 0;
+      color: #4f574d;
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    .lede p b {
+      color: var(--ink);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.55fr) minmax(290px, 0.65fr);
+      gap: 16px;
+    }
+
+    .paper {
+      border: 1px solid rgba(32, 37, 31, 0.14);
+      border-radius: 4px;
+      background: rgba(255, 253, 247, 0.94);
+      box-shadow: 0 22px 55px rgba(46, 52, 44, 0.08);
+    }
+
+    .chart-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 20px 22px 0;
+    }
+
+    .chart-head h3,
+    .sidebar h3,
+    .bottom h3 {
+      margin: 0;
+      font-family: Georgia, serif;
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .chart-head p {
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .chart {
+      min-height: 350px;
+      padding: 3px 8px 10px;
+    }
+
+    .sidebar {
+      padding: 20px 21px;
+    }
+
+    .sidebar > p {
+      margin: 6px 0 7px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.45;
+    }
+
+    .bottom {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(300px, 0.6fr);
+      gap: 16px;
+    }
+
+    .round-form,
+    .editorial {
+      padding: 20px 22px;
+    }
+
+    .round-form > p,
+    .editorial > p {
+      margin: 6px 0 11px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    .editorial {
+      position: relative;
+      overflow: hidden;
+      background:
+        linear-gradient(150deg, rgba(75, 131, 230, 0.09), transparent 60%),
+        var(--panel);
+    }
+
+    .editorial::after {
+      content: "☮";
+      position: absolute;
+      right: -25px;
+      bottom: -70px;
+      color: rgba(32, 37, 31, 0.045);
+      font-size: 170px;
+    }
+
+    .quote {
+      position: relative;
+      z-index: 1;
+      margin: 25px 0 0;
+      font-family: Georgia, serif;
+      font-size: 29px;
+      line-height: 1.12;
+    }
+
+    .quote span {
+      color: var(--haren);
+    }
+
+    .action {
+      position: relative;
+      z-index: 1;
+      margin-top: 22px;
+      padding-top: 16px;
+      border-top: 1px solid var(--line);
+    }
+
+    .action strong {
+      display: block;
+      font-size: 13px;
+    }
+
+    .action p {
+      margin: 6px 0 0;
+      color: #4f574d;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      margin-top: 15px;
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    @media (max-width: 760px) {
+      .shell { padding: 24px 16px 30px; }
+      .masthead, .lede, .grid, .bottom { grid-template-columns: 1fr; }
+      .edition { padding: 12px 0 0; border: 0; text-align: left; }
+      .lede { gap: 15px; }
+      .bottom { grid-column: auto; }
+      .chart-head { display: block; }
+      .chart-legend { margin-top: 12px; }
+      .chart { min-height: 286px; padding-inline: 0; }
+      footer { display: block; line-height: 1.5; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="masthead">
+      <div>
+        <p class="eyebrow">Competition preview 02 · editorial intelligence</p>
+        <h1>The complete<br>memory campaign.</h1>
+      </div>
+      <div class="edition"><strong>Campaign analysis</strong><span>8 Aug—13 Sep 2026</span></div>
+    </header>
+
+    <section class="lede">
+      <h2>Haren owns the volume. <span>Insuk owns the consistency.</span></h2>
+      <p>The historical chart exposes two different strengths: <b>Haren still leads total reviews</b>, while <b>Insuk leads active days and time invested</b>. Hojin’s activity is more recent than Haren’s, but not frequent enough to challenge either lead.</p>
+    </section>
+
+    <section class="grid">
+      <article class="paper">
+        <div class="chart-head">
+          <div><h3>The review race</h3><p>Cumulative answers since Haren’s first session.</p></div>
+          <div class="chart-legend">
+            <span><i style="--series:var(--hojin)"></i>Hojin</span>
+            <span><i style="--series:var(--insuk)"></i>Insuk</span>
+            <span><i style="--series:var(--haren)"></i>Haren</span>
+          </div>
+        </div>
+        <div class="chart" data-race-chart data-metric="reviews"></div>
+      </article>
+
+      <aside class="paper sidebar">
+        <h3>Three visible standings</h3>
+        <p>No hidden weighting. Each category shows its own winner.</p>
+        <div data-standings></div>
+      </aside>
+
+      <div class="bottom">
+        <article class="paper round-form">
+          <h3>How the race changed</h3>
+          <p>Haren won the first two rounds. Insuk’s consistency won the next four.</p>
+          <div data-weekly-chart></div>
+        </article>
+
+        <article class="paper editorial">
+          <h3>Engagement decision</h3>
+          <p>What the data suggests for the next report.</p>
+          <p class="quote">Do not let Haren’s historical lead become a reason to stop. Give him <span>a new starting line.</span></p>
+          <div class="action">
+            <strong>Next weekly race: Monday 14 September</strong>
+            <p>Score active days first. Use review count only as the tiebreaker. A five-minute session remains competitive.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <footer>
+      <span>Source: the three Albert-linked Anki profile databases.</span>
+      <span>Logged minutes are Anki answer time and may understate total study time.</span>
+    </footer>
+  </main>
+  <script src="competition-data.js"></script>
+  <script src="competition-charts.js"></script>
+</body>
+</html>

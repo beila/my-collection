@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Anki Competition Report — Preview Picker</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+      background: #f1f2ee;
+      color: #17202a;
+    }
+
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+
+    main {
+      width: min(1100px, 100%);
+      margin: 0 auto;
+      padding: 45px 24px 70px;
+    }
+
+    h1 {
+      margin: 0;
+      font-family: Georgia, serif;
+      font-size: clamp(48px, 8vw, 90px);
+      letter-spacing: 0.04em;
+      line-height: 0.9;
+      letter-spacing: -0.05em;
+    }
+
+    .intro {
+      max-width: 760px;
+      color: #69726d;
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+      margin-top: 30px;
+    }
+
+    a {
+      display: block;
+      min-height: 220px;
+      padding: 24px;
+      border: 1px solid rgba(23, 32, 42, 0.13);
+      border-radius: 12px;
+      background: linear-gradient(145deg, color-mix(in srgb, var(--accent) 8%, white), #fff 58%);
+      box-shadow: 0 18px 50px rgba(23, 32, 42, 0.06);
+      color: inherit;
+      text-decoration: none;
+      transition: transform 140ms ease, border-color 140ms ease;
+    }
+
+    a:hover {
+      border-color: color-mix(in srgb, var(--accent) 65%, #17202a);
+      transform: translateY(-3px);
+    }
+
+    .number {
+      color: var(--accent);
+      font-family: "Courier New", monospace;
+      font-weight: 900;
+    }
+
+    h2 {
+      margin: 35px 0 8px;
+      font-family: Georgia, serif;
+      font-size: 36px;
+      letter-spacing: 0.04em;
+      letter-spacing: -0.03em;
+    }
+
+    p {
+      color: #69726d;
+      line-height: 1.5;
+    }
+
+    .best-for {
+      display: inline-block;
+      margin-top: 13px;
+      padding: 6px 9px;
+      border: 1px solid color-mix(in srgb, var(--accent) 50%, transparent);
+      border-radius: 20px;
+      background: color-mix(in srgb, var(--accent) 10%, white);
+      color: color-mix(in srgb, var(--accent) 70%, #17202a);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 700px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Pick the competition model</h1>
+    <p class="intro">Version two replaces poster-style stat cards with real race graphs, visible ranking rules, weekly rounds, and a fair reset that lets Haren compete again.</p>
+    <section class="grid">
+      <a href="race-control.html" style="--accent: #3dbb77">
+        <span class="number">PREVIEW 01</span>
+        <h2>Race Control</h2>
+        <p>Refined dark timing dashboard with the historical race, current leaders, and weekly form.</p>
+        <span class="best-for">Strongest competition visual</span>
+      </a>
+      <a href="campaign-analysis.html" style="--accent: #879b77">
+        <span class="number">PREVIEW 02</span>
+        <h2>Campaign Analysis</h2>
+        <p>Calm editorial data story with category podiums and a clear explanation of how the lead changed.</p>
+        <span class="best-for">Most polished and credible</span>
+      </a>
+      <a href="next-round.html" style="--accent: #4b83e6">
+        <span class="number">PREVIEW 03</span>
+        <h2>Next Round</h2>
+        <p>Mobile-first season board that shows the real race while making the weekly reset the main action.</p>
+        <span class="best-for">Best for engaging Haren</span>
+      </a>
+    </section>
+  </main>
+</body>
+</html>

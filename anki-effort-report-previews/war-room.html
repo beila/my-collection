@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Preview D — War Room</title>
+  <link rel="stylesheet" href="preview-base.css">
+  <style>
+    :root {
+      --black: #080807;
+      --cream: #e4ddc9;
+      --orange: #ff6b27;
+      --green: #b9c489;
+    }
+
+    body {
+      background: var(--black);
+      color: var(--cream);
+    }
+
+    .shell {
+      position: relative;
+      width: min(1400px, 100%);
+      min-height: 100vh;
+      margin: 0 auto;
+      overflow: hidden;
+      padding: 33px 44px 29px;
+      background:
+        linear-gradient(90deg, transparent 0 71%, rgba(255, 107, 39, 0.035) 71%),
+        repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.018) 0 1px, transparent 1px 4px);
+    }
+
+    .shell::after {
+      content: "☮";
+      position: absolute;
+      top: -155px;
+      right: -88px;
+      z-index: 0;
+      color: rgba(228, 221, 201, 0.035);
+      font-size: 470px;
+      line-height: 1;
+    }
+
+    header {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 25px;
+      align-items: start;
+      padding-bottom: 18px;
+      border-bottom: 1px solid rgba(228, 221, 201, 0.35);
+    }
+
+    h1 {
+      margin: 5px 0 0;
+      font-size: clamp(57px, 7vw, 104px);
+      line-height: 0.82;
+    }
+
+    h1 span {
+      color: var(--orange);
+    }
+
+    .helmet-mark {
+      display: grid;
+      width: 106px;
+      height: 106px;
+      place-items: center;
+      border: 2px solid var(--cream);
+      border-radius: 50% 50% 34% 34%;
+      background: var(--green);
+      color: #12130e;
+      font-family: "Courier New", monospace;
+      font-size: 14px;
+      font-weight: 900;
+      line-height: 1;
+      text-align: center;
+      transform: rotate(4deg);
+      box-shadow: 8px 8px 0 var(--orange);
+    }
+
+    .verdict {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 30px;
+      align-items: center;
+      padding: 20px 0 18px;
+    }
+
+    .verdict h2 {
+      max-width: 920px;
+      margin: 0;
+      font-family: Georgia, serif;
+      font-size: 30px;
+      font-weight: 500;
+      line-height: 1.15;
+    }
+
+    .verdict h2 b {
+      color: var(--orange);
+      font-weight: 700;
+    }
+
+    .stamp {
+      padding: 9px 14px;
+      border: 3px solid var(--orange);
+      color: var(--orange);
+      font-size: 17px;
+      transform: rotate(-3deg);
+    }
+
+    .dashboard {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 18px;
+    }
+
+    .comparison {
+      border: 1px solid rgba(228, 221, 201, 0.25);
+      background: rgba(255, 255, 255, 0.025);
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 15px 18px;
+      border-bottom: 1px solid rgba(228, 221, 201, 0.25);
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: 22px;
+    }
+
+    .section-head span {
+      color: #918c7f;
+      font-family: "Courier New", monospace;
+      font-size: 11px;
+    }
+
+    .rows {
+      padding: 14px 18px 18px;
+    }
+
+    .person {
+      display: grid;
+      grid-template-columns: 108px 1fr;
+      gap: 20px;
+      padding: 17px 0;
+    }
+
+    .person + .person {
+      border-top: 1px solid rgba(228, 221, 201, 0.14);
+    }
+
+    .identity h3 {
+      margin: 0;
+      font-size: 27px;
+    }
+
+    .identity p {
+      margin: 5px 0 0;
+      color: var(--accent);
+      font-family: "Courier New", monospace;
+      font-size: 10px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .tracks {
+      display: grid;
+      gap: 11px;
+    }
+
+    .track {
+      display: grid;
+      grid-template-columns: 90px 1fr 60px;
+      gap: 12px;
+      align-items: center;
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+    }
+
+    .track .bar {
+      height: 11px;
+      border-radius: 0;
+      background:
+        repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.08) 0 18px, transparent 18px 20px);
+    }
+
+    .track .bar span {
+      border-radius: 0;
+      box-shadow: none;
+    }
+
+    .track b {
+      color: var(--accent);
+      font-size: 15px;
+      text-align: right;
+    }
+
+    .orders {
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      border: 1px solid rgba(228, 221, 201, 0.25);
+      background:
+        linear-gradient(rgba(21, 23, 17, 0.94), rgba(21, 23, 17, 0.94)),
+        repeating-linear-gradient(135deg, #303326 0 2px, transparent 2px 6px);
+    }
+
+    .orders-body {
+      padding: 19px 20px;
+    }
+
+    .target {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 17px;
+      align-items: center;
+      margin-bottom: 18px;
+      padding-bottom: 17px;
+      border-bottom: 1px dashed rgba(228, 221, 201, 0.3);
+    }
+
+    .target .circle {
+      display: grid;
+      width: 92px;
+      height: 92px;
+      place-items: center;
+      border: 8px solid var(--haren);
+      border-right-color: rgba(84, 217, 255, 0.15);
+      border-radius: 50%;
+      color: var(--haren);
+      font-size: 30px;
+      font-weight: 900;
+      transform: rotate(-15deg);
+    }
+
+    .target .circle span {
+      transform: rotate(15deg);
+    }
+
+    .target h3 {
+      margin: 0 0 5px;
+      font-size: 31px;
+    }
+
+    .target p {
+      margin: 0;
+      color: #bab6a8;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .order-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      counter-reset: order;
+    }
+
+    .order-list li {
+      counter-increment: order;
+      display: grid;
+      grid-template-columns: 37px 1fr;
+      gap: 11px;
+      align-items: start;
+      margin: 13px 0;
+      color: #e3decb;
+      font-size: 14px;
+      line-height: 1.35;
+    }
+
+    .order-list li::before {
+      content: "0" counter(order);
+      color: var(--orange);
+      font-family: "Courier New", monospace;
+      font-weight: 900;
+    }
+
+    .cta {
+      margin: 0 20px 20px;
+      padding: 15px;
+      border: 2px solid var(--haren);
+      background: rgba(84, 217, 255, 0.06);
+      color: var(--haren);
+      font-family: "Courier New", monospace;
+      font-size: 18px;
+      font-weight: 900;
+      line-height: 1.25;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .career {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: auto repeat(3, 1fr);
+      gap: 0;
+      margin-top: 18px;
+      border: 1px solid rgba(228, 221, 201, 0.25);
+    }
+
+    .career > div {
+      padding: 13px 16px;
+      border-left: 1px solid rgba(228, 221, 201, 0.18);
+    }
+
+    .career > div:first-child {
+      display: grid;
+      min-width: 150px;
+      place-items: center;
+      border-left: 0;
+      background: var(--orange);
+      color: #120b08;
+      font-size: 15px;
+    }
+
+    .career b {
+      display: block;
+      font-size: 22px;
+    }
+
+    .career span {
+      color: #989387;
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+    }
+
+    footer {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: space-between;
+      gap: 22px;
+      margin-top: 15px;
+    }
+
+    @media (max-width: 900px) {
+      .shell { padding: 25px 17px; }
+      header, .verdict, .dashboard, .career { grid-template-columns: 1fr; }
+      .career > div { border-left: 0; border-top: 1px solid rgba(228, 221, 201, 0.18); }
+      .person { grid-template-columns: 1fr; }
+      footer { display: block; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header>
+      <div>
+        <p class="eyebrow">Preview D · Cinematic war room</p>
+        <h1 class="stencil">Memory<br><span>Campaign</span></h1>
+      </div>
+      <div class="helmet-mark">BORN<br>TO<br>REMEMBER<br>☮</div>
+    </header>
+
+    <section class="verdict">
+      <h2><b>Insuk owns the current campaign.</b> Hojin owns the lifetime total. Haren has the clearest high-impact objective: restart.</h2>
+      <span class="stamp stencil">Situation report</span>
+    </section>
+
+    <section class="dashboard">
+      <div class="comparison">
+        <div class="section-head">
+          <h2 class="stencil">Last 30 Days</h2>
+          <span>Comparable window // not a grade</span>
+        </div>
+        <div class="rows">
+          <article class="person" style="--accent: var(--hojin)">
+            <div class="identity"><h3 class="stencil">Hojin</h3><p>veteran</p></div>
+            <div class="tracks">
+              <div class="track"><span>Active days</span><div class="bar"><span style="--value: 33%; --accent: var(--hojin)"></span></div><b>10</b></div>
+              <div class="track"><span>Reviews</span><div class="bar"><span style="--value: 23%; --accent: var(--hojin)"></span></div><b>180</b></div>
+              <div class="track"><span>Minutes</span><div class="bar"><span style="--value: 13%; --accent: var(--hojin)"></span></div><b>69</b></div>
+            </div>
+          </article>
+
+          <article class="person" style="--accent: var(--insuk)">
+            <div class="identity"><h3 class="stencil">Insuk</h3><p>locked in</p></div>
+            <div class="tracks">
+              <div class="track"><span>Active days</span><div class="bar"><span style="--value: 83%; --accent: var(--insuk)"></span></div><b>25</b></div>
+              <div class="track"><span>Reviews</span><div class="bar"><span style="--value: 100%; --accent: var(--insuk)"></span></div><b>791</b></div>
+              <div class="track"><span>Minutes</span><div class="bar"><span style="--value: 100%; --accent: var(--insuk)"></span></div><b>524</b></div>
+            </div>
+          </article>
+
+          <article class="person" style="--accent: var(--haren)">
+            <div class="identity"><h3 class="stencil">Haren</h3><p>comeback</p></div>
+            <div class="tracks">
+              <div class="track"><span>Active days</span><div class="bar"><span style="--value: 37%; --accent: var(--haren)"></span></div><b>11</b></div>
+              <div class="track"><span>Reviews</span><div class="bar"><span style="--value: 79%; --accent: var(--haren)"></span></div><b>627</b></div>
+              <div class="track"><span>Minutes</span><div class="bar"><span style="--value: 19%; --accent: var(--haren)"></span></div><b>101</b></div>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <aside class="orders">
+        <div class="section-head">
+          <h2 class="stencil">Priority Orders</h2>
+          <span>Operation: comeback</span>
+        </div>
+        <div class="orders-body">
+          <div class="target">
+            <div class="circle"><span>12</span></div>
+            <div>
+              <h3 class="stencil">Haren can streak.</h3>
+              <p>His 12-day personal best is proof. The current gap is 11 days, so lower the restart cost.</p>
+            </div>
+          </div>
+          <ol class="order-list">
+            <li>Open HarenAnki before another app.</li>
+            <li>Answer ten cards—stop while it still feels easy.</li>
+            <li>Repeat tomorrow. New streak: 2. Comeback confirmed.</li>
+          </ol>
+        </div>
+        <p class="cta">10 cards · 5 minutes · today</p>
+      </aside>
+    </section>
+
+    <section class="career">
+      <div class="stencil">Career file</div>
+      <div><b class="metric">Hojin · 3,358</b><span>reviews · 956 min</span></div>
+      <div><b class="metric">Insuk · 791</b><span>reviews · 524 min</span></div>
+      <div><b class="metric">Haren · 874</b><span>reviews · 143 min</span></div>
+    </section>
+
+    <footer>
+      <span class="footnote">Snapshot: 13 Sep 2026 · Local Anki revlogs · active days, review count, and answer time</span>
+      <span class="footnote">No movie stills, actors, logos, or copied poster art.</span>
+    </footer>
+  </main>
+</body>
+</html>
