@@ -1,5 +1,18 @@
 {
   "schema_version": 1,
-  "articles": {},
-  "feed_items": {}
+  "articles": {
+    "https://stibee.com/api/v1.0/emails/share/AMke1WxEAvi_pCM5DAHeK_qEmD5jHWo": {
+      "canonical_url": "https://stibee.com/api/v1.0/emails/share/AMke1WxEAvi_pCM5DAHeK_qEmD5jHWo",
+      "final_url": "https://stibee.com/api/v1.0/emails/share/AMke1WxEAvi_pCM5DAHeK_qEmD5jHWo",
+      "feed_item_url": "https://event.stibee.com/v2/click/NTIwNTcvMzU5Nzc4MC80MDE0My8/aHR0cHM6Ly9zdGliLmVlL0NxTU8",
+      "feed_identity": "coffee-pot:urn:kill-the-newsletter:u01k6u9ltxvkt4bporyb",
+      "title": "🟩 아이폰 듀오보다 더 주목해야 할 아이폰의 목적",
+      "published_url": "https://beila.github.io/my-collection/stibee/amke1wxeavi-pcm5dahek-qemd5jhwo-e423d59fdd88.html",
+      "content_hash": "5d18fba4d447ca26d5ef5409d0d4238b89a4d7c677d089db2f6db27a9c75189a",
+      "article_format_version": 1
+    }
+  },
+  "feed_items": {
+    "coffee-pot:urn:kill-the-newsletter:u01k6u9ltxvkt4bporyb": "https://stibee.com/api/v1.0/emails/share/AMke1WxEAvi_pCM5DAHeK_qEmD5jHWo"
+  }
 }
