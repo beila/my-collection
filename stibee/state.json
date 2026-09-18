@@ -12,9 +12,20 @@
       "article_format_version": 3,
       "instapaper_bookmark_id": "2041786865",
       "ingestion_url": "https://beila.github.io/my-collection/stibee/amke1wxeavi-pcm5dahek-qemd5jhwo-e423d59fdd88.html?stibee_article=3-cd8d56b9ce90cbca"
+    },
+    "https://stibee.com/api/v1.0/emails/share/IXYHYsOckmAl0Qi3RABA87ZvkmW_4us": {
+      "canonical_url": "https://stibee.com/api/v1.0/emails/share/IXYHYsOckmAl0Qi3RABA87ZvkmW_4us",
+      "final_url": "https://stibee.com/api/v1.0/emails/share/IXYHYsOckmAl0Qi3RABA87ZvkmW_4us",
+      "feed_item_url": "https://event.stibee.com/v2/click/NTIwNTcvMzYwNDc4MS80MDE0My8/aHR0cHM6Ly9zdGliLmVlL3lTUk8",
+      "feed_identity": "coffee-pot:urn:kill-the-newsletter:bah88jpjmjp956fvt9o2",
+      "title": "🟩 '어텐션'이 잡는 오디언스",
+      "published_url": "https://beila.github.io/my-collection/stibee/ixyhysockmal0qi3raba87zvkmw-4us-6a792c661fd8.html",
+      "content_hash": "3c80dafc3eeb82bd93e6cec4fda6481d645f2500ab2dfa4b9692f247f4374e92",
+      "article_format_version": 3
     }
   },
   "feed_items": {
-    "coffee-pot:urn:kill-the-newsletter:u01k6u9ltxvkt4bporyb": "https://stibee.com/api/v1.0/emails/share/AMke1WxEAvi_pCM5DAHeK_qEmD5jHWo"
+    "coffee-pot:urn:kill-the-newsletter:u01k6u9ltxvkt4bporyb": "https://stibee.com/api/v1.0/emails/share/AMke1WxEAvi_pCM5DAHeK_qEmD5jHWo",
+    "coffee-pot:urn:kill-the-newsletter:bah88jpjmjp956fvt9o2": "https://stibee.com/api/v1.0/emails/share/IXYHYsOckmAl0Qi3RABA87ZvkmW_4us"
   }
 }
