@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="title" content="타입 수준 DI 컨테이너를 읽기 위한 하스켈 타입 프로그래밍 해설">
+  <meta name="description" content="타입 수준 목록과 first-class-families를 사용한 하스켈 DI 컨테이너 프로토타입의 핵심 개념과 하이라이트를 설명합니다.">
+  <meta name="explanation-article-format" content="1">
+  <meta name="explanation-content-sha256" content="b8b2af3f1baaf6ca4f6134c99371e5fdf0cb44efd84e350bd5f3416db9a24530">
+  <meta name="instapaper-ingestion-url" content="https://beila.github.io/my-collection/annotated-explanations/type-level-di-container-prototype-1477848104/?instapaper_explanation=1-b8b2af3f1baaf6ca">
+  <meta name="source-url" content="https://blog.ploeh.dk/2022/01/24/type-level-di-container-prototype/">
+  <meta name="source-title" content="Type-level DI Container prototype">
+  <meta name="source-author" content="Mark Seemann">
+  <meta name="review-date" content="2026-09-20">
+  <meta name="canonical-url" content="https://beila.github.io/my-collection/annotated-explanations/type-level-di-container-prototype-1477848104/">
+  <meta name="referrer" content="no-referrer">
+  <link rel="canonical" href="https://beila.github.io/my-collection/annotated-explanations/type-level-di-container-prototype-1477848104/">
+  <title>타입 수준 DI 컨테이너를 읽기 위한 하스켈 타입 프로그래밍 해설</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+    :root {
+      color-scheme: dark;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+    }
+    html {
+      background: #111827;
+      color: #f8fafc;
+    }
+    body {
+      box-sizing: border-box;
+      max-width: 46rem;
+      min-width: 0;
+      margin: 0 auto;
+      padding: 2rem 1.25rem 4rem;
+      color: #f8fafc;
+      background: #111827;
+      font-size: 1rem;
+      line-height: 1.65;
+      overflow-wrap: anywhere;
+    }
+    main, article, .reviewed-content { min-width: 0; }
+    .skip-link {
+      position: absolute;
+      top: 0;
+      left: 0;
+      padding: .65rem .8rem;
+      color: #111827;
+      background: #f8fafc;
+      transform: translateY(-120%);
+    }
+    .skip-link:focus { transform: translateY(0); }
+    .article-header {
+      margin: 0 0 1.5rem;
+      padding: 0;
+      text-align: left;
+    }
+    .article-header h1 {
+      margin: 0;
+      font-size: clamp(1.9rem, 5vw, 2.7rem);
+      line-height: 1.2;
+    }
+    .publication-meta {
+      margin: 0 0 2.5rem;
+      padding: 1rem 1.1rem;
+      border-left: .25rem solid #7dd3fc;
+      color: #cbd5e1;
+      background: #172033;
+    }
+    .publication-meta p { margin: .35rem 0; }
+    p { margin: 1.15rem 0; }
+    h1, h2, h3, h4, h5, h6 {
+      color: #ffffff;
+      overflow-wrap: anywhere;
+      scroll-margin-top: 1rem;
+    }
+    h2 { margin-top: 3rem; }
+    h3 { margin-top: 2.15rem; }
+    a {
+      color: #7dd3fc;
+      text-decoration: underline;
+      text-decoration-thickness: .09em;
+      text-underline-offset: .13em;
+      overflow-wrap: anywhere;
+    }
+    a:visited { color: #c4b5fd; }
+    a:focus-visible {
+      outline: .2rem solid #facc15;
+      outline-offset: .2rem;
+    }
+    blockquote {
+      color: #e2e8f0;
+      border-left-color: #7dd3fc;
+    }
+    code, pre {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+    code {
+      color: #f8fafc;
+      background: #172033;
+      overflow-wrap: anywhere;
+    }
+    pre, div.sourceCode {
+      max-width: 100%;
+      overflow-x: auto;
+      padding: 1rem;
+      color: #f8fafc;
+      background: #172033;
+      border: 1px solid #334155;
+      border-radius: .25rem;
+    }
+    pre code {
+      display: block;
+      background: transparent;
+      overflow-wrap: normal;
+    }
+    code span { color: inherit !important; }
+    table {
+      display: block;
+      max-width: 100%;
+      overflow-x: auto;
+      color: #f8fafc;
+      border-color: #64748b;
+    }
+    th, td { border-color: #64748b; }
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+    @media (max-width: 36rem) {
+      body { padding: 1.25rem 1rem 3rem; }
+    }
+    @media print {
+      :root { color-scheme: light; }
+      html, body {
+        color: #000;
+        background: #fff;
+      }
+      body {
+        max-width: none;
+        padding: 0;
+        font-size: 11pt;
+      }
+      .skip-link { display: none; }
+      .publication-meta {
+        color: #000;
+        background: transparent;
+        border-color: #000;
+      }
+      a { color: #000; }
+      a[href^="https://"]::after {
+        content: " (" attr(href) ")";
+        font-size: .85em;
+        overflow-wrap: anywhere;
+      }
+      pre, div.sourceCode, code {
+        color: #000;
+        background: transparent;
+        border-color: #555;
+      }
+      code span { color: inherit !important; }
+    }
+  </style>
+</head>
+<body>
+<a class="skip-link" href="https://beila.github.io/my-collection/annotated-explanations/type-level-di-container-prototype-1477848104/#article-content">본문으로 건너뛰기</a>
+<main id="article-content">
+<article>
+<header class="article-header">
+<h1 id="타입-수준-di-컨테이너를-읽기-위한-하스켈-타입-프로그래밍-해설">타입 수준 DI 컨테이너를 읽기 위한 하스켈 타입 프로그래밍 해설</h1>
+</header>
+<div class="publication-meta">
+<p>원문: Mark Seemann, <a href="https://blog.ploeh.dk/2022/01/24/type-level-di-container-prototype/">Type-level DI Container prototype</a></p>
+<p>검토일: <time datetime="2026-09-20">2026-09-20</time></p>
+<p><a href="https://beila.github.io/my-collection/annotated-explanations/type-level-di-container-prototype-1477848104/type-level-di-container-prototype-1477848104.epub">EPUB 다운로드</a></p>
+</div>
+<section class="reviewed-content">
+<h2 id="이-문서에서-설명하는-내용">이 문서에서 설명하는 내용</h2>
+<p>Mark Seemann의 원문은 실무에 쓸 의존성 주입(Dependency Injection, DI)
+프레임워크를 권하는 글이 아닙니다. 저자 스스로 “상당히 쓸모없는 하스켈
+연습”이라고 부르는 실험을 통해, 서로 다른 타입의 값을 한 컨테이너에
+담으면서도 다음 두 규칙을 컴파일 시점에 표현합니다.</p>
+<ul>
+<li>같은 타입은 한 번만 등록할 수 있습니다.</li>
+<li>등록되지 않은 타입은 꺼낼 수 없습니다.</li>
+</ul>
+<p>이 구현을 읽기 어려운 이유는 값 수준 코드와 타입 수준 코드가 짧은
+구문 안에서 평행하게 움직이기 때문입니다. 특히 kind, 승격된
+목록(promoted list), type family, <code>first-class-families</code>의
+<code>Exp</code>와 <code>Eval</code>, 사용자 정의 타입 오류, visible
+type application, <code>Proxy</code>, <code>unsafeCoerce</code>가
+한꺼번에 등장합니다.</p>
+<p>먼저 이 개념들의 관계를 설명한 뒤, 하이라이트를 원문 순서대로 하나씩
+풀이하겠습니다. 원문의 구현은 흥미로운 프로토타입이지만,
+<code>unsafeCoerce</code>의 안전성을 컴파일러가 직접 증명하는 구조는
+아니라는 점도 함께 살펴보겠습니다.</p>
+<h2 id="먼저-알아야-할-공통-개념">먼저 알아야 할 공통 개념</h2>
+<h3 id="값-타입-kind는-서로-다른-층에-있습니다">값, 타입, kind는 서로
+다른 층에 있습니다</h3>
+<p>하스켈에서 값은 타입으로 분류됩니다. 예를 들어 값
+<code>"hello"</code>의 타입은 <code>String</code>입니다. 이와 비슷하게
+타입 수준의 항은 kind로 분류됩니다. 일반적인 값의 타입인
+<code>String</code>, <code>Bool</code>, <code>IO ()</code> 등은 보통
+<code>Type</code>이라는 kind에 속합니다.</p>
+<pre class="text"><code>&quot;hello&quot; :: String
+String  :: Type</code></pre>
+<p>첫 줄의 <code>::</code>는 값 <code>"hello"</code>의 타입이
+<code>String</code>임을 나타냅니다. 둘째 줄의 <code>::</code>는 타입
+<code>String</code>의 kind가 <code>Type</code>임을 나타냅니다. 즉
+<code>::</code>의 기본 뜻은 “왼쪽 항의 분류가 오른쪽이다”이며, 어느
+층에서 쓰였는지에 따라 오른쪽이 타입일 수도 있고 kind일 수도 있습니다.
+GHC의 <a
+href="https://downloads.haskell.org/~ghc/9.14.1/docs/users_guide/exts/kind_signatures.html">Kind
+Signatures 안내서</a>는 <code>(t :: k)</code> 형태를 명시적 kind
+annotation으로 설명합니다.</p>
+<p>원문의 <code>k</code>는 목록이 아니라 kind 변수입니다.
+<code>PolyKinds</code> 확장을 사용하므로 <code>k</code>를 특정 kind로
+고정하지 않고 일반화할 수 있습니다. 반면 <code>[k]</code>는 “원소의
+kind가 <code>k</code>인 타입 수준 목록의 kind”이고,
+<code>ts :: [k]</code>에서 실제 목록은 <code>ts</code>입니다. GHC의 <a
+href="https://downloads.haskell.org/~ghc/9.14.1/docs/users_guide/exts/poly_kinds.html">PolyKinds
+안내서</a>는 이런 kind 변수의 일반화를 설명합니다.</p>
+<pre class="text"><code>t  :: k
+ts :: [k]</code></pre>
+<h3
+id="datakinds는-값-생성자를-타입-수준으로-올립니다"><code>DataKinds</code>는
+값 생성자를 타입 수준으로 올립니다</h3>
+<p>보통 목록에는 빈 목록 생성자 <code>[]</code>와 cons 생성자
+<code>(:)</code>가 있습니다. <code>DataKinds</code> 확장은 이런 데이터
+생성자를 타입 수준으로 승격합니다. 승격된 생성자를 분명히 표시할 때 앞에
+작은따옴표를 붙입니다.</p>
+<ul>
+<li><code>'[]</code>는 타입 수준의 빈 목록입니다.</li>
+<li><code>'[A, B]</code>는 타입 수준 목록 리터럴입니다.</li>
+<li><code>A ': As</code>는 타입 수준 목록 <code>As</code>의 앞에
+<code>A</code>를 붙입니다.</li>
+</ul>
+<p>원문의 컨테이너 타입에는 값이 아니라 등록된 서비스의 <strong>타입
+목록</strong>이 들어갑니다. 예를 들어
+<code>Container '[String, Bool]</code>은 <code>String</code>과
+<code>Bool</code>이 등록되었다는 정보를 타입에 기록합니다. GHC의 <a
+href="https://downloads.haskell.org/~ghc/9.14.1/docs/users_guide/exts/data_kinds.html">DataKinds
+안내서</a>는 <code>'[]</code>, 승격된 목록 리터럴, <code>':</code>
+문법을 공식적으로 설명합니다.</p>
+<h3
+id="컨테이너는-같은-등록-정보를-두-가지-표현으로-유지합니다">컨테이너는
+같은 등록 정보를 두 가지 표현으로 유지합니다</h3>
+<p>원문의 핵심은 런타임 표현과 컴파일 시점 표현을 같은 순서로 유지하는
+것입니다.</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="https://beila.github.io/my-collection/annotated-explanations/type-level-di-container-prototype-1477848104/#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Reg</span> <span class="kw">where</span></span>
+<span id="cb3-2"><a href="https://beila.github.io/my-collection/annotated-explanations/type-level-di-container-prototype-1477848104/#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">Reg</span><span class="ot"> ::</span> a <span class="ot">-&gt;</span> <span class="dt">Reg</span></span>
+<span id="cb3-3"><a href="https://beila.github.io/my-collection/annotated-explanations/type-level-di-container-prototype-1477848104/#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="https://beila.github.io/my-collection/annotated-explanations/type-level-di-container-prototype-1477848104/#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Container</span> (<span class="ot">ts ::</span> [k]) <span class="kw">where</span></span>
+<span id="cb3-5"><a href="https://beila.github.io/my-collection/annotated-explanations/type-level-di-container-prototype-1477848104/#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">UnsafeContainer</span><span class="ot"> ::</span> [<span class="dt">Reg</span>] <span class="ot">-&gt;</span> <span class="dt">Container</span> ts</span></code></pre></div>
+<p>런타임에는 서로 다른 타입의 값을 <code>[Reg]</code>에 담습니다.
+<code>Reg</code> 생성자의 타입 변수 <code>a</code>는 결과 타입
+<code>Reg</code>에 나타나지 않으므로 existentially hidden, 즉 존재적으로
+숨겨집니다. <code>Reg x</code>를 꺼낸 코드에서는 <code>x</code>가 어떤
+구체 타입인지 알 수 없습니다. GHC의 <a
+href="https://downloads.haskell.org/~ghc/9.14.1/docs/users_guide/exts/existential_quantification.html">Existential
+Quantification 안내서</a>는 패턴 매칭으로 얻는 숨겨진 타입을 임의의 구체
+타입과 동일하다고 가정할 수 없음을 설명합니다.</p>
+<p>컴파일 시점에는 <code>Container ts</code>의 <code>ts</code>가 같은
+등록들의 타입을 같은 순서로 기록합니다. 공개 API인 <code>nil</code>과
+<code>insert</code>는 런타임 목록과 타입 수준 목록의 머리에 항상
+대응하는 항목을 함께 추가합니다.</p>
+<pre class="text"><code>런타임:     Reg x : xs
+타입 수준:  t &#39;: ts</code></pre>
+<p>이 평행 관계는 <code>get</code>이 올바른 위치를 찾고
+<code>unsafeCoerce</code>를 제한적으로 사용하는 근거입니다. 그러나 GHC가
+<code>[Reg]</code>의 내용과 <code>ts</code>의 대응을 자동으로 증명하는
+것은 아닙니다. 숨겨진 <code>UnsafeContainer</code> 생성자와
+<code>nil</code>·<code>insert</code> 구현이 불변식(invariant)을 지킨다는
+수동 논증에 의존합니다.</p>
+<h3
+id="first-class-families는-타입-수준-계산을-표현과-평가로-나눕니다"><code>first-class-families</code>는
+타입 수준 계산을 표현과 평가로 나눕니다</h3>
+<p>일반적인 type family는 완전히 적용되어야 계산할 수 있기 때문에 값
+수준 함수처럼 부분 적용하고 합성하기 어렵습니다.
+<code>first-class-families</code> 라이브러리는 계산을 나타내는 표현
+<code>Exp a</code>와 그 표현을 실제 결과로 축약하는 <code>Eval</code>을
+사용해 이 제약을 우회합니다.</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb5-1"><a href="https://beila.github.io/my-collection/annotated-explanations/type-level-di-container-prototype-1477848104/#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="dt">Exp</span> a <span class="ot">=</span> a <span class="ot">-&gt;</span> <span class="dt">Type</span></span>
+<span id="cb5-2"><a href="https://beila.github.io/my-collection/annotated-explanations/type-level-di-container-prototype-1477848104/#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="kw">family</span> <span class="dt">Eval</span> (<span class="ot">e ::</span> <span class="dt">Exp</span> a)<span class="ot"> ::</span> a</span></code></pre></div>
+<p>이 구조에서 <code>Filter</code>, <code>Null</code>, <code>TyEq</code>
+등은 즉시 최종 결과를 내는 값 수준 함수가 아니라 <code>Exp ...</code>
+kind의 타입 수준 계산 표현을 만듭니다. <code>Eval</code>이 그 표현을
+평가합니다. 이 정의는 <code>first-class-families</code> 0.8.2.0의 고정된
+소스인 <a
+href="https://github.com/Lysxia/first-class-families/blob/c136c6585859733de87bd51a8d27731216ed4098/src/Fcf/Core.hs"><code>Fcf.Core</code></a>에서
+확인할 수 있습니다.</p>
+<p>원문의 중복 검사식은 다음 순서로 읽을 수 있습니다.</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb6-1"><a href="https://beila.github.io/my-collection/annotated-explanations/type-level-di-container-prototype-1477848104/#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="dt">UniqueType</span> (<span class="ot">t ::</span> k) (<span class="ot">ts ::</span> [k]) <span class="ot">=</span> <span class="dt">Null</span> <span class="op">=&lt;&lt;</span> <span class="dt">Filter</span> (<span class="dt">TyEq</span> t) ts</span></code></pre></div>
+<ol type="1">
+<li><code>TyEq t</code>는 목록의 각 원소가 <code>t</code>와 같은
+타입인지 검사하는 predicate를 만듭니다.</li>
+<li><code>Filter (TyEq t) ts</code>는 <code>ts</code>에서
+<code>t</code>와 같은 원소만 남기는 계산을 만듭니다.</li>
+<li><code>=&lt;&lt;</code>는 오른쪽 계산을 평가한 결과를 왼쪽의
+<code>Null</code>에 넘깁니다.</li>
+<li>같은 타입이 하나도 없어서 필터 결과가 비어 있으면
+<code>Null</code>의 결과는 <code>'True</code>입니다.</li>
+</ol>
+<p>여기서 비교하는 것은 서비스 값이나 함수 구현의 동일성이 아니라
+<strong>타입의 동일성</strong>입니다. 서로 다른 두 함수라도 타입이
+같으면 이 컨테이너에서는 같은 등록 종류로 취급됩니다.</p>
+<h3 id="타입-수준-결과는-제약과-런타임-값으로-각각-연결됩니다">타입 수준
+결과는 제약과 런타임 값으로 각각 연결됩니다</h3>
+<p>등록 경로에서는 <code>Eval (UniqueType t ts)</code>가 계산한 타입
+수준 Boolean을 <code>RequireUniqueType</code>이
+<code>Constraint</code>로 바꿉니다. 결과가 <code>'True</code>이면 빈
+제약 <code>()</code>로 통과시키고, <code>'False</code>이면
+<code>TypeError</code>를 발생시킵니다.</p>
+<p>조회 경로에서는 <code>FindIndex</code>가 계산한 타입 수준 자연수
+<code>Nat</code>을 <code>KnownNat</code>, <code>Proxy</code>,
+<code>natVal</code>이 런타임 정수로 가져옵니다. 이때 <code>@</code>
+문법으로 어떤 타입 수준 자연수를 반영할지 지정합니다.</p>
+<p>따라서 전체 흐름은 다음과 같습니다.</p>
+<pre class="text"><code>등록: 타입 목록 검색 → Bool → Constraint 또는 TypeError
+조회: 타입 목록 검색 → Nat → KnownNat/natVal → 런타임 목록 인덱스</code></pre>
+<h2 id="하이라이트와-메모별-해설">하이라이트와 메모별 해설</h2>
+<h3 id="t--k에서-k와-는-무엇인가요"><code>t :: k</code>에서
+<code>k</code>와 <code>::</code>는 무엇인가요?</h3>
+<p><strong>하이라이트:</strong> <code>t :: k</code></p>
+<p><strong>원문 문맥:</strong></p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb8-1"><a href="https://beila.github.io/my-collection/annotated-explanations/type-level-di-container-prototype-1477848104/#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="dt">UniqueType</span> (<span class="ot">t ::</span> k) (<span class="ot">ts ::</span> [k]) <span class="ot">=</span> <span class="dt">Null</span> <span class="op">=&lt;&lt;</span> <span class="dt">Filter</span> (<span class="dt">TyEq</span> t) ts</span></code></pre></div>
+<p><strong>사용자 메모:</strong> Is k a list? If not, what’s :: ?</p>
+<p><code>k</code>는 목록이 아니라 kind 변수입니다. <code>t :: k</code>는
+“타입 수준 항 <code>t</code>의 kind가 <code>k</code>이다”라는 kind
+annotation입니다. 같은 선언의 <code>ts :: [k]</code>에서 목록인 것은
+<code>ts</code>이며, <code>[k]</code>는 그 목록의 kind입니다. 즉 원소
+<code>t</code>와 목록 <code>ts</code>의 관계는 다음처럼 대응합니다.</p>
+<pre class="text"><code>t  :: k      -- 원소 하나
+ts :: [k]    -- 같은 kind의 원소들로 이루어진 타입 수준 목록</code></pre>
+<p><code>::</code>는 값 수준에서는 “이 값의 타입”, 타입 수준에서는 “이
+타입 수준 항의 kind”를 표시합니다. 이 위치에서는 후자입니다.
+<code>PolyKinds</code> 때문에 <code>k</code>는 <code>Type</code> 하나에
+고정되지 않고 일반화됩니다.</p>
+<h3 id="filter는-무엇을-걸러-내나요"><code>Filter</code>는 무엇을 걸러
+내나요?</h3>
+<p><strong>하이라이트:</strong> <code>Filter</code></p>
+<p><strong>원문 문맥:</strong></p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb10-1"><a href="https://beila.github.io/my-collection/annotated-explanations/type-level-di-container-prototype-1477848104/#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="dt">UniqueType</span> (<span class="ot">t ::</span> k) (<span class="ot">ts ::</span> [k]) <span class="ot">=</span> <span class="dt">Null</span> <span class="op">=&lt;&lt;</span> <span class="dt">Filter</span> (<span class="dt">TyEq</span> t) ts</span></code></pre></div>
+<p><code>Filter</code>는 <code>first-class-families</code>가 제공하는
+타입 수준 목록 계산입니다. 이 코드의 <code>Filter (TyEq t) ts</code>는
+타입 목록 <code>ts</code>에서 <code>t</code>와 같은 타입만 남깁니다.</p>
+<p>예를 들어 설명을 위해 <code>ts</code>가
+<code>'[String, Bool, String]</code>이고 <code>t</code>가
+<code>String</code>이라고 하면, 필터 결과는 개념적으로
+<code>'[String, String]</code>입니다. <code>t</code>가
+<code>Int</code>라면 결과는 <code>'[]</code>입니다. 이 결과가 비었는지를
+<code>Null</code>이 검사하므로, 빈 결과만 “새 타입을 넣어도 된다”는
+<code>'True</code>가 됩니다.</p>
+<p><code>Filter</code>의 결과는 즉시 목록 자체가 아니라
+<code>Exp [k]</code> 형태의 계산 표현입니다. 그래서 뒤에서
+<code>=&lt;&lt;</code>나 <code>Eval</code>을 통해 평가해야 합니다.
+정확한 kind와 재귀 정의는 라이브러리의 <a
+href="https://github.com/Lysxia/first-class-families/blob/c136c6585859733de87bd51a8d27731216ed4098/src/Fcf/Data/List.hs"><code>Fcf.Data.List</code></a>에서
+확인할 수 있습니다.</p>
+<h3 id="tyeq는-값이-아니라-타입을-비교합니다"><code>TyEq</code>는 값이
+아니라 타입을 비교합니다</h3>
+<p><strong>하이라이트:</strong> <code>TyEq</code></p>
+<p><strong>원문 문맥:</strong></p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb11-1"><a href="https://beila.github.io/my-collection/annotated-explanations/type-level-di-container-prototype-1477848104/#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="dt">UniqueType</span> (<span class="ot">t ::</span> k) (<span class="ot">ts ::</span> [k]) <span class="ot">=</span> <span class="dt">Null</span> <span class="op">=&lt;&lt;</span> <span class="dt">Filter</span> (<span class="dt">TyEq</span> t) ts</span></code></pre></div>
+<p><code>TyEq</code>는 타입 수준 equality predicate입니다.
+<code>TyEq t</code>를 <code>Filter</code>에 넘기면, 목록의 각 타입이
+<code>t</code>와 같은지 <code>'True</code> 또는 <code>'False</code>로
+판정하는 조건이 됩니다.</p>
+<p>중요한 점은 <code>TyEq</code>가 런타임 서비스 값의 identity나 함수
+본문의 동일성을 검사하지 않는다는 것입니다. 타입이
+<code>LocalTime -&gt; IO [Reservation]</code>인 서로 다른 함수 두 개를
+등록해도 둘째 등록은 거절됩니다. 같은 표현 타입을 서로 다른 역할로 각각
+등록해야 한다면 <code>newtype</code> 등으로 타입을 구분하거나, 여러 값을
+하나의 목록 타입으로 묶어 등록해야 합니다. <code>TyEq</code>의 정의는
+라이브러리의 <a
+href="https://github.com/Lysxia/first-class-families/blob/c136c6585859733de87bd51a8d27731216ed4098/src/Fcf/Utils.hs"><code>Fcf.Utils</code></a>에서
+확인할 수 있습니다.</p>
+<h3
+id="는-타입-수준-계산을-오른쪽에서-왼쪽으로-연결합니다"><code>=&lt;&lt;</code>는
+타입 수준 계산을 오른쪽에서 왼쪽으로 연결합니다</h3>
+<p><strong>하이라이트:</strong> <code>=&lt;&lt;</code></p>
+<p><strong>원문 문맥:</strong></p>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb12-1"><a href="https://beila.github.io/my-collection/annotated-explanations/type-level-di-container-prototype-1477848104/#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="dt">UniqueType</span> (<span class="ot">t ::</span> k) (<span class="ot">ts ::</span> [k]) <span class="ot">=</span> <span class="dt">Null</span> <span class="op">=&lt;&lt;</span> <span class="dt">Filter</span> (<span class="dt">TyEq</span> t) ts</span></code></pre></div>
+<p>여기의 <code>=&lt;&lt;</code>는 값 수준
+<code>Control.Monad.=&lt;&lt;</code>가 아니라
+<code>first-class-families</code>의 타입 연산자입니다. 역할은
+비슷합니다. 오른쪽 계산을 먼저 평가하고 그 결과를 왼쪽 계산에
+입력합니다.</p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb13-1"><a href="https://beila.github.io/my-collection/annotated-explanations/type-level-di-container-prototype-1477848104/#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span><span class="ot"> (=&lt;&lt;) ::</span> (a <span class="ot">-&gt;</span> <span class="dt">Exp</span> b) <span class="ot">-&gt;</span> <span class="dt">Exp</span> a <span class="ot">-&gt;</span> <span class="dt">Exp</span> b</span>
+<span id="cb13-2"><a href="https://beila.github.io/my-collection/annotated-explanations/type-level-di-container-prototype-1477848104/#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="kw">instance</span> <span class="dt">Eval</span> (k <span class="op">=&lt;&lt;</span> e) <span class="ot">=</span> <span class="dt">Eval</span> (k (<span class="dt">Eval</span> e))</span></code></pre></div>
+<p>따라서 원문의 식은 개념적으로 “<code>Filter (TyEq t) ts</code>를
+평가한 목록을 <code>Null</code>에 넘겨, 그 목록이 비었는지 계산한다”라고
+읽습니다. 정확한 정의는 라이브러리의 <a
+href="https://github.com/Lysxia/first-class-families/blob/c136c6585859733de87bd51a8d27731216ed4098/src/Fcf/Combinators.hs"><code>Fcf.Combinators</code></a>에
+있습니다.</p>
+<h3
+id="constraint는-계산-결과를-함수의-전제-조건으로-만듭니다"><code>Constraint</code>는
+계산 결과를 함수의 전제 조건으로 만듭니다</h3>
+<p><strong>하이라이트:</strong> <code>Constraint</code></p>
+<p><strong>원문 문맥:</strong></p>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb14-1"><a href="https://beila.github.io/my-collection/annotated-explanations/type-level-di-container-prototype-1477848104/#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="kw">family</span> <span class="dt">RequireUniqueType</span> (<span class="ot">result ::</span> <span class="dt">Bool</span>) (<span class="ot">t ::</span> k)<span class="ot"> ::</span> <span class="dt">Constraint</span> <span class="kw">where</span></span></code></pre></div>
+<p><code>Constraint</code>는 값 타입이 아니라 제약의 kind입니다.
+<code>RequireUniqueType ... :: Constraint</code>는 이 type family의
+결과를 함수 시그니처의 <code>=&gt;</code> 왼쪽에 놓을 수 있다는
+뜻입니다. <code>Constraint</code>의 공식 정의와 용도는 <a
+href="https://hackage.haskell.org/package/base-4.22.0.0/docs/Data-Kind.html"><code>Data.Kind</code></a>에
+설명되어 있습니다.</p>
+<p>이 family는 <code>'True</code>일 때 <code>()</code>를 돌려주는데,
+여기의 <code>()</code>는 값 수준 unit 값이 아니라 충족할 조건이 없는 빈
+constraint tuple입니다. <code>'False</code>일 때는
+<code>TypeError</code>를 돌려주어 타입 검사를 실패시킵니다. 즉 타입 수준
+Boolean을 “통과” 또는 “컴파일 오류”라는 API 규칙으로 바꾸는
+경계입니다.</p>
+<h3
+id="는-타입-오류-메시지-조각을-이어-붙입니다"><code>:&lt;&gt;:</code>는
+타입 오류 메시지 조각을 이어 붙입니다</h3>
+<p><strong>하이라이트:</strong> <code>:&lt;&gt;:</code></p>
+<p><strong>원문 문맥:</strong></p>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb15-1"><a href="https://beila.github.io/my-collection/annotated-explanations/type-level-di-container-prototype-1477848104/#cb15-1" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&#39;Text</span> <span class="st">&quot;Attempting to add the type &quot;</span> &#39;<span class="op">:&lt;&gt;:</span></span>
+<span id="cb15-2"><a href="https://beila.github.io/my-collection/annotated-explanations/type-level-di-container-prototype-1477848104/#cb15-2" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&#39;ShowType</span> t &#39;<span class="op">:&lt;&gt;:</span></span>
+<span id="cb15-3"><a href="https://beila.github.io/my-collection/annotated-explanations/type-level-di-container-prototype-1477848104/#cb15-3" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&#39;Text</span> <span class="st">&quot; to the container, but this container already contains that type.&quot;</span>)</span></code></pre></div>
+<p><code>:&lt;&gt;:</code>는 <code>ErrorMessage</code> 두 개를 같은
+줄에서 연결하는 승격된 생성자입니다. 값 수준 문자열의
+<code>(++)</code>나 일반적인 <code>(&lt;&gt;)</code>가 아닙니다. 이
+코드에서는 고정된 앞 문장, 실제 타입 표기, 고정된 뒷 문장을 하나의
+컴파일 오류로 조립합니다.</p>
+<p>줄바꿈을 만드는 별도 생성자 <code>:$$:</code>도 있지만 원문에서는
+사용하지 않습니다. <code>TypeError</code>, <code>ErrorMessage</code>,
+<code>:&lt;&gt;:</code>의 공식 타입은 <a
+href="https://hackage.haskell.org/package/base-4.22.0.0/docs/GHC-TypeLits.html"><code>GHC.TypeLits</code></a>에서
+확인할 수 있습니다.</p>
+<h3
+id="showtype은-show-인스턴스를-요구하지-않습니다"><code>ShowType</code>은
+<code>Show</code> 인스턴스를 요구하지 않습니다</h3>
+<p><strong>하이라이트:</strong> <code>ShowType</code></p>
+<p><strong>원문 문맥:</strong></p>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb16-1"><a href="https://beila.github.io/my-collection/annotated-explanations/type-level-di-container-prototype-1477848104/#cb16-1" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&#39;ShowType</span> t &#39;<span class="op">:&lt;&gt;:</span></span></code></pre></div>
+<p><code>'ShowType t</code>는 컴파일러가 타입 <code>t</code>를 오류
+메시지 안에 타입 표기로 렌더링하게 하는 <code>ErrorMessage</code>
+생성자입니다. 값에 <code>show</code>를 호출하는 것이 아니며,
+<code>Show t</code> 제약도 필요하지 않습니다.</p>
+<p>예를 들어 중복된 타입이
+<code>LocalTime -&gt; IO [Reservation]</code>이라면 그 타입 표기가 오류
+메시지 가운데에 들어갑니다. 앞뒤의 <code>'Text</code>는 고정 문자열을
+만들고, <code>':&lt;&gt;:</code>가 세 조각을 연결합니다. 이 생성자의
+정의도 <a
+href="https://hackage.haskell.org/package/base-4.22.0.0/docs/GHC-TypeLits.html"><code>GHC.TypeLits</code></a>에
+있습니다.</p>
+<h3 id="일반-type과-type-family는-어떤-차이가-있나요">일반
+<code>type</code>과 <code>type family</code>는 어떤 차이가 있나요?</h3>
+<p><strong>하이라이트:</strong> <code>type family</code></p>
+<p><strong>원문 문맥:</strong></p>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb17-1"><a href="https://beila.github.io/my-collection/annotated-explanations/type-level-di-container-prototype-1477848104/#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="kw">family</span> <span class="dt">RequireUniqueType</span> (<span class="ot">result ::</span> <span class="dt">Bool</span>) (<span class="ot">t ::</span> k)<span class="ot"> ::</span> <span class="dt">Constraint</span> <span class="kw">where</span></span></code></pre></div>
+<p>앞에서 본 <code>UniqueType</code>은 일반 type synonym입니다.</p>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb18-1"><a href="https://beila.github.io/my-collection/annotated-explanations/type-level-di-container-prototype-1477848104/#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="dt">UniqueType</span> (<span class="ot">t ::</span> k) (<span class="ot">ts ::</span> [k]) <span class="ot">=</span> <span class="dt">Null</span> <span class="op">=&lt;&lt;</span> <span class="dt">Filter</span> (<span class="dt">TyEq</span> t) ts</span></code></pre></div>
+<p>이 선언은 오른쪽의 타입 수준 계산 표현에 이름을 붙입니다. 반면
+<code>RequireUniqueType</code>은 입력 모양에 따라 서로 다른 식으로
+축약되는 closed type family입니다.</p>
+<div class="sourceCode" id="cb19"><pre
+class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb19-1"><a href="https://beila.github.io/my-collection/annotated-explanations/type-level-di-container-prototype-1477848104/#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="dt">RequireUniqueType</span>  <span class="dt">&#39;True</span> t <span class="ot">=</span> ()</span>
+<span id="cb19-2"><a href="https://beila.github.io/my-collection/annotated-explanations/type-level-di-container-prototype-1477848104/#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="dt">RequireUniqueType</span> <span class="dt">&#39;False</span> t <span class="ot">=</span> <span class="dt">TypeError</span> (<span class="op">...</span>)</span></code></pre></div>
+<p>closed type family는 관련 식을 하나의 <code>where</code> 절에 모으며,
+GHC는 겹칠 수 있는 식을 위에서 아래 순서로 고려합니다. 원문에서는 가능한
+Boolean 두 경우를 모두 다뤄 중복 검사 결과를 제약으로 바꿉니다. 자세한
+축약 규칙은 GHC의 <a
+href="https://downloads.haskell.org/~ghc/9.14.1/docs/users_guide/exts/type_families.html">Type
+Families 안내서</a>에서 확인할 수 있습니다.</p>
+<h3
+id="requireuniquetype의-k도-목록이-아닙니다"><code>RequireUniqueType</code>의
+<code>k</code>도 목록이 아닙니다</h3>
+<p><strong>하이라이트:</strong> <code>k</code></p>
+<p><strong>원문 문맥:</strong></p>
+<div class="sourceCode" id="cb20"><pre
+class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb20-1"><a href="https://beila.github.io/my-collection/annotated-explanations/type-level-di-container-prototype-1477848104/#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="kw">family</span> <span class="dt">RequireUniqueType</span> (<span class="ot">result ::</span> <span class="dt">Bool</span>) (<span class="ot">t ::</span> k)<span class="ot"> ::</span> <span class="dt">Constraint</span> <span class="kw">where</span></span></code></pre></div>
+<p>여기의 <code>k</code>도 앞의 <code>t :: k</code>에서와 같은 kind
+변수입니다. 오류 메시지에 표시할 대상 <code>t</code>가 어떤 kind에
+속하는지를 나타냅니다. <code>k</code> 자체가 목록이라는 뜻은
+없습니다.</p>
+<p>이 선언에는 <code>ts :: [k]</code>가 없으므로 목록을 직접 다루지도
+않습니다. <code>UniqueType</code>이 계산한 Boolean과 검사 대상
+<code>t</code>만 받아, 그 타입을 오류 메시지에 넣을지 결정합니다.
+<code>PolyKinds</code> 덕분에 이 family도 <code>Type</code>에 속한
+타입만으로 불필요하게 제한되지 않습니다.</p>
+<h3
+id="eval은-조립된-타입-수준-계산을-실제-결과로-축약합니다"><code>Eval</code>은
+조립된 타입 수준 계산을 실제 결과로 축약합니다</h3>
+<p><strong>하이라이트:</strong> <code>Eval</code></p>
+<p><strong>원문 문맥:</strong></p>
+<div class="sourceCode" id="cb21"><pre
+class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb21-1"><a href="https://beila.github.io/my-collection/annotated-explanations/type-level-di-container-prototype-1477848104/#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="ot">insert ::</span> <span class="dt">RequireUniqueType</span> (<span class="dt">Eval</span> (<span class="dt">UniqueType</span> t ts)) t</span>
+<span id="cb21-2"><a href="https://beila.github.io/my-collection/annotated-explanations/type-level-di-container-prototype-1477848104/#cb21-2" aria-hidden="true" tabindex="-1"></a>       <span class="ot">=&gt;</span> t <span class="ot">-&gt;</span> <span class="dt">Container</span> ts <span class="ot">-&gt;</span> <span class="dt">Container</span> (t &#39;<span class="op">:</span> ts)</span></code></pre></div>
+<p><code>UniqueType t ts</code>는 최종 Boolean 자체가 아니라
+<code>Exp Bool</code> kind의 계산 표현입니다. <code>Eval</code>은 그
+표현을 실제 <code>'True</code> 또는 <code>'False</code>로 축약합니다. 그
+결과를 <code>RequireUniqueType</code>에 넘겨 <code>insert</code>가
+허용되는지 결정합니다.</p>
+<p>같은 <code>Eval</code>은 조회 경로에서도 사용됩니다.</p>
+<div class="sourceCode" id="cb22"><pre
+class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb22-1"><a href="https://beila.github.io/my-collection/annotated-explanations/type-level-di-container-prototype-1477848104/#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="dt">IsMember</span> t ts <span class="ot">=</span> <span class="dt">KnownNat</span> (<span class="dt">Eval</span> (<span class="dt">FindElem</span> t ts))</span></code></pre></div>
+<p>여기서는 <code>FindElem t ts</code>라는 계산 표현을 실제 타입 수준
+자연수로 축약합니다. 즉 <code>Eval</code>은 특정 중복 검사 전용 함수가
+아니라 <code>first-class-families</code> 표현 전반의 평가기인 open type
+family입니다. 정확한 정의는 <a
+href="https://github.com/Lysxia/first-class-families/blob/c136c6585859733de87bd51a8d27731216ed4098/src/Fcf/Core.hs"><code>Fcf.Core</code></a>에
+있습니다.</p>
+<h3 id="는-타입-수준-목록의-앞에-새-타입을-붙입니다"><code>':</code>는
+타입 수준 목록의 앞에 새 타입을 붙입니다</h3>
+<p><strong>하이라이트:</strong> <code>':</code></p>
+<p><strong>원문 문맥:</strong></p>
+<div class="sourceCode" id="cb23"><pre
+class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb23-1"><a href="https://beila.github.io/my-collection/annotated-explanations/type-level-di-container-prototype-1477848104/#cb23-1" aria-hidden="true" tabindex="-1"></a>       <span class="ot">=&gt;</span> t <span class="ot">-&gt;</span> <span class="dt">Container</span> ts <span class="ot">-&gt;</span> <span class="dt">Container</span> (t &#39;<span class="op">:</span> ts)</span></code></pre></div>
+<p><code>':</code>는 승격된 목록 cons 생성자입니다.
+<code>insert</code>의 반환 타입 <code>Container (t ': ts)</code>는 기존
+등록 타입 목록 <code>ts</code>의 앞에 새 타입 <code>t</code>가
+추가되었음을 뜻합니다.</p>
+<p>함수 본문에서도 같은 방향으로 런타임 목록을 갱신합니다.</p>
+<div class="sourceCode" id="cb24"><pre
+class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb24-1"><a href="https://beila.github.io/my-collection/annotated-explanations/type-level-di-container-prototype-1477848104/#cb24-1" aria-hidden="true" tabindex="-1"></a>insert x (<span class="dt">UnsafeContainer</span> xs) <span class="ot">=</span> <span class="dt">UnsafeContainer</span> (<span class="dt">Reg</span> x <span class="op">:</span> xs)</span></code></pre></div>
+<p>타입 수준에서는 <code>t ': ts</code>, 런타임에서는
+<code>Reg x : xs</code>가 됩니다. 두 목록의 순서가 함께 유지되기 때문에
+나중에 타입 수준에서 계산한 인덱스로 런타임 값을 찾을 수 있습니다. 이
+대응이 깨지면 마지막의 <code>unsafeCoerce</code>를 정당화할 근거도
+깨집니다.</p>
+<h3 id="는-값이-아니라-타입들의-목록을-시작합니다"><code>'[</code>는
+값이 아니라 타입들의 목록을 시작합니다</h3>
+<p><strong>하이라이트:</strong> <code>'[</code></p>
+<p><strong>원문 문맥:</strong></p>
+<div class="sourceCode" id="cb25"><pre
+class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb25-1"><a href="https://beila.github.io/my-collection/annotated-explanations/type-level-di-container-prototype-1477848104/#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="ot">container ::</span> <span class="dt">Container</span> &#39;[<span class="dt">LocalTime</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> [<span class="dt">Reservation</span>], <span class="dt">Reservation</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()]</span></code></pre></div>
+<p>바깥의 <code>'[...]</code>는 <code>DataKinds</code>로 승격된 타입
+수준 목록 리터럴입니다. 이 목록의 원소는 서비스 값이 아니라 다음 두
+<strong>타입</strong>입니다.</p>
+<ul>
+<li><code>LocalTime -&gt; IO [Reservation]</code></li>
+<li><code>Reservation -&gt; IO ()</code></li>
+</ul>
+<p>첫 번째 원소 안의 <code>[Reservation]</code>은 평범한 값 목록
+타입입니다. 따라서 한 줄 안에 서로 다른 층의 목록이 함께 있습니다.</p>
+<pre class="text"><code>&#39;[ ... ]        등록된 서비스 타입들의 타입 수준 목록
+[Reservation]   Reservation 값들의 평범한 목록 타입</code></pre>
+<p>앞의 작은따옴표가 이 차이를 눈에 보이게 합니다. 관련 승격 규칙은
+GHC의 <a
+href="https://downloads.haskell.org/~ghc/9.14.1/docs/users_guide/exts/data_kinds.html">DataKinds
+안내서</a>에 설명되어 있습니다.</p>
+<h3 id="는-값-인자가-아니라-타입-인자를-명시합니다"><code>@</code>는 값
+인자가 아니라 타입 인자를 명시합니다</h3>
+<p><strong>하이라이트:</strong> <code>@</code></p>
+<p><strong>원문 문맥:</strong></p>
+<div class="sourceCode" id="cb27"><pre
+class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb27-1"><a href="https://beila.github.io/my-collection/annotated-explanations/type-level-di-container-prototype-1477848104/#cb27-1" aria-hidden="true" tabindex="-1"></a>findElem <span class="ot">=</span> <span class="fu">fromIntegral</span> <span class="op">.</span> natVal <span class="op">$</span> <span class="dt">Proxy</span> <span class="op">@</span>(<span class="dt">Eval</span> (<span class="dt">FindElem</span> t ts))</span></code></pre></div>
+<p><code>@</code>는 visible type application 문법입니다. 보통 컴파일러가
+추론할 타입 인자를 소스 코드에서 직접 지정합니다. 여기서는
+<code>Proxy</code>의 phantom type parameter가
+<code>Eval (FindElem t ts)</code>임을 지정합니다.</p>
+<p>같은 원리는 다음 호출에도 쓰입니다.</p>
+<div class="sourceCode" id="cb28"><pre
+class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb28-1"><a href="https://beila.github.io/my-collection/annotated-explanations/type-level-di-container-prototype-1477848104/#cb28-1" aria-hidden="true" tabindex="-1"></a>get (<span class="dt">UnsafeContainer</span> xs) <span class="ot">=</span> unReg <span class="op">$</span> xs <span class="op">!!</span> findElem <span class="op">@</span>t <span class="op">@</span>ts</span></code></pre></div>
+<p><code>findElem</code>의 결과는 단지 <code>Int</code>이므로, 결과만
+봐서는 어떤 <code>t</code>와 <code>ts</code>의 인덱스를 계산해야 하는지
+알 수 없습니다. <code>@t @ts</code>가
+<code>findElem :: forall t ts. ...</code>의 타입 인자를 순서대로
+명시합니다. 명시적 <code>forall</code>과 visible type application의
+관계는 GHC의 <a
+href="https://downloads.haskell.org/~ghc/9.14.1/docs/users_guide/exts/type_applications.html">Type
+Applications 안내서</a>에 설명되어 있습니다.</p>
+<h3
+id="proxy는-자연수를-저장하지-않고-타입-자리만-제공합니다"><code>Proxy</code>는
+자연수를 저장하지 않고 타입 자리만 제공합니다</h3>
+<p><strong>하이라이트:</strong> <code>Proxy</code></p>
+<p><strong>원문 문맥:</strong></p>
+<div class="sourceCode" id="cb29"><pre
+class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb29-1"><a href="https://beila.github.io/my-collection/annotated-explanations/type-level-di-container-prototype-1477848104/#cb29-1" aria-hidden="true" tabindex="-1"></a>findElem <span class="ot">=</span> <span class="fu">fromIntegral</span> <span class="op">.</span> natVal <span class="op">$</span> <span class="dt">Proxy</span> <span class="op">@</span>(<span class="dt">Eval</span> (<span class="dt">FindElem</span> t ts))</span></code></pre></div>
+<p><code>Proxy (t :: k)</code>는 실제 데이터를 담지 않고 phantom type
+parameter <code>t</code>만 갖는 타입입니다. <code>natVal</code>은
+<code>KnownNat n</code> 제약 아래에서 <code>proxy n</code> 형태의 값을
+받으므로, 실제 <code>n</code> 타입의 값을 만들지 않고도 “어느 타입 수준
+자연수 <code>n</code>을 런타임 정수로 가져올 것인가”를 지정해야 합니다.
+그 자리를 <code>Proxy @n</code>이 제공합니다.</p>
+<p><code>Proxy</code> 자체가 인덱스를 계산하거나 저장하지는 않습니다.
+<code>FindElem</code>과 <code>Eval</code>이 타입 수준 인덱스를 계산하고,
+<code>KnownNat</code> 인스턴스가 그 자연수의 런타임 표현을 제공하며,
+<code>natVal</code>이 값을 꺼냅니다. <code>Proxy</code>의 데이터 없는
+정의는 <a
+href="https://hackage.haskell.org/package/base-4.22.0.0/docs/Data-Proxy.html"><code>Data.Proxy</code></a>,
+<code>KnownNat</code>과 <code>natVal</code>의 관계는 <a
+href="https://hackage.haskell.org/package/base-4.22.0.0/docs/GHC-TypeLits.html"><code>GHC.TypeLits</code></a>에서
+확인할 수 있습니다.</p>
+<h3
+id="unsafecoerce의-안전성은-모듈-불변식에-달려-있습니다"><code>unsafeCoerce</code>의
+안전성은 모듈 불변식에 달려 있습니다</h3>
+<p><strong>하이라이트:</strong> <code>unsafeCoerce</code></p>
+<p><strong>원문 문맥:</strong></p>
+<div class="sourceCode" id="cb30"><pre
+class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb30-1"><a href="https://beila.github.io/my-collection/annotated-explanations/type-level-di-container-prototype-1477848104/#cb30-1" aria-hidden="true" tabindex="-1"></a>get (<span class="dt">UnsafeContainer</span> xs) <span class="ot">=</span> unReg <span class="op">$</span> xs <span class="op">!!</span> findElem <span class="op">@</span>t <span class="op">@</span>ts</span>
+<span id="cb30-2"><a href="https://beila.github.io/my-collection/annotated-explanations/type-level-di-container-prototype-1477848104/#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">where</span> unReg (<span class="dt">Reg</span> x) <span class="ot">=</span> unsafeCoerce x</span></code></pre></div>
+<p><code>Reg x</code>를 패턴 매칭하면 <code>x</code>의 구체 타입은
+존재적으로 숨겨져 있습니다. <code>get</code>이 약속한 반환 타입
+<code>t</code>와 그 숨겨진 타입이 같다는 사실을 GHC가 이 패턴만으로
+알아낼 수 없으므로, 원문은 <code>unsafeCoerce x</code>로 타입 검사기를
+우회합니다.</p>
+<p>이 함수가 <strong>본질적으로 안전한 것</strong>은 아닙니다.
+<code>unsafeCoerce :: a -&gt; b</code>는 임의 타입 사이의 변환을
+허용하며, 실제 표현의 동등성을 다른 논리로 보장하지 못하면 결과는
+정의되지 않을 수 있습니다. 공식 <a
+href="https://hackage.haskell.org/package/base-4.22.0.0/docs/Unsafe-Coerce.html"><code>Unsafe.Coerce</code>
+문서</a>도 안전한 사용에는 별도의 동등성 근거가 필요하다고
+설명합니다.</p>
+<p>이 프로토타입이 의존하는 불변식은 다음과 같습니다.</p>
+<ol type="1">
+<li>런타임 <code>[Reg]</code>와 타입 수준 <code>ts</code>의 길이가
+같습니다.</li>
+<li>같은 인덱스의 <code>Reg</code> 내부 값과 <code>ts</code> 원소의 실제
+타입이 같습니다.</li>
+<li>공개 <code>insert</code>로 만든 <code>ts</code>에는 같은 타입이 두
+번 나타나지 않습니다.</li>
+</ol>
+<p><code>nil</code>이 빈 두 표현을 함께 만들고, <code>insert</code>가
+양쪽 머리에 같은 등록을 함께 추가하며, <code>UnsafeContainer</code>
+생성자를 외부에 공개하지 않기 때문에 정상적인 공개 API 사용은 이
+불변식을 보존합니다. <code>IsMember</code>는 요청 타입의 인덱스가
+존재하도록 제한하므로 <code>!!</code>의 범위 밖 접근도 막으려
+합니다.</p>
+<p>하지만 구현을 수정하면서 두 목록의 순서가 달라지거나 숨겨진 생성자를
+잘못 사용하면, 컴파일러가 이를 막아 주지 못합니다. 따라서 정확한 평가는
+“외부에는 타입 안전한 API를 제공하기 위해, 모듈 내부의 작은 unsafe
+core가 수동으로 유지되는 불변식에 의존한다”입니다.</p>
+<h2 id="원문의-설계를-한-흐름으로-다시-보기">원문의 설계를 한 흐름으로
+다시 보기</h2>
+<p>등록할 때는 새 타입이 기존 타입 목록에 없는지 계산합니다.</p>
+<pre class="text"><code>TyEq로 같은 타입 판정
+→ Filter로 같은 타입만 남김
+→ Null로 결과가 비었는지 판정
+→ Eval로 Bool 계산
+→ RequireUniqueType으로 Constraint 또는 TypeError 생성</code></pre>
+<p>등록이 성공하면 값 수준 목록과 타입 수준 목록의 앞에 같은 등록을
+추가합니다.</p>
+<pre class="text"><code>Reg x : xs
+t &#39;: ts</code></pre>
+<p>조회할 때는 요청 타입의 위치를 타입 수준에서 찾고 그 자연수를
+런타임으로 가져옵니다.</p>
+<pre class="text"><code>FindIndex로 위치 계산
+→ FromMaybe로 Nat 추출
+→ Eval로 계산 완료
+→ KnownNat와 Proxy, natVal로 런타임 Int 획득
+→ 같은 위치의 Reg 조회
+→ 불변식을 근거로 unsafeCoerce</code></pre>
+<p>이 설계가 보장하는 고유성은 “같은 서비스 객체를 두 번 넣지 않는다”가
+아니라 “같은 <strong>타입</strong>을 두 번 넣지 않는다”입니다. 또한
+<code>Container '[String, Bool, String]</code>이라는 타입 표기 자체가
+문법적으로 금지되는 것은 아닙니다. 숨겨진 생성자와 공개
+<code>nil</code>·<code>insert</code>를 정상적으로 사용해서는 그런
+컨테이너 값을 만들 수 없다는 API 수준의 보장입니다.</p>
+<h2 id="정리">정리</h2>
+<p>원문의 컨테이너는 런타임의 이질적 값 목록 <code>[Reg]</code>과 컴파일
+시점의 타입 목록 <code>ts</code>를 같은 순서로 유지합니다.
+<code>DataKinds</code>와 <code>PolyKinds</code>가 타입 목록의 표현을
+가능하게 하고, <code>first-class-families</code>의 <code>Filter</code>,
+<code>TyEq</code>, <code>=&lt;&lt;</code>, <code>Eval</code>이 중복
+검사와 인덱스 검색을 조립합니다. <code>Constraint</code>,
+<code>TypeError</code>, <code>ShowType</code>, <code>:&lt;&gt;:</code>는
+그 계산 결과를 읽기 쉬운 컴파일 오류로 바꿉니다. <code>@</code>,
+<code>Proxy</code>, <code>KnownNat</code>, <code>natVal</code>은 타입
+수준 인덱스를 런타임 목록 조회에 연결합니다.</p>
+<p>가장 중요한 주의점은 <code>unsafeCoerce</code>입니다. 이 구현의
+안전성은 <code>unsafeCoerce</code> 자체나 자동 증명에서 나오지 않고,
+숨겨진 생성자와 공개 API가 두 표현의 길이·순서·타입 대응을 계속
+보존한다는 모듈 불변식에서 나옵니다. 따라서 이 코드는 타입 수준
+프로그래밍의 여러 기법을 한데 보여 주는 좋은 학습용 프로토타입이지만,
+unsafe 경계를 포함한 내부 구현을 바꿀 때는 그 불변식을 다시 증명해야
+합니다.</p>
+<h2 id="참고-자료">참고 자료</h2>
+<ul>
+<li>Mark Seemann, <a
+href="https://blog.ploeh.dk/2022/01/24/type-level-di-container-prototype/">Type-level
+DI Container prototype</a>, 2022-01-24 — 이 해설의 원문입니다.</li>
+<li>GHC User’s Guide, <a
+href="https://downloads.haskell.org/~ghc/9.14.1/docs/users_guide/exts/kind_signatures.html">Kind
+Signatures</a>와 <a
+href="https://downloads.haskell.org/~ghc/9.14.1/docs/users_guide/exts/poly_kinds.html">PolyKinds</a>
+— <code>::</code> kind annotation과 kind 변수 일반화를 설명합니다.</li>
+<li>GHC User’s Guide, <a
+href="https://downloads.haskell.org/~ghc/9.14.1/docs/users_guide/exts/data_kinds.html">Datatype
+promotion (<code>DataKinds</code>)</a> — <code>'[]</code>,
+<code>'[...]</code>, <code>':</code> 등 승격된 목록 문법을
+설명합니다.</li>
+<li>GHC User’s Guide, <a
+href="https://downloads.haskell.org/~ghc/9.14.1/docs/users_guide/exts/type_families.html">Type
+families</a> — closed type family와 식의 축약 규칙을 설명합니다.</li>
+<li>GHC User’s Guide, <a
+href="https://downloads.haskell.org/~ghc/9.14.1/docs/users_guide/exts/type_applications.html">Visible
+type application</a> — <code>@</code> 문법과 명시적 <code>forall</code>
+타입 변수의 순서를 설명합니다.</li>
+<li>GHC User’s Guide, <a
+href="https://downloads.haskell.org/~ghc/9.14.1/docs/users_guide/exts/existential_quantification.html">Existentially
+quantified data constructors</a> — <code>Reg</code> 안의 구체 타입이
+소비자에게 숨겨지는 방식을 설명합니다.</li>
+<li><code>base-4.22.0.0</code>, <a
+href="https://hackage.haskell.org/package/base-4.22.0.0/docs/Data-Kind.html"><code>Data.Kind</code></a>,
+<a
+href="https://hackage.haskell.org/package/base-4.22.0.0/docs/GHC-TypeLits.html"><code>GHC.TypeLits</code></a>,
+<a
+href="https://hackage.haskell.org/package/base-4.22.0.0/docs/Data-Proxy.html"><code>Data.Proxy</code></a>,
+<a
+href="https://hackage.haskell.org/package/base-4.22.0.0/docs/Unsafe-Coerce.html"><code>Unsafe.Coerce</code></a>
+— <code>Constraint</code>, 사용자 정의 타입 오류, <code>KnownNat</code>,
+<code>Proxy</code>, <code>unsafeCoerce</code>의 공식 API
+문서입니다.</li>
+<li><code>first-class-families</code> 0.8.2.0 소스, <a
+href="https://github.com/Lysxia/first-class-families/blob/c136c6585859733de87bd51a8d27731216ed4098/src/Fcf/Core.hs"><code>Fcf.Core</code></a>,
+<a
+href="https://github.com/Lysxia/first-class-families/blob/c136c6585859733de87bd51a8d27731216ed4098/src/Fcf/Combinators.hs"><code>Fcf.Combinators</code></a>,
+<a
+href="https://github.com/Lysxia/first-class-families/blob/c136c6585859733de87bd51a8d27731216ed4098/src/Fcf/Data/List.hs"><code>Fcf.Data.List</code></a>,
+<a
+href="https://github.com/Lysxia/first-class-families/blob/c136c6585859733de87bd51a8d27731216ed4098/src/Fcf/Utils.hs"><code>Fcf.Utils</code></a>
+— <code>Exp</code>, <code>Eval</code>, <code>=&lt;&lt;</code>,
+<code>Filter</code>, <code>FindIndex</code>, <code>TyEq</code>,
+<code>Stuck</code>의 구현 근거입니다.</li>
+</ul>
+</section>
+</article>
+</main>
+</body>
+</html>
