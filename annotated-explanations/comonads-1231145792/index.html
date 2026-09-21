@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>코모나드의 초점 이동과 코모노이드 법칙</title>
+  <meta name="description" content="Bartosz Milewski의 「Comonads」는 모나드의 화살표를 뒤집어 코모나드를 정의한 뒤, 이를 Haskell의 extract, duplicate, extend와 범주론의 코모노이드(comonoid)로 연결합니다." />
+  <meta name="source-url" content="https://bartoszmilewski.com/2017/01/02/comonads/" />
+  <meta name="review-date" content="2026-09-21" />
+  <meta name="explanation-article-format" content="1" />
+  <meta name="explanation-content-sha256" content="645f31131f0f35134e25bee86c8eb331bdd05477d97578216a949bf3d3e87aa7" />
+  <meta name="instapaper-ingestion-url" content="https://beila.github.io/my-collection/annotated-explanations/comonads-1231145792/?instapaper_explanation=1-645f31131f0f3513" />
+  <link rel="canonical" href="https://beila.github.io/my-collection/annotated-explanations/comonads-1231145792/" />
+  <style>
+    :root {
+      color-scheme: dark;
+      --background: #111315;
+      --surface: #1b1f23;
+      --text: #f2f4f5;
+      --muted: #b8c0c5;
+      --link: #8fc9ff;
+      --visited: #d7b8ff;
+      --border: #59636a;
+      --focus: #ffd166;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      background: var(--background);
+      color: var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+      font-size: 100%;
+      line-height: 1.7;
+      text-size-adjust: 100%;
+    }
+
+    body {
+      margin: 0;
+      background: var(--background);
+      color: var(--text);
+    }
+
+    main {
+      width: min(100% - 2rem, 45rem);
+      margin-inline: auto;
+      padding-block: clamp(2rem, 6vw, 5rem);
+    }
+
+    article {
+      overflow-wrap: anywhere;
+      word-break: normal;
+    }
+
+    .article-header {
+      margin-block-end: 2.5rem;
+      padding-block-end: 1.25rem;
+      border-block-end: 1px solid var(--border);
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      color: var(--text);
+      line-height: 1.3;
+      overflow-wrap: anywhere;
+      text-wrap: balance;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2rem, 7vw, 3.15rem);
+      letter-spacing: -0.025em;
+    }
+
+    h2 {
+      margin-block: 3.25rem 1rem;
+      font-size: clamp(1.55rem, 4vw, 2rem);
+    }
+
+    h3 {
+      margin-block: 2.4rem 0.8rem;
+      font-size: clamp(1.25rem, 3vw, 1.5rem);
+    }
+
+    p,
+    ul,
+    ol,
+    blockquote,
+    pre,
+    table {
+      margin-block: 1rem;
+    }
+
+    ul,
+    ol {
+      padding-inline-start: 1.5rem;
+    }
+
+    li + li {
+      margin-block-start: 0.45rem;
+    }
+
+    a {
+      color: var(--link);
+      text-decoration-line: underline;
+      text-decoration-thickness: 0.09em;
+      text-underline-offset: 0.18em;
+      overflow-wrap: anywhere;
+    }
+
+    a:visited {
+      color: var(--visited);
+    }
+
+    a:hover {
+      text-decoration-thickness: 0.16em;
+    }
+
+    a:focus-visible {
+      outline: 3px solid var(--focus);
+      outline-offset: 3px;
+      border-radius: 0.15rem;
+    }
+
+    code,
+    kbd,
+    samp {
+      font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono",
+        monospace;
+    }
+
+    :not(pre) > code {
+      padding: 0.1em 0.3em;
+      border: 1px solid var(--border);
+      border-radius: 0.25rem;
+      background: var(--surface);
+      overflow-wrap: anywhere;
+    }
+
+    pre {
+      max-width: 100%;
+      padding: 1rem;
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 0.4rem;
+      background: var(--surface);
+      line-height: 1.55;
+      tab-size: 2;
+    }
+
+    pre code {
+      white-space: pre;
+    }
+
+    blockquote {
+      margin-inline: 0;
+      padding-inline-start: 1rem;
+      border-inline-start: 0.25rem solid var(--border);
+      color: var(--muted);
+    }
+
+    table {
+      display: block;
+      width: max-content;
+      max-width: 100%;
+      overflow-x: auto;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      padding: 0.55rem 0.7rem;
+      border: 1px solid var(--border);
+      text-align: start;
+      vertical-align: top;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+
+    figcaption,
+    .reviewed-content > p[data-publication-metadata="true"] {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .reviewed-content > p[data-publication-metadata="true"] {
+      margin-block: 0.35rem;
+    }
+
+    .reviewed-content > p[data-publication-metadata="true"]:nth-child(3) {
+      margin-block-end: 2.25rem;
+    }
+
+    .article-footer {
+      margin-block-start: 3rem;
+      padding-block-start: 1rem;
+      border-block-start: 1px solid var(--border);
+    }
+
+    @media (max-width: 38rem) {
+      main {
+        width: min(100% - 1.25rem, 45rem);
+        padding-block: 1.5rem 3rem;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      pre {
+        padding: 0.8rem;
+      }
+    }
+
+    @media print {
+      @page {
+        margin: 18mm;
+      }
+
+      :root {
+        color-scheme: light;
+      }
+
+      html,
+      body {
+        background: #ffffff !important;
+        color: #111111 !important;
+        font-size: 11pt;
+      }
+
+      main {
+        width: 100%;
+        padding: 0;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6,
+      a,
+      blockquote,
+      figcaption,
+      .reviewed-content > p[data-publication-metadata="true"] {
+        color: #111111 !important;
+      }
+
+      a {
+        text-decoration: underline;
+      }
+
+      a[href^="http"]::after {
+        content: " (" attr(href) ")";
+        font-size: 0.82em;
+        overflow-wrap: anywhere;
+      }
+
+      pre,
+      :not(pre) > code {
+        border-color: #555555;
+        background: #f4f4f4 !important;
+      }
+
+      pre {
+        white-space: pre-wrap;
+        overflow: visible;
+      }
+
+      table {
+        display: table;
+        width: 100%;
+        max-width: 100%;
+        overflow: visible;
+      }
+
+      h2,
+      h3,
+      pre,
+      blockquote,
+      table {
+        break-inside: avoid-page;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main id="main-content">
+    <article>
+      <header class="article-header">
+        <h1 id="코모나드의-초점-이동과-코모노이드-법칙">코모나드의 초점 이동과 코모노이드 법칙</h1>
+      </header>
+      <section class="reviewed-content">
+        <p data-publication-metadata="true">원문: <a href="https://bartoszmilewski.com/2017/01/02/comonads/">Bartosz Milewski, <cite lang="en">Comonads</cite></a></p>
+        <p data-publication-metadata="true">검토일: <time datetime="2026-09-21">2026-09-21</time></p>
+        <p data-publication-metadata="true">EPUB: <a href="https://beila.github.io/my-collection/annotated-explanations/comonads-1231145792/comonads-1231145792.epub">EPUB 파일 다운로드</a></p>
+<h2 id="이-문서에서-설명하는-내용">이 문서에서 설명하는 내용</h2>
+<p>Bartosz Milewski의 「Comonads」는 모나드의 화살표를 뒤집어 코모나드를 정의한 뒤, 이를 Haskell의 <code>extract</code>, <code>duplicate</code>, <code>extend</code>와 범주론의 코모노이드(comonoid)로 연결합니다. 하이라이트는 그중에서도 설명이 가장 압축된 두 지점을 짚습니다.</p>
+<p>첫째는 <code>duplicate</code>와 <code>extend</code>가 어떻게 서로를 정의하는지 보여 주는 코드입니다. 둘째는 모노이드 범주의 왼쪽·오른쪽 유니터(<code>unitor</code>)와 <code>bimap</code>을 사용하여, 집합과 곱의 범주에서는 코모노이드의 <code>split</code>이 결국 <code>x</code>를 두 번 내놓는 함수일 수밖에 없음을 보이는 계산입니다.</p>
+<p>별도의 사용자 메모가 없으므로 하이라이트의 의도를 하나로 단정할 수는 없습니다. 따라서 이 글에서는 두 부분을 이해하는 데 필요한 공통 개념을 먼저 세우고, 각 하이라이트에서 생략된 타입 계산과 등식 변형을 차례대로 풀어 설명합니다.</p>
+<h2 id="먼저-알아야-할-공통-개념">먼저 알아야 할 공통 개념</h2>
+<h3 id="코모나드는-초점이-있는-문맥을-다룹니다">코모나드는 “초점이 있는 문맥”을 다룹니다</h3>
+<p>코모나드 <code>w</code>의 값을 <code>w a</code>라고 쓰면, 이를 단순히 <code>a</code>를 담은 상자로만 생각하기보다는 <strong>현재 초점과 그 주변 문맥을 함께 가진 구조</strong>로 보는 편이 이 글의 예제를 이해하기 좋습니다. 다만 이것은 <code>Product</code>, <code>Stream</code>, <code>Store</code> 같은 예제에 잘 맞는 교육적 직관이지, 모든 코모나드의 정의 자체는 아닙니다.</p>
+<p>핵심 연산은 다음 세 가지입니다.</p>
+<pre class="haskell"><code>extract   :: w a -&gt; a
+duplicate :: w a -&gt; w (w a)
+extend    :: (w a -&gt; b) -&gt; w a -&gt; w b</code></pre>
+<ul>
+<li><code>extract</code>는 현재 초점에 있는 <code>a</code>를 꺼냅니다.</li>
+<li><code>duplicate</code>는 같은 문맥을 가능한 각 초점에서 바라본 <code>w a</code>들의 구조를 만듭니다.</li>
+<li><code>extend f</code>는 문맥 전체를 읽는 계산 <code>f :: w a -&gt; b</code>를 각 초점에 적용하여 <code>w b</code>를 만듭니다.</li>
+</ul>
+<p>예를 들어 원문의 무한 스트림에서는 첫 원소가 현재 초점입니다. 스트림을 개념적으로 <code>10, 20, 30, …</code>이라고 쓰면 <code>duplicate</code>의 결과는 다음처럼 각 위치에서 시작하는 스트림들의 스트림으로 볼 수 있습니다.</p>
+<pre class="text"><code>(10, 20, 30, …),
+    (20, 30, …),
+        (30, …),
+            …</code></pre>
+<p>여기에 “현재 위치부터 두 값을 평균 내는 함수”를 <code>extend</code>하면 결과는 <code>15, 25, …</code>가 됩니다. 중요한 점은 그 함수가 원래의 원소 <code>a</code> 하나만 받는 것이 아니라, 각 위치에 초점을 맞춘 문맥 <code>w a</code> 전체를 받는다는 사실입니다.</p>
+<p>현재 <a href="https://hackage.haskell.org/package/comonad/docs/Control-Comonad.html"><code>Control.Comonad</code> 공식 문서</a>는 최소 구현으로 <code>extract</code>와 함께 <code>duplicate</code> 또는 <code>extend</code> 중 하나를 요구합니다. 나머지 하나는 기본 정의로 얻을 수 있습니다. 그러나 타입이 맞는 것만으로 코모나드가 되지는 않으며, 다음과 같은 항등 법칙과 결합 법칙도 만족해야 합니다. 아래 목록은 <code>duplicate</code>를 기본 연산으로 삼아 적은 법칙입니다. <code>extend</code>를 기본 연산으로 구현할 때에는 공식 문서의 <code>extend</code> 법칙이 같은 역할을 하며, 두 연산을 모두 직접 구현하면 둘의 일관성 조건도 지켜야 합니다.</p>
+<pre class="haskell"><code>extract . duplicate = id
+fmap extract . duplicate = id
+duplicate . duplicate = fmap duplicate . duplicate</code></pre>
+<p>즉, <code>duplicate</code>는 실행 시 메모리를 복제한다는 뜻이 아닙니다. 코모나드의 구조 안에서 문맥과 초점을 재배치하는 연산이며, 위 법칙을 만족해야 한다는 뜻입니다.</p>
+<h3 id="함수-합성과-fmap은-타입을-이어-줍니다">함수 합성과 <code>fmap</code>은 타입을 이어 줍니다</h3>
+<p>Haskell에서 <code>(f . g) x = f (g x)</code>이므로 <code>f . g</code>는 표기상 오른쪽의 <code>g</code>를 적용한 결과를 <code>f</code>에 넘기는 합성입니다. <a href="https://hackage.haskell.org/package/base/docs/Data-Function.html"><code>Data.Function</code> 공식 문서</a>가 정의하는 이 합성 규칙에 따라, 두 함수를 합성하려면 앞 함수의 출력 타입과 뒤 함수의 입력 타입이 맞아야 합니다.</p>
+<p><code>fmap</code>은 펑터의 바깥 구조를 유지하면서 안쪽 값에 함수를 적용합니다.</p>
+<pre class="haskell"><code>fmap :: (x -&gt; y) -&gt; w x -&gt; w y</code></pre>
+<p>따라서 <code>f :: w a -&gt; b</code>라면 <code>fmap f</code>의 타입은 다음처럼 바뀝니다.</p>
+<pre class="haskell"><code>fmap f :: w (w a) -&gt; w b</code></pre>
+<p>이 한 줄이 <code>duplicate</code>와 <code>extend</code>의 관계를 푸는 핵심입니다. <code>duplicate</code>가 먼저 <code>w a</code>를 <code>w (w a)</code>로 만들면, <code>fmap f</code>가 각 안쪽 문맥에 <code>f</code>를 적용할 수 있습니다.</p>
+<h3 id="모노이드-범주의-단위와-유니터">모노이드 범주의 단위와 유니터</h3>
+<p>모노이드 범주(monoidal category)에는 두 대상을 결합하는 텐서곱 <code>⊗</code>와 단위 대상 <code>I</code>가 있습니다. 단위 대상은 결합의 왼쪽이나 오른쪽에 놓여도 원래 대상을 바꾸지 않는 역할을 합니다. 이 “바뀌지 않음”은 보통 문자 그대로 같은 대상이라는 뜻이 아니라, 다음의 표준적인 동형사상으로 주어집니다.</p>
+<pre class="text"><code>λ_A :: I ⊗ A -&gt; A
+ρ_A :: A ⊗ I -&gt; A</code></pre>
+<p><code>λ</code>가 왼쪽 유니터이고 <code>ρ</code>가 오른쪽 유니터입니다. 유니터의 일반적인 정의와 일관성 조건은 MIT의 강의 자료인 <a href="https://math.mit.edu/~etingof/book-main.pdf"><em>Tensor Categories</em></a>에서 확인할 수 있습니다.</p>
+<p>원문이 계산하는 <code>Set</code>, 즉 집합과 전체 함수의 범주에서는 텐서곱을 데카르트 곱 <code>×</code>로, 단위 대상을 원소가 하나뿐인 집합 <code>1</code>로 잡습니다. 이를 Haskell과 비슷하게 쓰면 <code>1</code>은 유닛 타입 <code>()</code>에 해당하고, 유니터는 다음처럼 단위 성분을 제거합니다.</p>
+<pre class="haskell"><code>lambda :: ((), a) -&gt; a
+lambda ((), x) = x
+
+rho :: (a, ()) -&gt; a
+rho (x, ()) = x</code></pre>
+<p>여기서 <code>lambda</code>는 범주론 기호 <code>λ</code>를 함수 이름처럼 적은 것입니다. Haskell에서 <code>\x -&gt; ...</code>로 쓰는 람다 추상화와는 다른 말입니다.</p>
+<h3 id="코모노이드의-split-destroy-두-counit-법칙">코모노이드의 <code>split</code>, <code>destroy</code>, 두 <code>counit</code> 법칙</h3>
+<p>모노이드의 곱셈과 단위 화살표를 뒤집으면 코모노이드의 두 연산을 얻습니다.</p>
+<pre class="haskell"><code>split   :: m -&gt; (m, m)
+destroy :: m -&gt; ()</code></pre>
+<p><code>destroy</code>는 값을 단위 대상으로 보내고, <code>split</code>은 하나의 값을 두 성분으로 보냅니다. <code>()</code>에는 전체 함수의 관점에서 가능한 결과가 하나뿐이므로 <code>destroy _ = ()</code>입니다.</p>
+<p>임의의 <code>split</code>은 두 성분 함수를 사용하여 다음처럼 쓸 수 있습니다.</p>
+<pre class="haskell"><code>split x = (f x, g x)</code></pre>
+<p>코모노이드의 왼쪽·오른쪽 <code>counit</code> 법칙은 다음과 같습니다.</p>
+<pre class="haskell"><code>lambda . bimap destroy id . split = id
+rho . bimap id destroy . split = id</code></pre>
+<p>여기서 <code>bimap</code>은 쌍의 두 성분에 서로 다른 함수를 적용합니다. 쌍에 대한 동작은 다음과 같습니다.</p>
+<pre class="haskell"><code>bimap p q (u, v) = (p u, q v)</code></pre>
+<p>이 동작은 <a href="https://hackage.haskell.org/package/base/docs/Data-Bifunctor.html"><code>Data.Bifunctor</code> 공식 문서</a>의 <code>bimap</code> 정의와 쌍의 <code>Bifunctor</code> 인스턴스에 해당합니다. 두 <code>counit</code> 법칙은 <code>split</code>한 뒤 한쪽을 버리고 단위 성분을 제거하면 원래 값이 그대로 돌아와야 한다는 뜻입니다.</p>
+<h2 id="하이라이트와-메모별-해설">하이라이트와 메모별 해설</h2>
+<h3 id="duplicate와-extend는-어떻게-서로를-정의하나요"><code>duplicate</code>와 <code>extend</code>는 어떻게 서로를 정의하나요?</h3>
+<p><strong>하이라이트:</strong></p>
+<pre class="haskell"><code>duplicate :: w a -&gt; w (w a)
+  duplicate = extend id
+  extend :: (w a -&gt; b) -&gt; w a -&gt; w b
+  extend f = fmap f . duplicate</code></pre>
+<p><strong>원문 문맥:</strong></p>
+<blockquote>
+<p>Here’s the Haskell definition taken directly from <code>Control.Comonad</code> library:</p>
+</blockquote>
+<pre class="haskell"><code>class Functor w =&gt; Comonad w where
+  extract :: w a -&gt; a
+  duplicate :: w a -&gt; w (w a)
+  duplicate = extend id
+  extend :: (w a -&gt; b) -&gt; w a -&gt; w b
+  extend f = fmap f . duplicate</code></pre>
+<p>첫 번째 등식 <code>duplicate = extend id</code>는 <code>extend</code>의 타입 변수 <code>b</code>에 <code>w a</code>를 대입하면 드러납니다.</p>
+<pre class="text"><code>extend    :: (w a -&gt; b)   -&gt; w a -&gt; w b
+
+b = w a
+
+extend    :: (w a -&gt; w a) -&gt; w a -&gt; w (w a)
+id        ::  w a -&gt; w a
+extend id ::                 w a -&gt; w (w a)</code></pre>
+<p><code>extend id</code>의 최종 타입이 정확히 <code>duplicate :: w a -&gt; w (w a)</code>와 같습니다. 의미 면에서도 <code>id</code>는 각 초점의 문맥 <code>w a</code>를 변형하지 않고 그대로 결과값으로 삼습니다. 그러므로 모든 초점에서 바라본 문맥들을 바깥의 <code>w</code> 안에 모은 결과가 됩니다.</p>
+<p>두 번째 등식 <code>extend f = fmap f . duplicate</code>는 데이터가 흐르는 순서로 보면 더 분명합니다.</p>
+<pre class="text"><code>w a
+  ── duplicate ──&gt; w (w a)
+  ── fmap f ─────&gt; w b</code></pre>
+<p>각 함수의 타입은 다음과 같이 정확히 이어집니다.</p>
+<pre class="haskell"><code>duplicate :: w a     -&gt; w (w a)
+f         :: w a     -&gt; b
+fmap f    :: w (w a) -&gt; w b</code></pre>
+<p>따라서 오른쪽부터 합성한 <code>fmap f . duplicate</code>의 타입은 <code>w a -&gt; w b</code>가 되며, 이는 <code>extend f</code>가 요구하는 타입과 같습니다. 동작도 같은 흐름입니다. 먼저 <code>duplicate</code>가 가능한 초점별 문맥을 만들고, 이어서 <code>fmap f</code>가 각 문맥에 <code>f</code>를 적용합니다.</p>
+<p>두 기본 정의가 서로를 가리킨다고 해서 아무 구현도 하지 않아도 된다는 뜻은 아닙니다. 실제 인스턴스는 <code>extract</code>를 구현하고 <code>duplicate</code>나 <code>extend</code> 중 적어도 하나에 생산적인 정의를 제공해야 합니다. 둘 다 기본 정의에 맡기면 서로를 계속 호출할 뿐 실제 결과를 만들지 못합니다. 또한 타입이 맞더라도 앞에서 본 코모나드 법칙을 만족해야 올바른 인스턴스입니다. 이 조건들은 <a href="https://hackage.haskell.org/package/comonad/docs/Control-Comonad.html"><code>Control.Comonad</code> 공식 문서</a>의 최소 구현과 법칙에 명시되어 있습니다.</p>
+<h3 id="왼쪽-유니터와-오른쪽-유니터는-무엇인가요">왼쪽 유니터와 오른쪽 유니터는 무엇인가요?</h3>
+<p><strong>하이라이트:</strong> <code>the left and right unitors</code></p>
+<p><strong>원문 문맥:</strong></p>
+<pre class="haskell"><code>lambda . bimap destroy id . split = id
+rho . bimap id destroy . split = id</code></pre>
+<blockquote>
+<p>Here, <code>lambda</code> and <code>rho</code> are the left and right unitors, respectively (see the definition of monoidal categories).</p>
+</blockquote>
+<p>유니터는 단위 대상을 텐서곱의 한쪽에서 제거하는 표준 동형사상입니다. 이 글의 구체적인 계산에서는 텐서곱이 쌍이고 단위 대상이 <code>()</code>이므로, 왼쪽 유니터 <code>lambda</code>는 <code>((), x)</code>에서 <code>x</code>를 꺼내고 오른쪽 유니터 <code>rho</code>는 <code>(x, ())</code>에서 <code>x</code>를 꺼냅니다.</p>
+<pre class="haskell"><code>lambda ((), x) = x
+rho (x, ()) = x</code></pre>
+<p>따라서 첫 번째 <code>counit</code> 법칙의 합성은 다음 순서로 읽을 수 있습니다.</p>
+<ol type="1">
+<li><code>split</code>이 <code>x</code>를 두 성분으로 보냅니다.</li>
+<li><code>bimap destroy id</code>가 왼쪽 성분을 <code>()</code>로 버리고 오른쪽 성분은 그대로 둡니다.</li>
+<li><code>lambda</code>가 남은 <code>((), 값)</code>에서 단위 성분을 제거합니다.</li>
+<li>전체 결과는 법칙에 따라 원래의 <code>x</code>, 즉 <code>id x</code>여야 합니다.</li>
+</ol>
+<p>두 번째 법칙은 좌우가 반대입니다. 오른쪽 성분을 버린 뒤 <code>rho</code>로 단위 성분을 제거해도 원래의 <code>x</code>가 돌아와야 합니다. 그래서 두 법칙을 함께 적용하면 <code>split</code>의 어느 쪽 성분도 원래 값을 바꿀 수 없습니다.</p>
+<h3 id="bimap-destroy-id를-적용하면-왜--g-x가-되나요"><code>bimap destroy id</code>를 적용하면 왜 <code>((), g x)</code>가 되나요?</h3>
+<p><strong>하이라이트:</strong></p>
+<pre class="haskell"><code>lambda (bimap destroy id (f x, g x))
+= lambda ((), g x)</code></pre>
+<p><strong>원문 문맥:</strong></p>
+<pre class="haskell"><code>lambda (bimap destroy id (split x))
+= lambda (bimap destroy id (f x, g x))
+= lambda ((), g x)
+= g x</code></pre>
+<p>원문은 <code>bimap</code>의 중간 계산을 한 번에 줄였습니다. 이를 성분별로 펼치면 다음과 같습니다.</p>
+<pre class="haskell"><code>bimap destroy id (f x, g x)
+= (destroy (f x), id (g x))
+= ((), g x)</code></pre>
+<p>첫 번째 성분에는 <code>destroy</code>가 적용됩니다. <code>destroy</code>는 어떤 값을 받아도 유닛 값 <code>()</code>를 반환하므로 <code>destroy (f x) = ()</code>입니다. 두 번째 성분에는 항등함수 <code>id</code>가 적용되므로 <code>id (g x) = g x</code>입니다. 따라서 쌍 전체가 <code>((), g x)</code>가 됩니다.</p>
+<p>이제 왼쪽 유니터를 적용하면 단위 성분이 사라집니다.</p>
+<pre class="haskell"><code>lambda ((), g x) = g x</code></pre>
+<p>여기까지만 보면 계산 결과가 단지 <code>g x</code>라는 사실만 알 수 있습니다. <code>g = id</code>라는 결론은 이 계산이 원래 다음 <code>counit</code> 법칙의 왼쪽을 전개한 것이라는 데서 나옵니다.</p>
+<pre class="haskell"><code>lambda . bimap destroy id . split = id</code></pre>
+<p>임의의 <code>x</code>에 양변을 적용하면 왼쪽은 방금 본 계산에 따라 <code>g x</code>이고, 오른쪽은 <code>id x = x</code>입니다.</p>
+<pre class="text"><code>g x = x    모든 x에 대하여</code></pre>
+<p>함수의 외연적 동등성에 따라 모든 입력에서 결과가 같으므로 <code>g = id</code>입니다. 오른쪽 <code>counit</code> 법칙도 같은 방식으로 전개됩니다.</p>
+<pre class="haskell"><code>rho . bimap id destroy . split = id</code></pre>
+<p>이번에는 계산 결과가 <code>f x</code>가 되므로 모든 <code>x</code>에 대해 <code>f x = x</code>이고, 따라서 <code>f = id</code>입니다. 결국 임의적이었던 두 성분 함수가 모두 항등함수로 정해집니다.</p>
+<pre class="haskell"><code>split x = (f x, g x)
+        = (x, x)</code></pre>
+<p>이 대각 함수와 유일한 <code>destroy :: m -&gt; ()</code>는 <code>Set</code>의 데카르트 곱이 모든 대상에 제공하는 표준적인 가환 코모노이드 구조입니다. “자명한 코모노이드”라는 원문의 표현은 대상마다 별도의 복사·삭제 방식을 선택하는 것이 아니라 곱과 단위 대상의 구조가 두 연산을 정해 준다는 뜻으로 이해하는 편이 정확합니다. 데카르트 모노이드 범주가 이러한 표준 가환 코모노이드 구조를 제공한다는 설명은 Fong과 Spivak의 논문 <a href="https://arxiv.org/abs/1908.02633">“Supplying bells and whistles in symmetric monoidal categories”</a>에서 확인할 수 있습니다.</p>
+<p>이 계산은 집합과 전체 함수의 범주인 <code>Set</code>을 기준으로 합니다. 실제 Haskell에는 종료하지 않는 계산과 <code>bottom</code> 같은 의미론적 문제가 있으므로, 모든 Haskell 프로그램을 곧바로 <code>Set</code>의 전체 함수로 동일시하는 더 강한 결론까지 뜻하지는 않습니다.</p>
+<h2 id="두-하이라이트-묶음은-어떻게-연결되나요">두 하이라이트 묶음은 어떻게 연결되나요?</h2>
+<p>첫 번째 묶음의 <code>extract</code>와 <code>duplicate</code>는 각각 코모나드의 <code>counit</code>과 <code>comultiplication</code>에 해당합니다. 범주론적으로 코모나드는 함수자 합성을 텐서곱으로 삼는 자기함자(endofunctor)의 모노이드 범주 안에서 코모노이드입니다. 이 표준 정의는 Škoda의 논문 <a href="https://arxiv.org/abs/math/0412001">“Cyclic structures for simplicial objects from comonads”</a>에서도 명시되어 있습니다.</p>
+<pre class="text"><code>extract   : 문맥에서 현재 초점을 꺼냅니다.
+duplicate : 하나의 문맥을 초점별 문맥들의 구조로 펼칩니다.</code></pre>
+<p>두 번째 묶음은 같은 코모노이드 개념을 더 익숙한 데카르트 곱의 범주 <code>Set</code>에 적용한 별도의 예입니다.</p>
+<pre class="text"><code>destroy : 값을 단위 대상으로 보냅니다.
+split   : 값을 두 곱 성분으로 보냅니다.</code></pre>
+<p><code>Set</code>에서는 단위 대상으로 보내는 방법이 유일하고, <code>counit</code> 법칙 때문에 두 곱 성분이 모두 원래 값이어야 합니다. 그래서 <code>split x = (x, x)</code>가 됩니다. 반면 코모나드의 <code>duplicate :: w a -&gt; w (w a)</code>는 일반적인 메모리 복사 연산이 아니라, 자기함자 <code>w</code>가 나타내는 문맥을 한 단계 더 중첩하는 <code>comultiplication</code>입니다. 두 연산은 모두 “코모노이드의 화살표”이지만 서로 다른 모노이드 범주에서 구체화되므로, <code>duplicate</code>를 단순히 Haskell 값의 물리적 복제로 해석하면 안 됩니다.</p>
+<h2 id="정리">정리</h2>
+<p><code>duplicate = extend id</code>는 <code>extend</code>의 결과 타입 <code>b</code>를 <code>w a</code>로 특수화하면 타입이 정확히 맞습니다. <code>extend f = fmap f . duplicate</code>는 <code>duplicate</code>로 초점별 문맥을 만든 뒤 <code>fmap f</code>로 각 문맥을 계산하는 합성입니다. 실제 코모나드 인스턴스에는 <code>extract</code>와 두 연산 중 하나의 구현뿐 아니라 코모나드 법칙도 필요합니다.</p>
+<p>왼쪽·오른쪽 유니터는 단위 대상을 텐서곱의 왼쪽이나 오른쪽에서 제거합니다. <code>Set</code>의 데카르트 곱에서는 각각 <code>((), x)</code>와 <code>(x, ())</code>를 <code>x</code>로 보냅니다. <code>bimap destroy id (f x, g x)</code>는 두 성분에 함수를 따로 적용하므로 <code>((), g x)</code>가 되고, 왼쪽 <code>counit</code> 법칙은 여기서 <code>g = id</code>를 강제합니다. 오른쪽 법칙도 <code>f = id</code>를 강제하므로 최종적으로 <code>split x = (x, x)</code>가 됩니다.</p>
+<h2 id="참고-자료">참고 자료</h2>
+<ul>
+<li><a href="https://bartoszmilewski.com/2017/01/02/comonads/">Bartosz Milewski, “Comonads”</a> — 해설 대상 원문입니다.</li>
+<li><a href="https://hackage.haskell.org/package/comonad/docs/Control-Comonad.html"><code>Control.Comonad</code> 공식 문서</a> — <code>extract</code>, <code>duplicate</code>, <code>extend</code>의 타입, 기본 정의, 최소 구현 및 코모나드 법칙을 확인할 수 있습니다.</li>
+<li><a href="https://hackage.haskell.org/package/base/docs/Data-Bifunctor.html"><code>Data.Bifunctor</code></a> — <code>bimap</code>의 타입과 쌍에 대한 <code>Bifunctor</code> 동작을 확인할 수 있습니다.</li>
+<li><a href="https://hackage.haskell.org/package/base/docs/Data-Function.html"><code>Data.Function</code></a> — Haskell 함수 합성 연산자 <code>(.)</code>의 정의를 확인할 수 있습니다.</li>
+<li><a href="https://math.mit.edu/~etingof/book-main.pdf">Pavel Etingof 외, <em>Tensor Categories</em></a> — 모노이드 범주, 단위 대상, 유니터의 일반적인 정의를 설명합니다.</li>
+<li><a href="https://arxiv.org/abs/1908.02633">Brendan Fong·David I. Spivak, “Supplying bells and whistles in symmetric monoidal categories”</a> — 데카르트 모노이드 범주가 표준 가환 코모노이드 구조를 제공한다는 점을 다룹니다.</li>
+<li><a href="https://arxiv.org/abs/math/0412001">Zoran Škoda, “Cyclic structures for simplicial objects from comonads”</a> — 코모나드를 자기함자 범주의 코모노이드로 서술합니다.</li>
+</ul>
+      </section>
+      <footer class="article-footer"></footer>
+    </article>
+  </main>
+</body>
+</html>
