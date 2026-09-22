@@ -1,17 +1,18 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="ko">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>코모나드의 초점 이동과 코모노이드 법칙</title>
-  <meta name="description" content="Bartosz Milewski의 「Comonads」는 모나드의 화살표를 뒤집어 코모나드를 정의한 뒤, 이를 Haskell의 extract, duplicate, extend와 범주론의 코모노이드(comonoid)로 연결합니다." />
-  <meta name="source-url" content="https://bartoszmilewski.com/2017/01/02/comonads/" />
-  <meta name="review-date" content="2026-09-21" />
-  <meta name="explanation-article-format" content="1" />
-  <meta name="explanation-content-sha256" content="645f31131f0f35134e25bee86c8eb331bdd05477d97578216a949bf3d3e87aa7" />
-  <meta name="instapaper-ingestion-url" content="https://beila.github.io/my-collection/annotated-explanations/comonads-1231145792/?instapaper_explanation=1-645f31131f0f3513" />
-  <link rel="canonical" href="https://beila.github.io/my-collection/annotated-explanations/comonads-1231145792/" />
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>코모나드의 초점 이동과 코모노이드 법칙</title>
+<meta content="Bartosz Milewski의 「Comonads」는 모나드의 화살표를 뒤집어 코모나드를 정의한 뒤, 이를 Haskell의 extract, duplicate, extend와 범주론의 코모노이드(comonoid)로 연결합니다." name="description"/>
+<meta content="https://bartoszmilewski.com/2017/01/02/comonads/" name="source-url"/>
+<meta content="2026-09-21" name="review-date"/>
+<meta content="1" name="explanation-article-format"/>
+<meta content="645f31131f0f35134e25bee86c8eb331bdd05477d97578216a949bf3d3e87aa7" name="explanation-content-sha256"/>
+<meta content="https://beila.github.io/my-collection/annotated-explanations/comonads-1231145792/?instapaper_explanation=1-645f31131f0f3513" name="instapaper-ingestion-url"/>
+<link href="https://beila.github.io/my-collection/annotated-explanations/comonads-1231145792/" rel="canonical"/>
+<style>
     :root {
       color-scheme: dark;
       --background: #111315;
@@ -296,15 +297,15 @@
   </style>
 </head>
 <body>
-  <main id="main-content">
-    <article>
-      <header class="article-header">
-        <h1 id="코모나드의-초점-이동과-코모노이드-법칙">코모나드의 초점 이동과 코모노이드 법칙</h1>
-      </header>
-      <section class="reviewed-content">
-        <p data-publication-metadata="true">원문: <a href="https://bartoszmilewski.com/2017/01/02/comonads/">Bartosz Milewski, <cite lang="en">Comonads</cite></a></p>
-        <p data-publication-metadata="true">검토일: <time datetime="2026-09-21">2026-09-21</time></p>
-        <p data-publication-metadata="true">EPUB: <a href="https://beila.github.io/my-collection/annotated-explanations/comonads-1231145792/comonads-1231145792.epub">EPUB 파일 다운로드</a></p>
+<main id="main-content">
+<article>
+<header class="article-header">
+<h1 id="코모나드의-초점-이동과-코모노이드-법칙">코모나드의 초점 이동과 코모노이드 법칙</h1>
+</header>
+<section class="reviewed-content">
+<p data-publication-metadata="true">해설 대상 원문: <a href="https://bartoszmilewski.com/2017/01/02/comonads/">Bartosz Milewski, <cite lang="en">Comonads</cite></a></p>
+<p data-publication-metadata="true">검토일: <time datetime="2026-09-21">2026-09-21</time></p>
+<p data-publication-metadata="true">EPUB: <a href="https://beila.github.io/my-collection/annotated-explanations/comonads-1231145792/comonads-1231145792.epub">EPUB 파일 다운로드</a></p>
 <h2 id="이-문서에서-설명하는-내용">이 문서에서 설명하는 내용</h2>
 <p>Bartosz Milewski의 「Comonads」는 모나드의 화살표를 뒤집어 코모나드를 정의한 뒤, 이를 Haskell의 <code>extract</code>, <code>duplicate</code>, <code>extend</code>와 범주론의 코모노이드(comonoid)로 연결합니다. 하이라이트는 그중에서도 설명이 가장 압축된 두 지점을 짚습니다.</p>
 <p>첫째는 <code>duplicate</code>와 <code>extend</code>가 어떻게 서로를 정의하는지 보여 주는 코드입니다. 둘째는 모노이드 범주의 왼쪽·오른쪽 유니터(<code>unitor</code>)와 <code>bimap</code>을 사용하여, 집합과 곱의 범주에서는 코모노이드의 <code>split</code>이 결국 <code>x</code>를 두 번 내놓는 함수일 수밖에 없음을 보이는 계산입니다.</p>
@@ -467,9 +468,10 @@ split   : 값을 두 곱 성분으로 보냅니다.</code></pre>
 <li><a href="https://arxiv.org/abs/1908.02633">Brendan Fong·David I. Spivak, “Supplying bells and whistles in symmetric monoidal categories”</a> — 데카르트 모노이드 범주가 표준 가환 코모노이드 구조를 제공한다는 점을 다룹니다.</li>
 <li><a href="https://arxiv.org/abs/math/0412001">Zoran Škoda, “Cyclic structures for simplicial objects from comonads”</a> — 코모나드를 자기함자 범주의 코모노이드로 서술합니다.</li>
 </ul>
-      </section>
-      <footer class="article-footer"></footer>
-    </article>
-  </main>
+</section>
+<footer class="article-footer"></footer>
+</article>
+</main>
 </body>
 </html>
+
