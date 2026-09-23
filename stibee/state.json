@@ -24,10 +24,21 @@
       "article_format_version": 3,
       "instapaper_bookmark_id": "2042386176",
       "ingestion_url": "https://beila.github.io/my-collection/stibee/ixyhysockmal0qi3raba87zvkmw-4us-6a792c661fd8.html?stibee_article=3-3c80dafc3eeb82bd"
+    },
+    "https://stibee.com/api/v1.0/emails/share/h9ZbM1gM1sTMLCONSGoPlN7mNhv2JlA": {
+      "canonical_url": "https://stibee.com/api/v1.0/emails/share/h9ZbM1gM1sTMLCONSGoPlN7mNhv2JlA",
+      "final_url": "https://stibee.com/api/v1.0/emails/share/h9ZbM1gM1sTMLCONSGoPlN7mNhv2JlA",
+      "feed_item_url": "https://event.stibee.com/v2/click/NTIwNTcvMzYxMjc5Ny80MDE0My8/aHR0cHM6Ly9zdGliLmVlL0xhVk8",
+      "feed_identity": "coffee-pot:urn:kill-the-newsletter:u61ehfnf5hpwlm1miqax",
+      "title": "🟩 파라마운트와 워너브라더스 합병이 바꿀 스트리밍 판",
+      "published_url": "https://beila.github.io/my-collection/stibee/h9zbm1gm1stmlconsgopln7mnhv2jla-27f260aaa039.html",
+      "content_hash": "987620fcfbc25b122f32e8ffb851c8f888b42cedb7dd304f8333c3d2e2b86230",
+      "article_format_version": 3
     }
   },
   "feed_items": {
     "coffee-pot:urn:kill-the-newsletter:u01k6u9ltxvkt4bporyb": "https://stibee.com/api/v1.0/emails/share/AMke1WxEAvi_pCM5DAHeK_qEmD5jHWo",
-    "coffee-pot:urn:kill-the-newsletter:bah88jpjmjp956fvt9o2": "https://stibee.com/api/v1.0/emails/share/IXYHYsOckmAl0Qi3RABA87ZvkmW_4us"
+    "coffee-pot:urn:kill-the-newsletter:bah88jpjmjp956fvt9o2": "https://stibee.com/api/v1.0/emails/share/IXYHYsOckmAl0Qi3RABA87ZvkmW_4us",
+    "coffee-pot:urn:kill-the-newsletter:u61ehfnf5hpwlm1miqax": "https://stibee.com/api/v1.0/emails/share/h9ZbM1gM1sTMLCONSGoPlN7mNhv2JlA"
   }
 }
