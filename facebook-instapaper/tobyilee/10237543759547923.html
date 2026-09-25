@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="10237543759547923" name="facebook-post-id"/>
+<meta content="70cc5852db161686dccac09cc78cd3527cabed5b5f7bfb12e645040242a8b89a" name="facebook-content-hash"/>
+<meta content="75" name="facebook-article-format"/>
+<title>Toby Lee: 자바/스프링으로 개발된 시스템을 NodeJS로 마이그레이션 해볼까 하는 생각을 전부터 하고 있었는데 이번에 진행을 해봤다.</title>
+<style>
+    :root { color-scheme: dark; background: #121212; }
+    body { background: #121212; color: #e8eaed;
+            font: 18px/1.55 system-ui, sans-serif; margin: 2rem auto;
+            max-width: 42rem; padding: 0 1rem; }
+    h1 { font-size: 1.35rem; line-height: 1.25; }
+    h2 { font-size: 1.05rem; line-height: 1.35; }
+    h3 { font-size: 1rem; line-height: 1.35; }
+    .byline, time { color: #bdc1c6; font-size: .9rem; }
+    a { color: #8ab4f8; }
+    img { display: block; height: auto; margin: 1.5rem auto; max-width: 100%; }
+    figure { margin: 1.5rem 0; }
+    figure img { margin: 0 auto; }
+    .media-description { color: #bdc1c6; margin: .5rem auto 0;
+                          max-width: 38rem; }
+    .post-media-image { margin: 1.5rem 0 0; }
+    .post-media-image img { margin: 0 auto; }
+    .post-media-caption { margin-top: .5rem; }
+    .video-thumbnail a { display: block; text-decoration: none; }
+    blockquote.shared-quote { border: 1px solid #8ab4f8; border-radius: 6px;
+                              margin: 1.5rem 0; padding: .75rem 1rem; }
+    .shared-quote p { margin: .5rem 0; }
+    .repost-attribution { color: #bdc1c6; font-size: .9rem; }
+    .photo-notice { border-left: 3px solid #8ab4f8; padding-left: .75rem; }
+    .linked-page { border: 1px solid #3c4043; border-radius: 6px;
+                    margin: 1.5rem 0; padding: 1rem; }
+    blockquote.linked-page { background: #1a1a1a; }
+    .linked-page p { margin: .5rem 0; }
+    .linked-title { font-size: 1.05rem; line-height: 1.35; }
+    .linked-page table { border-collapse: collapse; max-width: 100%; }
+    .linked-page td, .linked-page th { border: 1px solid #5f6368;
+                                        padding: .25rem; }
+    .linked-site, .linked-url { color: #bdc1c6; font-size: .85rem;
+                                overflow-wrap: anywhere; }
+    .source { border-top: 1px solid #3c4043; margin-top: 2rem; padding-top: 1rem; }
+img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
+                      vertical-align: middle; }
+    img.math-display { display: block; height: auto; margin: 1.25rem auto;
+                       max-width: 100%; }
+.youtube-thumbnail { margin: 1.5rem 0; }
+    .youtube-thumbnail a { display: block; text-decoration: none; }
+    .youtube-thumbnail img { margin: 0 auto; }
+  </style>
+</head>
+<body>
+<article class="article-content" lang="ko">
+<h1>Toby Lee: 자바/스프링으로 개발된 시스템을 NodeJS로 마이그레이션 해볼까 하는 생각을 전부터 하고 있었는데 이번에 진행을 해봤다.</h1>
+<p class="byline">Toby Lee</p>
+<time datetime="2026-08-27T07:07:54+00:00">2026-08-27T07:07:54+00:00</time>
+<p>자바/스프링으로 개발된 시스템을 NodeJS로 마이그레이션 해볼까 하는 생각을 전부터 하고 있었는데 이번에 진행을 해봤다. AI를 사용해서 스프링 백엔드로 개발했던 내 새로운 블로그/위키 서비스가 대상이었다. 개인 프로젝트로 만들어서 혼자, 혹은 지인들과만 쓰는 서비스는 여럿 있지만 그 중에서 공개적으로 가장 많은 방문자를 가진 서비스이고, 틈날 때마다 이런 저런 기능을 붙여나가며 다양한 실험을 하는 코드라 이 정도라면 해볼만 하겠다 싶었다.</p>
+<p>AI 개발 시대가 되었는데 굳이 스프링을 계속 쓸 필요가 있을까, 스프링에서도 표현력과 가독성이 좋다는 코틀린을 고집할 필요가 있을까, 심지어 무거운 JVM 기반 기술을 계속 사용할 필요가 있을까하는 질문을 작년 말부터 가지고 있었다. 점점 똑똑하게, 언제부턴가는 내가 굳이 코드를 열어볼 필요도 없다고 느껴지는 결과를 내는 AI라면 인간 개발자가 더 일을 잘 하도록 만들어진 기술과 언어를 꼭 고집하지 않아도 되는 것 아닌가 하는 생각이 들었기 때문이기도 하고, 얼마전 만난 한 유명 개발자가 노드로 바꾸면 JVM용 서버 하나에 노드 인스턴스 30개는 돌릴 수 있다고 한 이야기를 들었던 기억도 있고 해서 확인을 해보고 싶기도 했다.</p>
+<p>AI가 코드를 뽑긴했지만, 나름 스프링에서 잘 쓰이는 기술과 아키텍처, 패턴 등을 잘 적용해서 개발하도록 면밀히 조율해서 만들었던 거라, 이걸 기술 마이그레이션을 할 때 얼마나 정확하게 전환이 될 수 있을지, 대응되는 기술 조합은 어떻게 될지가 궁금했다.</p>
+<p>그래서 첫 단계는 마이그레이션 의도를 AI에게 던져주고 가능한 노드 기반 기술을 살펴보고 장단점을 비교해서 알려달라고 했다. 단지 노드 계열에서 많이 쓰이는 기술이기 때문만이 아니라, 스프링으로 작성된 코드를 마이그레이션 할 때 가능하면 1:1에 가깝게 구현 코드의 의도와 기능이 최대한 반영되기 좋은 구성을 찾도록 했고, 결과적으로 NestJS + MikroORM을 기본 구성으로 선택했다. 이 구조가 스프링으로 된 코드와 최대한 유사한 방식으로 코드를 구성할 수 있는 방식이라는 설명을 받아들였다.</p>
+<p>그리고 계획을 세웠다. 전환 방식, 배포 토폴로지, 스키마 관리, 토큰 암호화, 테스트, 그리고 각종 검증까지.</p>
+<p>10개 이상의 마이그레이션 계획 문서가 작성됐고, 며칠 전 잠에 들기 전에 goal을 설정하고 운영 서버 배포만 제외하고 모든 작업을 진행하라고 해서 아침에 최종 결과를 확인했다.</p>
+<p>그리고 몇 턴의 테스트와 놓친 부분을 다시 고치는 과정을 거쳐 운영서버 배포와 롤백 리허설을 진행하고, 그리고 오늘 최종 전환 완료. 잘 동작한다.</p>
+<p>그 동안 진행했던 작업 내용을 블로그 글로 써보자고 했다. 어떤 검증을 해야할지 고민하고, 적용하면서 문제를 찾아나가는 과정이 흥미롭다. 이 재밌는 걸 대부분 AI가 스스로 즐긴 것 같아서 그게 얄미울 뿐이다.</p>
+<figure><img alt="Photo from Toby Lee" src="https://beila.github.io/my-collection/facebook-instapaper/tobyilee/10237543759547923/19c2e96e8832d54834bcb0b1181042ecb0259623c22f27c85124562352bf41dd.jpg"/></figure>
+<p class="source"><a href="https://www.facebook.com/tobyilee/posts/10237543759547923">View the original Facebook post</a></p>
+<blockquote class="linked-page">
+<p class="linked-site">codex.epril.com</p>
+<p class="linked-title"><strong><a href="https://codex.epril.com/migrating-spring-boot-to-nestjs">9시간이 사라질 뻔했다 — Spring Boot 백엔드를 NestJS로 옮긴 이야기</a></strong></p>
+<p>메모리 절약과 언어 통일을 위해 Spring Boot에서 NestJS로 마이그레이션한 경험</p>
+<h2>옮기기로 한 이유</h2>
+<p>Toby's Codex의 백엔드는 Spring Boot로 시작했다. Java 25, JPA, Flyway. 잘 돌아갔다. 문제는 이 블로그가 도는 서버가 메모리 1.8GB짜리 작은 EC2 인스턴스라는 점이었다.</p>
+<p>JVM 하나가 600MB 가까이 쓰고 있었다. <code>free -m</code>을 쳐보면 남은 메모리가 82MB일 때도 있었다. 언젠가 터질 것 같은 숫자였다.</p>
+<p>프론트엔드는 이미 Next.js와 TypeScript다. 백엔드도 Node로 옮기면 언어가 하나로 통일되고 메모리도 줄어든다. 그래서 NestJS로 옮기기로 했다.</p>
+<p>계획을 세우고 보니 규모가 만만치 않았다.</p>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>수량</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Java 프로덕션 코드</td>
+<td>약 9,000줄</td>
+</tr>
+<tr>
+<td>컨트롤러</td>
+<td>26개 (엔드포인트 99개)</td>
+</tr>
+<tr>
+<td>JPA 엔티티</td>
+<td>17개</td>
+</tr>
+<tr>
+<td>Flyway 마이그레이션</td>
+<td>27개</td>
+</tr>
+</tbody>
+</table>
+<p>혼자 운영하는 블로그치고는 꽤 자란 상태였다.</p>
+<h2>가장 무서웠던 것</h2>
+<p>포팅을 시작하기 전에 코드를 훑다가 등골이 서늘해진 지점이 있었다.</p>
+<p><span>java</span></p><pre><code><span><span>@</span><span>Transactional</span></span>
+<span><span>public</span><span> PostDetailResponse </span><span>publishPost</span><span>(Long id) {</span></span>
+<span><span>    Post post </span><span>=</span><span> postRepository.</span><span>findById</span><span>(id).</span><span>orElseThrow</span><span>(...);</span></span>
+<span><span>    post.</span><span>publish</span><span>();                    </span><span>// 상태만 바꾸고 끝</span></span>
+<span><span>    return</span><span> PostDetailResponse.</span><span>from</span><span>(post);</span></span>
+<span><span>}                                      </span><span>// save()가 없다</span></span></code></pre>
+<p><code>save()</code>를 부르지 않는다. 그런데도 DB에 저장된다. Hibernate가 "이 객체 아까랑 달라졌네?" 하고 알아서 UPDATE를 날려주기 때문이다. 이걸 dirty checking이라고 한다.</p>
+<p>이런 코드가 <strong>23곳</strong> 있었다.</p>
+<p>무서운 건 이게 잘못 옮겨졌을 때의 증상이다. 에러가 안 난다. 응답은 200이고 본문도 멀쩡하다. 화면에는 "발행 완료"라고 뜬다. 그런데 DB에는 아무것도 안 쓰였다. 새로고침하면 원래대로 돌아와 있다.</p>
+<p><strong>조용히 실패한다.</strong> 이게 제일 무섭다.</p>
+<h2>그래서 검증을 먼저 설계했다</h2>
+<p>코드를 짜기 전에 "어떻게 틀렸다는 걸 알아낼 것인가"부터 정했다. 두 가지를 준비했다.</p>
+<h3>1. 골든 파일 — Java가 살아 있을 때만 뽑을 수 있는 것</h3>
+<p>슬러그 생성, 마크다운 처리, 읽는 시간 계산 같은 순수 함수들이 있다. 입력을 넣으면 출력이 나오는, DB도 네트워크도 필요 없는 함수들.</p>
+<p>Java 쪽에 덤퍼를 하나 만들어서 입출력 쌍 <strong>1,289건</strong>을 JSON으로 뽑아뒀다. 그리고 TypeScript로 옮긴 함수에 같은 입력을 넣어 <strong>바이트 단위로 비교</strong>했다.</p>
+<p>이 작업은 Java를 지우기 전에 해야 한다. 지우고 나면 정답지가 사라진다.</p>
+<p>덕분에 미묘한 함정들을 잡았다. Java의 정규식 <code>\s</code>와 자바스크립트의 <code>\s</code>가 매칭하는 문자 집합이 다르다든가, 문자열 자르기가 이모지를 반쪽만 남긴다든가 하는 것들. 알고 보면 별거 아니지만, 모르고 지나가면 어느 날 슬러그가 이상하게 생성된다.</p>
+<h3>2. 섀도우 diff — 두 백엔드를 나란히 세우기</h3>
+<p>이게 핵심이었다.</p>
+<p><span></span></p><pre><code>        같은 요청을 양쪽에 보낸다
+              ↓              ↓
+      Spring :8080      NestJS :8081
+              ↓              ↓
+        MySQL codex_a   MySQL codex_b
+        (운영 DB 복제본) (운영 DB 복제본)
+</code></pre>
+<p>운영 DB를 덤프해서 익명화하고, <strong>복제본 두 개</strong>를 만들었다. 각 백엔드에 하나씩 물렸다. 그리고 같은 요청을 양쪽에 쏴서 응답을 비교했다.</p>
+<p>여기서 중요한 게 DB를 <strong>분리</strong>했다는 점이다. 응답만 비교하면 아까 말한 flush 누락을 못 잡는다. 응답은 200이고 본문도 같으니까. 요청을 보낸 뒤 <strong>DB 테이블 상태까지</strong> 비교해야 "얘는 진짜로 저장했고 쟤는 안 했다"가 드러난다.</p>
+<p>읽기 요청 70건, 쓰기 요청 26건짜리 코퍼스를 만들어 돌렸다.</p>
+<h2>첫 실행: 58건 중 58건이 달랐다</h2>
+<p>100%였다.</p>
+<p>당황했지만, 뜯어보니 대부분은 같은 원인 몇 개에서 나온 것이었다. 그리고 그중 하나가 이 마이그레이션에서 가장 아찔했던 발견이었다.</p>
+<h2>9시간</h2>
+<p>모든 날짜가 어긋나 있었다.</p>
+<p><span></span></p><pre><code>DB에 저장된 값        2026-08-09 08:59:25
+운영 Spring이 응답    2026-08-08 23:59:25   ← 9시간 전
+새로 만든 NestJS      2026-08-09 08:59:25   ← DB 값 그대로
+</code></pre>
+<p>원인은 이랬다. JDBC 접속 URL에 <code>serverTimezone=Asia/Seoul</code>이 붙어 있는데, Docker 컨테이너에는 타임존 설정이 없어서 JVM은 UTC로 돌고 있었다. MySQL 드라이버가 이 둘 사이에서 서울 → UTC 변환을 하고 있었던 것이다. 9시간.</p>
+<p>즉 <strong>원래 운영 서비스가 DB 값을 9시간 밀어서 보여주고 있었고</strong>, 새로 만든 NestJS는 DB 값을 정직하게 그대로 보여주고 있었다.</p>
+<p>정직한 쪽이 문제였다. 그대로 배포했으면 어떻게 됐을까? 어제 쓴 글의 작성 시각이 갑자기 9시간 뒤로 점프한다. RSS 발행일이 바뀐다. 구독자에게 나가는 알림 메일의 날짜가 틀어진다.</p>
+<p><strong>그런데 테스트는 전부 통과했다.</strong> 234개가 전부 초록불이었다. NestJS는 자기 기준으로 완벽하게 일관적이었으니까. 기준이 되는 Spring을 옆에 세워놓고 같은 요청을 쏴봐야만 보이는 종류의 버그였다.</p>
+<p>이 하나 때문에 섀도우 diff를 만든 값을 다 했다고 생각한다.</p>
+<p>비슷한 결의 문제가 6개 더 나왔다.</p>
+<ul>
+<li>읽을 때는 변환하는데 <strong>쓸 때는 변환하지 않는</strong> 비대칭 (새로 쓴 글만 9시간 과거로)</li>
+<li>검색 API만 유독 변환을 안 타는 문제 — 알고 보니 <strong>원래 서비스가 그랬다.</strong> 같은 글인데 목록에서 보는 시각과 검색 결과에서 보는 시각이 9시간 달랐다. 이건 고치지 않고 <strong>그대로 재현했다</strong>. 버그까지 똑같이 옮기고, 컷오버가 끝난 뒤에 고치기로 미리 정해뒀기 때문이다</li>
+<li>Express가 자동으로 붙이는 헤더 3종. 그중 <code>ETag</code>는 브라우저에 304를 내보내서 상태 코드 계약을 깬다</li>
+<li>헬스체크 응답 본문이 문서에 적힌 것과 달랐다</li>
+<li>댓글 검증 실패 메시지가 엉뚱한 걸 안내했다. 닉네임을 안 썼는데 "100자 이내로 써주세요"라고 나왔다</li>
+</ul>
+<p>수정을 마치고 다시 돌리니 <strong>96건 중 4건</strong>으로 줄었다. DB 상태 차이는 1밀리초짜리 시계 오차 하나뿐이었다. dirty checking 23곳이 전부 제대로 저장하고 있다는 뜻이었다.</p>
+<h2>문서를 믿지 말 것</h2>
+<p>이번에 크게 배운 게 하나 더 있다.</p>
+<p>마이그레이션 계획 문서를 꽤 공들여 썼다. 결정 사항, 아키텍처, API 계약, 검증 전략, 컷오버 절차까지 6천 줄 넘게. 그런데 막상 운영 서버에서 하나씩 재보니 <strong>틀린 게 계속 나왔다.</strong></p>
+<ul>
+<li>"마지막 마이그레이션은 V26" → 실제로는 V27</li>
+<li>"이메일은 Resend" → 실제로는 Brevo로 바뀌어 있었다</li>
+<li>"컷오버 후 소셜 토큰 3개를 다시 입력해야 한다" → <strong>그 토큰이 애초에 없었다.</strong> 운영 설정 테이블 8줄이 전부 평문이었고, 암호화된 토큰은 존재한 적이 없었다</li>
+<li>"타임존은 영향 없다" → 위에서 본 그 9시간</li>
+</ul>
+<p>마지막 것이 제일 뼈아팠다. 문서에 "이건 영향 없음"이라고 단정적으로 적어놨는데, 실측이 정반대였다. 확신을 가지고 틀린 것이다.</p>
+<p><code>curl</code> 한 번, <code>SELECT</code> 한 번이면 확인되는 것들이었다. 추론으로 채운 칸은 결국 다시 재봐야 한다.</p>
+<h2>리허설에서 배운 것</h2>
+<p>배포 전날, 롤백 연습을 해봤다. 실제로 NestJS를 운영에 올렸다가 다시 Spring으로 되돌리는 것이다.</p>
+<p>스테이징 환경이 따로 없어서 운영에서 했다. 마음이 편하진 않았지만, 롤백 절차를 문서로 읽는 것과 실제로 해보는 건 다르다고 판단했다.</p>
+<p>잘한 선택이었다. <strong>배포 스크립트에서 두 가지가 깨졌다.</strong></p>
+<p>준비 작업 중에 서버의 환경변수 파일 권한이 <code>666</code>으로 되어 있는 걸 발견했다. 비밀번호와 API 키가 들어 있는 파일인데 누구나 읽고 쓸 수 있는 상태였다. 조였다. 그랬더니</p>
+<ol>
+<li>마이그레이션 스크립트가 그 파일을 못 읽게 됐다. <code>sudo</code>를 붙였더니 이번엔 <strong>ECR 접근 권한을 잃었다.</strong> 권한이 사용자 계정에 붙어 있었는데 <code>sudo</code>로 넘어가면서 서버 역할로 떨어진 것이다</li>
+<li>Docker Compose도 그 파일을 못 읽었다</li>
+</ol>
+<p>두 번째는 다행히 <strong>아무것도 하지 않고 멈췄다.</strong> 기존 컨테이너가 그대로 떠 있어서 서비스는 멀쩡했다. 안전하게 실패한 셈이다.</p>
+<p>이걸 배포 당일에 처음 만났다면 새벽에 식은땀 흘리며 디버깅했을 것이다.</p>
+<p>전환에 18초, 롤백에 26초가 걸렸다. 숫자를 손에 쥐고 나니 마음이 훨씬 편해졌다.</p>
+<h2>결과</h2>
+<p>컷오버는 18초 만에 끝났다. 헬스체크 첫 시도에 통과했다.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>이전 (Spring)</th>
+<th>이후 (NestJS)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Docker 이미지</td>
+<td>947MB</td>
+<td><strong>723MB</strong></td>
+</tr>
+<tr>
+<td>컨테이너 메모리</td>
+<td>595MB</td>
+<td><strong>220MB</strong></td>
+</tr>
+<tr>
+<td>서버 여유 메모리</td>
+<td>396MB</td>
+<td><strong>1,146MB</strong></td>
+</tr>
+</tbody>
+</table>
+<p>여유 메모리가 1.1GB로 늘었다. 82MB까지 떨어지던 서버가 이제 한숨 돌린다.</p>
+<p>그리고 배포 직후 제일 먼저 확인한 것.</p>
+<p><span></span></p><pre><code>컷오버 전   2026-08-08T23:59:25
+컷오버 후   2026-08-08T23:59:25
+</code></pre>
+<p>날짜가 그대로였다. 이 한 줄 보려고 그 고생을 했다.</p>
+<h2>남은 이야기</h2>
+<p>아직 하루밖에 안 됐다. 재시작 0회, 에러 로그 0건이지만 일주일은 지켜봐야 한다고 생각한다. 롤백 경로도 그대로 열어뒀다. 이전 이미지에 태그를 박아뒀고, DB 스냅샷도 떠뒀고, Java 소스도 아직 지우지 않았다.</p>
+<p>돌아보면 이번 작업에서 제일 잘한 건 코드를 잘 옮긴 게 아니라 <strong>틀렸다는 걸 알아낼 방법을 먼저 만든 것</strong>이었다.</p>
+<p>테스트 234개가 전부 통과했을 때 솔직히 다 됐다고 생각했다. 그런데 진짜 문제는 그다음에 나왔다. 테스트는 "내가 예상한 게 맞는지"를 확인한다. 예상하지 못한 건 확인해주지 않는다.</p>
+<p>옛 시스템이 아직 살아 있을 때, 그 옆에 새 시스템을 세워놓고 같은 질문을 던져보는 것. 그게 유일하게 "예상하지 못한 것"을 잡아주는 방법이었다.</p>
+<p>혹시 비슷한 마이그레이션을 앞두고 있다면, 옛 시스템을 지우기 전에 이것만은 꼭 하시길. 정답지는 원본이 살아 있을 때만 뽑을 수 있다.</p>
+<p class="linked-url"><a href="https://codex.epril.com/migrating-spring-boot-to-nestjs">https://codex.epril.com/migrating-spring-boot-to-nestjs</a></p>
+</blockquote>
+<p class="source"><a href="https://www.facebook.com/tobyilee/posts/10237543759547923">View the original Facebook post</a></p>
+</article>
+</body>
+</html>
