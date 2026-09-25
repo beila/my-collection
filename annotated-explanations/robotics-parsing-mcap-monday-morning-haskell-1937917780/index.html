@@ -1,17 +1,18 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="ko">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Megaparsec 파서 타입으로 읽는 &lt;$&gt;와 anySingle</title>
-  <meta name="description" content="Megaparsec의 Parser 타입, anySingle, &lt;$&gt;의 타입 흐름과 MCAP 리틀엔디언 파싱을 설명합니다.">
-  <meta name="source-url" content="https://mmhaskell.com/blog/2025/11/24/robotics-amp-parsing-mcap">
-  <meta name="review-date" content="2026-09-25">
-  <meta name="explanation-article-format" content="1">
-  <meta name="explanation-content-sha256" content="186d8cc1134fa677b8b2e3fd43b95f69f1ca2c36d57073b63dbd9951bc828eec">
-  <meta name="instapaper-ingestion-url" content="https://beila.github.io/my-collection/annotated-explanations/robotics-parsing-mcap-monday-morning-haskell-1937917780/?instapaper_explanation=1-186d8cc1134fa677">
-  <link rel="canonical" href="https://beila.github.io/my-collection/annotated-explanations/robotics-parsing-mcap-monday-morning-haskell-1937917780/">
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Megaparsec 파서 타입으로 읽는 &lt;$&gt;와 anySingle</title>
+<meta content="Megaparsec의 Parser 타입, anySingle, &lt;$&gt;의 타입 흐름과 MCAP 리틀엔디언 파싱을 설명합니다." name="description"/>
+<meta content="https://mmhaskell.com/blog/2025/11/24/robotics-amp-parsing-mcap" name="source-url"/>
+<meta content="2026-09-25" name="review-date"/>
+<meta content="1" name="explanation-article-format"/>
+<meta content="186d8cc1134fa677b8b2e3fd43b95f69f1ca2c36d57073b63dbd9951bc828eec" name="explanation-content-sha256"/>
+<meta content="https://beila.github.io/my-collection/annotated-explanations/robotics-parsing-mcap-monday-morning-haskell-1937917780/?instapaper_explanation=1-186d8cc1134fa677" name="instapaper-ingestion-url"/>
+<link href="https://beila.github.io/my-collection/annotated-explanations/robotics-parsing-mcap-monday-morning-haskell-1937917780/" rel="canonical"/>
+<style>
     :root {
       color-scheme: dark;
       background: #101214;
@@ -275,16 +276,16 @@
   </style>
 </head>
 <body>
-  <main>
-    <article aria-labelledby="article-title">
-      <section class="reviewed-content" aria-labelledby="article-title">
-        <p data-publication-metadata="true">해설 대상 원문: <cite><a href="https://mmhaskell.com/blog/2025/11/24/robotics-amp-parsing-mcap">Robotics &amp; Parsing MCAP — Monday Morning Haskell</a></cite> — James Bowen, 2025-11-24</p>
-        <p data-publication-metadata="true">검토일: <time datetime="2026-09-25">2026-09-25</time></p>
-        <p data-publication-metadata="true"><a href="https://beila.github.io/my-collection/annotated-explanations/robotics-parsing-mcap-monday-morning-haskell-1937917780/robotics-parsing-mcap-monday-morning-haskell-1937917780.epub">EPUB으로 읽기</a></p>
-<div id="megaparsec-파서-타입으로-읽는-와-anysingle" class="level1">
+<main>
+<article aria-labelledby="article-title">
+<section aria-labelledby="article-title" class="reviewed-content">
+
+
+
+<div class="level1" id="megaparsec-파서-타입으로-읽는-와-anysingle">
 <h1 id="article-title">Megaparsec 파서 타입으로 읽는 <code>&lt;$&gt;</code>와
-<code>anySingle</code></h1>
-<section id="이-문서에서-설명하는-내용" class="level2">
+<code>anySingle</code></h1><p data-publication-metadata="true">해설 대상 원문: <cite><a href="https://mmhaskell.com/blog/2025/11/24/robotics-amp-parsing-mcap">Robotics &amp; Parsing MCAP — Monday Morning Haskell</a></cite> — James Bowen, 2025-11-24</p><p data-publication-metadata="true">검토일: <time datetime="2026-09-25">2026-09-25</time></p><p data-publication-metadata="true"><a href="https://beila.github.io/my-collection/annotated-explanations/robotics-parsing-mcap-monday-morning-haskell-1937917780/robotics-parsing-mcap-monday-morning-haskell-1937917780.epub">EPUB으로 읽기</a></p>
+<section class="level2" id="이-문서에서-설명하는-내용">
 <h2>이 문서에서 설명하는 내용</h2>
 <p>원문은 Haskell의 Megaparsec으로 MCAP 파일의 기본 직렬화 타입을
 파싱하는 과정을 설명합니다. 첫 고정폭 정수 예제에서는
@@ -305,10 +306,9 @@
 <li>실제 입력 바이트는 언제 어디에서 파서에 전달되는지 설명합니다.</li>
 </ul>
 </section>
-<section id="먼저-알아야-할-공통-개념" class="level2">
+<section class="level2" id="먼저-알아야-할-공통-개념">
 <h2>먼저 알아야 할 공통 개념</h2>
-<section id="parser-word16은-입력을-숨긴-타입-별칭입니다"
-class="level3">
+<section class="level3" id="parser-word16은-입력을-숨긴-타입-별칭입니다">
 <h3><code>Parser Word16</code>은 입력을 숨긴 타입 별칭입니다</h3>
 <p>원문은 파서 타입을 짧게 쓰기 위해 다음 별칭을 제시합니다.</p>
 <pre class="haskell" tabindex="0"><code>import Text.Megaparsec
@@ -331,9 +331,9 @@ type Parser a = ParsecT Void ByteString IO a</code></pre>
 읽습니다.</p>
 <table>
 <colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
+<col style="width: 33%"/>
+<col style="width: 33%"/>
+<col style="width: 33%"/>
 </colgroup>
 <thead>
 <tr>
@@ -373,12 +373,10 @@ parseUint16LE :: ParsecT Void ByteString IO Word16</code></pre>
 마지막 <code>Word16</code>은 입력이 아니라 성공 결과의 타입입니다.
 <code>Parser</code>라는 별칭이 앞의 세 매개변수를 감췄기 때문에
 <code>Parser Word16</code>만 보면 입력이 없는 것처럼 보일 뿐입니다. 이
-구조는 <a
-href="https://hackage.haskell.org/package/megaparsec-9.7.0/docs/Text-Megaparsec.html">Megaparsec
+구조는 <a href="https://hackage.haskell.org/package/megaparsec-9.7.0/docs/Text-Megaparsec.html">Megaparsec
 9.7.0의 <code>ParsecT</code> API 문서</a>에서 확인할 수 있습니다.</p>
 </section>
-<section id="스트림과-토큰의-관계가-anysingle의-결과를-정합니다"
-class="level3">
+<section class="level3" id="스트림과-토큰의-관계가-anysingle의-결과를-정합니다">
 <h3>스트림과 토큰의 관계가 <code>anySingle</code>의 결과를 정합니다</h3>
 <p><code>anySingle</code>의 일반 타입은 다음과 같습니다.</p>
 <pre class="haskell" tabindex="0"><code>anySingle :: MonadParsec e s m =&gt; m (Token s)</code></pre>
@@ -386,8 +384,7 @@ class="level3">
 성공 결과로 내놓는 파서입니다. 입력이 이미 끝났다면 실패합니다. 중요한
 점은 <code>anySingle</code>이 언제나 <code>Word8</code>을 내놓는 것이
 아니라, 결과 타입이 스트림의 토큰 타입인 <code>Token s</code>로
-정해진다는 사실입니다. 이 일반 서명과 동작은 <a
-href="https://hackage.haskell.org/package/megaparsec-9.7.0/docs/Text-Megaparsec.html">Megaparsec의
+정해진다는 사실입니다. 이 일반 서명과 동작은 <a href="https://hackage.haskell.org/package/megaparsec-9.7.0/docs/Text-Megaparsec.html">Megaparsec의
 <code>anySingle</code> 문서</a>에서 확인할 수 있습니다.</p>
 <p>이 글에서는 <code>s</code>가 lazy <code>ByteString</code>입니다.
 <code>ByteString</code>의 원소는 8비트 바이트인
@@ -397,20 +394,18 @@ href="https://hackage.haskell.org/package/megaparsec-9.7.0/docs/Text-Megaparsec.
 <p>즉, <code>anySingle</code> 자체가 <code>Word8</code> 값이라는 뜻이
 아닙니다. 바이트 하나를 소비한 뒤 성공하면 <code>Word8</code> 값을
 내놓는 파서 동작이라는 뜻입니다. Lazy <code>ByteString</code>이
-<code>Word8</code> 바이트의 시퀀스라는 점은 <a
-href="https://hackage.haskell.org/package/bytestring-0.12.2.0/docs/Data-ByteString-Lazy.html"><code>Data.ByteString.Lazy</code>
+<code>Word8</code> 바이트의 시퀀스라는 점은 <a href="https://hackage.haskell.org/package/bytestring-0.12.2.0/docs/Data-ByteString-Lazy.html"><code>Data.ByteString.Lazy</code>
 공식 문서</a>의 <code>pack</code>, <code>singleton</code>,
 <code>head</code> 같은 함수 타입에서도 확인할 수 있습니다.</p>
 </section>
-<section id="는-파서가-내놓을-값에-함수를-적용합니다" class="level3">
+<section class="level3" id="는-파서가-내놓을-값에-함수를-적용합니다">
 <h3><code>&lt;$&gt;</code>는 파서가 내놓을 값에 함수를 적용합니다</h3>
 <p><code>&lt;$&gt;</code>는 <code>fmap</code>의 중위 연산자이며, 일반
 타입은 다음과 같습니다.</p>
 <pre class="haskell" tabindex="0"><code>(&lt;$&gt;) :: Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b</code></pre>
 <p>컨테이너나 계산 문맥 <code>f</code> 안의 값을 직접 꺼내지 않고, 그
 값에 함수 <code>a -&gt; b</code>를 적용해 결과 문맥을 <code>f b</code>로
-바꿉니다. 이 정의는 <a
-href="https://hackage.haskell.org/package/base/docs/Prelude.html">Prelude의
+바꿉니다. 이 정의는 <a href="https://hackage.haskell.org/package/base/docs/Prelude.html">Prelude의
 <code>Functor</code>와 <code>&lt;$&gt;</code> 문서</a>에서 확인할 수
 있습니다.</p>
 <p>원문의 표현에서는 <code>f</code>가 <code>Parser</code>이며, 타입 추론
@@ -437,20 +432,19 @@ fromIntegral &lt;$&gt; anySingle :: Parser Word16</code></pre>
 바이트 두 개를 차례로 소비하고 <code>Word16</code> 하나를 내놓는 파서가
 됩니다.</p>
 </section>
-<section id="실제-입력값은-파서를-실행할-때-전달합니다" class="level3">
+<section class="level3" id="실제-입력값은-파서를-실행할-때-전달합니다">
 <h3>실제 입력값은 파서를 실행할 때 전달합니다</h3>
 <p>타입 서명의 <code>ByteString</code>은 입력의 <strong>종류</strong>를
 나타내지만, 실제 바이트값까지 포함하지는 않습니다. 실제 입력은
 <code>runParserT</code> 같은 실행 함수에 전달합니다. 이 글의 타입에 맞춘
 호출 형태는 다음과 같습니다.</p>
-<pre class="haskell" tabindex="0"><code>runParserT parseUint16LE &quot;&lt;memory&gt;&quot; input
+<pre class="haskell" tabindex="0"><code>runParserT parseUint16LE "&lt;memory&gt;" input
   :: IO (Either (ParseErrorBundle ByteString Void) Word16)</code></pre>
 <p>여기서 <code>input :: ByteString</code>이 실제 입력값입니다.
 <code>"&lt;memory&gt;"</code>는 오류 메시지에 사용할 소스 이름이며,
 결과의 <code>Either</code>는 실패와 성공을 구분합니다. <code>IO</code>는
 원문이 선택한 바탕 모나드입니다. <code>runParserT</code>의 일반 타입도
-<a
-href="https://hackage.haskell.org/package/megaparsec-9.7.0/docs/Text-Megaparsec.html">Megaparsec
+<a href="https://hackage.haskell.org/package/megaparsec-9.7.0/docs/Text-Megaparsec.html">Megaparsec
 공식 API 문서</a>에서 확인할 수 있습니다.</p>
 <p>이 때문에 <code>parseUint16LE</code>을 단순히
 <code>ByteString -&gt; Word16</code> 함수라고 부르면 중요한 정보가
@@ -458,7 +452,7 @@ href="https://hackage.haskell.org/package/megaparsec-9.7.0/docs/Text-Megaparsec.
 정보, 남은 입력을 관리하는 파서 값이며, 실행 함수가 실제 스트림을
 공급하고 성공 또는 실패 결과를 돌려줍니다.</p>
 </section>
-<section id="두-바이트가-리틀엔디언-정수로-조립됩니다" class="level3">
+<section class="level3" id="두-바이트가-리틀엔디언-정수로-조립됩니다">
 <h3>두 바이트가 리틀엔디언 정수로 조립됩니다</h3>
 <p>원문의 첫 정수 파서는 두 번 읽은 바이트를 다음 식으로 합칩니다.</p>
 <pre class="haskell" tabindex="0"><code>(shift b2 8) + b1</code></pre>
@@ -467,8 +461,7 @@ href="https://hackage.haskell.org/package/megaparsec-9.7.0/docs/Text-Megaparsec.
 <code>b2</code>가 상위 8비트이므로 <code>b2</code>를 왼쪽으로 8비트
 이동한 뒤 <code>b1</code>을 더합니다. 예를 들어 입력이 차례로
 <code>0x34</code>, <code>0x12</code>라면 결과는 <code>0x1234</code>, 즉
-4660입니다. 이 직렬화 규칙은 <a
-href="https://mcap.dev/spec#serialization">MCAP 공식 명세의
+4660입니다. 이 직렬화 규칙은 <a href="https://mcap.dev/spec#serialization">MCAP 공식 명세의
 Serialization 절</a>에서 확인할 수 있습니다.</p>
 <p>이 파서는 성공할 때 두 바이트만 소비합니다. 뒤에 바이트가 더 있어도
 그것은 다음 파서가 읽을 입력으로 남습니다. 입력 전체가 정확히 두
@@ -476,10 +469,9 @@ Serialization 절</a>에서 확인할 수 있습니다.</p>
 합니다.</p>
 </section>
 </section>
-<section id="하이라이트와-메모별-해설" class="level2">
+<section class="level2" id="하이라이트와-메모별-해설">
 <h2>하이라이트와 메모별 해설</h2>
-<section id="가-fromintegral과-anysingle-사이에서-하는-일"
-class="level3">
+<section class="level3" id="가-fromintegral과-anysingle-사이에서-하는-일">
 <h3><code>&lt;$&gt;</code>가 <code>fromIntegral</code>과
 <code>anySingle</code> 사이에서 하는 일</h3>
 <p><strong>하이라이트:</strong> <code>&lt;$&gt;</code></p>
@@ -502,8 +494,7 @@ let b1 = fromIntegral rawByte</code></pre>
 소비는 <code>anySingle</code>이 담당하고, 결과값 변환은
 <code>fromIntegral</code>과 <code>&lt;$&gt;</code>가 담당합니다.</p>
 </section>
-<section id="anysingle의-타입과-parseuint16le에-숨은-입력-타입"
-class="level3">
+<section class="level3" id="anysingle의-타입과-parseuint16le에-숨은-입력-타입">
 <h3><code>anySingle</code>의 타입과 <code>parseUint16LE</code>에 숨은
 입력 타입</h3>
 <p><strong>하이라이트:</strong> <code>anySingle</code></p>
@@ -540,7 +531,7 @@ parseUint16LE              :: Parser Word16</code></pre>
 조합해 16비트 값을 만드는 전체 파서입니다.</p>
 </section>
 </section>
-<section id="정리" class="level2">
+<section class="level2" id="정리">
 <h2>정리</h2>
 <ul>
 <li><code>Parser Word16</code>의 <code>Word16</code>은 성공 결과
@@ -559,38 +550,30 @@ parseUint16LE              :: Parser Word16</code></pre>
 하는 오탈자입니다.</li>
 </ul>
 </section>
-<section id="참고-자료" class="level2">
+<section class="level2" id="참고-자료">
 <h2>참고 자료</h2>
 <ul>
-<li><a
-href="https://mmhaskell.com/blog/2025/11/24/robotics-amp-parsing-mcap">Robotics
+<li><a href="https://mmhaskell.com/blog/2025/11/24/robotics-amp-parsing-mcap">Robotics
 &amp; Parsing MCAP — Monday Morning Haskell</a>은 해설 대상 원문과 코드
 문맥을 확인할 수 있는 1차 자료입니다.</li>
-<li><a
-href="https://hackage.haskell.org/package/megaparsec-9.7.0">Megaparsec
+<li><a href="https://hackage.haskell.org/package/megaparsec-9.7.0">Megaparsec
 9.7.0 패키지 문서</a>는 이 해설에서 사용한 Megaparsec 버전의
 기준입니다.</li>
-<li><a
-href="https://hackage.haskell.org/package/megaparsec-9.7.0/docs/Text-Megaparsec.html"><code>Text.Megaparsec</code>
+<li><a href="https://hackage.haskell.org/package/megaparsec-9.7.0/docs/Text-Megaparsec.html"><code>Text.Megaparsec</code>
 API 문서</a>는 <code>ParsecT</code>, <code>anySingle</code>,
 <code>runParserT</code>의 타입과 동작을 설명합니다.</li>
-<li><a
-href="https://hackage.haskell.org/package/megaparsec-9.7.0/docs/Text-Megaparsec-Stream.html"><code>Text.Megaparsec.Stream</code>
+<li><a href="https://hackage.haskell.org/package/megaparsec-9.7.0/docs/Text-Megaparsec-Stream.html"><code>Text.Megaparsec.Stream</code>
 문서</a>는 스트림과 연관 토큰 타입 <code>Token s</code>의 관계를
 설명합니다.</li>
-<li><a
-href="https://hackage.haskell.org/package/base/docs/Prelude.html">Prelude
+<li><a href="https://hackage.haskell.org/package/base/docs/Prelude.html">Prelude
 문서</a>는 <code>&lt;$&gt;</code>와 <code>fromIntegral</code>의 일반
 타입을 제공합니다.</li>
-<li><a
-href="https://hackage.haskell.org/package/base/docs/Data-Bits.html"><code>Data.Bits</code>
+<li><a href="https://hackage.haskell.org/package/base/docs/Data-Bits.html"><code>Data.Bits</code>
 문서</a>는 <code>shift</code>의 타입과 비트 이동 의미를 설명합니다.</li>
-<li><a
-href="https://hackage.haskell.org/package/base/docs/Data-Word.html"><code>Data.Word</code>
+<li><a href="https://hackage.haskell.org/package/base/docs/Data-Word.html"><code>Data.Word</code>
 문서</a>는 <code>Word8</code>과 <code>Word16</code>의 고정폭 부호 없는
 정수 타입을 설명합니다.</li>
-<li><a
-href="https://hackage.haskell.org/package/bytestring-0.12.2.0/docs/Data-ByteString-Lazy.html"><code>Data.ByteString.Lazy</code>
+<li><a href="https://hackage.haskell.org/package/bytestring-0.12.2.0/docs/Data-ByteString-Lazy.html"><code>Data.ByteString.Lazy</code>
 문서</a>는 lazy <code>ByteString</code>과 <code>Word8</code> 바이트의
 관계를 설명합니다.</li>
 <li><a href="https://mcap.dev/spec#serialization">MCAP 공식 직렬화
@@ -599,8 +582,9 @@ href="https://hackage.haskell.org/package/bytestring-0.12.2.0/docs/Data-ByteStri
 </ul>
 </section>
 </div>
-      </section>
-    </article>
-  </main>
+</section>
+</article>
+</main>
 </body>
 </html>
+
