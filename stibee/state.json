@@ -36,11 +36,22 @@
       "article_format_version": 3,
       "instapaper_bookmark_id": "2043525384",
       "ingestion_url": "https://beila.github.io/my-collection/stibee/h9zbm1gm1stmlconsgopln7mnhv2jla-27f260aaa039.html?stibee_article=3-987620fcfbc25b12"
+    },
+    "https://stibee.com/api/v1.0/emails/share/_JN-kme6DzomishG364k0X0GeB8UoqE": {
+      "canonical_url": "https://stibee.com/api/v1.0/emails/share/_JN-kme6DzomishG364k0X0GeB8UoqE",
+      "final_url": "https://stibee.com/api/v1.0/emails/share/_JN-kme6DzomishG364k0X0GeB8UoqE",
+      "feed_item_url": "https://event.stibee.com/v2/click/NTIwNTcvMzYxOTU1OC80MDE0My8/aHR0cHM6Ly9zdGliLmVlL0IyWk8",
+      "feed_identity": "coffee-pot:urn:kill-the-newsletter:gok5z5yfnrh1q8qqw8tm",
+      "title": "🟩 AI 시대에 미디어가 가야 할 길",
+      "published_url": "https://beila.github.io/my-collection/stibee/jn-kme6dzomishg364k0x0geb8uoqe-429a2ab946d7.html",
+      "content_hash": "08acbc5680881343f400aa2dc977b2a8c214c66e08fd3bbedc748044ffd9b7ae",
+      "article_format_version": 3
     }
   },
   "feed_items": {
     "coffee-pot:urn:kill-the-newsletter:u01k6u9ltxvkt4bporyb": "https://stibee.com/api/v1.0/emails/share/AMke1WxEAvi_pCM5DAHeK_qEmD5jHWo",
     "coffee-pot:urn:kill-the-newsletter:bah88jpjmjp956fvt9o2": "https://stibee.com/api/v1.0/emails/share/IXYHYsOckmAl0Qi3RABA87ZvkmW_4us",
-    "coffee-pot:urn:kill-the-newsletter:u61ehfnf5hpwlm1miqax": "https://stibee.com/api/v1.0/emails/share/h9ZbM1gM1sTMLCONSGoPlN7mNhv2JlA"
+    "coffee-pot:urn:kill-the-newsletter:u61ehfnf5hpwlm1miqax": "https://stibee.com/api/v1.0/emails/share/h9ZbM1gM1sTMLCONSGoPlN7mNhv2JlA",
+    "coffee-pot:urn:kill-the-newsletter:gok5z5yfnrh1q8qqw8tm": "https://stibee.com/api/v1.0/emails/share/_JN-kme6DzomishG364k0X0GeB8UoqE"
   }
 }
