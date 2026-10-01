@@ -48,12 +48,23 @@
       "article_format_version": 3,
       "instapaper_bookmark_id": "2044919159",
       "ingestion_url": "https://beila.github.io/my-collection/stibee/jn-kme6dzomishg364k0x0geb8uoqe-429a2ab946d7.html?stibee_article=3-08acbc5680881343"
+    },
+    "https://stibee.com/api/v1.0/emails/share/Y82dH6qK1iFGgULdA9nqZ5M9ZIrhqBo": {
+      "canonical_url": "https://stibee.com/api/v1.0/emails/share/Y82dH6qK1iFGgULdA9nqZ5M9ZIrhqBo",
+      "final_url": "https://stibee.com/api/v1.0/emails/share/Y82dH6qK1iFGgULdA9nqZ5M9ZIrhqBo",
+      "feed_item_url": "https://event.stibee.com/v2/click/MjI4NjA2LzM2MTk4NjcvMzAzNi8/aHR0cHM6Ly9zdGliLmVlLzhDWk8",
+      "feed_identity": "newsletter-bd92c065d34ae421c905:urn:kill-the-newsletter:jzfftnxzrmj2avf3czxt",
+      "title": "🏛️조희대 VS 청와대, 왜 저렇게까지 싸울까?",
+      "published_url": "https://beila.github.io/my-collection/stibee/y82dh6qk1ifggulda9nqz5m9zirhqbo-12dce733d3d3.html",
+      "content_hash": "d986f569885f989f4a7a6e36a2b17cb6079c70155c8ea1b1dc9e22eea06a5788",
+      "article_format_version": 3
     }
   },
   "feed_items": {
     "coffee-pot:urn:kill-the-newsletter:u01k6u9ltxvkt4bporyb": "https://stibee.com/api/v1.0/emails/share/AMke1WxEAvi_pCM5DAHeK_qEmD5jHWo",
     "coffee-pot:urn:kill-the-newsletter:bah88jpjmjp956fvt9o2": "https://stibee.com/api/v1.0/emails/share/IXYHYsOckmAl0Qi3RABA87ZvkmW_4us",
     "coffee-pot:urn:kill-the-newsletter:u61ehfnf5hpwlm1miqax": "https://stibee.com/api/v1.0/emails/share/h9ZbM1gM1sTMLCONSGoPlN7mNhv2JlA",
-    "coffee-pot:urn:kill-the-newsletter:gok5z5yfnrh1q8qqw8tm": "https://stibee.com/api/v1.0/emails/share/_JN-kme6DzomishG364k0X0GeB8UoqE"
+    "coffee-pot:urn:kill-the-newsletter:gok5z5yfnrh1q8qqw8tm": "https://stibee.com/api/v1.0/emails/share/_JN-kme6DzomishG364k0X0GeB8UoqE",
+    "newsletter-bd92c065d34ae421c905:urn:kill-the-newsletter:jzfftnxzrmj2avf3czxt": "https://stibee.com/api/v1.0/emails/share/Y82dH6qK1iFGgULdA9nqZ5M9ZIrhqBo"
   }
 }
