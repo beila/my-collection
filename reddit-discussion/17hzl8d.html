@@ -1,0 +1,278 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Functors map categories</title><meta name="reddit-discussion-id" content="17hzl8d"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="reddit-discussion-content-hash" content="03b7792bec7064ddae5a7715565af034f21066eae2bb2b81890c6e4946305a42"><meta name="reddit-discussion-article-format" content="2"><link rel="canonical" href="https://beila.github.io/my-collection/reddit-discussion/17hzl8d.html"><style>body{margin:0;color:#222;background:#fff;font:18px/1.65 Georgia,serif}.instapaper_body{max-width:48rem;margin:0 auto;padding:2rem 1.25rem 4rem}a{color:#075fad;overflow-wrap:anywhere}.discussion-replies{margin-left:1.25rem;padding-left:1rem;border-left:2px solid #ddd}.discussion-entry{margin:1.25rem 0}.discussion-counts{color:#666;font-size:.9em}pre{overflow-x:auto}img{max-width:100%;height:auto}</style></head><body><div class="instapaper_body"><section class="submission"><div class="submission-body">
+<p>Functors map categories · Iceland_jack · 2023-10-27 · <a href="https://www.reddit.com/comments/17hzl8d">Reddit source</a> — 
+      When you are using a FUNCTOR you are mapping CATEGORIES. Think about that.
+    </p><p>
+      You can think about.. each functor having one category for each argument/result.
+    </p><p>
+      Let's describe an arbitrary functor: <a href="https://www.reddit.com/r/haskell/comments/eoo16m/base_category_polymorphic_functor_and_functorof/"><code>FunOf (-&gt;) (:~:) (&lt;-) (-&gt;) F</code></a>, this notation describes the categories that <code>F</code> maps.
+    </p><p>
+      The functor <code>F</code> maps three source categories <code>(-&gt;)</code>, <code>(:~:) @Type</code>, <code>(&lt;-)</code> to a target category <code>(-&gt;)</code> using the mapping function <em>mapF</em>:
+    </p><pre>F :: Type -&gt; Type -&gt; Type -&gt; Type
+     ^       ^       ^       ^
+     |       |       |       |
+     (-&gt;)    (:~:)   (&lt;-)    (-&gt;)
+             @Type
+
+mapF :: (a -&gt; a') -&gt; (b :~: b') -&gt; (c &lt;- c') -&gt; (F a b c -&gt; F a' b' c')</pre><p>
+      Each category maps its respective argument/result:
+    </p><pre>F (a  :: Type) (b :: Type)  (c :: Type)  = (res :: Type)
+   |            |            |              |
+   (-&gt;)         (:~:)        (&lt;-)           (-&gt;)
+   |            |            |              |
+   v            v            v              v
+F (a' :: Type) (b' :: Type) (c' :: Type) = (res' :: Type)</pre><p>
+      For the following categories
+    </p><pre>type Cat :: Type -&gt; Type
+type Cat k = k -&gt; k -&gt; Type
+
+(-&gt;)  :: Cat Type
+(&lt;-)  :: Cat Type
+(:~:) :: Cat k</pre><p>
+      There is actually a trick, any function has a conceptual <code>FunOf (:~:) (:~:) ..</code> instance, where <code>(:~:)</code> is the equality category.
+    </p><pre>F :: Type -&gt; Type -&gt; Type -&gt; Type
+     ^       ^       ^       ^
+     |       |       |       |
+     (:~:)   (:~:)   (:~:)   (:~:)
+     @Type   @Type   @Type   @Type
+
+type (:~:) :: Cat k
+data a :~: b where
+  Refl :: a :~: a
+
+mapFCong :: (a :~: a') -&gt; (b :~: b') -&gt; (c :~: c') -&gt; (F a b c :~: F a' b' c')
+mapFCong Refl Refl Refl = Refl</pre><p>
+      We can modify a particular field <em>c</em> by mapping the others with identity arrows. How do we know that <code>mapF id id</code> doesn't accidentally modify the structure of <em>a</em> or <em>b</em>? Becuase <em>F</em> is a functor.
+    </p><pre>overC :: (c &lt;- c') -&gt; (F a b c -&gt; F a b c')
+overC = mapF id id</pre><p>
+      When functors map categories they preserve the category structure: they are category homomorphisms. And what is the structure involved? The methods of the Category class; <code>id</code> and composition <code>(.)</code>.
+    </p><p>
+      This means a mapping function always maps <code>id</code>s to <code>id</code>, and <code>(.)</code>s to <code>(.)</code>. This is the origin of the functor laws.
+    </p><pre>-- identity law
+mapF id id id = id
+
+-- composition law
+mapF (f' . f) (g' . g) (h' . h) = mapF f' g' h' . mapF f g h</pre><p>
+      This works for more than just Types. It is possible to generalize <em>F</em> to any function <em>f</em> and associate a kind-appropriate category to each argument/result.
+    </p><p>
+      The arguments have type <em>A</em>, <em>B</em>, .. and so forth, so the source categories have type <code>Cat A</code>, <code>Cat B</code>, etc.. The result type is <em>Res</em> so the target category has type <code>Cat Res</code>.
+    </p><pre>      _______________________ CatA   :: Cat A
+     |     __________________ CatB   :: Cat B
+     |    |     _____________ CatC   :: Cat C
+     |    |    |           __ CatRes :: Cat Res
+     |    |    |          |
+     v    v    v          v
+f :: A -&gt; B -&gt; C -&gt; .. -&gt; Res</pre><p>
+      This defines the general structure of a functor
+    </p><pre>   FunOf CatA CatB CatC .. CatRes
+:: (A -&gt; B -&gt; C -&gt; .. Res) -&gt; Constraint
+
+fmap :: CatA a a'
+     -&gt; CatB b b'
+     -&gt; CatC c c'
+     -&gt; ..
+     -&gt; CatRes (f a b c ..) (f a' b' c' ..)
+
+fmap :: CatA      a            a'
+     -&gt; CatB      | b          |  b'
+     -&gt; CatC      | | c        |  |  c'
+     -&gt; ..        | | |        |  |  |
+     -&gt; CatRes (f a b c ..) (f a' b' c' ..)</pre><p>
+      The type of the categories agree with the arguments they are mapping, which is why this makes sense.
+    </p><p>
+      From this example, we can see how existing functors are examples of this categorical pattern.
+    </p><p>
+<em>Functor</em> = <code>FunctorOf (-&gt;) (-&gt;) f</code> = <code>EndofunctorOf (-&gt;) f</code>
+</p><pre>fmap :: (a -&gt; a') -&gt; (f a -&gt; f a')</pre><p>
+<em>Contravariant</em> = <code>FunctorOf (&lt;-) (-&gt;) c</code> = <code>Presheaf (-&gt;) c</code>
+</p><pre>contramap :: (a &lt;- a') -&gt; (c a -&gt; c a')</pre><p>
+<em>Bifunctor</em> = <code>BifunctorOf (-&gt;) (-&gt;) (-&gt;) bi</code>
+</p><pre>bimap :: (a -&gt; a') -&gt; (b -&gt; b') -&gt; (bi a b -&gt; bi a' b')</pre><p>
+<em>Profunctor</em> = <code>BifunctorOf (&lt;-) (-&gt;) (-&gt;) pro</code>
+</p><pre>dimap :: (a &lt;- a') -&gt; (b -&gt; b') -&gt; (pro a b -&gt; pro a' b')</pre><p>
+      Functions are the canonical <em>Profunctor</em>, they are basically the most important functor. The first argument of the function type is the only source of contravariance in Haskell (<code>(&lt;-)</code>), where the argument involved is not <em>phantom</em>.
+    </p><p>
+      This can be expressed by writing the rather cryptic <code>FunOf (&lt;-) (-&gt;) (-&gt;) (-&gt;)</code>, or <code>Profunctor (-&gt;)</code>. This means the first argument is contravariant and the second argument is covariant.
+    </p><pre>             (&lt;-)    (-&gt;)    (-&gt;)
+             |       |       |
+             v       v       v
+type (-&gt;) :: Type -&gt; Type -&gt; Type
+data a -&gt; b = ..
+
+dimap :: (a &lt;- a') -&gt; (b -&gt; b') -&gt; ((a -&gt; b) -&gt; (a' -&gt; b'))</pre><p>
+      We explore established datatypes in this light. Just like we have "higher-order functions" and we don't think they are a big deal, we also have higher-order functors: A functor whose argument is a functor:
+    </p><pre>                (~&gt;)             (-&gt;)
+                |                |
+                v                v
+type    Fix :: (Type -&gt; Type) -&gt; Type
+newtype Fix f where
+  In :: f (Fix f) -&gt; Fix f</pre><p>
+      The first argument of <code>Fix</code> is a type constructor.
+    </p><p>
+      This can be mapped by this functor category <code>(~&gt;) :: Cat (Type -&gt; Type)</code> that uses a polymorphic function to map between functors: <code>forall x. f x -&gt; f' x</code>.
+    </p><p>
+      (Defining <code>id = Nat id</code> requires a <em>Functor</em> constraint that can't be satisfied with the current <em>Category</em>)
+    </p><pre>type (~&gt;) :: Cat (Type -&gt; Type)
+data f ~&gt; f' where
+  Nat :: (Functor f, Functor f') =&gt; (forall x. f x -&gt; f' x) -&gt; (f ~&gt; f')
+
+-- FunctorOf (~&gt;) (-&gt;) Fix
+mapFix :: Functor f =&gt; (f ~&gt; f') -&gt; (Fix f -&gt; Fix f')
+mapFix nat@(Nat poly) (In as) = In (poly (fmap (mapFix nat) as))</pre><p>
+      This is sometimes called <em>HFunctor</em> for "higher-order functor" = <code>FunctorOf (~&gt;) (-&gt;)</code> although it sometimes refers to <code>FunctorOf (~&gt;) (~&gt;)</code>.
+    </p><p>
+      Some datatypes, like mixed variance arguments and GADTs, have the right kind of be a Functor but cannot normally be made one. Now it is a question if finding the right categories.
+    </p><pre>                (&lt;-&gt;)   (-&gt;)
+                |       |
+                v       v
+type    Endo :: Type -&gt; Type
+newtype Endo a where
+  Endo :: (a -&gt; a) -&gt; Endo a
+
+          Fun     (-&gt;)
+          |       |
+          v       v
+type U :: Type -&gt; Type
+data U a where
+  D :: Double -&gt; U Double
+  I :: Int    -&gt; U Int</pre><p>
+      In endofunctions the type argument is used covariantly and contravariantly: this requires mapping the argument with an isomorphism on each side. Rarely used but exists as <a href="https://hackage.haskell.org/package/invariant-0.6.2/docs/Data-Functor-Invariant.html"><em>Invariant</em> = <code>FunctorOf (&lt;-&gt;) (-&gt;)</code></a>
+</p><pre>type Iso :: Cat ~&gt; Cat
+data Iso cat a b = Iso { to :: cat a b, from :: cat b a }
+
+type (&lt;-&gt;) :: Cat Type
+type (&lt;-&gt;) = Iso (-&gt;)
+
+mapEndo :: (a &lt;-&gt; a') -&gt; (Endo a -&gt; Endo a')
+mapEndo Iso{..} (Endo endo) = Endo (to . endo . from)</pre><p>
+      Other categories must be bespoke, like <em>Fun</em>. We could have more interesting interactions, the message is that GADTs are now fair game. Always think "how would I map this argument".
+    </p><pre>type Fun :: Cat Type
+data Fun a b where
+  FunId     :: Fun a a
+  FunInt    :: (Int    -&gt; Int)    -&gt; Fun Int    Int
+  FunDouble :: (Double -&gt; Double) -&gt; Fun Double Double
+
+-- FunctorOf Fun (-&gt;) U
+mapU :: Fun a b -&gt; (U a -&gt; U b)
+mapU FunId               a     = a
+mapU (FunInt    ints)    (I i) = I (ints i)
+mapU (FunDouble doubles) (D d) = D (doubles d)</pre><p>
+      What is a reasonable way to map the length of a vector: <code>Vec n ~&gt; Vec n'</code>?
+    </p><pre>             __________________ (-?&gt;) :: Cat Nat
+            |       ___________ (-&gt;)  :: Cat Type
+            |      |        ___ (-&gt;)  :: Cat Type
+            |      |       |
+            v      v       v
+type Vec :: Nat -&gt; Type -&gt; Type
+data Vec n a where
+  VNil :: Vec 0 a
+  (:&gt;) :: a -&gt; Vec n a -&gt; Vec (1 + n) a
+
+-- FunctorOf (-?&gt;) (-&gt;) (-&gt;) Vec
+mapVec :: (n -?&gt; n') -&gt; (a -&gt; a') -&gt; (Vec n a -&gt; Vec n' a')</pre><p>
+      This is not limited to type-level functions, or parametric datatypes. This is only a limitation of Haskell. Any function you can think of can be a functor. What about the identity function? (the proper identity functor, not the <code>Identity :: Type -&gt; Type</code> special case)
+    </p><pre>       ___ cat :: Cat a
+      |    cat :: Cat a
+      |    |
+      v    v
+id :: a -&gt; a
+
+-- FunctorOf cat cat id
+mapId :: cat x x' -&gt; cat (id x) (id x')
+mapId = id</pre><p>
+      Function application, function composition Boolean negation, etc. Every function is a functor in one way or another.
+    </p><pre>         __________________ Nat catA catB :: Cat (a -&gt; b)
+        |           _______ catA          :: Cat a
+        |          |     __ catB          :: Cat b
+        |          |    |
+        vvvvvv     v    v
+($) :: (a -&gt; b) -&gt; a -&gt; b
+
+-- BifunctorOf (Nat catA catB) catA catB ($)
+mapApp :: Nat catA catB f f' -&gt; catA a a' -&gt; catB (f $ a) (f $ a')
+
+         _______________________________ Nat catB catC
+        |            ___________________ Nat catA catB
+        |           |            _______ catA
+        |           |           |     __ catC
+        vvvvvv      vvvvvv      v    v
+(.) :: (b -&gt; c) -&gt; (a -&gt; b) -&gt; (a -&gt; c)
+
+-- TrifunctorOf (Nat catB catC) (Nat catA catB) catA catC
+mapComp :: (Nat catB catC f f' -&gt; Nat catA catB g g' -&gt; catA a a' -&gt; catC ((f . g) a) ((f' . g') a')
+
+        ____________ (&lt;=) :: Cat Bool
+       |        ____ (&gt;=) :: Cat Bool
+       |       |
+       v       v
+not :: Bool -&gt; Bool
+
+-- FunctorOf (&lt;=) (&gt;=) not
+mapNot :: (bool &lt;= bool') -&gt; (not bool &gt;= not bool')</pre><p>
+      Function application and function composition requires us to generalize the functor category <code>(~&gt;)</code> to a <code>Nat src tgt</code>: a category mapping between two <code>FunctorOf src tgt</code> functors.
+    </p><pre>type (~&gt;) :: Cat (Type -&gt; Type)
+type (~&gt;) = Nat (-&gt;) (-&gt;)
+
+type Nat :: Cat s -&gt; Cat t -&gt; Cat (s -&gt; t)
+data Nat src tgt f f' where
+  Nat :: (FunctorOf src tgt f, FunctorOf src tgt f')
+      =&gt; (forall x. tgt (f x) (f' x))
+      -&gt; Nat src tgt f f'</pre><p>
+<code>Nat</code> is the secret ingredient that makes n-ary functors work. We prefer to think about curried functions so let's also think about curried functors. When we say <code>Profunctor pro</code> it actually elaborates into a <code>FunctorOf</code> definition.
+    </p><pre>  Profunctor pro
+= FunOf (&lt;-) (-&gt;) (-&gt;) pro
+= FunctorOf (&lt;-) (Nat (-&gt;) (-&gt;)) pro</pre><p>
+      This is how higher arities like <code>FunOf</code> = <em>FunctorOf</em>/<em>BifunctorOf</em>/.. are defined in terms of <code>FunctorOf</code> and <code>Nat</code>:
+    </p><pre>type FunctorOf :: Cat s -&gt; Cat t -&gt; (s -&gt; t) -&gt; Constraint
+
+type BifunctorOf :: Cat s1 -&gt; Cat s2 -&gt; Cat t -&gt; (s1 -&gt; s2 -&gt; t) -&gt; Constraint
+type BifunctorOf src1 src2 tgt =
+  FunctorOf src1 (Nat src2 tgt)
+
+type TrifunctorOf :: Cat s1 -&gt; Cat s2 -&gt; Cat s3 -&gt; Cat t -&gt; (s1 -&gt; s2 -&gt; s3 -&gt; t) -&gt; Constraint
+type TrifunctorOf src1 src2 src3 tgt =
+  FunctorOf src1 (Nat src2 (Nat src3 tgt))</pre><p>
+      Additionally, every functor has an equivalent formulation in an opposite setting (pretty useless), where all the arrows are flipped.
+    </p><pre>Functor       = FunctorOf (-&gt;) (-&gt;)
+Functor       = FunctorOf (&lt;-) (&lt;-)
+Contravariant = FunctorOf (&lt;-) (-&gt;)
+Contravariant = FunctorOf (-&gt;) (&lt;-)</pre>
+<a href="https://www.reddit.com/r/haskell/comments/17hzl8d/functors_map_categories/">https://www.reddit.com/r/haskell/comments/17hzl8d/functors_map_categories/</a></div></section><h2 id="discussion-heading">Discussion (4 selected of 4)</h2><section class="discussion-entry" data-entry-id="k72sery"><div class="discussion-body">
+<p>blamario · 2023-10-30 · <a href="https://www.reddit.com/comments/17hzl8d/_/k72sery">comment</a> — 
+      There's a typo in <code>$</code> type:
+    </p><pre></pre><p>
+      should be <code>a -&gt; b</code>.
+    </p><p>
+      This is all really cool and thank you for sharing it, even if never finds a practical use.
+    </p>
+</div><div class="discussion-replies"><section class="discussion-entry" data-entry-id="k731qsm"><div class="discussion-body">
+<p>Iceland_jack · 2023-10-30 · <a href="https://www.reddit.com/comments/17hzl8d/_/k731qsm">comment</a> — 
+      Thanks for spotting that, fixed it. I wanted to get the idea in writing while I had time so it's not as polished as I want. I think the idea that I am presenting is a novel perspective for Haskellers; associating with each function component <code>k</code> a compatible category <code>Cat k</code>. I haven't seen it presented like this elsewhere. Category theory like mathematics treats funct{ions,ors} as uncurried which is not a good model for Haskellers: <em>Bifunctor</em> as a mapping from the product category gives the wrong kind.
+    </p><pre>FunctorOf (Prod (-&gt;) (-&gt;)) (-&gt;) :: ((Type, Type) -&gt; Type) -&gt; Constraint</pre><p>
+      A more Haskell approach is to curry it
+    </p><pre>FunctorOf (-&gt;) (Nat (-&gt;) (-&gt;))  :: (Type -&gt; Type -&gt; Type) -&gt; Constraint</pre><p>
+      This of course produces another higher-order functor!
+    </p><pre>           _____________________________ Nat (Prod catA catB) catC
+          |                 ____________ Nat catA (Nat catB catC)
+          |                |
+          vvvvvvvvvvv      vvvvvvvvvvv
+curry :: ((a, b) -&gt; c) -&gt; (a -&gt; b -&gt; c)</pre>
+</div><div class="discussion-replies"><section class="discussion-entry" data-entry-id="k73w78y"><div class="discussion-body"><p>ApothecaLabs · 2023-10-30 · <a href="https://www.reddit.com/comments/17hzl8d/_/k73w78y">comment</a> — 
+Reddit comment unavailable.</p><blockquote>
+<p>
+      A more Haskell approach is to curry it
+    </p>
+</blockquote><p>
+      This is (tangentially? not at all?) related, but I ran into this same thing with indexing in recursion schemes.
+    </p><p>
+      A product-based <code>imap / phylo / sdihylo</code> didn't work for me because it didn't compose well under recursion (and even worse when dealing with composing paths of different types), and keeping everything uncurried was the only thing that made it all sensible.
+    </p><p>
+      Naively, indexing only works going downwards, and <em>composition is required</em> going back up to construct paths, because in a recursive indexed data structure, every child structure is indexed by its parent, and the root data structure has no parent, thus no index - only a path.
+    </p>
+</div><div class="discussion-replies"><section class="discussion-entry" data-entry-id="k77juxp"><div class="discussion-body">
+<p>Iceland_jack · 2023-10-31 · <a href="https://www.reddit.com/comments/17hzl8d/_/k77juxp">comment</a> — 
+      A lot of the ease comes with the inductive nature of curried functions, if you handle <code>A -&gt; ..</code> then you can recurse on the remaining <code>B -&gt; C -&gt; Res</code> and it follows the same structure. You will have to show me a concrete example but I suspect that's why you had trouble with the product-based recursion.
+    </p><pre>A -&gt; B -&gt; C -&gt; Res
+     ^^^^^^^^^^^^^
+          ^^^^^^^^
+               ^^^</pre>
+</div><p class="discussion-counts" data-descendant-count="0" data-omitted-sibling-count="0">0 descendants. 0 later siblings omitted.</p></section></div></section></div></section></div></section></div></body></html>
