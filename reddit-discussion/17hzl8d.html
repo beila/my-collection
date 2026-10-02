@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset="utf-8"><title>Functors map categories</title><meta name="reddit-discussion-id" content="17hzl8d"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="reddit-discussion-content-hash" content="03b7792bec7064ddae5a7715565af034f21066eae2bb2b81890c6e4946305a42"><meta name="reddit-discussion-article-format" content="2"><link rel="canonical" href="https://beila.github.io/my-collection/reddit-discussion/17hzl8d.html"><style>body{margin:0;color:#222;background:#fff;font:18px/1.65 Georgia,serif}.instapaper_body{max-width:48rem;margin:0 auto;padding:2rem 1.25rem 4rem}a{color:#075fad;overflow-wrap:anywhere}.discussion-replies{margin-left:1.25rem;padding-left:1rem;border-left:2px solid #ddd}.discussion-entry{margin:1.25rem 0}.discussion-counts{color:#666;font-size:.9em}pre{overflow-x:auto}img{max-width:100%;height:auto}</style></head><body><div class="instapaper_body"><section class="submission"><div class="submission-body">
+<!doctype html><html><head><meta charset="utf-8"><title>Functors map categories</title><meta name="reddit-discussion-id" content="17hzl8d"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="reddit-discussion-content-hash" content="c3447a8448206aef22adf20aa30c30a6536215deec906d7711ab0e5d4cd96ef8"><meta name="reddit-discussion-article-format" content="4"><link rel="canonical" href="https://beila.github.io/my-collection/reddit-discussion/17hzl8d.html"><style>body{margin:0;color:#222;background:#fff;font:18px/1.65 Georgia,serif}.instapaper_body{max-width:48rem;margin:0 auto;padding:2rem 1.25rem 4rem}a{color:#075fad;overflow-wrap:anywhere}.discussion-replies{margin-left:1.25rem;padding-left:1rem;border-left:2px solid #ddd}.discussion-entry{margin:1.25rem 0}.discussion-counts{color:#666;font-size:.9em}pre{overflow-x:auto}img{max-width:100%;height:auto}</style></head><body><div class="instapaper_body">
 <p>Functors map categories · Iceland_jack · 2023-10-27 · <a href="https://www.reddit.com/comments/17hzl8d">Reddit source</a> — 
       When you are using a FUNCTOR you are mapping CATEGORIES. Think about that.
     </p><p>
@@ -236,7 +236,7 @@ type TrifunctorOf src1 src2 src3 tgt =
 Functor       = FunctorOf (&lt;-) (&lt;-)
 Contravariant = FunctorOf (&lt;-) (-&gt;)
 Contravariant = FunctorOf (-&gt;) (&lt;-)</pre>
-<a href="https://www.reddit.com/r/haskell/comments/17hzl8d/functors_map_categories/">https://www.reddit.com/r/haskell/comments/17hzl8d/functors_map_categories/</a></div></section><h2 id="discussion-heading">Discussion (4 selected of 4)</h2><section class="discussion-entry" data-entry-id="k72sery"><div class="discussion-body">
+<a href="https://www.reddit.com/r/haskell/comments/17hzl8d/functors_map_categories/">https://www.reddit.com/r/haskell/comments/17hzl8d/functors_map_categories/</a><h2 id="discussion-heading">Discussion (4 selected of 4)</h2><hr class="discussion-entry-marker" data-entry-id="k72sery" data-depth="0">
 <p>blamario · 2023-10-30 · <a href="https://www.reddit.com/comments/17hzl8d/_/k72sery">comment</a> — 
       There's a typo in <code>$</code> type:
     </p><pre></pre><p>
@@ -244,7 +244,7 @@ Contravariant = FunctorOf (-&gt;) (&lt;-)</pre>
     </p><p>
       This is all really cool and thank you for sharing it, even if never finds a practical use.
     </p>
-</div><div class="discussion-replies"><section class="discussion-entry" data-entry-id="k731qsm"><div class="discussion-body">
+<hr class="discussion-entry-marker" data-entry-id="k731qsm" data-depth="1">
 <p>Iceland_jack · 2023-10-30 · <a href="https://www.reddit.com/comments/17hzl8d/_/k731qsm">comment</a> — 
       Thanks for spotting that, fixed it. I wanted to get the idea in writing while I had time so it's not as polished as I want. I think the idea that I am presenting is a novel perspective for Haskellers; associating with each function component <code>k</code> a compatible category <code>Cat k</code>. I haven't seen it presented like this elsewhere. Category theory like mathematics treats funct{ions,ors} as uncurried which is not a good model for Haskellers: <em>Bifunctor</em> as a mapping from the product category gives the wrong kind.
     </p><pre>FunctorOf (Prod (-&gt;) (-&gt;)) (-&gt;) :: ((Type, Type) -&gt; Type) -&gt; Constraint</pre><p>
@@ -256,7 +256,7 @@ Contravariant = FunctorOf (-&gt;) (&lt;-)</pre>
           |                |
           vvvvvvvvvvv      vvvvvvvvvvv
 curry :: ((a, b) -&gt; c) -&gt; (a -&gt; b -&gt; c)</pre>
-</div><div class="discussion-replies"><section class="discussion-entry" data-entry-id="k73w78y"><div class="discussion-body"><p>ApothecaLabs · 2023-10-30 · <a href="https://www.reddit.com/comments/17hzl8d/_/k73w78y">comment</a> — 
+<hr class="discussion-entry-marker" data-entry-id="k73w78y" data-depth="2"><p>ApothecaLabs · 2023-10-30 · <a href="https://www.reddit.com/comments/17hzl8d/_/k73w78y">comment</a> — 
 Reddit comment unavailable.</p><blockquote>
 <p>
       A more Haskell approach is to curry it
@@ -268,11 +268,11 @@ Reddit comment unavailable.</p><blockquote>
     </p><p>
       Naively, indexing only works going downwards, and <em>composition is required</em> going back up to construct paths, because in a recursive indexed data structure, every child structure is indexed by its parent, and the root data structure has no parent, thus no index - only a path.
     </p>
-</div><div class="discussion-replies"><section class="discussion-entry" data-entry-id="k77juxp"><div class="discussion-body">
+<hr class="discussion-entry-marker" data-entry-id="k77juxp" data-depth="3">
 <p>Iceland_jack · 2023-10-31 · <a href="https://www.reddit.com/comments/17hzl8d/_/k77juxp">comment</a> — 
       A lot of the ease comes with the inductive nature of curried functions, if you handle <code>A -&gt; ..</code> then you can recurse on the remaining <code>B -&gt; C -&gt; Res</code> and it follows the same structure. You will have to show me a concrete example but I suspect that's why you had trouble with the product-based recursion.
     </p><pre>A -&gt; B -&gt; C -&gt; Res
      ^^^^^^^^^^^^^
           ^^^^^^^^
                ^^^</pre>
-</div><p class="discussion-counts" data-descendant-count="0" data-omitted-sibling-count="0">0 descendants. 0 later siblings omitted.</p></section></div></section></div></section></div></section></div></body></html>
+<p class="discussion-counts" data-descendant-count="0" data-omitted-sibling-count="0">0 descendants. 0 later siblings omitted.</p></div></body></html>
