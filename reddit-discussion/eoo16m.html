@@ -1,0 +1,68 @@
+<!doctype html><html><head><meta charset="utf-8"><title>base: Category polymorphic Functor and FunctorOf</title><meta name="reddit-discussion-id" content="eoo16m"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="reddit-discussion-content-hash" content="fa8e6a82e416901b16f805217964aa51b7deab625154fc4a5fb672524a449f43"><meta name="reddit-discussion-article-format" content="7"><link rel="canonical" href="https://beila.github.io/my-collection/reddit-discussion/eoo16m.html"><style>body{margin:0;color:#222;background:#fff;font:18px/1.65 Georgia,serif}.instapaper_body{max-width:48rem;margin:0 auto;padding:2rem 1.25rem 4rem}a{color:#075fad;overflow-wrap:anywhere}.discussion-replies{margin-left:1.25rem;padding-left:1rem;border-left:2px solid #ddd}.discussion-entry{margin:1.25rem 0}.discussion-counts{color:#666;font-size:.9em}pre{overflow-x:auto}img{max-width:100%;height:auto}</style></head><body><div class="instapaper_body">
+<p>base: Category polymorphic Functor and FunctorOf · Iceland_jack · 2020-01-14 · <a href="https://www.reddit.com/comments/eoo16m">Reddit source</a> — 
+      I want to get the ball rolling on a category-polymorphic <code>Functor</code> which allows us to define <code>FunctorOf</code>.
+    </p><p>
+      This is motivated by category theory and entails abstracting out the "source" and "target" arrows,
+    </p><pre>          vv          vv
+fmap :: (a-&gt;b) -&gt; (f a-&gt;f b)
+          ^^          ^^</pre><p>
+      The design is based on <a href="https://gist.github.com/ekmett/b26363fc0f38777a637d">Edward Kmett's <em>hask</em></a> (we could name the arrows <code>Source</code> and <code>Target</code>)
+    </p><pre>type Functor :: (from -&gt; to) -&gt; Constraint
+
+class (Category (Dom f), Category (Cod f)) =&gt; Functor (f :: from -&gt; to) where
+ type Dom f :: Cat from
+ type Cod f :: Cat to
+ fmap :: Dom f a b -&gt; Cod f (f a) (f b)</pre><p>
+      We have to rewrite every old <code>Functor</code> instance to specify the source/target = <code>(-&gt;)</code>
+</p><pre>instance Functor [] where
+  type Dom [] = (-&gt;)
+  type Cod [] = (-&gt;)
+  fmap :: (a-&gt;b) -&gt; ([a]-&gt;[b])
+  fmap = map</pre><p>
+      To avoid that I define an "open" arrow that defaults to "<em>Hask</em>" <code>(-&gt;)</code> between <code>Type</code>s, this default arrow doesn't have to be exported but it is very useful.
+    </p><pre>type (--&gt;) :: Cat ob
+
+type family   (--&gt;)
+type instance (--&gt;) @Type = (-&gt;)</pre><p>
+      With default definitions <code>Dom f = (--&gt;)</code> and <code>Cod f = (--&gt;)</code> this works as a drop-in replacement for old <code>Functor</code>. Except for ..
+    </p><h1>&lt;$</h1><p>
+      Every old <code>Functor</code> has a default definition of <code>(&lt;$) = fmap . const</code> but this doesn't work for every new <code>Functor</code>. It may have to be split into a separate class, if an instance has a definition for <code>&lt;$</code> I don't know what should be done.
+    </p><h1>FunctorOf</h1><p>
+      A very useful 'notation' for thinking about functors, we can express that our old functor is actually a functor from <em>Hask</em> to <em>Hask</em> (<code>FunctorOf (-&gt;) (-&gt;)</code>) aka an <code>EndoFunctorOf (-&gt;)</code>:
+    </p><pre>type FunctorOf :: Cat from -&gt; Cat to -&gt; (from-&gt;to) -&gt; Constraint
+class    (Functor f, dom ~ Dom f, cod ~ Cod f) =&gt; FunctorOf dom cod f
+instance (Functor f, dom ~ Dom f, cod ~ Cod f) =&gt; FunctorOf dom cod f
+
+type EndofunctorOf :: Cat ob -&gt; (ob-&gt;ob) -&gt; Constraint
+type EndoFunctorOf cat = FunctorOf cat cat</pre><h1>Why Functor</h1><p>
+      We have <code>Functor</code>, <a href="https://hackage.haskell.org/package/base-4.12.0.0/docs/Data-Bifunctor.html#t:Bifunctor"><code>Bifunctor</code></a> and <a href="https://hackage.haskell.org/package/base-4.12.0.0/docs/Data-Functor-Contravariant.html#t:Contravariant"><code>Contravariant</code></a>. We are aching for <a href="https://hackage.haskell.org/package/profunctors-5.5.1/docs/Data-Profunctor.html#t:Profunctor"><code>Profunctor</code></a> to be added to <em>base</em>. Let's admit we have a problem :) what happens when I want to make <code>Fix::TT-&gt;T</code> a functor? Does that warrant a new class library or should we prefer:
+    </p><pre>FunctorOf (~&gt;) (-&gt;) Fix</pre><p>
+      Instead of <a href="https://hackage.haskell.org/package/free-5.1.3/docs/Control-Comonad-Cofree.html#v:hoistCofree"><code>hoistCofree</code></a> for <a href="https://hackage.haskell.org/package/free-5.1.3/docs/Control-Comonad-Cofree.html"><code>Cofree::TT-&gt;TT</code></a> we use the same abstraction:
+    </p><pre>FunctorOf (~&gt;) (~&gt;) Cofree</pre><p>
+      Listen I'm not saying it's a slam dunk case, but it's like step 0 to be able to build real (categorical) abstractions. I think it will encourage us to look at GADTs and not think "can't be a <code>Functor</code>".. but "maybe I haven't picked the right source/target arrows".. (<code>FunctorOf (:~:) (:~:)</code> can be defined for any constructor).
+    </p><p>
+      I also think <code>Functor</code> is the most self-contained step compared to say, adding object constraints. It's essential to defining natural transformations. It allows us to define functoriality in any arguments
+    </p><pre>instance Functor @T @TTTTT  (,,,,)
+instance Functor @T @TTTT  ((,,,,) a)
+instance Functor @T @TTT   ((,,,,) a b)
+instance Functor @T @TT    ((,,,,) a b c)
+instance Functor @T @T     ((,,,,) a b c d)</pre><p>
+      It's possible we can get them automatically from a single <code>Functor (,,,,)</code> instance with a clever definition of
+    </p><pre>instance (Functor f, ..) =&gt; Functor (f a)</pre><p>
+      Let me know what you think
+    </p>
+<a href="https://www.reddit.com/r/haskell/comments/eoo16m/base_category_polymorphic_functor_and_functorof/">https://www.reddit.com/r/haskell/comments/eoo16m/base_category_polymorphic_functor_and_functorof/</a><h2 id="discussion-heading">Discussion (2 selected from 2 collected; 29 reported)</h2><hr class="discussion-entry-marker" data-entry-id="feefwxr" data-depth="0">
+<p>THeShinyHObbiest · 2020-01-14 · <a href="https://www.reddit.com/comments/eoo16m/_/feefwxr">comment</a> — 
+      I don’t really think this buys us that much as a replacement for Functor. Can we maybe use a separate “CategoricalFunctor” definition that has an instance defined for all “Functor”s as they exist today?
+    </p><p>
+      This would be a breaking change that would make it harder to understand an already difficult concept if we just this to replace the base.
+    </p>
+<hr class="discussion-entry-marker" data-entry-id="fef5uyn" data-depth="1">
+<p>Syrak · 2020-01-15 · <a href="https://www.reddit.com/comments/eoo16m/_/fef5uyn">comment</a> — 
+      That seems like the best solution to me too.
+    </p><p>
+      There are too many problems with replacing the existing <code>Functor</code>, it's not worth the effort.
+    </p><p>
+      But even as a separate new thing, it could steal the momentum of the "add <code>Profunctor</code> to base" movement while adding yet more value on top.
+    </p>
+<p class="discussion-counts" data-descendant-count="0" data-omitted-sibling-count="0">0 descendants. 0 later siblings omitted.</p></div></body></html>
