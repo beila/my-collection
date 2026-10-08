@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
-<meta content="40525883aff22b75adafcdba4823889199807489ffbc019274c361f443e2abae" name="stephen-diehl-content-hash"/>
+<meta content="1d467c0d6b7235b1a1e25e87c7f206ca5d10e155771601849e91689ef370f5d4" name="stephen-diehl-content-hash"/>
 <meta content="16" name="stephen-diehl-article-format"/>
 <link href="https://beila.github.io/my-collection/stephen-diehl/dependently_typed_future.html" rel="canonical"/>
 <title>We Live in the Dependently Typed Future Now</title>
@@ -50,63 +50,65 @@ img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
 <p>Which is why we need better tooling, and we need it ASAP. The dependent type renaissance is here and the golden age of formalized mathematics is upon us, but the inner loops of these data centres now run dependent type kernels day in and day out, elaborating, checking, discarding, and retrying at breakneck speed, and the thing that certifies their output should run at the same speed. If the search runs at microseconds and the verification runs at minutes, the verification becomes the bottleneck, and bottlenecks in trust have a way of being quietly skipped. We should not be in a position where the most important epistemic question of the decade, "is this proof actually correct," is answered by whichever checker happened to be fast enough to keep up.</p>
 <h2 id="breaking-the-mathlib-minute-barrier">Breaking the Mathlib Minute Barrier</h2>
 <p>Just like the four-minute mile, which went from physiological impossibility to something club runners now train for, formal mathematics has had its own barrier for a while, which is type-checking all of Mathlib from scratch in under a minute. That now turns out to be quite tractable.</p>
-<p><a href="https://github.com/sdiehl/nano-lean">nano-lean</a> is a minimal, but complete, type checker for the Lean kernel language, written in Rust on top of my <a href="https://github.com/sdiehl/unbound">unbound</a> binding library for doing efficient de Bruijn indices for binders. It reads an export of a Lean environment and independently re-checks every declaration from scratch (inductive types, positivity, recursors, quotients, universe levels, projections, structure eta, all of it). It checks all of Mathlib, 718,577 declarations, with zero errors and zero timeouts in 16.7 seconds on an Apple Silicon M5 Max.</p>
-<p>A surprising amount of that speed comes from not parsing text. The standard way to get declarations out of Lean is <code>lean4export</code>, which writes one JSON object per line, and parsing gigabytes of JSON turns out to be a large share of the cost of checking anything. So nano-lean's companion tool <a href="https://github.com/sdiehl/olean-export">olean-export</a> reads the compiled <code>.olean</code> files directly, decoding modules in parallel, about a hundred times faster than <code>lean4export</code> on a Mathlib-dependent library, and it can emit blean, a new binary format designed for fast mmapping. Blean is the same record stream as the NDJSON export, in the same order, with nothing left to parse. Every record is a compact <a href="https://postcard.jamesmunns.com/wire-format">postcard</a> encoding, ids are implicit and dense, records only refer to earlier ids, and each expression carries its precomputed hash. The checker mmaps the whole file, tells the operating system it will be read once front to back, and decodes names, levels, and expressions straight off the mapped bytes into its term arena. There is no parsing step at all. The bytes on disk are already very nearly the shape of the data in memory, which is how you check Mathlib in under a minute.</p>
+<p><a href="https://github.com/sdiehl/nano-lean">nano-lean</a> is a minimal, but complete, type checker for the Lean kernel language, written in Rust on top of my <a href="https://github.com/sdiehl/unbound">unbound</a> binding library for doing efficient de Bruijn indices for binders. It reads an export of a Lean environment and independently re-checks every declaration from scratch (inductive types, positivity, recursors, quotients, universe levels, projections, structure eta, all of it). It checks all of Mathlib, 718,577 declarations, with zero errors and zero timeouts in 11.85 seconds on an Apple Silicon M5 Ultra.</p>
+<p>A surprising amount of that speed comes from not parsing text. The standard way to get declarations out of Lean is <code>lean4export</code>, which writes one JSON object per line, and parsing gigabytes of JSON turns out to be a large share of the cost of checking anything. So nano-lean's companion tool <a href="https://github.com/sdiehl/olean-export">olean-export</a> reads the compiled <code>.olean</code> files directly, decoding modules in parallel, about a hundred times faster than <code>lean4export</code> on a Mathlib-dependent library, and it can emit <a href="https://github.com/sdiehl/olean-export/tree/main/docs">blean</a>, a new binary format designed for fast mmapping. Blean is the same record stream as the NDJSON export, in the same order, with nothing left to parse. Every record is a compact <a href="https://postcard.jamesmunns.com/wire-format">postcard</a> encoding, ids are implicit and dense, records only refer to earlier ids, and each expression carries its precomputed hash. The checker mmaps the whole file, tells the operating system it will be read once front to back, and decodes names, levels, and expressions straight off the mapped bytes into its term arena. There is no parsing step at all. The bytes on disk are already very nearly the shape of the data in memory, which is how you check Mathlib in under a minute.</p>
+<p>The same trick works on the frontier results too. Here is nano-lean checking the full imported environment of each library and proof on an M5 Ultra with fourteen threads.</p>
 <table>
 <thead>
 <tr>
 <th></th>
-<th><code>-j 1</code></th>
-<th><code>-j 10</code></th>
+<th><a href="https://github.com/leanprover-community/mathlib4">Mathlib</a></th>
+<th><a href="https://github.com/openai/NavierStokesAndEuler">Navier–Stokes</a></th>
+<th><a href="https://github.com/leanprover/cslib">CSLib</a></th>
+<th><a href="https://en.wikipedia.org/wiki/Riemann_hypothesis">Quasi-Riemann</a></th>
+<th><a href="https://en.wikipedia.org/wiki/Erd%C5%91s_conjecture_on_arithmetic_progressions">Erdős AP</a></th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>Wall time</td>
-<td>57.4 s</td>
-<td>16.7 s</td>
-</tr>
-<tr>
-<td>Kernel check</td>
-<td>53.5 s</td>
-<td>12.5 s</td>
-</tr>
-<tr>
-<td>Peak memory footprint</td>
-<td>7.5 GB</td>
-<td>9.2 GB</td>
-</tr>
-</tbody>
-</table>
-<p>The same trick works on the frontier results too. Here is nano-lean checking the full imported environment of <a href="https://github.com/openai/NavierStokesAndEuler">OpenAI's Navier-Stokes and Euler proofs</a> on an M5 Max.</p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th><code>-j 1</code></th>
-<th><code>-j 14</code></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Wall time</td>
-<td>83.58 s</td>
+<td>11.85 s</td>
 <td>17.13 s</td>
+<td>4.42 s</td>
+<td>3.66 s</td>
+<td>23.33 s</td>
 </tr>
 <tr>
 <td>Kernel check</td>
-<td>78.83 s</td>
+<td>7.55 s</td>
 <td>12.11 s</td>
+<td>2.75 s</td>
+<td>2.58 s</td>
+<td>19.11 s</td>
+</tr>
+<tr>
+<td>Instructions</td>
+<td>742.3 G</td>
+<td>977.0 G</td>
+<td>300.8 G</td>
+<td>236.4 G</td>
+<td>837.9 G</td>
+</tr>
+<tr>
+<td>Cycles</td>
+<td>352.7 G</td>
+<td>471.3 G</td>
+<td>136.6 G</td>
+<td>122.6 G</td>
+<td>550.0 G</td>
 </tr>
 <tr>
 <td>Peak memory footprint</td>
-<td>10.14 GB</td>
+<td>10.7 GB</td>
 <td>12.29 GB</td>
+<td>6.92 GB</td>
+<td>7.42 GB</td>
+<td>26.42 GB</td>
 </tr>
 </tbody>
 </table>
-<p>Divide Mathlib's kernel time by the declaration count and you get an amortised seventeen microseconds per declaration. That is the number that matters, because it is the right order of magnitude for a checker that lives deep inside an RL-driven search loop, where it gets called hundreds of billions of times, instead of sitting at the end of a release pipeline. The entire library of human-formalized mathematics, the product of a decade of volunteer effort, is re-verified in less time than it takes to make an espresso.</p>
-<p>I also happened to have an <code>m2-ultramem-416</code> lying around on Google Cloud (416 vCPUs and 12 TB of RAM, as one does), so naturally I pointed nano-lean at it. Yes, it breaks the two-second Mathlib barrier. But Amdahl's law sends its regards, and the curve flattens out hard somewhere past a hundred cores, as the dependency graph runs out of independent work to hand out. Mathlib, it turns out, is too small. I look forward to the day a future Mathlib, or something like Tau Ceti, grows big enough to actually saturate this machine. That's the real future!</p>
+<p>Divide Mathlib's kernel time by the declaration count and you get an amortised ten and a half microseconds per declaration. That is the number that matters, because it is the right order of magnitude for a checker that lives deep inside an RL-driven search loop, where it gets called hundreds of billions of times, instead of sitting at the end of a release pipeline. The entire library of human-formalized mathematics, the product of a decade of volunteer effort, is re-verified in less time than it takes to make an espresso.</p>
+<p>I also happened to have an <code>m2-ultramem-416</code> lying around on Google Cloud (416 vCPUs and 12 TB of RAM, as one does), so naturally I pointed nano-lean at it. Yes, it breaks the two-second Mathlib barrier. But Amdahl's law sends its regards, and the curve flattens out hard somewhere past a hundred cores, as the dependency graph runs out of independent work to hand out. Mathlib, it turns out, is too small. I look forward to the day a future Mathlib, or something like <a href="https://github.com/TauCetiProject/TauCeti">Tau Ceti</a>, grows big enough to actually saturate this machine. That's the real future!</p>
 <p>I wrote it to make a point about where the bottleneck has moved. The kernel is now the hot loop of a new kind of scientific economy, and hot loops deserve to be engineered like hot loops. The whole bargain of formal proof is an asymmetry. Finding a proof can take three hours of frontier-model thinking, or eighty-eight hours of ten thousand agents, but checking it should take microseconds. That asymmetry is what makes it reasonable to trust a result no human has read. It only holds if the checker actually scales, and with Fermat's Last Theorem now weighing in at five times the size of Mathlib, scale is no longer a hypothetical. Mathlib is the small library now.</p>
 <p>Caveat emptor, though. nano-lean is a proof of concept, built to show that it can be done with the right amount of low-level Rust-fu. That said, we do use it internally at <a href="https://www.onechronos.com/">OneChronos</a> to check our larger Lean proofs of market infrastructure, which have grown quite excessive. It is nowhere near as trustworthy as the official Lean kernel, which has years of scrutiny, a community of experts, and every Mathlib build ever run behind it, and which takes around fifteen minutes to check the same library. The claim is narrower and, I think, more interesting. Checking at this speed is totally possible, so we should stop treating minutes as the natural cost of trust and start building checkers that are both fast and trustworthy. A future version of the Lean compiler could be as blazing fast as rustc or clang.</p>
 <h2 id="the-shape-of-the-future">The Shape of the Future</h2>
