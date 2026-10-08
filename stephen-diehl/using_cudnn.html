@@ -4,8 +4,8 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
-<meta content="796b38bdaf93457e2148071c7590c68c08de49bc24b55ed50ec72cafa7a6f197" name="stephen-diehl-content-hash"/>
-<meta content="15" name="stephen-diehl-article-format"/>
+<meta content="4b583d484fcbbc1da7ffa457e8f57df546b837118a29404eb2b56e5d9b7d6a84" name="stephen-diehl-content-hash"/>
+<meta content="17" name="stephen-diehl-article-format"/>
 <link href="https://beila.github.io/my-collection/stephen-diehl/using_cudnn.html" rel="canonical"/>
 <title>Using CUDA Deep Neural Network (cuDNN) in Python</title>
 <style>
@@ -31,12 +31,15 @@ img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
                       vertical-align: middle; }
     img.math-display { display: block; height: auto; margin: 1.25rem auto;
                        max-width: 100%; }
+.youtube-thumbnail { margin: 1.5rem 0; }
+    .youtube-thumbnail a { display: block; text-decoration: none; }
+    .youtube-thumbnail img { margin: 0 auto; }
   </style>
 </head>
 <body>
 <article>
 <h1>Using CUDA Deep Neural Network (cuDNN) in Python</h1>
-<p class="published">Published: Thu, 15 May 2025 01:00:00 +0000</p>
+<p class="published">Published: Thu, 15 May 2025 08:00:00 +0000</p>
 <section class="instapaper_body">
 <p class="original-link"><a href="https://www.stephendiehl.com/posts/using_cudnn/">Read the original article on Stephen Diehl's website</a></p>
 <p>Let's go through how to implement scaled dot product attention using the cuDNN Python API. This is the most computationally expensive part of inference in a transformer-style model, while also being partially parallelizable so it's usually offloaded to the GPU. Under the hood this uses the FlashAttention-2 algorithm but provides an API that is higher level than just the <a href="https://github.com/Dao-AILab/flash-attention">raw kernel implementation</a>.</p>
