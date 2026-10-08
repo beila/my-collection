@@ -4,8 +4,8 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
-<meta content="a59e4eeb03c348f9d944f0f41e7a637b9864e30f2cc8d6566b627afbc577f5c1" name="stephen-diehl-content-hash"/>
-<meta content="15" name="stephen-diehl-article-format"/>
+<meta content="56975fcc8ffd4c022765fed0dce9eaee19e244c41ce60e1aa71213c27e3be6e9" name="stephen-diehl-content-hash"/>
+<meta content="17" name="stephen-diehl-article-format"/>
 <link href="https://beila.github.io/my-collection/stephen-diehl/cuda_ocaml.html" rel="canonical"/>
 <title>Setting up PyTorch for OCaml</title>
 <style>
@@ -31,12 +31,15 @@ img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
                       vertical-align: middle; }
     img.math-display { display: block; height: auto; margin: 1.25rem auto;
                        max-width: 100%; }
+.youtube-thumbnail { margin: 1.5rem 0; }
+    .youtube-thumbnail a { display: block; text-decoration: none; }
+    .youtube-thumbnail img { margin: 0 auto; }
   </style>
 </head>
 <body>
 <article>
 <h1>Setting up PyTorch for OCaml</h1>
-<p class="published">Published: Sun, 17 Nov 2024 00:00:00 +0000</p>
+<p class="published">Published: Sun, 17 Nov 2024 08:00:00 +0000</p>
 <section class="instapaper_body">
 <p class="original-link"><a href="https://www.stephendiehl.com/posts/cuda_ocaml/">Read the original article on Stephen Diehl's website</a></p>
 <p>Setting up OCaml for modern AI development is a surprisingly niche topic, despite OCaml's strengths in building robust, type-safe systems. This guide focuses specifically on configuring OCaml development environments for NVIDIA's HGX AI platforms with 8x H100 GPUs for doing either continued pre-training or full-tuning of large language models. While a few quant funds have invested heavily in OCaml for their AI infrastructure, there's remarkably little public documentation about setting up OCaml with these dense GPU configurations. We'll walk through a complete setup of OCaml with CUDA and PyTorch on Ubuntu, with specific attention to the unique requirements of these multi-GPU systems that a lot of funds are provisioning these days.</p>
