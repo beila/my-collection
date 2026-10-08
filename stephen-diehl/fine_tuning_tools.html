@@ -4,8 +4,8 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
-<meta content="71164e3b9969ad46a03432c2306b4a4073bd1a0767da11a0252ca7f05b553ff3" name="stephen-diehl-content-hash"/>
-<meta content="15" name="stephen-diehl-article-format"/>
+<meta content="7652262ee070fbd1ba4e68c14f814faf2a79ef065056d04a499f5d045749272a" name="stephen-diehl-content-hash"/>
+<meta content="17" name="stephen-diehl-article-format"/>
 <link href="https://beila.github.io/my-collection/stephen-diehl/fine_tuning_tools.html" rel="canonical"/>
 <title>Fine-tuning With Tool Calling</title>
 <style>
@@ -31,12 +31,15 @@ img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
                       vertical-align: middle; }
     img.math-display { display: block; height: auto; margin: 1.25rem auto;
                        max-width: 100%; }
+.youtube-thumbnail { margin: 1.5rem 0; }
+    .youtube-thumbnail a { display: block; text-decoration: none; }
+    .youtube-thumbnail img { margin: 0 auto; }
   </style>
 </head>
 <body>
 <article>
 <h1>Fine-tuning With Tool Calling</h1>
-<p class="published">Published: Mon, 23 Jun 2025 01:00:00 +0000</p>
+<p class="published">Published: Mon, 23 Jun 2025 08:00:00 +0000</p>
 <section class="instapaper_body">
 <p class="original-link"><a href="https://www.stephendiehl.com/posts/fine_tuning_tools/">Read the original article on Stephen Diehl's website</a></p>
 <p>With the release of <code>trl</code> 0.19.0, there is now <a href="https://huggingface.co/docs/trl/en/sft_trainer#tool-calling-with-sft">native support</a> for fine-tuning models with custom tools, a capability that has been seamlessly integrated into the <code>Dataset</code> and <code>SFTTrainer</code> classes. This streamlines the training process of teaching a model how and when to call external functions. We can now structure our training data to include the full conversational flow of tool usage. From the initial user prompt, to the model's decision to call a tool, the resulting output from that tool, and the model's final, synthesized response.</p>
