@@ -4,8 +4,8 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
-<meta content="8dd2b008b41459c2483a13d7cb304a9d6579b2f193c69e0232662f86b626833c" name="stephen-diehl-content-hash"/>
-<meta content="15" name="stephen-diehl-article-format"/>
+<meta content="e54af44a76373b648dcccfd8041ef8cd4a6c057c4de06e0a35af6292a3f45128" name="stephen-diehl-content-hash"/>
+<meta content="17" name="stephen-diehl-article-format"/>
 <link href="https://beila.github.io/my-collection/stephen-diehl/mlir_gpu.html" rel="canonical"/>
 <title>GPU Compilation with MLIR</title>
 <style>
@@ -31,12 +31,15 @@ img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
                       vertical-align: middle; }
     img.math-display { display: block; height: auto; margin: 1.25rem auto;
                        max-width: 100%; }
+.youtube-thumbnail { margin: 1.5rem 0; }
+    .youtube-thumbnail a { display: block; text-decoration: none; }
+    .youtube-thumbnail img { margin: 0 auto; }
   </style>
 </head>
 <body>
 <article>
 <h1>GPU Compilation with MLIR</h1>
-<p class="published">Published: Sat, 19 Apr 2025 01:00:00 +0000</p>
+<p class="published">Published: Sat, 19 Apr 2025 08:00:00 +0000</p>
 <section class="instapaper_body">
 <p class="original-link"><a href="https://www.stephendiehl.com/posts/mlir_gpu/">Read the original article on Stephen Diehl's website</a></p>
 <p>
@@ -271,8 +274,7 @@ $L__BB0_2:
 </tr>
 </tbody>
 </table>
-<p>You can also use the <code>cuobjdump -sass</code> command to disassemble the CUBIN code into SASS (SASS stands for "Shader ASSembly"):
-
+<p>You can also use the <code>cuobjdump -sass</code> command to disassemble the CUBIN code into SASS (SASS stands for "Shader ASSembly"):<br/>
 On <code>-arch=sm_90</code> our kernel looks like this:</p>
 <pre><code>square(int*, int):
  LDC R1, c[0x0][0x28]
@@ -1422,22 +1424,7 @@ finally:
   args(%1 : i32, %2 : i64)
 </code></pre>
 <h2 id="external-resources">External Resources</h2>
-<p class="unordered-list-item">- CUDA Installation Guide for Linux
-URL: https://docs.nvidia.com/cuda/cuda-installation-guide-linux/</p><p class="unordered-list-item">- CUDA C Programming Guide
-URL: https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html</p><p class="unordered-list-item">- CUDA C Best Practices Guide
-URL: https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/</p><p class="unordered-list-item">- CUDA Toolkit Documentation 12.6
-URL: https://docs.nvidia.com/cuda/archive/12.6.0/</p><p class="unordered-list-item">- CUDA Python API
-URL: https://nvidia.github.io/cuda-python/cuda-bindings/latest/api.html</p><p class="unordered-list-item">- CUDA Python launchKernel
-URL: https://nvidia.github.io/cuda-python/cuda-bindings/latest/module/driver.html#cuda.bindings.driver.cuLaunchKernel</p><p class="unordered-list-item">- CUDA Refresher: The CUDA Programming Model
-URL: https://developer.nvidia.com/blog/cuda-refresher-cuda-programming-model/</p><p class="unordered-list-item">- NVVM IR Specification
-URL: https://docs.nvidia.com/cuda/nvvm-ir-spec/</p><p class="unordered-list-item">- LLVM User Guide for NVPTX Back-end
-URL: https://llvm.org/docs/NVPTXUsage.html</p><p class="unordered-list-item">- Cuda Quick Start Guide
-URL: https://docs.nvidia.com/cuda/cuda-quick-start-guide/#linux</p><p class="unordered-list-item">- 2024 EuroLLVM - Zero to Hero: Programming Nvidia Hopper Tensor Core with MLIR's NVGPU Dialect
-URL: https://www.youtube.com/watch?v=V3Q9IjsgXvA</p><p class="unordered-list-item">- A guide to Dockerfiles for building LLVM
-URL: https://llvm.org/docs/Docker.html</p><p class="unordered-list-item">- Understanding PTX: The Assembly Language of CUDA GPU Computing
-URL: https://developer.nvidia.com/blog/understanding-ptx-the-assembly-language-of-cuda-gpu-computing/</p><p class="unordered-list-item">- cuBLAS (nvmath.bindings.cublas)
-URL: https://docs.nvidia.com/cuda/nvmath-python/latest/bindings/cublas.html</p><p class="unordered-list-item">- cuda.core - Pythonic access to CUDA Runtime
-URL: https://nvidia.github.io/cuda-python/cuda-core/latest/</p>
+<p class="unordered-list-item">- CUDA Installation Guide for Linux<br/>URL: https://docs.nvidia.com/cuda/cuda-installation-guide-linux/</p><p class="unordered-list-item">- CUDA C Programming Guide<br/>URL: https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html</p><p class="unordered-list-item">- CUDA C Best Practices Guide<br/>URL: https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/</p><p class="unordered-list-item">- CUDA Toolkit Documentation 12.6<br/>URL: https://docs.nvidia.com/cuda/archive/12.6.0/</p><p class="unordered-list-item">- CUDA Python API<br/>URL: https://nvidia.github.io/cuda-python/cuda-bindings/latest/api.html</p><p class="unordered-list-item">- CUDA Python launchKernel<br/>URL: https://nvidia.github.io/cuda-python/cuda-bindings/latest/module/driver.html#cuda.bindings.driver.cuLaunchKernel</p><p class="unordered-list-item">- CUDA Refresher: The CUDA Programming Model<br/>URL: https://developer.nvidia.com/blog/cuda-refresher-cuda-programming-model/</p><p class="unordered-list-item">- NVVM IR Specification<br/>URL: https://docs.nvidia.com/cuda/nvvm-ir-spec/</p><p class="unordered-list-item">- LLVM User Guide for NVPTX Back-end<br/>URL: https://llvm.org/docs/NVPTXUsage.html</p><p class="unordered-list-item">- Cuda Quick Start Guide<br/>URL: https://docs.nvidia.com/cuda/cuda-quick-start-guide/#linux</p><p class="unordered-list-item">- 2024 EuroLLVM - Zero to Hero: Programming Nvidia Hopper Tensor Core with MLIR's NVGPU Dialect<br/>URL: https://www.youtube.com/watch?v=V3Q9IjsgXvA</p><p class="unordered-list-item">- A guide to Dockerfiles for building LLVM<br/>URL: https://llvm.org/docs/Docker.html</p><p class="unordered-list-item">- Understanding PTX: The Assembly Language of CUDA GPU Computing<br/>URL: https://developer.nvidia.com/blog/understanding-ptx-the-assembly-language-of-cuda-gpu-computing/</p><p class="unordered-list-item">- cuBLAS (nvmath.bindings.cublas)<br/>URL: https://docs.nvidia.com/cuda/nvmath-python/latest/bindings/cublas.html</p><p class="unordered-list-item">- cuda.core - Pythonic access to CUDA Runtime<br/>URL: https://nvidia.github.io/cuda-python/cuda-core/latest/</p>
 </section>
 </article>
 </body>
