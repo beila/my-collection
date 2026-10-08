@@ -4,8 +4,8 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
-<meta content="c4cbfdfb0083331a62af8e67a20dddbf2116917fca73f2f221349bf659205f21" name="stephen-diehl-content-hash"/>
-<meta content="15" name="stephen-diehl-article-format"/>
+<meta content="1e4560b4692a779b45d811278d22fe7449a17fda5a50501e8975f37b13a70a09" name="stephen-diehl-content-hash"/>
+<meta content="17" name="stephen-diehl-article-format"/>
 <link href="https://beila.github.io/my-collection/stephen-diehl/python_cuda.html" rel="canonical"/>
 <title>Linking CUDA Kernels into Python</title>
 <style>
@@ -31,12 +31,15 @@ img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
                       vertical-align: middle; }
     img.math-display { display: block; height: auto; margin: 1.25rem auto;
                        max-width: 100%; }
+.youtube-thumbnail { margin: 1.5rem 0; }
+    .youtube-thumbnail a { display: block; text-decoration: none; }
+    .youtube-thumbnail img { margin: 0 auto; }
   </style>
 </head>
 <body>
 <article>
 <h1>Linking CUDA Kernels into Python</h1>
-<p class="published">Published: Fri, 18 Nov 2022 00:00:00 +0000</p>
+<p class="published">Published: Fri, 18 Nov 2022 08:00:00 +0000</p>
 <section class="instapaper_body">
 <p class="original-link"><a href="https://www.stephendiehl.com/posts/python_cuda/">Read the original article on Stephen Diehl's website</a></p>
 <p>Gaussian blur is a common image processing operation that smooths images using a Gaussian kernel. While it's straightforward to implement on CPU, it can be quite slow for large images. Let's explore how to implement this efficiently using CUDA and then connect it to Python for easy use.</p>
