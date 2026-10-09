@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Bonus: toon shading</title>
+<style>
+body { margin: 0 auto; max-width: 46rem; padding: 1rem; font: 18px/1.6 Georgia, serif; }
+img { display: block; max-width: 100%; height: auto; margin: 1rem auto; }
+pre { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 0.85em; }
+</style>
+</head>
+<body>
+<article>
+<h1>Bonus: toon shading</h1>
+<p class="source-link"><a href="https://haqr.eu/tinyrenderer/toon/">Original chapter on haqr.eu</a></p>
+<h2 id="introduction">Introduction</h2>
+<p>In most of computer graphics, the ultimate goal is realism: simulating light and materials in a way that makes synthetic images indistinguishable from photographs.
+This pursuit has given us advanced rendering techniques, global illumination models, and physically based shading pipelines.</p>
+<p>But realism is not always the end of the story.
+Sometimes we want our images to be more expressive, more stylized, or simply more fun.
+This is where non-photorealistic rendering (NPR) comes in.
+Instead of imitating the real world, NPR techniques borrow inspiration from art, comics, or illustration, emphasizing certain visual qualities while ignoring others.</p>
+<p>Toon shading (sometimes called cel shading) is one of the most iconic NPR methods.
+It gives 3D models a flat, cartoon-like look, replacing smooth gradients with sharp color regions and emphasizing contours with bold outlines.
+The result is an aesthetic closer to hand-drawn animation than to photographic realism.</p>
+<p><a href="https://haqr.eu/tinyrenderer/toon/edges.png"><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/toon/d1f13fe248a031d5faca.png"/></a></p>
+<h2 id="the-idea">The idea</h2>
+<p>The essence of toon shading is to take the familiar tools of smooth shading and deliberately reduce their precision. Instead of aiming for subtle gradients and continuous variations of light, we quantize the result into a handful of discrete tones.</p>
+<p>A simple approach works like this:</p>
+<ul>
+<li>
+<p><strong>Start with standard lighting.</strong>
+    Compute the diffuse lighting just as you would in a traditional Phong or Lambert shading model. At this stage, each point on the surface has a smoothly varying brightness.</p>
+<p><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/toon/e8c2540f59b6c0af284c.png"/></p>
+</li>
+<li>
+<p><strong>Quantize the intensities.</strong>
+    Instead of displaying the raw lighting value, clamp it into a few distinct levels — say three or four. This replaces the soft gradient of light with sharp “bands” of brightness, giving the object its characteristic flat, cartoon-like look.</p>
+<p><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/toon/f92a49939484976c3532.png"/></p>
+<p>In my example the quantization is as simple as that:</p>
+<pre><code>    if (intensity&gt;.66) intensity = 1;
+    else if (intensity&gt;.33) intensity = .66;
+    else intensity = .33;</code></pre>
+</li>
+<li>
+<p><strong>Add outlines.</strong>
+    To reinforce the drawing-like style, we can render black edges around the object.
+    A simple technique is to detect silhouettes in the z-buffer: wherever the depth changes abruptly, we draw a dark contour line.
+    This gives the impression of inked outlines, similar to what you see in traditional animation or comics.</p>
+<p><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/toon/c6bcd2820bdfc7871c66.png"/></p>
+</li>
+</ul>
+<p>The combination of banded shading and dark silhouettes already produces a convincing toon effect. More advanced variants exist (e.g., controlling band placement, adding hatching textures, or stylizing colors), but this threshold-plus-outline approach captures the core idea in a way that is simple, effective, and fun to implement.</p>
+<h2 id="sobel-edge-detection">Sobel edge detection</h2>
+<p>This is the final chapter of the course. By now you are fully prepared to compute lighting, but you may still need a bit of help when it comes to detecting edges.
+Let us start with a simple 1D example.</p>
+<h3 id="1d-edge-detection">1D edge detection</h3>
+<p>Think of a row of pixel intensities taken from a z-buffer image.
+In 1D, edge detection is about finding abrupt changes in intensity values. The simplest idea is:</p>
+<pre><code>    for every pixel in the row:
+        look at the left neighbor and the right neighbor
+        subtract them
+        if the result exceeds some threshold → mark as an edge</code></pre>
+<p>Here is a small example:</p>
+<div><p><strong>1D Sobel edge detection</strong></p>
+<pre><code>    import numpy as np
+    import matplotlib.pyplot as plt
+
+    x = np.linspace(0, 16, 100)
+    signal = np.sin(x/2) + (x &gt; 10) # sinusoid + step
+
+    sobel = np.array([-1, 0, 1]) # 1D Sobel kernel
+    edges = np.zeros_like(signal)
+    for i in range(1, len(signal)-1):
+        window = signal[i-1:i+2]    # take [left, center, right]
+        edges[i] = np.sum(window * sobel)
+
+    plt.figure(figsize=(10,3))
+    plt.step(x, signal, label="Pixel intensities")
+    plt.step(x, edges, label="Edge response")
+    plt.title("1D Sobel edge detection")
+    plt.legend()
+    plt.show()</code></pre>
+</div>
+<p><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/toon/72df92ba696117045ab4.png"/></p>
+<p>In blue, you see a row of 16 pixels sampled from a “z-buffer.” For illustration, it is just a sine wave with a sudden step in the middle.</p>
+<p>For each pixel we do the following:</p>
+<ul>
+<li>Multiply the left neighbor by –1</li>
+<li>Ignore the pixel itself</li>
+<li>Multiply the right neighbor by +1</li>
+<li>Add them up → a large value means a jump, a small value means flat</li>
+</ul>
+<p>This operation is called a <a href="https://en.wikipedia.org/wiki/Convolution">convolution</a>, applied here with the <a href="https://en.wikipedia.org/wiki/Sobel_operator">Sobel kernel</a> <img alt="Equation: left-bracket negative 1 comma 0 comma plus 1 right-bracket" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/3f2e5ed3bc509892b92d8f5ab8c959de3f5e1013ad9c456b49918ac694baf390.png" width="99"/>.
+The orange curve shows the edge response: it clearly highlights an edge around pixel 10.</p>
+<h3 id="2d-example">2D example</h3>
+<p>In 2D images the idea is the same, except we now care about changes in both the <img alt="Equation: x" class="math-inline" height="20" src="https://beila.github.io/my-collection/math-images/da3ae1124928cdc0cf7f6434c3439af96259a8025612ab824685be59bd92a748.png" width="16"/> and <img alt="Equation: y" class="math-inline" height="23" src="https://beila.github.io/my-collection/math-images/84af71808142288754b27305a87e38319b4c08c2c95a958128e2010f1a1ab1a2.png" width="15"/> directions: edges can be horizontal, vertical, or diagonal.</p>
+<p><a href="https://en.wikipedia.org/wiki/Irwin_Sobel">Irwin Sobel</a> proposed two small <img alt="Equation: 3 times 3" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/89ec13e6ae0cfc6c449d131a4c7e815223f4ffac0e1abe0a83530f92e1d2400d.png" width="51"/> convolution kernels.</p>
+<p>One emphasizes <strong>horizontal changes</strong> in intensity (detecting vertical edges):</p>
+<p><img alt="Equation: upper K Subscript x Baseline equals Start 3 By 3 Matrix 1st Row 1st Column negative 1 2nd Column 0 3rd Column plus 1 2nd Row 1st Column negative 2 2nd Column 0 3rd Column plus 2 3rd Row 1st Column negative 1 2nd Column 0 3rd Column plus 1 EndMatrix" class="math-display" height="64" src="https://beila.github.io/my-collection/math-images/27e998a061e132842257c1a787171344a29f182e02ad8135fa91c6a80a1c3057.png" width="140"/></p>
+<p>The other emphasizes <strong>vertical changes</strong> (detecting horizontal edges):</p>
+<p><img alt="Equation: upper K Subscript y Baseline equals Start 3 By 3 Matrix 1st Row 1st Column negative 1 2nd Column negative 2 3rd Column negative 1 2nd Row 1st Column 0 2nd Column 0 3rd Column 0 3rd Row 1st Column plus 1 2nd Column plus 2 3rd Column plus 1 EndMatrix" class="math-display" height="64" src="https://beila.github.io/my-collection/math-images/03779d26eba6b6ef0efeb1f637764836c814111d629371592cb4a37ffacec951.png" width="150"/></p>
+<p>We compute two intermediate edge images by convolving the original image <img alt="Equation: upper I" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/ad9ae261729e28283e43a97d43511f7b69ed08b0999f7617d2f2ff9f3a4f796a.png" width="16"/> with these kernels:</p>
+<p><img alt="Equation: StartLayout 1st Row 1st Column upper G Subscript x 2nd Column equals upper K Subscript x Baseline asterisk upper I 2nd Row 1st Column upper G Subscript y 2nd Column equals upper K Subscript y Baseline asterisk upper I comma EndLayout" class="math-display" height="46" src="https://beila.github.io/my-collection/math-images/05166c5f7d038b83993cdd26cb04a280bf32df2d50b054976cc5994e258a69b4.png" width="102"/></p>
+<p>where <img alt="Equation: asterisk" class="math-inline" height="19" src="https://beila.github.io/my-collection/math-images/334125714ad63cec9a963f059014ecc0f2e5909d1df0c41be96c02ad0aac8982.png" width="15"/> denotes 2D convolution.
+Then, we combine both results to obtain the final edge strength:</p>
+<p><img alt="Equation: Edge strength equals StartRoot upper G Subscript x Superscript 2 Baseline plus upper G Subscript y Superscript 2 Baseline EndRoot period" class="math-display" height="38" src="https://beila.github.io/my-collection/math-images/f6ff002817985245f975557eeed95bb7bdf4a7808979f1f5cffa9cfbc69b58f3.png" width="182"/></p>
+<p>If this description feels too mathematical, here is a concrete example:</p>
+<div><p><strong>2D Sobel edge detection</strong></p>
+<pre><code>    import numpy as np
+    import matplotlib.pyplot as plt
+
+    img = np.zeros((128, 128))
+    img[32:96, 32:96] = 1.0
+
+    # Sobel kernels
+    sobel_x = np.array([[-1,0,1],
+                        [-2,0,2],
+                        [-1,0,1]])
+    sobel_y = np.array([[-1,-2,-1],
+                        [ 0, 0, 0],
+                        [ 1, 2, 1]])
+
+    # Convolution by hand (no SciPy)
+    gx = np.zeros_like(img)
+    gy = np.zeros_like(img)
+
+    for i in range(1, img.shape[0]-1):
+        for j in range(1, img.shape[1]-1):
+            region = img[i-1:i+2, j-1:j+2]
+            gx[i,j] = np.sum(region * sobel_x)
+            gy[i,j] = np.sum(region * sobel_y)
+
+    edges = np.sqrt(gx**2 + gy**2)
+
+    plt.figure(figsize=(12,4))
+    plt.subplot(1,4,1); plt.imshow(img, cmap="gray"); plt.title("Original image")
+    plt.subplot(1,4,2); plt.imshow(gx, cmap="gray"); plt.title("Vertical edges")
+    plt.subplot(1,4,3); plt.imshow(gy, cmap="gray"); plt.title("Horizontal edges")
+    plt.subplot(1,4,4); plt.imshow(edges, cmap="gray"); plt.title("Combined edges")
+    plt.show()</code></pre>
+</div>
+<p><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/toon/faa04583946a81d0188e.png"/></p>
+<p>The input is a simple <img alt="Equation: 128 times 128" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/8157faf78c4810a32509a4dca7ef379e6b304b994c36d0001218e2dbc92726c4.png" width="93"/> image of a solid white square on a black background. The Sobel filter perfectly outlines the square, demonstrating how edges are extracted.</p>
+<h2 id="homework">Homework</h2>
+<p>Experiment with non-photorealistic rendering (NPR).
+By stepping away from strict realism, we gain a deeper understanding of the visual pipeline and discover how even small changes in shading rules can produce strikingly different effects.
+My implementation of a toon shader is <a href="https://github.com/ssloy/tinyrenderer/tree/toon">available here</a>.</p>
+<p>Exploring NPR is not only enjoyable, it also broadens our perspective as graphics practitioners, and it leaves plenty of room for creativity and invention.</p>
+<hr/>
+<h3>Comments</h3>
+</article>
+</body>
+</html>

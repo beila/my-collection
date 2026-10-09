@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Better camera handling</title>
+<style>
+body { margin: 0 auto; max-width: 46rem; padding: 1rem; font: 18px/1.6 Georgia, serif; }
+img { display: block; max-width: 100%; height: auto; margin: 1rem auto; }
+pre { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 0.85em; }
+</style>
+</head>
+<body>
+<article>
+<h1>Better camera handling</h1>
+<p class="source-link"><a href="https://haqr.eu/tinyrenderer/camera/">Original chapter on haqr.eu</a></p>
+<h2 id="chain-of-coordinate-transformations">Chain of coordinate transformations</h2>
+<p>In the <a href="https://beila.github.io/my-collection/tinyrenderer/camera-naive.html">previous chapter</a>, we chained three different transformations to the 3D object to simulate a camera:</p>
+<pre><code>auto [ax, ay, az] = project(persp(rot(model.vert(i, 0))));
+auto [bx, by, bz] = project(persp(rot(model.vert(i, 1))));
+auto [cx, cy, cz] = project(persp(rot(model.vert(i, 2))));</code></pre>
+<p>Such a transformation chain is standard practice, and usually, it's even longer. Typically:</p>
+<ol>
+<li>Objects (e.g., characters) are modeled in their own local frame (object coordinates).</li>
+<li>They're then placed into a scene (world coordinates).</li>
+<li>The scene is expressed in the camera frame (eye coordinates).</li>
+<li>We <a href="https://beila.github.io/my-collection/tinyrenderer/camera-naive.html">deform the scene</a> to apply a perspective transformation (clip coordinates).</li>
+<li>Finally, to render on screen, we convert clip coordinates to screen coordinates.</li>
+</ol>
+<p>In total, we use five coordinate systems connected by four transformations. When a 3D vertex <code>v</code> is read from a <code>.obj</code> file, the rendering pipeline applies this transformation chain:</p>
+<pre><code>Viewport(Perspective(View(Model(v)))).</code></pre>
+<p>In the code above, we see three transformations (with <code>Model</code> omitted) handled by different functions. Our goal is to unify and compose them. Instead of applying three separate transformations to each vertex, we aim to pre-compose them into one, allowing for faster batch processing of geometry.</p>
+<p>Ultimately, we want to position, orient, and scale objects in a scene using composable transformations. Let’s examine two classes of transformations that support this goal.</p>
+<hr/>
+<h2 id="linear-transformations">Linear transformations</h2>
+<p>In computer graphics, everything you see - models, characters, cameras - is made of <strong>points and vectors</strong>.
+To animate, move, rotate, or resize them, we apply linear and affine transformations to their coordinates.</p>
+<p>A linear transformation is a mathematical way to reshape space using just multiplication — no bending, no shifting.
+In 1D, this is easy to imagine: multiplying a number by 2 stretches the space, and multiplying by -1 flips it.
+For example, the transformation <img alt="Equation: x right-arrow from bar 2 x" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/eca641ffde9427113e06162bd0918a048af9b9ec710ad7c14c0b8d6188239ad0.png" width="72"/> doubles <img alt="Equation: x" class="math-inline" height="20" src="https://beila.github.io/my-collection/math-images/da3ae1124928cdc0cf7f6434c3439af96259a8025612ab824685be59bd92a748.png" width="16"/>, and <img alt="Equation: x right-arrow from bar negative x" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/f290e1524c248d23f50575f5c1e9619039f134eaad6760327c6db6a93dafae51.png" width="77"/> reflects it across zero.</p>
+<p>In 2D or 3D the same idea applies, but now we multiply a <strong>vector</strong> by a <strong>matrix</strong> instead of a single number.
+This matrix controls how space is scaled, rotated, or sheared.
+Formally, in <img alt="Equation: double-struck upper R Superscript n" class="math-inline" height="26" src="https://beila.github.io/my-collection/math-images/627332fac60939d1799e4e99b47241aa7ec2412587d94da90c87a518e28161be.png" width="31"/>, a linear transformation can be written as <img alt="Equation: ModifyingAbove x With right-arrow right-arrow from bar upper A ModifyingAbove x With right-arrow" class="math-inline" height="26" src="https://beila.github.io/my-collection/math-images/25039fdae3e42d0a1e18f397f5e34c9cd532ba5d4436b22f22ffddadaf001675.png" width="77"/>,
+where <img alt="Equation: ModifyingAbove x With right-arrow" class="math-inline" height="26" src="https://beila.github.io/my-collection/math-images/f975b67cbf642041b01efe0be46ae3b31a03a2075c6f0bf334631a9a36713f1c.png" width="16"/> is a vector (or a point), and <img alt="Equation: upper A" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/b82947fdd348103b4f64ebb8fe74539de1e5b71794cc0a971f20936c4b7be5fe.png" width="20"/> is a <img alt="Equation: n times n" class="math-inline" height="20" src="https://beila.github.io/my-collection/math-images/9b4ebdfb042dffdbc8009d2b7f718b932ea8636c2d667062ce9fcdfb55282f3d.png" width="56"/> matrix.</p>
+<p>In 2D <img alt="Equation: upper A" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/b82947fdd348103b4f64ebb8fe74539de1e5b71794cc0a971f20936c4b7be5fe.png" width="20"/> has for entries: <img alt="Equation: upper A equals Start 2 By 2 Matrix 1st Row 1st Column a 2nd Column b 2nd Row 1st Column c 2nd Column d EndMatrix" class="math-inline" height="61" src="https://beila.github.io/my-collection/math-images/2d28dbad0a83b4898b325308d902d211d0abc0c5fd150c0364482b6f84680161.png" width="120"/>, so any 2D point <img alt="Equation: StartBinomialOrMatrix x Choose y EndBinomialOrMatrix" class="math-inline" height="61" src="https://beila.github.io/my-collection/math-images/c7dfeacba4495592567fc7aed638554f2de4e2f08c742469a9dde421896f7bb4.png" width="46"/> is mapped to <img alt="Equation: StartBinomialOrMatrix a x plus b y Choose c x plus d y EndBinomialOrMatrix" class="math-inline" height="61" src="https://beila.github.io/my-collection/math-images/cd6fb7b651e8042f6188c8d9fa28ca33342e69eb57173583bdd4709b289a702d.png" width="102"/>, since
+<img alt="Equation: Start 2 By 2 Matrix 1st Row 1st Column a 2nd Column b 2nd Row 1st Column c 2nd Column d EndMatrix StartBinomialOrMatrix x Choose y EndBinomialOrMatrix equals StartBinomialOrMatrix a x plus b y Choose c x plus d y EndBinomialOrMatrix period" class="math-inline" height="61" src="https://beila.github.io/my-collection/math-images/0c2775cfa43aabf358fa761322f005b5de395e8f0a5a307ac1ed99dc49eac7a2.png" width="255"/></p>
+<p>Let us see few examples.</p>
+<hr/>
+<h3 id="identity">Identity</h3>
+<p>The simplest 2D transformation is the identity:</p>
+<p><img alt="Equation: Start 2 By 2 Matrix 1st Row 1st Column 1 2nd Column 0 2nd Row 1st Column 0 2nd Column 1 EndMatrix StartBinomialOrMatrix x Choose y EndBinomialOrMatrix equals StartBinomialOrMatrix x Choose y EndBinomialOrMatrix" class="math-display" height="46" src="https://beila.github.io/my-collection/math-images/518167dfbf75a87a907e2e0f563c0856ce77a96f46b4e97d5da9653dcb58d017.png" width="130"/></p>
+<p>Here is an illustration: I took a colored 2D plane (an image), and applied the identity transformation to every point of the plane.
+Without any surprise the image is unchanged.</p>
+<p><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/camera/be951fb0a8ee3f0256b5.png"/></p>
+<hr/>
+<h3 id="scaling">Scaling</h3>
+<p>A scaling matrix stretches objects wider or taller.
+For example, <img alt="Equation: Start 2 By 2 Matrix 1st Row 1st Column 2 2nd Column 0 2nd Row 1st Column 0 2nd Column 1 slash 2 EndMatrix" class="math-inline" height="61" src="https://beila.github.io/my-collection/math-images/e743901f74c6ccb5cb3e5e580eedf1baf8d521cd6affc88208158c44f66e842f.png" width="97"/> stretches the x-axis by 2 and squishes the y-axis by <img alt="Equation: 1 slash 2" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/75f04272f8572647cb15e3a4e05b594a0b62a19ef3f7f4549a6e15614da0dcef.png" width="36"/>.
+In fact, this matrix performs simple 1D multiplication to the coordinates independently one from another.</p>
+<p><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/camera/1766a781a7017168ae82.png"/></p>
+<hr/>
+<h3 id="rotation">Rotation</h3>
+<p>A 2D rotation matrix <img alt="Equation: Start 2 By 2 Matrix 1st Row 1st Column cosine theta 2nd Column minus sine theta 2nd Row 1st Column sine theta 2nd Column cosine theta EndMatrix" class="math-inline" height="61" src="https://beila.github.io/my-collection/math-images/b9eeb9cdbdf3ade32f353d61f3155ed4a0a8f07d85c90487e65310cb28875f9d.png" width="154"/> rotates a point counterclockwise by angle <img alt="Equation: theta" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/707e652176a41a0384b29620a1e10e48b0fdfca6bd402dd82b482116c010a6a4.png" width="15"/> around the orgin.
+If we take <img alt="Equation: theta equals 90 degree" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/aeb952ee3d7bcea8f131f0e98938d4dacbce1e931671dc61cbdec0fad38833a0.png" width="74"/>, the matrix becomes <img alt="Equation: Start 2 By 2 Matrix 1st Row 1st Column 0 2nd Column negative 1 2nd Row 1st Column 1 2nd Column 0 EndMatrix" class="math-inline" height="61" src="https://beila.github.io/my-collection/math-images/94104c19ac9117b7fb0fbb3c37577aa6186d1e2b0ac7a1e047bb39a195c6df01.png" width="92"/>,
+so any 2D point <img alt="Equation: StartBinomialOrMatrix x Choose y EndBinomialOrMatrix" class="math-inline" height="61" src="https://beila.github.io/my-collection/math-images/c7dfeacba4495592567fc7aed638554f2de4e2f08c742469a9dde421896f7bb4.png" width="46"/> is mapped to <img alt="Equation: StartBinomialOrMatrix negative y Choose x EndBinomialOrMatrix" class="math-inline" height="61" src="https://beila.github.io/my-collection/math-images/9200afc99a7e1803a128269ecad467098d1efa58c030fbd27dd6587b2a5c08ab.png" width="61"/>, as it can be seen in this illustration:</p>
+<p><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/camera/e896b6af9c789cb0ff33.png"/></p>
+<hr/>
+<h3 id="shear">Shear</h3>
+<p>A shear matrix slants shapes like melting jello.
+For example, <img alt="Equation: Start 2 By 2 Matrix 1st Row 1st Column 1 2nd Column 1 2nd Row 1st Column 0 2nd Column 1 EndMatrix" class="math-inline" height="61" src="https://beila.github.io/my-collection/math-images/57a53597b3e8f1d2211fb2adc5ae49e21a56e0adc539d1b074740d02ffeabe22.png" width="76"/>
+  slants shapes horizontally, like tilting a rectangle into a parallelogram.</p>
+<p><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/camera/dad0a54a1d025e74a349.png"/></p>
+<hr/>
+<p>These transformations are called linear because they preserve straight lines and keep the origin fixed.
+Linear transformations have compact representation: a transformation like rotation or scaling in 3D can be represented with a small square matrix.
+Moreover, we have the composability we were looking for. 
+Suppose we have three different transformations <img alt="Equation: upper A 1 comma upper A 2" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/b6985e57e73f3eca589ffaecc469f9904794d0cf95ffda5eb2299bbc5af3883f.png" width="64"/> and <img alt="Equation: upper A 3" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/43d3115bf2fea2a7c2652dd92cec8fce05f61ed55a89c2998099f4317178d7b6.png" width="30"/> to be chained on every vertex <img alt="Equation: ModifyingAbove x With right-arrow Subscript i" class="math-inline" height="29" src="https://beila.github.io/my-collection/math-images/4c98691da926ce5e096cd40e67674505ecccb04507cdf455ee1ed724a61b1c22.png" width="24"/> of the scene (i.e. to compute <img alt="Equation: upper A 3 times upper A 2 times upper A 1 times ModifyingAbove x With right-arrow Subscript i" class="math-inline" height="29" src="https://beila.github.io/my-collection/math-images/f4badc23c6854b6a04253da759dbd3fe9b10940c76a84f95e8880ffaf94958c7.png" width="176"/>).
+Note that the multiplication is associative, i.e. <img alt="Equation: upper A 3 times left-parenthesis upper A 2 times left-parenthesis upper A 1 times ModifyingAbove x With right-arrow Subscript i Baseline right-parenthesis right-parenthesis equals left-parenthesis left-parenthesis upper A 3 times upper A 2 right-parenthesis times upper A 1 right-parenthesis times ModifyingAbove x With right-arrow Subscript i" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/15022ebb4c014ff2423df3d28ca9fbd8d1dc0834dc97c0d26e8f3421a44befa1.png" width="441"/>,
+therefore, we can precompute <img alt="Equation: upper A equals upper A 3 times upper A 2 times upper A 1" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/76c9306d8a7e6e28d66e9b1bbe58f9f93e304ec1d6d216b3bdfaec92e9b937b4.png" width="175"/> and apply the matrix <img alt="Equation: upper A" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/b82947fdd348103b4f64ebb8fe74539de1e5b71794cc0a971f20936c4b7be5fe.png" width="20"/> directly to the vertices by computing the product <img alt="Equation: upper A times ModifyingAbove x With right-arrow Subscript i" class="math-inline" height="29" src="https://beila.github.io/my-collection/math-images/b10013f0c96a13bc168047b1aa749c884606a1203d01d32094155c1d1023e991.png" width="65"/>.</p>
+<hr/>
+<h2 id="affine-transformations">Affine transformations</h2>
+<p>Note that linear transformations always map the origin to the origin, since <img alt="Equation: upper A ModifyingAbove 0 With right-arrow equals ModifyingAbove 0 With right-arrow" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/954cac9612edf626a3cf243d656e9e63cd436bf12ed426accb3052b20a69f35b.png" width="69"/>.
+But in graphics, we often need to move (translate) things - hence affine transformations are more general and more useful.</p>
+<p>Formally, in <img alt="Equation: double-struck upper R Superscript n" class="math-inline" height="26" src="https://beila.github.io/my-collection/math-images/627332fac60939d1799e4e99b47241aa7ec2412587d94da90c87a518e28161be.png" width="31"/>, an affine transformation <img alt="Equation: upper T" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/7cebde6d7a38d72e0bf5491aa60257838220c574c48cc43cef46b472c849009c.png" width="20"/> has form <img alt="Equation: upper T left-parenthesis ModifyingAbove x With right-arrow right-parenthesis equals upper A ModifyingAbove x With right-arrow plus ModifyingAbove b With right-arrow" class="math-inline" height="35" src="https://beila.github.io/my-collection/math-images/94e4ae853a1efd96921bf62aae97eef7fabb0b281e254f1837b0f11bfd3e9744.png" width="139"/>,
+where <img alt="Equation: ModifyingAbove x With right-arrow" class="math-inline" height="26" src="https://beila.github.io/my-collection/math-images/f975b67cbf642041b01efe0be46ae3b31a03a2075c6f0bf334631a9a36713f1c.png" width="16"/> is a vector (or a point), <img alt="Equation: upper A" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/b82947fdd348103b4f64ebb8fe74539de1e5b71794cc0a971f20936c4b7be5fe.png" width="20"/> is a <img alt="Equation: n times n" class="math-inline" height="20" src="https://beila.github.io/my-collection/math-images/9b4ebdfb042dffdbc8009d2b7f718b932ea8636c2d667062ce9fcdfb55282f3d.png" width="56"/> matrix representing a linear transformation (like rotation, scaling or shear),
+and <img alt="Equation: ModifyingAbove b With right-arrow" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/e3f1bb6722b87c53f6a0aa824fde5b5a6b12fa8769b6bffc5b4a8cb46e0d5443.png" width="15"/> is a translation vector.</p>
+<p>In 2D it looks like this:</p>
+<p><img alt="Equation: StartBinomialOrMatrix x Choose y EndBinomialOrMatrix right-arrow from bar Start 2 By 2 Matrix 1st Row 1st Column a 2nd Column b 2nd Row 1st Column c 2nd Column d EndMatrix StartBinomialOrMatrix x Choose y EndBinomialOrMatrix plus StartBinomialOrMatrix e Choose f EndBinomialOrMatrix equals StartBinomialOrMatrix a x plus b y plus e Choose c x plus d y plus f EndBinomialOrMatrix" class="math-display" height="46" src="https://beila.github.io/my-collection/math-images/ba9cad8de4d31e086ee6fe627464962a21026161ff51c507fbb4e6ff39c2e398.png" width="314"/></p>
+<p>This expression is really cool.
+We can rotate, scale, shear and translate.
+However, let us recall that we are interested in composing multiple transformations. 
+Here is what a composition of two transformations looks like (remember, we need to compose dozens of those):</p>
+<p><img alt="Equation: StartBinomialOrMatrix x Choose y EndBinomialOrMatrix right-arrow from bar Start 2 By 2 Matrix 1st Row 1st Column a 2 2nd Column b 2 2nd Row 1st Column c 2 2nd Column d 2 EndMatrix left-parenthesis Start 2 By 2 Matrix 1st Row 1st Column a 1 2nd Column b 1 2nd Row 1st Column c 1 2nd Column d 1 EndMatrix StartBinomialOrMatrix x Choose y EndBinomialOrMatrix plus StartBinomialOrMatrix e 1 Choose f 1 EndBinomialOrMatrix right-parenthesis plus StartBinomialOrMatrix e 2 Choose f 2 EndBinomialOrMatrix" class="math-display" height="46" src="https://beila.github.io/my-collection/math-images/d15de5d0a60af154ff1aaf55de48e311eb9007471af23ec0b9d2f7c436a5d756.png" width="357"/></p>
+<p>It is starting to look ugly even for a single composition, add more and things get even worse.</p>
+<hr/>
+<h2 id="homogeneous-coordinates">Homogeneous Coordinates</h2>
+<p>Okay, now it is the time for the black magic. Imagine that I add one column and one row to our transformation matrix (thus making it 3x3 for a 2D transformation and 4x4 for 3D) and append one coordinate always equal to 1 to our vector to be transformed:</p>
+<p><img alt="Equation: StartBinomialOrMatrix upper T left-parenthesis ModifyingAbove x With right-arrow right-parenthesis Choose 1 EndBinomialOrMatrix equals Start 2 By 2 Matrix 1st Row 1st Column upper A 2nd Column ModifyingAbove b With right-arrow 2nd Row 1st Column ModifyingAbove 0 With right-arrow Superscript down-tack Baseline 2nd Column 1 EndMatrix StartBinomialOrMatrix ModifyingAbove x With right-arrow Choose 1 EndBinomialOrMatrix" class="math-display" height="54" src="https://beila.github.io/my-collection/math-images/f30d1f02b040d267024b65a96bbf7cb770bb891786ecb24f0778492e5008a390.png" width="162"/></p>
+<p>Let us write it down explicitly for 2D:</p>
+<p><img alt="Equation: Start 3 By 3 Matrix 1st Row 1st Column a 2nd Column b 3rd Column e 2nd Row 1st Column c 2nd Column d 3rd Column f 3rd Row 1st Column 0 2nd Column 0 3rd Column 1 EndMatrix Start 3 By 1 Matrix 1st Row  x 2nd Row  y 3rd Row  1 EndMatrix equals Start 3 By 1 Matrix 1st Row  a x plus b y plus e 2nd Row  c x plus d y plus f 3rd Row  1 EndMatrix" class="math-display" height="66" src="https://beila.github.io/my-collection/math-images/b404c7a02f12d50d88d840e44b3d319c5244ac50412df896f0adf4b1b6057720.png" width="226"/></p>
+<p>This matrix captures the entire transformation and is easy to store and manipulate.
+If we multiply this matrix and the vector augmented by 1 we get another vector with 1 in the last component, but the other two components have exactly the shape we would like! Magic.</p>
+<p>In fact, the idea is really simple. Translations are not linear in the 2D space. So we embed our 2D into 3D space (by simply adding 1 for the 3rd component).
+It means that our 2D space is the plane <img alt="Equation: z equals 1" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/17fec0857c5ec7549ff2f5d77ee5b3ec2303a6c82ecb4799faa486cf66b40736.png" width="53"/> in the 3D space. Then we perform a linear 3D transformation and project the result onto our 2D physical plane. 
+How do we project 3D back onto the 2D plane? Simply by dividing by the third component:</p>
+<p><img alt="Equation: Start 3 By 1 Matrix 1st Row  x 2nd Row  y 3rd Row  z EndMatrix right-arrow from bar StartBinomialOrMatrix x slash z Choose y slash z EndBinomialOrMatrix" class="math-display" height="66" src="https://beila.github.io/my-collection/math-images/77a7ef375cec57cdf56860caf1fee314f70a9b9658308534d523e6a477ec1840.png" width="130"/></p>
+<p>In the above example the 3rd component is always 1 independently from <img alt="Equation: upper A" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/b82947fdd348103b4f64ebb8fe74539de1e5b71794cc0a971f20936c4b7be5fe.png" width="20"/> and <img alt="Equation: ModifyingAbove b With right-arrow" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/e3f1bb6722b87c53f6a0aa824fde5b5a6b12fa8769b6bffc5b4a8cb46e0d5443.png" width="15"/>, but very soon we will meet other cases.
+In fact, we have just used <strong>homogeneous coordinates</strong>.
+They are called <em>homogeneous</em> because of the way they use ratios of coordinates that remain consistent under scaling - a key idea from projective geometry.</p>
+<p>In the process I described, a point <img alt="Equation: left-parenthesis x comma y right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/bd459b57b278f90dba17b64d9c0c5a1be9aba4e555fba6a80d8ca2746ff27c03.png" width="52"/> in Cartesian coordinates becomes <img alt="Equation: left-parenthesis x comma y comma 1 right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/80c71813998c34da2a6952a9a9623b4d513e1f16f97dfd97c52002635e659ebe.png" width="73"/> in homogeneous coordinates.
+More generally, a 2D point <img alt="Equation: left-parenthesis x comma y right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/bd459b57b278f90dba17b64d9c0c5a1be9aba4e555fba6a80d8ca2746ff27c03.png" width="52"/> is represented as:</p>
+<p><img alt="Equation: left-parenthesis x comma y right-parenthesis right-arrow from bar left-parenthesis w x comma w y comma w right-parenthesis" class="math-display" height="26" src="https://beila.github.io/my-collection/math-images/3fef8f7a6555611148bb22ed97a292c8b361645062145bc4cb74acde814bbccc.png" width="158"/></p>
+<p>where <img alt="Equation: w not-equals 0" class="math-inline" height="29" src="https://beila.github.io/my-collection/math-images/00488606a86064369d97c467343efd9698c9a1ced4032d241f273ccdca3df9a5.png" width="58"/>, and the point in Cartesian coordinates is recovered by:</p>
+<p><img alt="Equation: left-parenthesis StartFraction w x Over w EndFraction comma StartFraction w y Over w EndFraction right-parenthesis equals left-parenthesis x comma y right-parenthesis" class="math-display" height="38" src="https://beila.github.io/my-collection/math-images/f96fec26cf267fe730b2c124f10af774daf9706405e3ef7f938bc850c1afc354.png" width="126"/></p>
+<p>So any scalar multiple of <img alt="Equation: left-parenthesis x comma y comma 1 right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/80c71813998c34da2a6952a9a9623b4d513e1f16f97dfd97c52002635e659ebe.png" width="73"/> — like <img alt="Equation: left-parenthesis 2 x comma 2 y comma 2 right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/7b57dcca9bf1c5be4f8bcdd252ff423370015f79ffe16b6af2fc8060558b099f.png" width="94"/>, or <img alt="Equation: left-parenthesis 5 x comma 5 y comma 5 right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/85502d59a429970ce5691a2f1ecabd8331d38b63a55f092b252ab2a800e44971.png" width="94"/> — represents the same point in the plane. That's the essence of homogeneity different triples represent the same point because they are all scalar multiples.</p>
+<p>In computer graphics, we extend affine transformations into matrix form using homogeneous coordinates allowing all transformations (including translation) to be expressed as a single matrix.
+This is why we often use 3×3 matrices in 2D and 4×4 matrices in 3D graphics.
+While being strange at the first sight, the approach is very straightforward, and it offers two serious advantages:</p>
+<ol>
+<li><strong>Translation becomes matrix multiplication.</strong>
+   Affine transformations (like translation) are not linear in Cartesian coordinates but are linear in homogeneous coordinates, thus allowing for the composability we were looking for.</li>
+<li><strong>Enables perspective projection.</strong>
+   Homogeneous coordinates naturally handle perspective division, which is key for realistic rendering of 3D scenes (we will revisit it shortly).
+   Therefore, all camera handling (rotation, scaling, translation, projection) can be done within the same consistent framework.</li>
+</ol>
+<hr/>
+<h2 id="putting-it-all-together">Putting it all together</h2>
+<p>Recall that in the <a href="https://beila.github.io/my-collection/tinyrenderer/camera-naive.html">previous chapter</a> we have chained three different transformations <code>project</code>, <code>persp</code> and <code>rot</code>:</p>
+<pre><code>auto [ax, ay, az] = project(persp(rot(model.vert(i, 0))));
+auto [bx, by, bz] = project(persp(rot(model.vert(i, 1))));
+auto [cx, cy, cz] = project(persp(rot(model.vert(i, 2))));</code></pre>
+<p>Let us review them one at a time and see how we can replace it with a matrix version.
+Basically, we want to compute three <img alt="Equation: 4 times 4" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/6d26b5cd314ef60ae0d1414b50ee78b5453a1ba9a435293d09ed4a588992d44f.png" width="51"/> matrices <code>Viewport</code>, <code>Perspective</code> and <code>ModelView</code>:</p>
+<pre><code>mat&lt;4,4&gt; ModelView, Viewport, Perspective;</code></pre>
+<h3 id="viewport">Viewport</h3>
+<p>The easiest one is the viewport transform that scales the scene to the size of the screen. Last time it was defined as follows:</p>
+<pre><code>std::tuple&lt;int,int,int&gt; project(vec3 v) { // First of all, (x,y) is an orthogonal projection of the vector (x,y,z).
+    return { (v.x + 1.) *  width/2,       // Second, since the input models are scaled to have fit in the [-1,1]^3 world coordinates,
+             (v.y + 1.) * height/2,       // we want to shift the vector (x,y) and then scale it to span the entire screen.
+             (v.z + 1.) *   255./2 };
+}</code></pre>
+<p>In fact, it is a by-hand computation of the following matrix multiplication:</p>
+<p><img alt="Equation: Start 4 By 4 Matrix 1st Row 1st Column StartFraction width Over 2 EndFraction 2nd Column 0 3rd Column 0 4th Column StartFraction width Over 2 EndFraction 2nd Row 1st Column 0 2nd Column StartFraction height Over 2 EndFraction 3rd Column 0 4th Column StartFraction height Over 2 EndFraction 3rd Row 1st Column 0 2nd Column 0 3rd Column StartFraction 255 Over 2 EndFraction 4th Column StartFraction 255 Over 2 EndFraction 4th Row 1st Column 0 2nd Column 0 3rd Column 0 4th Column 1 EndMatrix Start 4 By 1 Matrix 1st Row  v Subscript x 2nd Row  v Subscript y 3rd Row  v Subscript z 4th Row  1 EndMatrix" class="math-display" height="102" src="https://beila.github.io/my-collection/math-images/eee297004425297cb1241db334f963ff46a3e378b241a05c753cf9c7b4763458.png" width="226"/></p>
+<p>Once again, this function maps <img alt="Equation: left-bracket negative 1 period .1 right-bracket" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/dc48a0b9a79737da252ef931de5fb209d35ba39eb951285bb9cbba38b2dcb9fb.png" width="65"/> range in clip coordinates (re-check the transformation chain in the beginning of this chaper) to the entire screen.
+In addition to that, it maps <img alt="Equation: left-bracket negative 1 period .1 right-bracket" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/dc48a0b9a79737da252ef931de5fb209d35ba39eb951285bb9cbba38b2dcb9fb.png" width="65"/> range of <img alt="Equation: z" class="math-inline" height="20" src="https://beila.github.io/my-collection/math-images/d5b5f5d2397207bcecd119e4b16ad55d7f2008e078e844b1775b82b4390d6c4b.png" width="15"/> coordinates to <img alt="Equation: left-bracket 0 period .255 right-bracket" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/6a1ba606d9439fc746f9def9aff6b41b0a1516b58845c63439f2e56d47ee07d1.png" width="70"/> that I used for debugging of the <img alt="Equation: z" class="math-inline" height="20" src="https://beila.github.io/my-collection/math-images/d5b5f5d2397207bcecd119e4b16ad55d7f2008e078e844b1775b82b4390d6c4b.png" width="15"/>-buffer.
+For the rest of the series I'll use following viewport matrix:</p>
+<p><img alt="Equation: Start 4 By 4 Matrix 1st Row 1st Column StartFraction w Over 2 EndFraction 2nd Column 0 3rd Column 0 4th Column x plus StartFraction w Over 2 EndFraction 2nd Row 1st Column 0 2nd Column StartFraction h Over 2 EndFraction 3rd Column 0 4th Column y plus StartFraction h Over 2 EndFraction 3rd Row 1st Column 0 2nd Column 0 3rd Column 1 4th Column 0 4th Row 1st Column 0 2nd Column 0 3rd Column 0 4th Column 1 EndMatrix" class="math-display" height="92" src="https://beila.github.io/my-collection/math-images/365c0ba0163d0be2a82f39d6831c2b666c3f565330db887840e12f086387fc3c.png" width="140"/></p>
+<p>I do not need anymore to re-map <img alt="Equation: z" class="math-inline" height="20" src="https://beila.github.io/my-collection/math-images/d5b5f5d2397207bcecd119e4b16ad55d7f2008e078e844b1775b82b4390d6c4b.png" width="15"/>-values to grayscale colors, so I leave it them as is.
+In addition to that, <img alt="Equation: left-bracket negative 1 period .1 right-bracket times left-bracket negative 1 period .1 right-bracket" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/3cf5cf76a8333d19a4b8e0d28f247b923f83cec79967731490b0bf609f46534d.png" width="152"/> range in clip coordinates is not mapped to the entire screen anymore,
+but rather to a window described by its top left corner <img alt="Equation: left-parenthesis x comma y right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/bd459b57b278f90dba17b64d9c0c5a1be9aba4e555fba6a80d8ca2746ff27c03.png" width="52"/> and <img alt="Equation: left-parenthesis w comma h right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/3feb527c491f675a9cc4da7b71c8190d1cb988a4f58adb708a676a63bc2d6c38.png" width="58"/> being the size of the window.
+In my code, I setup the <img alt="Equation: 4 times 4" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/6d26b5cd314ef60ae0d1414b50ee78b5453a1ba9a435293d09ed4a588992d44f.png" width="51"/> <code>Viewport</code> matrix with the following function:</p>
+<pre><code>void viewport(const int x, const int y, const int w, const int h) {
+    Viewport = {{{w/2., 0, 0, x+w/2.}, {0, h/2., 0, y+h/2.}, {0,0,1,0}, {0,0,0,1}}};
+}</code></pre>
+<h3 id="perspective-deformation">Perspective deformation</h3>
+<p>In the last chapter we saw that we can decompose a central projection into a perspective deformation of the space followed by an orthographic projection.
+For a camera with focal length <img alt="Equation: f" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/f7d0cd14e692ff8fa1bb13ef7f758c25810d838c3e6e1ebfcee77dcb888a9f0c.png" width="16"/> located on the <img alt="Equation: z" class="math-inline" height="20" src="https://beila.github.io/my-collection/math-images/d5b5f5d2397207bcecd119e4b16ad55d7f2008e078e844b1775b82b4390d6c4b.png" width="15"/>-axis, the perspective deformation can be computed as follows:</p>
+<pre><code>vec3 persp(vec3 v) {
+    constexpr double f = 3.;
+    return v / (1-v.z/f);
+}</code></pre>
+<p>This computation may be formulated in a matrix way in homogeneous coordinates.
+For a 3D point <img alt="Equation: left-parenthesis v Subscript x Baseline comma v Subscript y Baseline comma v Subscript z Baseline right-parenthesis" class="math-inline" height="32" src="https://beila.github.io/my-collection/math-images/7106fb531c078ef3cdb5dc8a8d09a80d2ce4deec8a85757629cb9d7700adcd61.png" width="99"/>, we embed it into 4D by adding 1 as the last coordinate: <img alt="Equation: left-parenthesis v Subscript x Baseline comma v Subscript y Baseline comma v Subscript z Baseline comma 1 right-parenthesis" class="math-inline" height="32" src="https://beila.github.io/my-collection/math-images/4cee9245f7f2acf22f358410dc09cc863ae91039f54203432fff8b47954d57ad.png" width="119"/>.
+Next, we multiply it with the perspective matrix, getting again a 4D point.
+Finally, we re-project (do not confond with the projection to the screen) the result to 3D by dividing by the last coordinate.
+Here is the computation flow for the above function:</p>
+<p><img alt="Equation: Start 3 By 1 Matrix 1st Row  v Subscript x Baseline 2nd Row  v Subscript y Baseline 3rd Row  v Subscript z Baseline EndMatrix right-arrow from bar Start 4 By 4 Matrix 1st Row 1st Column 1 2nd Column 0 3rd Column 0 4th Column Blank 2nd Row 1st Column 0 2nd Column 1 3rd Column 0 4th Column 0 3rd Row 1st Column 0 2nd Column 0 3rd Column 1 4th Column 0 4th Row 1st Column 0 2nd Column 0 3rd Column minus StartFraction 1 Over f EndFraction 4th Column 1 EndMatrix Start 4 By 1 Matrix 1st Row  v Subscript x Baseline 2nd Row  v Subscript y Baseline 3rd Row  v Subscript z Baseline 4th Row  1 EndMatrix equals Start 4 By 1 Matrix 1st Row  v Subscript x Baseline 2nd Row  v Subscript y Baseline 3rd Row  v Subscript z Baseline 4th Row  1 minus StartFraction v Subscript z Baseline Over f EndFraction EndMatrix right-arrow from bar StartStartFraction 1 OverOver 1 minus StartFraction v Subscript z Baseline Over f EndFraction EndEndFraction Start 3 By 1 Matrix 1st Row  v Subscript x Baseline 2nd Row  v Subscript y Baseline 3rd Row  v Subscript z EndMatrix" class="math-display" height="92" src="https://beila.github.io/my-collection/math-images/1166c95388a80e4f42f0caa61a6e3500408ed1f8904f3c449fb2957d40b83a76.png" width="452"/></p>
+<p>So, I setup the <img alt="Equation: 4 times 4" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/6d26b5cd314ef60ae0d1414b50ee78b5453a1ba9a435293d09ed4a588992d44f.png" width="51"/> <code>Perspective</code> matrix located at the <img alt="Equation: z" class="math-inline" height="20" src="https://beila.github.io/my-collection/math-images/d5b5f5d2397207bcecd119e4b16ad55d7f2008e078e844b1775b82b4390d6c4b.png" width="15"/>-axis with focal distance <img alt="Equation: f" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/f7d0cd14e692ff8fa1bb13ef7f758c25810d838c3e6e1ebfcee77dcb888a9f0c.png" width="16"/> using the following function:</p>
+<pre><code>void perspective(const double f) {
+    Perspective = {{{1,0,0,0}, {0,1,0,0}, {0,0,1,0}, {0,0, -1/f,1}}};
+}</code></pre>
+<h3 id="modelview">ModelView</h3>
+<p>In the last chapter I have simply rotated the scene to simulate a camera movement.
+Let us check a more handy way to describe a camera, inspired by <a href="https://registry.khronos.org/OpenGL-Refpages/gl2.1/xhtml/gluLookAt.xml">gluLookAt</a> function from the OpenGL Utility Library.
+GLU proposes to position the camera onto the world space by specifying three view parameters, two 3D points (<img alt="Equation: eye" class="math-inline" height="23" src="https://beila.github.io/my-collection/math-images/a5c397694ae47e8b8338f00fd45ac39b5958b1ce92a07dc60a243eaae7119147.png" width="34"/> and <img alt="Equation: center" class="math-inline" height="23" src="https://beila.github.io/my-collection/math-images/94ed4ce82a0664a648f983c9ad05b5e8849fdd4b53dc503a6722da524abc53a7.png" width="61"/>) and one 3D vector (<img alt="Equation: ModifyingAbove up With right-arrow" class="math-inline" height="37" src="https://beila.github.io/my-collection/math-images/b5c642fdbd2950fdc224d20548c974da632d9ff0c192db86767083bd4ed15ce6.png" width="29"/>),
+all three measured in world space.</p>
+<ul>
+<li>The point <img alt="Equation: eye" class="math-inline" height="23" src="https://beila.github.io/my-collection/math-images/a5c397694ae47e8b8338f00fd45ac39b5958b1ce92a07dc60a243eaae7119147.png" width="34"/>  defines the location of the camera.</li>
+<li>The point <img alt="Equation: center" class="math-inline" height="23" src="https://beila.github.io/my-collection/math-images/94ed4ce82a0664a648f983c9ad05b5e8849fdd4b53dc503a6722da524abc53a7.png" width="61"/> denotes the direction where the camera is aiming at, usually at the center of the world or an object.</li>
+<li>The vector <img alt="Equation: ModifyingAbove up With right-arrow" class="math-inline" height="37" src="https://beila.github.io/my-collection/math-images/b5c642fdbd2950fdc224d20548c974da632d9ff0c192db86767083bd4ed15ce6.png" width="29"/> denotes roughly the upward orientation of the camera.</li>
+</ul>
+<p>Here is an illustration:</p>
+<p><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/camera/b1667e37b3e59240c1cb.png"/></p>
+<p>It means that we want to do the rendering in the frame <img alt="Equation: left-parenthesis center comma ModifyingAbove l With right-arrow comma ModifyingAbove m With right-arrow comma ModifyingAbove n With right-arrow right-parenthesis" class="math-inline" height="35" src="https://beila.github.io/my-collection/math-images/0dab670b9d1d24b403465a15bf482715bb31866d3c286827f5510160b13e54a0.png" width="148"/>,
+where <img alt="Equation: ModifyingAbove l With right-arrow comma ModifyingAbove m With right-arrow" class="math-inline" height="34" src="https://beila.github.io/my-collection/math-images/2cea73eba9c82b163e2d8b162967659373d3fac7573d9a23c08a9d440392c7a5.png" width="44"/> and <img alt="Equation: ModifyingAbove n With right-arrow" class="math-inline" height="26" src="https://beila.github.io/my-collection/math-images/45dd6109c71bda0ad1655a0337e8975dedb907c7082e9cc8ec26d836910a10be.png" width="17"/> are computed from the parameters <img alt="Equation: eye comma center" class="math-inline" height="26" src="https://beila.github.io/my-collection/math-images/b8f3cba6eac094ef1e2931dd20df09a6908cbb32c04abaf449f2315206c66618.png" width="100"/> and <img alt="Equation: ModifyingAbove up With right-arrow" class="math-inline" height="37" src="https://beila.github.io/my-collection/math-images/b5c642fdbd2950fdc224d20548c974da632d9ff0c192db86767083bd4ed15ce6.png" width="29"/>.</p>
+<h4 id="build-the-camera-frame">Build the camera frame</h4>
+<p>Let us see how to compute three basis vectors <img alt="Equation: left-parenthesis ModifyingAbove l With right-arrow comma ModifyingAbove m With right-arrow comma ModifyingAbove n With right-arrow right-parenthesis" class="math-inline" height="35" src="https://beila.github.io/my-collection/math-images/82e055c2ac04fc6553437b1dd8bab75caf3a1d260ba89bf7e36735b54f2831b4.png" width="82"/>, and then we will see how to compose the transformation matrix.
+First of all, our perspective deformation supposes that the eye lies on the <img alt="Equation: ModifyingAbove n With right-arrow" class="math-inline" height="26" src="https://beila.github.io/my-collection/math-images/45dd6109c71bda0ad1655a0337e8975dedb907c7082e9cc8ec26d836910a10be.png" width="17"/> axis, therefore we can define <img alt="Equation: ModifyingAbove n With right-arrow" class="math-inline" height="26" src="https://beila.github.io/my-collection/math-images/45dd6109c71bda0ad1655a0337e8975dedb907c7082e9cc8ec26d836910a10be.png" width="17"/> as:</p>
+<p><img alt="Equation: ModifyingAbove n With right-arrow colon equals StartFraction eye minus center Over StartAbsoluteValue EndAbsoluteValue eye minus center StartAbsoluteValue EndAbsoluteValue EndFraction period" class="math-display" height="44" src="https://beila.github.io/my-collection/math-images/99b337029c15dbf099157d85a66ce0757e1ea254d09c8af11d1c3626d92629a5.png" width="134"/></p>
+<p>Then, we want vector <img alt="Equation: ModifyingAbove up With right-arrow" class="math-inline" height="35" src="https://beila.github.io/my-collection/math-images/6379f705663af9dccfa341944f58ec4ed1b3355c8e851ff83da37d43a9b953f4.png" width="28"/> vertical in the final projection. It means that <img alt="Equation: ModifyingAbove l With right-arrow" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/05da4d930ff41da1bd7b04957988df009570cf02255998ce9fc634ad5537225f.png" width="16"/> must be orthogonal to the plane spanned by <img alt="Equation: ModifyingAbove up With right-arrow" class="math-inline" height="35" src="https://beila.github.io/my-collection/math-images/6379f705663af9dccfa341944f58ec4ed1b3355c8e851ff83da37d43a9b953f4.png" width="28"/> and <img alt="Equation: ModifyingAbove n With right-arrow" class="math-inline" height="26" src="https://beila.github.io/my-collection/math-images/45dd6109c71bda0ad1655a0337e8975dedb907c7082e9cc8ec26d836910a10be.png" width="17"/>.
+Therefore, we can compute <img alt="Equation: ModifyingAbove l With right-arrow" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/05da4d930ff41da1bd7b04957988df009570cf02255998ce9fc634ad5537225f.png" width="16"/> by a cross product between <img alt="Equation: ModifyingAbove up With right-arrow" class="math-inline" height="35" src="https://beila.github.io/my-collection/math-images/6379f705663af9dccfa341944f58ec4ed1b3355c8e851ff83da37d43a9b953f4.png" width="28"/> and <img alt="Equation: ModifyingAbove n With right-arrow" class="math-inline" height="26" src="https://beila.github.io/my-collection/math-images/45dd6109c71bda0ad1655a0337e8975dedb907c7082e9cc8ec26d836910a10be.png" width="17"/>:</p>
+<p><img alt="Equation: ModifyingAbove l With right-arrow colon equals StartFraction ModifyingAbove up With right-arrow times ModifyingAbove n With right-arrow Over StartAbsoluteValue EndAbsoluteValue ModifyingAbove up With right-arrow times ModifyingAbove n With right-arrow StartAbsoluteValue EndAbsoluteValue EndFraction period" class="math-display" height="54" src="https://beila.github.io/my-collection/math-images/7e22d7e7160f302b5e63d8a1298091f6f1f7e590bf2a7f954b4e4ba37760a2e0.png" width="104"/></p>
+<p>And then recover <img alt="Equation: ModifyingAbove m With right-arrow" class="math-inline" height="26" src="https://beila.github.io/my-collection/math-images/c2c3aa5e96cf3cfc25215d6262ce6b896b2c264dc1af7b388a3a0a7b2d9e8309.png" width="23"/> such that it is orthogonal to already calculated <img alt="Equation: ModifyingAbove l With right-arrow" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/05da4d930ff41da1bd7b04957988df009570cf02255998ce9fc634ad5537225f.png" width="16"/> and <img alt="Equation: ModifyingAbove n With right-arrow" class="math-inline" height="26" src="https://beila.github.io/my-collection/math-images/45dd6109c71bda0ad1655a0337e8975dedb907c7082e9cc8ec26d836910a10be.png" width="17"/> (recall that in our problem settings <img alt="Equation: center minus eye" class="math-inline" height="26" src="https://beila.github.io/my-collection/math-images/fea3ed413f1069589abf76c7159b22b0f8856bf88b0ec79ee4e8690407987300.png" width="116"/> and <img alt="Equation: ModifyingAbove up With right-arrow" class="math-inline" height="35" src="https://beila.github.io/my-collection/math-images/6379f705663af9dccfa341944f58ec4ed1b3355c8e851ff83da37d43a9b953f4.png" width="28"/>  are not necessarily orthogonal):</p>
+<p><img alt="Equation: ModifyingAbove m With right-arrow colon equals StartFraction ModifyingAbove n With right-arrow times ModifyingAbove l With right-arrow Over StartAbsoluteValue EndAbsoluteValue ModifyingAbove n With right-arrow times ModifyingAbove l With right-arrow StartAbsoluteValue EndAbsoluteValue EndFraction period" class="math-display" height="52" src="https://beila.github.io/my-collection/math-images/8538d64a810766937d1293c49733abf28926c185e9fec9bb7d2a175ce80e386f.png" width="100"/></p>
+<h4 id="change-of-basis-in-3d-space">Change of basis in 3D space</h4>
+<p>Now we have computed the camera frame, we need a way to transform coordinates from the world frame to the camera frame.
+In Euclidean space, coordinates can be given by a point (the origin) and a basis. What does it mean that point <img alt="Equation: upper P" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/6cf81510550a1c06b10ff9eafed102f11f46e3134450752e3514fe96056de2cd.png" width="20"/> has coordinates <img alt="Equation: left-parenthesis x comma y comma z right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/831cb991283aa33fc38e2c1abe94c7fe6054ba2648fe5682e6c2662455d2e28d.png" width="72"/> in the frame <img alt="Equation: left-parenthesis upper O comma ModifyingAbove i With right-arrow comma ModifyingAbove j With right-arrow comma ModifyingAbove k With right-arrow right-parenthesis" class="math-inline" height="35" src="https://beila.github.io/my-collection/math-images/14e390389fb247dc784734d67c2c866c4885c65289c2d299c68314b68992c1da.png" width="96"/>?
+It means that the vector <img alt="Equation: ModifyingAbove upper O upper P With right-arrow" class="math-inline" height="40" src="https://beila.github.io/my-collection/math-images/0da88f7ea6918732195fbd8427bb6827556d4af569d4a692a004e4a59bdbb778.png" width="39"/> can be expressed as follows:</p>
+<p><img alt="Equation: ModifyingAbove upper O upper P With right-arrow equals ModifyingAbove i With right-arrow x plus ModifyingAbove j With right-arrow y plus ModifyingAbove k With right-arrow z equals Start 1 By 3 Matrix 1st Row 1st Column ModifyingAbove i With right-arrow 2nd Column ModifyingAbove j With right-arrow 3rd Column ModifyingAbove k With right-arrow EndMatrix Start 3 By 1 Matrix 1st Row  x 2nd Row  y 3rd Row  z EndMatrix" class="math-display" height="66" src="https://beila.github.io/my-collection/math-images/047f2a78f5ca4626d8b6b1bf4681845e5c7d96b6746177abdca86afcee499867.png" width="242"/></p>
+<p>Now imagine that we have another frame <img alt="Equation: left-parenthesis upper C comma ModifyingAbove l With right-arrow comma ModifyingAbove m With right-arrow comma ModifyingAbove n With right-arrow right-parenthesis" class="math-inline" height="35" src="https://beila.github.io/my-collection/math-images/890f90d54acedbdb5d13b6c1180c408940abe918069cd6775dc8769359321ffd.png" width="107"/>.
+How do we transform coordinates given in one frame to another?
+First of all let us note that since <img alt="Equation: left-parenthesis ModifyingAbove i With right-arrow comma ModifyingAbove j With right-arrow comma ModifyingAbove k With right-arrow right-parenthesis" class="math-inline" height="35" src="https://beila.github.io/my-collection/math-images/2b0a5952faafeb706d8ebce4bb3568fd10c5a22b6af389b90375e3bdd4b4bab0.png" width="70"/> and <img alt="Equation: left-parenthesis ModifyingAbove l With right-arrow comma ModifyingAbove m With right-arrow comma ModifyingAbove n With right-arrow right-parenthesis" class="math-inline" height="35" src="https://beila.github.io/my-collection/math-images/82e055c2ac04fc6553437b1dd8bab75caf3a1d260ba89bf7e36735b54f2831b4.png" width="82"/> are bases of 3D, there exists a (non degenerate) matrix <img alt="Equation: upper M" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/6c987791799363b8214d2408c71278b933b127028e982cb4bc32c570a49d6061.png" width="27"/> such that:</p>
+<p><img alt="Equation: Start 1 By 3 Matrix 1st Row 1st Column ModifyingAbove l With right-arrow 2nd Column ModifyingAbove m With right-arrow 3rd Column ModifyingAbove n With right-arrow EndMatrix equals Start 1 By 3 Matrix 1st Row 1st Column ModifyingAbove i With right-arrow 2nd Column ModifyingAbove j With right-arrow 3rd Column ModifyingAbove k With right-arrow EndMatrix times upper M" class="math-display" height="28" src="https://beila.github.io/my-collection/math-images/fbe803d23292db4f623d00630dd5cb3a1e5695731af01c41ed5a7f3ea7d30603.png" width="196"/></p>
+<p>Let us draw an illustration:</p>
+<p><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/camera/15f292e61eb53db62dd9.png"/></p>
+<p>Then let us re-express the vector OP:</p>
+<p><img alt="Equation: ModifyingAbove upper O upper P With right-arrow equals ModifyingAbove upper O upper C With right-arrow plus ModifyingAbove upper C upper P With right-arrow equals Start 1 By 3 Matrix 1st Row 1st Column ModifyingAbove i With right-arrow 2nd Column ModifyingAbove j With right-arrow 3rd Column ModifyingAbove k With right-arrow EndMatrix Start 3 By 1 Matrix 1st Row  upper C Subscript x Baseline 2nd Row  upper C Subscript y Baseline 3rd Row  upper C Subscript z Baseline EndMatrix plus Start 1 By 3 Matrix 1st Row 1st Column ModifyingAbove l With right-arrow 2nd Column ModifyingAbove m With right-arrow 3rd Column ModifyingAbove n With right-arrow EndMatrix Start 3 By 1 Matrix 1st Row  x Superscript prime Baseline 2nd Row  y Superscript prime Baseline 3rd Row  z Superscript prime Baseline EndMatrix comma" class="math-display" height="66" src="https://beila.github.io/my-collection/math-images/506d6904d63ca699934135d61d84846610f53a49463f1809c4e0f6c3b4f4b49c.png" width="370"/></p>
+<p>where <img alt="Equation: left-parenthesis x prime comma y prime comma z prime right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/a77270956fe882ff521a777ecd8f268d974d755c4882c5c421bdd335fdf8ff57.png" width="91"/> are the coordinates of the point <img alt="Equation: upper P" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/6cf81510550a1c06b10ff9eafed102f11f46e3134450752e3514fe96056de2cd.png" width="20"/> in the frame <img alt="Equation: left-parenthesis upper C comma ModifyingAbove l With right-arrow comma ModifyingAbove m With right-arrow comma ModifyingAbove n With right-arrow right-parenthesis" class="math-inline" height="35" src="https://beila.github.io/my-collection/math-images/890f90d54acedbdb5d13b6c1180c408940abe918069cd6775dc8769359321ffd.png" width="107"/>,
+and <img alt="Equation: left-parenthesis upper C Subscript x Baseline comma upper C Subscript y Baseline comma upper C Subscript upper Z Baseline right-parenthesis" class="math-inline" height="32" src="https://beila.github.io/my-collection/math-images/a6acf3c2cffccf678905b676e18bcd3ead36ca0c93d641da129fef8ab4ef5d0b.png" width="118"/> are the coordinates of the point <img alt="Equation: upper C" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/72a1e1fdd31941ccfab33a0efdebeaa40b0abd42f51a10785822f741e82b7c30.png" width="21"/> in the frame <img alt="Equation: left-parenthesis upper O comma ModifyingAbove i With right-arrow comma ModifyingAbove j With right-arrow comma ModifyingAbove k With right-arrow right-parenthesis" class="math-inline" height="35" src="https://beila.github.io/my-collection/math-images/14e390389fb247dc784734d67c2c866c4885c65289c2d299c68314b68992c1da.png" width="96"/>.</p>
+<p>Now let us substitute <img alt="Equation: left-parenthesis ModifyingAbove l With right-arrow comma ModifyingAbove m With right-arrow comma ModifyingAbove n With right-arrow right-parenthesis" class="math-inline" height="35" src="https://beila.github.io/my-collection/math-images/82e055c2ac04fc6553437b1dd8bab75caf3a1d260ba89bf7e36735b54f2831b4.png" width="82"/> in the right part with the change of basis matrix:</p>
+<p><img alt="Equation: ModifyingAbove upper O upper P With right-arrow equals Start 1 By 3 Matrix 1st Row 1st Column ModifyingAbove i With right-arrow 2nd Column ModifyingAbove j With right-arrow 3rd Column ModifyingAbove k With right-arrow EndMatrix left-parenthesis Start 3 By 1 Matrix 1st Row  upper C Subscript x Baseline 2nd Row  upper C Subscript y Baseline 3rd Row  upper C Subscript z Baseline EndMatrix plus upper M Start 3 By 1 Matrix 1st Row  x prime 2nd Row  y prime 3rd Row  z prime EndMatrix right-parenthesis" class="math-display" height="66" src="https://beila.github.io/my-collection/math-images/b6c18f65f0f3c6113c28d167feddb567c01ecfedc61f33241149d4039460768e.png" width="250"/></p>
+<p>And it gives us the formula to transform coordinates from one frame to another:</p>
+<p><img alt="Equation: Start 3 By 1 Matrix 1st Row  x 2nd Row  y 3rd Row  z EndMatrix equals Start 3 By 1 Matrix 1st Row  upper C Subscript x Baseline 2nd Row  upper C Subscript y Baseline 3rd Row  upper C Subscript z Baseline EndMatrix plus upper M Start 3 By 1 Matrix 1st Row  x Superscript prime Baseline 2nd Row  y Superscript prime Baseline 3rd Row  z Superscript prime Baseline EndMatrix right double arrow Start 3 By 1 Matrix 1st Row  x Superscript prime Baseline 2nd Row  y Superscript prime Baseline 3rd Row  z Superscript prime Baseline EndMatrix equals upper M Superscript negative 1 Baseline left-parenthesis Start 3 By 1 Matrix 1st Row  x 2nd Row  y 3rd Row  z EndMatrix minus Start 3 By 1 Matrix 1st Row  upper C Subscript x Baseline 2nd Row  upper C Subscript y Baseline 3rd Row  upper C Subscript z Baseline EndMatrix right-parenthesis" class="math-display" height="66" src="https://beila.github.io/my-collection/math-images/832717b9084bbc00a30fd67dee52d8cf5a3df26924bfdfd8dfe0bf82076d8ef4.png" width="442"/></p>
+<h4 id="the-matrix">The matrix</h4>
+<p>So, we have two major equations to consider:</p>
+<p><img alt="Equation: Start 1 By 3 Matrix 1st Row 1st Column ModifyingAbove l With right-arrow 2nd Column ModifyingAbove m With right-arrow 3rd Column ModifyingAbove n With right-arrow EndMatrix equals Start 1 By 3 Matrix 1st Row 1st Column ModifyingAbove i With right-arrow 2nd Column ModifyingAbove j With right-arrow 3rd Column ModifyingAbove k With right-arrow EndMatrix times upper M" class="math-display" height="28" src="https://beila.github.io/my-collection/math-images/fbe803d23292db4f623d00630dd5cb3a1e5695731af01c41ed5a7f3ea7d30603.png" width="196"/></p>
+<p>and</p>
+<p><img alt="Equation: Start 3 By 1 Matrix 1st Row  x Superscript prime Baseline 2nd Row  y Superscript prime Baseline 3rd Row  z Superscript prime Baseline EndMatrix equals upper M Superscript negative 1 Baseline left-parenthesis Start 3 By 1 Matrix 1st Row  x 2nd Row  y 3rd Row  z EndMatrix minus Start 3 By 1 Matrix 1st Row  upper C Subscript x Baseline 2nd Row  upper C Subscript y Baseline 3rd Row  upper C Subscript z Baseline EndMatrix right-parenthesis period" class="math-display" height="66" src="https://beila.github.io/my-collection/math-images/be50ec598e0b7a6981c71e88e88fdb757b09b4d7b721b9f68c8e789bccb46a4f.png" width="212"/></p>
+<p>The first one will give us a way to compute the matrix <img alt="Equation: upper M" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/6c987791799363b8214d2408c71278b933b127028e982cb4bc32c570a49d6061.png" width="27"/>, while the second one shows how to recompute coordinates in the camera frame.</p>
+<p>In our case, the basis <img alt="Equation: left-parenthesis ModifyingAbove i With right-arrow comma ModifyingAbove j With right-arrow comma ModifyingAbove k With right-arrow right-parenthesis" class="math-inline" height="35" src="https://beila.github.io/my-collection/math-images/2b0a5952faafeb706d8ebce4bb3568fd10c5a22b6af389b90375e3bdd4b4bab0.png" width="70"/> is the global world basis, therefore <img alt="Equation: Start 1 By 3 Matrix 1st Row 1st Column ModifyingAbove i With right-arrow 2nd Column ModifyingAbove j With right-arrow 3rd Column ModifyingAbove k With right-arrow EndMatrix" class="math-inline" height="34" src="https://beila.github.io/my-collection/math-images/b575b87b908683a848a68b7363752099f65233e7bd29ae18dd8ff51615b1af89.png" width="101"/> is the <img alt="Equation: 3 times 3" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/89ec13e6ae0cfc6c449d131a4c7e815223f4ffac0e1abe0a83530f92e1d2400d.png" width="51"/> identity matrix,
+so the <img alt="Equation: 3 times 3" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/89ec13e6ae0cfc6c449d131a4c7e815223f4ffac0e1abe0a83530f92e1d2400d.png" width="51"/> basis change matrix <img alt="Equation: upper M" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/6c987791799363b8214d2408c71278b933b127028e982cb4bc32c570a49d6061.png" width="27"/> can be found as</p>
+<p><img alt="Equation: upper M equals Start 3 By 3 Matrix 1st Row 1st Column ModifyingAbove l With right-arrow Subscript x Baseline 2nd Column ModifyingAbove m With right-arrow Subscript x Baseline 3rd Column ModifyingAbove n With right-arrow Subscript x Baseline 2nd Row 1st Column ModifyingAbove l With right-arrow Subscript y Baseline 2nd Column ModifyingAbove m With right-arrow Subscript y Baseline 3rd Column ModifyingAbove n With right-arrow Subscript y Baseline 3rd Row 1st Column ModifyingAbove l With right-arrow Subscript z Baseline 2nd Column ModifyingAbove m With right-arrow Subscript z Baseline 3rd Column ModifyingAbove n With right-arrow Subscript z Baseline EndMatrix period" class="math-display" height="74" src="https://beila.github.io/my-collection/math-images/9532fc2052368b45ad1f05c539a136c2632824d3a501e5adece33c2c2debc897.png" width="148"/></p>
+<p>The matrix <img alt="Equation: upper M" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/6c987791799363b8214d2408c71278b933b127028e982cb4bc32c570a49d6061.png" width="27"/> is orthonormal, therefore, to compute <img alt="Equation: upper M Superscript negative 1" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/70229fcce017f90bb604daea45bf1562ceccd9c18d4e204de8cc8e5d44bd8a86.png" width="48"/>, it suffices to transpose it:</p>
+<p><img alt="Equation: upper M Superscript negative 1 Baseline equals upper M Superscript down-tack Baseline equals Start 3 By 3 Matrix 1st Row 1st Column ModifyingAbove l With right-arrow Subscript x Baseline 2nd Column ModifyingAbove l With right-arrow Subscript y Baseline 3rd Column ModifyingAbove l With right-arrow Subscript z Baseline 2nd Row 1st Column ModifyingAbove m With right-arrow Subscript x Baseline 2nd Column ModifyingAbove m With right-arrow Subscript y Baseline 3rd Column ModifyingAbove m With right-arrow Subscript z Baseline 3rd Row 1st Column ModifyingAbove n With right-arrow Subscript x Baseline 2nd Column ModifyingAbove n With right-arrow Subscript y Baseline 3rd Column ModifyingAbove n With right-arrow Subscript z Baseline EndMatrix period" class="math-display" height="72" src="https://beila.github.io/my-collection/math-images/c02acfa35919386243051065c22c4370d111a9a3d3cbb39f1b25c9c968e4f0a9.png" width="212"/></p>
+<p>The very last step is to handle the translation. Let us write it explicitly the transformation to the camera frame in the homogeneous coordinates:</p>
+<p><img alt="Equation: Start 4 By 1 Matrix 1st Row  x Superscript prime Baseline 2nd Row  y Superscript prime Baseline 3rd Row  z Superscript prime Baseline 4th Row  1 EndMatrix equals ModifyingBelow Start 4 By 4 Matrix 1st Row 1st Column ModifyingAbove l With right-arrow Subscript x Baseline 2nd Column ModifyingAbove l With right-arrow Subscript y Baseline 3rd Column ModifyingAbove l With right-arrow Subscript z Baseline 4th Column 0 2nd Row 1st Column ModifyingAbove m With right-arrow Subscript x Baseline 2nd Column ModifyingAbove m With right-arrow Subscript y Baseline 3rd Column ModifyingAbove m With right-arrow Subscript z Baseline 4th Column 0 3rd Row 1st Column ModifyingAbove n With right-arrow Subscript x Baseline 2nd Column ModifyingAbove n With right-arrow Subscript y Baseline 3rd Column ModifyingAbove n With right-arrow Subscript z Baseline 4th Column 0 4th Row 1st Column 0 2nd Column 0 3rd Column 0 4th Column 1 EndMatrix Start 4 By 4 Matrix 1st Row 1st Column 1 2nd Column 0 3rd Column 0 4th Column minus upper C Subscript x Baseline 2nd Row 1st Column 0 2nd Column 1 3rd Column 0 4th Column minus upper C Subscript y Baseline 3rd Row 1st Column 0 2nd Column 0 3rd Column 1 4th Column minus upper C Subscript z Baseline 4th Row 1st Column 0 2nd Column 0 3rd Column 0 4th Column 1 EndMatrix With bottom-brace Underscript ModelView Endscripts Start 4 By 1 Matrix 1st Row  x 2nd Row  y 3rd Row  z 4th Row  1 EndMatrix period" class="math-display" height="112" src="https://beila.github.io/my-collection/math-images/3f5479bb24a0eb70480cd94ee574ecc5cc0315b1073c6b204e895f27b824e82b.png" width="346"/></p>
+<p>Now it suffices to get any point with coordinates <code>(x,y,z,1)</code> in the model frame, multiply it by the matrix <code>ModelView</code> and we get the coordinates in the camera frame!
+Long story short, here is the code that sets up the <code>ModelView</code> matrix:</p>
+<pre><code>void lookat(const vec3 eye, const vec3 center, const vec3 up) {
+    vec3 n = normalized(eye-center);
+    vec3 l = normalized(cross(up,n));
+    vec3 m = normalized(cross(n, l));
+    ModelView = mat&lt;4,4&gt;{{{l.x,l.y,l.z,0}, {m.x,m.y,m.z,0}, {n.x,n.y,n.z,0}, {0,0,0,1}}} *
+                mat&lt;4,4&gt;{{{1,0,0,-center.x}, {0,1,0,-center.y}, {0,0,1,-center.z}, {0,0,0,1}}};
+}</code></pre>
+<p>Lines 3-5 compute the basis vectors, and lines 6-7 compose the change of basis matrix with the appropriate translation.</p>
+<h3 id="the-final-code">The final code</h3>
+<p>Here is the revision handles all the chain of coordinate transformations explicitly (<a href="https://github.com/ssloy/tinyrenderer/tree/592ab4d89af9cb71517cdb6fc6dc882a463a4b65">check the commit</a>):</p>
+<div><p><strong>Camera handling</strong></p>
+<pre><code>#include &lt;limits&gt;
+#include &lt;algorithm&gt;
+#include "geometry.h"
+#include "model.h"
+#include "tgaimage.h"
+
+mat&lt;4,4&gt; ModelView, Viewport, Perspective;
+
+void lookat(const vec3 eye, const vec3 center, const vec3 up) {
+    vec3 n = normalized(eye-center);
+    vec3 l = normalized(cross(up,n));
+    vec3 m = normalized(cross(n, l));
+    ModelView = mat&lt;4,4&gt;{{{l.x,l.y,l.z,0}, {m.x,m.y,m.z,0}, {n.x,n.y,n.z,0}, {0,0,0,1}}} *
+                mat&lt;4,4&gt;{{{1,0,0,-center.x}, {0,1,0,-center.y}, {0,0,1,-center.z}, {0,0,0,1}}};
+}
+
+void perspective(const double f) {
+    Perspective = {{{1,0,0,0}, {0,1,0,0}, {0,0,1,0}, {0,0, -1/f,1}}};
+}
+
+void viewport(const int x, const int y, const int w, const int h) {
+    Viewport = {{{w/2., 0, 0, x+w/2.}, {0, h/2., 0, y+h/2.}, {0,0,1,0}, {0,0,0,1}}};
+}
+
+void rasterize(const vec4 clip[3], std::vector&lt;double&gt; &amp;zbuffer, TGAImage &amp;framebuffer, const TGAColor color) {
+    vec4 ndc[3]    = { clip[0]/clip[0].w, clip[1]/clip[1].w, clip[2]/clip[2].w };                // normalized device coordinates
+    vec2 screen[3] = { (Viewport*ndc[0]).xy(), (Viewport*ndc[1]).xy(), (Viewport*ndc[2]).xy() }; // screen coordinates
+
+    mat&lt;3,3&gt; ABC = {{ {screen[0].x, screen[0].y, 1.}, {screen[1].x, screen[1].y, 1.}, {screen[2].x, screen[2].y, 1.} }};
+    if (ABC.det()&lt;1) return; // backface culling + discarding triangles that cover less than a pixel
+
+    auto [bbminx,bbmaxx] = std::minmax({screen[0].x, screen[1].x, screen[2].x}); // bounding box for the triangle
+    auto [bbminy,bbmaxy] = std::minmax({screen[0].y, screen[1].y, screen[2].y}); // defined by its top left and bottom right corners
+#pragma omp parallel for
+    for (int x=std::max&lt;int&gt;(bbminx, 0); x&lt;=std::min&lt;int&gt;(bbmaxx, framebuffer.width()-1); x++) { // clip the bounding box by the screen
+        for (int y=std::max&lt;int&gt;(bbminy, 0); y&lt;=std::min&lt;int&gt;(bbmaxy, framebuffer.height()-1); y++) {
+            vec3 bc = ABC.invert_transpose() * vec3{static_cast&lt;double&gt;(x), static_cast&lt;double&gt;(y), 1.}; // barycentric coordinates of {x,y} w.r.t the triangle
+            if (bc.x&lt;0 || bc.y&lt;0 || bc.z&lt;0) continue;                                                    // negative barycentric coordinate =&gt; the pixel is outside the triangle
+            double z = bc * vec3{ ndc[0].z, ndc[1].z, ndc[2].z };
+            if (z &lt;= zbuffer[x+y*framebuffer.width()]) continue;
+            zbuffer[x+y*framebuffer.width()] = z;
+            framebuffer.set(x, y, color);
+        }
+    }
+}
+
+int main(int argc, char** argv) {
+    if (argc &lt; 2) {
+        std::cerr &lt;&lt; "Usage: " &lt;&lt; argv[0] &lt;&lt; " obj/model.obj" &lt;&lt; std::endl;
+        return 1;
+    }
+
+    constexpr int width  = 800;    // output image size
+    constexpr int height = 800;
+    constexpr vec3    eye{-1,0,2}; // camera position
+    constexpr vec3 center{0,0,0};  // camera direction
+    constexpr vec3     up{0,1,0};  // camera up vector
+
+    lookat(eye, center, up);                              // build the ModelView   matrix
+    perspective(norm(eye-center));                        // build the Perspective matrix
+    viewport(width/16, height/16, width*7/8, height*7/8); // build the Viewport    matrix
+
+    TGAImage framebuffer(width, height, TGAImage::RGB);
+    std::vector&lt;double&gt; zbuffer(width*height, -std::numeric_limits&lt;double&gt;::max());
+
+    for (int m=1; m&lt;argc; m++) { // iterate through all input objects
+        Model model(argv[m]);
+        for (int i=0; i&lt;model.nfaces(); i++) { // iterate through all triangles
+            vec4 clip[3];
+            for (int d : {0,1,2}) {            // assemble the primitive
+                vec3 v = model.vert(i, d);
+                clip[d] = Perspective * ModelView * vec4{v.x, v.y, v.z, 1.};
+            }
+            TGAColor rnd;
+            for (int c=0; c&lt;3; c++) rnd[c] = std::rand()%255;
+            rasterize(clip, zbuffer, framebuffer, rnd); // rasterize the primitive
+        }
+    }
+
+    framebuffer.write_tga_file("framebuffer.tga");
+    return 0;
+}</code></pre>
+</div>
+<p>In line 7 I have declared three global <img alt="Equation: 4 times 4" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/6d26b5cd314ef60ae0d1414b50ee78b5453a1ba9a435293d09ed4a588992d44f.png" width="51"/> matrices, they are initialized in lines 59-61.
+In line 72 I compute clip coordinates for every vertex of the scene, the perspective division is performed in line 26, and finally the screen coordinates are computed in line 27.
+The rest of the code follows pretty much the same pattern as in the last chapter.</p>
+<p>Here is the image produced:</p>
+<p><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/camera/d1770fec623a2112bb49.png"/></p>
+<h2 id="next-time">Next time</h2>
+<p>This chapter was dense — take your time to digest it. The hardest part is behind us. Next, we’ll start discussing shading.</p>
+<p>Stay tuned!</p>
+<hr/>
+<h3>Comments</h3>
+</article>
+</body>
+</html>

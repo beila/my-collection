@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Shadow mapping</title>
+<style>
+body { margin: 0 auto; max-width: 46rem; padding: 1rem; font: 18px/1.6 Georgia, serif; }
+img { display: block; max-width: 100%; height: auto; margin: 1rem auto; }
+pre { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 0.85em; }
+</style>
+</head>
+<body>
+<article>
+<h1>Shadow mapping</h1>
+<p class="source-link"><a href="https://haqr.eu/tinyrenderer/shadow/">Original chapter on haqr.eu</a></p>
+<h2 id="introduction">Introduction</h2>
+<p>Let us continue talking about lights and shadows.
+In real-time rendering, the Phong reflection model provides a simple yet effective way to simulate how light interacts with surfaces.
+Its strength lies in being entirely local: the color at a point depends only on the material properties, the light direction, and the viewing direction.
+This locality makes the model extremely cheap to compute, which is why it has been the workhorse of interactive graphics for decades.</p>
+<p>However, this same locality is also a limitation.
+The Phong model cannot account for global effects such as one object blocking light from reaching another.
+As a result, casted shadows — essential for realism and spatial perception — are completely absent.
+To address this, additional techniques are needed.
+One of the most widely used approaches in real-time graphics is shadow mapping, which extends local shading with a global visibility test to determine whether a point lies in light or shadow.</p>
+<p>In this chapter, we want to go from the image on the left to the one on the right:</p>
+<p><a href="https://haqr.eu/tinyrenderer/shadow/teaser.jpg"><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/shadow/a5f1ae9b2484ef3f2aab.jpg"/></a></p>
+<h2 id="a-practical-recipe">A practical recipe</h2>
+<p>Shadow mapping is built on the idea of using the <strong>depth buffer twice</strong>, in two separate rendering passes:</p>
+<ol>
+<li>
+<p><strong>First pass (from the light’s perspective):</strong>
+   The scene is rendered from the light’s point of view. The depth buffer stores the distance of the closest surfaces to the light.
+   This buffer (the shadow map) encodes which parts of the scene are visible to the light source.</p>
+</li>
+<li>
+<p><strong>Second pass (from the camera’s perspective):</strong>
+   The scene is rendered normally from the viewer’s position, but for each fragment we perform an extra check: we test whether the fragment is visible to the light or hidden in shadow.</p>
+</li>
+</ol>
+<p>Here is a schematic view of the two spaces involved:</p>
+<p><a href="https://haqr.eu/tinyrenderer/shadow/spaces.jpg"><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/shadow/91789eaa273031b5ef1e.jpg"/></a></p>
+<p>To link the two passes, we keep track of both <code>Viewport * Perspective * ModelView</code> products. This allows us to transform any fragment seen from the camera back into the light’s screen space.</p>
+<p>Let us say we have a fragment <img alt="Equation: f equals left-parenthesis i comma j comma z comma 1 right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/a8517fe7d7202cdcd4557bf13b90ad7ccc10169863a9aec31f23e50f36d9dbea.png" width="124"/> in the camera’s screen-space coordinates.
+We can transform it back to object coordinates using <img alt="Equation: upper M Superscript negative 1 Baseline f" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/319a328b21e16d185c17746678a2fd4286238fea5e984973bcdc303a0feab25e.png" width="60"/>, and then into the light’s screen-space coordinates using <img alt="Equation: upper N upper M Superscript negative 1 Baseline f" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/4bb24b4e0b5e00d6015aff4643df81bc6e65634292d019d631ba1d6a26094e5e.png" width="79"/>, where <img alt="Equation: upper M" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/6c987791799363b8214d2408c71278b933b127028e982cb4bc32c570a49d6061.png" width="27"/> is the camera transform and <img alt="Equation: upper N" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/3b2c53a3802f7f352dfc8ebdb9c97877f452586fc04f7d62cca47d804b6f617e.png" width="23"/> is the light transform.
+Let us say that <img alt="Equation: upper N upper M Superscript negative 1 Baseline f equals left-parenthesis w i Superscript prime Baseline comma w j Superscript prime Baseline comma w z Superscript prime Baseline comma w right-parenthesis" class="math-inline" height="32" src="https://beila.github.io/my-collection/math-images/9f3bdcb5d13cef1393de3f77a5736447b904421b7c1f36ccacc618a1ca588dec.png" width="254"/>.
+This gives us the coordinates of the fragment as the light “sees” it. 
+We then compare the fragment’s depth <img alt="Equation: z prime" class="math-inline" height="26" src="https://beila.github.io/my-collection/math-images/f6c4940cbeabbe1d34703ac6bdccdfc0c34801e4865d2f62b76b842e5d5ce486.png" width="21"/> in that space with the value stored in the shadow map at the coordinates <img alt="Equation: left-parenthesis i prime comma j prime right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/7d74e8d616e35b6dcdb575974a1acb5bfb0f4ae1767dff2aba6afe7c509f6d42.png" width="58"/>:</p>
+<ul>
+<li>If the fragment’s depth <strong>matches</strong> the stored depth, the fragment is visible to the light and should be lit.</li>
+<li>If the fragment’s depth is <strong>greater</strong>, it means another surface was closer to the light, and the fragment lies in shadow.</li>
+</ul>
+<p>By doing this for every fragment, we obtain a binary mask of hard shadows. In this way, shadow mapping introduces a <strong>global visibility test</strong> into the otherwise purely local Phong shading model.</p>
+<p><a href="https://haqr.eu/tinyrenderer/shadow/sum.jpg"><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/shadow/6de4cf746fa83ae68f57.jpg"/></a></p>
+<h2 id="homework">Homework</h2>
+<p>Implement the shadow mapping technique.
+A few things to note:</p>
+<ul>
+<li>One of the shaders can be minimal or even blank: in the first pass we only need the depth buffer, so colors can be discarded.</li>
+<li>Shadows can either be applied as a post-processing pass over the framebuffer, or computed directly inside the main shader — both approaches are valid.</li>
+<li>
+<p><strong>Z-fighting caveat:</strong>
+    When comparing the fragment’s depth with the value stored in the shadow map, numerical precision issues can occur. Two depths that are mathematically equal may differ slightly due to floating-point rounding and rasterization rules. As a result, some pixels that should be lit may be incorrectly classified as shadowed, producing flickering or dark streaks along shadow edges.</p>
+<p>This is known as <a href="https://en.wikipedia.org/wiki/Z-fighting">z-fighting</a>. The usual solution is to <strong>apply a small depth bias</strong> when storing or comparing depths. In practice, this means slightly offsetting the depth values in the shadow map so that the surface being lit is not considered to block itself. Graphics APIs often provide built-in options such as <em>polygon offset</em> (OpenGL) or <em>depth bias</em> (DirectX) for this purpose.</p>
+</li>
+</ul>
+<p>As usual, my code <a href="https://github.com/ssloy/tinyrenderer/tree/shadowmap">is available</a> for reference.</p>
+<p>Next time we will talk about ambient occlusion.</p>
+<hr/>
+<h3>Comments</h3>
+</article>
+</body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>A crude (but simple) approach to camera handling</title>
+<style>
+body { margin: 0 auto; max-width: 46rem; padding: 1rem; font: 18px/1.6 Georgia, serif; }
+img { display: block; max-width: 100%; height: auto; margin: 1rem auto; }
+pre { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 0.85em; }
+</style>
+</head>
+<body>
+<article>
+<h1>A crude (but simple) approach to camera handling</h1>
+<p class="source-link"><a href="https://haqr.eu/tinyrenderer/camera-naive/">Original chapter on haqr.eu</a></p>
+<h2 id="rotating-the-camera">Rotating the camera</h2>
+<p>At this stage, our renderer has no explicit concept of a camera:
+depth (the <img alt="Equation: z" class="math-inline" height="20" src="https://beila.github.io/my-collection/math-images/d5b5f5d2397207bcecd119e4b16ad55d7f2008e078e844b1775b82b4390d6c4b.png" width="15"/>-coordinate) does not influence the size or shape of objects, and is largely ignored.
+We do use the <img alt="Equation: z" class="math-inline" height="20" src="https://beila.github.io/my-collection/math-images/d5b5f5d2397207bcecd119e4b16ad55d7f2008e078e844b1775b82b4390d6c4b.png" width="15"/>-coordinate in the <img alt="Equation: z" class="math-inline" height="20" src="https://beila.github.io/my-collection/math-images/d5b5f5d2397207bcecd119e4b16ad55d7f2008e078e844b1775b82b4390d6c4b.png" width="15"/>-buffer to hide occluded surfaces, but this is a minor detail.
+Ignoring depth leads to orthographic projection, where objects retain their dimensions regardless of distance from the viewer.
+As before, our renderer outputs two images: <code>zbuffer.tga</code> and <code>framebuffer.tga</code>.</p>
+<p><a href="https://haqr.eu/tinyrenderer/camera-naive/head-front.png"><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/camera-naive/ffef5ebde054cff8287b.png"/></a></p>
+<p>To simulate a camera, we transform the scene rather than moving the camera itself.
+For example, instead of rotating the camera to the left, we rotate the scene to the right.
+This keeps the camera fixed conceptually, and shifts the viewpoint via model-view transformations.
+This method simplifies camera handling and offers intuitive control over the visible scene.</p>
+<p>See <a href="https://github.com/ssloy/tinyrenderer/commit/57760190f9f19005afe7031967c4e21dab3b9fd8">this commit</a>:</p>
+<div><p><strong>Rotating the Object</strong></p>
+<pre><code>vec3 rot(vec3 v) {
+    constexpr double a = M_PI/6;
+    constexpr mat&lt;3,3&gt; Ry = {{{std::cos(a), 0, std::sin(a)}, {0,1,0}, {-std::sin(a), 0, std::cos(a)}}};
+    return Ry*v;
+}
+
+std::tuple&lt;int,int,int&gt; project(vec3 v) { // First of all, (x,y) is an orthogonal projection of the vector (x,y,z).
+    return { (v.x + 1.) *  width/2,       // Second, since the input models are scaled to have fit in the [-1,1]^3 world coordinates,
+             (v.y + 1.) * height/2,       // we want to shift the vector (x,y) and then scale it to span the entire screen.
+             (v.z + 1.) *   255./2 };
+}
+
+int main(int argc, char** argv) {
+    if (argc != 2) {
+        std::cerr &lt;&lt; "Usage: " &lt;&lt; argv[0] &lt;&lt; " obj/model.obj" &lt;&lt; std::endl;
+        return 1;
+    }
+
+    Model model(argv[1]);
+    TGAImage framebuffer(width, height, TGAImage::RGB);
+    TGAImage     zbuffer(width, height, TGAImage::GRAYSCALE);
+
+    for (int i=0; i&lt;model.nfaces(); i++) { // iterate through all triangles
+        auto [ax, ay, az] = project(rot(model.vert(i, 0)));
+        auto [bx, by, bz] = project(rot(model.vert(i, 1)));
+        auto [cx, cy, cz] = project(rot(model.vert(i, 2)));
+        TGAColor rnd;
+        for (int c=0; c&lt;3; c++) rnd[c] = std::rand()%255;
+        triangle(ax, ay, az, bx, by, bz, cx, cy, cz, zbuffer, framebuffer, rnd);
+    }
+
+    framebuffer.write_tga_file("framebuffer.tga");
+    zbuffer.write_tga_file("zbuffer.tga");
+    return 0;
+}</code></pre>
+</div>
+<p>In this example, I apply the function <code>vec3 rot(vec3 v)</code> (lines 1–5) to each model vertex (lines 24–26) before projection.
+This rotates each vertex by <img alt="Equation: 30 Superscript ring" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/55500eaa9b0ecc292b4689cc943c2838891027c184b86011ddd14a78b4936464.png" width="35"/> around the <img alt="Equation: y" class="math-inline" height="23" src="https://beila.github.io/my-collection/math-images/84af71808142288754b27305a87e38319b4c08c2c95a958128e2010f1a1ab1a2.png" width="15"/>-axis to the right, giving the impression of rotating the camera to the left:</p>
+<p><a href="https://haqr.eu/tinyrenderer/camera-naive/head-rot.png"><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/camera-naive/0f2304cc8e51383b706a.png"/></a></p>
+<p>Here, a constant <a href="https://en.wikipedia.org/wiki/Rotation_matrix#In_three_dimensions">rotation matrix</a> is used.
+Thanks to the previous homework, we now have basic vector and matrix operations available.
+If you're not familiar with rotation matrices, don't worry - we'll soon explore alternative model-view transformations.
+However, be sure to review basic vector math, as it will be essential.</p>
+<h2 id="central-projection">Central projection</h2>
+<p>Orthographic projection is useful, but central (or perspective) projection offers more realism:
+closer objects appear larger than distant ones.</p>
+<p>Consider projecting a point <img alt="Equation: upper P equals left-parenthesis x comma y comma z right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/b2ad4ca8dc6aef6f04bdaa60e39cd3eff7ef097af6a071946c91f6d599f87076.png" width="116"/> onto the plane <img alt="Equation: z equals 0" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/284406c4067814d68427e3942919a0b6897c9eae320ac1315c480298a0d5777e.png" width="53"/> using a camera located at <img alt="Equation: upper C equals left-parenthesis 0 comma 0 comma c right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/7b6ea70643785ecb11353a6ffbb234a5be5d89ab964b5c8b08b0a95d555de368.png" width="113"/> on the <img alt="Equation: z" class="math-inline" height="20" src="https://beila.github.io/my-collection/math-images/d5b5f5d2397207bcecd119e4b16ad55d7f2008e078e844b1775b82b4390d6c4b.png" width="15"/>-axis:</p>
+<p><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/camera-naive/5d3d9ade7b55e0ec25d0.png"/></p>
+<p>The projection point <img alt="Equation: upper P prime" class="math-inline" height="26" src="https://beila.github.io/my-collection/math-images/f3ab06d76bf551bfef7f8b199e3573cd45d9876cc6656fffdcdde4eb41a25bb3.png" width="28"/> lies at the intersection of line <img alt="Equation: upper C upper P" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/3447b8ac4c24a8b6b9b7c587f546bb14fb17431fac28f5b4d9426a40c49826ee.png" width="37"/> and the screen plane <img alt="Equation: z equals 0" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/284406c4067814d68427e3942919a0b6897c9eae320ac1315c480298a0d5777e.png" width="53"/>.
+Given <img alt="Equation: upper P equals left-parenthesis x comma y comma z right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/b2ad4ca8dc6aef6f04bdaa60e39cd3eff7ef097af6a071946c91f6d599f87076.png" width="116"/> and camera parameter <img alt="Equation: c" class="math-inline" height="20" src="https://beila.github.io/my-collection/math-images/5edf831e3a36468482c1edce39cd6d54965227efb31302d8f0a974b7d5f379ca.png" width="14"/>, we want to find <img alt="Equation: upper P prime equals left-parenthesis x prime comma y prime comma 0 right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/48057b1240180e078bb12c8b0faad1ee9d8d0b0556ca65c0d169acfca95cd599.png" width="136"/>.</p>
+<p>Let’s first compute <img alt="Equation: x prime" class="math-inline" height="26" src="https://beila.github.io/my-collection/math-images/7cecacbe2e333bbcf59d8946021f3b8e5c1ec1b82b72b2d9afb84b7fa00a43ab.png" width="23"/> using the plane <img alt="Equation: y equals 0" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/b1c732b9c7d02f8fee8deb7d4c659dc748b65152423238e5d2d4c3fe7cbdb77f.png" width="53"/>:</p>
+<p><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/camera-naive/0fcfce95c926a7e35ee9.png"/></p>
+<p>Using the <a href="https://en.wikipedia.org/wiki/Intercept_theorem">intercept theorem</a>:</p>
+<p><img alt="Equation: StartFraction x prime Over c EndFraction equals StartFraction x Over c minus z EndFraction right double arrow x prime equals StartStartFraction x OverOver 1 minus StartFraction z Over c EndFraction EndEndFraction period" class="math-display" height="48" src="https://beila.github.io/my-collection/math-images/2476709ef58b56a68d43860e611596eb32bec3147d3fa4c0adc84477a7c90219.png" width="202"/></p>
+<p>Similarly, in the plane <img alt="Equation: x equals 0" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/123cb7360d16c9bc82ed94f75262daebc1b5876ba1243640cd38517d4f629ecd.png" width="56"/>:</p>
+<p><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/camera-naive/d5f585a3ae9c82c5ea9c.png"/></p>
+<p><img alt="Equation: StartFraction y prime Over c EndFraction equals StartFraction y Over c minus z EndFraction right double arrow y prime equals StartStartFraction y OverOver 1 minus StartFraction z Over c EndFraction EndEndFraction period" class="math-display" height="48" src="https://beila.github.io/my-collection/math-images/845557e629c4b549186d7aa8efed5a7a90a47b5cd5087e54611337f679204510.png" width="200"/></p>
+<p>As expected, both expressions are structurally similar.
+So, just like rotation, we implement perspective projection by transforming vertices:
+we replace each vertex <img alt="Equation: left-parenthesis x comma y comma z right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/831cb991283aa33fc38e2c1abe94c7fe6054ba2648fe5682e6c2662455d2e28d.png" width="72"/> with <img alt="Equation: left-parenthesis x comma y comma z right-parenthesis dot StartStartFraction 1 OverOver 1 minus StartFraction z Over c EndFraction EndEndFraction" class="math-inline" height="46" src="https://beila.github.io/my-collection/math-images/ae90a17412e7e8f94a2c4034a43dfe1ea37d3f6509d1f158da81b1661ce9f69d.png" width="127"/>.
+We then apply orthographic projection as usual.
+See lines 7–10 and 29–31:</p>
+<div><p><strong>Central Projection</strong></p>
+<pre><code>vec3 rot(vec3 v) {
+    constexpr double a = M_PI/6;
+    constexpr mat&lt;3,3&gt; Ry = {{{std::cos(a), 0, std::sin(a)}, {0,1,0}, {-std::sin(a), 0, std::cos(a)}}};
+    return Ry*v;
+}
+
+vec3 persp(vec3 v) {
+    constexpr double c = 3.;
+    return v / (1-v.z/c);
+}
+
+std::tuple&lt;int,int,int&gt; project(vec3 v) { // First of all, (x,y) is an orthogonal projection of the vector (x,y,z).
+    return { (v.x + 1.) *  width/2,       // Second, since the input models are scaled to have fit in the [-1,1]^3 world coordinates,
+             (v.y + 1.) * height/2,       // we want to shift the vector (x,y) and then scale it to span the entire screen.
+             (v.z + 1.) *   255./2 };
+}
+
+int main(int argc, char** argv) {
+    if (argc != 2) {
+        std::cerr &lt;&lt; "Usage: " &lt;&lt; argv[0] &lt;&lt; " obj/model.obj" &lt;&lt; std::endl;
+        return 1;
+    }
+
+    Model model(argv[1]);
+    TGAImage framebuffer(width, height, TGAImage::RGB);
+    TGAImage     zbuffer(width, height, TGAImage::GRAYSCALE);
+
+    for (int i=0; i&lt;model.nfaces(); i++) { // iterate through all triangles
+        auto [ax, ay, az] = project(persp(rot(model.vert(i, 0))));
+        auto [bx, by, bz] = project(persp(rot(model.vert(i, 1))));
+        auto [cx, cy, cz] = project(persp(rot(model.vert(i, 2))));
+        TGAColor rnd;
+        for (int c=0; c&lt;3; c++) rnd[c] = std::rand()%255;
+        triangle(ax, ay, az, bx, by, bz, cx, cy, cz, zbuffer, framebuffer, rnd);
+    }
+
+    framebuffer.write_tga_file("framebuffer.tga");
+    zbuffer.write_tga_file("zbuffer.tga");
+    return 0;
+}</code></pre>
+</div>
+<p>Here is the resulting image (<a href="https://github.com/ssloy/tinyrenderer/commit/a34b13b6e19408e930c579641cb99da78309007d">see commit</a>):</p>
+<p><a href="https://haqr.eu/tinyrenderer/camera-naive/head-persp.png"><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/camera-naive/872cb735f5b66dd58efa.png"/></a></p>
+<p>Personally I find it much more convincing than the previous one made with an orthographic projection.</p>
+<p>If this is unclear, consider the following 2D example.
+Suppose we have a polygon with vertices:
+<img alt="Equation: left-parenthesis 2 comma 0 right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/e5da6f4de116a9eca29eefb47856af7abeae2f350658605e7fb912104b38e7ed.png" width="52"/>, <img alt="Equation: left-parenthesis 0 comma 2 right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/3d5a92c99f9775b11aa1e3a22c982682aee0bfafbe3ff81b88e202c9df773735.png" width="52"/>, <img alt="Equation: left-parenthesis negative 2 comma 2 right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/df1d223a43f576701141d65f582d861648abe2f3b61fc6f3765dac445d30caf0.png" width="68"/>, <img alt="Equation: left-parenthesis negative 2 comma negative 2 right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/a59b4878943a7e3a8a47bf6d7e3dad96567f883bc12011945700b93a2c1dcad6.png" width="84"/>, and <img alt="Equation: left-parenthesis 2 comma negative 2 right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/9a4a12c1ddcd910a2c014a66b2c5c9b842b3fb634f44a093402fcd0d51b464f9.png" width="68"/>:</p>
+<p><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/camera-naive/93fbbfbf34f60345d3b3.png"/></p>
+<p>The camera is at <img alt="Equation: upper C equals left-parenthesis 10 comma 0 right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/c7d4eebcd743ef5ab8312e93f7c67e6fef9f68be5feec7e92b635933c1d3ebba.png" width="106"/>.
+We want to project all vertices onto the green line.
+Each vertex <img alt="Equation: left-parenthesis x comma y right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/bd459b57b278f90dba17b64d9c0c5a1be9aba4e555fba6a80d8ca2746ff27c03.png" width="52"/> is transformed to:</p>
+<p><img alt="Equation: StartStartFraction left-parenthesis x comma y right-parenthesis OverOver 1 minus StartFraction x Over 10 EndFraction EndEndFraction period" class="math-display" height="50" src="https://beila.github.io/my-collection/math-images/db6b95993b77055d741c5460a248e039e8de6bfd2c13d4ddc9fe45fb943fd114.png" width="56"/></p>
+<p>New coordinates:</p>
+<p><img alt="Equation: StartLayout 1st Row  StartFraction left-parenthesis 2 comma 0 right-parenthesis Over 1 minus two-tenths EndFraction equals left-parenthesis five-halves comma 0 right-parenthesis 2nd Row  StartFraction left-parenthesis 0 comma 2 right-parenthesis Over 1 minus 0 EndFraction equals left-parenthesis 0 comma 2 right-parenthesis 3rd Row  StartFraction left-parenthesis negative 2 comma 2 right-parenthesis Over 1 plus two-tenths EndFraction equals left-parenthesis negative five-thirds comma five-thirds right-parenthesis 4th Row  StartFraction left-parenthesis negative 2 comma negative 2 right-parenthesis Over 1 plus two-tenths EndFraction equals left-parenthesis negative five-thirds comma negative five-thirds right-parenthesis 5th Row  StartFraction left-parenthesis 2 comma negative 2 right-parenthesis Over 1 minus two-tenths EndFraction equals left-parenthesis five-halves comma negative five-halves right-parenthesis EndLayout" class="math-display" height="184" src="https://beila.github.io/my-collection/math-images/fe10fd5c87aa6b43eb01e3099b0b485a301bff0bbb224af51c0cb476d099564a.png" width="136"/></p>
+<p>Here is the deformed object:</p>
+<p><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/camera-naive/8102d714f2c67fcce7df.png"/></p>
+<p>We can now apply an orthographic projection to these transformed points to get the desired central projection.</p>
+<h2 id="homework-assignment-find-the-bug">Homework assignment: find the bug</h2>
+<p>Everything works well - except with the Diablo model. The hand closest to the viewer is somewhat clipped:</p>
+<p><a href="https://haqr.eu/tinyrenderer/camera-naive/diablo-bug.png"><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/camera-naive/65f47f5501f1c4e52989.png"/></a></p>
+<p>Your task is to understand why, and how to fix it.</p>
+<div><p><strong>Spoiler Alert!</strong></p>
+<p>The <img alt="Equation: z" class="math-inline" height="20" src="https://beila.github.io/my-collection/math-images/d5b5f5d2397207bcecd119e4b16ad55d7f2008e078e844b1775b82b4390d6c4b.png" width="15"/>-buffer is stored as an 8-bit grayscale image.</p>
+<div><p><strong>Spoiler Alert #2!</strong></p>
+<p>The model was assumed to fit within the cube <img alt="Equation: left-bracket negative 1 comma 1 right-bracket cubed" class="math-inline" height="32" src="https://beila.github.io/my-collection/math-images/859eb2af6d57060d8266f1310279ec07652db39ff4a6eceb9adbf69900ec02ea.png" width="73"/>, but this doesn't hold after rotation.</p>
+<div><p><strong>Spoiler Alert #3!</strong></p>
+<p>The hand's depth exceeds 1, resulting in values &gt;255 after viewport transformation, causing integer overflow.
+While storing the <img alt="Equation: z" class="math-inline" height="20" src="https://beila.github.io/my-collection/math-images/d5b5f5d2397207bcecd119e4b16ad55d7f2008e078e844b1775b82b4390d6c4b.png" width="15"/>-buffer as an image is helpful for debugging, it’s better to use a 2D array of floating-point values.
+To visualize it, write a few lines of code to convert the depth array into an image.</p>
+</div>
+</div>
+</div>
+<hr/>
+<h3>Comments</h3>
+</article>
+</body>
+</html>

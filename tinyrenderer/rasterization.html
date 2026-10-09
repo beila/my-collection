@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Triangle rasterization</title>
+<style>
+body { margin: 0 auto; max-width: 46rem; padding: 1rem; font: 18px/1.6 Georgia, serif; }
+img { display: block; max-width: 100%; height: auto; margin: 1rem auto; }
+pre { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 0.85em; }
+</style>
+</head>
+<body>
+<article>
+<h1>Triangle rasterization</h1>
+<p class="source-link"><a href="https://haqr.eu/tinyrenderer/rasterization/">Original chapter on haqr.eu</a></p>
+<p>Let me remind you: this series of articles is designed to encourage you to write your own code from scratch.
+Now is the time to do just that.
+My code is provided solely for comparison with your (working) program.
+I consider myself an average programmer—it’s very likely that you are a better one.
+Do not simply copy and paste my code.</p>
+<p>Any comments and questions are welcome.</p>
+<h2 id="the-task-at-hand">The task at hand</h2>
+<p>Today's challenge is to draw two-dimensional triangles.
+For motivated students, this usually takes a couple of hours, even if they are not confident programmers.</p>
+<p>Last time, we explored Bresenham’s line-drawing algorithm.
+Now we need to draw a <strong>filled</strong> triangle.
+Surprisingly, this is not a trivial task.
+I’m not sure why, but I do know that it’s true — most of my students struggle with this seemingly simple problem.</p>
+<p>To get started, <a href="https://github.com/ssloy/tinyrenderer/commit/9e2dcd6fddca0eec5cbf6b75b12202dea833e622">here is the initial commit</a>.
+It builds upon the line rasterization routine that we implemented in the previous lesson.</p>
+<p><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/rasterization/b1a5f491791b3cbb22a5.png"/></p>
+<div><p><strong>The starting point</strong></p>
+<pre><code>void triangle(int ax, int ay, int bx, int by, int cx, int cy, TGAImage &amp;framebuffer, TGAColor color) {
+    line(ax, ay, bx, by, framebuffer, color);
+    line(bx, by, cx, cy, framebuffer, color);
+    line(cx, cy, ax, ay, framebuffer, color);
+}
+
+int main(int argc, char** argv) {
+    TGAImage framebuffer(width, height, TGAImage::RGB);
+    triangle(  7, 45, 35, 100, 45,  60, framebuffer, red);
+    triangle(120, 35, 90,   5, 45, 110, framebuffer, white);
+    triangle(115, 83, 80,  90, 85, 120, framebuffer, green);
+    framebuffer.write_tga_file("framebuffer.tga");
+    return 0;
+}</code></pre>
+</div>
+<p>The code is straightforward: I provide three test triangles for initial debugging.
+If we call <code>line()</code> inside the <code>triangle()</code> function, we get the triangle’s edges.
+But how do we fill the triangle?</p>
+<h3 id="properties-of-a-good-triangle-filling-algorithm">Properties of a good triangle-filling algorithm</h3>
+<p>A good method for drawing a filled triangle should meet the following criteria:</p>
+<ul>
+<li>It should be <strong>simple and fast</strong>.</li>
+<li>It should be <strong>symmetrical</strong> — the output should not depend on the order of vertices passed to the function.</li>
+<li>If two triangles share two vertices, <strong>there should be no gaps between them</strong> due to rasterization rounding errors.</li>
+</ul>
+<p>We could add more requirements, but let’s focus on these for now.</p>
+<h2 id="scanline-rendering-the-old-school-way">Scanline rendering, the old-school way</h2>
+<p>A common approach for filling triangles involves <a href="https://en.wikipedia.org/wiki/Scanline_rendering">scanline rendering</a>:</p>
+<ol>
+<li>Sort the vertices of the triangle by their y-coordinates.</li>
+<li>Rasterize both the left and right edges of the triangle simultaneously.</li>
+<li>Draw horizontal line segments between the left and right boundary points.</li>
+</ol>
+<p>At this stage, my students often start to lose confidence: <em>Which segment is the left one? Which is the right?</em> After all, a triangle has three sides…</p>
+<p>Usually, after introducing this problem, I leave my students for about an hour.
+Once again, reading my code is far less valuable than writing your own and comparing it with mine.
+Pause here for a moment and try to draw filled triangles.</p>
+<p>[One hour later...]</p>
+<h3 id="sorting-the-vertices">Sorting the vertices</h3>
+<p>Let us assume that we have three points of the triangle: <code>a</code>, <code>b</code>, <code>c</code>, they are sorted in ascending order by the <code>y</code>-coordinate.
+As in the line rasterization, to meet this assumption we will reorder the vertices that were passed to the function.
+To sort three elements, <a href="https://en.wikipedia.org/wiki/Bubble_sort">bubble sort</a> is the ultimate method:</p>
+<div><p><strong>Bubble sort</strong></p>
+<pre><code>void triangle(int ax, int ay, int bx, int by, int cx, int cy, TGAImage &amp;framebuffer, TGAColor color) {
+    // sort the vertices, a,b,c in ascending y order (bubblesort yay!)
+    if (ay&gt;by) { std::swap(ax, bx); std::swap(ay, by); }
+    if (ay&gt;cy) { std::swap(ax, cx); std::swap(ay, cy); }
+    if (by&gt;cy) { std::swap(bx, cx); std::swap(by, cy); }
+    line(ax, ay, bx, by, framebuffer, green);
+    line(bx, by, cx, cy, framebuffer, green);
+    line(cx, cy, ax, ay, framebuffer, red);
+}</code></pre>
+</div>
+<p>Then, the boundary <code>A</code> is between <code>a</code> and <code>c</code>, boundary <code>B</code> is between <code>a</code> and <code>b</code>, and then between <code>b</code> and <code>c</code>.
+Here the boundary <code>A</code> is red, and the boundary <code>B</code> is green:</p>
+<p><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/rasterization/abaa04332f630a11e15a.png"/></p>
+<h3 id="rasterizing-the-boundary">Rasterizing the boundary</h3>
+<p>Unfortunately, boundary <code>B</code> is made of two parts. Let us draw the bottom half of the triangle by cutting it horizontally at the point <code>b</code>:</p>
+<div><p><strong>Border rasterization</strong></p>
+<pre><code>void triangle(int ax, int ay, int bx, int by, int cx, int cy, TGAImage &amp;framebuffer, TGAColor color) {
+    // sort the vertices, a,b,c in ascending y order (bubblesort yay!)
+    if (ay&gt;by) { std::swap(ax, bx); std::swap(ay, by); }
+    if (ay&gt;cy) { std::swap(ax, cx); std::swap(ay, cy); }
+    if (by&gt;cy) { std::swap(bx, cx); std::swap(by, cy); }
+    int total_height = cy-ay;
+
+    if (ay != by) { // if the bottom half is not degenerate
+        int segment_height = by - ay;
+        for (int y=ay; y&lt;=by; y++) { // sweep the horizontal line from ay to by
+            int x1 = ax + ((cx - ax)*(y - ay)) / total_height;
+            int x2 = ax + ((bx - ax)*(y - ay)) / segment_height;
+            framebuffer.set(x1, y, red);
+            framebuffer.set(x2, y, green);
+        }
+    }
+}</code></pre>
+</div>
+<p>Since we are looping over <code>y</code> coordinates (line 10), it is to be expected for the segments to have gaps if the segment is rather horizontal.
+Last time when we drew straight lines we struggled to get continuous segments and here I did not bother with rotating the image (remember the xy swapping?).
+Why? We fill the triangles aftewards, that's why.</p>
+<p><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/rasterization/13d7397883ca31eb130a.png"/></p>
+<h3 id="scanline-rasterization">Scanline rasterization</h3>
+<p>So, at each iteration of the lopp we have two points with the same <code>y</code> coordinate, namely, <code>(x1, y)</code> and <code>(x2, y)</code>.
+To fill the triangle it suffices to iterate from <code>x1</code> to <code>x2</code> (lines 13-14):</p>
+<div><p><strong>Scan line for the lower half</strong></p>
+<pre><code>void triangle(int ax, int ay, int bx, int by, int cx, int cy, TGAImage &amp;framebuffer, TGAColor color) {
+    // sort the vertices, a,b,c in ascending y order (bubblesort yay!)
+    if (ay&gt;by) { std::swap(ax, bx); std::swap(ay, by); }
+    if (ay&gt;cy) { std::swap(ax, cx); std::swap(ay, cy); }
+    if (by&gt;cy) { std::swap(bx, cx); std::swap(by, cy); }
+    int total_height = cy-ay;
+
+    if (ay != by) { // if the bottom half is not degenerate
+        int segment_height = by - ay;
+        for (int y=ay; y&lt;=by; y++) { // sweep the horizontal line from ay to by
+            int x1 = ax + ((cx - ax)*(y - ay)) / total_height;
+            int x2 = ax + ((bx - ax)*(y - ay)) / segment_height;
+            for (int x=std::min(x1,x2); x&lt;std::max(x1,x2); x++)  // draw a horizontal line
+                framebuffer.set(x, y, color);
+        }
+    }
+}</code></pre>
+</div>
+<p><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/rasterization/a0ef6cef3855b9388ca8.png"/></p>
+<p>Now, let us draw the second (upper) half of the triangle. We can do this by adding a second loop:</p>
+<div><p><strong>Complete scan line</strong></p>
+<pre><code>void triangle(int ax, int ay, int bx, int by, int cx, int cy, TGAImage &amp;framebuffer, TGAColor color) {
+    // sort the vertices, a,b,c in ascending y order (bubblesort yay!)
+    if (ay&gt;by) { std::swap(ax, bx); std::swap(ay, by); }
+    if (ay&gt;cy) { std::swap(ax, cx); std::swap(ay, cy); }
+    if (by&gt;cy) { std::swap(bx, cx); std::swap(by, cy); }
+    int total_height = cy-ay;
+
+    if (ay != by) { // if the bottom half is not degenerate
+        int segment_height = by - ay;
+        for (int y=ay; y&lt;=by; y++) { // sweep the horizontal line from ay to by
+            int x1 = ax + ((cx - ax)*(y - ay)) / total_height;
+            int x2 = ax + ((bx - ax)*(y - ay)) / segment_height;
+            for (int x=std::min(x1,x2); x&lt;std::max(x1,x2); x++)  // draw a horizontal line
+                framebuffer.set(x, y, color);
+        }
+    }
+    if (by != cy) { // if the upper half is not degenerate
+        int segment_height = cy - by;
+        for (int y=by; y&lt;=cy; y++) { // sweep the horizontal line from by to cy
+            int x1 = ax + ((cx - ax)*(y - ay)) / total_height;
+            int x2 = bx + ((cx - bx)*(y - by)) / segment_height;
+            for (int x=std::min(x1,x2); x&lt;std::max(x1,x2); x++)  // draw a horizontal line
+                framebuffer.set(x, y, color);
+        }
+    }
+}</code></pre>
+</div>
+<p><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/rasterization/1c23f9d27634d8da0e19.png"/></p>
+<p><a href="https://github.com/ssloy/tinyrenderer/tree/ad5bb950c6dcd0dd48bedea1cf814f795bc3c0b2">Here’s the commit</a> for drawing 2D triangles.</p>
+<h2 id="modern-rasterization-approach">Modern rasterization approach</h2>
+<p>While not particularly complicated, the source code for line sweeping can be somewhat messy.
+Moreover, it is an old-school approach designed for single-threaded CPU programming.
+Let’s take a look at the following pseudo-code:</p>
+<pre><code>triangle(vec2 points[3]) {
+    vec2 bbox[2] = find_bounding_box(points);
+    for (each pixel in the bounding box) {
+        if (inside(points, pixel)) {
+            put_pixel(pixel);
+        }
+    }
+}</code></pre>
+<p>Do you like it? I do.
+Finding a bounding box is straightforward, and checking whether a point belongs to a 2D triangle (or any convex polygon) is certainly manageable.</p>
+<p>There’s one aspect I appreciate about this pseudocode: a novice programmer finds it intuitive, while more experienced developers might chuckle and ask,
+“Who wrote this nonsense? So much overhead!” But an expert in computer graphics will simply shrug and say, “Well, that’s how it works in real life.”
+Massively parallel computations running in thousands of threads, even on regular consumer hardware, fundamentally change the way we approach problems.</p>
+<p>First, we need to compute an axis-aligned bounding box for our three points. The bounding box is defined by two points: the bottom-left and upper-right corners.
+To determine these corners, we iterate through the vertices of the triangle and select the minimum and maximum coordinates.
+Here’s how we can draw a filled bounding box for each of the three triangles in our image:</p>
+<div><p><strong>Bounding box rasterization</strong></p>
+<pre><code>void triangle(int ax, int ay, int bx, int by, int cx, int cy, TGAImage &amp;framebuffer, TGAColor color) {
+    int bbminx = std::min(std::min(ax, bx), cx); // bounding box for the triangle
+    int bbminy = std::min(std::min(ay, by), cy); // defined by its top left and bottom right corners
+    int bbmaxx = std::max(std::max(ax, bx), cx);
+    int bbmaxy = std::max(std::max(ay, by), cy);
+#pragma omp parallel for
+    for (int x=bbminx; x&lt;=bbmaxx; x++) {
+        for (int y=bbminy; y&lt;=bbmaxy; y++) {
+            framebuffer.set(x, y, color);
+        }
+    }
+}</code></pre>
+</div>
+<p>Note the line 6. Once we have determined the bounding box, this line tells to run the loop <strong>in parallel</strong>.
+As opposed to the scanline method, here each pixel is treated separately,
+and thus this is an <a href="https://en.wikipedia.org/wiki/Embarrassingly_parallel#:~:text=In%20parallel%20computing%2C%20an%20embarrassingly,a%20number%20of%20parallel%20tasks">embarrassingly parallel</a> method.</p>
+<p><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/rasterization/c573b74782e936eade4b.png"/></p>
+<p>All we need to do now is to eliminate the pixels that do not belong to the triangle.
+There are plenty of ways to check if a point <img alt="Equation: upper P" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/6cf81510550a1c06b10ff9eafed102f11f46e3134450752e3514fe96056de2cd.png" width="20"/> belongs to a triangle defined by vertices <img alt="Equation: upper A" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/b82947fdd348103b4f64ebb8fe74539de1e5b71794cc0a971f20936c4b7be5fe.png" width="20"/>,<img alt="Equation: upper B" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/b2affa0ba756b0dcbda6301d951888810b79314376f5d0203c91cf141277a809.png" width="21"/>,<img alt="Equation: upper C" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/72a1e1fdd31941ccfab33a0efdebeaa40b0abd42f51a10785822f741e82b7c30.png" width="21"/>.
+Here I chose to compute the <a href="https://en.wikipedia.org/wiki/Barycentric_coordinate_system">barycentric coordinates</a> of <img alt="Equation: upper P" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/6cf81510550a1c06b10ff9eafed102f11f46e3134450752e3514fe96056de2cd.png" width="20"/> with respect to <img alt="Equation: upper A upper B upper C" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/1620d3eab6519782be96a2fb17902f0de44831b585bab42386d4d27b307a7d62.png" width="52"/>.
+We can express <img alt="Equation: upper P" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/6cf81510550a1c06b10ff9eafed102f11f46e3134450752e3514fe96056de2cd.png" width="20"/> as a combination of the triangle's vertices: <img alt="Equation: upper P equals alpha upper A plus beta upper B plus gamma upper C" class="math-inline" height="29" src="https://beila.github.io/my-collection/math-images/abc04d2f69aebb5f40200f72b29265834906e78fb74c2614cef5612a84d45c03.png" width="184"/>.
+While being a bit frightening at the first glance, it is really simple: imagine that we put three weights <img alt="Equation: alpha comma beta comma gamma" class="math-inline" height="29" src="https://beila.github.io/my-collection/math-images/e021f9cac279e9cfa467008253d9556f53f3cc7aa72592065d761f0c1ad1cfa8.png" width="60"/>  at the vertices <img alt="Equation: upper A" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/b82947fdd348103b4f64ebb8fe74539de1e5b71794cc0a971f20936c4b7be5fe.png" width="20"/>, <img alt="Equation: upper B" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/b2affa0ba756b0dcbda6301d951888810b79314376f5d0203c91cf141277a809.png" width="21"/> and <img alt="Equation: upper C" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/72a1e1fdd31941ccfab33a0efdebeaa40b0abd42f51a10785822f741e82b7c30.png" width="21"/>, respectively.
+Then the barycenter of the system is exactly in the point <img alt="Equation: upper P" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/6cf81510550a1c06b10ff9eafed102f11f46e3134450752e3514fe96056de2cd.png" width="20"/>.</p>
+<p>Barycentric coordinates <img alt="Equation: alpha comma beta comma gamma" class="math-inline" height="29" src="https://beila.github.io/my-collection/math-images/e021f9cac279e9cfa467008253d9556f53f3cc7aa72592065d761f0c1ad1cfa8.png" width="60"/> are proportional to sub-triangle areas <img alt="Equation: Area left-parenthesis upper P upper B upper C right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/eb10baaf17b90ef83d267d99790e899e9174830cf363085eb9f991107a6ad01a.png" width="112"/>, <img alt="Equation: Area left-parenthesis upper P upper C upper A right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/b884599006b28f26eadbad9e900629c278a0dcbba93a85c4d0236c0fb3e933d5.png" width="112"/> and <img alt="Equation: Area left-parenthesis upper P upper A upper B right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/8b740ab95d5e7b799b3656d0dd5071c5cbfecbdb40e053cd7fdeeb7ddcca8850.png" width="112"/>.
+If all three coordinates are positive, <img alt="Equation: upper P" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/6cf81510550a1c06b10ff9eafed102f11f46e3134450752e3514fe96056de2cd.png" width="20"/> lies within the triangle.
+If any barycentric coordinate is negative, <img alt="Equation: upper P" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/6cf81510550a1c06b10ff9eafed102f11f46e3134450752e3514fe96056de2cd.png" width="20"/> lies outside the triangle.</p>
+<p>So, let us program our new rasterization routine: we iterate through all pixels of a bounding box for a given triangle.
+For each pixel we compute its barycentric coordinates.
+If it has at least one negative component, then the pixel is outside of the triangle.
+Probably it is more clear to see the program directly:</p>
+<div><p><strong>Triangle rasterization, modern apporach</strong></p>
+<pre><code>double signed_triangle_area(int ax, int ay, int bx, int by, int cx, int cy) {
+    return .5*((by-ay)*(bx+ax) + (cy-by)*(cx+bx) + (ay-cy)*(ax+cx));
+}
+
+void triangle(int ax, int ay, int bx, int by, int cx, int cy, TGAImage &amp;framebuffer, TGAColor color) {
+    int bbminx = std::min(std::min(ax, bx), cx); // bounding box for the triangle
+    int bbminy = std::min(std::min(ay, by), cy); // defined by its top left and bottom right corners
+    int bbmaxx = std::max(std::max(ax, bx), cx);
+    int bbmaxy = std::max(std::max(ay, by), cy);
+    double total_area = signed_triangle_area(ax, ay, bx, by, cx, cy);
+
+#pragma omp parallel for
+    for (int x=bbminx; x&lt;=bbmaxx; x++) {
+        for (int y=bbminy; y&lt;=bbmaxy; y++) {
+            double alpha = signed_triangle_area(x, y, bx, by, cx, cy) / total_area;
+            double beta  = signed_triangle_area(x, y, cx, cy, ax, ay) / total_area;
+            double gamma = signed_triangle_area(x, y, ax, ay, bx, by) / total_area;
+            if (alpha&lt;0 || beta&lt;0 || gamma&lt;0) continue; // negative barycentric coordinate =&gt; the pixel is outside the triangle
+            framebuffer.set(x, y, color);
+        }
+    }
+}</code></pre>
+</div>
+<p>It is the line 18 that discards the pixels outside of the triangle.</p>
+<p><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/rasterization/497b4f9c459bd405bc38.png"/></p>
+<p>As always, I follow closely the one-commit-per-tutorial-image rule, so you can find the <a href="https://github.com/ssloy/tinyrenderer/tree/fc3eae6122c3f1ae33064db58ca81beaff952638">code snapshot here</a>.</p>
+<h2 id="putting-all-together-back-face-culling">Putting all together + back-face culling</h2>
+<p>Let us recall the wireframe <a href="https://beila.github.io/my-collection/tinyrenderer/bresenham.html#my-solution">rendering we made</a> last time.
+We looped over the triangles, projected the triangles to the screen and made 3 calls to the <code>line()</code> function.
+We can replace the the 3 calls by a single call to our brand new <code>triangle()</code>:</p>
+<div><p><strong>Straightforward rasterization of all triangles</strong></p>
+<pre><code>int main(int argc, char** argv) {
+    if (argc != 2) {
+        std::cerr &lt;&lt; "Usage: " &lt;&lt; argv[0] &lt;&lt; " obj/model.obj" &lt;&lt; std::endl;
+        return 1;
+    }
+
+    Model model(argv[1]);
+    TGAImage framebuffer(width, height, TGAImage::RGB);
+
+    for (int i=0; i&lt;model.nfaces(); i++) { // iterate through all triangles
+        auto [ax, ay] = project(model.vert(i, 0));
+        auto [bx, by] = project(model.vert(i, 1));
+        auto [cx, cy] = project(model.vert(i, 2));
+        TGAColor rnd;
+        for (int c=0; c&lt;3; c++) rnd[c] = std::rand()%255;
+        triangle(ax, ay, bx, by, cx, cy, framebuffer, rnd);
+    }
+
+    framebuffer.write_tga_file("framebuffer.tga");
+    return 0;
+}</code></pre>
+</div>
+<p>You can find the commit here <a href="https://github.com/ssloy/tinyrenderer/tree/e25bb49be00a43ab777e511baa4b72e8ab16d6b1">here</a>.
+The changes are highlighted, lines 14-16. I generate a random color and draw a filled triangle.
+Here is the result:</p>
+<p><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/rasterization/aec9910567f09490a78d.png"/></p>
+<p>Well, it is certainly something, but I'd like to see a face rather than a complete mess. What happened?
+It happened that we did zero removal of hiden faces, and being drawn in disorder, the "back" triangles may be shown ontop of the "front".
+We will fully address the issue next time, but let us do a simple hack right now. Let us add one single line 7
+(you can <a href="https://github.com/ssloy/tinyrenderer/commit/ab559b1325df38266b420c6236a33794bd7e4c65">check the diff</a> with the previous version):</p>
+<div><p><strong>Back-face culling</strong></p>
+<pre><code>void triangle(int ax, int ay, int bx, int by, int cx, int cy, TGAImage &amp;framebuffer, TGAColor color) {
+    int bbminx = std::min(std::min(ax, bx), cx); // bounding box for the triangle
+    int bbminy = std::min(std::min(ay, by), cy); // defined by its top left and bottom right corners
+    int bbmaxx = std::max(std::max(ax, bx), cx);
+    int bbmaxy = std::max(std::max(ay, by), cy);
+    double total_area = signed_triangle_area(ax, ay, bx, by, cx, cy);
+    if (total_area&lt;1) return; // backface culling + discarding triangles that cover less than a pixel
+
+#pragma omp parallel for
+    for (int x=bbminx; x&lt;=bbmaxx; x++) {
+        for (int y=bbminy; y&lt;=bbmaxy; y++) {
+            double alpha = signed_triangle_area(x, y, bx, by, cx, cy) / total_area;
+            double beta  = signed_triangle_area(x, y, cx, cy, ax, ay) / total_area;
+            double gamma = signed_triangle_area(x, y, ax, ay, bx, by) / total_area;
+            if (alpha&lt;0 || beta&lt;0 || gamma&lt;0) continue; // negative barycentric coordinate =&gt; the pixel is outside the triangle
+            framebuffer.set(x, y, color);
+        }
+    }
+}</code></pre>
+</div>
+<p>And while not being perfect, the result improves drastically:</p>
+<p><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/rasterization/25854421334db676594f.png"/></p>
+<p>What happened? Let us reduce the number of dimensions and make a 1D rendering of a 2D scene.
+Imagine that we have a 2D polygon <img alt="Equation: upper A upper B upper C upper D upper E" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/3a5d5765d65565896e181122abde51bd9e18896823de4fcf63ad5c533f6b6d1e.png" width="86"/> that we want to draw on a 1D line defined by the <img alt="Equation: x" class="math-inline" height="20" src="https://beila.github.io/my-collection/math-images/da3ae1124928cdc0cf7f6434c3439af96259a8025612ab824685be59bd92a748.png" width="16"/>-axis of our coordinate system:</p>
+<p><img alt="backface culling illustration" src="https://beila.github.io/my-collection/tinyrenderer/rasterization/de83974c8cc6798aa599.png"/></p>
+<p>We need to draw 5 segments, namely, <img alt="Equation: upper A upper B" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/1afe9a1c1eb7e172407c742f512b25d920170b3130c9053a3a3e2735adf7cbd7.png" width="37"/>, <img alt="Equation: upper B upper C" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/906eef4779d4de5b2f1b3efc89b3a604b7450c81b580d68021c2a19f96912041.png" width="37"/>, <img alt="Equation: upper C upper D" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/a54465ec890adfcee38183e1c7cba1382c68cb74ba00ca8fc2af3ec32aa4d062.png" width="38"/>, <img alt="Equation: upper D upper E" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/7512c0b8f2a982454a9092c81d906e426fb5319a38f1ebe4b1b0c5befd1d13ea.png" width="38"/>, and <img alt="Equation: upper E upper A" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/62502c013bf14964fef86989d2f97ec0c0cdfc51fe7ae87dae7d3009a1f7fb85.png" width="37"/>.
+However, we can be quite certain that we can safely discard segments <img alt="Equation: upper A upper B" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/1afe9a1c1eb7e172407c742f512b25d920170b3130c9053a3a3e2735adf7cbd7.png" width="37"/>, <img alt="Equation: upper C upper D" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/a54465ec890adfcee38183e1c7cba1382c68cb74ba00ca8fc2af3ec32aa4d062.png" width="38"/> and <img alt="Equation: upper E upper A" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/62502c013bf14964fef86989d2f97ec0c0cdfc51fe7ae87dae7d3009a1f7fb85.png" width="37"/> since they are facing back and not front.</p>
+<p>The order in which segments are stored in memory can be arbitrary, but an important aspect is that there is consistency in how the endpoints are stored for each segment.
+To decide whether a segment is facing front or back, we can simply compute the sign of its length once projected onto the screen.
+For now, our projection is orthogonal (we are ignoring the <img alt="Equation: y" class="math-inline" height="23" src="https://beila.github.io/my-collection/math-images/84af71808142288754b27305a87e38319b4c08c2c95a958128e2010f1a1ab1a2.png" width="15"/> coordinate), so the problem reduces to comparing the <img alt="Equation: x" class="math-inline" height="20" src="https://beila.github.io/my-collection/math-images/da3ae1124928cdc0cf7f6434c3439af96259a8025612ab824685be59bd92a748.png" width="16"/> coordinates of the segment’s endpoints.</p>
+<p>If a segment extends from point <img alt="Equation: upper A" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/b82947fdd348103b4f64ebb8fe74539de1e5b71794cc0a971f20936c4b7be5fe.png" width="20"/> to point <img alt="Equation: upper B" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/b2affa0ba756b0dcbda6301d951888810b79314376f5d0203c91cf141277a809.png" width="21"/>, its projected length on the screen is given by:</p>
+<p><img alt="Equation: upper L Subscript upper A upper B Baseline equals upper B Subscript x Baseline minus upper A Subscript x" class="math-display" height="24" src="https://beila.github.io/my-collection/math-images/cde3705e8dc94e9f70a4a25d726f6a15f0e9e4b2d4b003ce6a4d68c61fee8a50.png" width="105"/></p>
+<ul>
+<li>If <img alt="Equation: upper L Subscript upper A upper B Baseline greater-than 0" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/dbe9bcceefbba0aa568391c91f4a1ac2ffd92b45f0ccafacfbeb74037d456871.png" width="82"/>, the segment is front-facing and should be drawn.</li>
+<li>If <img alt="Equation: upper L Subscript upper A upper B Baseline less-than 0" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/4e17a3f965c9d66c8ec758d20a03f6ef9e3049bf61c949305403720049db7f24.png" width="82"/>, the segment is back-facing and can be culled.</li>
+</ul>
+<p>For example, in the case of segment <img alt="Equation: upper A upper B" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/1afe9a1c1eb7e172407c742f512b25d920170b3130c9053a3a3e2735adf7cbd7.png" width="37"/>:</p>
+<p><img alt="Equation: upper B Subscript x Baseline less-than upper A Subscript x Baseline right double arrow upper L Subscript upper A upper B Baseline less-than 0" class="math-display" height="24" src="https://beila.github.io/my-collection/math-images/1af25619f4eb9f9d64c7d9ac34f8178b4eb484501e18404fb3837f13146c9923.png" width="135"/></p>
+<p>Since the projected length is negative, we can discard segment <img alt="Equation: upper A upper B" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/1afe9a1c1eb7e172407c742f512b25d920170b3130c9053a3a3e2735adf7cbd7.png" width="37"/>.
+By applying this simple test to each segment, we can efficiently determine which edges should be drawn and which can be ignored,
+optimizing the rendering process and avoiding unnecessary computations for back-facing segments.</p>
+<p>Back to our 3D rendering of the head, the line of code we have added checks the signed area of the triangle to be drawn.
+If it is negative, the triangle can be discarded.
+Note that this is a conservative test that does not prevent all rendering errors.
+In our 2D example, nothing prevents segment <img alt="Equation: upper D upper E" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/7512c0b8f2a982454a9092c81d906e426fb5319a38f1ebe4b1b0c5befd1d13ea.png" width="38"/> from being drawn over <img alt="Equation: upper B upper C" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/906eef4779d4de5b2f1b3efc89b3a604b7450c81b580d68021c2a19f96912041.png" width="37"/>, since they are both front-facing.
+This is exactly why the rendering of the head is not perfect: we have eliminated all back-facing triangles,
+but some front-facing triangles inside the mouth were drawn over the lips. We will correct this artefact later.</p>
+<h2 id="next-time">Next time</h2>
+<p>Next time, I propose spending a little more time on <a href="https://beila.github.io/my-collection/tinyrenderer/barycentric.html">barycentric coordinates</a>, as I will make heavy use of them later on.
+Then, we can tackle the <a href="https://beila.github.io/my-collection/tinyrenderer/z-buffer.html">removal of hidden faces</a>.</p>
+<hr/>
+<h3>Comments</h3>
+</article>
+</body>
+</html>

@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Bresenham’s line drawing algorithm</title>
+<style>
+body { margin: 0 auto; max-width: 46rem; padding: 1rem; font: 18px/1.6 Georgia, serif; }
+img { display: block; max-width: 100%; height: auto; margin: 1rem auto; }
+pre { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 0.85em; }
+</style>
+</head>
+<body>
+<article>
+<h1>Bresenham’s line drawing algorithm</h1>
+<p class="source-link"><a href="https://haqr.eu/tinyrenderer/bresenham/">Original chapter on haqr.eu</a></p>
+<p>The goal for today is to create wireframe renders.
+To achieve this, we first need to learn how to draw line segments on the screen.
+I provide my students with the <a href="https://github.com/ssloy/tinyrenderer/tree/706b2dfecff65daeb93de568ee2c2bd87f277860">following code</a>:</p>
+<div><p><strong>The starting point</strong></p>
+<pre><code>#include "tgaimage.h"
+
+constexpr TGAColor white   = {255, 255, 255, 255}; // attention, BGRA order
+constexpr TGAColor green   = {  0, 255,   0, 255};
+constexpr TGAColor red     = {  0,   0, 255, 255};
+constexpr TGAColor blue    = {255, 128,  64, 255};
+constexpr TGAColor yellow  = {  0, 200, 255, 255};
+
+int main(int argc, char** argv) {
+    constexpr int width  = 64;
+    constexpr int height = 64;
+    TGAImage framebuffer(width, height, TGAImage::RGB);
+
+    int ax =  7, ay =  3;
+    int bx = 12, by = 37;
+    int cx = 62, cy = 53;
+
+    framebuffer.set(ax, ay, white);
+    framebuffer.set(bx, by, white);
+    framebuffer.set(cx, cy, white);
+
+    framebuffer.write_tga_file("framebuffer.tga");
+    return 0;
+}</code></pre>
+</div>
+<p>This code generates a 64×64 image named <code>framebuffer.tga</code>.
+Here’s a scaled-up version for better readability:</p>
+<p><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/bresenham/2dbfc4669111dbb06824.png"/></p>
+<p>Our first objective is to draw three line segments forming a triangle.
+At this stage, the only available functionality is setting the color of individual pixels and saving an image — there are no built-in functions for drawing lines.
+We will implement it ourselves.</p>
+<p>While Wikipedia provides an explanation of <a href="https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm">Bresenham’s line algorithm</a>, I find it difficult to follow.
+Instead, I prefer a more gradual approach.
+Given two 2D points <img alt="Equation: left-parenthesis a Subscript x Baseline comma a Subscript y Baseline right-parenthesis" class="math-inline" height="32" src="https://beila.github.io/my-collection/math-images/89afbf41517af04d6acf2399cd52258d9cf29985546c933eb965504ad06556ef.png" width="73"/> and <img alt="Equation: left-parenthesis b Subscript x Baseline comma b Subscript y Baseline right-parenthesis" class="math-inline" height="32" src="https://beila.github.io/my-collection/math-images/15e55fe19e359d8ea41f562350daffaa4cf479f29440786522d7cd1fa1098a4f.png" width="68"/>, what is the simplest program to draw a line segment between them?</p>
+<h2 id="first-attempt-the-simplest-approach">First attempt, the simplest approach</h2>
+<p>Imagine we have a parameter <img alt="Equation: t element-of left-bracket 0 comma 1 right-bracket" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/8c747fc1286238316ec2d7edc164cb2e744328b782958f17863765865aa0e815.png" width="80"/>.
+We define the 2D point <img alt="Equation: left-parenthesis x left-parenthesis t right-parenthesis comma y left-parenthesis t right-parenthesis right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/fd45c4b6af37c5259b2e3aaa75544c815edb603780c259a31e67f3858e0c56e8.png" width="100"/> as follows:</p>
+<p><img alt="Equation: StartLayout Enlarged left-brace 1st Row  x left-parenthesis t right-parenthesis equals a Subscript x Baseline plus t dot left-parenthesis b Subscript x Baseline minus a Subscript x Baseline right-parenthesis 2nd Row  y left-parenthesis t right-parenthesis equals a Subscript y Baseline plus t dot left-parenthesis b Subscript y Baseline minus a Subscript y Baseline right-parenthesis EndLayout" class="math-display" height="48" src="https://beila.github.io/my-collection/math-images/24049336f7df8bab1935328c1301a67ba448b5471aa264ce2f7f58bda7fef04c.png" width="168"/></p>
+<p>If <img alt="Equation: t equals 0" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/1939ba8938145f0e72e69b0e861b88e065a58a0fe162071257f39dc568d85dc3.png" width="51"/>, then <img alt="Equation: left-parenthesis x left-parenthesis t right-parenthesis comma y left-parenthesis t right-parenthesis right-parenthesis equals left-parenthesis a Subscript x Baseline comma a Subscript y Baseline right-parenthesis" class="math-inline" height="32" src="https://beila.github.io/my-collection/math-images/2f17e05446367adaa4db430426cc049ef66c41bf892e9b8e27b6ae8afe6541de.png" width="196"/>.
+If <img alt="Equation: t equals 1" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/34c1483886d6d10b0c7a591e4da54b4146f8646842c1cc4412f4368a6775cf73.png" width="51"/>, then <img alt="Equation: left-parenthesis x left-parenthesis t right-parenthesis comma y left-parenthesis t right-parenthesis right-parenthesis equals left-parenthesis b Subscript x Baseline comma b Subscript y Baseline right-parenthesis" class="math-inline" height="32" src="https://beila.github.io/my-collection/math-images/2967fd3f9b387ed317a29089c027dedb6a325e105d6ae4049b679e422687da85.png" width="192"/>.
+For intermediate values of <img alt="Equation: t" class="math-inline" height="23" src="https://beila.github.io/my-collection/math-images/9523063f763568e2d751afced5a133b8b30970f284ec85cad95734a49d9eba29.png" width="13"/>, the point moves along the segment.</p>
+<div><p><strong>Barycentric coordinates</strong></p>
+<p>An important note for the next lesson: the pair <img alt="Equation: left-parenthesis 1 minus t right-parenthesis comma t" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/8d74394060f12576fff1f780f14b8076ae4169778e6316b80f2c418c663d93b0.png" width="82"/> forms the <a href="https://en.wikipedia.org/wiki/Barycentric_coordinate_system">barycentric coordinates</a> of the number <img alt="Equation: x left-parenthesis t right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/4298922bc0ac9cfa11488b311a7808a6204bd3f639117b40fab2f5363e5057a8.png" width="40"/> with respect to the interval <img alt="Equation: left-bracket a Subscript x Baseline comma b Subscript x Baseline right-bracket" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/bd56e249d1a78a7a4350d160e97cda59666c3717446fbdfa93a84ae867d5fe09.png" width="67"/>
+and of the number <img alt="Equation: y left-parenthesis t right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/2dce68d48408c61b983b221c3a978eacb1a834d525086276001efd700ed8a54d.png" width="39"/> with respect to the interval <img alt="Equation: left-bracket a Subscript y Baseline comma b Subscript y Baseline right-bracket" class="math-inline" height="32" src="https://beila.github.io/my-collection/math-images/52c95e2487b024536effbb4bfaa10050ef7beeccd680390fa7505354121f7df8.png" width="64"/>.
+This is a bit offtopic for today, but for the next lesson it will be a thing to remember.
+Why am I talking about the pair <img alt="Equation: left-parenthesis 1 minus t right-parenthesis comma t" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/8d74394060f12576fff1f780f14b8076ae4169778e6316b80f2c418c663d93b0.png" width="82"/>?</p>
+<p>It is because we can rewrite the parametric equation for the segment in the following form:
+<img alt="Equation: StartLayout Enlarged left-brace 1st Row  x left-parenthesis t right-parenthesis equals left-parenthesis 1 minus t right-parenthesis dot a Subscript x Baseline plus t dot b Subscript x Baseline 2nd Row  y left-parenthesis t right-parenthesis equals left-parenthesis 1 minus t right-parenthesis dot a Subscript y Baseline plus t dot b Subscript y EndLayout" class="math-inline" height="64" src="https://beila.github.io/my-collection/math-images/74ab9bff84042c27627e2b3b1884a0ed162a62a4c8b47dd5f6adab0f415422b6.png" width="256"/></p>
+<p>Imagine we have 1 kilo of balance weights <img alt="Equation: left-parenthesis 1 minus t kg plus t kg equals 1 kg right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/fc9cb0a83b15dd570c44a58a5d9a2e16c5ab723fa641aa083cd3df312239f543.png" width="217"/>. Then if we put <img alt="Equation: 1 minus t" class="math-inline" height="26" src="https://beila.github.io/my-collection/math-images/770730c482fbbeca7308262296b14b49765893af43f4147c1bb9a465a2d4715a.png" width="49"/> kg to the point <img alt="Equation: left-parenthesis a Subscript x Baseline comma a Subscript y Baseline right-parenthesis" class="math-inline" height="32" src="https://beila.github.io/my-collection/math-images/89afbf41517af04d6acf2399cd52258d9cf29985546c933eb965504ad06556ef.png" width="73"/> and <img alt="Equation: t" class="math-inline" height="23" src="https://beila.github.io/my-collection/math-images/9523063f763568e2d751afced5a133b8b30970f284ec85cad95734a49d9eba29.png" width="13"/> kg to the point <img alt="Equation: left-parenthesis b Subscript x Baseline comma b Subscript y Baseline right-parenthesis" class="math-inline" height="32" src="https://beila.github.io/my-collection/math-images/15e55fe19e359d8ea41f562350daffaa4cf479f29440786522d7cd1fa1098a4f.png" width="68"/>, then the barycenter of the system will be in the point <img alt="Equation: left-parenthesis x left-parenthesis t right-parenthesis comma y left-parenthesis t right-parenthesis right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/fd45c4b6af37c5259b2e3aaa75544c815edb603780c259a31e67f3858e0c56e8.png" width="100"/>,
+hence the barycentric coordinates.</p>
+</div>
+<p>Here’s the first program implementing this approach:</p>
+<div><p><strong>First attempt</strong></p>
+<pre><code>#include &lt;cmath&gt;
+#include "tgaimage.h"
+
+constexpr TGAColor white   = {255, 255, 255, 255}; // attention, BGRA order
+constexpr TGAColor green   = {  0, 255,   0, 255};
+constexpr TGAColor red     = {  0,   0, 255, 255};
+constexpr TGAColor blue    = {255, 128,  64, 255};
+constexpr TGAColor yellow  = {  0, 200, 255, 255};
+
+void line(int ax, int ay, int bx, int by, TGAImage &amp;framebuffer, TGAColor color) {
+    for (float t=0.; t&lt;1.; t+=.02) {
+        int x = std::round( ax + (bx-ax)*t );
+        int y = std::round( ay + (by-ay)*t );
+        framebuffer.set(x, y, color);
+    }
+}
+
+int main(int argc, char** argv) {
+    constexpr int width  = 64;
+    constexpr int height = 64;
+    TGAImage framebuffer(width, height, TGAImage::RGB);
+
+    int ax =  7, ay =  3;
+    int bx = 12, by = 37;
+    int cx = 62, cy = 53;
+
+    line(ax, ay, bx, by, framebuffer, blue);
+    line(cx, cy, bx, by, framebuffer, green);
+    line(cx, cy, ax, ay, framebuffer, yellow);
+    line(ax, ay, cx, cy, framebuffer, red);
+
+    framebuffer.set(ax, ay, white);
+    framebuffer.set(bx, by, white);
+    framebuffer.set(cx, cy, white);
+
+    framebuffer.write_tga_file("framebuffer.tga");
+    return 0;
+}</code></pre>
+</div>
+<p>In lines 10-16 I have programmed exactly the parametric equation we talked about: I made the parameter <img alt="Equation: t" class="math-inline" height="23" src="https://beila.github.io/my-collection/math-images/9523063f763568e2d751afced5a133b8b30970f284ec85cad95734a49d9eba29.png" width="13"/> vary between <img alt="Equation: 0" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/c05a17052fc11d84f9b368b3beda4c3528b903eae3defdf89b0828b1f6609780.png" width="15"/> and <img alt="Equation: 1" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/5209cabad9ec4da81e1d983aad65779bf84ca8e9aac477ade2d45257cfa86d94.png" width="15"/>, and I have colored the corresponding pixel <img alt="Equation: left-parenthesis x left-parenthesis t right-parenthesis comma y left-parenthesis t right-parenthesis right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/fd45c4b6af37c5259b2e3aaa75544c815edb603780c259a31e67f3858e0c56e8.png" width="100"/>.
+Then I asked to draw <strong>four</strong> segments between the points <img alt="Equation: a" class="math-inline" height="20" src="https://beila.github.io/my-collection/math-images/f3812eae8d5b3b698813696deadd0269738965c626a54b9cf41d520a87fd76e2.png" width="16"/>, <img alt="Equation: b" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/02ab75b04dfe9b82d243cc3acf7f035606f22806248c3d6b4a45115647956cec.png" width="14"/> and <img alt="Equation: c" class="math-inline" height="20" src="https://beila.github.io/my-collection/math-images/5edf831e3a36468482c1edce39cd6d54965227efb31302d8f0a974b7d5f379ca.png" width="14"/>:</p>
+<ul>
+<li>blue from <img alt="Equation: a" class="math-inline" height="20" src="https://beila.github.io/my-collection/math-images/f3812eae8d5b3b698813696deadd0269738965c626a54b9cf41d520a87fd76e2.png" width="16"/> to <img alt="Equation: b" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/02ab75b04dfe9b82d243cc3acf7f035606f22806248c3d6b4a45115647956cec.png" width="14"/></li>
+<li>green from <img alt="Equation: c" class="math-inline" height="20" src="https://beila.github.io/my-collection/math-images/5edf831e3a36468482c1edce39cd6d54965227efb31302d8f0a974b7d5f379ca.png" width="14"/> to <img alt="Equation: b" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/02ab75b04dfe9b82d243cc3acf7f035606f22806248c3d6b4a45115647956cec.png" width="14"/></li>
+<li>yellow from <img alt="Equation: c" class="math-inline" height="20" src="https://beila.github.io/my-collection/math-images/5edf831e3a36468482c1edce39cd6d54965227efb31302d8f0a974b7d5f379ca.png" width="14"/> to <img alt="Equation: a" class="math-inline" height="20" src="https://beila.github.io/my-collection/math-images/f3812eae8d5b3b698813696deadd0269738965c626a54b9cf41d520a87fd76e2.png" width="16"/></li>
+<li>red from <img alt="Equation: a" class="math-inline" height="20" src="https://beila.github.io/my-collection/math-images/f3812eae8d5b3b698813696deadd0269738965c626a54b9cf41d520a87fd76e2.png" width="16"/> to <img alt="Equation: c" class="math-inline" height="20" src="https://beila.github.io/my-collection/math-images/5edf831e3a36468482c1edce39cd6d54965227efb31302d8f0a974b7d5f379ca.png" width="14"/>.</li>
+</ul>
+<p>Note that the last two have exactly the same endpoints, just passed to the <code>line(..)</code> function in different order.
+Here is the resulting image:</p>
+<p><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/bresenham/a21aee48d99d793cc77b.png"/></p>
+<p>What problems can you spot with my <code>line</code> function? First of all, I see that the yellow line is visible from behind the red one, and I'd expect to see exactly the same pixels colored
+independently of the order of the arguments.
+Second, I see gaps in the red line.
+It is to be expected: <code>ax = 7</code> and <code>cx = 62</code>, so we need <strong>at least</strong> 62-7 = 55 pixels colored for the line to have no gaps, but the increment for <code>t</code> is only <code>.02</code>, thus we have 51 samples for each <code>line</code> call.
+51 &lt; 55, therefore gaps.
+Is there a way to choose the sampling step more wisely?</p>
+<h2 id="second-attempt-different-sampling-strategy">Second attempt, different sampling strategy</h2>
+<p>Let us try <a href="https://github.com/ssloy/tinyrenderer/tree/1971e01187d32e8936cbfc780a95df6efdaa75a0">the other way</a>:</p>
+<div><p><strong>Second attempt, round 1</strong></p>
+<pre><code>void line(int ax, int ay, int bx, int by, TGAImage &amp;framebuffer, TGAColor color) {
+    for (int x=ax; x&lt;=bx; x++) {
+        float t = (x-ax) / static_cast&lt;float&gt;(bx-ax);
+        int y = std::round( ay + (by-ay)*t );
+        framebuffer.set(x, y, color);
+    }
+}</code></pre>
+</div>
+<p>Note that we defined <img alt="Equation: x" class="math-inline" height="20" src="https://beila.github.io/my-collection/math-images/da3ae1124928cdc0cf7f6434c3439af96259a8025612ab824685be59bd92a748.png" width="16"/> as a function of <img alt="Equation: t" class="math-inline" height="23" src="https://beila.github.io/my-collection/math-images/9523063f763568e2d751afced5a133b8b30970f284ec85cad95734a49d9eba29.png" width="13"/>, but we can do it the other way, and define <img alt="Equation: t left-parenthesis x right-parenthesis equals left-parenthesis x minus a Subscript x Baseline right-parenthesis slash left-parenthesis b Subscript x Baseline minus a Subscript x Baseline right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/09ab2c7f36c2b2ffcdd5ea4c9763b703fdc555eee236d11d6ec32f6adbd67759.png" width="238"/>, and then compute <img alt="Equation: y left-parenthesis t right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/2dce68d48408c61b983b221c3a978eacb1a834d525086276001efd700ed8a54d.png" width="39"/> as before.
+This allows me to make the loop over <code>x</code> instead of <code>t</code>, and this way the number of samples somewhat adapts to the length of the segment.
+Caution! The the integer division, like <code>(x-ax)/(bx-ax)</code> may be a source of bugs. Here I cast the division to the floating point.
+Here is the resulting image:</p>
+<p><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/bresenham/f6d0a01799da34ab2ab4.png"/></p>
+<p>This resolves some issues but introduces others: since <code>x</code> is incremented in the loop, the green line disappears (<code>cx</code>&gt;<code>bx</code>).
+The blue line has large gaps, since we'd rather need to iterate over <code>y</code> for steep line segments: again the number of samples is insufficient.
+No biggie, let us first <a href="https://github.com/ssloy/tinyrenderer/blob/d7662fbc12d2c5a11f59111fa978412a19ff5f7f/main.cpp">make the green line re-appear</a>:</p>
+<div><p><strong>Second attempt, round 2</strong></p>
+<pre><code>void line(int ax, int ay, int bx, int by, TGAImage &amp;framebuffer, TGAColor color) {
+    if (ax&gt;bx) { // make it left−to−right
+        std::swap(ax, bx);
+        std::swap(ay, by);
+    }
+    for (int x=ax; x&lt;=bx; x++) {
+        float t = (x-ax) / static_cast&lt;float&gt;(bx-ax);
+        int y = std::round( ay + (by-ay)*t );
+        framebuffer.set(x, y, color);
+    }
+}</code></pre>
+</div>
+<p>I did not modify my <code>for</code> loop, but I swap the endpoints to make the segment left-to-right.
+Therefore, the green line reappears. Note that the yellow line is not visible: now both calls to the yellow and red lines are identical, and therefore the red one overwrites the yellow perfectly.</p>
+<p><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/bresenham/2526c4b9da4fd7e18ff8.png"/></p>
+<p>Let us fix the remaining issue, namely, the insufficient sampling for steep line segments.</p>
+<h2 id="third-attempt-the-bulletproof-one">Third attempt, the bulletproof one</h2>
+<p>Recall how we swapped endpoints to ensure the segment was drawn from left to right?
+We can apply the same trick to address the remaining issue.
+If the line is steep, meaning it is more vertical than horizontal, we transpose the image.
+This transformation makes the line more horizontal in the transposed space.
+Then, after drawing, we de-transpose it back — voilà!</p>
+<p>Check the highlighted lines in the <a href="https://github.com/ssloy/tinyrenderer/blob/3998cbe5a5d31c7d3ab188ae5c634370644bf977/main.cpp">following code</a>:</p>
+<div><p><strong>The bulletproof method</strong></p>
+<pre><code>void line(int ax, int ay, int bx, int by, TGAImage &amp;framebuffer, TGAColor color) {
+    bool steep = std::abs(ax-bx) &lt; std::abs(ay-by);
+    if (steep) { // if the line is steep, we transpose the image
+        std::swap(ax, ay);
+        std::swap(bx, by);
+    }
+    if (ax&gt;bx) { // make it left−to−right
+        std::swap(ax, bx);
+        std::swap(ay, by);
+    }
+    for (int x=ax; x&lt;=bx; x++) {
+        float t = (x-ax) / static_cast&lt;float&gt;(bx-ax);
+        int y = std::round( ay + (by-ay)*t );
+        if (steep) // if transposed, de−transpose
+            framebuffer.set(y, x, color);
+        else
+            framebuffer.set(x, y, color);
+    }
+}</code></pre>
+</div>
+<p>The result is flawless:</p>
+<p><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/bresenham/fd79f2ddf70389798b26.png"/></p>
+<p>This code works pretty well.
+This is exactly the level of complexity I want to see in the final version of our renderer.
+While it is inefficient (due to floating-point operations, multiple divisions, and the like), it remains concise and readable.</p>
+<p>Notably, the code lacks assertions and boundary checks, which is a drawback.
+However, I avoid overloading the code in these articles to keep it accessible.
+At the same time, I consistently emphasize the importance of implementing necessary checks.</p>
+<h2 id="fourth-attempt-optimizations">Fourth attempt: optimizations</h2>
+<p><strong>Warning: This section is primarily included for historical and cultural context.</strong></p>
+<p>While the previous code works well, there is still room for optimization.
+However, optimization must be approached with caution.
+The key consideration is the target platform: optimizing for a graphics card versus a CPU are entirely different challenges.
+Before and during any optimization, profiling is essential — there should be no optimization without measurement!</p>
+<h3 id="round-1">Round 1</h3>
+<p>For the testing I did not modify the <code>line</code> function, but I called it 16 million times with random data so the copiler does not optimize it away.</p>
+<div><p><strong>Testing</strong></p>
+<pre><code>#include &lt;cmath&gt;
+#include &lt;cstdlib&gt;
+#include &lt;ctime&gt;
+#include "tgaimage.h"
+
+void line(int ax, int ay, int bx, int by, TGAImage &amp;framebuffer, TGAColor color) {
+    bool steep = std::abs(ax-bx) &lt; std::abs(ay-by);
+    if (steep) { // if the line is steep, we transpose the image
+        std::swap(ax, ay);
+        std::swap(bx, by);
+    }
+    if (ax&gt;bx) { // make it left−to−right
+        std::swap(ax, bx);
+        std::swap(ay, by);
+    }
+    for (int x=ax; x&lt;=bx; x++) {
+        float t = (x-ax) / static_cast&lt;float&gt;(bx-ax);
+        int y = std::round( ay + (by-ay)*t );
+        if (steep) // if transposed, de−transpose
+            framebuffer.set(y, x, color);
+        else
+            framebuffer.set(x, y, color);
+    }
+}
+
+int main(int argc, char** argv) {
+    constexpr int width  = 64;
+    constexpr int height = 64;
+    TGAImage framebuffer(width, height, TGAImage::RGB);
+
+    std::srand(std::time({}));
+    for (int i=0; i&lt;(1&lt;&lt;24); i++) {
+        int ax = rand()%width, ay = rand()%height;
+        int bx = rand()%width, by = rand()%height;
+        line(ax, ay, bx, by, framebuffer, { rand()%255, rand()%255, rand()%255, rand()%255 });
+    }
+
+    framebuffer.write_tga_file("framebuffer.tga");
+    return 0;
+}</code></pre>
+</div>
+<p>This code creates a pretty random image like this one:</p>
+<p><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/bresenham/c9c784dad1e80b4cfadb.png"/></p>
+<p>I ran the unoptimized <code>line</code> (<a href="https://github.com/ssloy/tinyrenderer/tree/2054b8c6e0208cc877b6ee1aaa003660e705b656">you can find here</a>) for the baseline for the testing:</p>
+<pre><code>ssloy@home:~/tinyrenderer/build$ g++ ../tgaimage.cpp ../main.cpp -O3 -Wno-narrowing &amp;&amp; time ./a.out
+
+real    0m3.986s
+user    0m3.974s
+sys     0m0.009s</code></pre>
+<p>So, on my machine (Intel Xeon w3-2423 @ 3.1 Ghz) it took 3.99 seconds to draw 16 millions lines with full compiler optimization settings <code>-O3</code> turned on.</p>
+<p>Where can we optimize the code?
+I ran the profiler and I saw that the majority of time is spent in the  <code>framebuffer.set()</code> calls,
+but the best we can do is to inline the function and it is out of the scope of this text.
+We can, however, optimize the computation of <code>y</code>.
+In fact, we saw that <img alt="Equation: y left-parenthesis t right-parenthesis equals a Subscript y Baseline plus t dot left-parenthesis b Subscript y Baseline minus a Subscript y Baseline right-parenthesis" class="math-inline" height="32" src="https://beila.github.io/my-collection/math-images/d06a7eed6969fc7c7a98807e9037f8fe4a4fba0338a4f53d50093df6baf5eba8.png" width="217"/>, and <img alt="Equation: t left-parenthesis x right-parenthesis equals left-parenthesis x minus a Subscript x Baseline right-parenthesis slash left-parenthesis b Subscript x Baseline minus a Subscript x Baseline right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/09ab2c7f36c2b2ffcdd5ea4c9763b703fdc555eee236d11d6ec32f6adbd67759.png" width="238"/>.
+Therefore, </p>
+<p><img alt="Equation: y left-parenthesis x right-parenthesis equals a Subscript y Baseline plus left-parenthesis x minus a Subscript x Baseline right-parenthesis StartFraction b Subscript y Baseline minus a Subscript y Baseline Over b Subscript x Baseline minus a Subscript x Baseline EndFraction period" class="math-display" height="46" src="https://beila.github.io/my-collection/math-images/539b6eb73ee2d740128ea3fdb5c07be3f34a381305ca3f54501432f57bf56208.png" width="187"/></p>
+<p>Note that <img alt="Equation: x minus a Subscript x" class="math-inline" height="26" src="https://beila.github.io/my-collection/math-images/e041a733e3b5dbf78110af69b343d48940209d25b2cddb47ea5d894c020e23a7.png" width="64"/> sweeps all the values <img alt="Equation: 0 comma 1 comma 2 ellipsis" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/f23121d8bd51706ead25879737abcc3e86c09182201549fa12b4c417cf80c7a4.png" width="82"/> in the <code>for</code> loop.
+We can therefore form the sequence <img alt="Equation: y 0 equals a Subscript y" class="math-inline" height="26" src="https://beila.github.io/my-collection/math-images/a67861d9635bd081b8501a6c396722cc44349647f57a99f40e1faff580a82f8d.png" width="73"/>, <img alt="Equation: y 1 equals y 0 plus StartFraction b Subscript y Baseline minus a Subscript y Baseline Over b Subscript x Baseline minus a Subscript x Baseline EndFraction" class="math-inline" height="46" src="https://beila.github.io/my-collection/math-images/7b38f624119bd52062e5532eba6d0e101e79ee12a23d86c61245679b1655b266.png" width="148"/>, <img alt="Equation: y 2 equals y 1 plus StartFraction b Subscript y Baseline minus a Subscript y Baseline Over b Subscript x Baseline minus a Subscript x Baseline EndFraction" class="math-inline" height="46" src="https://beila.github.io/my-collection/math-images/060e987a0259f2ea6a20a85e743d49b328f31960969872dd5036a15f54ce3995.png" width="148"/> and so on.</p>
+<p>In other words, at the expense of transforming <code>y</code> from integer type to floating point,
+we can rewrite the previous code this way, the modifications are highlighted:</p>
+<div><p><strong>First optimization</strong></p>
+<pre><code>void line(int ax, int ay, int bx, int by, TGAImage &amp;framebuffer, TGAColor color) {
+    bool steep = std::abs(ax-bx) &lt; std::abs(ay-by);
+    if (steep) { // if the line is steep, we transpose the image
+        std::swap(ax, ay);
+        std::swap(bx, by);
+    }
+    if (ax&gt;bx) { // make it left−to−right
+        std::swap(ax, bx);
+        std::swap(ay, by);
+    }
+    float y = ay;
+    for (int x=ax; x&lt;=bx; x++) {
+        if (steep) // if transposed, de−transpose
+            framebuffer.set(y, x, color);
+        else
+            framebuffer.set(x, y, color);
+        y += (by-ay) / static_cast&lt;float&gt;(bx-ax);
+    }
+}</code></pre>
+</div>
+<pre><code>ssloy@home:~/tinyrenderer/build$ g++ ../tgaimage.cpp ../main.cpp -O3 -Wno-narrowing &amp;&amp; time ./a.out
+
+real    0m2.806s
+user    0m2.801s
+sys     0m0.004s</code></pre>
+<p>Here we have drastic changes in performance: the running time dropped from 3.99 to 2.8 seconds.
+Frankly, I was very surprized to see this improvement, as I'd expect for the optimizer to make this optimization on its own.
+However, while modern optimizing compilers may be the most complex and impressive creation of humanity in the field of software engineering,
+they are not magic, and they are certainly myopic.
+Adding more context helps them, and this is exactly the reason why we must measure the performance.
+Note that I kept <code>(by-ay) / static_cast&lt;float&gt;(bx-ax)</code> inside the critical loop, but the compiler is smart enough to see that this is a constant to be precomputed (I have measured it!).</p>
+<h3 id="round-2">Round 2</h3>
+<p>It is a bit disappointing that we had to switch to <code>float y</code> from <code>int y</code>, especially when <code>framebuffer.set(...)</code> needs to round it anyways.
+Recall that at the core loop the line is more horizontal than vertical, therefore, <code>y</code> is never incremented by more than 1.
+Let us try to switch to <code>int y</code> back: we will introduce a <code>float error</code> variable that measures the error commited by <code>y</code>.
+That is, for each value of <code>x</code>, <code>error</code> gives the distance from <code>y</code> to the perfect line segment.
+Every time <code>error</code> exceeds half a pixel, we will increment <code>y</code> and decrement <code>error</code>.
+Long story short, check <a href="https://github.com/ssloy/tinyrenderer/blob/dbd11a905a6cd3947caf551a7bda5dcbd374425c/main.cpp">this code</a>:</p>
+<div><p><strong>Second optimization</strong></p>
+<pre><code>void line(int ax, int ay, int bx, int by, TGAImage &amp;framebuffer, TGAColor color) {
+    bool steep = std::abs(ax-bx) &lt; std::abs(ay-by);
+    if (steep) { // if the line is steep, we transpose the image
+        std::swap(ax, ay);
+        std::swap(bx, by);
+    }
+    if (ax&gt;bx) { // make it left−to−right
+        std::swap(ax, bx);
+        std::swap(ay, by);
+    }
+    int y = ay;
+    float error = 0;
+    for (int x=ax; x&lt;=bx; x++) {
+        if (steep) // if transposed, de−transpose
+            framebuffer.set(y, x, color);
+        else
+            framebuffer.set(x, y, color);
+        error += std::abs(by-ay)/static_cast&lt;float&gt;(bx-ax);
+        if (error&gt;.5) {
+            y += by &gt; ay ? 1 : -1;
+            error -= 1.;
+        }
+    }
+}</code></pre>
+</div>
+<p>Once again, I highlighted the lines affected by the changes.
+This time the timings are not surprizing, we are doing more work, so the time increased from 2.8 to 3.7 seconds :</p>
+<pre><code>ssloy@home:~/tinyrenderer/build$ g++ ../tgaimage.cpp ../main.cpp -O3 -Wno-narrowing &amp;&amp; time ./a.out
+
+real    0m3.717s
+user    0m3.712s
+sys     0m0.004s</code></pre>
+<h3 id="round-3-the-final-one">Round 3, the final one</h3>
+<p>Can we eliminate floating-point computations entirely? Let’s examine the previous listing.</p>
+<p>We start with <code>error</code> initialized to zero, and we actually use this variable three times—in lines 18, 19, and 21.
+Do we need fractional values? Surprisingly, not at all.
+By introducing an integer variable <code>ierror</code>, defined as <code>error * 2 * (bx - ax)</code>, we can eliminate floating-point operations altogether.
+Check the <a href="https://github.com/ssloy/tinyrenderer/blob/477b3cd686ed16cb2f5b723d51ae4d0ec728fdc5/main.cpp">following code</a>:</p>
+<div><p><strong>Final optimization</strong></p>
+<pre><code>void line(int ax, int ay, int bx, int by, TGAImage &amp;framebuffer, TGAColor color) {
+    bool steep = std::abs(ax-bx) &lt; std::abs(ay-by);
+    if (steep) { // if the line is steep, we transpose the image
+        std::swap(ax, ay);
+        std::swap(bx, by);
+    }
+    if (ax&gt;bx) { // make it left−to−right
+        std::swap(ax, bx);
+        std::swap(ay, by);
+    }
+    int y = ay;
+    int ierror = 0;
+    for (int x=ax; x&lt;=bx; x++) {
+        if (steep) // if transposed, de−transpose
+            framebuffer.set(y, x, color);
+        else
+            framebuffer.set(x, y, color);
+        ierror += 2 * std::abs(by-ay);
+        if (ierror &gt; bx - ax) {
+            y += by &gt; ay ? 1 : -1;
+            ierror -= 2 * (bx-ax);
+        }
+    }
+}</code></pre>
+</div>
+<p>Once again, I have highlighted the affected lines.
+It turns out we have arrived at Bresenham’s line-drawing algorithm.
+Now, let’s measure the performance:</p>
+<pre><code>ssloy@home:~/tinyrenderer/build$ g++ ../tgaimage.cpp ../main.cpp -O3 -Wno-narrowing &amp;&amp; time ./a.out
+
+real    0m3.573s
+user    0m3.572s
+sys     0m0.000s</code></pre>
+<p>The time dropped from 3.7 seconds in the previous round (and from 3.99 seconds in the non-optimized version) to 3.57 seconds in this one.
+However, it <strong>increased</strong> from 2.8 seconds in round 1!
+I attempted optimizations such as moving <code>2*(bx - ax)</code> out of the loop, but the compiler had already performed this optimization.</p>
+<p>In the past, floating-point operations were significantly more expensive than integer ones (or even entirely inaccessible).
+This is why Jack Elton Bresenham developed his all-integer rasterization algorithm in the 1960s.
+As seen in my experiments, integers can still be faster than floating-point computations (this round is more efficient than the previous one), but the performance gain is marginal.
+Today, integer operations are not always more efficient than floating-point calculations — it depends on the context.</p>
+<p>Nevertheless, mastering these techniques remains valuable.
+As mentioned earlier, this section serves mainly as a historical tribute to Professor Bresenham.
+His algorithm is elegant, and the discovery of all-integer rasterization was truly ingenious.</p>
+<h3 id="round-4-postscriptum">Round 4, postscriptum</h3>
+<p>What is the real reason why the code from round 3 is slower than the code from round 1? We are performing integer computations, which are generally faster than floating-point ones.
+However, we introduced an <code>if</code> condition inside the critical loop, and that negatively impacts performance.</p>
+<p>On a typical x86 processor, instruction execution is divided into several stages.
+Different hardware components handle different stages, allowing multiple instructions to be processed simultaneously.
+This technique is called <strong>pipelining</strong>.
+However, when a branch occurs, the next instruction depends on the result of the previous one, preventing efficient pipelining.
+The processor either waits or predicts the outcome, potentially mispredicting and stalling the pipeline.</p>
+<p>The <code>if (steep)</code> condition does not significantly affect performance, as modern branch predictors handle it well — especially since the same branch is consistently taken inside the critical loop.
+However, <code>if (ierror &gt; bx - ax)</code> is the performance killer.</p>
+<p>There are techniques to rewrite computations in a branchless form, but I applied a trick so ugly, that I didn’t even commit it to the repository.
+Check lines 19-20:</p>
+<div><p><strong>Ugly branchless rasterization</strong></p>
+<pre><code>void line(int ax, int ay, int bx, int by, TGAImage &amp;framebuffer, TGAColor color) {
+    bool steep = std::abs(ax-bx) &lt; std::abs(ay-by);
+    if (steep) { // if the line is steep, we transpose the image
+        std::swap(ax, ay);
+        std::swap(bx, by);
+    }
+    if (ax&gt;bx) { // make it left−to−right
+        std::swap(ax, bx);
+        std::swap(ay, by);
+    }
+    int y = ay;
+    int ierror = 0;
+    for (int x=ax; x&lt;=bx; x++) {
+        if (steep) // if transposed, de−transpose
+            framebuffer.set(y, x, color);
+        else
+            framebuffer.set(x, y, color);
+        ierror += 2 * std::abs(by-ay);
+        y += (by &gt; ay ? 1 : -1) * (ierror &gt; bx - ax);
+        ierror -= 2 * (bx-ax)   * (ierror &gt; bx - ax);
+    }
+}</code></pre>
+</div>
+<p>As I said, the trick is ugly, I <strong>always</strong> increment <code>y</code> and <code>ierror</code>, but most of time by zero :)
+Let us measure the performance:</p>
+<pre><code>ssloy@home:~/tinyrenderer/build$ g++ ../tgaimage.cpp ../main.cpp -O3 -Wno-narrowing &amp;&amp; time ./a.out
+
+real    0m2.732s
+user    0m2.731s
+sys     0m0.000s</code></pre>
+<p>Yay, this code is the fastest!</p>
+<h2 id="homework-wireframe-rendering">Homework: wireframe rendering</h2>
+<p>Now we are ready to create wireframe renderings. What is missing?
+The art!
+Here is an example of an <a href="https://github.com/ssloy/tinyrenderer/blob/5c8360eae3c3fde1264713c8f6a303a2956217f0/obj/diablo3_pose/diablo3_pose.obj">object to render</a>.
+I used the <a href="https://en.wikipedia.org/wiki/Wavefront_.obj_file">wavefront obj</a> file format to store the models,
+it is a simple text-based format.
+At this stage, we are interested by the lines starting by <code>v</code> and by <code>f</code>.</p>
+<p>Lines starting with <code>v</code> define vertices in 3D space. Each line contains three numbers representing the <img alt="Equation: x" class="math-inline" height="20" src="https://beila.github.io/my-collection/math-images/da3ae1124928cdc0cf7f6434c3439af96259a8025612ab824685be59bd92a748.png" width="16"/>, <img alt="Equation: y" class="math-inline" height="23" src="https://beila.github.io/my-collection/math-images/84af71808142288754b27305a87e38319b4c08c2c95a958128e2010f1a1ab1a2.png" width="15"/> and <img alt="Equation: z" class="math-inline" height="20" src="https://beila.github.io/my-collection/math-images/d5b5f5d2397207bcecd119e4b16ad55d7f2008e078e844b1775b82b4390d6c4b.png" width="15"/> coordinates of a vertex.
+Example:
+<pre><code>v 0.608654 -0.568839 -0.416318</code></pre>
+This means there is a vertex at coordinates (0.608654,−0.568839,−0.416318).</p>
+<p>Lines starting with <code>f</code> define faces, which are polygons connecting the vertices from the previous array.
+Example:
+<pre><code>f 1193/1240/1193 1180/1227/1180 1179/1226/1179</code></pre>
+Right now we are interested in the first number after each space.
+It is the index of the vertex in the <code>v</code> array that we have read before.
+Thus, this line says that vertices 1193, 1180 and 1179 form a triangle.
+Note that in obj files indices start from 1, so we need to decrement these indices when using C++ arrays.</p>
+<p>Pause here for a moment and try to generate the following image.
+Whether you succeed or struggle, attempting the task before reading further is essential.
+Simply reading the code that follows will not be as beneficial unless you have made an effort to implement your own version first.</p>
+<p>Once again, my source code is not what matters — I am a mediocre programmer.
+The real learning happens when you compare your implementation to mine.</p>
+<p><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/bresenham/2fe3524dae6605b8bcb8.png"/></p>
+<h2 id="my-solution">My solution</h2>
+<p><a href="https://github.com/ssloy/tinyrenderer/tree/1e1d3392e8b4e650dd09b3345ff3d2463039675e">Here is</a> my solution to the homework assignment.
+The data structure I am loading the file is straightforward:</p>
+<div><p><strong>model.h</strong></p>
+<pre><code>#include &lt;vector&gt;
+#include "geometry.h"
+
+class Model {
+    std::vector&lt;vec3&gt; verts = {};    // array of vertices
+    std::vector&lt;int&gt; facet_vrt = {}; // per-triangle index in the above array
+public:
+    Model(const std::string filename);
+    int nverts() const; // number of vertices
+    int nfaces() const; // number of triangles
+    vec3 vert(const int i) const;                          // 0 &lt;= i &lt; nverts()
+    vec3 vert(const int iface, const int nthvert) const;   // 0 &lt;= iface &lt;= nfaces(), 0 &lt;= nthvert &lt; 3
+};</code></pre>
+</div>
+<p>The <code>v</code> lines are loaded as is to the <code>verts</code> array as is, and the indices of the vertices forming each triangle are loaded to the <code>facet_vrt</code> array.
+It means that the size of <code>facet_vrt</code> is a multiple of 3, as it stores three integers per triangle.
+Those are private members, there are more high-level functions to interface the model:
+<code>int nverts()</code> and <code>int nfaces()</code> allow to query the number of vertices and the number of triangles in the model,
+<code>vec3 vert(int)</code> allows to query the point cloud directly, and <code>vec3 vert(int, int)</code> allows to ask for one of three points of a specific triangle.
+Finally, in the constructor of <code>Model(std::string filename)</code> there is a very basic parser for the part of .obj files we are interested in right now.</p>
+<p><code>vec3</code> template gives a storage container for 3D vectors, the data can be accessed through both <code>operator[]</code> and <code>.x</code>, <code>.y</code> and <code>.z</code> members.
+At the moment it can look a bit overdesigned, but I need templates to implement <code>vec2</code> and <code>vec4</code>, as well as matrices and common arithmetic operations over it.</p>
+<p>And here is the main rendering code:</p>
+<div><p><strong>main.cpp</strong></p>
+<pre><code>#include &lt;cmath&gt;
+#include &lt;tuple&gt;
+#include "geometry.h"
+#include "model.h"
+#include "tgaimage.h"
+
+constexpr int width  = 800;
+constexpr int height = 800;
+
+constexpr TGAColor white   = {255, 255, 255, 255}; // attention, BGRA order
+constexpr TGAColor green   = {  0, 255,   0, 255};
+constexpr TGAColor red     = {  0,   0, 255, 255};
+constexpr TGAColor blue    = {255, 128,  64, 255};
+constexpr TGAColor yellow  = {  0, 200, 255, 255};
+
+void line(int ax, int ay, int bx, int by, TGAImage &amp;framebuffer, TGAColor color) {
+    bool steep = std::abs(ax-bx) &lt; std::abs(ay-by);
+    if (steep) { // if the line is steep, we transpose the image
+        std::swap(ax, ay);
+        std::swap(bx, by);
+    }
+    if (ax&gt;bx) { // make it left−to−right
+        std::swap(ax, bx);
+        std::swap(ay, by);
+    }
+    int y = ay;
+    int ierror = 0;
+    for (int x=ax; x&lt;=bx; x++) {
+        if (steep) // if transposed, de−transpose
+            framebuffer.set(y, x, color);
+        else
+            framebuffer.set(x, y, color);
+        ierror += 2 * std::abs(by-ay);
+        if (ierror &gt; bx - ax) {
+            y += by &gt; ay ? 1 : -1;
+            ierror -= 2 * (bx-ax);
+        }
+    }
+}
+
+std::tuple&lt;int,int&gt; project(vec3 v) { // First of all, (x,y) is an orthogonal projection of the vector (x,y,z).
+    return { (v.x + 1.) *  width/2,   // Second, since the input models are scaled to have fit in the [-1,1]^3 world coordinates,
+             (v.y + 1.) * height/2 }; // we want to shift the vector (x,y) and then scale it to span the entire screen.
+}
+
+int main(int argc, char** argv) {
+    if (argc != 2) {
+        std::cerr &lt;&lt; "Usage: " &lt;&lt; argv[0] &lt;&lt; " obj/model.obj" &lt;&lt; std::endl;
+        return 1;
+    }
+
+    Model model(argv[1]);
+    TGAImage framebuffer(width, height, TGAImage::RGB);
+
+    for (int i=0; i&lt;model.nfaces(); i++) { // iterate through all triangles
+        auto [ax, ay] = project(model.vert(i, 0));
+        auto [bx, by] = project(model.vert(i, 1));
+        auto [cx, cy] = project(model.vert(i, 2));
+        line(ax, ay, bx, by, framebuffer, red);
+        line(bx, by, cx, cy, framebuffer, red);
+        line(cx, cy, ax, ay, framebuffer, red);
+    }
+
+    for (int i=0; i&lt;model.nverts(); i++) { // iterate through all vertices
+        vec3 v = model.vert(i);            // get i-th vertex
+        auto [x, y] = project(v);          // project it to the screen
+        framebuffer.set(x, y, white);
+    }
+
+    framebuffer.write_tga_file("framebuffer.tga");
+    return 0;
+}</code></pre>
+</div>
+<p>The highlighted lines are of particular interest.
+The loop in lines 55-62 performs actual rendering, it iterates through all triangles,
+projects three vertices to the screen, and calls <code>line()</code> function we have implemented.</p>
+<p>The projection (lines 41-44) merits a bit of attention. First of all, here I take a 3D point cloud that I am projecting to a 2D screen.
+It turns out that if we simply forget the <img alt="Equation: z" class="math-inline" height="20" src="https://beila.github.io/my-collection/math-images/d5b5f5d2397207bcecd119e4b16ad55d7f2008e078e844b1775b82b4390d6c4b.png" width="15"/> coordinate, it is an orthogonal projection of the model to the <img alt="Equation: 0 x y" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/7c273662e84e7f5c15d28b6bf233d76eb9b2b33b6fda078faea8a20285530b1d.png" width="38"/> plane.
+Then we need a small tweaking. The models in my repository are scaled so they fit the <img alt="Equation: left-bracket negative 1 comma 1 right-bracket cubed" class="math-inline" height="32" src="https://beila.github.io/my-collection/math-images/859eb2af6d57060d8266f1310279ec07652db39ff4a6eceb9adbf69900ec02ea.png" width="73"/> cube.
+Therefore, if we just drop the <img alt="Equation: z" class="math-inline" height="20" src="https://beila.github.io/my-collection/math-images/d5b5f5d2397207bcecd119e4b16ad55d7f2008e078e844b1775b82b4390d6c4b.png" width="15"/> coordinate, they will fit only 4 pixels, and 3 of them are out of the screen.
+So, the projection is made with three following steps:</p>
+<ul>
+<li>we drop the <img alt="Equation: z" class="math-inline" height="20" src="https://beila.github.io/my-collection/math-images/d5b5f5d2397207bcecd119e4b16ad55d7f2008e078e844b1775b82b4390d6c4b.png" width="15"/> coordinate</li>
+<li>we add 1 to both <img alt="Equation: x" class="math-inline" height="20" src="https://beila.github.io/my-collection/math-images/da3ae1124928cdc0cf7f6434c3439af96259a8025612ab824685be59bd92a748.png" width="16"/> and <img alt="Equation: y" class="math-inline" height="23" src="https://beila.github.io/my-collection/math-images/84af71808142288754b27305a87e38319b4c08c2c95a958128e2010f1a1ab1a2.png" width="15"/>, therefore the 2D point cloud lies in the <img alt="Equation: left-bracket 0 comma 2 right-bracket squared" class="math-inline" height="32" src="https://beila.github.io/my-collection/math-images/75fba0996334683361c0d22ec1fe8fb77c4bba348c1ee0509e09f8dabc6e780f.png" width="56"/> square</li>
+<li>we scale the square so it spans all the screen by multiplying the coordinates by <code>size/2</code>, now the 2D point cloud fits the <img alt="Equation: left-bracket 0 comma size right-bracket squared" class="math-inline" height="32" src="https://beila.github.io/my-collection/math-images/d37c70bd5917a2d916cca3448871bff6f529c7c4606d915efd1915c75aa5dc3f.png" width="79"/> square.</li>
+</ul>
+<p>This is called the <a href="https://www.songho.ca/opengl/gl_viewport.html">viewport transform</a> that we will address a couple of lessons later.</p>
+<p>Here are two more renderings generated with my solution:</p>
+<p><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/bresenham/0287c3cdf9166027e330.png"/></p>
+<p><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/bresenham/61038d11630c4771c658.png"/></p>
+<p>Next, we will move on to filling triangles to create solid renders. Stay tuned!</p>
+<hr/>
+<h3>Comments</h3>
+</article>
+</body>
+</html>

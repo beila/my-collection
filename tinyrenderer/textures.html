@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>More data!</title>
+<style>
+body { margin: 0 auto; max-width: 46rem; padding: 1rem; font: 18px/1.6 Georgia, serif; }
+img { display: block; max-width: 100%; height: auto; margin: 1rem auto; }
+pre { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 0.85em; }
+</style>
+</head>
+<body>
+<article>
+<h1>More data!</h1>
+<p class="source-link"><a href="https://haqr.eu/tinyrenderer/textures/">Original chapter on haqr.eu</a></p>
+<p>Let us continue our discussion about shading. How can we add more realism to our renders?
+At this stage, I don’t want to introduce additional mathematics — instead, I want us to stop ignoring the data that is already available to us. We will continue to use the Phong reflection model that we <a href="https://beila.github.io/my-collection/tinyrenderer/textures.html">implemented earlier</a>.</p>
+<p>Our goal today is to gradually improve the realism of our renderings without making major changes to the shader itself:</p>
+<p><a href="https://haqr.eu/tinyrenderer/textures/teaser.jpg"><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/textures/84c612abc66577ce2071.jpg"/></a></p>
+<h2 id="smooth-shading">Smooth shading</h2>
+<h3 id="curved-geometry">Curved geometry</h3>
+<p>In the Phong reflection model, if the light direction and camera are fixed, the estimated light intensity depends only on the normal vector at the surface. In our previous implementation, the surface was composed of flat triangles, meaning each triangle had a single constant normal vector. The result was a very faceted look.</p>
+<p>So, how can we achieve smoother renderings? The answer: provide more data.</p>
+<p>One naïve approach would be to define an extremely fine mesh, so fine that each triangle is smaller than a pixel on screen. While this would produce smooth results, it is computationally very expensive. A cheaper, smarter method is preferable.</p>
+<p>Do you recall the exercise on <a href="https://beila.github.io/my-collection/tinyrenderer/bresenham.html">drawing straight line segments</a>? Given two points <img alt="Equation: upper P 0" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/6858b61d264c28f13d27da7da78aec3ff5a71145ee86db2d0ae2fb8e8e57c745.png" width="28"/> and <img alt="Equation: upper P 1" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/9d6c81be5a0a266e7e4b9c75f6ca8a2723246a4842d4da179790c9779bd59ee0.png" width="28"/>, we can interpolate between them:</p>
+<p><img alt="Equation: upper P left-parenthesis t right-parenthesis equals left-parenthesis 1 minus t right-parenthesis upper P 0 plus t upper P 1" class="math-display" height="26" src="https://beila.github.io/my-collection/math-images/4e2d35db7a4f439a4a4d9c4d0a1dd215b47bafd9f9fd91d275239ea1560e6853.png" width="152"/></p>
+<p>We vary the parameter <img alt="Equation: t" class="math-inline" height="23" src="https://beila.github.io/my-collection/math-images/9523063f763568e2d751afced5a133b8b30970f284ec85cad95734a49d9eba29.png" width="13"/> between 0 and 1, thus sweeping the segment.
+Here is a small Python implementation for those who want to experiment again:</p>
+<div><p><strong>straight.py</strong></p>
+<pre><code>import numpy as np, matplotlib.pyplot as plt
+
+P0, P1 = np.array([0,0]), np.array([3,1])
+t = np.linspace(0,1,100)[:,None]
+P = (1-t)*P0 + t*P1
+
+plt.plot(*P.T)
+plt.show()</code></pre>
+</div>
+<p>Expected output:</p>
+<p><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/textures/36e2075acdd5fb261e4c.png"/></p>
+<p>This process is simply <a href="https://en.wikipedia.org/wiki/Linear_interpolation">linear interpolation</a> between <img alt="Equation: upper P 0" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/6858b61d264c28f13d27da7da78aec3ff5a71145ee86db2d0ae2fb8e8e57c745.png" width="28"/> and <img alt="Equation: upper P 1" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/9d6c81be5a0a266e7e4b9c75f6ca8a2723246a4842d4da179790c9779bd59ee0.png" width="28"/>. “Linear” means that <img alt="Equation: upper P left-parenthesis t right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/c45775ff408d0ec6ac5f45b5d7c2cd64702f5c5516d1bfa70cdf469e75eca9fa.png" width="44"/> is a polynomial of order 1.</p>
+<p>But what if we use a higher-order polynomial? 
+For example, we can redefine <img alt="Equation: upper P left-parenthesis t right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/c45775ff408d0ec6ac5f45b5d7c2cd64702f5c5516d1bfa70cdf469e75eca9fa.png" width="44"/> as follows:</p>
+<p><img alt="Equation: upper P left-parenthesis t right-parenthesis equals left-parenthesis 1 minus t right-parenthesis cubed upper P 0 plus 3 left-parenthesis 1 minus t right-parenthesis squared t upper P 1 plus 3 left-parenthesis 1 minus t right-parenthesis t squared upper P 2 plus t cubed upper P 3" class="math-display" height="28" src="https://beila.github.io/my-collection/math-images/872027fa15034dacf26921bb87968d0190c2446257ab57952401a9f0d1a291bd.png" width="354"/></p>
+<p>Here we have four control points <img alt="Equation: upper P 0 comma upper P 1 comma upper P 2 comma upper P 3" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/affe7194211b8334ab95d6e015ded903395be7bb6dd554f5b3e9a39be2e7ffc1.png" width="124"/>. Now <img alt="Equation: upper P left-parenthesis t right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/c45775ff408d0ec6ac5f45b5d7c2cd64702f5c5516d1bfa70cdf469e75eca9fa.png" width="44"/> is a cubic function of <img alt="Equation: t" class="math-inline" height="23" src="https://beila.github.io/my-collection/math-images/9523063f763568e2d751afced5a133b8b30970f284ec85cad95734a49d9eba29.png" width="13"/>. As <img alt="Equation: t" class="math-inline" height="23" src="https://beila.github.io/my-collection/math-images/9523063f763568e2d751afced5a133b8b30970f284ec85cad95734a49d9eba29.png" width="13"/> varies from 0 to 1, the point sweeps out a curve, not a straight line. This is the principle of <a href="https://en.wikipedia.org/wiki/B%C3%A9zier_curve">Bézier curves</a>, widely used in <a href="https://en.wikipedia.org/wiki/Computer-aided_design">computer-aided design</a>.</p>
+<p>Python implementation and visualization:</p>
+<div><p><strong>bezier.py</strong></p>
+<pre><code>import numpy as np, matplotlib.pyplot as plt
+
+# Bézier control points
+P0, P1, P2, P3 = np.array([0,0]), np.array([1,1.5]), np.array([2,2]), np.array([3,1])
+
+# Bézier curve
+t = np.linspace(0,1,100)[:,None]
+P = (1-t)**3*P0 + 3*(1-t)**2*t*P1 + 3*(1-t)*t**2*P2 + t**3*P3
+
+# plot it
+plt.plot(*P.T)
+plt.show()</code></pre>
+</div>
+<p><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/textures/d7e474715afa02a6cad8.png"/></p>
+<p>Another way to define the same curve is by specifying endpoint normal vectors instead of adding extra control points:</p>
+<p><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/textures/d55fa0cae3b0adfe37b3.png"/></p>
+<p>This is known as a <a href="https://en.wikipedia.org/wiki/Cubic_Hermite_spline">cubic Hermite spline</a> (1). Here is a python code:</p>
+<ol>
+<li>Traditional Hermite interpolation uses tangent vectors instead of normals, but the idea is similar.</li>
+</ol>
+<div><p><strong>hermite.py</strong></p>
+<pre><code>import numpy as np, matplotlib.pyplot as plt
+
+# Hermite control points and normals
+P0, P1, N0, N1 = np.array([0,0]), np.array([3,1]), np.array([-4.5,3]), np.array([3,3])
+
+# Hermite curve
+t = np.linspace(0,1,100)[:,None]
+P = (2*t**3-3*t**2+1)*P0 + (-2*t**3+3*t**2)*P1 + (t**3-2*t**2+t)*(np.array([[0,1],[-1,0]])@N0) + (t**3-t**2)*(np.array([[0,1],[-1,0]])@N1)
+
+# plot it
+plt.plot(*P.T)
+plt.show()</code></pre>
+</div>
+<p>Back to our task: it is possible to define curved triangles if, in addition to vertex positions, we specify normal vectors at each vertex:</p>
+<p><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/textures/a2d341aa0dcd2421fe5f.png"/></p>
+<p>Fortunately, artists already provide this data. Until now, we only considered lines starting with <code>v</code> and <code>f</code> in the <a href="https://en.wikipedia.org/wiki/Wavefront_.obj_file">Wavefront OBJ format</a>. Now, we must also consider <code>vn</code> lines, which define 3D normal vectors:
+<pre><code>vn 0 1 0</code></pre>
+This represents a vector aligned with the <img alt="Equation: y" class="math-inline" height="23" src="https://beila.github.io/my-collection/math-images/84af71808142288754b27305a87e38319b4c08c2c95a958128e2010f1a1ab1a2.png" width="15"/>-axis.
+<code>f</code> lines (faces) now include references to both vertex and normal indices:</p>
+<p><pre><code>f 6/4/1 3/5/3 7/6/5</code></pre>
+Here, the first and last numbers of each slash-separated triplet correspond to vertex indices (from <code>v</code>) and normal indices (from <code>vn</code>). For example, this face uses vertices 6, 3, and 7, with normals 1, 3, and 5. Remember: OBJ indices start from 1, so you must subtract 1 when working with C++ arrays.</p>
+<p>We’ll handle the remaining <code>vt</code> texture coordinate lines later.</p>
+<p>Parsing <code>v</code>, <code>vn</code>, and <code>f</code> gives us data like this:</p>
+<p><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/textures/d0054e53df15bbaa5224.png"/></p>
+<p>There are vertices connected into triangles, and there are vectors specified per vertex.</p>
+<h3 id="a-practical-shortcut">A practical shortcut</h3>
+<p>While defining true curved geometry is possible, it’s expensive. Instead, let’s “cheat.” During rasterization, each fragment <img alt="Equation: upper P" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/6cf81510550a1c06b10ff9eafed102f11f46e3134450752e3514fe96056de2cd.png" width="20"/> is already computed as a barycentric interpolation of triangle vertices:</p>
+<p><img alt="Equation: upper P equals alpha 0 upper P 0 plus alpha 1 upper P 1 plus alpha 2 upper P 2 period" class="math-display" height="24" src="https://beila.github.io/my-collection/math-images/44baef3aa38afac4ce73a66ca72783543ab46d1e73151691a9ea18bbf4661b0c.png" width="167"/></p>
+<p>Instead of computing the normal as <img alt="Equation: ModifyingAbove n With right-arrow equals ModifyingAbove upper P 0 upper P 1 With right-arrow times ModifyingAbove upper P 0 upper P 2 With right-arrow" class="math-inline" height="43" src="https://beila.github.io/my-collection/math-images/eeed1a27692397faba3fc9bbd4c890bf1d240ab673f800c0ee90d29499e4caa3.png" width="165"/>, we interpolate the vertex normals:</p>
+<p><img alt="Equation: ModifyingAbove n With right-arrow equals alpha 0 ModifyingAbove n 0 With right-arrow plus alpha 1 ModifyingAbove n 1 With right-arrow plus alpha 2 ModifyingAbove n 2 With right-arrow period" class="math-display" height="28" src="https://beila.github.io/my-collection/math-images/189d42ec7684c2f909c112887fb6dfdf79405a3cad73199591e6856390869490.png" width="163"/></p>
+<p>This gives varying shading across the triangle surface:</p>
+<p><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/textures/c62154d4a96f5da7cfa5.png"/></p>
+<p>The geometry remains flat, but the varying shading tricks the eye into perceiving smoothness.
+Since usually the curvature of the triangles is pretty low, this simple computational hack is enough to produce visually plausible results.</p>
+<h3 id="homework-1-smooth-shading">Homework 1: smooth shading</h3>
+<p>Parse per-vertex normals and update your shader to use them. The faceted look will disappear, and you’ll obtain smooth surfaces:</p>
+<p><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/textures/af072e2b234ed267af2a.png"/></p>
+<p>Although the triangles are still flat (noticeable at the silhouette), the shading convinces the eye otherwise. <a href="https://github.com/ssloy/tinyrenderer/commit/e42447a9bf2a64f4a33bcb755f9ff54d8787420b">Here is my implementation</a> for reference, but try implementing it yourself first.</p>
+<div><p><strong>Normal vector transformation caveat</strong></p>
+<p>If you have implemented the <a href="https://beila.github.io/my-collection/tinyrenderer/camera.html">camera model</a>, then the vertices are transformed by the <code>ModelView</code> matrix.
+Since normal vectors are also given in the model space, and the shading is done in camera space, we need to transform the normals along with the vertices.
+It is tempting to apply <code>ModelView</code> matrix to the normals as well, and it will work most of the time. There is a caveat though.</p>
+<p><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/textures/5e899353abd33f115783.png"/></p>
+<p>Imagine we have a 2D scene made of one segment with endpoints (0, 1) and (1, 0).
+Then the tangent vector <img alt="Equation: ModifyingAbove t With right-arrow" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/cc2a03fc57232275c8ea8e8f40cef3cab2fb05f7abc1059c6a3acffa2c129a72.png" width="16"/> can be found as the difference between them:</p>
+<p><img alt="Equation: ModifyingAbove t With right-arrow colon equals left-parenthesis 1 0 right-parenthesis Superscript down-tack Baseline minus left-parenthesis 0 1 right-parenthesis Superscript down-tack Baseline equals left-parenthesis 1 negative 1 right-parenthesis Superscript down-tack Baseline period" class="math-display" height="28" src="https://beila.github.io/my-collection/math-images/a4bb4a94189d7edba977bd1acf13e1f324b07dcdc6fa244caac0c60c12172373.png" width="207"/>
+Vector <img alt="Equation: ModifyingAbove n With right-arrow colon equals left-parenthesis 1 1 right-parenthesis Superscript down-tack" class="math-inline" height="32" src="https://beila.github.io/my-collection/math-images/07c824208af43b776f145d59eb252b07080f5628983c6899d27fdce9ab95d884.png" width="107"/> is normal to the segment, since <img alt="Equation: ModifyingAbove t With right-arrow up-tack ModifyingAbove n With right-arrow" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/9c334e1db2c30d5a921271c9f31ef4f81dc4ea26a87bd71602725477ce78b6fb.png" width="57"/>:</p>
+<p><img alt="Equation: ModifyingAbove t With right-arrow dot ModifyingAbove n With right-arrow equals 1 dot 1 plus left-parenthesis negative 1 right-parenthesis dot 1 equals 0 period" class="math-display" height="28" src="https://beila.github.io/my-collection/math-images/a14a0bb63c37fa05accb5eb2baa7cd2083e3c85735ac2872fbd4326f399ac8b5.png" width="169"/></p>
+<p>I want to transform the geometry by the matrix <img alt="Equation: upper M" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/6c987791799363b8214d2408c71278b933b127028e982cb4bc32c570a49d6061.png" width="27"/> defined as follows:</p>
+<p><img alt="Equation: upper M colon equals Start 2 By 2 Matrix 1st Row 1st Column 1 2nd Column 0 2nd Row 1st Column 0 2nd Column 2 EndMatrix period" class="math-display" height="46" src="https://beila.github.io/my-collection/math-images/d2c874303d2e01ba019d5d5a32890d69fcd868068cc3810c97a3e283d862b449.png" width="104"/></p>
+<p>The transformed tangent <img alt="Equation: ModifyingAbove t prime With right-arrow" class="math-inline" height="38" src="https://beila.github.io/my-collection/math-images/b8653f269e38f6ad98d6133910cbf696ebbac352c3130cdd117be14a991b3b61.png" width="26"/> is easy to compute:</p>
+<p><img alt="Equation: ModifyingAbove t prime With right-arrow equals upper M ModifyingAbove t With right-arrow equals left-parenthesis 1 negative 2 right-parenthesis Superscript down-tack Baseline period" class="math-display" height="36" src="https://beila.github.io/my-collection/math-images/3c365a06cfb2e4998d73ccde706f04001a135b167f9527cc1be9ce33d1d4e4d1.png" width="144"/></p>
+<p>Now let us check the vector <img alt="Equation: ModifyingAbove m With right-arrow" class="math-inline" height="26" src="https://beila.github.io/my-collection/math-images/c2c3aa5e96cf3cfc25215d6262ce6b896b2c264dc1af7b388a3a0a7b2d9e8309.png" width="23"/> that was obtained as the direct transformation of <img alt="Equation: ModifyingAbove n With right-arrow" class="math-inline" height="26" src="https://beila.github.io/my-collection/math-images/45dd6109c71bda0ad1655a0337e8975dedb907c7082e9cc8ec26d836910a10be.png" width="17"/> by <img alt="Equation: upper M" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/6c987791799363b8214d2408c71278b933b127028e982cb4bc32c570a49d6061.png" width="27"/>:</p>
+<p><img alt="Equation: ModifyingAbove m With right-arrow colon equals upper M ModifyingAbove n With right-arrow equals left-parenthesis 1 2 right-parenthesis Superscript down-tack Baseline period" class="math-display" height="28" src="https://beila.github.io/my-collection/math-images/30f16d5e3c3c5e39f302d901f5f6cf06d19bd4ee3c4c1c6bcf250dda188da26e.png" width="130"/></p>
+<p>It turns out that <img alt="Equation: ModifyingAbove m With right-arrow" class="math-inline" height="26" src="https://beila.github.io/my-collection/math-images/c2c3aa5e96cf3cfc25215d6262ce6b896b2c264dc1af7b388a3a0a7b2d9e8309.png" width="23"/> is <strong>not</strong> orthogonal to <img alt="Equation: ModifyingAbove t prime With right-arrow" class="math-inline" height="38" src="https://beila.github.io/my-collection/math-images/b8653f269e38f6ad98d6133910cbf696ebbac352c3130cdd117be14a991b3b61.png" width="26"/>:</p>
+<p><img alt="Equation: ModifyingAbove t prime With right-arrow dot ModifyingAbove m With right-arrow equals 1 dot 1 plus left-parenthesis negative 2 right-parenthesis dot 2 not-equals 0 period" class="math-display" height="36" src="https://beila.github.io/my-collection/math-images/4b275194b26aed18062c5982b1abe564e441eb6a0b535a7fc6d4929c4299d1d5.png" width="180"/></p>
+<p>In other words, <strong>we do not need to transform normals, we need to compute normals to the transformed geometry.</strong>
+It is easy to do, let us define another vector <img alt="Equation: ModifyingAbove n prime With right-arrow" class="math-inline" height="38" src="https://beila.github.io/my-collection/math-images/ca05681f1370bda8ca9a6c8b8a2aea64a682cb17fcba964548cf8c31708aae3c.png" width="26"/> as follows:</p>
+<p><img alt="Equation: ModifyingAbove n prime With right-arrow colon equals left-parenthesis upper M Superscript negative 1 Baseline right-parenthesis Superscript down-tack Baseline ModifyingAbove n With right-arrow" class="math-display" height="36" src="https://beila.github.io/my-collection/math-images/58d78aee05850da0ab54c8a36dc4c3c80699e088c20796a451a6fcdaa3a4077b.png" width="102"/></p>
+<p>We can easily verify that <img alt="Equation: ModifyingAbove n prime With right-arrow up-tack ModifyingAbove t prime With right-arrow" class="math-inline" height="38" src="https://beila.github.io/my-collection/math-images/3bac4c6b352964ad168f632b6f96060bfb244addad17148e6d31aabf48222c75.png" width="74"/>:</p>
+<p><img alt="Equation: ModifyingAbove n prime With right-arrow dot ModifyingAbove t prime With right-arrow equals left-parenthesis left-parenthesis upper M Superscript negative 1 Baseline right-parenthesis Superscript down-tack Baseline ModifyingAbove n With right-arrow right-parenthesis dot left-parenthesis upper M ModifyingAbove t With right-arrow right-parenthesis equals ModifyingAbove n With right-arrow dot left-parenthesis upper M Superscript negative 1 Baseline upper M ModifyingAbove t With right-arrow right-parenthesis equals ModifyingAbove n With right-arrow dot ModifyingAbove t With right-arrow equals 0 period" class="math-display" height="36" src="https://beila.github.io/my-collection/math-images/3a00b0bcbd51e2048a07e3bf4107d34d164226578bf481c8710ed107cded2c3b.png" width="350"/></p>
+<p>In this line I have used the property of the dot product <img alt="Equation: left-parenthesis upper B Superscript down-tack Baseline ModifyingAbove a With right-arrow right-parenthesis dot ModifyingAbove b With right-arrow equals ModifyingAbove a With right-arrow dot left-parenthesis upper B ModifyingAbove b With right-arrow right-parenthesis" class="math-inline" height="35" src="https://beila.github.io/my-collection/math-images/76885f51ab26d55371db92c989e2214b521ecfac87d2b12aaf88059c8d93b4da.png" width="183"/>.</p>
+<p>Let us verify the reasoning on our example:</p>
+<p><img alt="Equation: left-parenthesis upper M Superscript negative 1 Baseline right-parenthesis Superscript down-tack Baseline equals Start 2 By 2 Matrix 1st Row 1st Column 1 2nd Column 0 2nd Row 1st Column 0 2nd Column one-half EndMatrix comma" class="math-display" height="54" src="https://beila.github.io/my-collection/math-images/bd0ad213ea0963a8d316d26117e8d9624de6579c11374f39cb4af5387df72fe8.png" width="140"/></p>
+<p>and since the vector <img alt="Equation: ModifyingAbove n prime With right-arrow" class="math-inline" height="38" src="https://beila.github.io/my-collection/math-images/ca05681f1370bda8ca9a6c8b8a2aea64a682cb17fcba964548cf8c31708aae3c.png" width="26"/> is defined as <img alt="Equation: ModifyingAbove n prime With right-arrow colon equals left-parenthesis upper M Superscript negative 1 Baseline right-parenthesis Superscript down-tack Baseline ModifyingAbove n With right-arrow" class="math-inline" height="43" src="https://beila.github.io/my-collection/math-images/cfc1ad1ceb0fdeec48cb362cc1879f10af1084beaab6b4eeaf76aabccc1be8ce.png" width="146"/>, </p>
+<p><img alt="Equation: ModifyingAbove n prime With right-arrow equals Start 2 By 2 Matrix 1st Row 1st Column 1 2nd Column 0 2nd Row 1st Column 0 2nd Column one-half EndMatrix StartBinomialOrMatrix 1 Choose 1 EndBinomialOrMatrix equals StartBinomialOrMatrix 1 Choose one-half EndBinomialOrMatrix period" class="math-display" height="54" src="https://beila.github.io/my-collection/math-images/6c0ed224adfd7491910a85fdc6d7a7ba2faf3f5da8c47efebb472580ff84eb20.png" width="194"/></p>
+<p>Let us check that <img alt="Equation: ModifyingAbove n prime With right-arrow up-tack ModifyingAbove t prime With right-arrow" class="math-inline" height="38" src="https://beila.github.io/my-collection/math-images/3bac4c6b352964ad168f632b6f96060bfb244addad17148e6d31aabf48222c75.png" width="74"/>:</p>
+<p><img alt="Equation: ModifyingAbove n prime With right-arrow dot ModifyingAbove t prime With right-arrow equals 1 dot 1 plus one-half dot left-parenthesis negative 2 right-parenthesis equals 0 period" class="math-display" height="42" src="https://beila.github.io/my-collection/math-images/f331edf4d35b1f028eae790da29c8d63ee5053167e704fd8e1c0903566014ca0.png" width="186"/></p>
+<p>It all check out. To sum up, if a model is transformed by a matrix <img alt="Equation: upper M" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/6c987791799363b8214d2408c71278b933b127028e982cb4bc32c570a49d6061.png" width="27"/>, we can convert its normal vectors by the matrix <img alt="Equation: upper M Superscript minus down-tack" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/789e2bcaf023ba11fc231f4b79b971c6d53ca082427faf495ffb5d5f25705ebe.png" width="52"/>.
+You can check <a href="https://github.com/ssloy/tinyrenderer/blob/e42447a9bf2a64f4a33bcb755f9ff54d8787420b/main.cpp#L20">this line of code</a>.</p>
+<p>As I have said, pretty often all this is not necessary, and we can simply transform normals by <img alt="Equation: upper M" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/6c987791799363b8214d2408c71278b933b127028e982cb4bc32c570a49d6061.png" width="27"/>. If <img alt="Equation: upper M" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/6c987791799363b8214d2408c71278b933b127028e982cb4bc32c570a49d6061.png" width="27"/> is orthogonal (for example, it is a simple rotation),
+then <img alt="Equation: upper M Superscript negative 1 Baseline equals upper M Superscript down-tack" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/e5ab876d7f294c3b4cf1106f6e49171b722833fc7e943eb104f8f765777658c7.png" width="112"/>, and therefore <img alt="Equation: upper M equals upper M Superscript minus down-tack" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/4c5268f36974274729eb118cd83425deeef3c875712be029a8527f32cf557a26.png" width="102"/>.
+However, if your <code>ModelView</code> matrix contains some shearing or uneven scaling, then you need to correctly transform your normals.</p>
+</div>
+<h2 id="textures">Textures</h2>
+<p>By introducing per-vertex normals, we improved shading realism. But can we add even more detail? Yes: by storing additional information in textures.</p>
+<p>OBJ files also contain <code>vt</code> lines, which define 2D coordinates (the <em>UV space</em>). Each face (<code>f</code> line) links 3D vertices with 2D texture coordinates. Thus, for every triangle, we now have both its 3D geometry and a 2D mapping:</p>
+<p><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/textures/f535fc2888749b11ce67.png"/></p>
+<p>The 2D space is commonly called <a href="https://en.wikipedia.org/wiki/UV_mapping">the UV space</a>.
+The idea is to superpose the flattened 2D mesh onto an image.
+When we rasterize a triangle with vertices <img alt="Equation: upper P 0 comma upper P 1 comma upper P 2" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/80627cdc77a038f72a2c7d176fc37fcacc05785e9f20bbc3918e7deb07e37936.png" width="92"/>, for every fragment <img alt="Equation: upper P" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/6cf81510550a1c06b10ff9eafed102f11f46e3134450752e3514fe96056de2cd.png" width="20"/> we find its barycentric coordinates <img alt="Equation: alpha 0 comma alpha 1 comma alpha 2" class="math-inline" height="23" src="https://beila.github.io/my-collection/math-images/e8ca8bde99b9e29ef7d862723bc85cb48aa7b77509c6f4dae39d1f9b650ffd0c.png" width="92"/> so that
+<img alt="Equation: upper P equals sigma-summation alpha Subscript i Baseline upper P Subscript i" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/0ca402d7d1119f120de6f899c28b0a2b2b30b9f757a436a9ec6e64e7c8c1f485.png" width="116"/>.
+We know that the same triangle has coordinates <img alt="Equation: upper U 0 comma upper U 1 comma upper U 2" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/6f0601cdaedc5047d284341b021ca495589d85e763bb68abd0cdd9ebc71fd270.png" width="94"/> in the UV space, we can therefore compute the UV counterpart <img alt="Equation: upper U" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/60c39d06ab6e130ce63f139450c378e3e1bd237afe5fb647458899322f4dbdf9.png" width="21"/> of the fragement <img alt="Equation: upper P" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/6cf81510550a1c06b10ff9eafed102f11f46e3134450752e3514fe96056de2cd.png" width="20"/>:</p>
+<p><img alt="Equation: upper U colon equals alpha 0 upper U 0 plus alpha 1 upper U 1 plus alpha 2 upper U 2 period" class="math-display" height="24" src="https://beila.github.io/my-collection/math-images/d791985c490f4be226778de7d0a77891ab1d96b4fcf3b6b5b8b7f1708d43142f.png" width="172"/></p>
+<p>This process is called <a href="https://en.wikipedia.org/wiki/UV_mapping">UV mapping</a>. Traditionally, it is used to assign fragment colors by sampling an image at <img alt="Equation: upper U" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/60c39d06ab6e130ce63f139450c378e3e1bd237afe5fb647458899322f4dbdf9.png" width="21"/>:</p>
+<p><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/textures/b1ebea7957a5dfd3e57b.jpg"/></p>
+<p>Originally, textures stored only colors. Nowadays, they are used much more generally. For example, since a 3D normal vector has three components and a texture has three channels, we can encode normals inside images — a technique known as normal mapping.</p>
+<p>To do this, we remap color channels from  <img alt="Equation: left-bracket 0 ellipsis 255 right-bracket" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/1d7b7e72687d7bf7c618fb4581b25f26df4914e20f065e57632d0ec3111c5476.png" width="90"/> into <img alt="Equation: left-bracket negative 1 comma 1 right-bracket" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/09539a6b6f851fe9722f3b2b77e37651b460deaa45b091982d9cebd98d14b23b.png" width="63"/> vector components.</p>
+<h3 id="homework-2-normal-mapping">Homework 2: normal mapping</h3>
+<p>For each model, I have prepared files with <code>_nm.tga</code> suffix (ignore <code>_nm_tangent.tga</code> files for a moment).
+Sample normals from these maps and use them in shading to create highly detailed surfaces:</p>
+<p><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/textures/a8354ff557f0ba18418f.jpg"/></p>
+<p>Note that with this approach, we entirely throw away the vertex normals coming from the <code>vn</code> lines in the .obj.
+Do not worry, they will be useful for tangent space normal mapping.</p>
+<div>
+<p>Color channel caveat</p>
+<p>We need to map RGB channels is mapped to <img alt="Equation: x y z" class="math-inline" height="23" src="https://beila.github.io/my-collection/math-images/0623dcc7576dcaf99802a707f789fd0663f9ebd879db75fd0b227656cf75e30d.png" width="37"/> coordinates, but recall that <code>TGAColor</code> structure encodes the channels in the BGRA order.</p>
+</div>
+<p>For reference, <a href="https://github.com/ssloy/tinyrenderer/commit/f68629a190055e702493bcfa7d7f91427b2be722">here is my commit</a>.</p>
+<h3 id="homework-3-more-textures">Homework 3: more textures!</h3>
+<p>I have ignored colors for as long as I could, but this time it would be unreasonable to avoid them.
+You can load colors from the textures with <code>_diff.tga</code> suffix.
+But there are much more kinds of textures: there are specular textures (<code>_spec.tga</code> suffix) that provide the specular intensity weight in the Phong reflection model,
+there are incadecence textures (<code>_glow.tga</code> suffix), there are <a href="https://en.wikipedia.org/wiki/Subsurface_scattering">subsurface scattering</a> textures and many, many others that I won't cover in this tutorial.
+Here I used diffuse color + specular textures, try to reproduce the image:</p>
+<p><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/textures/0bd94d4fd75e81bd0b07.jpg"/></p>
+<hr/>
+<p>That concludes this chapter. With just a bit of additional data (per-vertex normals and few textures) we can dramatically increase realism without fundamentally changing our rendering pipeline.</p>
+<hr/>
+<h3>Comments</h3>
+</article>
+</body>
+</html>

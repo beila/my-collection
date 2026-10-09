@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Tangent space normal mapping</title>
+<style>
+body { margin: 0 auto; max-width: 46rem; padding: 1rem; font: 18px/1.6 Georgia, serif; }
+img { display: block; max-width: 100%; height: auto; margin: 1rem auto; }
+pre { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 0.85em; }
+</style>
+</head>
+<body>
+<article>
+<h1>Tangent space normal mapping</h1>
+<p class="source-link"><a href="https://haqr.eu/tinyrenderer/tangent/">Original chapter on haqr.eu</a></p>
+<h2 id="global-vs-tangent-space">Global vs. tangent space</h2>
+<p>Let us talk more about normal mapping.
+It is a technique in computer graphics where a texture (the normal map) stores per-pixel normals, allowing fine surface detail to be simulated without increasing mesh complexity.</p>
+<p>Previously, we used files with the <code>_nm.tga</code> suffix, whereas the repository also contains textures with the <code>_nm_tangent.tga</code> suffix.
+The first one is a global-space normal map, while the latter is a tangent-space normal map.
+Here they are side by side for the Diablo model:</p>
+<p><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/tangent/31b91e92007075e6bfbb.jpg"/></p>
+<p>Last time we used the texture on the left, where each RGB value directly encodes a world-space normal.
+There is a problem, though:
+if an artist reuses UVs (rotates, mirrors, or overlaps the flattened mesh so that multiple surface parts have the same texels), then different 3D patches will generally require different global normals at the same texel.
+One color cannot represent “two different directions at once,” so the result is wrong unless you forbid overlaps/rotations and enforce a unique, non-mirrored UV unwrap — very restrictive and memory-hungry.</p>
+<p>This problem arises in the Diablo model. For example, its arms, legs, and even both halves of the tail are superposed in the texture map.
+Here is an illustration:</p>
+<p><a href="https://haqr.eu/tinyrenderer/tangent/diablo-tangent.jpg"><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/tangent/9c5cc77b9f0910293960.jpg"/></a></p>
+<p>Check the left image: the light comes from the right, so the right side of Diablo's hip is badly shaded — something we need to fix.
+The solution is to use the tangent-space normal map.
+Here, each texel encodes a normal <strong>relative to the local basis</strong> that moves along the surface.</p>
+<p>To illustrate what I mean by the local basis, I mapped a regular grid to the model:</p>
+<p><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/tangent/a04fcdae10f061b441a0.jpg"/></p>
+<p>In addition, I have drawn smooth normals in green. At each point of the surface, we can define a <strong>local, per-fragment basis</strong> made of the tangent, bitangent, and normal vectors (aligned with the red, blue, and green lines of the grid).
+Because normals stored in tangent-space textures are relative to this moving frame, the same texel works correctly even for superposed or mirrored patches.</p>
+<p>In short, global-space normal maps tie each texel to a single fixed direction, which breaks when UVs are reused.
+Tangent-space normal maps are expressed in a local frame that follows the surface, so the same texture region can drive multiple differently oriented surface parts correctly.</p>
+<p>Here's a quick question for you: why are tangent-space normal textures dominantly blue?</p>
+<div><p><strong>Spoiler Alert!</strong></p>
+<p>Imagine a normal map for a perfect sphere.</p>
+<ul>
+<li>In global space, normals span every possible orientation, so the texture looks like a rainbow of directions.</li>
+<li>In tangent space, however, the normal is always the same vector <img alt="Equation: left-parenthesis 0 comma 0 comma 1 right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/bdc6d7691eeaaeee0811dbf2e164afd364c48f7e78739b33f9f31d54b5c69df0.png" width="71"/>, which corresponds to a bluish color.
+The variation in shading comes from the moving local basis, not from the texel colors themselves.</li>
+</ul>
+</div>
+<h2 id="computing-the-tangent-frame">Computing the tangent frame</h2>
+<p>As we saw, for each fragment we need to compute a basis whose tangent and bitangent vectors are aligned with the red and blue lines of the UV grid.
+Consider a triangle with 3D vertices <img alt="Equation: upper P 0 comma upper P 1 comma upper P 2" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/80627cdc77a038f72a2c7d176fc37fcacc05785e9f20bbc3918e7deb07e37936.png" width="92"/> in global space and corresponding 2D UV coordinates <img alt="Equation: upper U 0 comma upper U 1 comma upper U 2" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/6f0601cdaedc5047d284341b021ca495589d85e763bb68abd0cdd9ebc71fd270.png" width="94"/>.</p>
+<p>Define the edge vectors:</p>
+<p><img alt="Equation: StartLayout 1st Row 1st Column ModifyingAbove e 0 With right-arrow 2nd Column colon equals upper P 1 minus upper P 0 2nd Row 1st Column ModifyingAbove e 1 With right-arrow 2nd Column colon equals upper P 2 minus upper P 0 3rd Row 1st Column ModifyingAbove u 0 With right-arrow 2nd Column colon equals upper U 1 minus upper U 0 4th Row 1st Column ModifyingAbove u 1 With right-arrow 2nd Column colon equals upper U 2 minus upper U 0 EndLayout" class="math-display" height="100" src="https://beila.github.io/my-collection/math-images/bbd1f32b3814cd63a33509b635fade9646fc52d8a7301d362b84f0013b64d683.png" width="108"/></p>
+<p>Then the UV mapping can be described by a <img alt="Equation: 2 times 3" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/bae193fe308d74b1626d58799157af664243bf9be4cb993762d8b7d6a0ac7c0a.png" width="51"/> matrix <img alt="Equation: upper M" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/6c987791799363b8214d2408c71278b933b127028e982cb4bc32c570a49d6061.png" width="27"/>:</p>
+<p><img alt="Equation: upper M times ModifyingBelow Start 1 By 2 Matrix 1st Row 1st Column ModifyingAbove e 0 With right-arrow 2nd Column ModifyingAbove e 1 With right-arrow EndMatrix With bottom-brace Underscript 3 times 2 matrix Endscripts equals ModifyingBelow Start 1 By 2 Matrix 1st Row 1st Column ModifyingAbove u 0 With right-arrow 2nd Column ModifyingAbove u 1 With right-arrow EndMatrix With bottom-brace Underscript 2 times 2 matrix Endscripts" class="math-display" height="50" src="https://beila.github.io/my-collection/math-images/a5d44e8b9c78dd2fab889b9efcdd198624d2ee39ce8733dfbbd51791079b99c0.png" width="178"/></p>
+<p>Here is an illustration:</p>
+<p><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/tangent/a279119a8bd14c5a7bb0.png"/></p>
+<p>Let us call the <img alt="Equation: 3 times 2" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/51b16c473e99c418099cc6ec2f12b32168351607592f57341f8e122bf16bd2ab.png" width="51"/> matrix <img alt="Equation: upper E" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/4062cfb14b264e3b7cb5837e06ae4a7417721881a80b661d44f2057698aa83c6.png" width="21"/> and the <img alt="Equation: 2 times 2" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/139e4caf61c503eb60ba7ea3fcff5cbffa4cbb8118c422a1fc2488502c10e432.png" width="51"/> matrix <img alt="Equation: upper U" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/60c39d06ab6e130ce63f139450c378e3e1bd237afe5fb647458899322f4dbdf9.png" width="21"/>:</p>
+<p><img alt="Equation: StartLayout 1st Row 1st Column upper E 2nd Column colon equals Start 1 By 2 Matrix 1st Row 1st Column ModifyingAbove e 0 With right-arrow 2nd Column ModifyingAbove e 1 With right-arrow EndMatrix 2nd Row 1st Column upper U 2nd Column colon equals Start 1 By 2 Matrix 1st Row 1st Column ModifyingAbove u 0 With right-arrow 2nd Column ModifyingAbove u 1 With right-arrow EndMatrix EndLayout" class="math-display" height="54" src="https://beila.github.io/my-collection/math-images/cc4980131dd0045c1a618a030753f316cdcbc1d57025d6630ee77e6a79d8cce5.png" width="116"/></p>
+<p>So we have <img alt="Equation: upper M times upper E equals upper U" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/810b2491b8265e6fdf1b0efa06609d5e1113dfebe9b48611fb312d4d12f4aff6.png" width="112"/>.
+We want to find the tangent vector <img alt="Equation: ModifyingAbove t With right-arrow" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/cc2a03fc57232275c8ea8e8f40cef3cab2fb05f7abc1059c6a3acffa2c129a72.png" width="16"/> and the bitangent vector <img alt="Equation: ModifyingAbove b With right-arrow" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/e3f1bb6722b87c53f6a0aa824fde5b5a6b12fa8769b6bffc5b4a8cb46e0d5443.png" width="15"/> such that they map to the unit UV axes:</p>
+<p><img alt="Equation: StartLayout 1st Row 1st Column upper M ModifyingAbove t With right-arrow 2nd Column equals StartBinomialOrMatrix 1 Choose 0 EndBinomialOrMatrix 2nd Row 1st Column upper M ModifyingAbove b With right-arrow 2nd Column equals StartBinomialOrMatrix 0 Choose 1 EndBinomialOrMatrix EndLayout" class="math-display" height="84" src="https://beila.github.io/my-collection/math-images/c144d2ba3819ec1781aa45f58d30f445ccbae1f9b7af5044c3dcb615a4f5dcc7.png" width="96"/></p>
+<p>Or, equivalently, <img alt="Equation: upper M times Start 1 By 2 Matrix 1st Row 1st Column ModifyingAbove t With right-arrow 2nd Column ModifyingAbove b With right-arrow EndMatrix equals Start 2 By 2 Matrix 1st Row 1st Column 1 2nd Column 0 2nd Row 1st Column 0 2nd Column 1 EndMatrix" class="math-inline" height="61" src="https://beila.github.io/my-collection/math-images/f65d3e476c6acdaf936f6918b09cea834e3176611499e0ffc605f136f5096053.png" width="228"/>.
+Recall that <img alt="Equation: upper M times upper E equals upper U" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/810b2491b8265e6fdf1b0efa06609d5e1113dfebe9b48611fb312d4d12f4aff6.png" width="112"/>, therefore, <img alt="Equation: upper M times upper E times upper U Superscript negative 1 Baseline equals Start 2 By 2 Matrix 1st Row 1st Column 1 2nd Column 0 2nd Row 1st Column 0 2nd Column 1 EndMatrix" class="math-inline" height="61" src="https://beila.github.io/my-collection/math-images/cfdd93638590429ce8ace9445488e4143b8a9675b35871445502056781a7f122.png" width="238"/>.</p>
+<p>From this, we conclude:</p>
+<p><img alt="Equation: StartLayout 1st Row  Start 1 By 2 Matrix 1st Row 1st Column ModifyingAbove t With right-arrow 2nd Column ModifyingAbove b With right-arrow EndMatrix equals upper E times upper U Superscript negative 1 Baseline period EndLayout" class="math-display" height="28" src="https://beila.github.io/my-collection/math-images/55b4a0cfb39f26d329aba04097f985bfb1c5a5f80fa3b5cfcb60400c44268cd5.png" width="134"/></p>
+<p>Finally, add the interpolated normal <img alt="Equation: ModifyingAbove n With right-arrow" class="math-inline" height="26" src="https://beila.github.io/my-collection/math-images/45dd6109c71bda0ad1655a0337e8975dedb907c7082e9cc8ec26d836910a10be.png" width="17"/>, and you have constructed the full tangent-space basis <img alt="Equation: Start 1 By 3 Matrix 1st Row 1st Column ModifyingAbove t With right-arrow 2nd Column ModifyingAbove b With right-arrow 3rd Column ModifyingAbove n With right-arrow EndMatrix" class="math-inline" height="34" src="https://beila.github.io/my-collection/math-images/66648acf951327b1e9488ec94f100c87dae0d8d5b8526d551bd75d572a74c095.png" width="106"/>.</p>
+<h2 id="homework">Homework</h2>
+<p>Implement tangent-space normal mapping.
+As usual, I provide <a href="https://github.com/ssloy/tinyrenderer/commit/32a4faac0a56498e78808a14840a9114440cb194">my code</a> for reference.</p>
+<hr/>
+<p>Next time we will talk about global illumination.</p>
+<hr/>
+<h3>Comments</h3>
+</article>
+</body>
+</html>

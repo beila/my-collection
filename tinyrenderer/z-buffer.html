@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Hidden faces removal</title>
+<style>
+body { margin: 0 auto; max-width: 46rem; padding: 1rem; font: 18px/1.6 Georgia, serif; }
+img { display: block; max-width: 100%; height: auto; margin: 1rem auto; }
+pre { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 0.85em; }
+</style>
+</head>
+<body>
+<article>
+<h1>Hidden faces removal</h1>
+<p class="source-link"><a href="https://haqr.eu/tinyrenderer/z-buffer/">Original chapter on haqr.eu</a></p>
+<h2 id="revisit-the-back-face-culling">Revisit the back-face culling</h2>
+<p>Let us put aside barycentric coordinates for a moment and return to the <a href="https://beila.github.io/my-collection/tinyrenderer/rasterization.html#putting-all-together-back-face-culling">rasterization with back-face culling</a>. Recall that the idea is to loop through all the triangles in the input model and discard the back-facing ones. Check line 2 in the following pseudocode:</p>
+<pre><code>for each triangle t:
+    if t is not back-facing:
+        for each pixel p that t covers:
+            paint the pixel</code></pre>
+<p><a href="https://github.com/ssloy/tinyrenderer/tree/ab559b1325df38266b420c6236a33794bd7e4c65">This commit</a> from the rasterization lesson was used to draw the following image. Unfortunately, the image has some artifacts - check, for example, the right hip of the demon. Clearly, it is a mess:</p>
+<p><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/z-buffer/6c1d3a411397aed03a88.png"/></p>
+<p>How can we eliminate all the hidden surfaces?</p>
+<h2 id="painters-algorithm">Painter's algorithm</h2>
+<p>In theory, we could simply draw all the triangles without discarding any. If we do it properly in rear-to-front order, the front facets will overwrite the back ones. This technique is called the <a href="http://en.wikipedia.org/wiki/Painter%27s_algorithm">painter's algorithm</a>. Here is the pseudocode:</p>
+<pre><code>sort triangles by depth
+for each triangle t:
+    for each pixel p that t covers:
+        paint the pixel</code></pre>
+<p>Here is an animation of the process. Note that no triangle was actually discarded; I simply painted them all in the rear-to-front order:</p>
+<p><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/z-buffer/b588b48da6aa081bd659.png"/></p>
+<p>And here is the final render:</p>
+<p><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/z-buffer/8625a3a40f2f8d89098e.png"/></p>
+<p>To produce this image, I did not modify the rendering part. At the moment, I use an orthogonal projection to the screen, so I simply sorted the triangles by their maximum z-coordinate during the loading of the model. Check lines 35–55 of the <a href="https://github.com/ssloy/tinyrenderer/commit/52c7f8898e1a71c412f89240d83e4b354a3e76bc">following listing</a>.</p>
+<blockquote>
+<p><strong>Warning</strong>: Do not spend too much time trying to understand the code. You can just trust that it reorders the triangles by their max z-coordinate. Anyway, this code will eventually end up in the trash bin.</p>
+</blockquote>
+<div><p><strong>Sort triangles by maximum depth</strong></p>
+<pre><code>#include &lt;fstream&gt;
+#include &lt;sstream&gt;
+#include "model.h"
+#include &lt;algorithm&gt;
+
+Model::Model(const std::string filename) {
+    std::ifstream in;
+    in.open(filename, std::ifstream::in);
+    if (in.fail()) return;
+    std::string line;
+    while (!in.eof()) {
+        std::getline(in, line);
+        std::istringstream iss(line.c_str());
+        char trash;
+        if (!line.compare(0, 2, "v ")) {
+            iss &gt;&gt; trash;
+            vec3 v;
+            for (int i : {0,1,2}) iss &gt;&gt; v[i];
+            verts.push_back(v);
+        } else if (!line.compare(0, 2, "f ")) {
+            int f,t,n, cnt = 0;
+            iss &gt;&gt; trash;
+            while (iss &gt;&gt; f &gt;&gt; trash &gt;&gt; t &gt;&gt; trash &gt;&gt; n) {
+                facet_vrt.push_back(--f);
+                cnt++;
+            }
+            if (3!=cnt) {
+                std::cerr &lt;&lt; "Error: the obj file is supposed to be triangulated" &lt;&lt; std::endl;
+                return;
+            }
+        }
+    }
+    std::cerr &lt;&lt; "# v# " &lt;&lt; nverts() &lt;&lt; " f# "  &lt;&lt; nfaces() &lt;&lt; std::endl;
+
+    std::vector&lt;int&gt; idx(nfaces());    // permutation, a map from new to old facet indices
+    for (int i = 0 ; i&lt;nfaces() ; i++) // we start with the identity
+        idx[i] = i;
+
+    std::sort(idx.begin(), idx.end(),
+              [&amp;](const int&amp; a, const int&amp; b) { // given two triangles, compare their min z coordinate
+                  float aminz = std::min(vert(a, 0).z,
+                                         std::min(vert(a, 1).z,
+                                                  vert(a, 2).z));
+                  float bminz = std::min(vert(b, 0).z,
+                                         std::min(vert(b, 1).z,
+                                                  vert(b, 2).z));
+                  return aminz &lt; bminz;
+              });
+
+    std::vector&lt;int&gt; facet_vrt2(nfaces()*3); // allocate an array to store permutated facets
+    for (int i=0; i&lt;nfaces(); i++)           // for each (new) facet
+        for (int j=0; j&lt;3; j++)              // copy its three vertices from the old array
+            facet_vrt2[i*3+j] = facet_vrt[idx[i]*3+j];
+
+    facet_vrt = facet_vrt2;                  // store the sorted triangles
+}
+
+int Model::nverts() const { return verts.size(); }
+int Model::nfaces() const { return facet_vrt.size()/3; }
+
+vec3 Model::vert(const int i) const {
+    return verts[i];
+}
+
+vec3 Model::vert(const int iface, const int nthvert) const {
+    return verts[facet_vrt[iface*3+nthvert]];
+}</code></pre>
+</div>
+<p>Unfortunately, this approach comes with a high computational cost: for each camera movement, we need to re-sort the entire scene. And then there are dynamic scenes... But that is not even the main problem. The key issue is that it is not always possible to determine the correct order. Consider, for example, this scene:</p>
+<p><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/z-buffer/492f954779fa2f672483.png"/></p>
+<p>There are ways to circumvent these drawbacks. The problem lies in the fact that triangles are not ideal primitives for global ordering. Instead of handling visibility in a per-triangle manner, it would be better to handle it per pixel.</p>
+<h2 id="depth-interpolation">Depth interpolation</h2>
+<p>But first, let us throw away this sorting approach and return to our starting point. We simply iterate through all triangles and paint all the pixels in each triangle. Since the triangles are not correctly sorted, visual artifacts will appear.</p>
+<p>In addition to painting pixels in the frame buffer, I propose creating a second grayscale image of the same dimensions. In this image, we will paint the depth of the triangles, just as we did in the <a href="https://beila.github.io/my-collection/tinyrenderer/barycentric.html#example-2_1">last listing of the barycentric coordinates lesson</a>. Black pixels will represent distant triangles, and white pixels will represent the closest ones.</p>
+<p>Here is the pseudocode:</p>
+<pre><code>for each triangle t:
+    for each pixel p that t covers:
+        compute its depth z
+        update the depth buffer with z
+        paint the pixel</code></pre>
+<p>You can find the <a href="https://github.com/ssloy/tinyrenderer/commit/af1c138fd86cd9d46813ee492e97127d434a9242">complete code here</a>. Note that I have removed back-face culling from the pseudocode. However, for consistency in the tutorial's images, I kept it in the code. In the approach we are developing, back-face culling is not mandatory; it can be seen as an optimization.</p>
+<div><p><strong>Depth interpolation</strong></p>
+<pre><code>#include &lt;cmath&gt;
+#include &lt;tuple&gt;
+#include "geometry.h"
+#include "model.h"
+#include "tgaimage.h"
+
+constexpr int width  = 800;
+constexpr int height = 800;
+
+double signed_triangle_area(int ax, int ay, int bx, int by, int cx, int cy) {
+    return .5*((by-ay)*(bx+ax) + (cy-by)*(cx+bx) + (ay-cy)*(ax+cx));
+}
+
+void triangle(int ax, int ay, int az, int bx, int by, int bz, int cx, int cy, int cz, TGAImage &amp;zbuffer, TGAImage &amp;framebuffer, TGAColor color) {
+    int bbminx = std::min(std::min(ax, bx), cx); // bounding box for the triangle
+    int bbminy = std::min(std::min(ay, by), cy); // defined by its top left and bottom right corners
+    int bbmaxx = std::max(std::max(ax, bx), cx);
+    int bbmaxy = std::max(std::max(ay, by), cy);
+    double total_area = signed_triangle_area(ax, ay, bx, by, cx, cy);
+    if (total_area&lt;1) return; // backface culling + discarding triangles that cover less than a pixel
+
+#pragma omp parallel for
+    for (int x=bbminx; x&lt;=bbmaxx; x++) {
+        for (int y=bbminy; y&lt;=bbmaxy; y++) {
+            double alpha = signed_triangle_area(x, y, bx, by, cx, cy) / total_area;
+            double beta  = signed_triangle_area(x, y, cx, cy, ax, ay) / total_area;
+            double gamma = signed_triangle_area(x, y, ax, ay, bx, by) / total_area;
+            if (alpha&lt;0 || beta&lt;0 || gamma&lt;0) continue; // negative barycentric coordinate =&gt; the pixel is outside the triangle
+            unsigned char z = static_cast&lt;unsigned char&gt;(alpha * az + beta * bz + gamma * cz);
+            zbuffer.set(x, y, {z});
+            framebuffer.set(x, y, color);
+        }
+    }
+}
+
+std::tuple&lt;int,int,int&gt; project(vec3 v) { // First of all, (x,y) is an orthogonal projection of the vector (x,y,z).
+    return { (v.x + 1.) *  width/2,       // Second, since the input models are scaled to have fit in the [-1,1]^3 world coordinates,
+             (v.y + 1.) * height/2,       // we want to shift the vector (x,y) and then scale it to span the entire screen.
+             (v.z + 1.) *   255./2 };
+}
+
+int main(int argc, char** argv) {
+    if (argc != 2) {
+        std::cerr &lt;&lt; "Usage: " &lt;&lt; argv[0] &lt;&lt; " obj/model.obj" &lt;&lt; std::endl;
+        return 1;
+    }
+
+    Model model(argv[1]);
+    TGAImage framebuffer(width, height, TGAImage::RGB);
+    TGAImage     zbuffer(width, height, TGAImage::GRAYSCALE);
+
+    for (int i=0; i&lt;model.nfaces(); i++) { // iterate through all triangles
+        auto [ax, ay, az] = project(model.vert(i, 0));
+        auto [bx, by, bz] = project(model.vert(i, 1));
+        auto [cx, cy, cz] = project(model.vert(i, 2));
+        TGAColor rnd;
+        for (int c=0; c&lt;3; c++) rnd[c] = std::rand()%255;
+        triangle(ax, ay, az, bx, by, bz, cx, cy, cz, zbuffer, framebuffer, rnd);
+    }
+
+    framebuffer.write_tga_file("framebuffer.tga");
+    zbuffer.write_tga_file("zbuffer.tga");
+    return 0;
+}</code></pre>
+</div>
+<p>Check the highlighted lines. This code produces two images, namely <code>framebuffer.tga</code> and <code>zbuffer.tga</code>. Note line 39: the <code>project</code> function now produces a triplet. The depth values are mapped to the range <img alt="Equation: left-bracket 0 comma 255 right-bracket" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/c8cfd71d88d73adfb2ea03cb4d165c0acdd82fc93b6bcf72b7ad53149efa227b.png" width="68"/> (recall that my input models are normalized to fit in the <img alt="Equation: left-bracket negative 1 comma 1 right-bracket cubed" class="math-inline" height="32" src="https://beila.github.io/my-collection/math-images/859eb2af6d57060d8266f1310279ec07652db39ff4a6eceb9adbf69900ec02ea.png" width="73"/> cube).</p>
+<p>Here are the resulting images. Note the discontinuities on the demon’s right hip, matching the mess in the framebuffer:</p>
+<p><a href="https://haqr.eu/tinyrenderer/z-buffer/diablo-zbuffer-bad.png"><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/z-buffer/80f2c678786aeec5e3fa.png"/></a></p>
+<h2 id="per-pixel-painters-algorithm-aka-z-buffer">Per-pixel painter's algorithm (a.k.a. z-buffer)</h2>
+<p>Now that we have a depth buffer, a single line will suffice to eliminate all the artifacts - check line 4:</p>
+<pre><code>for each triangle t:
+    for each pixel p that t covers:
+        compute its depth z
+        if depth buffer at p &lt; z:
+            update the depth buffer with z
+            paint the pixel</code></pre>
+<p>Our depth buffer allows us to track the depth of each pixel we paint. If, for some triangle <code>t</code>, the depth of some pixel <code>p</code> is inferior to the one we have already painted, we can safely discard it.
+Otherwise, we paint the pixel and update the depth buffer. So, at the expense of keeping a rather small buffer, we can keep the track of the frontmost surface being drawn.</p>
+<p>Here is the update to the previous code - check line 30:</p>
+<div><p><strong>Z-buffer hidden surfaces removal</strong></p>
+<pre><code>#include &lt;cmath&gt;
+#include &lt;tuple&gt;
+#include "geometry.h"
+#include "model.h"
+#include "tgaimage.h"
+
+constexpr int width  = 800;
+constexpr int height = 800;
+
+double signed_triangle_area(int ax, int ay, int bx, int by, int cx, int cy) {
+    return .5*((by-ay)*(bx+ax) + (cy-by)*(cx+bx) + (ay-cy)*(ax+cx));
+}
+
+void triangle(int ax, int ay, int az, int bx, int by, int bz, int cx, int cy, int cz, TGAImage &amp;zbuffer, TGAImage &amp;framebuffer, TGAColor color) {
+    int bbminx = std::min(std::min(ax, bx), cx); // bounding box for the triangle
+    int bbminy = std::min(std::min(ay, by), cy); // defined by its top left and bottom right corners
+    int bbmaxx = std::max(std::max(ax, bx), cx);
+    int bbmaxy = std::max(std::max(ay, by), cy);
+    double total_area = signed_triangle_area(ax, ay, bx, by, cx, cy);
+    if (total_area&lt;1) return; // backface culling + discarding triangles that cover less than a pixel
+
+#pragma omp parallel for
+    for (int x=bbminx; x&lt;=bbmaxx; x++) {
+        for (int y=bbminy; y&lt;=bbmaxy; y++) {
+            double alpha = signed_triangle_area(x, y, bx, by, cx, cy) / total_area;
+            double beta  = signed_triangle_area(x, y, cx, cy, ax, ay) / total_area;
+            double gamma = signed_triangle_area(x, y, ax, ay, bx, by) / total_area;
+            if (alpha&lt;0 || beta&lt;0 || gamma&lt;0) continue; // negative barycentric coordinate =&gt; the pixel is outside the triangle
+            unsigned char z = static_cast&lt;unsigned char&gt;(alpha * az + beta * bz + gamma * cz);
+            if (z &lt;= zbuffer.get(x, y)[0]) continue;
+            zbuffer.set(x, y, {z});
+            framebuffer.set(x, y, color);
+        }
+    }
+}
+
+std::tuple&lt;int,int,int&gt; project(vec3 v) { // First of all, (x,y) is an orthogonal projection of the vector (x,y,z).
+    return { (v.x + 1.) *  width/2,       // Second, since the input models are scaled to have fit in the [-1,1]^3 world coordinates,
+             (v.y + 1.) * height/2,       // we want to shift the vector (x,y) and then scale it to span the entire screen.
+             (v.z + 1.) *   255./2 };
+}
+
+int main(int argc, char** argv) {
+    if (argc != 2) {
+        std::cerr &lt;&lt; "Usage: " &lt;&lt; argv[0] &lt;&lt; " obj/model.obj" &lt;&lt; std::endl;
+        return 1;
+    }
+
+    Model model(argv[1]);
+    TGAImage framebuffer(width, height, TGAImage::RGB);
+    TGAImage     zbuffer(width, height, TGAImage::GRAYSCALE);
+
+    for (int i=0; i&lt;model.nfaces(); i++) { // iterate through all triangles
+        auto [ax, ay, az] = project(model.vert(i, 0));
+        auto [bx, by, bz] = project(model.vert(i, 1));
+        auto [cx, cy, cz] = project(model.vert(i, 2));
+        TGAColor rnd;
+        for (int c=0; c&lt;3; c++) rnd[c] = std::rand()%255;
+        triangle(ax, ay, az, bx, by, bz, cx, cy, cz, zbuffer, framebuffer, rnd);
+    }
+
+    framebuffer.write_tga_file("framebuffer.tga");
+    zbuffer.write_tga_file("zbuffer.tga");
+    return 0;
+}</code></pre>
+</div>
+<p>And here is the result. You can see that the demon’s right paw is lighter than the left one, it appears darker since it is behind the demon:</p>
+<p><a href="https://haqr.eu/tinyrenderer/z-buffer/diablo-zbuffer.png"><img alt="Illustration" src="https://beila.github.io/my-collection/tinyrenderer/z-buffer/329ed2e294f3173b442c.png"/></a></p>
+<p>As usual, you can find the complete code <a href="https://github.com/ssloy/tinyrenderer/commit/f1dd24ec9418922fcfa3d6e7ab13ffc8c1c18577">here</a>.
+In this second edition of the tutorial, I’ll postpone the shading of the model a bit. First, we will dive into some mathematics necessary for camera handling.</p>
+<h2 id="homework-assignment">Homework assignment</h2>
+<p>Right now there is a very rudimentrary implementation of <code>vec3</code> class in the repository:</p>
+<div><p><strong>Rudimentary vec3 class</strong></p>
+<pre><code>#pragma once
+#include &lt;cmath&gt;
+#include &lt;cassert&gt;
+#include &lt;iostream&gt;
+
+template&lt;int n&gt; struct vec {
+    double data[n] = {0};
+    double&amp; operator[](const int i)       { assert(i&gt;=0 &amp;&amp; i&lt;n); return data[i]; }
+    double  operator[](const int i) const { assert(i&gt;=0 &amp;&amp; i&lt;n); return data[i]; }
+};
+
+template&lt;int n&gt; std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const vec&lt;n&gt;&amp; v) {
+    for (int i=0; i&lt;n; i++) out &lt;&lt; v[i] &lt;&lt; " ";
+    return out;
+}
+
+template&lt;&gt; struct vec&lt;3&gt; {
+    double x = 0, y = 0, z = 0;
+    double&amp; operator[](const int i)       { assert(i&gt;=0 &amp;&amp; i&lt;3); return i ? (1==i ? y : z) : x; }
+    double  operator[](const int i) const { assert(i&gt;=0 &amp;&amp; i&lt;3); return i ? (1==i ? y : z) : x; }
+};
+
+typedef vec&lt;3&gt; vec3;</code></pre>
+</div>
+<p>For the moment <code>vec3</code> is only used to store triplets of <code>double</code>, but very soon we will need to add and subtract vectors, compute dot products and so on.
+So, here is a homework assignment: implement <code>vec2</code>, <code>vec3</code> and <code>vec4</code> classes with basic vector operations.
+Moreover, we will need small matrices (up to 4x4 maximum) and basic operations (mainly, multiplication, transposition and inversion).
+It is handy to be able to invert any square matrix, but 3x3 inversion may suffice if you do not wish implement a generic inversion.</p>
+<hr/>
+<h3>Comments</h3>
+</article>
+</body>
+</html>
