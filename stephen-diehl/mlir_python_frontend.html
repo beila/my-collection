@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="c74e856c0716fda1e9666b7d891ec924950cdb93c817d63bdadb9b7b29cc41fa" name="stephen-diehl-content-hash"/>
+<meta content="17" name="stephen-diehl-article-format"/>
+<link href="https://beila.github.io/my-collection/stephen-diehl/mlir_python_frontend.html" rel="canonical"/>
+<title>A Python Frontend for MLIR</title>
+<style>
+    :root { color-scheme: dark; }
+    body { margin: 0; background: #171717; color: #f1f1f1;
+            font: 18px/1.7 Georgia, serif; }
+    article { max-width: 52rem; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+    h1 { font-size: 2rem; line-height: 1.25; letter-spacing: 0; }
+    h2, h3, h4, h5, h6 { line-height: 1.3; letter-spacing: 0; }
+    a { color: #8dc7ff; overflow-wrap: anywhere; }
+    img { display: block; max-width: 100%; height: auto; margin: 1.25rem auto; }
+    pre { overflow-x: auto; padding: 1rem; background: #242424;
+           white-space: pre-wrap; overflow-wrap: anywhere; }
+    code, kbd, samp { font-family: ui-monospace, monospace; }
+    blockquote { border-left: 3px solid #777; margin-left: 0; padding-left: 1rem; }
+    table { width: 100%; border-collapse: collapse; display: block;
+             overflow-x: auto; }
+    th, td { border: 1px solid #666; padding: .5rem; vertical-align: top; }
+    .published { color: #b8b8b8; }
+    .original-link { border-top: 1px solid #555; margin-top: 2rem;
+                      padding-top: 1rem; }
+img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
+                      vertical-align: middle; }
+    img.math-display { display: block; height: auto; margin: 1.25rem auto;
+                       max-width: 100%; }
+.youtube-thumbnail { margin: 1.5rem 0; }
+    .youtube-thumbnail a { display: block; text-decoration: none; }
+    .youtube-thumbnail img { margin: 0 auto; }
+  </style>
+</head>
+<body>
+<article>
+<h1>A Python Frontend for MLIR</h1>
+<p class="published">Published: Sun, 01 Mar 2026 08:00:00 +0000</p>
+<section class="instapaper_body">
+<p class="original-link"><a href="https://www.stephendiehl.com/posts/mlir_python_frontend/">Read the original article on Stephen Diehl's website</a></p>
+<p>Last time we took MLIR through a GPU backend and looked at what it takes to launch the resulting code. We now need something at the other end of the compiler: a way to describe tensor computations in Python and construct the IR which those backends consume.</p>
+<p>We'll build this part around MLIR's Python bindings. They expose the same objects we've been writing in textual form: types, values, operations, regions and blocks. A Python program can construct a <code>linalg.matmul</code> operation, pass its result to another operation, and run compiler passes over the resulting module. The printed MLIR is a way to inspect that module.</p>
+<p>The companion project is <a href="https://github.com/sdiehl/tiny-mlir"><code>tiny-mlir</code></a>. It contains the complete implementation used in these remaining chapters. Clone the repository and install its environment:</p>
+<pre><code>git clone https://github.com/sdiehl/tiny-mlir.git
+cd tiny-mlir
+uv sync
+uv run pytest
+</code></pre>
+<p>The project pins Python 3.12 and a specific MLIR 22 development build, including its Python bindings and execution engine. These examples use that bundled toolchain. The command-line LLVM installation from earlier chapters can remain separate; mixing its libraries into the Python environment isn't necessary.</p>
+<h2 id="a-function-to-compile">A Function to Compile</h2>
+<p>Here's the interface we'll use:</p>
+<pre><code>import numpy as np
+from tinymlir import jit
+
+@jit
+def scale_bias(x, bias):
+    return x * 2.0 + bias
+
+x = np.arange(8, dtype=np.float32)
+bias = np.ones(8, dtype=np.float32)
+print(scale_bias(x, bias))
+</code></pre>
+<p>The first call specializes the function for the argument shapes and dtypes, constructs MLIR, lowers it and creates an execution engine. Later calls with the same types reuse that specialization. Changing the contents of <code>x</code> doesn't require compilation. Changing its shape does.</p>
+<p>The function doesn't need to know anything about memref descriptors or execution engines. It describes a tensor expression. The compiler owns the representation and the runtime boundary.</p>
+<h2 id="tracing-python">Tracing Python</h2>
+<p>There are several reasonable ways to build a frontend. In Part 6 we parsed Python syntax and transformed it. Here we'll use <strong>tracing</strong>: call the Python function with symbolic tensor arguments in place of arrays. Their arithmetic methods construct expression nodes.</p>
+<p>When Python evaluates <code>x * 2.0</code>, it calls our symbolic value's <code>__mul__</code> method. When it evaluates the addition, that method receives the multiplication node as its left operand. The result is a graph which describes the computation without reading any array elements.</p>
+<p>This is a small embedded language. Ordinary Python function calls compose naturally during tracing. Loops over static shape information can also run during tracing, since their bounds are known. A branch depending on tensor contents cannot: the symbolic value's <code>__bool__</code> raises an error. We aren't compiling arbitrary Python or capturing mutations to Python objects.</p>
+<p>Our type contains exactly the information needed for specialization:</p>
+<pre><code>@dataclass(frozen=True)
+class TensorType:
+    shape: tuple[int, ...]
+    dtype: np.dtype
+</code></pre>
+<p>The implementation normalizes the shape and dtype, requires positive static dimensions, and accepts float32, float64 and int32. The integer type is used for token indices. Floating-point computations carry their precision explicitly.</p>
+<p>Each expression stores an operation, a result type, its operands and any static attributes:</p>
+<pre><code>@dataclass(eq=False)
+class Expr:
+    op: Op
+    type: TensorType
+    args: tuple[Expr, ...] = ()
+    attr: object = None
+</code></pre>
+<p><code>Op</code> is an enum shared by the frontend and builder, so operation names are defined in one place. These nodes use identity rather than structural equality. If a computation reuses the same node, the lowering caches its MLIR value and reuses that value too. MLIR's common-subexpression elimination pass can subsequently identify independently constructed equivalent operations.</p>
+<h2 id="shapes-before-code-generation">Shapes Before Code Generation</h2>
+<p>Addition first checks that its operands can broadcast. For shapes <code>(3, 7)</code> and <code>(7,)</code>, the result has shape <code>(3, 7)</code>. For <code>(3, 7)</code> and <code>(3, 1)</code>, it has the same shape. For <code>(3, 7)</code> and <code>(5,)</code>, compilation fails.</p>
+<p>The frontend also determines a common dtype and inserts explicit cast nodes when needed. Python numeric literals use the surrounding tensor's dtype. NumPy scalar values retain their own dtype. This distinction will matter when we reproduce the NumPy GPT-2 implementation, which introduces float64 values in some of its formulas.</p>
+<p>After this stage, the backend doesn't have to guess whether an addition is scalar, elementwise or broadcast. Its operand shapes and result shape already describe the indexing it needs.</p>
+<p>Shape specialization is a useful instance of separating static information from runtime data. It is related to the partial-evaluation ideas from Part 6: we fix the types and static parameters, leaving array contents as inputs to the compiled program. Our implementation is a dedicated tensor compiler, rather than a general specializer for the Python interpreter.</p>
+<h2 id="constructing-a-module">Constructing a Module</h2>
+<p>The MLIR bindings give us a context, a module and insertion points:</p>
+<pre><code>from mlir import ir
+from mlir.dialects import func
+
+with ir.Context(), ir.Location.unknown():
+    module = ir.Module.create()
+    with ir.InsertionPoint(module.body):
+        f32 = ir.F32Type.get()
+        buffer = ir.MemRefType.get([8], f32)
+        function = func.FuncOp("kernel", ([buffer, buffer], []))
+        block = function.add_entry_block()
+        with ir.InsertionPoint(block):
+            func.ReturnOp([])
+    module.operation.verify()
+</code></pre>
+<p>This is a complete, if uninteresting, function which takes two buffers and returns nothing. The context owns uniqued objects such as types. The insertion point determines where newly created operations go. The block owns its arguments and operations. These relationships let the binding check how objects fit together as we construct the program.</p>
+<p>The real builder creates a memref argument for each input and one for the caller's output buffer. It converts inputs to tensor values with <code>bufferization.to_tensor</code>, builds the computation on tensors, and finishes with <code>bufferization.materialize_in_destination</code>. The latter says that the result must end up in the output buffer supplied by the caller.</p>
+<p>This boundary keeps the external calling convention simple while allowing the body to remain a functional tensor computation. Bufferization will decide which internal tensors need storage and which buffers can be reused.</p>
+<h2 id="elementwise-regions">Elementwise Regions</h2>
+<p>An elementwise expression becomes <code>linalg.generic</code>. The builder supplies its input values, an empty destination tensor, indexing maps and iterator types. It then creates the operation's region and fills in the scalar computation:</p>
+<pre><code>op = linalg.GenericOp(
+    [output.type], inputs, [output], indexing_maps,
+    ["parallel"] * rank,
+)
+block = op.regions[0].blocks.append(
+    *(value.type.element_type for value in [*inputs, output])
+)
+with ir.InsertionPoint(block):
+    product = arith.MulFOp(block.arguments[0], block.arguments[1])
+    linalg.YieldOp([product.result])
+</code></pre>
+<p>This fragment is the multiplication case within the builder. <code>output</code>, <code>inputs</code>, maps and rank come from the typed expression. The region arguments are scalar elements, so its body multiplies two floats and yields one float. The surrounding <code>linalg.generic</code> describes how those scalar operations apply across the tensors.</p>
+<p>Broadcasting belongs in the indexing maps. For a matrix plus a row vector, those maps are:</p>
+<pre><code>matrix: (i, j) -&gt; (i, j)
+vector: (i, j) -&gt; (j)
+output: (i, j) -&gt; (i, j)
+</code></pre>
+<p>For a <code>(3, 1)</code> tensor broadcast across seven columns, its map becomes <code>(i, j) -&gt; (i, 0)</code>. A scalar tensor has an empty index list. We construct these maps using <code>AffineDimExpr</code>, <code>AffineConstantExpr</code> and <code>AffineMap</code>; no textual affine-expression parser is involved.</p>
+<p>The distinction between the scalar region and its iteration space is precisely the structure we want the optimizer to see. It can fuse elementwise operations by composing their maps and regions, before committing to a loop schedule.</p>
+<h2 id="composition">Composition</h2>
+<p>A helper function simply constructs more of the same graph:</p>
+<pre><code>from tinymlir import tanh
+
+
+def activation(x):
+    return 0.5 * x * (1 + tanh(x))
+
+
+@jit
+def activated_scale(x, bias):
+    return activation(x * 2.0 + bias)
+</code></pre>
+<p>There is no special <code>activated_scale</code> kernel in the compiler. Nor does <code>activation</code> need its own backend implementation. The compiler only needs rules for the constituent tensor operations. If we change the formula, the graph and generated module change with it.</p>
+<p>A nested call to a <code>@jit</code> function behaves the same way while tracing. When its arguments are symbolic, it contributes expressions to the surrounding graph. When its arguments are arrays, it selects and executes a compiled specialization.</p>
+<h2 id="inspecting-the-result">Inspecting the Result</h2>
+<p>The compiled object retains three modules:</p>
+<pre><code>compiled = scale_bias.compile(x, bias)
+print(compiled.module)
+print(compiled.optimized)
+print(compiled.lowered)
+</code></pre>
+<p>The first contains the tensor program emitted by the builder. The second shows the result of canonicalization, common-subexpression elimination and elementwise fusion. The third contains the LLVM dialect program used by the execution engine. They are separate module objects, so running a pass doesn't destroy the version we're trying to inspect.</p>
+<p>The runtime allocates the output array, constructs ranked memref descriptors for the arguments, and invokes the generated C interface. The compiled object keeps its context and execution engine alive. There is no NumPy execution fallback if compilation fails.</p>
+<p>This gives us the outline of a small compiler: trace a restricted Python computation, check its tensor types, construct structured MLIR, run transformations, and execute the lowered result. Next we'll add the reductions needed by softmax and layer normalization.</p>
+<h2 id="external-resources">External Resources</h2>
+<ul>
+<li><a href="https://mlir.llvm.org/docs/Bindings/Python/">MLIR Python bindings</a></li>
+<li><a href="https://mlir.llvm.org/docs/Dialects/Linalg/">MLIR Linalg dialect</a></li>
+<li><a href="https://mlir.llvm.org/docs/Bufferization/">MLIR Bufferization</a></li>
+<li><a href="https://raspi.itu.dk/people/sestoft/pebook/pebook.html">Partial Evaluation and Automatic Program Generation</a></li>
+</ul>
+<p><a href="https://www.stephendiehl.com/posts/mlir_gpu">Previous: Part 8 - GPU Compilation with MLIR</a> · <a href="https://www.stephendiehl.com/posts/mlir_introduction">Series contents</a> · <a href="https://www.stephendiehl.com/posts/mlir_transformer_kernels">Next: Part 10 - Compiling Transformer Kernels</a></p>
+</section>
+</article>
+</body>
+</html>

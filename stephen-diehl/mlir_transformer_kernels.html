@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="e5d2e2f86c83d34cbbad5e0bb8eedb3a309c54e84734474e8a6db46f9e555edb" name="stephen-diehl-content-hash"/>
+<meta content="17" name="stephen-diehl-article-format"/>
+<link href="https://beila.github.io/my-collection/stephen-diehl/mlir_transformer_kernels.html" rel="canonical"/>
+<title>Compiling Transformer Kernels</title>
+<style>
+    :root { color-scheme: dark; }
+    body { margin: 0; background: #171717; color: #f1f1f1;
+            font: 18px/1.7 Georgia, serif; }
+    article { max-width: 52rem; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+    h1 { font-size: 2rem; line-height: 1.25; letter-spacing: 0; }
+    h2, h3, h4, h5, h6 { line-height: 1.3; letter-spacing: 0; }
+    a { color: #8dc7ff; overflow-wrap: anywhere; }
+    img { display: block; max-width: 100%; height: auto; margin: 1.25rem auto; }
+    pre { overflow-x: auto; padding: 1rem; background: #242424;
+           white-space: pre-wrap; overflow-wrap: anywhere; }
+    code, kbd, samp { font-family: ui-monospace, monospace; }
+    blockquote { border-left: 3px solid #777; margin-left: 0; padding-left: 1rem; }
+    table { width: 100%; border-collapse: collapse; display: block;
+             overflow-x: auto; }
+    th, td { border: 1px solid #666; padding: .5rem; vertical-align: top; }
+    .published { color: #b8b8b8; }
+    .original-link { border-top: 1px solid #555; margin-top: 2rem;
+                      padding-top: 1rem; }
+img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
+                      vertical-align: middle; }
+    img.math-display { display: block; height: auto; margin: 1.25rem auto;
+                       max-width: 100%; }
+.youtube-thumbnail { margin: 1.5rem 0; }
+    .youtube-thumbnail a { display: block; text-decoration: none; }
+    .youtube-thumbnail img { margin: 0 auto; }
+  </style>
+</head>
+<body>
+<article>
+<h1>Compiling Transformer Kernels</h1>
+<p class="published">Published: Sat, 28 Mar 2026 08:00:00 +0000</p>
+<section class="instapaper_body">
+<p class="original-link"><a href="https://www.stephendiehl.com/posts/mlir_transformer_kernels/">Read the original article on Stephen Diehl's website</a></p>
+<p>Our frontend can now turn Python tensor expressions into MLIR operations. We'll use it to implement GELU, softmax and layer normalization from the <a href="https://www.stephendiehl.com/posts/mlir_transformers">NumPy GPT-2 model</a>. These are a useful progression: GELU is elementwise, softmax introduces reductions, and normalization combines reductions with broadcasting.</p>
+<p>The distinction between a library function and a compiler primitive will keep the implementation small. GELU is a library function. Addition, multiplication, powers and tanh are compiler primitives. The compiler doesn't need to recognize the name <code>gelu</code> to compile its formula.</p>
+<p>The examples below run from the <a href="https://github.com/sdiehl/tiny-mlir"><code>tiny-mlir</code></a> companion project, using the environment from Part 9.</p>
+<h2 id="gelu">GELU</h2>
+<p>GPT-2 uses the tanh approximation:</p>
+<p><img alt="Equation: upper G upper E upper L upper U left-parenthesis x right-parenthesis equals StartFraction x Over 2 EndFraction left-parenthesis 1 plus hyperbolic tangent left-bracket StartRoot StartFraction 2 Over pi EndFraction EndRoot left-parenthesis x plus 0.044715 x cubed right-parenthesis right-bracket right-parenthesis" class="math-display" height="46" src="https://beila.github.io/my-collection/math-images/b237491b37e21dea27158b99168cc41604d5f84775c8301f61cd9a5cd88c7151.png" width="316"/></p>
+<p>Our implementation closely follows the reference:</p>
+<pre><code>import numpy as np
+from tinymlir import tanh
+
+
+def gelu(x):
+    return 0.5 * x * (1 + tanh(np.sqrt(2 / np.pi) * (x + 0.044715 * x**3)))
+</code></pre>
+<p><code>np.sqrt(2 / np.pi)</code> is evaluated while tracing, since its argument is a constant. Everything depending on <code>x</code> becomes part of the tensor graph. In the MLIR builder, arithmetic goes into scalar regions of <code>linalg.generic</code>; tanh becomes <code>math.tanh</code>, and exponentiation becomes <code>math.powf</code>.</p>
+<pre><code>from tinymlir import jit
+
+compiled_gelu = jit(gelu)
+x = np.linspace(-5, 5, 31, dtype=np.float32)
+y = compiled_gelu(x)
+expected = 0.5 * x * (
+    1 + np.tanh(np.sqrt(2 / np.pi) * (x + 0.044715 * x**3))
+)
+np.testing.assert_allclose(y, expected, rtol=2e-6, atol=2e-6)
+</code></pre>
+<p>There is a subtle detail here: the NumPy scalar produced by <code>np.sqrt</code> has dtype float64. In the reference environment, multiplying it by the float32 expression promotes that part of the computation. The resulting GELU output is float64. Our frontend retains this promotion through explicit cast nodes.</p>
+<p>It would be reasonable to design an all-float32 model, but it would be a change to the reference computation. For this series, the reference's behavior is what we're reproducing. Matching its formulas includes their dtypes and evaluation order.</p>
+<h2 id="reductions">Reductions</h2>
+<p>An elementwise operation can compute each output independently. A sum has to combine several input elements:</p>
+<p><img alt="Equation: y Subscript i Baseline equals sigma-summation Underscript j equals 0 Overscript upper N minus 1 Endscripts x Subscript i j" class="math-display" height="54" src="https://beila.github.io/my-collection/math-images/7988429eacefb493f7ec6f7c81c072dda472def47ba0c05eb13e4f5a4ea5eeda.png" width="79"/></p>
+<p>The frontend represents this as a reduction node with an axis. Its type rule removes the reduced dimension. Reducing a <code>(3, 7)</code> tensor over axis 1 produces shape <code>(3,)</code>. With <code>keepdims=True</code>, we reshape that result to <code>(3, 1)</code>, making subsequent broadcasting straightforward.</p>
+<p>Our builder uses <code>linalg.reduce</code>. Here is the central construction, with <code>operand</code>, <code>output_type</code>, <code>axis</code> and element type supplied by the expression:</p>
+<pre><code>zero = arith.ConstantOp(element_type, 0.0).result
+initial = tensor.EmptyOp(output_shape, element_type).result
+filled = linalg.fill(zero, outs=[initial])
+reduction = linalg.ReduceOp(
+    [output_type], [operand], [filled], [axis]
+)
+block = reduction.regions[0].blocks.append(element_type, element_type)
+with ir.InsertionPoint(block):
+    total = arith.AddFOp(*block.arguments)
+    linalg.YieldOp([total.result])
+</code></pre>
+<p>The initial tensor must contain zeros. <code>tensor.empty</code> gives us a destination with a shape; it doesn't initialize an accumulator. This distinction matters for both reductions and matrix multiplication.</p>
+<p>The body receives an input element and the current accumulated value. It adds them and yields the new accumulator. Maximum reduction uses the same structure, initialized to negative infinity, with <code>arith.maximumf</code> in the region.</p>
+<p>The operation still describes a reduction, rather than specifying which processor or thread computes each addition. That leaves scheduling decisions to later transformations. Our initial native backend eventually lowers it to loops.</p>
+<h2 id="stable-softmax">Stable Softmax</h2>
+<p>Softmax turns a row of scores into probabilities:</p>
+<p><img alt="Equation: p Subscript j Baseline equals StartFraction e Superscript x Super Subscript j Superscript Baseline Over sigma-summation Underscript k Endscripts e Superscript x Super Subscript k Superscript Baseline EndFraction" class="math-display" height="44" src="https://beila.github.io/my-collection/math-images/502442ee61ed4f08849bbb4d5ab92018610af9aca112cf5e2ae3ad679322ae5c.png" width="87"/></p>
+<p>Directly exponentiating large scores can overflow. Subtracting the row maximum leaves the result unchanged in real arithmetic while keeping the largest exponential equal to one:</p>
+<p><img alt="Equation: m equals max Underscript k Endscripts x Subscript k Baseline comma p Subscript j Baseline equals StartFraction e Superscript x Super Subscript j Superscript minus m Baseline Over sigma-summation Underscript k Endscripts e Superscript x Super Subscript k Superscript minus m Baseline EndFraction" class="math-display" height="46" src="https://beila.github.io/my-collection/math-images/689f648081487ada5d3e289454e9dd7670c97331f8642ce926aed0aef4b42747.png" width="210"/></p>
+<p>The Python definition is a composition of operations we now have:</p>
+<pre><code>from tinymlir import exp
+
+
+def softmax(x):
+    numerator = exp(x - x.max(axis=-1, keepdims=True))
+    return numerator / numerator.sum(axis=-1, keepdims=True)
+</code></pre>
+<p>For an input of shape <code>(H, T, T)</code>, the maximum and sum have shape <code>(H, T, 1)</code>. Their elementwise consumers broadcast that final unit dimension. The same function also works on an ordinary two-dimensional matrix; the frontend derives the appropriate types and maps for each specialization.</p>
+<p>The compiler retains the shared <code>numerator</code> expression. It doesn't independently rebuild the exponential for each Python use. Whether a later transformation chooses to recompute or materialize an intermediate is a separate optimization question.</p>
+<p>We can test cases which would break the direct exponential formula:</p>
+<pre><code>x = np.array([
+    [10000, 9999, -10000],
+    [-10000, -9999, -10001],
+    [0, -np.inf, -np.inf],
+], dtype=np.float32)
+probabilities = jit(softmax)(x)
+np.testing.assert_allclose(probabilities.sum(axis=-1), 1, atol=1e-6)
+assert probabilities[2, 0] == 1
+</code></pre>
+<p>A row containing only negative infinity is outside this example's useful domain: subtracting its maximum gives undefined values. GPT-2's causal mask always leaves the diagonal available, so a nonempty query row has at least one permitted key. We'll make that property explicit when we build attention.</p>
+<h2 id="layer-normalization">Layer Normalization</h2>
+<p>Layer normalization computes statistics across the last dimension of each token's representation:</p>
+<p><img alt="Equation: mu Subscript i Baseline equals StartFraction 1 Over upper C EndFraction sigma-summation Underscript j Endscripts x Subscript i j Baseline comma sigma Subscript i Superscript 2 Baseline equals StartFraction 1 Over upper C EndFraction sigma-summation Underscript j Endscripts left-parenthesis x Subscript i j Baseline minus mu Subscript i Baseline right-parenthesis squared" class="math-display" height="48" src="https://beila.github.io/my-collection/math-images/825db01a49097d382f94795e342e738aff98801bac87f87842a04235f66c1428.png" width="266"/></p>
+<p>It then applies learned scale and bias vectors:</p>
+<p><img alt="Equation: y Subscript i j Baseline equals g Subscript j Baseline StartFraction x Subscript i j Baseline minus mu Subscript i Baseline Over StartRoot sigma Subscript i Superscript 2 Baseline plus epsilon EndRoot EndFraction plus b Subscript j" class="math-display" height="58" src="https://beila.github.io/my-collection/math-images/61085fe3420cebab629e2bf6b5da6b190c7d506c41a5a0e339f1dee47d616d22.png" width="139"/></p>
+<p>We use population variance and GPT-2's <img alt="Equation: epsilon equals 10 Superscript negative 5" class="math-inline" height="29" src="https://beila.github.io/my-collection/math-images/df7b6edd61e71b16e54886769a77a44b9f6be0dd139e64d8e515cca5793b7c3b.png" width="83"/>:</p>
+<pre><code>from tinymlir import sqrt
+
+
+def layer_norm(x, gain, bias):
+    centered = x - x.mean(axis=-1, keepdims=True)
+    variance = (centered * centered).mean(axis=-1, keepdims=True)
+    return gain * centered / sqrt(variance + 1e-5) + bias
+</code></pre>
+<p><code>mean</code> is itself a sum divided by the statically known reduction length. There is no separate normalization loop in the backend. This function expands into reductions, elementwise operations and broadcast maps, using the same lowering rules as the earlier examples.</p>
+<p>Using centered differences is also important numerically. The algebraically equivalent expression <img alt="Equation: upper E left-bracket x squared right-bracket minus upper E left-bracket x right-bracket squared" class="math-inline" height="32" src="https://beila.github.io/my-collection/math-images/b570bb91603a513238897a00df523d097e3dad9502566eac82fb1dff2b6b36e4.png" width="128"/> can suffer severe cancellation for values with a large common offset. We follow the reference's centered computation rather than choosing a more convenient-looking identity.</p>
+<p>A constant row is a useful test. Its variance is zero, and after normalization the output should equal the learned bias. The test suite combines constant rows with random rows so that a special case doesn't conceal an error in the general path.</p>
+<h2 id="what-the-optimizer-sees">What the Optimizer Sees</h2>
+<p>At this point, the compiler sees more than a sequence of calls to named kernels. The entire Python expression becomes a tensor graph inside a function. A subtraction followed by an exponential and division appears as structured operations whose regions and indexing maps can be composed.</p>
+<p>We can inspect the difference before and after fusion:</p>
+<pre><code>uv run python emit.py softmax
+uv run python emit.py softmax --stage optimized
+</code></pre>
+<p>Reductions place constraints on fusion. Computing a row sum requires the values contributing to that row. A pass must preserve the producer-consumer relationship and reduction semantics; it can't move every operation into an arbitrary elementwise region. Keeping those semantics explicit is why we're using structured IR in the first place.</p>
+<h2 id="numerical-checks">Numerical Checks</h2>
+<p>The small operation tests compare against NumPy with tight tolerances and check output dtypes. They cover multiple reduction axes, retained dimensions, broadcasted vectors, large softmax offsets, constant normalization rows and GELU's mixed precision.</p>
+<pre><code>uv run pytest
+</code></pre>
+<p>These tests establish the elementary pieces. The final model test will also compare intermediate residual outputs and logits against the original <code>tiny-gpt2</code> repository, followed by exact equality of the generated token IDs. An implementation can make a local rounding difference and still be numerically correct. Selecting a different token for the required example is a separate, observable failure.</p>
+<p>Next we'll add matrix multiplication and express the attention computation using these same composable tensor operations.</p>
+<h2 id="external-resources">External Resources</h2>
+<ul>
+<li><a href="https://github.com/openai/gpt-2/blob/master/src/model.py">GPT-2 model implementation</a></li>
+<li><a href="https://mlir.llvm.org/docs/Dialects/Linalg/">MLIR Linalg dialect</a></li>
+<li><a href="https://mlir.llvm.org/docs/Dialects/MathOps/">MLIR Math dialect</a></li>
+<li><a href="https://github.com/sdiehl/tiny-gpt2">NumPy GPT-2 reference</a></li>
+</ul>
+<p><a href="https://www.stephendiehl.com/posts/mlir_python_frontend">Previous: Part 9 - A Python Frontend for MLIR</a> · <a href="https://www.stephendiehl.com/posts/mlir_introduction">Series contents</a> · <a href="https://www.stephendiehl.com/posts/mlir_attention">Next: Part 11 - Matrix Multiplication and Attention</a></p>
+</section>
+</article>
+</body>
+</html>

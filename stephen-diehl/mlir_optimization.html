@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="f94c9ea4d8ed2761d98ee851cd0f623a0c4830bc82f6927fa78ed51c23be6b9e" name="stephen-diehl-content-hash"/>
+<meta content="17" name="stephen-diehl-article-format"/>
+<link href="https://beila.github.io/my-collection/stephen-diehl/mlir_optimization.html" rel="canonical"/>
+<title>Fusion, Bufferization and Execution</title>
+<style>
+    :root { color-scheme: dark; }
+    body { margin: 0; background: #171717; color: #f1f1f1;
+            font: 18px/1.7 Georgia, serif; }
+    article { max-width: 52rem; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+    h1 { font-size: 2rem; line-height: 1.25; letter-spacing: 0; }
+    h2, h3, h4, h5, h6 { line-height: 1.3; letter-spacing: 0; }
+    a { color: #8dc7ff; overflow-wrap: anywhere; }
+    img { display: block; max-width: 100%; height: auto; margin: 1.25rem auto; }
+    pre { overflow-x: auto; padding: 1rem; background: #242424;
+           white-space: pre-wrap; overflow-wrap: anywhere; }
+    code, kbd, samp { font-family: ui-monospace, monospace; }
+    blockquote { border-left: 3px solid #777; margin-left: 0; padding-left: 1rem; }
+    table { width: 100%; border-collapse: collapse; display: block;
+             overflow-x: auto; }
+    th, td { border: 1px solid #666; padding: .5rem; vertical-align: top; }
+    .published { color: #b8b8b8; }
+    .original-link { border-top: 1px solid #555; margin-top: 2rem;
+                      padding-top: 1rem; }
+img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
+                      vertical-align: middle; }
+    img.math-display { display: block; height: auto; margin: 1.25rem auto;
+                       max-width: 100%; }
+.youtube-thumbnail { margin: 1.5rem 0; }
+    .youtube-thumbnail a { display: block; text-decoration: none; }
+    .youtube-thumbnail img { margin: 0 auto; }
+  </style>
+</head>
+<body>
+<article>
+<h1>Fusion, Bufferization and Execution</h1>
+<p class="published">Published: Sat, 30 May 2026 08:00:00 +0000</p>
+<section class="instapaper_body">
+<p class="original-link"><a href="https://www.stephendiehl.com/posts/mlir_optimization/">Read the original article on Stephen Diehl's website</a></p>
+<p>Our frontend now describes the transformer as tensor operations. We've deliberately left questions about storage and execution out of those definitions. This chapter follows the other half of the compiler: transforming the tensor program, assigning buffers, lowering to LLVM and calling the result from Python.</p>
+<p>The implementation is in <code>tinymlir/jit.py</code>. It retains the original, optimized and lowered modules separately, so we can inspect what each stage changes.</p>
+<h2 id="elementwise-fusion">Elementwise Fusion</h2>
+<p>Consider a simple function:</p>
+<pre><code>from tinymlir import jit
+
+@jit
+def affine_activation(x, gain, bias):
+    return (x * gain + bias) * 0.5
+</code></pre>
+<p>The builder initially emits three elementwise <code>linalg.generic</code> operations. Each has its own output tensor. At the tensor level, these values describe the results of computations; their existence doesn't yet require three separate heap allocations.</p>
+<p>Our optimization pipeline is:</p>
+<pre><code>OPTIMIZATION_PIPELINE = (
+    "builtin.module("
+    "canonicalize,cse,linalg-fuse-elementwise-ops,canonicalize,cse)"
+)
+</code></pre>
+<p>The fusion pass combines compatible producer and consumer regions, composing their indexing maps. For this example, the optimized module contains one <code>linalg.generic</code>. Its scalar body multiplies, adds and multiplies again before yielding a result.</p>
+<p>The test suite checks both facts: the operation count changes from three to one, and executing the optimized and unoptimized modules produces the same array. This verifies an actual compiler transformation, rather than comparing two separately written kernel implementations.</p>
+<p>The pass-pipeline string names transformations for MLIR's pass manager. The program being transformed is an object graph constructed through the Python bindings:</p>
+<pre><code>from mlir.passmanager import PassManager
+
+PassManager.parse(OPTIMIZATION_PIPELINE).run(module.operation)
+module.operation.verify()
+</code></pre>
+<p>The verifier checks the result after transformation. Errors are propagated to the caller; there is no alternative NumPy path which could conceal a compilation failure.</p>
+<h2 id="the-limits-of-fusion">The Limits of Fusion</h2>
+<p>Elementwise fusion is useful because it can eliminate intermediate stores, loads and allocations. It doesn't imply that every chain of operations should become one region. Reductions have different iteration semantics, matrix multiplication has a reduction dimension, and a producer may have multiple consumers.</p>
+<p>For example, softmax's exponentials feed both a sum and the final division. A legal transformation must account for that use pattern. Depending on the schedule, storing a result or recomputing it can have different costs. The tensor graph gives the compiler enough information to make and check those decisions.</p>
+<p>Floating-point arithmetic also limits transformations. Reassociating a reduction can change its result. Our frontend preserves the formula's dtype promotions, and the generated arithmetic doesn't request unrestricted fast-math behavior. We still compare against NumPy with numerical tolerances because its reductions and BLAS implementation may accumulate in a different order.</p>
+<h2 id="bufferization">Bufferization</h2>
+<p>After tensor transformations, we run one-shot bufferization. It analyzes tensor uses to decide where storage can be reused and where a separate allocation is required.</p>
+<p>The external function already has a straightforward contract: memref inputs and a caller-provided output memref. Inside the function, <code>bufferization.to_tensor</code> makes inputs available to tensor operations. <code>bufferization.materialize_in_destination</code> requires the final result to be written to the output buffer.</p>
+<p>We mark the input conversions <code>restrict</code>. This is a promise about aliasing at the boundary. If the caller passes the same array twice, or passes overlapping views, the runtime copies overlapping inputs before invoking the function. The new output allocation is also distinct from the inputs. The promise made to bufferization therefore matches what the runtime supplies.</p>
+<p>Inputs are read-only from the tensor program's perspective. Intermediate results remain functional values until bufferization chooses their storage. We don't modify the model's weights while evaluating a block.</p>
+<p>Storage ownership is a separate concern from buffer assignment. Our pipeline includes the buffer-deallocation pipeline so internally allocated buffers are released. The caller's NumPy arrays remain owned by Python. Returning a pointer to an unmanaged temporary would make a small successful example misleading; repeated inference needs the ownership boundary to be correct too.</p>
+<h2 id="lowering-the-module">Lowering the Module</h2>
+<p>The native lowering pipeline used by the companion project is:</p>
+<pre><code>LOWERING_PIPELINE = (
+    "builtin.module("
+    "one-shot-bufferize{bufferize-function-boundaries},"
+    "convert-linalg-to-loops,"
+    "buffer-deallocation-pipeline,"
+    "expand-strided-metadata,lower-affine,"
+    "convert-scf-to-cf,convert-math-to-libm,convert-math-to-llvm,"
+    "convert-arith-to-llvm,convert-func-to-llvm,convert-cf-to-llvm,"
+    "finalize-memref-to-llvm,reconcile-unrealized-casts)"
+)
+</code></pre>
+<p>The stages follow the information being removed. Bufferization resolves tensor storage. Linalg lowering chooses explicit loops. Metadata expansion and affine lowering expose address calculations. Structured control flow becomes ordinary branches. Arithmetic, functions and memory references then become LLVM dialect operations.</p>
+<p>Math operations use the LLVM or host math-library paths available in this pinned toolchain. Finally, reconciliation removes conversion artifacts whose source and destination types have converged.</p>
+<p>This is a CPU pipeline. It runs in the same process as the Python bindings and uses their matching execution engine. We aren't serializing a module to a subprocess and attempting to combine unrelated LLVM builds.</p>
+<h2 id="calling-native-code">Calling Native Code</h2>
+<p>The function carries <code>llvm.emit_c_interface</code>, which requests a wrapper with a C-compatible calling convention. The runtime uses MLIR's ranked memref descriptor helper:</p>
+<pre><code>pointers = [
+    ctypes.pointer(ctypes.pointer(get_ranked_memref_descriptor(array)))
+    for array in [*inputs, output]
+]
+engine.invoke("kernel", *pointers)
+</code></pre>
+<p>The execution engine's packed invocation API takes pointers to argument storage. The C interface's memref arguments are themselves descriptor pointers, which accounts for the extra level of indirection here. The descriptor records the array's address, offset, sizes and strides.</p>
+<p>Before invoking the function, the runtime checks the specialization's shapes and dtypes and makes inputs contiguous. It allocates a NumPy output array of the inferred result type. The arrays and descriptors remain alive throughout the call, and the compiled object owns the context, modules and engine for as long as its specialization is cached.</p>
+<p>Tensor-valued gather indices are also checked before entering native code. Shape checking can't prove that runtime token IDs lie within an embedding table. The model validates vocabulary bounds, and the generic gather boundary performs its own index check.</p>
+<h2 id="specialization-and-cost">Specialization and Cost</h2>
+<p>The JIT cache is keyed by tensor types and static keyword arguments. Transformer blocks with different weight values can share a specialization when their argument shapes and dtypes agree. The weights are runtime inputs, rather than constants embedded in each compiled module.</p>
+<p>A new sequence length changes the shapes and requires another specialization. The example recomputes the full prefix for each generated token, so its first run includes compilation for several lengths. Repeated calls at an existing shape reuse the engine.</p>
+<p>This is a deliberately small in-process cache. It doesn't provide persistent object caching or a memory policy for an unlimited stream of shapes. Those would be useful extensions, but they aren't necessary to understand the compilation boundary.</p>
+<p>When measuring execution, warm up the relevant specializations first. Otherwise a timing includes tracing, IR construction, pass execution and machine-code generation as well as inference. A comparison which mixes those costs tells us little about the generated kernels.</p>
+<h2 id="returning-to-the-gpu">Returning to the GPU</h2>
+<p>Part 8 established the GPU execution model and PTX path. A GPU backend for this tensor compiler would make different scheduling decisions before lowering away the structured operations. Matrix multiplication could be tiled, iterations mapped to blocks and threads, and transfers and launches represented at the host-device boundary.</p>
+<p>The retained <code>linalg.matmul</code> and reduction operations give such a backend something useful to transform. Once everything has become scalar loops and pointer arithmetic, recovering that structure becomes harder.</p>
+<p>The current <a href="https://github.com/sdiehl/tiny-mlir"><code>tiny-mlir</code></a> project executes on the CPU. It doesn't claim a GPU implementation or GPU numerical validation. The GPU chapter explains the additional backend machinery; the completed companion example gives us a small, inspectable compiler whose numerical behavior we can check against the reference. Hardware scheduling can be added to that structure without changing the Python model's formulas.</p>
+<p>Next we'll load the pretrained checkpoint and test the complete inference path, including the exact sequence of generated tokens.</p>
+<h2 id="external-resources">External Resources</h2>
+<ul>
+<li><a href="https://mlir.llvm.org/docs/Bindings/Python/">MLIR Python bindings</a></li>
+<li><a href="https://mlir.llvm.org/docs/Bufferization/">MLIR Bufferization</a></li>
+<li><a href="https://mlir.llvm.org/docs/Passes/">MLIR passes</a></li>
+<li><a href="https://mlir.llvm.org/docs/Dialects/GPU/">MLIR GPU dialect</a></li>
+</ul>
+<p><a href="https://www.stephendiehl.com/posts/mlir_attention">Previous: Part 11 - Matrix Multiplication and Attention</a> · <a href="https://www.stephendiehl.com/posts/mlir_introduction">Series contents</a> · <a href="https://www.stephendiehl.com/posts/mlir_gpt2">Next: Part 13 - Running GPT-2</a></p>
+</section>
+</article>
+</body>
+</html>

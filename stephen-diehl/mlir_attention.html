@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="ebb83547a80059dab9f43e80119c59880628fec64df8e6ded15843d4db4f1dbe" name="stephen-diehl-content-hash"/>
+<meta content="17" name="stephen-diehl-article-format"/>
+<link href="https://beila.github.io/my-collection/stephen-diehl/mlir_attention.html" rel="canonical"/>
+<title>Matrix Multiplication and Attention</title>
+<style>
+    :root { color-scheme: dark; }
+    body { margin: 0; background: #171717; color: #f1f1f1;
+            font: 18px/1.7 Georgia, serif; }
+    article { max-width: 52rem; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+    h1 { font-size: 2rem; line-height: 1.25; letter-spacing: 0; }
+    h2, h3, h4, h5, h6 { line-height: 1.3; letter-spacing: 0; }
+    a { color: #8dc7ff; overflow-wrap: anywhere; }
+    img { display: block; max-width: 100%; height: auto; margin: 1.25rem auto; }
+    pre { overflow-x: auto; padding: 1rem; background: #242424;
+           white-space: pre-wrap; overflow-wrap: anywhere; }
+    code, kbd, samp { font-family: ui-monospace, monospace; }
+    blockquote { border-left: 3px solid #777; margin-left: 0; padding-left: 1rem; }
+    table { width: 100%; border-collapse: collapse; display: block;
+             overflow-x: auto; }
+    th, td { border: 1px solid #666; padding: .5rem; vertical-align: top; }
+    .published { color: #b8b8b8; }
+    .original-link { border-top: 1px solid #555; margin-top: 2rem;
+                      padding-top: 1rem; }
+img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
+                      vertical-align: middle; }
+    img.math-display { display: block; height: auto; margin: 1.25rem auto;
+                       max-width: 100%; }
+.youtube-thumbnail { margin: 1.5rem 0; }
+    .youtube-thumbnail a { display: block; text-decoration: none; }
+    .youtube-thumbnail img { margin: 0 auto; }
+  </style>
+</head>
+<body>
+<article>
+<h1>Matrix Multiplication and Attention</h1>
+<p class="published">Published: Fri, 01 May 2026 08:00:00 +0000</p>
+<section class="instapaper_body">
+<p class="original-link"><a href="https://www.stephendiehl.com/posts/mlir_attention/">Read the original article on Stephen Diehl's website</a></p>
+<p>We have GELU, softmax and layer normalization expressed as Python functions over our tensor language. Most of a transformer's arithmetic, however, comes from matrix multiplication. Adding it will let us assemble attention without introducing a special attention kernel into the compiler.</p>
+<p>We'll use <img alt="Equation: upper T" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/7cebde6d7a38d72e0bf5491aa60257838220c574c48cc43cef46b472c849009c.png" width="20"/> for sequence length, <img alt="Equation: upper C" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/72a1e1fdd31941ccfab33a0efdebeaa40b0abd42f51a10785822f741e82b7c30.png" width="21"/> for embedding width, <img alt="Equation: upper H" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/33f2e1304d9729fe64f9b8ec1e5f316104672deda9db44b2aaeae7e3456b7f92.png" width="23"/> for head count and <img alt="Equation: upper D equals upper C slash upper H" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/5d589b533185797ce773bc8f4a3e204ab0e7ffbd11cca0b755a3f668f8be8784.png" width="95"/> for the width of a head. The model processes one sequence at a time. Heads will become a batch dimension in the attention matrix products.</p>
+<h2 id="preserving-the-matrix-operation">Preserving the Matrix Operation</h2>
+<p>For <img alt="Equation: upper A" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/b82947fdd348103b4f64ebb8fe74539de1e5b71794cc0a971f20936c4b7be5fe.png" width="20"/> with shape <img alt="Equation: left-parenthesis upper M comma upper K right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/276e8e69d4a9aac464a16040b119fcbe2c9ec6f6af15b119f5f5693bed61e0dc.png" width="71"/> and <img alt="Equation: upper B" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/b2affa0ba756b0dcbda6301d951888810b79314376f5d0203c91cf141277a809.png" width="21"/> with shape <img alt="Equation: left-parenthesis upper K comma upper N right-parenthesis" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/cd341df59fa9c4da1d7972ac1c7d7c8c3e1eb9ccaaeeaf454fa99d4a0f618dc3.png" width="68"/>:</p>
+<p><img alt="Equation: upper Y Subscript i j Baseline equals sigma-summation Underscript k equals 0 Overscript upper K minus 1 Endscripts upper A Subscript i k Baseline upper B Subscript k j" class="math-display" height="54" src="https://beila.github.io/my-collection/math-images/3cf179cb69c0e45cb269d67569a7e1e56556120057bad391212c14164eccd500.png" width="109"/></p>
+<p>Our frontend's <code>__matmul__</code> checks the reduction dimensions, determines the output shape and inserts dtype conversions if necessary. The result is a <code>matmul</code> expression. Its builder creates a named <code>linalg.matmul</code> operation:</p>
+<pre><code>initial = linalg.fill(
+    zero, outs=[tensor.EmptyOp(output_shape, element_type).result]
+)
+result = linalg.matmul(lhs, rhs, outs=[initial])
+</code></pre>
+<p><code>zero</code>, the operands and output type come from the typed expression. The zero initialization is essential because matrix multiplication accumulates into its destination.</p>
+<p>At this point we haven't specified a loop order, tile size, vector width or thread mapping. The IR still says that this is a matrix multiplication. The backend can subsequently choose how to implement it. Our CPU pipeline initially uses MLIR's loop lowering and LLVM optimization.</p>
+<p>A small rectangular example checks the shape rule and generated operation:</p>
+<pre><code>import numpy as np
+from tinymlir import jit
+
+@jit
+def multiply(a, b):
+    return a @ b
+
+rng = np.random.default_rng(7)
+a = rng.normal(size=(3, 5)).astype(np.float32)
+b = rng.normal(size=(5, 7)).astype(np.float32)
+np.testing.assert_allclose(multiply(a, b), a @ b, rtol=2e-6, atol=2e-6)
+print(multiply.compile(a, b).module)
+</code></pre>
+<p>Rectangular inputs help reveal swapped dimensions and incorrect strides. A collection of square examples can hide those errors surprisingly well.</p>
+<p>For rank-three operands with matching batch dimensions, the builder selects <code>linalg.batch_matmul</code>. The frontend currently requires those batch dimensions to agree exactly; it doesn't implement the full range of NumPy's batched broadcasting rules.</p>
+<h2 id="linear-layers">Linear Layers</h2>
+<p>A linear layer is simply:</p>
+<pre><code>def linear(x, weight, bias):
+    return x @ weight + bias
+</code></pre>
+<p>The matrix product produces shape <code>(T, N)</code>, and the vector bias broadcasts over its rows. GPT-2's projection weights have shape <code>(input_width, output_width)</code>, so they fit this expression directly.</p>
+<p>This definition also illustrates why the frontend matters. Composing <code>gelu(linear(x, weight, bias))</code> exposes the whole computation to the compiler. There is no separately maintained <code>linear_gelu</code> implementation. The tensor operations provide the material on which MLIR's fusion pass works.</p>
+<h2 id="queries%2C-keys-and-values">Queries, Keys and Values</h2>
+<p>GPT-2 computes all three projections at once:</p>
+<p><img alt="Equation: left-bracket upper Q semicolon upper K semicolon upper V right-bracket equals upper X upper W Subscript q k v Baseline plus b Subscript q k v" class="math-display" height="26" src="https://beila.github.io/my-collection/math-images/981a6adefb32bdccecd7cacf0b476524d1f89ffbc02dbfab008254122d2f9d39.png" width="161"/></p>
+<p>The result has shape <code>(T, 3*C)</code>. We take three slices, reshape each into <code>(T, H, D)</code>, and transpose to <code>(H, T, D)</code>:</p>
+<pre><code>packed = linear(x, qkv_weight, qkv_bias)
+length, width = x.shape
+depth = width // heads
+q, k, v = [
+    packed[:, i*width:(i+1)*width]
+        .reshape((length, heads, depth))
+        .transpose((1, 0, 2))
+    for i in range(3)
+]
+</code></pre>
+<p>These statements run during tracing. The loop has a static bound, and all its slices and shapes are known. The arrays themselves remain runtime inputs.</p>
+<p>Each operation has a corresponding structured lowering. Slices become <code>tensor.extract_slice</code>. Reshapes use <code>tensor.collapse_shape</code> and <code>tensor.expand_shape</code>, with explicit reassociation groups. Transposes become <code>linalg.transpose</code> with a permutation attribute.</p>
+<p>A reshape must preserve element count. A transpose must specify a permutation. A slice must fit the static shape and, in our small language, have unit stride and a nonempty result. Those checks happen before creating the MLIR operation.</p>
+<p>The layout operations retain their meaning until bufferization and lowering. Whether a particular combination becomes a view or requires a copy depends on its layout and uses. We shouldn't assume every transpose is free merely because the Python expression is short.</p>
+<h2 id="scores-and-the-mask">Scores and the Mask</h2>
+<p>For each head, attention scores are:</p>
+<p><img alt="Equation: upper S Subscript h Baseline equals StartFraction upper Q Subscript h Baseline upper K Subscript h Superscript down-tack Baseline Over StartRoot upper D EndRoot EndFraction plus upper M" class="math-display" height="50" src="https://beila.github.io/my-collection/math-images/539b3d8f5ee3d18775a7e639ee1d308424d5810a80f6d26c194892266894397e.png" width="119"/></p>
+<p>The batched product has shape <code>(H, T, T)</code>. The causal mask has shape <code>(T, T)</code> and broadcasts across heads. To match the NumPy reference, allowed entries are zero and future positions contain <img alt="Equation: minus 10 Superscript 10" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/add6aae3b48a31ac468b2a1764d43f2ec097340b61349da2da3a29d6eea23cad.png" width="59"/> in the projection's dtype.</p>
+<p>Our mask is a small primitive built with <code>linalg.generic</code>. Its region obtains the row and column indices using <code>linalg.index</code>, compares them with <code>arith.cmpi</code>, and selects zero or the mask value. This is index-dependent tensor construction; it doesn't require a host NumPy array containing the mask.</p>
+<p>The diagonal remains allowed, so every query position has at least one visible key. Applying the softmax from Part 10 normalizes the final dimension:</p>
+<pre><code>scores = (q @ k.transpose((0, 2, 1))) / np.sqrt(depth)
+probabilities = softmax(scores + causal_mask(length, packed.dtype))
+</code></pre>
+<p>The NumPy square root returns a float64 scalar. Our type rules therefore promote the score computation as in the reference. This propagation is visible in the IR as explicit elementwise casts, rather than being hidden in a runtime conversion.</p>
+<h2 id="combining-values">Combining Values</h2>
+<p>The probabilities weight the value vectors:</p>
+<p><img alt="Equation: upper O Subscript h Baseline equals upper P Subscript h Baseline upper V Subscript h" class="math-display" height="24" src="https://beila.github.io/my-collection/math-images/f1de3bc8b697c23f093be821f2bde60a237b00d4b1f4eb62f3a79531cb19fc05.png" width="76"/></p>
+<p>The result has shape <code>(H, T, D)</code>. Transposing it to <code>(T, H, D)</code> and reshaping to <code>(T, C)</code> combines the heads. A final linear projection returns to the residual stream's width:</p>
+<pre><code>context = (probabilities @ v).transpose((1, 0, 2)).reshape((length, width))
+return linear(context, out_weight, out_bias)
+</code></pre>
+<p>Putting these pieces together gives the entire attention function in <code>tinymlir/ops.py</code>. Its backend vocabulary consists of matrix products, elementwise arithmetic, reductions, slices, reshapes and transposes. The compiler doesn't need a special rule which recognizes the model's attention function by name.</p>
+<p>This version materializes the score and probability tensors. Their size is proportional to <img alt="Equation: upper H upper T squared" class="math-inline" height="28" src="https://beila.github.io/my-collection/math-images/8e7945a6d672c5b9abf23f110119c890d2d6cfe4557675d2620fe8864701a778.png" width="49"/>. The code is compact, but the algorithm still has quadratic attention storage. FlashAttention would require a different schedule that processes tiles and maintains the normalization statistics without materializing those full tensors. That isn't a consequence of ordinary elementwise fusion.</p>
+<h2 id="residual-connections">Residual Connections</h2>
+<p>The transformer normalizes its input before attention, then adds the attention output back to the input:</p>
+<pre><code>@jit
+def attend(x, gain, bias, qkv_weight, qkv_bias, out_weight, out_bias, *, heads):
+    normalized = layer_norm(x, gain, bias)
+    return x + attention(
+        normalized, qkv_weight, qkv_bias, out_weight, out_bias, heads
+    )
+</code></pre>
+<p><code>heads</code> is a static keyword parameter. Changing it selects another specialization. The tensors are dynamic data whose shapes and dtypes determine their specialization.</p>
+<p>The feedforward half has the same residual structure:</p>
+<pre><code>@jit
+def feedforward(x, gain, bias, up_weight, up_bias, down_weight, down_bias):
+    normalized = layer_norm(x, gain, bias)
+    hidden = gelu(linear(normalized, up_weight, up_bias))
+    return x + linear(hidden, down_weight, down_bias)
+</code></pre>
+<p>These are the functions which the final model executes. Each contains several composable tensor operations in a single module, giving the compiler useful producer-consumer relationships to transform.</p>
+<h2 id="checking-causality">Checking Causality</h2>
+<p>Numerical comparison is necessary, but attention also has a useful structural property: changing future inputs must leave earlier outputs unchanged.</p>
+<p>The test suite creates a short sequence, runs compiled attention, changes the last two input rows, and checks that the first three output rows remain equal. This catches a reversed mask, the wrong transpose, and some head-layout mistakes which shape checks alone can't detect.</p>
+<p>It also tests nonsquare matrix products, batched products and layout changes on nontrivial slices. These are independent places for indexing errors to enter the model. Checking them separately makes a mismatch in the final logits much easier to locate.</p>
+<p>We now have the arithmetic needed for a GPT-2 block. Next we'll examine the transformation and execution pipeline that turns this structured tensor program into callable native code.</p>
+<h2 id="external-resources">External Resources</h2>
+<ul>
+<li><a href="https://github.com/openai/gpt-2/blob/master/src/model.py">GPT-2 model implementation</a></li>
+<li><a href="https://mlir.llvm.org/docs/Dialects/Linalg/">MLIR Linalg dialect</a></li>
+<li><a href="https://mlir.llvm.org/docs/Dialects/TensorOps/">MLIR Tensor dialect</a></li>
+<li><a href="https://github.com/sdiehl/tiny-gpt2">NumPy GPT-2 reference</a></li>
+</ul>
+<p><a href="https://www.stephendiehl.com/posts/mlir_transformer_kernels">Previous: Part 10 - Compiling Transformer Kernels</a> · <a href="https://www.stephendiehl.com/posts/mlir_introduction">Series contents</a> · <a href="https://www.stephendiehl.com/posts/mlir_optimization">Next: Part 12 - Fusion, Bufferization and Execution</a></p>
+</section>
+</article>
+</body>
+</html>
