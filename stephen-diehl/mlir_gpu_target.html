@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="9830d14cce5e7ac1970eb146ddb29be19123ed50c83839d65ab36b4482d5ff81" name="stephen-diehl-content-hash"/>
+<meta content="17" name="stephen-diehl-article-format"/>
+<link href="https://beila.github.io/my-collection/stephen-diehl/mlir_gpu_target.html" rel="canonical"/>
+<title>GPT-2 on the GPU</title>
+<style>
+    :root { color-scheme: dark; }
+    body { margin: 0; background: #171717; color: #f1f1f1;
+            font: 18px/1.7 Georgia, serif; }
+    article { max-width: 52rem; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+    h1 { font-size: 2rem; line-height: 1.25; letter-spacing: 0; }
+    h2, h3, h4, h5, h6 { line-height: 1.3; letter-spacing: 0; }
+    a { color: #8dc7ff; overflow-wrap: anywhere; }
+    img { display: block; max-width: 100%; height: auto; margin: 1.25rem auto; }
+    pre { overflow-x: auto; padding: 1rem; background: #242424;
+           white-space: pre-wrap; overflow-wrap: anywhere; }
+    code, kbd, samp { font-family: ui-monospace, monospace; }
+    blockquote { border-left: 3px solid #777; margin-left: 0; padding-left: 1rem; }
+    table { width: 100%; border-collapse: collapse; display: block;
+             overflow-x: auto; }
+    th, td { border: 1px solid #666; padding: .5rem; vertical-align: top; }
+    .published { color: #b8b8b8; }
+    .original-link { border-top: 1px solid #555; margin-top: 2rem;
+                      padding-top: 1rem; }
+img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
+                      vertical-align: middle; }
+    img.math-display { display: block; height: auto; margin: 1.25rem auto;
+                       max-width: 100%; }
+.youtube-thumbnail { margin: 1.5rem 0; }
+    .youtube-thumbnail a { display: block; text-decoration: none; }
+    .youtube-thumbnail img { margin: 0 auto; }
+  </style>
+</head>
+<body>
+<article>
+<h1>GPT-2 on the GPU</h1>
+<p class="published">Published: Sun, 11 Oct 2026 08:00:00 +0000</p>
+<section class="instapaper_body">
+<p class="original-link"><a href="https://www.stephendiehl.com/posts/mlir_gpu_target/">Read the original article on Stephen Diehl's website</a></p>
+<p>
+<img alt="GPU Target" src="https://beila.github.io/my-collection/stephen-diehl/assets/5b1b2f9f799894edc69280e5e40de94115f0c172b315ed8cd8b1636a46bdc344.jpg"/>
+</p>
+<p>Part 8 built the GPU path by hand: kernels in the <code>gpu</code> dialect, NVVM lowering, PTX, and the driver calls that allocate memory and launch a grid. Parts 9 through 13 built a tensor compiler whose output ran on the CPU. This chapter joins the two. The same traced tensor programs, with the same formulas and the same reference checks, run on an NVIDIA GPU.</p>
+<p>There are three pieces of work. The parallel loops that remain after bufferization have to become kernels. Matrix multiplication needs a schedule that uses shared memory, since a naive thread-per-output mapping wastes the hardware. And the boundary between host arrays and device memory has to be decided. All of it lives in <code>tinymlir/gpu.py</code>, a module of about two hundred and fifty lines that the CPU path never calls into.</p>
+<p>The chapter ends with a second way to compile the model. Rather than one function per sublayer, the whole NumPy reference forward pass is traced into a single module, and that module is handed to either target.</p>
+<p>You need Linux on x86_64, an NVIDIA driver and a card of compute capability sm_75 or newer. A Tesla T4 on Google Colab is enough; the repository includes a <a href="https://colab.research.google.com/github/sdiehl/tiny-mlir/blob/main/Colab.ipynb">notebook</a> that installs the CUDA build of the bindings and runs everything below. Nothing else in the series requires a GPU.</p>
+<h2 id="where-the-targets-diverge">Where the Targets Diverge</h2>
+<p>Recall the shape of the pipeline from Part 12. Fusion runs on tensors. Bufferization assigns storage and inserts deallocations. The result is a module of <code>linalg</code> operations over memrefs, and that module is what each target receives:</p>
+<pre><code>PassManager.parse(BUFFERIZATION_PIPELINE).run(lowered.operation)
+if target == GPU:
+    gpu.lower(lowered)
+else:
+    blas.rewrite(lowered)
+    PassManager.parse(LOWERING_PIPELINE).run(lowered.operation)
+</code></pre>
+<p>The GPU side has the same two-step structure as the CPU side, a substitution followed by a pipeline:</p>
+<pre><code>def outline(module):
+    tiled_matmuls(module)
+    PassManager.parse(KERNEL_PIPELINE).run(module.operation)
+    managed_allocations(module)
+
+
+def lower(module):
+    outline(module)
+    PassManager.parse(llvm_pipeline()).run(module.operation)
+</code></pre>
+<p><code>outline</code> is the part that is independent of hardware. It runs in the test suite on every platform, including machines with no GPU, and asserts that every loop in the module became a kernel launch. <code>lower</code> continues to PTX and needs the CUDA build of MLIR, which exists only for Linux.</p>
+<p>The order within <code>outline</code> matters. The matmul substitution has to come before the loop passes, otherwise the matmuls would be converted to parallel loops and nothing would be left to substitute. And both have to come after bufferization and buffer deallocation. The hand-written kernel contains <code>gpu.barrier</code>, whose memory effects the deallocation analysis can't see through. By the time the kernel is inserted, storage has already been assigned and released.</p>
+<h2 id="loops-to-kernels">Loops to Kernels</h2>
+<p>The second step is a pipeline of existing MLIR passes:</p>
+<pre><code>KERNEL_PIPELINE = (
+    "builtin.module("
+    "convert-linalg-to-parallel-loops,"
+    "func.func(scf-parallel-loop-tiling{parallel-loop-tile-sizes=16,16 "
+    "no-min-max-bounds=true}),"
+    "func.func(gpu-map-parallel-loops),"
+    "convert-parallel-loops-to-gpu,"
+    "gpu-kernel-outlining,canonicalize)"
+)
+</code></pre>
+<p>Each <code>linalg.generic</code> becomes an <code>scf.parallel</code> loop nest over its parallel iterators, with any reduction iterators as ordinary sequential <code>scf.for</code> loops inside. A softmax row reduction is therefore a parallel loop over rows containing a serial loop along each row. One thread handles one row. That is the right mapping for GPT-2's shapes, where the reduced dimension is at most a few thousand elements, and it is the only reduction strategy this backend has.</p>
+<p>Tiling splits each parallel loop into an outer loop over tiles of sixteen and an inner loop within the tile. The mapping pass annotates the outer loops as block dimensions and the inner loops as thread dimensions. Conversion turns the annotated nest into a <code>gpu.launch</code>, and outlining moves its body into a <code>gpu.func</code> inside a <code>gpu.module</code>, replacing it with <code>gpu.launch_func</code>. For the GELU of a <code>(64, 256)</code> matrix, the host function after this pipeline is:</p>
+<pre><code>%memref = gpu.alloc host_shared () : memref&lt;64x256xf64&gt;
+gpu.launch_func @kernel_kernel::@kernel_kernel
+    blocks in (%c4, %c16, %c1) threads in (%c16, %c16, %c1)
+    args(%c16 : index, %c0 : index, %c16 : index, %c1 : index, %c0 : index,
+         %arg0 : memref&lt;64x256xf32&gt;, %cst_2 : f32, %cst_1 : f32,
+         %cst_0 : f64, %cst : f64, %cst_3 : f32, %memref : memref&lt;64x256xf64&gt;)
+memref.copy %memref, %arg1 : memref&lt;64x256xf64&gt; to memref&lt;64x256xf64&gt;
+</code></pre>
+<p>A grid of four by sixteen blocks of sixteen by sixteen threads covers the matrix. The kernel's body is the fused GELU region from Part 10 with <code>gpu.block_id</code> and <code>gpu.thread_id</code> in place of loop induction variables:</p>
+<pre><code>gpu.func @kernel_kernel(..., %arg5: memref&lt;64x256xf32&gt;, ..., %arg11: memref&lt;64x256xf64&gt;) kernel {
+  %block_id_x = gpu.block_id x
+  %thread_id_x = gpu.thread_id x
+  ...
+  %6 = memref.load %arg5[%4, %5] : memref&lt;64x256xf32&gt;
+  %7 = math.powf %6, %arg6 : f32
+  ...
+  %12 = math.tanh %11 : f64
+  ...
+  memref.store %16, %arg11[%4, %5] : memref&lt;64x256xf64&gt;
+  gpu.return
+}
+</code></pre>
+<p>The <code>no-min-max-bounds</code> option tells the tiling pass not to clamp the inner loop with <code>min</code> expressions when a dimension is not a multiple of sixteen, and to use a conditional in the body instead. The clamped form produces loop bounds that the GPU conversion can't map to a fixed block size.</p>
+<p>The test suite checks the outcome structurally. For GELU, softmax, layer normalization, matmul, gather and attention, the host function after <code>outline</code> must contain <code>gpu.launch_func</code> and no <code>scf</code>, <code>linalg</code> or <code>memref.alloc</code> operations. Everything that iterated now runs on the device.</p>
+<h2 id="a-tiled-matrix-multiplication">A Tiled Matrix Multiplication</h2>
+<p>Running <code>linalg.matmul</code> through the same pipeline would work, and would be slow. It becomes a parallel loop over the output with a serial loop over <img alt="Equation: upper K" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/bf6942d005b806e83c7ddc995a182b6cdc58bb712be624c83236dd543f8b7188.png" width="23"/> inside, so each thread reads a full row of <img alt="Equation: upper A" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/b82947fdd348103b4f64ebb8fe74539de1e5b71794cc0a971f20936c4b7be5fe.png" width="20"/> and a full column of <img alt="Equation: upper B" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/b2affa0ba756b0dcbda6301d951888810b79314376f5d0203c91cf141277a809.png" width="21"/> from global memory. Adjacent threads in a block read overlapping data and nothing is shared. Part 8 introduced shared memory precisely for this case.</p>
+<p>The backend therefore replaces every floating-point <code>linalg.matmul</code> and <code>linalg.batch_matmul</code> with a call to a kernel written by hand. The kernel is a textual MLIR template, formatted for the operand rank and element type, parsed with <code>ir.Module.parse</code> and moved into the module. Omitting the batch handling and some of the bounds checks, its structure is:</p>
+<pre><code>func.func private @tiled_matmul_2d_f32(%a: memref&lt;?x?xf32, ...&gt;, %b: ..., %out: ...) {
+  %m = memref.dim %a, %i0 : ...
+  %k = memref.dim %a, %i1 : ...
+  %n = memref.dim %b, %i1 : ...
+  %gx = arith.ceildivui %n, %tile : index
+  %gy = arith.ceildivui %m, %tile : index
+  gpu.launch blocks(%bx, %by, %bz) in (%sx = %gx, %sy = %gy, %sz = %i1)
+             threads(%tx, %ty, %tz) in (%ux = %tile, %uy = %tile, %uz = %i1)
+             workgroup(%sa : memref&lt;16x16xf32, #gpu.address_space&lt;workgroup&gt;&gt;,
+                       %sb : memref&lt;16x16xf32, #gpu.address_space&lt;workgroup&gt;&gt;) {
+    %row = arith.addi (arith.muli %by, %tile), %ty
+    %col = arith.addi (arith.muli %bx, %tile), %tx
+    %sum = scf.for %k0 = %i0 to %k step %tile iter_args(%acc = %zero) -&gt; (f32) {
+      // each thread stages one element of the A tile and one of the B tile
+      memref.store (load %a[%row, %k0 + %tx] or zero), %sa[%ty, %tx]
+      memref.store (load %b[%k0 + %ty, %col] or zero), %sb[%ty, %tx]
+      gpu.barrier
+      %part = scf.for %kk = %i0 to %tile step %i1 iter_args(%s = %acc) -&gt; (f32) {
+        %x = memref.load %sa[%ty, %kk]
+        %y = memref.load %sb[%kk, %tx]
+        scf.yield (%s + %x * %y)
+      }
+      gpu.barrier
+      scf.yield %part : f32
+    }
+    scf.if (%row &lt; %m and %col &lt; %n) {
+      %old = memref.load %out[%row, %col]
+      memref.store (%old + %sum), %out[%row, %col]
+    }
+    gpu.terminator
+  }
+  return
+}
+</code></pre>
+<p>Each block owns a sixteen by sixteen tile of the output. It walks the reduction dimension in steps of sixteen. At every step each of the block's two hundred and fifty-six threads loads one element of the current <img alt="Equation: upper A" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/b82947fdd348103b4f64ebb8fe74539de1e5b71794cc0a971f20936c4b7be5fe.png" width="20"/> tile and one of the current <img alt="Equation: upper B" class="math-inline" height="25" src="https://beila.github.io/my-collection/math-images/b2affa0ba756b0dcbda6301d951888810b79314376f5d0203c91cf141277a809.png" width="21"/> tile into the two <code>workgroup</code> buffers, out-of-range positions reading as zero. A barrier makes the tile visible to every thread. Each thread then accumulates sixteen products from shared memory, and a second barrier keeps the next step's loads from overwriting a tile still being read. Every global element is loaded once per block instead of once per thread, a factor of sixteen fewer global loads.</p>
+<p>Two details connect the kernel to the surrounding program. The final store adds to the output rather than overwriting it, because <code>linalg.matmul</code> accumulates into its destination; the builder's <code>linalg.fill</code> with zero runs first as its own small kernel. And the kernel takes memrefs with fully dynamic sizes, strides and offset. The substitution inserts a <code>memref.cast</code> for each operand, so a single kernel per rank and element type serves every shape in the model, and strided views from slicing and transposition work without copies:</p>
+<pre><code>%cast = memref.cast %arg0 : memref&lt;64x256xf32&gt; to memref&lt;?x?xf32, strided&lt;[?, ?], offset: ?&gt;&gt;
+%cast_0 = memref.cast %arg1 : memref&lt;256x32xf32&gt; to memref&lt;?x?xf32, strided&lt;[?, ?], offset: ?&gt;&gt;
+%cast_1 = memref.cast %memref : memref&lt;64x32xf32&gt; to memref&lt;?x?xf32, strided&lt;[?, ?], offset: ?&gt;&gt;
+call @tiled_matmul_2d_f32(%cast, %cast_0, %cast_1)
+</code></pre>
+<p>The batched variant adds a third grid dimension indexed by the batch, which attention's per-head products use.</p>
+<p>This is the classic shared-memory matmul from the CUDA programming guide, no more. There is no register tiling, no vectorized or asynchronous loads, no tensor cores, and the tile size is fixed. cuBLAS would be several times faster on these shapes. The point is that the kernel is sixty lines of readable IR, inserted at the one place in the pipeline where a matrix multiplication is still a matrix multiplication, and it is enough to run the model.</p>
+<h2 id="managed-memory">Managed Memory</h2>
+<p>Part 8 moved data with explicit copies to and from the device. This backend avoids that bookkeeping with CUDA managed memory, which both the host and the device address through the same pointer. The compiler-side change is small. Every <code>memref.alloc</code> left by bufferization becomes a <code>gpu.alloc</code> with the <code>host_shared</code> attribute, and every <code>memref.dealloc</code> becomes the asynchronous <code>gpu.dealloc</code> bracketed by <code>gpu.wait</code>, which is the form the runtime library implements:</p>
+<pre><code>%memref = gpu.alloc host_shared () : memref&lt;64x32xf32&gt;
+...
+%0 = gpu.wait async
+%1 = gpu.dealloc async [%0] %memref : memref&lt;64x32xf32&gt;
+gpu.wait [%1]
+</code></pre>
+<p>The runtime side is a Python class wrapping the same allocator. It calls <code>mgpuMemAlloc</code> from MLIR's CUDA runtime library with the host-shared flag and exposes the pointer through the NumPy array interface:</p>
+<pre><code>class Managed:
+    def __init__(self, shape, dtype):
+        self.pointer = runtime().mgpuMemAlloc(size, None, True)
+        self.__array_interface__ = {
+            "shape": tuple(shape), "typestr": dtype.str,
+            "data": (self.pointer, False), "version": 3,
+        }
+</code></pre>
+<p><code>np.asarray</code> on such an object is an ordinary NumPy array backed by managed memory. The JIT's call path places each input in managed memory, skipping arrays that already live there, and allocates the output there too. Since the output of one compiled sublayer is the input of the next, the residual stream never leaves the device during a forward pass. The model places its weights in managed memory once at load time.</p>
+<p>The cost is that the driver, not the program, decides when pages migrate. A first touch from the host after a kernel writes faults the page back. For this model, where the host reads one row of logits per step, that is the right trade. A latency-sensitive backend would want explicit transfers and streams, and the <code>gpu</code> dialect's async tokens are how it would express them.</p>
+<p>The execution engine loads the CUDA runtime library alongside the usual runner utilities. The PTX for each <code>gpu.module</code> is embedded in the host module as a <code>gpu.binary</code>, and a global constructor loads it into the driver when the engine initializes. Launching a kernel from the host function is then a call into the same runtime library that Part 8 called by hand.</p>
+<h2 id="from-nvvm-to-ptx">From NVVM to PTX</h2>
+<p>The last pipeline carries the outlined module to LLVM on both sides of the launch boundary:</p>
+<pre><code>builtin.module(
+  expand-strided-metadata,lower-affine,convert-scf-to-cf,
+  nvvm-attach-target{chip=sm_75 O=3},
+  gpu.module(convert-gpu-to-nvvm),
+  gpu-to-llvm,finalize-memref-to-llvm,
+  convert-arith-to-llvm,convert-func-to-llvm,convert-cf-to-llvm,convert-index-to-llvm,
+  reconcile-unrealized-casts,
+  gpu-module-to-binary{format=isa toolkit=&lt;path to nvidia-cuda-nvcc&gt;})
+</code></pre>
+<p>The passes are the ones from Part 8. The target attribute names the chip. <code>convert-gpu-to-nvvm</code> rewrites the body of each kernel into NVVM intrinsics for thread indices, barriers and shared memory. <code>gpu-to-llvm</code> rewrites the host side, turning allocations, launches and waits into calls into the runtime library. <code>gpu-module-to-binary</code> serializes each kernel module to PTX, with <code>format=isa</code> keeping the result as text rather than assembling it to SASS, which the driver does at load time for whatever card is present.</p>
+<p>The <code>toolkit</code> option points the serializer at libdevice. <code>math.tanh</code> and <code>math.exp</code> inside a kernel aren't single PTX instructions; they link against NVIDIA's bitcode library of math routines. The project gets <code>libdevice</code> and <code>ptxas</code> from the <code>nvidia-cuda-nvcc</code> package on PyPI, so no system CUDA installation is needed, and finds them by importing the package and asking where it lives.</p>
+<p>Having <code>ptxas</code> available means the PTX can be checked without a GPU. A test lowers each of the six cases above, extracts every <code>gpu.binary</code>, and assembles it for sm_75. Continuous integration runs this on an ordinary Linux runner. Malformed PTX from a bad conversion or a missing libdevice link fails the build long before anyone has hardware in hand. The test that compares GPU results with CPU results for the same six functions runs only when a device is present.</p>
+<h2 id="running-it">Running It</h2>
+<p>Pass <code>--gpu</code> to the example or to the verification script:</p>
+<pre><code>uv run python example.py "Alan Turing theorized that computers would one day become" --tokens 10 --gpu
+uv run python verify.py --gpu
+</code></pre>
+<p>Nothing in <code>model.py</code> changed for this. The functions <code>embed</code>, <code>attend</code>, <code>feedforward</code> and <code>project</code> are the ones from Part 13, and the target is a keyword passed through to the JIT. On a Colab T4, with compilation included, the ten-token generation took about half a minute and produced the same completion as the CPU and the NumPy reference. The verification script compared embeddings, every block's residuals, logits and token IDs at all ten steps. All ten tokens matched, with a largest absolute difference across the captured arrays of about <img alt="Equation: 1.1 times 10 Superscript negative 5" class="math-inline" height="29" src="https://beila.github.io/my-collection/math-images/dc68e370472a1a304818d4ec80fe9f7ccd67fb36082608496e3ea519f449c3f3.png" width="99"/>, against about <img alt="Equation: 8 times 10 Superscript negative 6" class="math-inline" height="29" src="https://beila.github.io/my-collection/math-images/a9df1ef0de3282e964f1100138174ff42672f6af956ba1869da8ae16517cce27.png" width="82"/> on the CPU. The difference is the accumulation order: the tiled kernel sums sixteen products at a time in a fixed order, and the BLAS does something else.</p>
+<p>That number is the whole claim. The GPU target produces the reference's required output and agrees with its intermediate values to within tolerance on one card. It isn't fast by the standards of a production runtime.</p>
+<h2 id="the-whole-model-as-one-kernel">The Whole Model as One Kernel</h2>
+<p>The per-sublayer design compiles four small functions and calls them in a Python loop over blocks. That was a deliberate choice for the series: each compiled function is small enough to print and read. The compiler itself doesn't require it. With the array protocols from Part 9 and the tree-structured arguments from Part 12, a traced function can take the entire parameter record and contain the entire forward pass.</p>
+<p>The <code>fused.py</code> module does exactly that with the NumPy reference. Its <code>gpt2</code> function is the one from <code>tiny-gpt2</code>, pasted in and decorated:</p>
+<pre><code>@jit
+def gpt2(inputs, params, *, n_head):
+    x = params.words[inputs] + params.positions[range(len(inputs))]
+    seq_len, embedding_dim = x.shape
+    head_size = embedding_dim // n_head
+
+    for block in params.blocks:
+        ln1_mean = np.mean(x, axis=-1, keepdims=True)
+        ln1_variance = np.var(x, axis=-1, keepdims=True)
+        ln1_normalized = (x - ln1_mean) / np.sqrt(ln1_variance + 1e-5)
+        ln1_output = block.attention_norm.weight * ln1_normalized + block.attention_norm.bias
+
+        qkv_proj = ln1_output @ block.attention_in.weight + block.attention_in.bias
+        q_proj, k_proj, v_proj = np.split(qkv_proj, 3, axis=-1)
+        ...
+        causal_mask = np.triu(np.ones((seq_len, seq_len), dtype=x.dtype) * -np.inf, k=1)
+        attention_scores = attention_scores + causal_mask
+        ...
+</code></pre>
+<p>Every NumPy call dispatches to our symbolic value. <code>params</code> is the model's named tuple of weights, flattened to arrays by the JIT and reassembled inside the trace. The <code>np.triu</code> mask is evaluated by NumPy itself, because none of its arguments is symbolic; the resulting array is captured as a constant and lifted to a trailing kernel argument. There are twelve of them, one per block, each a <code>(T, T)</code> matrix. This implementation masks with <code>-np.inf</code> where Part 11's mask used <img alt="Equation: minus 10 Superscript 10" class="math-inline" height="31" src="https://beila.github.io/my-collection/math-images/add6aae3b48a31ac468b2a1764d43f2ec097340b61349da2da3a29d6eea23cad.png" width="59"/>; after the softmax both give the future positions exactly zero weight.</p>
+<p>Tracing produces one graph for the twelve blocks. Before optimization the module holds six hundred and fifty-two <code>linalg.generic</code> operations; elementwise fusion reduces them to two hundred and nine. The forty-nine <code>linalg.matmul</code> and twenty-four <code>linalg.batch_matmul</code> operations pass through untouched, which is what the <code>tensor.reshape</code> decision in Part 11 was protecting. On the CPU every one of them becomes a GEMM call. On the GPU every one becomes a launch of the tiled kernel.</p>
+<p>A separate specialization per sequence length would mean a compilation per generated token, and compiling this module is not cheap. The fused mode pads the token sequence to the next power of two and reads back the row of logits for the last real token:</p>
+<pre><code>def logits(ids, weights, config, target):
+    padded = np.zeros(min(1 &lt;&lt; (len(ids) - 1).bit_length(), config.context), np.int32)
+    padded[: len(ids)] = ids
+    output = gpt2(padded, weights, n_head=config.heads, target=target)
+    return output[len(ids) - 1 : len(ids)]
+</code></pre>
+<p>The causal mask guarantees that positions after the last real token don't influence it, so padding changes nothing in the row we read. A ten-token prompt generating ten tokens needs lengths sixteen and thirty-two, two compilations instead of ten.</p>
+<pre><code>uv run python example.py "Alan Turing theorized that computers would one day become" --tokens 10 --fused
+uv run python verify.py --fused
+uv run python example.py "..." --tokens 10 --gpu --fused
+</code></pre>
+<p>All three produce the same sentence. In the fused mode the forward pass is one function with no intermediate values to capture, so the verification script compares only the final logits and the selected tokens. On a laptop the fused run took roughly three times as long as the per-sublayer run, nearly all of it LLVM compiling two large modules. On the T4 the two modes took about the same time.</p>
+<p>What the fused mode demonstrates is a property of the compiler rather than a performance result. The program that was compiled is the reference implementation, unmodified. The series spent four chapters building a frontend with its own operator set so that each piece could be examined in isolation. The same frontend, given an existing NumPy program, traces it whole.</p>
+<h2 id="what-the-structure-bought">What the Structure Bought</h2>
+<p>Look back at what didn't change to add the GPU target. The tensor language, the builder, the optimization pipeline, bufferization and every formula in <code>ops.py</code> and <code>model.py</code> are the ones from the CPU chapters. The target is a keyword argument. The additions are a loop-to-kernel pipeline assembled from existing passes, one hand-written kernel, and a hundred lines of memory plumbing.</p>
+<p>That was possible because the pipeline preserved structure for as long as it could. Matrix multiplication stayed a named operation through fusion and bufferization, so each target could substitute an implementation. Parallel iterators stayed parallel, so a pass could map them to threads. Allocations stayed explicit, so they could be redirected to managed memory. Each decision deferred in the earlier chapters became a seam here.</p>
+<p>The limits are equally visible. There is one reduction strategy, one tile size, one element type for the kernel, no key/value cache and no attention schedule that avoids materializing scores. A production compiler would decide each of these per shape and per device. This one makes them readable, and checks the result against the reference on real hardware.</p>
+<h2 id="external-resources">External Resources</h2>
+<ul>
+<li><a href="https://mlir.llvm.org/docs/Dialects/GPU/">MLIR GPU dialect</a></li>
+<li><a href="https://mlir.llvm.org/docs/Dialects/NVVMDialect/">MLIR NVVM dialect</a></li>
+<li><a href="https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#shared-memory">CUDA Programming Guide: Shared Memory</a></li>
+<li><a href="https://developer.nvidia.com/blog/unified-memory-cuda-beginners/">CUDA Unified Memory</a></li>
+<li><a href="https://colab.research.google.com/github/sdiehl/tiny-mlir/blob/main/Colab.ipynb">tiny-mlir Colab notebook</a></li>
+<li><a href="https://github.com/makslevental/mlir-wheels">MLIR Python wheels with CUDA</a></li>
+</ul>
+<p class="series-navigation"><a href="https://www.stephendiehl.com/posts/mlir_gpt2">Previous: Part 13 - Running GPT-2</a> · <a href="https://www.stephendiehl.com/posts/mlir_introduction">Series contents</a></p>
+</section>
+</article>
+</body>
+</html>
