@@ -1,0 +1,447 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="짧은 인라인 스크립트의 자바스크립트 문법과 document.currentScript를 이용한 실행 흐름 및 제약을 설명합니다.">
+  <meta name="source-url" content="https://simonwillison.net/2026/Oct/17/document-currentscript/">
+  <meta name="review-date" content="2026-10-21">
+  <meta name="explanation-article-format" content="1">
+  <meta name="explanation-content-sha256" content="ef953cc92277e8f50b4907d9603c6190f0a5dfc02519962aed2374ae7b629af0">
+  <meta name="instapaper-ingestion-url" content="https://beila.github.io/my-collection/annotated-explanations/inline-rendering-with-document-currentscript-2049957476/?instapaper_explanation=1-ef953cc92277e8f5">
+  <title>Inline rendering with document​.currentScript — 한 줄의 자바스크립트 축약형을 문법부터 실행까지 읽는 법</title>
+  <link rel="canonical" href="https://beila.github.io/my-collection/annotated-explanations/inline-rendering-with-document-currentscript-2049957476/">
+  <style>
+    :root {
+      color-scheme: dark;
+      --background: #0d0f12;
+      --surface: #171a20;
+      --text: #f4f6f8;
+      --muted: #c5cbd5;
+      --link: #8ecbff;
+      --border: #616a79;
+      --focus: #ffe08a;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      background: var(--background);
+      color: var(--text);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.68;
+    }
+
+    body {
+      margin: 0;
+      overflow-wrap: anywhere;
+    }
+
+    main {
+      margin: 0 auto;
+      max-width: 49rem;
+      padding: 2.5rem 1.25rem 4rem;
+    }
+
+    .reviewed-content > [data-publication-metadata="true"] {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 0.55rem;
+    }
+
+    .reviewed-content > [data-publication-metadata="true"]:nth-of-type(3) {
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 2.75rem;
+      padding-bottom: 1.5rem;
+    }
+
+    h1,
+    h2,
+    h3 {
+      color: var(--text);
+      line-height: 1.3;
+      overflow-wrap: anywhere;
+      scroll-margin-top: 1rem;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 7vw, 3rem);
+      margin: 0 0 1.5rem;
+    }
+
+    h2 {
+      font-size: 1.55rem;
+      margin: 3rem 0 1rem;
+    }
+
+    h3 {
+      font-size: 1.2rem;
+      margin: 2.1rem 0 0.8rem;
+    }
+
+    p,
+    li {
+      max-width: 46rem;
+    }
+
+    p {
+      margin: 0 0 1.15rem;
+    }
+
+    ul,
+    ol {
+      margin: 0 0 1.25rem;
+      padding-inline-start: 1.5rem;
+    }
+
+    li + li {
+      margin-top: 0.6rem;
+    }
+
+    a {
+      color: var(--link);
+      text-decoration-thickness: 0.1em;
+      text-underline-offset: 0.16em;
+    }
+
+    a:focus-visible {
+      border-radius: 0.15rem;
+      outline: 3px solid var(--focus);
+      outline-offset: 3px;
+    }
+
+    code {
+      font-family: ui-monospace, "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      overflow-wrap: anywhere;
+    }
+
+    pre {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 0.25rem;
+      max-width: 100%;
+      overflow-x: auto;
+      padding: 1rem;
+      white-space: pre;
+    }
+
+    pre code {
+      overflow-wrap: normal;
+    }
+
+    time {
+      font-variant-numeric: tabular-nums;
+    }
+
+    @media (max-width: 34rem) {
+      main {
+        padding: 1.5rem 1rem 3rem;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      pre {
+        font-size: 0.88rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto;
+      }
+    }
+
+    @media print {
+      :root {
+        color-scheme: light;
+      }
+
+      html,
+      body {
+        background: #fff;
+        color: #111;
+      }
+
+      main {
+        max-width: none;
+        padding: 0;
+      }
+
+      h1,
+      h2,
+      h3 {
+        color: #111;
+        break-after: avoid-page;
+      }
+
+      a {
+        color: #0645ad;
+        text-decoration: underline;
+      }
+
+      a[href^="https://"]::after {
+        content: " (" attr(href) ")";
+        font-size: 0.8em;
+        overflow-wrap: anywhere;
+      }
+
+      pre {
+        background: transparent;
+        border-color: #777;
+        color: #111;
+        overflow: visible;
+        white-space: pre-wrap;
+      }
+
+      .reviewed-content > [data-publication-metadata="true"] {
+        color: #333;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <article>
+      <section class="reviewed-content" aria-labelledby="article-title">
+<h1 id="article-title">한 줄의 자바스크립트 축약형을 문법부터 실행까지 읽는 법</h1>
+<p data-publication-metadata="true">해설 대상 원문: <a href="https://simonwillison.net/2026/Oct/17/document-currentscript/">Simon Willison, “Inline rendering with document​.currentScript”</a></p>
+<p data-publication-metadata="true">검토일: <time datetime="2026-10-21">2026-10-21</time></p>
+<p data-publication-metadata="true"><a href="https://beila.github.io/my-collection/annotated-explanations/inline-rendering-with-document-currentscript-2049957476/inline-rendering-with-document-currentscript-2049957476.epub">EPUB 다운로드</a></p>
+<section id="이-문서에서-설명하는-내용" class="level2">
+<h2>이 문서에서 설명하는 내용</h2>
+<p>원문은 짧은 인라인 <code>&lt;script&gt;</code>가 실행되는 자리에서
+자기 자신을 계산 결과로 바꾸는 기법을 소개합니다. 하이라이트에는 별도
+메모가 없으므로 선택 의도를 단정할 수는 없습니다. 다만 함수 정의의
+앞부분만 선택했다는 점을 고려해, 그 안에 압축된 자바스크립트 문법과 전체
+함수의 실행 흐름을 중심으로 설명합니다.</p>
+</section>
+<section id="하이라이트와-메모별-해설" class="level2">
+<h2>하이라이트와 메모별 해설</h2>
+<section id="함수-정의의-압축-문법을-어떻게-읽나요" class="level3">
+<h3>함수 정의의 압축 문법을 어떻게 읽나요?</h3>
+<p><strong>하이라이트:</strong> <code>$=(...n)=&gt;</code></p>
+<p><strong>원문 문맥:</strong></p>
+<pre class="javascript"><code>$=(...n)=&gt;document.currentScript.replaceWith(...n)</code></pre>
+<p>원문 코드는 생략 가능한 공백이 없어 매우 압축되어 있습니다. 의미를
+드러내도록 괄호와 공백을 추가하면 다음과 같이 읽을 수 있습니다. 아래
+코드는 설명을 위해 다시 쓴 것이며 원문 인용이 아닙니다.</p>
+<pre class="javascript"><code>$ = (
+  (...n) =&gt; document.currentScript.replaceWith(...n)
+);</code></pre>
+<p>왼쪽부터 토큰별 의미는 다음과 같습니다.</p>
+<ol>
+<li><code>$</code>는 함수에 붙인 짧은 이름입니다. 자바스크립트에서는
+<code>$</code> 하나만으로도 유효한 식별자가 되지만, <code>$</code>
+자체에 내장된 함수나 템플릿 의미는 없습니다. 작성자가 이 이름에 함수를
+할당했기 때문에 함수처럼 동작합니다. 식별자에 사용할 수 있는 문자는 <a
+href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Lexical_grammar">MDN의
+자바스크립트 어휘 문법</a>에서 확인할 수 있습니다.</li>
+<li><code>=</code>는 오른쪽에서 생성되는 함수 객체를 <code>$</code>라는
+이름이 가리키는 대상에 할당합니다.</li>
+<li><code>(...n)</code>의 <code>...n</code>은 나머지 매개변수(rest
+parameter)입니다. 호출할 때 받은 모든 인자를 <code>n</code>이라는 배열에
+모읍니다. 나머지 매개변수는 매개변수 목록의 마지막에 있어야 하며, 화살표
+함수에서 사용할 때는 이 예처럼 괄호가 필요합니다. <a
+href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters">MDN의
+나머지 매개변수 설명</a>이 이 규칙을 정리합니다.</li>
+<li><code>=&gt;</code>는 왼쪽의 매개변수를 받는 화살표 함수(arrow
+function)의 본문이 오른쪽에 이어진다는 표시입니다.</li>
+</ol>
+<p>이 함수는 중괄호가 없는 표현식 본문을 사용하므로 오른쪽 표현식의
+결과를 암시적으로 반환합니다. 다만 <code>replaceWith()</code>는
+<code>undefined</code>를 반환하므로, 이 함수의 목적은 유용한 반환값을
+만드는 것이 아니라 DOM을 변경하는 데 있습니다. 표현식 본문 규칙은 <a
+href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions">MDN의
+화살표 함수 설명</a>에, 반환값은 <a
+href="https://developer.mozilla.org/en-US/docs/Web/API/Element/replaceWith">MDN의
+<code>Element.replaceWith()</code> 설명</a>에 나와 있습니다.</p>
+</section>
+<section id="같은-...n이-왜-두-번-나오나요" class="level3">
+<h3>같은 <code>...n</code>이 왜 두 번 나오나요?</h3>
+<p>같은 <code>...</code> 토큰이 위치에 따라 반대 방향으로
+작동합니다.</p>
+<ul>
+<li>매개변수 위치의 <code>...n</code>은 여러 호출 인자를 배열
+<code>n</code>으로 모읍니다.</li>
+<li>함수 호출 위치의 <code>...n</code>은 배열 <code>n</code>의 원소를
+여러 인자로 다시 펼칩니다.</li>
+</ul>
+<p>예를 들어 다음과 같이 호출한다고 가정할 수 있습니다.</p>
+<pre class="javascript"><code>$(&quot;앞&quot;, &quot;뒤&quot;)</code></pre>
+<p>먼저 나머지 매개변수가 두 인자를 배열로 모읍니다.</p>
+<pre class="javascript"><code>[&quot;앞&quot;, &quot;뒤&quot;]</code></pre>
+<p>그다음 함수 본문의 전개 구문이 배열 원소를
+<code>replaceWith()</code>에 각각 전달합니다. 실행되는 호출은 개념적으로
+다음과 같습니다.</p>
+<pre class="javascript"><code>document.currentScript.replaceWith(&quot;앞&quot;, &quot;뒤&quot;)</code></pre>
+<p>나머지 매개변수는 여러 값을 배열 하나로 “모으고”, 호출 위치의 전개
+구문은 이 배열을 여러 인자로 “펼칩니다”. 전개 구문은 일반적으로
+이터러블(iterable)에 사용할 수 있지만, 이 예제에서 나머지 매개변수가
+만드는 <code>n</code>은 배열입니다. 함수 호출에서의 전개 규칙은 <a
+href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax">MDN의
+전개 구문 설명</a>에서 확인할 수 있습니다.</p>
+</section>
+<section id="현재의-script가-결과로-바뀌는-과정" class="level3">
+<h3>현재의 <code>&lt;script&gt;</code>가 결과로 바뀌는 과정</h3>
+<p>페이지가 일반적인 비모듈 스크립트를 처음 처리하는 동안
+<code>document.currentScript</code>는 현재 실행 중인
+<code>HTMLScriptElement</code>를 가리킵니다.
+<code>replaceWith()</code>는 그 요소를 전달받은 노드나 문자열로
+교체하며, 문자열은 HTML로 다시 해석되지 않고 텍스트 노드가 됩니다. 이
+동작은 <a
+href="https://developer.mozilla.org/en-US/docs/Web/API/Document/currentScript">MDN의
+<code>Document.currentScript</code> 설명</a>, <a
+href="https://developer.mozilla.org/en-US/docs/Web/API/Element/replaceWith">MDN의
+<code>Element.replaceWith()</code> 설명</a>, <a
+href="https://dom.spec.whatwg.org/#dom-childnode-replacewith">DOM 표준의
+<code>replaceWith()</code> 정의</a>에서 확인할 수 있습니다.</p>
+<p>원문의 사용 예는 다음과 같습니다.</p>
+<pre class="html"><code>The year is &lt;script&gt;$(new Date().getFullYear())&lt;/script&gt;</code></pre>
+<p>인라인 스크립트가 동기적으로 실행되는 순간에는
+<code>document.currentScript</code>가 바로 이
+<code>&lt;script&gt;</code> 요소를 가리킵니다.
+<code>new Date().getFullYear()</code>가 반환한 연도가 <code>$</code>의
+인자로 들어가고, 함수는 스크립트 요소를 연도 텍스트로 교체합니다.
+결과적으로 문서에는 <code>The year is 2026</code>과 같은 내용이
+남습니다. 웹 API 인자 형식에 맞춘 값 변환의 일반 규칙은 <a
+href="https://webidl.spec.whatwg.org/">Web IDL 표준</a>에서
+정의합니다.</p>
+</section>
+      </section>
+<section id="실행-조건과-주의할-점" class="level2">
+<h2>실행 조건과 주의할 점</h2>
+<section id="선언과-실행-모드를-구분해야-합니다" class="level3">
+<h3>선언과 실행 모드를 구분해야 합니다</h3>
+<p><a
+href="https://leanrada.com/notes/inline-rendering-currentscript/">링크된
+Lean Rada의 상세 글</a>은 이 별칭을 “constant like <code>$</code>”라고
+표현하지만, 제시된 코드에는 <code>const</code>, <code>let</code>,
+<code>var</code> 중 어느 선언 키워드도 없습니다. 따라서 해당 코드는 상수
+선언이 아닙니다.</p>
+<p>고전적인 비엄격 모드 스크립트에서 기존 <code>$</code> 바인딩을 찾을
+수 없다면, 한정되지 않은 식별자에 대한 이 할당은 전역 객체에
+<code>$</code>라는 속성을 만듭니다. 엄격 모드에서 선언되지 않은 식별자에
+값을 할당하면 <code>ReferenceError</code>가 발생합니다. 자바스크립트
+모듈은 기본적으로 엄격 모드입니다. 관련 차이는 <a
+href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Assignment">MDN의
+할당 연산자 설명</a>, <a
+href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode">MDN의
+엄격 모드 설명</a>, <a
+href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Undeclared_var">선언되지
+않은 변수 할당 오류 설명</a>에서 확인할 수 있습니다.</p>
+<p>상수 바인딩과 목적이 드러나는 이름을 사용하려면 다음처럼 쓸 수
+있습니다. 이 코드는 원문이 아니라 설명을 위한 대안입니다.</p>
+<pre class="javascript"><code>const renderHere = (...nodesOrText) =&gt;
+  document.currentScript.replaceWith(...nodesOrText);</code></pre>
+<p>라이브러리나 다른 페이지 코드가 이미 <code>$</code>를 사용한다면
+원문의 할당이 기존 값을 바꿀 수도 있습니다. 공유 페이지에서는
+<code>renderHere</code>처럼 충돌 가능성이 낮고 목적이 드러나는 이름이 더
+안전합니다.</p>
+</section>
+<section id="실행-시점과-보안-정책의-제약이-있습니다" class="level3">
+<h3>실행 시점과 보안 정책의 제약이 있습니다</h3>
+<p><code>document.currentScript</code>는 나중에도 유지되는 고정 참조가
+아닙니다. 이벤트 처리기나 비동기 콜백처럼 초기 스크립트 처리 이후에
+접근하면 현재 스크립트 요소를 가리키지 않습니다. 모듈 스크립트에서도 이
+속성은 현재 모듈의 <code>&lt;script&gt;</code> 요소를 제공하지 않습니다.
+따라서 이 기법은 페이지를 읽는 동안 즉시 실행되는 고전적인 인라인
+스크립트를 전제로 합니다. 이 범위는 <a
+href="https://developer.mozilla.org/en-US/docs/Web/API/Document/currentScript">MDN의
+<code>Document.currentScript</code> 설명</a>에 명시되어 있습니다.</p>
+<p>사이트의 콘텐츠 보안 정책(Content Security Policy)이 인라인
+스크립트를 허용하지 않는 경우에는 적절한 nonce나 해시 같은 허용 근거
+없이 이 패턴을 사용할 수 없습니다. 인라인 스크립트의 허용 조건은 <a
+href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Content-Security-Policy/script-src">MDN의
+CSP <code>script-src</code> 설명</a>에서 확인할 수 있습니다.</p>
+</section>
+</section>
+<section id="원문의-작은-템플릿-언어라는-표현" class="level2">
+<h2>원문의 “작은 템플릿 언어”라는 표현</h2>
+<p><a
+href="https://simonwillison.net/2026/Oct/17/document-currentscript/">Simon
+Willison의 원문</a>은 이 축약 함수를 사용하면 “작은 템플릿 언어”를
+얻는다고 설명합니다. 이는 표준이 정의한 별도 언어가 생긴다는
+뜻이라기보다, HTML 안에서 계산 결과를 표시할 자리에 짧은 호출을 놓을 수
+있다는 비유로 이해하는 것이 정확합니다.</p>
+<p>이 기법은 현재 스크립트 요소를 찾아 교체하는 DOM 조작을 짧게
+숨깁니다. 변수 치환, 조건문, 반복, 이스케이프 정책을 갖춘 일반적인
+템플릿 시스템 전체를 제공하지는 않습니다.</p>
+</section>
+<section id="정리" class="level2">
+<h2>정리</h2>
+<p>하이라이트는 <code>$</code>라는 유효한 식별자에, 모든 호출 인자를
+배열로 모으는 화살표 함수를 할당하는 부분입니다. 전체 함수에서는 다시 그
+배열을 여러 인자로 펼쳐 현재 실행 중인 인라인 스크립트 요소를
+교체합니다. 같은 <code>...</code>가 매개변수 위치에서는 “모으기”, 호출
+위치에서는 “펼치기” 역할을 한다는 점이 핵심입니다.</p>
+<p>이 축약형은 상수 선언이 아니며, 고전적인 비엄격 모드의 동기 인라인
+스크립트라는 실행 조건이 있습니다. 전역 이름 충돌, 모듈 및 비동기 실행의
+제한, 사이트의 콘텐츠 보안 정책도 함께 고려해야 합니다.</p>
+</section>
+<section id="참고-자료" class="level2">
+<h2>참고 자료</h2>
+<ul>
+<li><a
+href="https://simonwillison.net/2026/Oct/17/document-currentscript/">Simon
+Willison의 원문</a>은 축약 함수와 인라인 렌더링 예제를 소개합니다.</li>
+<li><a
+href="https://leanrada.com/notes/inline-rendering-currentscript/">Lean
+Rada의 상세 원문</a>은 이 기법의 동기와 더 넓은 사용 맥락을
+설명합니다.</li>
+<li><a
+href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Lexical_grammar">MDN
+자바스크립트 어휘 문법</a>은 <code>$</code>를 포함한 식별자 문법을
+설명합니다.</li>
+<li><a
+href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions">MDN
+화살표 함수 표현식</a>은 매개변수 목록, 표현식 본문, 암시적 반환 규칙을
+설명합니다.</li>
+<li><a
+href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters">MDN
+나머지 매개변수</a>는 여러 호출 인자를 배열로 모으는 규칙을
+설명합니다.</li>
+<li><a
+href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax">MDN
+전개 구문</a>은 배열과 이터러블을 함수 호출 인자로 펼치는 규칙을
+설명합니다.</li>
+<li><a
+href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Assignment">MDN
+할당 연산자</a>, <a
+href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode">MDN
+엄격 모드</a>, <a
+href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Undeclared_var">선언되지
+않은 변수 할당 오류 설명</a>은 선언 없는 할당이 실행 모드에 따라 어떻게
+달라지는지 설명합니다.</li>
+<li><a
+href="https://developer.mozilla.org/en-US/docs/Web/API/Document/currentScript">MDN
+<code>Document.currentScript</code></a>는 현재 스크립트 참조의 실행
+시점과 모듈 스크립트 제한을 설명합니다.</li>
+<li><a
+href="https://developer.mozilla.org/en-US/docs/Web/API/Element/replaceWith">MDN
+<code>Element.replaceWith()</code></a>와 <a
+href="https://dom.spec.whatwg.org/#dom-childnode-replacewith">DOM 표준의
+<code>replaceWith()</code> 정의</a>는 여러 노드 또는 문자열로 요소를
+교체하는 동작을 설명합니다.</li>
+<li><a href="https://webidl.spec.whatwg.org/">Web IDL 표준</a>은 웹 API
+호출에서 자바스크립트 값이 선언된 인자 형식으로 변환되는 규칙을
+정의합니다.</li>
+<li><a
+href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Content-Security-Policy/script-src">MDN
+CSP <code>script-src</code></a>는 인라인 스크립트를 허용하는 정책 조건을
+설명합니다.</li>
+<li><a href="https://tc39.es/ecma262/">ECMAScript 언어 명세</a>는
+식별자, 함수, 할당, 엄격 모드 등 이 문서에서 설명한 자바스크립트 언어
+규칙의 표준 정의를 제공합니다.</li>
+</ul>
+</section>
+</section>
+    </article>
+  </main>
+</body>
+</html>
