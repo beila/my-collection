@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-09-25T22:38:50Z",
+  "updated_at": "2026-10-21T08:01:46Z",
   "articles": {
     "1815258460": {
       "slug": "effectful-storage-abstraction-explained",
@@ -175,6 +175,41 @@
         "instapaper_send_to_kindle": "user_managed",
         "amazon_send_to_kindle": "user_managed"
       },
+      "deleted_superseded_bookmark_ids": []
+    },
+    "2049957476": {
+      "slug": "inline-rendering-with-document-currentscript-2049957476",
+      "title": "Inline rendering with document​.currentScript — 한 줄의 자바스크립트 축약형을 문법부터 실행까지 읽는 법",
+      "source_title": "Inline rendering with document​.currentScript",
+      "article_title": "한 줄의 자바스크립트 축약형을 문법부터 실행까지 읽는 법",
+      "source_bookmark_id": "2049957476",
+      "cypher_source_bookmark_id": "2049957476",
+      "source_url": "https://simonwillison.net/2026/Oct/17/document-currentscript/",
+      "article_format": 1,
+      "source_sha256": "ef953cc92277e8f50b4907d9603c6190f0a5dfc02519962aed2374ae7b629af0",
+      "html_sha256": "e65158f925ed8d1459e86b1fad6235ad61f5bd4d2bda8808ba7dbfab392ae317",
+      "epub_sha256": "cbd871143917454a48e7b0d08ccda36ac4b0c78575aef4a4e495cffc6709a2e6",
+      "canonical_url": "https://beila.github.io/my-collection/annotated-explanations/inline-rendering-with-document-currentscript-2049957476/",
+      "instapaper_url": "https://beila.github.io/my-collection/annotated-explanations/inline-rendering-with-document-currentscript-2049957476/index.html",
+      "epub_url": "https://beila.github.io/my-collection/annotated-explanations/inline-rendering-with-document-currentscript-2049957476/inline-rendering-with-document-currentscript-2049957476.epub",
+      "instapaper_bookmark_id": "2050650834",
+      "instapaper_api_verification": {
+        "status": "passed",
+        "verified_at": "2026-10-21T08:01:46Z"
+      },
+      "epub_validation": {
+        "status": "passed",
+        "errors": 0,
+        "warnings": 0
+      },
+      "generation_workflow": {
+        "research_model": "openai.gpt-5.6-sol",
+        "writer_model": "openai.gpt-5.6-sol",
+        "reviewer_model": "inherited-default",
+        "generation_model": "openai.gpt-5.6-sol"
+      },
+      "delivery_owner": "scheduler",
+      "kindle_delivery_owner": "user_managed",
       "deleted_superseded_bookmark_ids": []
     }
   }
