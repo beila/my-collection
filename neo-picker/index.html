@@ -4,38 +4,35 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#171612">
-    <title>Neo Picker</title>
+    <title>Install Neo Picker</title>
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
-    <main class="shell">
-      <header>
-        <div>
-          <p class="eyebrow">Instapaper · Neo</p>
-          <h1>Pick one worth your attention.</h1>
-        </div>
-        <button id="choose" type="button">Choose another</button>
-      </header>
+    <main>
+      <p class="eyebrow">Instapaper · Neo</p>
+      <h1>Install Neo Picker</h1>
+      <p class="intro">
+        Neo Picker runs inside the Instapaper page. It reads the current Neo
+        RSS when it opens and whenever you choose another bookmark.
+      </p>
 
-      <article class="card" aria-live="polite">
-        <div class="visual">
-          <img id="preview-image" alt="" hidden>
-          <div id="visual-fallback" aria-hidden="true">N</div>
-        </div>
-        <section class="copy">
-          <p id="published" class="published"></p>
-          <h2 id="title">Loading Neo…</h2>
-          <p id="description" class="description"></p>
-          <p id="status" class="status"></p>
-        </section>
-      </article>
+      <ol>
+        <li>Bookmark this page in the browser that will run Neo Picker.</li>
+        <li>Edit that bookmark and name it <strong>Neo Picker</strong>.</li>
+        <li>Copy the code below and replace the bookmark URL with it.</li>
+        <li>Open Instapaper, then invoke the <strong>Neo Picker</strong> bookmark.</li>
+      </ol>
 
-      <nav aria-label="Bookmark actions">
-        <a id="open-original" class="primary" href="#">Open original</a>
-        <a id="open-instapaper" href="#">Open in Instapaper</a>
-        <a id="save-neo" class="channel" href="#" hidden>Save channel for Neo…</a>
-        <a id="save-brown" class="channel" href="#" hidden>Save channel for Brown…</a>
-      </nav>
+      <div class="actions">
+        <a id="install" href="#" aria-disabled="true">Neo Picker</a>
+        <button id="copy" type="button" disabled>Copy bookmark code</button>
+      </div>
+      <p class="hint">
+        Desktop browsers can drag the Neo Picker link to the bookmarks bar.
+        Mobile browsers usually require editing an existing bookmark.
+      </p>
+      <textarea id="code" aria-label="Neo Picker bookmark code" readonly hidden></textarea>
+      <p id="status" role="status"></p>
     </main>
     <script type="module" src="app.js"></script>
   </body>
