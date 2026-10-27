@@ -30,7 +30,7 @@ const NeoPickerCore = (() => {
   }
 
   function normalizedUrl(value) {
-    const url = new URL(value);
+    const url = new URL(value, "https://www.instapaper.com");
     url.hash = "";
     url.hostname = url.hostname.toLowerCase().replace(/^www\./, "");
     if (url.pathname.length > 1) {

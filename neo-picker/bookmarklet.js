@@ -31,7 +31,7 @@ const NeoPickerCore = (() => {
   }
 
   function normalizedUrl(value) {
-    const url = new URL(value);
+    const url = new URL(value, "https://www.instapaper.com");
     url.hash = "";
     url.hostname = url.hostname.toLowerCase().replace(/^www\./, "");
     if (url.pathname.length > 1) {
@@ -320,14 +320,24 @@ function parseRss(value) {
   }));
 }
 
-async function profileBookmarks(username, folderId) {
+async function profileBookmarks(username, folderId, rssItems) {
   const bookmarks = [];
-  for (let page = 1; page <= 20; page += 1) {
+  const remaining = new Set(
+    rssItems.map((item) => NeoPickerCore.normalizedUrl(item.url)),
+  );
+  for (let page = 1; page <= 100; page += 1) {
     const data = await responseJson(
       `/data/profile/${encodeURIComponent(username)}?page=${page}`
       + `&folder_id=${encodeURIComponent(folderId)}&_=${Date.now()}`,
     );
-    bookmarks.push(...(Array.isArray(data.bookmarks) ? data.bookmarks : []));
+    const pageBookmarks = Array.isArray(data.bookmarks) ? data.bookmarks : [];
+    bookmarks.push(...pageBookmarks);
+    for (const item of pageBookmarks) {
+      remaining.delete(NeoPickerCore.normalizedUrl(item.url));
+    }
+    if (remaining.size === 0) {
+      return bookmarks;
+    }
     if (!data.has_next) {
       return bookmarks;
     }
@@ -350,11 +360,15 @@ async function liveItems() {
   if (!folders.neo || !folders.brown) {
     throw new Error("Neo or Brown does not exist in this Instapaper account.");
   }
-  const [rss, profile] = await Promise.all([
-    responseText(NeoPickerCore.rssPath(currentUser, folders.neo.id)),
-    profileBookmarks(currentUser.username, folders.neo.id),
-  ]);
-  return NeoPickerCore.matchItems(parseRss(rss), profile);
+  const rssItems = parseRss(
+    await responseText(NeoPickerCore.rssPath(currentUser, folders.neo.id)),
+  );
+  const profile = await profileBookmarks(
+    currentUser.username,
+    folders.neo.id,
+    rssItems,
+  );
+  return NeoPickerCore.matchItems(rssItems, profile);
 }
 
 function randomValue() {
