@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#171612">
+    <title>Neo Picker</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <main class="shell">
+      <header>
+        <div>
+          <p class="eyebrow">Instapaper · Neo</p>
+          <h1>Pick one worth your attention.</h1>
+        </div>
+        <button id="choose" type="button">Choose another</button>
+      </header>
+
+      <article class="card" aria-live="polite">
+        <div class="visual">
+          <img id="preview-image" alt="" hidden>
+          <div id="visual-fallback" aria-hidden="true">N</div>
+        </div>
+        <section class="copy">
+          <p id="published" class="published"></p>
+          <h2 id="title">Loading Neo…</h2>
+          <p id="description" class="description"></p>
+          <p id="status" class="status"></p>
+        </section>
+      </article>
+
+      <nav aria-label="Bookmark actions">
+        <a id="open-original" class="primary" href="#">Open original</a>
+        <a id="open-instapaper" href="#">Open in Instapaper</a>
+        <a id="save-neo" class="channel" href="#" hidden>Save channel for Neo…</a>
+        <a id="save-brown" class="channel" href="#" hidden>Save channel for Brown…</a>
+      </nav>
+    </main>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>
