@@ -1,0 +1,783 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Port Lympne Endangered Species Photo Hunt</title>
+<meta name="description" content="A field guide for photographing endangered animals at Port Lympne Reserve, Kent.">
+<style>
+  :root {
+    color-scheme: light;
+    --ink: #1d2320;
+    --muted: #5d6862;
+    --paper: #f6f3ec;
+    --card: #fffdf8;
+    --line: #ddd6c8;
+    --accent: #2f6b4f;
+    --cr: #b3261e;
+    --ew: #4a2a6b;
+    --en: #d0661a;
+    --vu: #b38a00;
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    color: var(--ink);
+    background: var(--paper);
+    line-height: 1.5;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; }
+  main { max-width: 760px; margin: 0 auto; padding: 1rem 1rem 4rem; }
+  header.hero {
+    background: linear-gradient(160deg, #234d3a, #2f6b4f 60%, #6b8f3a);
+    color: #fff;
+    padding: 2rem 1.25rem 1.5rem;
+  }
+  header.hero .inner { max-width: 760px; margin: 0 auto; }
+  header.hero h1 { margin: 0 0 .4rem; font-size: clamp(1.6rem, 6vw, 2.3rem); line-height: 1.15; }
+  header.hero p { margin: .3rem 0; opacity: .92; }
+  header.hero .facts { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .8rem; padding: 0; list-style: none; }
+  header.hero .facts li { background: rgba(255,255,255,.16); border-radius: 99px; padding: .15rem .65rem; font-size: .85rem; font-weight: 600; }
+  h2 { margin: 2.4rem 0 .6rem; font-size: 1.3rem; line-height: 1.25; scroll-margin-top: 6.5rem; }
+  h2 small { display: block; font-weight: 400; color: var(--muted); font-size: .85rem; }
+  h2.sec { display: grid; grid-template-columns: auto 1fr; column-gap: .6rem; align-items: center; }
+  h2.sec .num {
+    grid-row: span 2; width: 2.1rem; height: 2.1rem; border-radius: 50%;
+    background: var(--accent); color: #fff; display: grid; place-items: center; font-size: 1.05rem;
+  }
+  p.lead { color: var(--muted); margin-top: 0; }
+
+  .topbar { position: sticky; top: 0; z-index: 5; background: var(--ink); color: #fff; box-shadow: 0 2px 8px rgba(0,0,0,.15); }
+  .score {
+    max-width: 760px; margin: 0 auto;
+    padding: .5rem 1rem .35rem; font-weight: 600;
+    display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+  }
+  .score .bar { flex: 1; height: 8px; background: #3b4440; border-radius: 99px; overflow: hidden; max-width: 260px; }
+  .score .bar i { display: block; height: 100%; width: 0; background: #8fd18b; transition: width .3s; }
+  .score button { background: none; border: 1px solid #6c7671; color: #cfd6d2; border-radius: 6px; font-size: .75rem; padding: .2rem .5rem; }
+  nav.jump { max-width: 760px; margin: 0 auto; display: flex; gap: .35rem; overflow-x: auto; padding: 0 1rem .5rem; scrollbar-width: none; }
+  nav.jump a {
+    flex: none; color: #dfe6e2; text-decoration: none; font-size: .8rem; font-weight: 600;
+    border: 1px solid #4a5550; border-radius: 99px; padding: .2rem .65rem;
+  }
+  nav.jump a:active { background: #3b4440; }
+
+  .badge {
+    display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .03em;
+    padding: .1rem .45rem; border-radius: 4px; color: #fff; vertical-align: middle; white-space: nowrap;
+  }
+  .CR { background: var(--cr); } .EW { background: var(--ew); }
+  .EN { background: var(--en); } .VU { background: var(--vu); }
+
+  .legend { display: flex; flex-wrap: wrap; gap: .4rem .9rem; font-size: .85rem; color: var(--muted); margin: .9rem 0 0; padding: 0; list-style: none; }
+  .legend li { display: flex; align-items: center; gap: .35rem; }
+
+  .timeline { list-style: none; padding: 0; margin: 0; }
+  .timeline li {
+    display: grid; grid-template-columns: 3.4rem 1fr; gap: .7rem;
+    padding: .55rem 0; border-bottom: 1px solid var(--line);
+  }
+  .timeline li:last-child { border-bottom: 0; }
+  .timeline time { font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
+  .timeline .key { background: #e7f0e9; border-radius: 8px; border-bottom-color: transparent; padding-left: .5rem; padding-right: .5rem; margin: 0 -.5rem; }
+  .timeline .key time { color: var(--cr); }
+  .timeline a { color: inherit; }
+
+  figure.map { margin: 0; }
+  figure.map img { width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--line); display: block; }
+  figure.map figcaption { font-size: .85rem; color: var(--muted); margin-top: .4rem; }
+  figure.leg { margin: .6rem 0 1rem; }
+  figure.leg svg { width: 100%; height: auto; display: block; border-radius: 8px; border: 1px solid var(--line); background: #6f9a4f; }
+  figure.leg figcaption { font-size: .85rem; color: var(--muted); margin-top: .35rem; }
+  figure.leg ul.stops { list-style: none; margin: .45rem 0 0; padding: 0; font-size: .88rem; color: var(--ink); display: flex; flex-wrap: wrap; gap: .3rem .9rem; }
+  figure.leg ul.stops li { display: flex; align-items: center; gap: .3rem; }
+  .pins { display: inline-flex; gap: .2rem; flex: none; }
+  .pin {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 1.45rem; height: 1.45rem; padding: 0 .25rem; border-radius: 99px;
+    background: #d0661a; color: #fff; font-size: .75rem; font-weight: 700; border: 2px solid #fff;
+    box-shadow: 0 0 0 1px #d0661a;
+  }
+  .pin.safari { background: #e8efe9; box-shadow: 0 0 0 1px var(--line); font-size: .8rem; }
+
+  details {
+    background: var(--card); border: 1px solid var(--line); border-radius: 10px;
+    margin: .55rem 0; overflow: hidden;
+  }
+  details[open] { box-shadow: 0 2px 10px rgba(0,0,0,.06); }
+  summary {
+    cursor: pointer; list-style: none; padding: .6rem .7rem;
+    display: flex; align-items: center; gap: .65rem;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary .thumb {
+    width: 3.4rem; height: 3.4rem; flex: none; border-radius: 10px; object-fit: cover;
+    background: #e4e0d6; display: block;
+  }
+  summary .name { flex: 1; min-width: 0; font-weight: 650; line-height: 1.3; }
+  summary .name small { display: block; font-weight: 400; color: var(--muted); font-size: .8rem; margin-top: .1rem; }
+  summary .meta { display: flex; flex-direction: column; align-items: flex-end; gap: .3rem; flex: none; }
+  details.plain summary::after { content: "▸"; color: var(--muted); transition: transform .2s; margin-left: auto; }
+  details.plain[open] > summary::after { transform: rotate(90deg); }
+  .body { padding: 0 .95rem .9rem; border-top: 1px dashed var(--line); }
+  .body p { margin: .6rem 0; }
+  .body .shot { background: #eef5ef; border-left: 4px solid var(--accent); padding: .5rem .7rem; border-radius: 0 6px 6px 0; }
+  .body .where { font-size: .88rem; color: var(--muted); }
+  .body .more { font-size: .9rem; margin-bottom: 0; }
+  figure.photo { margin: .8rem 0 .4rem; }
+  /* Reserve the photo space so that the page does not jump while the photo loads. */
+  figure.photo img { width: 100%; aspect-ratio: 4 / 3; object-fit: contain; border-radius: 8px; display: block; background: #e4e0d6; }
+  figure.photo figcaption { font-size: .75rem; color: var(--muted); margin-top: .25rem; }
+  figure.photo figcaption a { color: var(--muted); }
+  .body .more a, .note a, figure.map a { color: var(--accent); font-weight: 600; }
+
+  /* The tick box sits at the right edge and has a large tap area. */
+  label.got { flex: none; display: grid; place-items: center; width: 2.6rem; height: 2.6rem; margin: -.3rem -.3rem -.3rem 0; cursor: pointer; }
+  label.got input { width: 1.5rem; height: 1.5rem; accent-color: var(--accent); margin: 0; cursor: pointer; }
+  details.done { background: #eef6ef; border-color: #a9cdb3; }
+  details.done summary .name::after { content: " ✓"; color: var(--accent); }
+
+  details.plain summary { font-weight: 650; padding: .8rem .9rem; }
+  details.plain .body ul { padding-left: 1.2rem; }
+  details.plain .body li { margin: .3rem 0; }
+
+  .note { background: #fff6e0; border: 1px solid #ecd9a6; border-radius: 8px; padding: .7rem .9rem; font-size: .93rem; }
+  .bonus li { margin: .35rem 0; }
+  footer { color: var(--muted); font-size: .82rem; margin-top: 3rem; border-top: 1px solid var(--line); padding-top: 1rem; }
+  footer a { color: var(--accent); }
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="inner">
+    <h1>Endangered Species Photo Hunt 📸</h1>
+    <p>Port Lympne Reserve, Kent. One afternoon, one camera, and as many rare animals as you can find.</p>
+    <ul class="facts">
+      <li>29 threatened species</li>
+      <li>🚙 Safari 13:00</li>
+      <li>🌇 Sunset ~16:40</li>
+    </ul>
+  </div>
+</header>
+
+<div class="topbar">
+  <div class="score" aria-live="polite">
+    <span id="scoreText">0 / 0 photographed</span>
+    <span class="bar"><i id="scoreBar"></i></span>
+    <button type="button" id="reset">reset</button>
+  </div>
+  <nav class="jump" aria-label="Sections">
+    <a href="#plan">Plan</a>
+    <a href="#arrive">1 Arrive</a>
+    <a href="#safari">2 Safari</a>
+    <a href="#primates">3 Primates</a>
+    <a href="#exit">4 Way out</a>
+    <a href="#extra">5 Extra</a>
+    <a href="#map">Map</a>
+  </nav>
+</div>
+
+<main>
+
+<p class="lead" style="margin-top:.8rem">Tap an animal to learn about it. Tick the box when you get a photo you are proud of. Your ticks stay on this phone. The <span class="pin">7</span> numbers are stops on the route maps in this guide, not the park's signpost numbers.</p>
+<ul class="legend" aria-label="Threat levels">
+  <li><span class="badge EW">EW</span> Extinct in the wild</li>
+  <li><span class="badge CR">CR</span> Critically endangered</li>
+  <li><span class="badge EN">EN</span> Endangered</li>
+  <li><span class="badge VU">VU</span> Vulnerable</li>
+</ul>
+<details class="plain" style="margin-top:.6rem">
+  <summary>What do these threat levels mean?</summary>
+  <div class="body">
+    <p>They are the official levels from the IUCN Red List, the world's main list of species at risk.</p>
+    <ul>
+      <li><span class="badge EW">EW</span> <b>Extinct in the Wild.</b> None live wild in nature. They survive only because of parks like this one.</li>
+      <li><span class="badge CR">CR</span> <b>Critically Endangered.</b> The last step before extinction in the wild.</li>
+      <li><span class="badge EN">EN</span> <b>Endangered.</b> A very high risk of extinction in the wild.</li>
+      <li><span class="badge VU">VU</span> <b>Vulnerable.</b> A high risk, and numbers are falling.</li>
+    </ul>
+  </div>
+</details>
+
+<h2 id="plan">Your afternoon</h2>
+<ol class="timeline">
+  <li><time>12:00</time><span>Arrive at the <b>Gatehouse</b>. Ask for a paper map.</span></li>
+  <li><time>12:10</time><span>Walk east to <b>Basecamp Café</b>. See the <a href="#arrive">clouded leopards and black rhinos</a> on the way.</span></li>
+  <li class="key"><time>12:45</time><span>Be at the <b>truck safari meeting point</b> near Basecamp Café. If you miss the truck, the park will not offer another time.</span></li>
+  <li class="key"><time>13:00</time><span><a href="#safari"><b>Truck safari</b></a>. Have your camera ready from the first minute.</span></li>
+  <li><time>After</time><span><a href="#primates"><b>Primates</b></a>: orangutans, lemurs and gorillas, then the Palace of the Apes. This area has the most endangered species.</span></li>
+  <li><time>Then</time><span><a href="#exit"><b>Amur tigers and lions</b></a> next to the Gatehouse, on the way out.</span></li>
+  <li><time>Extra</time><span><a href="#extra">Cheetahs, tapirs and red pandas</a>, if you have time. These are long walks with steep hills.</span></li>
+  <li><time>16:00</time><span>The light fades early because the clocks went back on 25 October. Get your best shots before sunset at about 16:40.</span></li>
+</ol>
+
+<details class="plain">
+  <summary>📷 Photo tips (open this before you start)</summary>
+  <div class="body">
+    <ul>
+      <li><b>Fences:</b> put the lens very close to the mesh, in the middle of a gap. Zoom in. The fence will often disappear.</li>
+      <li><b>Glass:</b> press the lens or phone flat on the glass and cup your hand around it to stop reflections. Never use flash.</li>
+      <li><b>Eyes:</b> focus on the eyes. A sharp eye makes a great animal photo, even if the rest is soft.</li>
+      <li><b>Get low:</b> shoot at the animal's eye level, not down at it. Crouch if you can.</li>
+      <li><b>On the truck:</b> it moves and shakes. Use burst mode (hold the shutter) and pick the best frame later. On a camera, use 1/500 s or faster.</li>
+      <li><b>Wait:</b> watch one animal for two minutes. The best photo usually comes after a yawn, a stretch, or a look at the camera.</li>
+      <li><b>Story shots:</b> a mother with a baby, two animals together, or an animal eating tells more than a plain portrait.</li>
+      <li><b>Battery:</b> bring a power bank. Cold weather empties batteries faster.</li>
+    </ul>
+  </div>
+</details>
+
+<h2 id="arrive" class="sec"><span class="num">1</span>Gatehouse to Basecamp<small>Before the safari · stops 1–4</small></h2>
+<figure class="leg" data-leg="arrive"></figure>
+
+<details data-id="black-rhino">
+  <summary><input class="got" type="checkbox" aria-label="Photographed eastern black rhino"><span class="name">Eastern black rhino<small>The UK's largest herd lives here</small></span><span class="badge CR">CR</span></summary>
+  <div class="body">
+    <p class="where">📍 Rhino paddocks next to Basecamp, and along Rhino Walk to the east.</p>
+    <p>In the 1970s, about 65,000 black rhinos lived in Africa. Poachers killed so many for their horns that only about 2,400 survived by 1995. Today there are about 6,000 to 7,000. A rhino horn is made of keratin, the same material as your fingernails.</p>
+    <p><b>Why here matters:</b> Port Lympne has flown black rhinos born in Kent back to Africa.</p>
+    <p class="shot">🎯 Shot idea: the hooked upper lip. See the bonus challenge below.</p>
+  </div>
+</details>
+
+<details data-id="clouded-leopard">
+  <summary><input class="got" type="checkbox" aria-label="Photographed clouded leopard"><span class="name">Clouded leopard<small>The cat with the longest fangs for its size</small></span><span class="badge VU">VU</span></summary>
+  <div class="body">
+    <p class="where">📍 Between the Gatehouse and Basecamp, near the Aspinall Foundation information centre.</p>
+    <p>Clouded leopards live in the forests of Southeast Asia and the Himalayas. For its size, this cat has the longest canine teeth of any living cat. It is a very good climber. It can hang upside down from a branch by its back feet, and it can climb down a tree head first.</p>
+    <p class="shot">🎯 Shot idea: the big "cloud" markings on its coat. Look up, because it often rests high on a branch.</p>
+  </div>
+</details>
+
+<p class="note">🦏 <b>Bonus challenge:</b> Port Lympne also has <b>southern white rhinos</b> (Near Threatened), probably in the safari area. The names are not about colour. The black rhino has a <b>pointed, hooked upper lip</b> for picking leaves. The white rhino has a <b>wide, square lip</b> for grazing grass. Photograph both lips and you will have a great side-by-side pair.</p>
+
+<h2 id="safari" class="sec"><span class="num">2</span>Truck safari<small>13:00 · 🚙 animals</small></h2>
+<p class="lead">The truck visits the African, Asian and South American areas. These animals are not on the walking map, so the safari is probably your only chance to see them. Some will be far away, so zoom in and shoot in bursts.</p>
+
+<details data-id="giraffe">
+  <summary><input class="got" type="checkbox" aria-label="Photographed Nubian giraffe"><span class="name">Nubian giraffe<small>Tall, and one of the rarest giraffes</small></span><span class="badge CR">CR</span></summary>
+  <div class="body">
+    <p class="where">📍 Safari, African area.</p>
+    <p>The IUCN lists the Nubian giraffe subspecies as Critically Endangered. Rothschild's giraffes belong to this group. Most people think that giraffes are common, but their wild numbers have fallen by about a third in 30 years.</p>
+    <p>A giraffe's tongue is dark blue-black and up to 50 cm long. The dark colour probably protects it from sunburn.</p>
+    <p class="shot">🎯 Shot idea: a vertical (portrait) photo of the full giraffe, or the tongue while it eats.</p>
+  </div>
+</details>
+
+<details data-id="pere-david">
+  <summary><input class="got" type="checkbox" aria-label="Photographed Père David's deer"><span class="name">Père David's deer<small>Saved from extinction by a few in England</small></span><span class="badge EW">EW</span></summary>
+  <div class="body">
+    <p class="where">📍 Safari, probably with the deer herds in the Asian area.</p>
+    <p>This deer disappeared from the wild in China long ago. The last herd lived in the Chinese emperor's hunting park near Beijing, and a flood and a war killed nearly all of them by 1900. The Duke of Bedford collected the last few animals at Woburn Abbey in England. Every Père David's deer alive today comes from that small herd. Its Chinese name means "four unlikes": it has the hooves of a cow, the neck of a camel, the antlers of a deer, and the tail of a donkey.</p>
+    <p class="shot">🎯 Shot idea: try to show the long donkey-like tail and the antlers in one frame.</p>
+  </div>
+</details>
+
+<details data-id="przewalski">
+  <summary><input class="got" type="checkbox" aria-label="Photographed Przewalski's horse"><span class="name">Przewalski's horse<small>Once extinct in the wild, now back in Mongolia</small></span><span class="badge EN">EN</span></summary>
+  <div class="body">
+    <p class="where">📍 Safari, probably in the Asian area.</p>
+    <p>Say it "sheh-VAL-skee". This stocky horse has an upright mane, like a mohawk. It disappeared from the wild in the 1960s. Zoos bred it, and about 300 have now gone back to Mongolia, including horses from the Aspinall parks. It was long thought to be the last truly wild horse. A 2018 DNA study found that its ancestors were probably herded by people about 5,500 years ago.</p>
+    <p class="shot">🎯 Shot idea: the mohawk mane from the side.</p>
+  </div>
+</details>
+
+<details data-id="spectacled-bear">
+  <summary><input class="got" type="checkbox" aria-label="Photographed spectacled bear"><span class="name">Spectacled bear<small>Paddington's species, and the only ones in Kent</small></span><span class="badge VU">VU</span></summary>
+  <div class="body">
+    <p class="where">📍 Safari, South American area.</p>
+    <p>This is the only bear in South America, and it lives in the Andes mountains. Paddington Bear is a spectacled bear "from darkest Peru". Each bear has unique cream-coloured markings around its eyes, so no two faces are the same.</p>
+    <p class="shot">🎯 Shot idea: the face markings. Try to photograph two bears and compare them.</p>
+  </div>
+</details>
+
+<details data-id="takin">
+  <summary><input class="got" type="checkbox" aria-label="Photographed Mishmi takin"><span class="name">Mishmi takin<small>Half goat, half cow, and fewer than 3,500 left</small></span><span class="badge VU">VU</span></summary>
+  <div class="body">
+    <p class="where">📍 Safari, probably in the Asian area.</p>
+    <p>This animal lives in the mountains of Tibet, India and Myanmar. It has a large nose like a moose, and an oily coat that keeps out rain and snow. Fewer than 3,500 remain in the wild.</p>
+    <p class="shot">🎯 Shot idea: the big nose, from the side.</p>
+  </div>
+</details>
+
+<details data-id="barasingha">
+  <summary><input class="got" type="checkbox" aria-label="Photographed barasingha"><span class="name">Barasingha<small>"Twelve-tined" swamp deer</small></span><span class="badge VU">VU</span></summary>
+  <div class="body">
+    <p class="where">📍 Safari, probably in the Asian area.</p>
+    <p>The name means "twelve tines" in Hindi, because the males can have 12 or more points on their antlers. It lives in India and Nepal, where people have drained much of its swamp habitat. October is near its mating season, so the males should have their full antlers now.</p>
+    <p class="shot">🎯 Shot idea: count the antler points in your photo.</p>
+  </div>
+</details>
+
+<details data-id="hog-deer">
+  <summary><input class="got" type="checkbox" aria-label="Photographed hog deer"><span class="name">Hog deer<small>Runs with its head down like a pig</small></span><span class="badge EN">EN</span></summary>
+  <div class="body">
+    <p class="where">📍 Safari, probably with the deer herds in the Asian area.</p>
+    <p>This small deer gets its name because it runs through tall grass with its head low, like a hog. It is found in parts of Pakistan, Myanmar and Thailand. Hunting and farming have removed it from much of its old range.</p>
+    <p class="shot">🎯 Shot idea: a small deer next to a bigger one, to show the difference in size.</p>
+  </div>
+</details>
+
+<details data-id="painted-dog">
+  <summary><input class="got" type="checkbox" aria-label="Photographed painted dog"><span class="name">Painted dog<small>Every coat is a unique painting</small></span><span class="badge EN">EN</span></summary>
+  <div class="body">
+    <p class="where">📍 Not on the walking map, so probably in the safari's African area. Ask the safari driver.</p>
+    <p>This animal is also called the African wild dog. No two have the same coat pattern. Packs succeed in about 80% of their hunts, which is better than lions. Scientists found that pack members "vote" with sneezes before they decide to go hunting. Only about 6,600 remain in the wild.</p>
+    <p><b>Why here matters:</b> Port Lympne manages the breeding programme for all painted dogs in European zoos.</p>
+    <p class="shot">🎯 Shot idea: two dogs side by side, so the different patterns show.</p>
+  </div>
+</details>
+
+<h2 id="primates" class="sec"><span class="num">3</span>Primates, middle and west<small>After the safari · stops 4–9</small></h2>
+<p class="lead">From Basecamp, walk into the middle of the park, then go west to the Palace of the Apes. The map does not name every monkey, so read the sign at each enclosure.</p>
+<figure class="leg" data-leg="primates"></figure>
+
+<details data-id="orangutan">
+  <summary><input class="got" type="checkbox" aria-label="Photographed Sumatran orangutan"><span class="name">Sumatran orangutan<small>The red ape that builds a new bed every night</small></span><span class="badge CR">CR</span></summary>
+  <div class="body">
+    <p class="where">📍 Middle of the park, near the De Brazza's monkeys and south of Basecamp.</p>
+    <p>Orangutans live only on the islands of Sumatra and Borneo. Their forest is being cleared for palm oil plantations. They travel several miles a day to find food, and they make a new nest high in the trees every night.</p>
+    <p class="shot">🎯 Shot idea: hands and fingers holding food. Their hands look very human.</p>
+  </div>
+</details>
+
+<details data-id="gorilla">
+  <summary><input class="got" type="checkbox" aria-label="Photographed western lowland gorilla"><span class="name">Western lowland gorilla<small>The biggest primate in the world</small></span><span class="badge CR">CR</span></summary>
+  <div class="body">
+    <p class="where">📍 Two places: the Gorilla Pavilion in the middle of the park, and the Palace of the Apes in the west.</p>
+    <p>Gorillas are hunted for "bushmeat", and the Ebola virus has killed thousands of them. Their forest homes in Central Africa are also being cut down. Gorillas share about 98% of their DNA with humans.</p>
+    <p>A family group is led by a <b>silverback</b>, an adult male with a silver-grey saddle of fur on his back. He can weigh more than 180 kg.</p>
+    <p><b>Why here matters:</b> the Aspinall Foundation, which runs Port Lympne, has returned gorillas born in Kent to protected forests in Congo and Gabon.</p>
+    <p class="shot">🎯 Shot idea: the silverback's face, close up, with the eyes sharp. Or a young gorilla playing.</p>
+  </div>
+</details>
+
+<details data-id="bamboo-lemur">
+  <summary><input class="got" type="checkbox" aria-label="Photographed greater bamboo lemur"><span class="name">Greater bamboo lemur<small>Eats a poisonous plant every day</small></span><span class="badge CR">CR</span></summary>
+  <div class="body">
+    <p class="where">📍 Probably the lemur area in the middle of the park, near the binturong. Check the sign.</p>
+    <p>This lemur is one of the rarest primates on Earth, and it lives only in Madagascar. You can identify it by the white tufts on its ears. It eats giant bamboo, which contains cyanide. Each day it eats enough cyanide to kill an animal of its size, and scientists still do not fully know how it survives.</p>
+    <p class="shot">🎯 Shot idea: the white ear tufts, with the lemur holding a bamboo stem.</p>
+  </div>
+</details>
+
+<details data-id="ruffed-lemur">
+  <summary><input class="got" type="checkbox" aria-label="Photographed belted ruffed lemur"><span class="name">Belted ruffed lemur<small>One of the loudest calls in the forest</small></span><span class="badge CR">CR</span></summary>
+  <div class="body">
+    <p class="where">📍 Probably the lemur area in the middle of the park. Check the sign.</p>
+    <p>This black-and-white lemur lives in the rainforests of eastern Madagascar. About 90% of Madagascar's original forest is gone. Ruffed lemurs give very loud group alarm calls, so listen for them.</p>
+    <p class="shot">🎯 Shot idea: the bright eyes against the black fur. Expose for the white fur so it does not burn out.</p>
+  </div>
+</details>
+
+<details data-id="binturong">
+  <summary><input class="got" type="checkbox" aria-label="Photographed binturong"><span class="name">Binturong<small>The "bearcat" that smells of popcorn</small></span><span class="badge VU">VU</span></summary>
+  <div class="body">
+    <p class="where">📍 Middle of the park, next to the lemurs.</p>
+    <p>People call it a "bearcat", but it is neither a bear nor a cat. It lives in the forests of South and Southeast Asia. Its scent smells like buttered popcorn, because of the same chemical that you find in cooked popcorn. Its tail can grip branches like an extra hand.</p>
+    <p class="shot">🎯 Shot idea: the tail wrapped around a branch. And take a sniff.</p>
+  </div>
+</details>
+
+<details data-id="dusky-langur">
+  <summary><input class="got" type="checkbox" aria-label="Photographed dusky langur"><span class="name">Dusky langur<small>The monkey with white "glasses"</small></span><span class="badge EN">EN</span></summary>
+  <div class="body">
+    <p class="where">📍 West side, near the Palace of the Apes and the gibbons.</p>
+    <p>This monkey is also called the spectacled leaf monkey, because of the white rings around its eyes. It lives in southern Malaysia, Myanmar and Thailand. Its babies are bright orange.</p>
+    <p class="shot">🎯 Shot idea: the white eye rings, face on.</p>
+  </div>
+</details>
+
+<details data-id="javan-gibbon">
+  <summary><input class="got" type="checkbox" aria-label="Photographed Javan gibbon"><span class="name">Javan gibbon<small>The acrobat that swings 10 metres</small></span><span class="badge EN">EN</span></summary>
+  <div class="body">
+    <p class="where">📍 Probably the gibbon area near the Palace of the Apes. Check the sign.</p>
+    <p>This gibbon is also called the silvery gibbon, and it lives only on the island of Java in Indonesia. Gibbons swing arm over arm through the trees. This is called <i>brachiation</i>, and one swing can cover 10 metres.</p>
+    <p><b>Why here matters:</b> the Aspinall Foundation runs the Javan Primate Project, which rescues and releases gibbons and langurs in Java.</p>
+    <p class="shot">🎯 Shot idea: a gibbon in mid-swing. Use burst mode and a fast shutter.</p>
+  </div>
+</details>
+
+<details data-id="siamang">
+  <summary><input class="got" type="checkbox" aria-label="Photographed siamang"><span class="name">Siamang<small>The biggest gibbon, with a built-in loudspeaker</small></span><span class="badge EN">EN</span></summary>
+  <div class="body">
+    <p class="where">📍 Probably the gibbon area near the Palace of the Apes. Check the sign.</p>
+    <p>Siamangs live in Malaysia, Thailand and Sumatra. They have a throat sac that inflates like a balloon and makes their songs very loud. Pairs sing duets, mostly in the morning, but sometimes later. You may hear them before you see them.</p>
+    <p class="shot">🎯 Shot idea: the throat sac inflated during a song. Listen for them as you walk the trail.</p>
+  </div>
+</details>
+
+<details data-id="drill">
+  <summary><input class="got" type="checkbox" aria-label="Photographed drill"><span class="name">Drill<small>One of Africa's most endangered primates</small></span><span class="badge EN">EN</span></summary>
+  <div class="body">
+    <p class="where">📍 Not named on the map. Look in the enclosures marked "Primate", and read the signs.</p>
+    <p>Drills live only in a small area around the Cross River in Nigeria, in Cameroon, and on Bioko Island. Adult males have a black face, a red chin, and a colourful blue-and-purple rump. They are a relative of the mandrill.</p>
+    <p class="shot">🎯 Shot idea: an adult male's red chin, in profile.</p>
+  </div>
+</details>
+
+<details data-id="mangabey">
+  <summary><input class="got" type="checkbox" aria-label="Photographed golden-bellied mangabey"><span class="name">Golden-bellied mangabey<small>A monkey from deep in the Congo</small></span><span class="badge EN">EN</span></summary>
+  <div class="body">
+    <p class="where">📍 Not named on the map. Look in the enclosures marked "Primate", and read the signs.</p>
+    <p>This monkey lives only in the rainforests of the Democratic Republic of the Congo. You can identify it by its golden-orange belly. Very few zoos keep this species.</p>
+    <p class="shot">🎯 Shot idea: wait until it sits up and shows the golden belly.</p>
+  </div>
+</details>
+
+<details data-id="javan-langur">
+  <summary><input class="got" type="checkbox" aria-label="Photographed Javan langur"><span class="name">Javan langur<small>Black adults, bright orange babies</small></span><span class="badge VU">VU</span></summary>
+  <div class="body">
+    <p class="where">📍 Not named on the map. Look in the enclosures marked "Primate", and read the signs.</p>
+    <p>Adults are glossy black, but all babies are born a bright apricot colour. The colour makes sure that the whole group pays attention to the baby. People sometimes take this monkey from the wild to keep as a pet. The Aspinall Foundation rescues these animals in Java.</p>
+    <p class="shot">🎯 Shot idea: an orange baby next to a black adult. That is a rare photo.</p>
+  </div>
+</details>
+
+<h2 id="exit" class="sec"><span class="num">4</span>Near the Gatehouse<small>On the way out · stops 9–11</small></h2>
+<figure class="leg" data-leg="exit"></figure>
+
+<details data-id="tiger">
+  <summary><input class="got" type="checkbox" aria-label="Photographed Amur tiger"><span class="name">Amur tiger<small>The biggest cat in the world</small></span><span class="badge EN">EN</span></summary>
+  <div class="body">
+    <p class="where">📍 South-west of the Gatehouse, next to the African lions. More big cats are in Carnivore Territory.</p>
+    <p>The Amur tiger is also called the Siberian tiger. It lives in the snowy forests of the Russian Far East and north-east China. Only about 750 live in the wild, and its thick fur keeps it warm at −40 °C. Every tiger has a unique stripe pattern, like a fingerprint. The stripes are on the skin too.</p>
+    <p class="shot">🎯 Shot idea: a yawn. Wait for it, because big cats yawn a lot after they rest.</p>
+  </div>
+</details>
+
+<details data-id="lion">
+  <summary><input class="got" type="checkbox" aria-label="Photographed African lion"><span class="name">African lion<small>Gone from about 90% of its old range</small></span><span class="badge VU">VU</span></summary>
+  <div class="body">
+    <p class="where">📍 Next to the Gatehouse. The map also shows a large lion area in the south-east of the park.</p>
+    <p>Wild lions once lived across Africa, southern Europe, and Asia as far as India. Today they live in a small part of their old range, and only about 23,000 remain.</p>
+    <p class="shot">🎯 Shot idea: the male's mane with light behind it, in the late afternoon.</p>
+  </div>
+</details>
+
+<h2 id="extra" class="sec"><span class="num">5</span>If you have time<small>Longer walks · stops 12–17</small></h2>
+<figure class="leg" data-leg="south"></figure>
+<figure class="leg" data-leg="east"></figure>
+
+<details data-id="cheetah">
+  <summary><input class="got" type="checkbox" aria-label="Photographed cheetah"><span class="name">Southern cheetah<small>The fastest land animal</small></span><span class="badge VU">VU</span></summary>
+  <div class="body">
+    <p class="where">📍 South-west corner, near Babydolls Restaurant and Carnivore Territory.</p>
+    <p>A cheetah can reach about 100 km/h in a few seconds. It cannot roar, but it can purr and make a bird-like chirp. Fewer than 7,000 adults remain in the wild.</p>
+    <p class="shot">🎯 Shot idea: the black "tear lines" from the eyes. They reduce glare from the sun.</p>
+  </div>
+</details>
+
+<details data-id="malayan-tapir">
+  <summary><input class="got" type="checkbox" aria-label="Photographed Malayan tapir"><span class="name">Malayan tapir<small>A black-and-white animal with a bendy nose</small></span><span class="badge EN">EN</span></summary>
+  <div class="body">
+    <p class="where">📍 Probably Tapir Hill, in the west. The map says only "Tapir", so check the sign.</p>
+    <p>Its black-and-white body breaks up its outline in the moonlit forest. Babies have stripes and spots, and they look like watermelons. Tapirs use their short, flexible nose like a small trunk to pick leaves. Their closest living relatives are horses and rhinos.</p>
+    <p class="shot">🎯 Shot idea: the nose as it grabs food.</p>
+  </div>
+</details>
+
+<details data-id="lowland-tapir">
+  <summary><input class="got" type="checkbox" aria-label="Photographed lowland tapir"><span class="name">Lowland tapir<small>South America's biggest land mammal</small></span><span class="badge VU">VU</span></summary>
+  <div class="body">
+    <p class="where">📍 Probably Tapir Hill, in the west. Check the sign.</p>
+    <p>This tapir is brown, not black and white like the Malayan tapir. It is a strong swimmer and often goes into water to escape predators. People are cutting down its forest.</p>
+    <p class="shot">🎯 Shot idea: photograph both tapir species to compare them.</p>
+  </div>
+</details>
+
+<details data-id="red-panda">
+  <summary><input class="got" type="checkbox" aria-label="Photographed red panda"><span class="name">Red panda<small>Not a small giant panda</small></span><span class="badge EN">EN</span></summary>
+  <div class="body">
+    <p class="where">📍 East side, on the walking path south of Rhino Walk. Look up in the trees.</p>
+    <p>The red panda is not closely related to the giant panda. It is the only living member of its own animal family. Both pandas have a "false thumb", a wrist bone that helps them hold bamboo. They usually sleep in high branches, so look up.</p>
+    <p class="shot">🎯 Shot idea: the ringed tail hanging from a branch.</p>
+  </div>
+</details>
+
+<details data-id="sambar">
+  <summary><input class="got" type="checkbox" aria-label="Photographed sambar"><span class="name">Sambar<small>A big cousin of the UK's red deer</small></span><span class="badge VU">VU</span></summary>
+  <div class="body">
+    <p class="where">📍 East side, next to the red pandas and the Bactrian camels.</p>
+    <p>This large deer lives in the forests of South and Southeast Asia, and it is a relative of the UK's red deer. Hunting has caused its numbers to fall fast.</p>
+    <p class="shot">🎯 Shot idea: a herd photo with several animals in a line.</p>
+  </div>
+</details>
+
+<details data-id="babirusa">
+  <summary><input class="got" type="checkbox" aria-label="Photographed babirusa"><span class="name">Babirusa<small>The "pig-deer" with tusks through its face</small></span><span class="badge VU">VU</span></summary>
+  <div class="body">
+    <p class="where">📍 Not on the map. It may be in the safari area, or it may be off show. Ask a keeper.</p>
+    <p>The name means "pig-deer" in Malay. The male's upper tusks grow up through the top of its snout and curl back towards its forehead. It lives only on Sulawesi and a few nearby islands in Indonesia.</p>
+    <p class="shot">🎯 Shot idea: a side view of a male, so the curved tusks show clearly.</p>
+  </div>
+</details>
+
+<h2>Trick question 🐫</h2>
+<p class="note">The <b>Bactrian camels</b> are on the east side of the park. The park's own website says the Bactrian camel is "Critically Endangered". That status belongs to the <a href="https://en.wikipedia.org/wiki/Wild_Bactrian_camel">wild camel</a>, a separate species. Only about 1,000 wild camels live in the Gobi Desert. The camels at parks are almost always the domestic kind, and there are millions of those. Photograph it anyway, but it does not count for the hunt.</p>
+
+<h2>Extra challenges</h2>
+<ul class="bonus">
+  <li>🦏 Black rhino lip vs white rhino lip (see the rhino section).</li>
+  <li>🦍 Gorillas in both places: the Gorilla Pavilion and the Palace of the Apes.</li>
+  <li>🍊 An orange baby langur next to a black adult.</li>
+  <li>🐒 A gibbon in mid-air.</li>
+  <li>🐯 A big cat yawning.</li>
+  <li>🦌 One photo with three or more different species in it (try the safari).</li>
+  <li>🎤 A video of the siamangs singing.</li>
+</ul>
+
+<h2 id="map">Full park map</h2>
+<figure class="map">
+  <a href="https://www.aspinallfoundation.org/media/11125/pl-park-map-walking-route-mar26.jpg">
+    <img src="https://www.aspinallfoundation.org/media/11125/pl-park-map-walking-route-mar26.jpg" alt="Port Lympne official walking-route map, with the Day Visitor Entrance at the top, Basecamp to the right of it, the Palace of the Apes on the left, and Carnivore Territory at the bottom." loading="lazy">
+  </a>
+  <figcaption>The official Port Lympne map. Tap it to open the full size and zoom in. The map shows the walking routes only. It does not show the large safari area that the truck visits. <a href="https://www.aspinallfoundation.org/port-lympne/wildlife-park/plan-your-day/">Map source</a>.</figcaption>
+</figure>
+
+<footer>
+  <p>Map and animal list: <a href="https://www.aspinallfoundation.org/port-lympne/wildlife-park/plan-your-day/">Port Lympne park map</a> (up to date on 3 December 2025), <a href="https://www.aspinallfoundation.org/port-lympne/wildlife-park/animals/">Port Lympne animals</a> and <a href="https://www.aspinallfoundation.org/port-lympne/wildlife-park/">park zones</a>, checked October 2026. Threat levels: <a href="https://www.iucnredlist.org/">IUCN Red List</a>. The park can move animals between enclosures, and some animals may be off show on the day. The numbers are recent estimates.</p>
+</footer>
+</main>
+
+<script>
+  const WIKI = {
+    "black-rhino": "Eastern_black_rhinoceros",
+    "clouded-leopard": "Clouded_leopard",
+    "giraffe": "Nubian_giraffe",
+    "pere-david": "Père_David's_deer",
+    "przewalski": "Przewalski's_horse",
+    "spectacled-bear": "Spectacled_bear",
+    "takin": "Mishmi_takin",
+    "barasingha": "Barasingha",
+    "hog-deer": "Indian_hog_deer",
+    "painted-dog": "African_wild_dog",
+    "orangutan": "Sumatran_orangutan",
+    "gorilla": "Western_lowland_gorilla",
+    "bamboo-lemur": "Greater_bamboo_lemur",
+    "ruffed-lemur": "Black-and-white_ruffed_lemur",
+    "binturong": "Binturong",
+    "dusky-langur": "Dusky_leaf_monkey",
+    "javan-gibbon": "Silvery_gibbon",
+    "siamang": "Siamang",
+    "drill": "Drill_(animal)",
+    "mangabey": "Golden-bellied_mangabey",
+    "javan-langur": "Javan_lutung",
+    "tiger": "Siberian_tiger",
+    "lion": "Lion",
+    "cheetah": "Cheetah",
+    "malayan-tapir": "Malayan_tapir",
+    "lowland-tapir": "South_American_tapir",
+    "red-panda": "Red_panda",
+    "sambar": "Sambar_deer",
+    "babirusa": "Babirusa",
+  };
+  // Coordinates use the official map scaled to 1415 x 2000 units.
+  const MAP_URL = "https://www.aspinallfoundation.org/media/11125/pl-park-map-walking-route-mar26.jpg";
+  const LEGS = {
+    arrive: {
+      view: [500, 270, 560, 220],
+      route: [[590, 345], [650, 362], [720, 352], [770, 385], [830, 345], [900, 325], [963, 313]],
+      stops: [[1, 590, 345, "Gatehouse"], [2, 775, 405, "Clouded leopard"], [3, 965, 420, "Black rhinos"], [4, 963, 313, "Basecamp: truck safari meeting point"]],
+    },
+    primates: {
+      view: [100, 290, 1000, 560],
+      route: [[963, 313], [1000, 335], [1030, 430], [1030, 520], [900, 565], [830, 590], [720, 650], [655, 700], [560, 725], [480, 705], [400, 705], [320, 695], [232, 690], [160, 670]],
+      detour: [[1030, 520], [1020, 800], [945, 790]],
+      stops: [[4, 963, 313, "Basecamp, after the safari"], [5, 840, 610, "Sumatran orangutans"], [6, 945, 790, "Gorilla Pavilion: a side trip (blue dotted line). Go there and come back the same way."], [7, 720, 730, "Lemurs and binturong"], [8, 340, 735, "Gibbons and dusky langurs"], [9, 150, 665, "Palace of the Apes (gorillas)"]],
+    },
+    exit: {
+      view: [100, 300, 560, 420],
+      route: [[165, 645], [300, 610], [470, 572], [478, 520], [458, 488], [440, 440], [425, 395], [470, 370], [560, 350]],
+      stops: [[9, 165, 645, "Palace of the Apes"], [10, 375, 455, "Amur tigers"], [11, 455, 410, "African lions"], [1, 590, 345, "Gatehouse (exit)"]],
+    },
+    south: {
+      view: [0, 600, 620, 720],
+      route: [[150, 690], [140, 800], [135, 900], [150, 950], [205, 960], [170, 1040], [135, 1120], [130, 1160], [250, 1180], [330, 1230], [430, 1200]],
+      stops: [[9, 150, 690, "Palace of the Apes"], [12, 95, 1000, "Tapir Hill (tapirs)"], [13, 95, 1245, "Cheetahs"], [14, 470, 1255, "Carnivore Territory (big cats)"]],
+    },
+    east: {
+      view: [880, 290, 535, 600],
+      route: [[963, 313], [1000, 335], [1030, 430], [1030, 520], [1310, 545], [1340, 570], [1250, 680], [1170, 780], [1110, 850]],
+      stops: [[4, 963, 313, "Basecamp"], [15, 1100, 600, "Black rhinos (Rhino Walk)"], [16, 1170, 790, "Sambar and Bactrian camels"], [17, 1065, 830, "Red pandas"]],
+    },
+  };
+  const LEG_TITLES = {
+    arrive: "From the Gatehouse to the truck safari",
+    primates: "After the safari: Basecamp to the Palace of the Apes",
+    exit: "On the way out: Palace of the Apes to the Gatehouse",
+    south: "Extra: Tapir Hill and Carnivore Territory (steep hills)",
+    east: "Extra: Rhino Walk and the red pandas",
+  };
+
+  function legSvg(leg) {
+    const [x, y, w, h] = leg.view;
+    const r = w / 38, font = w / 30, stroke = w / 120;
+    const line = pts => pts.map(p => p.join(",")).join(" ");
+    const dot = (px, py, label) => `
+      <circle cx="${px}" cy="${py}" r="${r}" fill="#d0661a" stroke="#fff" stroke-width="${stroke}"/>
+      <text x="${px}" y="${py}" dy=".35em" text-anchor="middle" font-size="${font}" font-weight="700" fill="#fff">${label}</text>`;
+    let out = `<svg viewBox="${x} ${y} ${w} ${h}" role="img" aria-label="Route map">
+      <image href="${MAP_URL}" x="0" y="0" width="1415" height="2000" preserveAspectRatio="none"/>
+      <rect x="${x}" y="${y}" width="${w}" height="${h}" fill="#fff" opacity=".25"/>
+      <polyline points="${line(leg.route)}" fill="none" stroke="#b3261e" stroke-width="${stroke * 2.2}" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="${stroke * 4} ${stroke * 2.5}"/>`;
+    if (leg.detour) {
+      out += `<polyline points="${line(leg.detour)}" fill="none" stroke="#1f5fbf" stroke-width="${stroke * 1.6}" stroke-linecap="round" stroke-dasharray="${stroke * 1.5} ${stroke * 2}"/>`;
+    }
+    for (const [num, px, py] of leg.stops) out += dot(px, py, num);
+    return out + "</svg>";
+  }
+
+  for (const fig of document.querySelectorAll("figure.leg")) {
+    const leg = LEGS[fig.dataset.leg];
+    const items = leg.stops.map(([num, , , label]) => `<li><span class="pin">${num}</span> ${label}</li>`).join("");
+    fig.innerHTML = `${legSvg(leg)}<figcaption><b>${LEG_TITLES[fig.dataset.leg]}</b>. Follow the white paths and the signposts. The red line shows the direction only.<ul class="stops">${items}</ul></figcaption>`;
+  }
+
+  // A card shows the guide stop numbers where the animal is. "🚙" means the truck safari.
+  const PINS = {
+    "black-rhino": [3, 15], "clouded-leopard": [2],
+    "giraffe": ["🚙"], "pere-david": ["🚙"], "przewalski": ["🚙"], "spectacled-bear": ["🚙"],
+    "takin": ["🚙"], "barasingha": ["🚙"], "hog-deer": ["🚙"], "painted-dog": ["🚙"],
+    "orangutan": [5], "gorilla": [6, 9], "bamboo-lemur": [7], "ruffed-lemur": [7], "binturong": [7],
+    "dusky-langur": [8], "javan-gibbon": [8], "siamang": [8],
+    "tiger": [10], "lion": [11], "cheetah": [13], "malayan-tapir": [12], "lowland-tapir": [12],
+    "red-panda": [17], "sambar": [16],
+  };
+  for (const card of document.querySelectorAll("details[data-id]")) {
+    const pins = PINS[card.dataset.id];
+    if (!pins) continue;
+    const span = document.createElement("span");
+    span.className = "pins";
+    span.innerHTML = pins.map(p => `<span class="pin${p === "🚙" ? " safari" : ""}">${p}</span>`).join("");
+    card.querySelector("summary .badge").before(span);
+  }
+
+  const KEY = "port-lympne-hunt-v1";
+  const saved = new Set(JSON.parse(localStorage.getItem(KEY) || "[]"));
+  const cards = [...document.querySelectorAll("details[data-id]")];
+  const text = document.getElementById("scoreText");
+  const bar = document.getElementById("scoreBar");
+
+  function update() {
+    const done = cards.filter(c => c.querySelector("input.got").checked).length;
+    text.textContent = `${done} / ${cards.length} photographed`;
+    bar.style.width = `${(done / cards.length) * 100}%`;
+    localStorage.setItem(KEY, JSON.stringify(cards.filter(c => c.querySelector("input.got").checked).map(c => c.dataset.id)));
+  }
+
+  // Wikimedia Commons file names. The card loads its photo when it opens for the first time.
+  const PHOTO = {
+    "black-rhino": "Diceros_bicornis_michaeli_–_Zoo_Leipzig_1.jpg",
+    "clouded-leopard": "Neofelis_nebulosa,_Clouded_leopard.jpg",
+    "giraffe": "Giraffa_camelopardalis_camelopardalis_(Al_Ain_Zoo,_UAE),_crop_&_flip.jpg",
+    "pere-david": "Elaphurus_davidianus_001.jpg",
+    "przewalski": "Przewalskis_horse_02.jpg",
+    "spectacled-bear": "Tremarctos_ornatus_in_Jardim_Zoológico_de_Curitiba.jpg",
+    "takin": "Takin_indický_1.jpg",
+    "barasingha": "Barasingha_stag_in_spring_(51078626398).jpg",
+    "hog-deer": "Hog_deer12.jpg",
+    "painted-dog": "African_Wild_Dog_at_Working_with_Wildlife.jpg",
+    "orangutan": "Sumatra-Orang-Utan_im_Pongoland.jpg",
+    "gorilla": "WesternLowlandGorilla03.jpg",
+    "bamboo-lemur": "Prolemur_simus_-_Grand_Hapalémur_-_Adulte_-_Zoologique_de_Paris_27.JPG",
+    "ruffed-lemur": "1_black_and_white_ruffed_lemur.jpg",
+    "binturong": "Binturong_in_Overloon.jpg",
+    "dusky-langur": "Spectacled_langur.jpg",
+    "javan-gibbon": "Moloch-20210525-Ctb.jpg",
+    "siamang": "Siamang_Tierpark_Hellabrunn-4.jpg",
+    "drill": "Male_Drill_(Mandrillus_leucophaeus)_(7609817756).jpg",
+    "mangabey": "Cercocebus_chrysogaster_0006.jpg",
+    "javan-langur": "Mother_and_Son,_Javan_Langur.jpg",
+    "tiger": "P.t.altaica_Tomak_Male.jpg",
+    "lion": "020_The_lion_king_Snyggve_in_the_Serengeti_National_Park_Photo_by_Giles_Laurent.jpg",
+    "cheetah": "Male_cheetah_facing_left_in_South_Africa.jpg",
+    "malayan-tapir": "Schabrackentapir_Tapirus_indicus_Tiergarten-Nuernberg-1.jpg",
+    "lowland-tapir": "South_American_tapir_(Tapirus_terrestris).JPG",
+    "red-panda": "Red_Panda,_Gentle_Tree-Dweller_of_the_Himalayas.jpg",
+    "sambar": "Sambar_(Cervus_unicolor_unicolor)_male.jpg",
+    "babirusa": "Hirscheber1a.jpg",
+  };
+
+  function addPhoto(card) {
+    const file = PHOTO[card.dataset.id];
+    if (!file || card.querySelector("figure.photo")) return;
+    const name = card.querySelector("summary .name").firstChild.textContent.trim();
+    const fig = document.createElement("figure");
+    fig.className = "photo";
+    fig.innerHTML = `<img src="https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(file)}?width=640" alt="${name}">
+      <figcaption>Photo: <a href="https://commons.wikimedia.org/wiki/File:${encodeURIComponent(file)}">Wikimedia Commons</a> (tap for the photographer and licence)</figcaption>`;
+    card.querySelector(".body").prepend(fig);
+  }
+
+  // Links open in the same tab, so the back button returns here.
+  // Save the open cards and the scroll position, and restore them on return.
+  const VIEW_KEY = "port-lympne-hunt-view-v1";
+  history.scrollRestoration = "manual";
+  function saveView() {
+    const open = cards.filter(c => c.open).map(c => c.dataset.id);
+    sessionStorage.setItem(VIEW_KEY, JSON.stringify({ open, y: window.scrollY }));
+  }
+  function restoreView() {
+    const view = JSON.parse(sessionStorage.getItem(VIEW_KEY) || "null");
+    if (!view) return;
+    for (const card of cards) {
+      card.open = view.open.includes(card.dataset.id);
+      if (card.open) addPhoto(card);
+    }
+    requestAnimationFrame(() => window.scrollTo(0, view.y));
+  }
+  window.addEventListener("pagehide", saveView);
+  document.addEventListener("click", e => { if (e.target.closest("a[href]")) saveView(); });
+
+  // Arrange each card row as: thumbnail, name, labels, tick box.
+  function layoutSummary(card) {
+    const summary = card.querySelector("summary");
+    const meta = document.createElement("span");
+    meta.className = "meta";
+    meta.append(summary.querySelector(".badge"));
+    const pins = summary.querySelector(".pins");
+    if (pins) meta.append(pins);
+    const label = document.createElement("label");
+    label.className = "got";
+    label.append(summary.querySelector("input.got"));
+    summary.append(meta, label);
+    const file = PHOTO[card.dataset.id];
+    if (file) {
+      const img = document.createElement("img");
+      img.className = "thumb";
+      img.loading = "lazy";
+      img.alt = "";
+      img.src = `https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(file)}?width=160`;
+      summary.prepend(img);
+    }
+  }
+
+  for (const card of cards) {
+    layoutSummary(card);
+    card.addEventListener("toggle", () => { if (card.open) addPhoto(card); });
+    const title = WIKI[card.dataset.id];
+    if (title) {
+      const more = document.createElement("p");
+      more.className = "more";
+      more.innerHTML = `<a href="https://en.wikipedia.org/wiki/${encodeURIComponent(title)}">More about this animal on Wikipedia →</a>`;
+      card.querySelector(".body").append(more);
+    }
+    const box = card.querySelector("input.got");
+    box.checked = saved.has(card.dataset.id);
+    card.classList.toggle("done", box.checked);
+    // Stop the click on the checkbox from opening or closing the card.
+    box.addEventListener("click", e => e.stopPropagation());
+    box.addEventListener("change", () => { card.classList.toggle("done", box.checked); update(); });
+  }
+
+  document.getElementById("reset").addEventListener("click", () => {
+    if (!confirm("Clear all ticks?")) return;
+    cards.forEach(c => { c.querySelector("input.got").checked = false; c.classList.remove("done"); });
+    update();
+  });
+
+  update();
+  restoreView();
+</script>
+</body>
+</html>
