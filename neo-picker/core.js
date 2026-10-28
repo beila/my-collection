@@ -1,7 +1,7 @@
 const NeoPickerCore = (() => {
   function selectItem(items, currentId, initial, randomValue) {
     if (!Array.isArray(items) || items.length === 0) {
-      throw new Error("The Neo feed is empty.");
+      throw new Error("Neo empty.");
     }
     if (initial || items.length === 1) {
       return items[0];
