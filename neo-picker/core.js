@@ -29,6 +29,10 @@ const NeoPickerCore = (() => {
     ].join("/");
   }
 
+  function pageUrl(path, currentUrl) {
+    return new URL(path, currentUrl).href;
+  }
+
   function normalizedUrl(value) {
     const url = new URL(value, "https://www.instapaper.com");
     url.hash = "";
@@ -128,6 +132,7 @@ const NeoPickerCore = (() => {
     createBookmarkBody,
     matchItems,
     normalizedUrl,
+    pageUrl,
     rssPath,
     selectItem,
     youtubeSource,
