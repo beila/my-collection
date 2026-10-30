@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>base: Category polymorphic Functor and FunctorOf — 범주 다형적 Functor 읽기: Kind, Cat, FunctorOf부터 Cofree와 튜플까지</title>
+<meta content="Haskell의 범주 다형적 Functor 제안을 Kind, Cat, FunctorOf, Cofree와 튜플 예제로 풀어 설명합니다." name="description"/>
+<meta content="https://beila.github.io/my-collection/reddit-discussion/eoo16m.html" name="source-url"/>
+<meta content="2026-10-30" name="review-date"/>
+<meta content="1" name="explanation-article-format"/>
+<meta content="3c82dbab51794d9c380ad9e32b2737af0d5578660959fcf71738111497a5a500" name="explanation-content-sha256"/>
+<meta content="https://beila.github.io/my-collection/annotated-explanations/base-category-polymorphic-functor-and-functorof-2046124286/?instapaper_explanation=1-3c82dbab51794d9c" name="instapaper-ingestion-url"/>
+<link href="https://beila.github.io/my-collection/annotated-explanations/base-category-polymorphic-functor-and-functorof-2046124286/" rel="canonical"/>
+<style>
+    :root {
+      color-scheme: dark;
+      background: #101214;
+      color: #eceff1;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.68;
+    }
+    html {
+      background: #101214;
+      overflow-wrap: anywhere;
+    }
+    body {
+      margin: 0;
+      background: #101214;
+      color: #eceff1;
+    }
+    main {
+      width: min(100% - 2rem, 44rem);
+      margin-inline: auto;
+      padding-block: clamp(2rem, 6vw, 5rem);
+    }
+    article {
+      min-width: 0;
+    }
+    p {
+      margin: 1.05em 0;
+    }
+    a {
+      color: #8ecbff;
+      text-decoration-thickness: 0.08em;
+      text-underline-offset: 0.18em;
+    }
+    a:visited {
+      color: #c5a8ff;
+    }
+    a:hover {
+      color: #cbe7ff;
+    }
+    a:focus-visible {
+      outline: 3px solid #ffd166;
+      outline-offset: 3px;
+      border-radius: 0.15rem;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      line-height: 1.25;
+      overflow-wrap: anywhere;
+    }
+    h1 {
+      margin: 0 0 1.2rem;
+      font-size: clamp(2rem, 7vw, 3.4rem);
+      letter-spacing: -0.025em;
+    }
+    h2 {
+      margin-top: 2.5em;
+      padding-top: 0.35em;
+      border-top: 1px solid #343a40;
+      font-size: 1.55rem;
+    }
+    h3 {
+      margin-top: 2em;
+      font-size: 1.22rem;
+    }
+    ol, ul {
+      padding-inline-start: 1.5rem;
+    }
+    li > ol, li > ul {
+      margin-block: 0.4rem;
+    }
+    blockquote {
+      margin: 1.4rem 0;
+      padding: 0.2rem 0 0.2rem 1rem;
+      border-left: 0.22rem solid #6f8faa;
+      color: #cbd2d8;
+    }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.9em;
+      overflow-wrap: anywhere;
+    }
+    pre {
+      margin: 1.3rem 0;
+      padding: 1rem;
+      overflow-x: auto;
+      border: 1px solid #343a40;
+      border-radius: 0.35rem;
+      background: #181b1f;
+      line-height: 1.5;
+      white-space: pre;
+    }
+    pre code {
+      overflow-wrap: normal;
+    }
+    table {
+      display: block;
+      width: 100%;
+      margin: 1.4rem 0;
+      overflow-x: auto;
+      border-collapse: collapse;
+      font-size: 0.94rem;
+    }
+    th,
+    td {
+      min-width: 8rem;
+      padding: 0.65rem 0.75rem;
+      border: 1px solid #454c54;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      background: #1d2227;
+    }
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+    [data-publication-metadata="true"] {
+      margin: 0.45rem 0;
+      color: #b8c0c7;
+      font-size: 0.95rem;
+    }
+    [data-publication-metadata="true"] + h2 {
+      margin-top: 2.8rem;
+    }
+    footer {
+      margin-top: 3rem;
+      padding-top: 1rem;
+      border-top: 1px solid #343a40;
+      color: #b8c0c7;
+      font-size: 0.92rem;
+    }
+    @media (max-width: 36rem) {
+      main {
+        width: min(100% - 1.25rem, 44rem);
+      }
+      h1 {
+        font-size: 1.9rem;
+      }
+      pre {
+        margin-inline: -0.25rem;
+      }
+    }
+    @media print {
+      :root,
+      html,
+      body {
+        background: #fff;
+        color: #111;
+      }
+      main {
+        width: 100%;
+        padding: 0;
+      }
+      a,
+      a:visited {
+        color: #111;
+        text-decoration: underline;
+      }
+      a[href]::after {
+        content: " (" attr(href) ")";
+        font-size: 0.82em;
+        overflow-wrap: anywhere;
+      }
+      pre,
+      th {
+        background: #f4f4f4;
+      }
+      pre {
+        white-space: pre-wrap;
+      }
+      h2,
+      h3 {
+        break-after: avoid;
+      }
+      p,
+      li {
+        orphans: 3;
+        widows: 3;
+      }
+    }
+  </style>
+<meta property="og:title" content="base: Category polymorphic Functor and FunctorOf — 범주 다형적 Functor 읽기: Kind, Cat, FunctorOf부터 Cofree와 튜플까지"><meta property="og:description" content="Haskell의 범주 다형적 Functor 제안을 Kind, Cat, FunctorOf, Cofree와 튜플 예제로 풀어 설명합니다."><meta property="og:url" content="https://beila.github.io/my-collection/annotated-explanations/base-category-polymorphic-functor-and-functorof-2046124286/index.html"><meta property="og:type" content="article"><meta name="twitter:card" content="summary"></head>
+<body>
+<main>
+<article>
+<section class="reviewed-content">
+<h1 id="범주-다형적-functor-읽기-kind-cat-functorof부터-cofree와-튜플까지">범주 다형적 Functor 읽기: Kind, Cat, FunctorOf부터 Cofree와 튜플까지</h1>
+<p data-publication-metadata="true">해설 대상 원문: Iceland_jack, <a href="https://beila.github.io/my-collection/reddit-discussion/eoo16m.html">“base: Category polymorphic Functor and FunctorOf”</a></p>
+<p data-publication-metadata="true">검토일: <time datetime="2026-10-30">2026-10-30</time></p>
+<p data-publication-metadata="true">EPUB 전자책: <a href="https://beila.github.io/my-collection/annotated-explanations/base-category-polymorphic-functor-and-functorof-2046124286/base-category-polymorphic-functor-and-functorof-2046124286.epub">범주 다형적 Functor 읽기 EPUB</a></p>
+<h2 id="이-문서에서-설명하는-내용">이 문서에서 설명하는 내용</h2>
+<p>원문은 Haskell의 <code>Functor</code>를 단순히 <code>Type -&gt; Type</code>인 타입 생성자에만 적용하지 않고, 서로 다른 객체 kind와 서로 다른 화살표를 가진 범주 사이에도 적용할 수 있도록 일반화하자고 제안합니다. 핵심 발상은 기존 <code>fmap</code> 타입에 두 번 나타나는 함수 화살표 <code>(-&gt;)</code>를 <code>Dom f</code>와 <code>Cod f</code>라는 연관 타입으로 바꾸는 것입니다.</p>
+<pre class="haskell"><code>fmap :: Dom f a b -&gt; Cod f (f a) (f b)</code></pre>
+<p>이 제안을 이해하려면 세 층위를 구분해야 합니다.</p>
+<ul>
+<li><code>Type</code>, <code>Constraint</code>, <code>Type -&gt; Type</code> 같은 표현은 타입과 제약의 <strong>kind</strong>를 설명합니다.</li>
+<li><code>Cat i</code>는 객체 kind가 <code>i</code>일 때 사상 타입 생성자가 가져야 할 <strong>모양</strong>을 설명합니다.</li>
+<li><code>Category cat</code>은 그 사상 생성자에 항등 사상과 합성이 있다는 <strong>구조와 법칙</strong>을 요구합니다.</li>
+</ul>
+<p>원문의 코드는 완성된 라이브러리 설계라기보다 탐색 중인 제안입니다. 기존 <code>Functor</code>의 형태를 복원하는 부분은 설명할 수 있지만, <code>&lt;$</code>, 고차 kind의 기본 화살표, 자동 인스턴스에 필요한 제약은 미완성으로 남아 있습니다. 현재 <code>base</code>도 여전히 <a href="https://hackage.haskell.org/package/base/docs/Data-Functor.html"><code>Functor (f :: Type -&gt; Type)</code></a>를 사용하므로, 이 제안은 기존 클래스를 대체하는 설계로 채택되지 않았습니다.</p>
+<h2 id="먼저-알아야-할-공통-개념">먼저 알아야 할 공통 개념</h2>
+<h3 id="kind는-타입의-타입입니다">Kind는 타입의 타입입니다</h3>
+<p>값에 타입이 있듯이 타입과 타입 생성자에는 kind가 있습니다. 다음 예에서 왼쪽 항목이 오른쪽 kind를 가집니다.</p>
+<pre class="haskell"><code>Int       :: Type
+Maybe     :: Type -&gt; Type
+Either    :: Type -&gt; Type -&gt; Type
+Functor   :: (Type -&gt; Type) -&gt; Constraint</code></pre>
+<p><code>Type</code>은 일반적인 값 타입을 분류하는 kind입니다. <code>Constraint</code>는 타입 검사기가 요구하는 제약을 분류하는 kind입니다. 따라서 <code>Functor Maybe</code>는 런타임 값을 담는 타입이 아니라, <code>Maybe</code>에 <code>Functor</code> 인스턴스가 있어야 한다는 조건입니다. 이 구분은 <a href="https://hackage.haskell.org/package/base/docs/Data-Kind.html"><code>Data.Kind</code></a>와 <a href="https://downloads.haskell.org/ghc/latest/docs/users_guide/exts/constraint_kind.html">GHC의 <code>Constraint</code> kind 설명</a>에서 확인할 수 있습니다.</p>
+<p>화살표는 오른쪽으로 결합합니다.</p>
+<pre class="text"><code>Type -&gt; Type -&gt; Type
+= Type -&gt; (Type -&gt; Type)</code></pre>
+<p>따라서 두 인자를 받는 <code>Either</code>에 첫 인자만 주면 <code>Either e :: Type -&gt; Type</code>이 됩니다. 기존 <code>Functor</code>가 다인자 타입 생성자의 마지막 인자를 사상시키는 이유도 이 부분 적용 뒤의 kind가 <code>Type -&gt; Type</code>이기 때문입니다.</p>
+<h3 id="객체-사상-cat-category">객체, 사상, <code>Cat</code>, <code>Category</code></h3>
+<p>범주(category)는 객체와 객체 사이의 사상(<code>morphism</code>), 항등 사상, 사상 합성으로 이루어진 구조입니다. Haskell에서는 객체를 어떤 kind의 타입으로, 사상을 두 객체를 받아 값 타입을 만드는 타입 생성자로 표현할 수 있습니다.</p>
+<p>원문이 바탕으로 삼은 Edward Kmett의 코드에는 다음 별칭이 있습니다.</p>
+<pre class="haskell"><code>type Cat i = i -&gt; i -&gt; Type</code></pre>
+<p>따라서 <code>Cat Type</code>은 <code>Type</code>인 객체 두 개를 받아 그 사이의 사상 타입을 만드는 형태입니다. 보통 함수 화살표는 다음 형태를 가집니다.</p>
+<pre class="haskell"><code>(-&gt;) :: Type -&gt; Type -&gt; Type</code></pre>
+<p>즉 <code>(-&gt;) :: Cat Type</code>이라고 읽을 수 있습니다. 그러나 이 kind만 안다고 해서 항등 사상과 합성이 생기지는 않습니다. <a href="https://hackage.haskell.org/package/base/docs/Control-Category.html"><code>Control.Category.Category</code></a>는 <code>cat :: k -&gt; k -&gt; Type</code>인 사상 생성자에 <code>id</code>와 <code>(.)</code>를 제공하고 범주 법칙을 요구하는 클래스입니다.</p>
+<p>요약하면 <code>Cat i</code>는 사상 생성자의 입력과 출력 <strong>형태</strong>이고, <code>Category cat</code>은 특정 <code>cat</code>이 범주로 작동하는 데 필요한 <strong>연산과 법칙</strong>입니다. 원문이 링크한 Kmett의 <code>Category</code>는 <code>base</code>의 클래스보다 더 많은 구조를 포함합니다. 원문은 어느 정의 전체를 전제하는지 명확히 고정하지 않으므로, 두 클래스의 세부 구조가 같다고 단정하면 안 됩니다.</p>
+<h3 id="기존-functor는-hask의-endofunctor입니다">기존 <code>Functor</code>는 Hask의 Endofunctor입니다</h3>
+<p>일반적인 범주론의 functor는 원천 범주의 객체와 사상을 목표 범주의 객체와 사상으로 보내며, 항등과 합성을 보존합니다. 기존 Haskell <code>Functor</code>는 다음과 같습니다.</p>
+<pre class="haskell"><code>class Functor f where
+  fmap :: (a -&gt; b) -&gt; f a -&gt; f b</code></pre>
+<p>객체를 Haskell 타입으로 보고 사상을 Haskell 함수로 보는 범주를 관용적으로 <strong>Hask</strong>라고 부릅니다. 위 타입에서 <code>f :: Type -&gt; Type</code>은 객체를 Hask에서 Hask로 보내고, <code>fmap</code>은 함수 <code>a -&gt; b</code>를 함수 <code>f a -&gt; f b</code>로 보냅니다. 원천과 목표가 같은 범주이므로 endofunctor라고 부릅니다.</p>
+<p>이 설명은 실용적인 교육적 단순화입니다. Haskell에는 비종료와 <code>seq</code>가 있으므로 Hask를 집합과 전함수의 범주와 완전히 같다고 말하려면 별도의 의미론적 주의가 필요합니다.</p>
+<h3 id="원문의-범주-다형적-functor">원문의 범주 다형적 <code>Functor</code></h3>
+<p>원문의 중심 정의는 다음과 같습니다.</p>
+<pre class="haskell"><code>type Functor :: (from -&gt; to) -&gt; Constraint
+
+class (Category (Dom f), Category (Cod f)) =&gt; Functor (f :: from -&gt; to) where
+ type Dom f :: Cat from
+ type Cod f :: Cat to
+ fmap :: Dom f a b -&gt; Cod f (f a) (f b)</code></pre>
+<p>여기서 역할은 다음과 같습니다.</p>
+<ul>
+<li><code>f :: from -&gt; to</code>는 원천 객체를 목표 객체로 보냅니다.</li>
+<li><code>Dom f :: Cat from</code>은 원천 객체 사이의 사상 생성자입니다.</li>
+<li><code>Cod f :: Cat to</code>는 목표 객체 사이의 사상 생성자입니다.</li>
+<li><code>fmap</code>은 <code>Dom f a b</code>라는 원천 사상을 <code>Cod f (f a) (f b)</code>라는 목표 사상으로 보냅니다.</li>
+</ul>
+<p>기존 <code>Functor</code>는 <code>from ~ Type</code>, <code>to ~ Type</code>, <code>Dom f ~ (-&gt;)</code>, <code>Cod f ~ (-&gt;)</code>인 특수 사례가 됩니다. 원문의 <code>FunctorOf</code>는 이 두 화살표를 제약식에 드러내기 위한 이름입니다.</p>
+<pre class="haskell"><code>class (Functor f, dom ~ Dom f, cod ~ Cod f) =&gt; FunctorOf dom cod f
+instance (Functor f, dom ~ Dom f, cod ~ Cod f) =&gt; FunctorOf dom cod f</code></pre>
+<p>이 정의는 새로운 <code>fmap</code> 구현을 만들지 않습니다. <code>FunctorOf dom cod f</code>는 <code>Functor f</code>이면서 <code>Dom f</code>가 <code>dom</code>이고 <code>Cod f</code>가 <code>cod</code>라는 조건을 한 번에 표현합니다.</p>
+<h2 id="하이라이트와-메모별-해설">하이라이트와 메모별 해설</h2>
+<h3 id="type-instance는-열린-타입-패밀리의-식을-추가합니다"><code>type instance</code>는 열린 타입 패밀리의 식을 추가합니다</h3>
+<p><strong>하이라이트:</strong> <code>type instance</code></p>
+<p><strong>원문 문맥:</strong></p>
+<pre class="haskell"><code>type (--&gt;) :: Cat ob
+
+type family   (--&gt;)
+type instance (--&gt;) @Type = (-&gt;)</code></pre>
+<p><code>type family</code>는 타입 수준 함수를 선언합니다. 열린 타입 패밀리(open type family)는 선언과 별도의 위치에서 입력별 식을 추가할 수 있습니다. <code>type instance</code>는 그 식 하나를 정의하는 문법입니다.</p>
+<p>위 코드는 먼저 <code>(--&gt;)</code>라는 타입 패밀리를 선언하고, 객체 kind가 <code>Type</code>인 경우에는 결과를 함수 화살표 <code>(-&gt;)</code>로 정합니다.</p>
+<pre class="haskell"><code>(--&gt;) @Type  ==&gt;  (-&gt;)</code></pre>
+<p>여기서 <code>type instance</code>는 클래스 인스턴스나 값 수준 함수 정의가 아닙니다. 타입 검사 중에 타입 식을 환원하는 규칙입니다. 열린 타입 패밀리와 그 인스턴스 문법은 <a href="https://downloads.haskell.org/ghc/latest/docs/users_guide/exts/type_families.html">GHC User’s Guide의 Type families 절</a>에 설명되어 있습니다.</p>
+<p>또한 이 식은 모든 객체 kind에 대한 포괄 기본값이 아닙니다. 원문이 실제로 제시한 식은 <code>Type</code>에 대해서만 환원됩니다. 예를 들어 <code>(--&gt;) @(Type -&gt; Type)</code>에는 별도의 식이 필요합니다.</p>
+<h3 id="숨은-kind-인자를-지정하는-type">숨은 kind 인자를 지정하는 <code>@Type</code></h3>
+<p><strong>하이라이트:</strong> <code>@Type</code></p>
+<p><strong>원문 문맥:</strong></p>
+<pre class="haskell"><code>type instance (--&gt;) @Type = (-&gt;)</code></pre>
+<p><code>@Type</code>은 가시적 타입 적용(visible type application)을 kind 인자에 사용한 표현입니다. <code>read @Int</code>가 추론될 타입 인자를 <code>Int</code>로 지정하듯이, <code>(--&gt;) @Type</code>은 <code>(--&gt;)</code>의 숨은 객체 kind 인자를 <code>Type</code>으로 지정합니다.</p>
+<p><code>type family (--&gt;)</code>의 선언 arity는 0이지만, standalone kind signature의 <code>Cat ob</code> 때문에 숨은 객체 kind 인자 <code>ob</code>를 받습니다. <code>@Type</code>은 바로 그 숨은 인자를 지정합니다.</p>
+<p>첫 선언을 풀어 생각하면 <code>(--&gt;)</code>에는 다음과 같은 kind 매개변수가 숨어 있습니다.</p>
+<pre class="haskell"><code>(--&gt;) :: forall ob. Cat ob</code></pre>
+<p>그러므로 <code>(--&gt;) @Type</code>은 <code>Cat Type</code>, 즉 <code>Type -&gt; Type -&gt; Type</code> 형태의 사상 생성자를 선택합니다. 그 결과를 <code>(-&gt;)</code>로 정의한 것이 해당 <code>type instance</code>입니다. 관련 문법은 <a href="https://downloads.haskell.org/ghc/latest/docs/users_guide/exts/type_applications.html">GHC의 Visible type application 설명</a>과 <a href="https://downloads.haskell.org/ghc/latest/docs/users_guide/exts/poly_kinds.html">kind 다형성 및 standalone kind signature 설명</a>에서 확인할 수 있습니다.</p>
+<h3 id="기본-dom과-cod가-기존-fmap을-복원하는-과정">기본 <code>Dom</code>과 <code>Cod</code>가 기존 <code>fmap</code>을 복원하는 과정</h3>
+<p><strong>하이라이트:</strong> <code>With default definitions Dom f = (--&gt;) and Cod f = (--&gt;) this works as a drop-in replacement for old Functor.</code></p>
+<p><strong>원문 문맥:</strong></p>
+<pre class="text"><code>With default definitions Dom f = (--&gt;) and Cod f = (--&gt;) this works as a drop-in replacement for old Functor. Except for ..</code></pre>
+<p><strong>사용자 메모:</strong> How does it work?</p>
+<p>원문의 주장은 연관 타입 기본값과 열린 타입 패밀리 환원을 결합한다는 뜻입니다. 클래스에 다음 기본 식이 있다고 가정합니다.</p>
+<pre class="haskell"><code>type Dom f = (--&gt;)
+type Cod f = (--&gt;)</code></pre>
+<p>기존 타입 생성자 <code>f :: Type -&gt; Type</code>에 대한 환원 과정은 다음과 같습니다.</p>
+<ol type="1">
+<li><code>f</code>의 입력과 출력 객체 kind는 모두 <code>Type</code>입니다.</li>
+<li>인스턴스가 <code>Dom f</code>와 <code>Cod f</code>를 별도로 정의하지 않으면 연관 타입 기본값이 사용됩니다.</li>
+<li>두 기본값의 숨은 객체 kind는 문맥에 따라 <code>Type</code>으로 정해집니다.</li>
+<li><code>(--&gt;) @Type</code>은 <code>type instance (--&gt;) @Type = (-&gt;)</code>에 따라 <code>(-&gt;)</code>로 환원됩니다.</li>
+<li>일반화된 <code>fmap</code>은 기존 타입으로 특수화됩니다.</li>
+</ol>
+<pre class="haskell"><code>fmap :: Dom f a b -&gt; Cod f (f a) (f b)
+     :: (a -&gt; b)   -&gt; (f a -&gt; f b)</code></pre>
+<p>따라서 다음과 같은 기존 인스턴스의 소스 형태를 유지할 수 있다는 주장입니다.</p>
+<pre class="haskell"><code>instance Functor [] where
+  fmap = map</code></pre>
+<p>연관 타입의 기본 식과 생략 시의 선택 규칙은 <a href="https://downloads.haskell.org/ghc/latest/docs/users_guide/exts/type_families.html#associated-type-synonym-defaults">GHC의 Associated type synonym defaults 설명</a>에서 확인할 수 있습니다.</p>
+<p>다만 “drop-in replacement”는 제한적인 표현입니다. 바로 다음 절의 <code>&lt;$</code> 기본 구현은 일반 범주에서 성립하지 않으며, 핵심 클래스를 교체하면 라이브러리 호환성, 타입 추론, 오류 메시지에도 영향을 줍니다. 수집된 두 댓글도 기존 클래스를 교체하기보다 별도 <code>CategoricalFunctor</code> 계열 클래스를 두는 방안을 선호합니다. 따라서 위 환원은 기존 <code>fmap</code> 타입을 복원하는 방법이지, 생태계 전체가 변경 없이 호환된다는 증명은 아닙니다.</p>
+<h3 id="functorof----는-hask에서-hask로-가는-경우를-명시합니다"><code>FunctorOf (-&gt;) (-&gt;)</code>는 Hask에서 Hask로 가는 경우를 명시합니다</h3>
+<p><strong>하이라이트:</strong> <code>a functor from Hask to Hask (FunctorOf (-&gt;) (-&gt;))</code></p>
+<p><strong>원문 문맥:</strong></p>
+<blockquote>
+<p>A very useful 'notation' for thinking about functors, we can express that our old functor is actually a functor from Hask to Hask (FunctorOf (-&gt;) (-&gt;)) aka an EndoFunctorOf (-&gt;):</p>
+</blockquote>
+<p><code>FunctorOf (-&gt;) (-&gt;) f</code>는 대략 다음 세 조건을 묶은 제약입니다.</p>
+<pre class="haskell"><code>Functor f
+Dom f ~ (-&gt;)
+Cod f ~ (-&gt;)</code></pre>
+<p>즉 <code>f</code>가 functor이며, 입력 사상과 출력 사상이 모두 Haskell 함수라는 뜻입니다. <code>FunctorOf</code>는 별도의 사상 연산을 추가하지 않고, <code>f</code>에 이미 연결된 <code>Dom</code>과 <code>Cod</code>를 사람이 읽기 쉬운 제약 형태로 노출합니다.</p>
+<p><code>EndoFunctorOf cat = FunctorOf cat cat</code>은 원천과 목표가 같은 경우에 붙인 별칭입니다. 그러므로 기존 <code>Functor</code>를 <code>EndoFunctorOf (-&gt;)</code>로 표현할 수 있다는 것이 원문의 요지입니다.</p>
+<h3 id="는-컴파일-시간의-타입-동등성-제약입니다"><code>~</code>는 컴파일 시간의 타입 동등성 제약입니다</h3>
+<p><strong>하이라이트:</strong> <code>~</code></p>
+<p><strong>원문 문맥:</strong></p>
+<pre class="haskell"><code>class    (Functor f, dom ~ Dom f, cod ~ Cod f) =&gt; FunctorOf dom cod f</code></pre>
+<p>이 항목의 <code>~</code>는 <code>dom ~ Dom f</code>에 나타나는 타입 동등성 제약입니다. 양쪽 타입이 같아야 해당 제약이 만족됩니다.</p>
+<pre class="haskell"><code>dom ~ Dom f
+cod ~ Cod f</code></pre>
+<p>따라서 호출자가 <code>FunctorOf dom cod f</code>를 요구하면 <code>dom</code>과 <code>cod</code>를 임의로 고를 수 없습니다. 각각 <code>f</code>의 연관 타입인 <code>Dom f</code>, <code>Cod f</code>와 같아야 합니다. <code>(~) :: forall k. k -&gt; k -&gt; Constraint</code>이므로 비교하는 양쪽은 같은 kind여야 합니다. 자세한 의미는 <a href="https://downloads.haskell.org/ghc/latest/docs/users_guide/exts/equality_constraints.html">GHC의 Equality constraints 설명</a>에서 확인할 수 있습니다.</p>
+<p>비슷해 보이는 기호는 구분해야 합니다.</p>
+<ul>
+<li><code>a ~ b</code>는 타입 검사기가 해결하는 동등성 제약입니다.</li>
+<li><code>a :~: b</code>는 <code>Refl</code>을 패턴 매치할 수 있는 값 수준 증거 타입입니다. <a href="https://hackage.haskell.org/package/base/docs/Data-Type-Equality.html"><code>Data.Type.Equality</code></a>에 정의되어 있습니다.</li>
+<li><code>f ~&gt; g</code>는 이 원문에서 자연 변환을 나타내려는 사용자 정의 연산자로 해석됩니다.</li>
+</ul>
+<h3 id="요구-조건의-kind인-constraint">요구 조건의 kind인 <code>Constraint</code></h3>
+<p><strong>하이라이트:</strong> <code>Constraint</code></p>
+<p><strong>원문 문맥:</strong></p>
+<pre class="haskell"><code>type FunctorOf :: Cat from -&gt; Cat to -&gt; (from-&gt;to) -&gt; Constraint</code></pre>
+<p>이 standalone kind signature는 <code>FunctorOf</code>가 두 사상 생성자와 객체 매핑 <code>f</code>를 받은 뒤 <code>Constraint</code>를 만든다고 말합니다.</p>
+<pre class="haskell"><code>FunctorOf dom cod f :: Constraint</code></pre>
+<p>따라서 <code>FunctorOf dom cod f</code>는 <code>Int</code>나 <code>Maybe String</code>처럼 값을 분류하는 타입이 아닙니다. 함수의 context나 인스턴스 선언에서 타입 검사기가 만족시켜야 할 조건입니다.</p>
+<pre class="haskell"><code>example :: FunctorOf dom cod f =&gt; ...</code></pre>
+<p><code>Type</code>과 <code>Constraint</code>의 차이는 <a href="https://hackage.haskell.org/package/base/docs/Data-Kind.html"><code>Data.Kind</code></a>와 <a href="https://downloads.haskell.org/ghc/latest/docs/users_guide/exts/constraint_kind.html">GHC의 <code>Constraint</code> kind 설명</a>에서 확인할 수 있습니다.</p>
+<h3 id="cat은-사상-생성자의-모양이고-category는-구조와-법칙입니다"><code>Cat</code>은 사상 생성자의 모양이고 <code>Category</code>는 구조와 법칙입니다</h3>
+<p><strong>하이라이트:</strong> <code>Cat</code></p>
+<p><strong>원문 문맥:</strong></p>
+<pre class="haskell"><code>type FunctorOf :: Cat from -&gt; Cat to -&gt; (from-&gt;to) -&gt; Constraint</code></pre>
+<p><strong>사용자 메모:</strong> How is this different from Category?</p>
+<p><code>Cat</code>과 <code>Category</code>는 서로 다른 층위에 있습니다. 원문이 참조한 코드에서 <code>Cat</code>은 다음 타입 별칭입니다.</p>
+<pre class="haskell"><code>type Cat i = i -&gt; i -&gt; Type</code></pre>
+<p><code>Cat i</code>는 객체 kind <code>i</code>에 속한 객체 두 개를 받아 사상 타입을 만드는 타입 생성자의 모양입니다. 예를 들어 <code>(-&gt;) :: Cat Type</code>입니다.</p>
+<p>반면 <code>Category cat</code>은 특정 사상 생성자 <code>cat</code>이 다음 연산을 제공하고 범주 법칙을 만족해야 한다는 클래스 제약입니다.</p>
+<pre class="haskell"><code>id  :: cat a a
+(.) :: cat b c -&gt; cat a b -&gt; cat a c</code></pre>
+<p>따라서 차이는 다음처럼 정리할 수 있습니다.</p>
+<pre class="text"><code>Cat i       : “사상 생성자가 어떤 kind를 가져야 하는가?”
+Category c  : “이 사상 생성자에 항등과 합성의 범주 구조가 있는가?”</code></pre>
+<p><code>c :: Cat i</code>라고 안다고 해서 <code>Category c</code>가 자동으로 성립하지는 않습니다. <code>Category c</code> 인스턴스가 별도로 있어야 합니다. 현재 <code>base</code>의 정의와 법칙은 <a href="https://hackage.haskell.org/package/base/docs/Control-Category.html"><code>Control.Category</code></a>에서 확인할 수 있고, 원문이 직접 참조한 <code>Cat</code> 별칭은 <a href="https://gist.github.com/ekmett/b26363fc0f38777a637d">Edward Kmett의 <code>Categories.hs</code></a>에 있습니다.</p>
+<h3 id="const가-임의의-원천-범주에서는-사상이-아닙니다"><code>const</code>가 임의의 원천 범주에서는 사상이 아닙니다</h3>
+<p><strong>하이라이트:</strong> <code>const</code></p>
+<p><strong>원문 문맥:</strong></p>
+<pre class="haskell"><code>(&lt;$) = fmap . const</code></pre>
+<p>기존 <code>Functor</code>에서 타입은 다음과 같습니다.</p>
+<pre class="haskell"><code>const :: a -&gt; b -&gt; a
+(&lt;$)  :: Functor f =&gt; a -&gt; f b -&gt; f a</code></pre>
+<p>값 <code>x :: a</code>를 고정하면 <code>const x :: b -&gt; a</code>가 됩니다. 기존 <code>fmap</code>은 <code>(b -&gt; a)</code>를 입력으로 받을 수 있으므로 다음 합성이 성립합니다.</p>
+<pre class="haskell"><code>fmap . const</code></pre>
+<p>그러나 범주 다형적 <code>Functor</code>의 <code>fmap</code>은 <code>(b -&gt; a)</code>가 아니라 다음 사상을 요구합니다.</p>
+<pre class="haskell"><code>fmap :: Dom f b a -&gt; Cod f (f b) (f a)</code></pre>
+<p><code>const x</code>는 항상 Haskell 함수, 즉 <code>(-&gt;)</code> 범주의 사상입니다. <code>Dom f</code>가 <code>(-&gt;)</code>가 아닌 범주라면 <code>const x</code>를 <code>fmap</code>에 전달할 수 없습니다.</p>
+<p>더 근본적으로 임의의 범주에는 “입력을 버리고 지정한 값으로 보내는 사상”이 자동으로 존재하지 않습니다. 그런 연산을 일반화하려면 terminal object나 Cartesian 구조처럼 더 강한 범주 구조가 필요할 수 있습니다. 그래서 원문은 <code>&lt;$</code>를 별도 클래스로 분리할지, 더 강한 제약 아래에서만 제공할지 결정하지 못했다고 말합니다. 어느 한 해결책이 이 글에서 확정된 것은 아닙니다. 현재 타입은 <a href="https://hackage.haskell.org/package/base/docs/Data-Function.html"><code>Data.Function.const</code></a>와 <a href="https://hackage.haskell.org/package/base/docs/Data-Functor.html"><code>Data.Functor</code></a>에서 확인할 수 있습니다.</p>
+<h3 id="profunctor는-두-인자의-반대-변성을-함께-다룹니다"><code>Profunctor</code>는 두 인자의 반대 변성을 함께 다룹니다</h3>
+<p><strong>하이라이트:</strong> <code>Profunctor</code></p>
+<p><strong>원문 문맥:</strong></p>
+<blockquote>
+<p>We have Functor, Bifunctor and Contravariant. We are aching for Profunctor to be added to base.</p>
+</blockquote>
+<p><code>Profunctor p</code>는 보통 <code>p :: Type -&gt; Type -&gt; Type</code>인 타입 생성자의 첫 인자를 반변적으로, 둘째 인자를 공변적으로 사상시킵니다.</p>
+<pre class="haskell"><code>dimap :: (a -&gt; b) -&gt; (c -&gt; d) -&gt; p b c -&gt; p a d</code></pre>
+<p>첫 함수의 방향을 보면 입력이 <code>a -&gt; b</code>인데 <code>p</code>의 첫 자리는 <code>b</code>에서 <code>a</code>로 바뀝니다. 둘째 자리는 <code>c -&gt; d</code>와 같은 방향으로 바뀝니다. <a href="https://hackage.haskell.org/package/profunctors/docs/Data-Profunctor.html"><code>Data.Profunctor</code></a>가 이 인터페이스를 정의합니다.</p>
+<p>원문이 <code>Functor</code>, <code>Bifunctor</code>, <code>Contravariant</code>, <code>Profunctor</code>를 함께 언급한 이유는 변성의 조합마다 별도 클래스가 생기는 상황을 문제로 보기 때문입니다. 범주와 화살표를 매개변수화한 하나의 <code>Functor</code> 개념으로 더 많은 경우를 표현하려는 것이 제안의 동기입니다.</p>
+<p>다만 원문이 말한 당시의 “<code>Profunctor</code>를 <code>base</code>에 추가하려는 움직임”의 규모나 공식 상태는 제공된 자료만으로 확정할 수 없습니다. 현재도 <code>Profunctor</code>는 <a href="https://hackage.haskell.org/package/profunctors"><code>profunctors</code>라는 별도 패키지</a>에 있습니다.</p>
+<h3 id="cofreett-tt는-자연-변환을-자연-변환으로-올리는-예입니다"><code>Cofree::TT-&gt;TT</code>는 자연 변환을 자연 변환으로 올리는 예입니다</h3>
+<p><strong>하이라이트:</strong> <code>Cofree::TT-&gt;TT</code></p>
+<p><strong>원문 문맥:</strong></p>
+<blockquote>
+<p>Instead of hoistCofree for Cofree::TT-&gt;TT we use the same abstraction:</p>
+</blockquote>
+<p>원문은 <code>T</code>, <code>TT</code>, <code>(~&gt;)</code>를 직접 정의하지 않습니다. 문맥상 다음 축약으로 읽는 것이 일관됩니다.</p>
+<pre class="text"><code>T  = Type
+TT = Type -&gt; Type</code></pre>
+<p>그러면 <code>Cofree</code>의 kind는 다음과 같습니다.</p>
+<pre class="haskell"><code>Cofree :: (Type -&gt; Type) -&gt; Type -&gt; Type</code></pre>
+<p>화살표가 오른쪽으로 결합하므로 이를 다음처럼 읽을 수 있습니다.</p>
+<pre class="text"><code>Cofree :: TT -&gt; TT</code></pre>
+<p>또한 원문을 해석하기 위한 의사 표기로 <code>f ~&gt; g</code>를 다음처럼 읽을 수 있습니다.</p>
+<pre class="text"><code>f ~&gt; g  =  모든 x에 대한 함수 f x -&gt; g x</code></pre>
+<p>이는 원문에 실제 선언된 독립적인 Haskell 코드가 아니라 자연 변환의 의미를 간단히 나타낸 표기입니다.</p>
+<p>공식 <code>free</code> 패키지의 <code>hoistCofree</code>는 개략적으로 다음 타입을 가집니다.</p>
+<pre class="haskell"><code>hoistCofree
+  :: Functor f
+  =&gt; (forall x. f x -&gt; g x)
+  -&gt; Cofree f a
+  -&gt; Cofree g a</code></pre>
+<p>첫 인자를 <code>f ~&gt; g</code>로 보면 결과도 모든 <code>a</code>에 대해 <code>Cofree f a -&gt; Cofree g a</code>이므로 <code>Cofree f ~&gt; Cofree g</code>입니다. 원문은 이 전용 함수의 작동을 다음 하나의 일반화된 functor 제약으로 표현하고 싶어 합니다.</p>
+<pre class="haskell"><code>FunctorOf (~&gt;) (~&gt;) Cofree</code></pre>
+<p>즉 원천 사상도 자연 변환이고 목표 사상도 자연 변환인 functor라는 뜻입니다. 실제 타입과 설명은 <a href="https://hackage.haskell.org/package/free/docs/Control-Comonad-Cofree.html"><code>Control.Comonad.Cofree</code></a>에서 확인할 수 있습니다.</p>
+<p>이 해석은 문맥상 가장 자연스럽지만, 원문에 <code>T</code>, <code>TT</code>, <code>(~&gt;)</code>의 정의가 없다는 점은 남습니다. 특히 목표 범주가 comonad 구조까지 보존하는지와 단순히 Haskell 타입에서 자연 변환으로 보이는지는 구분해야 합니다.</p>
+<p>원문의 바로 앞 <code>Fix</code> 예도 같은 패턴의 companion 사례입니다. <code>Fix</code>는 자연 변환을 Haskell 함수로 보내는 경우이며, 뒤의 “제안의 장점과 남은 설계 문제” 절에서 함께 설명합니다.</p>
+<h3 id="다섯-튜플-인스턴스는-각-부분-적용-단계의-다음-인자를-사상시킵니다">다섯 튜플 인스턴스는 각 부분 적용 단계의 다음 인자를 사상시킵니다</h3>
+<p><strong>하이라이트:</strong></p>
+<pre class="haskell"><code>instance Functor @T @TTTTT  (,,,,)
+instance Functor @T @TTTT  ((,,,,) a)
+instance Functor @T @TTT   ((,,,,) a b)
+instance Functor @T @TT    ((,,,,) a b c)
+instance Functor @T @T     ((,,,,) a b c d)</code></pre>
+<p><strong>원문 문맥:</strong></p>
+<blockquote>
+<p>It allows us to define functoriality in any arguments</p>
+<p>It's possible we can get them automatically from a single Functor (,,,,) instance with a clever definition of</p>
+</blockquote>
+<p><code>(,,,,)</code>는 다섯 타입 인자를 받아 5-튜플 타입을 만드는 생성자입니다. 원문의 축약을 다음처럼 해석할 수 있습니다.</p>
+<pre class="text"><code>T      = Type
+TT     = Type -&gt; Type
+TTT    = Type -&gt; Type -&gt; Type
+TTTT   = Type -&gt; Type -&gt; Type -&gt; Type
+TTTTT  = Type -&gt; Type -&gt; Type -&gt; Type -&gt; Type</code></pre>
+<p>각 줄의 의도는 다음과 같습니다.</p>
+<table>
+<thead>
+<tr>
+<th>인스턴스 머리</th>
+<th>이미 고정한 인자</th>
+<th>다음에 사상시키려는 인자</th>
+<th>객체 매핑의 개략 kind</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>(,,,,)</code></td>
+<td>없음</td>
+<td>첫째</td>
+<td><code>T -&gt; TTTTT</code></td>
+</tr>
+<tr>
+<td><code>((,,,,) a)</code></td>
+<td>첫째</td>
+<td>둘째</td>
+<td><code>T -&gt; TTTT</code></td>
+</tr>
+<tr>
+<td><code>((,,,,) a b)</code></td>
+<td>첫째와 둘째</td>
+<td>셋째</td>
+<td><code>T -&gt; TTT</code></td>
+</tr>
+<tr>
+<td><code>((,,,,) a b c)</code></td>
+<td>첫째부터 셋째</td>
+<td>넷째</td>
+<td><code>T -&gt; TT</code></td>
+</tr>
+<tr>
+<td><code>((,,,,) a b c d)</code></td>
+<td>첫째부터 넷째</td>
+<td>다섯째</td>
+<td><code>T -&gt; T</code></td>
+</tr>
+</tbody>
+</table>
+<p>현재 <code>base</code>의 <code>Functor</code>는 <code>Type -&gt; Type</code>만 받으므로 마지막 행만 직접 표현할 수 있습니다. <a href="https://hackage.haskell.org/package/base/docs/Data-Functor.html"><code>Data.Functor</code></a>도 다인자 생성자에서 마지막 타입 인자를 바꾸는 동작으로 설명합니다. 두 인자를 함께 공변적으로 다루려면 별도 <a href="https://hackage.haskell.org/package/base/docs/Data-Bifunctor.html"><code>Bifunctor</code></a>를 사용합니다.</p>
+<p>원문의 일반화는 <code>from</code>과 <code>to</code>를 kind 다형적으로 만들어 각 부분 적용 단계에 같은 <code>Functor</code> 클래스 이름을 사용하려는 것입니다. 이 목록은 한 번의 <code>fmap</code>으로 다섯 필드를 동시에 바꾼다는 뜻이 아닙니다. 각 줄은 서로 다른 부분 적용 상태에서 “다음 인자”를 바꾸는 functor 구조입니다.</p>
+<p>여기에는 중요한 미완성 부분도 있습니다. 첫 줄의 목표 객체 kind는 <code>TTTTT</code>이므로 기본 화살표를 쓰려면 <code>(--&gt;) @TTTTT</code>가 환원되어야 합니다. 그러나 원문이 실제로 정의한 식은 다음 하나뿐입니다.</p>
+<pre class="haskell"><code>type instance (--&gt;) @Type = (-&gt;)</code></pre>
+<p>따라서 고차 kind에 대한 추가 화살표 식이나 각 인스턴스의 명시적인 <code>Cod</code> 정의가 필요합니다. 원문이 참조한 <a href="https://gist.github.com/ekmett/b26363fc0f38777a637d">Edward Kmett의 <code>Categories.hs</code></a>는 비슷한 경우에 <code>Nat (-&gt;) (-&gt;)</code> 같은 자연 변환 범주를 사용합니다. 제시된 다섯 줄만으로 완성된 컴파일 가능 설계가 되지는 않습니다.</p>
+<h3 id="마지막-는-생략된-제약을-나타내는-placeholder입니다">마지막 <code>..</code>는 생략된 제약을 나타내는 Placeholder입니다</h3>
+<p><strong>하이라이트:</strong> <code>..</code></p>
+<p><strong>원문 문맥:</strong></p>
+<pre class="haskell"><code>instance (Functor f, ..) =&gt; Functor (f a)</code></pre>
+<p>이 위치의 <code>..</code>는 유효한 일반 인스턴스 context 문법이 아닙니다. 저자가 아직 적지 않은 추가 제약을 표시한 의사 코드의 placeholder로 읽어야 합니다.</p>
+<p>앞선 튜플 예를 하나의 <code>Functor (,,,,)</code> 인스턴스에서 자동으로 유도하려면 <code>f</code>와 <code>f a</code>의 kind 관계, 원천과 목표 화살표, 자연 변환 구조, 인스턴스 중복 가능성 등을 정해야 합니다. 원문은 “clever definition”이 가능할 수 있다고 제안할 뿐, 그 제약을 완성하지 않았습니다.</p>
+<p>따라서 이 줄을 그대로 컴파일 가능한 Haskell 코드로 사용하면 안 됩니다. 원문 본문의 문장 부호로 쓰인 다른 <code>..</code>가 아니라, 마지막 코드 블록의 <code>(Functor f, ..)</code> 안에 있는 생략 기호라는 점도 문맥으로 구분해야 합니다.</p>
+<h2 id="제안의-장점과-남은-설계-문제">제안의 장점과 남은 설계 문제</h2>
+<p>이 제안의 장점은 <code>Fix</code>, <code>Cofree</code>, GADT, 타입 동등성 사상처럼 기존 <code>Type -&gt; Type</code>과 <code>(-&gt;)</code>에 맞지 않는 사례를 “다른 클래스의 특수 연산”이 아니라 동일한 functor 개념으로 표현할 가능성을 연다는 점입니다. 예를 들어 <code>Fix :: (Type -&gt; Type) -&gt; Type</code>은 자연 변환을 Haskell 함수로 보내는 다음 형태로 해석할 수 있습니다.</p>
+<pre class="haskell"><code>FunctorOf (~&gt;) (-&gt;) Fix</code></pre>
+<p><a href="https://hackage.haskell.org/package/data-fix/docs/Data-Fix.html"><code>Data.Fix</code></a>의 <code>hoistFix</code>는 이러한 해석을 뒷받침하는 구체적인 연산입니다.</p>
+<p>반면 제안에는 적어도 다음 문제가 남습니다.</p>
+<ul>
+<li><code>&lt;$</code>처럼 <code>(-&gt;)</code>의 특별한 구조에 의존하는 메서드를 일반 <code>Functor</code>에 그대로 둘 수 없습니다.</li>
+<li><code>(--&gt;) @Type = (-&gt;)</code>만으로는 <code>Type -&gt; Type</code> 같은 고차 객체 kind의 기본 사상을 정할 수 없습니다.</li>
+<li><code>Functor (f a)</code>를 자동 유도하는 인스턴스의 정확한 제약과 충돌 조건이 제시되지 않았습니다.</li>
+<li>기존 핵심 클래스를 교체하면 타입이 맞는 일부 소스 코드 외에도 라이브러리 생태계, 오류 메시지, 학습 난이도에 변화가 생깁니다.</li>
+</ul>
+<p>수집된 두 댓글은 이 이유로 기존 <code>Functor</code>를 교체하기보다 별도의 <code>CategoricalFunctor</code>를 두고 기존 <code>Functor</code>마다 일반화된 인스턴스를 제공하는 접근을 제안합니다. 다만 원문에는 전체 29개 토론 중 두 댓글만 수집되어 있으므로, 이를 당시 커뮤니티 전체의 합의로 일반화하면 안 됩니다.</p>
+<h2 id="정리">정리</h2>
+<p>원문의 핵심은 <code>Functor</code>를 “Haskell 함수를 Haskell 함수로 올리는 클래스”에서 “선택한 원천 범주의 사상을 선택한 목표 범주의 사상으로 보내는 클래스”로 일반화하는 것입니다. <code>Dom f</code>와 <code>Cod f</code>가 그 두 사상 생성자를 선택하고, <code>FunctorOf dom cod f</code>가 선택 결과를 제약에 명시합니다.</p>
+<p><code>type instance (--&gt;) @Type = (-&gt;)</code>와 연관 타입 기본값을 함께 사용하면 <code>f :: Type -&gt; Type</code>인 기존 functor의 <code>fmap :: (a -&gt; b) -&gt; f a -&gt; f b</code>를 복원할 수 있습니다. 그러나 이 환원만으로 완전한 호환성이 보장되지는 않습니다. <code>&lt;$</code>의 <code>const</code>, 고차 kind의 화살표, 튜플 인스턴스 자동 유도에는 추가 설계가 필요합니다.</p>
+<p>따라서 이 글은 완성된 대체안이라기보다 중요한 설계 질문을 드러내는 제안으로 읽는 편이 정확합니다. 어떤 타입 생성자가 기존 <code>Functor</code>가 될 수 없을 때 “functor가 아니다”라고 끝내지 않고, 객체와 사상으로 어떤 범주를 선택해야 하는지를 먼저 묻게 한다는 점이 가장 큰 개념적 가치입니다.</p>
+<h2 id="참고-자료">참고 자료</h2>
+<ol type="1">
+<li><a href="https://beila.github.io/my-collection/reddit-discussion/eoo16m.html">원문 보존 페이지: base: Category polymorphic Functor and FunctorOf</a> — 게시물과 수집된 토론입니다.</li>
+<li><a href="https://www.reddit.com/r/haskell/comments/eoo16m/base_category_polymorphic_functor_and_functorof/">Reddit 원문 토론</a> — 원 게시물의 토론 위치입니다.</li>
+<li><a href="https://downloads.haskell.org/ghc/latest/docs/users_guide/exts/type_families.html">GHC User’s Guide: Type families</a> — 열린 타입 패밀리, 타입 인스턴스, 연관 타입과 기본 식을 설명합니다.</li>
+<li><a href="https://downloads.haskell.org/ghc/latest/docs/users_guide/exts/type_applications.html">GHC User’s Guide: Visible type application</a> — <code>@Type</code>과 가시적 타입 및 kind 적용을 설명합니다.</li>
+<li><a href="https://downloads.haskell.org/ghc/latest/docs/users_guide/exts/poly_kinds.html">GHC User’s Guide: Kind polymorphism and standalone kind signatures</a> — kind 다형성과 standalone kind signature를 설명합니다.</li>
+<li><a href="https://downloads.haskell.org/ghc/latest/docs/users_guide/exts/constraint_kind.html">GHC User’s Guide: The <code>Constraint</code> kind</a> — <code>Constraint</code>의 의미를 설명합니다.</li>
+<li><a href="https://downloads.haskell.org/ghc/latest/docs/users_guide/exts/equality_constraints.html">GHC User’s Guide: Equality constraints</a> — <code>~</code> 동등성 제약을 설명합니다.</li>
+<li><a href="https://hackage.haskell.org/package/base/docs/Data-Kind.html"><code>Data.Kind</code></a> — <code>Type</code>과 <code>Constraint</code>를 제공합니다.</li>
+<li><a href="https://hackage.haskell.org/package/base/docs/Control-Category.html"><code>Control.Category</code></a> — <code>Category</code>, <code>id</code>, <code>(.)</code>와 범주 법칙을 설명합니다.</li>
+<li><a href="https://hackage.haskell.org/package/base/docs/Data-Functor.html"><code>Data.Functor</code></a> — 현재 <code>Functor</code>, <code>fmap</code>, <code>&lt;$</code>와 functor 법칙을 설명합니다.</li>
+<li><a href="https://hackage.haskell.org/package/base/docs/Data-Function.html"><code>Data.Function</code></a> — <code>const</code>와 함수 합성을 설명합니다.</li>
+<li><a href="https://hackage.haskell.org/package/base/docs/Data-Type-Equality.html"><code>Data.Type.Equality</code></a> — <code>~</code>와 <code>:~:</code>를 구분하는 자료입니다.</li>
+<li><a href="https://hackage.haskell.org/package/base/docs/Data-Bifunctor.html"><code>Data.Bifunctor</code></a> — 두 공변 인자를 사상시키는 클래스를 설명합니다.</li>
+<li><a href="https://hackage.haskell.org/package/base/docs/Data-Functor-Contravariant.html"><code>Data.Functor.Contravariant</code></a> — 반변 functor를 설명합니다.</li>
+<li><a href="https://hackage.haskell.org/package/profunctors/docs/Data-Profunctor.html"><code>Data.Profunctor</code></a> — <code>Profunctor</code>와 <code>dimap</code>을 설명합니다.</li>
+<li><a href="https://hackage.haskell.org/package/profunctors"><code>profunctors</code> 패키지</a> — <code>Profunctor</code>가 제공되는 별도 패키지입니다.</li>
+<li><a href="https://hackage.haskell.org/package/free/docs/Control-Comonad-Cofree.html"><code>Control.Comonad.Cofree</code></a> — <code>Cofree</code>와 <code>hoistCofree</code>를 설명합니다.</li>
+<li><a href="https://hackage.haskell.org/package/data-fix/docs/Data-Fix.html"><code>Data.Fix</code></a> — <code>Fix</code>와 <code>hoistFix</code>를 설명합니다.</li>
+<li><a href="https://gist.github.com/ekmett/b26363fc0f38777a637d">Edward Kmett의 <code>Categories.hs</code></a> — <code>Cat</code>, 범주 다형적 <code>Functor</code>, <code>FunctorOf</code>, 자연 변환 예의 선행 설계입니다.</li>
+</ol>
+</section>
+<footer>
+<p><a href="https://beila.github.io/my-collection/annotated-explanations/base-category-polymorphic-functor-and-functorof-2046124286/">정식 HTML 문서</a></p>
+</footer>
+</article>
+</main>
+</body>
+</html>
+
