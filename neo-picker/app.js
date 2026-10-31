@@ -12,9 +12,9 @@ async function loadPermanentExtension() {
   }
   const release = await response.json();
   if (
-    release.file !== "neo-picker-firefox.xpi"
-    || typeof release.version !== "string"
+    typeof release.version !== "string"
     || !release.version
+    || release.file !== `neo-picker-firefox-${release.version}.xpi`
   ) {
     throw new Error("The permanent Firefox release metadata is invalid.");
   }
