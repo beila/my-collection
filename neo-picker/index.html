@@ -19,13 +19,29 @@
 
       <h2>Firefox Android extension</h2>
       <p>
-        The Firefox extension development package is suitable for temporary
-        developer installation. Permanent installation requires Mozilla
-        signing.
+        Install the Mozilla-signed package once. Firefox checks for signed
+        Neo Picker updates automatically after installation.
+      </p>
+      <div class="actions">
+        <a id="install-extension" href="#" aria-disabled="true">
+          Install permanent Firefox extension
+        </a>
+      </div>
+      <p id="extension-status" role="status">
+        Checking the signed release…
+      </p>
+      <ol>
+        <li>Download the signed XPI in Firefox on the new device.</li>
+        <li>Approve the Firefox add-on installation prompt.</li>
+        <li>Open Instapaper and confirm that the Neo button appears.</li>
+      </ol>
+      <p class="hint">
+        The development ZIP is for temporary USB debugging only. It does not
+        survive a Firefox restart or update.
       </p>
       <div class="actions">
         <a href="neo-picker-firefox-dev.zip" download>
-          Firefox extension development package
+          Download development package
         </a>
       </div>
 

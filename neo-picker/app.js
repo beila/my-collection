@@ -1,7 +1,27 @@
 const install = document.querySelector("#install");
+const installExtension = document.querySelector("#install-extension");
+const extensionStatus = document.querySelector("#extension-status");
 const copy = document.querySelector("#copy");
 const code = document.querySelector("#code");
 const status = document.querySelector("#status");
+
+async function loadPermanentExtension() {
+  const response = await fetch("release.json", {cache: "no-store"});
+  if (!response.ok) {
+    throw new Error("The permanent Firefox package is not published yet.");
+  }
+  const release = await response.json();
+  if (
+    release.file !== "neo-picker-firefox.xpi"
+    || typeof release.version !== "string"
+    || !release.version
+  ) {
+    throw new Error("The permanent Firefox release metadata is invalid.");
+  }
+  installExtension.href = release.file;
+  installExtension.removeAttribute("aria-disabled");
+  extensionStatus.textContent = `Mozilla-signed release ${release.version}`;
+}
 
 async function loadBookmarklet() {
   const response = await fetch("bookmarklet.js", {cache: "no-store"});
@@ -39,4 +59,8 @@ copy.addEventListener("click", () => {
 
 loadBookmarklet().catch((error) => {
   status.textContent = error.message;
+});
+
+loadPermanentExtension().catch((error) => {
+  extensionStatus.textContent = error.message;
 });

@@ -93,6 +93,7 @@ button:disabled,
 }
 
 .hint,
+#extension-status,
 #status {
   margin-top: 1rem;
   color: #b8b1a5;
@@ -100,6 +101,7 @@ button:disabled,
   line-height: 1.5;
 }
 
+#extension-status,
 #status {
   min-height: 1.3em;
   color: #d9b98c;
