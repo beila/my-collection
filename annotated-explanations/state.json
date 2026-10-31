@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-10-21T08:01:46Z",
+  "updated_at": "2026-10-31T00:17:42Z",
   "articles": {
     "1815258460": {
       "slug": "effectful-storage-abstraction-explained",
@@ -207,6 +207,41 @@
         "writer_model": "openai.gpt-5.6-sol",
         "reviewer_model": "inherited-default",
         "generation_model": "openai.gpt-5.6-sol"
+      },
+      "delivery_owner": "scheduler",
+      "kindle_delivery_owner": "user_managed",
+      "deleted_superseded_bookmark_ids": []
+    },
+    "2046124286": {
+      "slug": "base-category-polymorphic-functor-and-functorof-2046124286",
+      "title": "base: Category polymorphic Functor and FunctorOf — 범주 다형적 Functor 읽기: Kind, Cat, FunctorOf부터 Cofree와 튜플까지",
+      "source_title": "base: Category polymorphic Functor and FunctorOf",
+      "article_title": "범주 다형적 Functor 읽기: Kind, Cat, FunctorOf부터 Cofree와 튜플까지",
+      "source_bookmark_id": "2046124286",
+      "cypher_source_bookmark_id": "2046124286",
+      "source_url": "https://beila.github.io/my-collection/reddit-discussion/eoo16m.html",
+      "article_format": 1,
+      "source_sha256": "3c82dbab51794d9c380ad9e32b2737af0d5578660959fcf71738111497a5a500",
+      "html_sha256": "e528dbbefdc4e0e07f14820107480f47d7a22ae00a8bc8f80d505ca54be7e2a1",
+      "epub_sha256": "de21290357f8828c154df6de03c1648bf8569526385a06638190e12627964801",
+      "canonical_url": "https://beila.github.io/my-collection/annotated-explanations/base-category-polymorphic-functor-and-functorof-2046124286/",
+      "instapaper_url": "https://beila.github.io/my-collection/annotated-explanations/base-category-polymorphic-functor-and-functorof-2046124286/index.html",
+      "epub_url": "https://beila.github.io/my-collection/annotated-explanations/base-category-polymorphic-functor-and-functorof-2046124286/base-category-polymorphic-functor-and-functorof-2046124286.epub",
+      "instapaper_bookmark_id": "2053490865",
+      "instapaper_api_verification": {
+        "status": "passed",
+        "verified_at": "2026-10-31T00:17:42Z"
+      },
+      "epub_validation": {
+        "status": "passed",
+        "errors": 0,
+        "warnings": 0
+      },
+      "generation_workflow": {
+        "research_model": "inherited-session-model",
+        "writer_model": "inherited-session-model",
+        "reviewer_model": "kiro-cli",
+        "generation_model": "inherited-session-model"
       },
       "delivery_owner": "scheduler",
       "kindle_delivery_owner": "user_managed",
