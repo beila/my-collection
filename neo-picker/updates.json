@@ -1,0 +1,13 @@
+{
+  "addons": {
+    "neo-picker@beila.dev": {
+      "updates": [
+        {
+          "update_hash": "sha256:886f3075804cd4d4e32a65764c18c2a7587284332bf70aa4de5aa721b90220f1",
+          "update_link": "https://beila.github.io/my-collection/neo-picker/neo-picker-firefox.xpi",
+          "version": "1.0.2"
+        }
+      ]
+    }
+  }
+}
