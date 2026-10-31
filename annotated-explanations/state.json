@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-10-31T00:17:42Z",
+  "updated_at": "2026-10-31T18:31:14Z",
   "articles": {
     "1815258460": {
       "slug": "effectful-storage-abstraction-explained",
@@ -242,6 +242,41 @@
         "writer_model": "inherited-session-model",
         "reviewer_model": "kiro-cli",
         "generation_model": "inherited-session-model"
+      },
+      "delivery_owner": "scheduler",
+      "kindle_delivery_owner": "user_managed",
+      "deleted_superseded_bookmark_ids": []
+    },
+    "1945498999": {
+      "slug": "schemas-channels-messages-in-mcap-monday-morning-haskell-1945498999",
+      "title": "Schemas, Channels & Messages in MCAP — Monday Morning Haskell — MCAP 파서의 lift와 Record Schema: ParsecT 아래의 StateT로 상태가 전달되는 방식",
+      "source_title": "Schemas, Channels & Messages in MCAP — Monday Morning Haskell",
+      "article_title": "MCAP 파서의 lift와 Record Schema: ParsecT 아래의 StateT로 상태가 전달되는 방식",
+      "source_bookmark_id": "1945498999",
+      "cypher_source_bookmark_id": "1945498999",
+      "source_url": "https://mmhaskell.com/blog/2025/12/08/schemas-channels-amp-messages-in-mcap",
+      "article_format": 1,
+      "source_sha256": "5368ed429766e6f08e8f11686e47632d2938f256b870429a25e4e44122381e52",
+      "html_sha256": "b018b1fed406908a2c976154b0e30b98563fd64ec6d96fd30a4ad75e242faf3e",
+      "epub_sha256": "db81fe636b9621c7681e3fbef9f562ce6d8e32882bff80be08f54fc64466e289",
+      "canonical_url": "https://beila.github.io/my-collection/annotated-explanations/schemas-channels-messages-in-mcap-monday-morning-haskell-1945498999/",
+      "instapaper_url": "https://beila.github.io/my-collection/annotated-explanations/schemas-channels-messages-in-mcap-monday-morning-haskell-1945498999/index.html",
+      "epub_url": "https://beila.github.io/my-collection/annotated-explanations/schemas-channels-messages-in-mcap-monday-morning-haskell-1945498999/schemas-channels-messages-in-mcap-monday-morning-haskell-1945498999.epub",
+      "instapaper_bookmark_id": "2053669324",
+      "instapaper_api_verification": {
+        "status": "passed",
+        "verified_at": "2026-10-31T18:31:14Z"
+      },
+      "epub_validation": {
+        "status": "passed",
+        "errors": 0,
+        "warnings": 0
+      },
+      "generation_workflow": {
+        "research_model": "global.anthropic.claude-opus-5-5",
+        "writer_model": "global.anthropic.claude-opus-5-5",
+        "reviewer_model": "claude-sonnet-5-5",
+        "generation_model": "global.anthropic.claude-opus-5-5"
       },
       "delivery_owner": "scheduler",
       "kindle_delivery_owner": "user_managed",
