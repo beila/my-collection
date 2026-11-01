@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="10238579257394722" name="facebook-post-id"/>
+<meta content="8344930e8716d737b447ac95d6510d53db30075564de4eeaeb0990b8dbbd3426" name="facebook-content-hash"/>
+<meta content="103" name="facebook-article-format"/>
+<title>Toby Lee: AI 에이전틱 코딩을 할 때 단순하게 plan 모드를 거쳐서 작업하는 방법에서 시작해서, PRD를 만들고 개발하는 방법, 스펙과 구현 플랜으로 구분되는 SDD, 의도부터 시작해서 진행하는 AI SDLC, 그리고...</title>
+<style>
+    :root { color-scheme: dark; background: #121212; }
+    body { background: #121212; color: #e8eaed;
+            font: 18px/1.55 system-ui, sans-serif; margin: 2rem auto;
+            max-width: 42rem; padding: 0 1rem; }
+    h1 { font-size: 1.35rem; line-height: 1.25; }
+    h2 { font-size: 1.05rem; line-height: 1.35; }
+    h3 { font-size: 1rem; line-height: 1.35; }
+    .byline, .published-time, time { color: #bdc1c6; font-size: .9rem; }
+    a { color: #8ab4f8; }
+    img { display: block; height: auto; margin: 1.5rem auto; max-width: 100%; }
+    figure { margin: 1.5rem 0; }
+    figure img { margin: 0 auto; }
+    .media-description { color: #bdc1c6; margin: .5rem auto 0;
+                          max-width: 38rem; }
+    .post-media-image { margin: 1.5rem 0 0; }
+    .post-media-image img { margin: 0 auto; }
+    .post-media-caption { margin-top: .5rem; }
+    .video-thumbnail a { display: block; text-decoration: none; }
+    blockquote.shared-quote { border: 1px solid #8ab4f8; border-radius: 6px;
+                              margin: 1.5rem 0; padding: .75rem 1rem; }
+    .shared-quote p { margin: .5rem 0; }
+    .repost-attribution { color: #bdc1c6; font-size: .9rem; }
+    .photo-notice { border-left: 3px solid #8ab4f8; padding-left: .75rem; }
+    .linked-page { border: 1px solid #3c4043; border-radius: 6px;
+                    margin: 1.5rem 0; padding: 1rem; }
+    blockquote.linked-page { background: #1a1a1a; }
+    .linked-page p { margin: .5rem 0; }
+    .linked-title { font-size: 1.05rem; line-height: 1.35; }
+    .linked-page table { border-collapse: collapse; max-width: 100%; }
+    .linked-page td, .linked-page th { border: 1px solid #5f6368;
+                                        padding: .25rem; }
+    .linked-site, .linked-url { color: #bdc1c6; font-size: .85rem;
+                                overflow-wrap: anywhere; }
+    .source { border-top: 1px solid #3c4043; margin-top: 2rem; padding-top: 1rem; }
+    .thread-post + .thread-post { border-top: 2px solid #5f6368;
+                                  margin-top: 2.5rem; padding-top: 2rem; }
+    .thread-saved-label { color: #bdc1c6; font-size: .85rem;
+                           font-weight: 700; text-transform: uppercase; }
+img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
+                      vertical-align: middle; }
+    img.math-display { display: block; height: auto; margin: 1.25rem auto;
+                       max-width: 100%; }
+.youtube-thumbnail { margin: 1.5rem 0; }
+    .youtube-thumbnail a { display: block; text-decoration: none; }
+    .youtube-thumbnail img { margin: 0 auto; }
+  </style>
+<meta property="og:title" content="Toby Lee: AI 에이전틱 코딩을 할 때 단순하게 plan 모드를 거쳐서 작업하는 방법에서 시작해서, PRD를 만들고 개발하는 방법, 스펙과 구현 플랜으로 구분되는 SDD, 의도부터 시작해서 진행하는 AI SDLC, 그리고..."><meta property="og:description" content="Toby Lee"><meta property="og:url" content="https://beila.github.io/my-collection/facebook-instapaper/tobyilee/10238579257394722.html"><meta property="og:type" content="article"><meta name="twitter:card" content="summary"></head>
+<body>
+<article class="article-content" lang="ko">
+<h1>Toby Lee: AI 에이전틱 코딩을 할 때 단순하게 plan 모드를 거쳐서 작업하는 방법에서 시작해서, PRD를 만들고 개발하는 방법, 스펙과 구현 플랜으로 구분되는 SDD, 의도부터 시작해서 진행하는 AI SDLC, 그리고...</h1>
+<p class="byline">Toby Lee</p>
+<p class="published-time">Posted on 2026-10-30 23:38 UTC <time datetime="2026-10-30T23:38:01+00:00"></time></p>
+<p>AI 에이전틱 코딩을 할 때 단순하게 plan 모드를 거쳐서 작업하는 방법에서 시작해서, PRD를 만들고 개발하는 방법, 스펙과 구현 플랜으로 구분되는 SDD, 의도부터 시작해서 진행하는 AI SDLC, 그리고 각종 하네스와 플러그인을 활용하는 방법을 다양하게 시도해봤는데, 이제는 나만의 방법으로 어느 정도 정리가 된 듯 하다.</p>
+<p>AI에게 개발을 시키고, 이걸 계속 이어가려면 어떤 구성이든 상관없이 기본적으로 세 가지를 지속적으로 정리하고 AI가 이를 가지고 일을 하게 하면 된다. 무엇을 만들지, 왜 그렇게 결정했는지, 어떻게 할 것인지. 이 세 가지를 가지고 AI는 자신이 한 일을 검증하고, 변경에 대응하고, 할 일을 찾아간다. 그래서 매 단계마다 이 준비를 잘 해두면, 그리고 그걸 개발자도 이해한다면 AI에게 일해라 하면 되더라.</p>
+<p>11월에 인프런에서 오프라인 세미나를 할 듯한데, 거기서 이 얘기를 잘 풀어봐야지.</p>
+<p class="source"><a href="https://www.facebook.com/tobyilee/posts/10238579257394722">View the original Facebook post</a></p>
+</article>
+</body>
+</html>
