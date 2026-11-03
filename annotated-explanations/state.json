@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-10-31T18:31:14Z",
+  "updated_at": "2026-11-03T22:04:39Z",
   "articles": {
     "1815258460": {
       "slug": "effectful-storage-abstraction-explained",
@@ -277,6 +277,41 @@
         "writer_model": "global.anthropic.claude-opus-5-5",
         "reviewer_model": "claude-sonnet-5-5",
         "generation_model": "global.anthropic.claude-opus-5-5"
+      },
+      "delivery_owner": "scheduler",
+      "kindle_delivery_owner": "user_managed",
+      "deleted_superseded_bookmark_ids": []
+    },
+    "1213996549": {
+      "slug": "f-algebras-1213996549",
+      "title": "F-Algebras — 한 층의 구조에서 재귀 전체로: F-대수와 펼치기 이해하기",
+      "source_title": "F-Algebras",
+      "article_title": "한 층의 구조에서 재귀 전체로: F-대수와 펼치기 이해하기",
+      "source_bookmark_id": "1213996549",
+      "cypher_source_bookmark_id": "1213996549",
+      "source_url": "https://bartoszmilewski.com/2017/02/28/f-algebras/",
+      "article_format": 1,
+      "source_sha256": "0ff2d5d4cedf68230f246feac7332a6cbfae823030f051ef3bc01c6b445d7461",
+      "html_sha256": "a80c425d037770f752e899683dd722b107a16b5bea33a044959c630f0ad1f2f1",
+      "epub_sha256": "856a85a4ad19d0db5b6073dc07a5a16f16404fe0d8d8771cbf043cbd528e63d0",
+      "canonical_url": "https://beila.github.io/my-collection/annotated-explanations/f-algebras-1213996549/",
+      "instapaper_url": "https://beila.github.io/my-collection/annotated-explanations/f-algebras-1213996549/index.html",
+      "epub_url": "https://beila.github.io/my-collection/annotated-explanations/f-algebras-1213996549/f-algebras-1213996549.epub",
+      "instapaper_bookmark_id": "2054412529",
+      "instapaper_api_verification": {
+        "status": "passed",
+        "verified_at": "2026-11-03T22:04:39Z"
+      },
+      "epub_validation": {
+        "status": "passed",
+        "errors": 0,
+        "warnings": 0
+      },
+      "generation_workflow": {
+        "research_model": "openai.gpt-6.1-sol",
+        "writer_model": "openai.gpt-6.1-sol",
+        "reviewer_model": "openai.gpt-6-sol",
+        "generation_model": "openai.gpt-6.1-sol"
       },
       "delivery_owner": "scheduler",
       "kindle_delivery_owner": "user_managed",
