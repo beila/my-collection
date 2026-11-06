@@ -43,7 +43,7 @@ img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
 <p>
 
 그러나 일반 상용 computing에서 mainframe과 UNIX를 몰아내고 있는 open source 열풍은 우주까지 진출하고 있는 중.  요즘엔 그런 특수 제작된 radiation hardened 부품을 쓰지 않고 그냥 일반 x86 processor를 쓰는 경우가 많은 듯.  가령 2017년 상용 컴퓨터 회사 HP Enterprise와 NASA는 일반 상용(commercial off-the-shelf (COTS)) 컴퓨터 서버를 우주 정거장 ISS에 올려보내 정상 운용이 되는지 테스트.  지금도 거기 있는지 모르겠으나 1년 넘게 별 error없이 지상에서처럼 잘 쓰고 있다고.  HPE 직원들은 크게 기뻐하며 이 서버를 Spacebourne Computer라고 명명 (사진2).</p>
-<p><figure><span><img height="604" src="images/02.png" width="927"/></span></figure>
+<p><figure><span><img height="604" src="images/02.jpg" width="927"/></span></figure>
 </p>
 <p>
 
@@ -70,7 +70,7 @@ img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
 다만 time sharing OS가 제대로 할 수 없는 것이 명확한 응답시간 제공.  즉 똑같이 뭔가 명령을 내려도 이미 수행되고 있는 다른 사용자나 process 등의 요청을 수행하느라 즉각적인 응답을 못하는 경우가 종종 발생.  물론 그게 milisecond (ms) 단위이므로 (UNIX, 리눅스에서는 1 tick이 10 ms) 월스트리트 등에서 큰 돈 굴리는 트레이더들이 쓰는 high frequency trading system들도 대개 그냥 time sharing OS를 씀.   
 
 이게 주식거래나 게임할 때는 상관없는 지연이지만 음속으로 날아가는 탄도탄의 제어에 사용될 때는 문제가 됨.  그래서 군용이나 의료용 생명유지 장치 등 특수목적에는 Real Time OS라는 것을 사용.  (사진2)  이건 스케쥴러에 의해 CPU의 time slice를 나눠쓰는 방식이 아니라 event-driven 방식으로 필요시 pre-emptive 스케쥴링을 하는 것.  다시 말해 더 중요한 업무에 뭔가 새로운 명령이 도착한다든가 하면 자기 몫의 time slice가 올 때까지 기다리지 않고, 현재 CPU를 쓰고 있는 process를 쫓아내고 그 명령을 수행하는 것.</p>
-<p><figure><span><img height="1415" src="images/05.jpg" width="1908"/></span></figure>
+<p><figure><span><img height="1187" src="images/05.jpg" width="1600"/></span></figure>
 </p>
 <p>
 
@@ -82,7 +82,7 @@ img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
 <p>
 
 그런데... 리눅스와 오픈소스에서 안되는 것이 어디 있음?  Real-Time Linux (RTL) Collaborative Project라는 것이 발족되어  PREEMPT_RT (preemptive real time) patch를 만들어냄.  이걸 적용하면 그림처럼 리눅스에서도 real time 서비스를 할 수 있다고 (사진4).</p>
-<p><figure><span><img height="374" src="images/07.png" width="792"/></span></figure>
+<p><figure><span><img height="374" src="images/07.jpg" width="792"/></span></figure>
 </p>
 <p>
 
@@ -93,7 +93,7 @@ img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
 <b>&lt;궤도를 떠도는 리눅스 컴퓨터들&gt;</b> 
 
 현재까지 SpaceX에서 쏘아올린 Starlink 위성들(사진1)의 개수는 대략 2,200대 이상인데, 이 위성들에는 각각 4천대의 리눅스 컴퓨터가 실려있음.  물론 일반적인 데스크탑이나 랩탑에 레드햇이나 우분투 등의 일반 리눅스를 설치해서 위성에 실은 것은 아니고 임무 수행을 위해 필요한 최소한의 기능과 용량만을 남긴, 즉 stripped-back linux computer.  여기에는 전부 일반 x86 processor를 쓰지는 않고 대부분 SpaceX가 자체적으로 설계한 ASIC (application-specific integrated circuit, 일종의 경량화된 CPU)를 탑재.  </p>
-<p><figure><span><img height="1080" src="images/08.png" width="1920"/></span></figure>
+<p><figure><span><img height="900" src="images/08.jpg" width="1600"/></span></figure>
 </p>
 <p>
 
@@ -115,7 +115,7 @@ img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
 근데 요즘 수퍼컴은 고속 넷웍의 발달 덕분에 만들기 쉬움. 막말로 평범한 서버들을 고속 넷웍으로 묶고 그걸 병렬로 운용할 MPI 등의 소프트웨어만 설치하면 되는데, 그런 소프트웨어가 대부분 오픈소스임.  
 
 그런데 그런 여러가지 오픈소스는 다양한 processor architecture 지원을 하는 것이 원칙이라, 러시아 Elbrus도 지원하는 모양.  가령 모든 과기연산에 기본으로 사용되는 선형대수 library인 OpenBLAS도 Elbrus 지원을 시작함.</p>
-<p><figure><span><img height="754" src="images/11.png" width="1161"/></span></figure>
+<p><figure><span><img height="754" src="images/11.jpg" width="1161"/></span></figure>
 </p>
 <p>(예전에는 비싼 돈 내고도 미국 눈 밖에 나면 살 수 없었던 SW를 이제는 공짜로 쓸 수 있는 시대...)</p>
 <p>
