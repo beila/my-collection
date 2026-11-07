@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       release_tag:
-        description: Draft release containing image-batch.zip
+        description: Temporary public release containing image-batch.zip
         required: true
         type: string
       batch_sha256:
@@ -25,6 +25,9 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          sparse-checkout: .github/scripts
       - name: Download the test batch
         env:
           GH_TOKEN: ${{ github.token }}
