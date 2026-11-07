@@ -17,6 +17,10 @@ CONTENT_TYPES = {
     ".jpeg": "image/jpeg",
     ".gif": "image/gif",
     ".webp": "image/webp",
+    ".avif": "image/avif",
+    ".bmp": "image/bmp",
+    ".tif": "image/tiff",
+    ".tiff": "image/tiff",
     ".svg": "image/svg+xml",
 }
 MAX_IMAGES = 12
