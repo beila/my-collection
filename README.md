@@ -6,6 +6,13 @@ articles and copied media.
 
 A GitHub Pages artifact is deployed after each push to `main`.
 
+## Image Retention
+
+New converter images are served from Backblaze B2. Exact copies remain in
+`image-originals/images/v1/`, deduplicated by content hash, while repository
+capacity permits. The Pages staging script excludes this archive. Existing
+image files remain in place; migration does not authorize their deletion.
+
 ## Neo Picker
 
 `neo-picker/` is a full-screen static application for choosing one random item

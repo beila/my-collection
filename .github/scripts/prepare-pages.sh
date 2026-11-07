@@ -16,5 +16,6 @@ rsync \
   --exclude '.github/' \
   --exclude '.jj/' \
   --exclude '_site/' \
+  --exclude '/image-originals/' \
   "$repo/" \
   "$site/"
