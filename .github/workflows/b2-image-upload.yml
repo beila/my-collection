@@ -1,0 +1,60 @@
+name: Upload converter images
+run-name: B2 images ${{ inputs.batch_sha256 }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: Temporary public image batch release
+        required: true
+        type: string
+      batch_sha256:
+        description: SHA-256 of image-batch.zip
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: b2-image-upload
+  cancel-in-progress: false
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          sparse-checkout: .github/scripts
+      - name: Download and validate the image batch
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ inputs.release_tag }}
+          BATCH_SHA256: ${{ inputs.batch_sha256 }}
+        run: |
+          [[ "$BATCH_SHA256" =~ ^[0-9a-f]{64}$ ]]
+          [[ "$RELEASE_TAG" == "image-batch-$BATCH_SHA256" ]]
+          mkdir -p "$RUNNER_TEMP/image-batch"
+          gh release download "$RELEASE_TAG" --pattern image-batch.zip --dir "$RUNNER_TEMP/image-batch"
+          printf '%s  %s\n' "$BATCH_SHA256" "$RUNNER_TEMP/image-batch/image-batch.zip" | sha256sum --check -
+      - name: Upload and anonymously verify every image
+        env:
+          B2_APPLICATION_KEY_ID: ${{ secrets.B2_APPLICATION_KEY_ID }}
+          B2_APPLICATION_KEY: ${{ secrets.B2_APPLICATION_KEY }}
+          BATCH_SHA256: ${{ inputs.batch_sha256 }}
+        run: |
+          python3 .github/scripts/b2_image_upload.py \
+            --batch "$RUNNER_TEMP/image-batch/image-batch.zip" \
+            --sha256 "$BATCH_SHA256" \
+            --output "$RUNNER_TEMP/image-batch/result.json"
+      - name: Save the verified upload receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: verified-images
+          path: ${{ runner.temp }}/image-batch/result.json
+          if-no-files-found: error
+          retention-days: 7
