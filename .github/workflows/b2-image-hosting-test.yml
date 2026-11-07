@@ -1,0 +1,69 @@
+name: Test B2 image hosting
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: Draft release containing image-batch.zip
+        required: true
+        type: string
+      batch_sha256:
+        description: SHA-256 of image-batch.zip
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: b2-image-hosting-test
+  cancel-in-progress: false
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download the test batch
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ inputs.release_tag }}
+          BATCH_SHA256: ${{ inputs.batch_sha256 }}
+        run: |
+          [[ "$RELEASE_TAG" =~ ^image-hosting-test-[0-9]{8}-[a-z0-9]+$ ]]
+          [[ "$BATCH_SHA256" =~ ^[0-9a-f]{64}$ ]]
+          mkdir -p "$RUNNER_TEMP/b2-test"
+          gh release download "$RELEASE_TAG" --pattern image-batch.zip --dir "$RUNNER_TEMP/b2-test"
+          printf '%s  %s\n' "$BATCH_SHA256" "$RUNNER_TEMP/b2-test/image-batch.zip" | sha256sum --check -
+      - name: Verify interruption, upload, and retry
+        env:
+          B2_APPLICATION_KEY_ID: ${{ secrets.B2_APPLICATION_KEY_ID }}
+          B2_APPLICATION_KEY: ${{ secrets.B2_APPLICATION_KEY }}
+          BATCH_SHA256: ${{ inputs.batch_sha256 }}
+        run: |
+          uploader=.github/scripts/b2-image-hosting-test.py
+          batch="$RUNNER_TEMP/b2-test/image-batch.zip"
+          if python3 "$uploader" upload --batch "$batch" --sha256 "$BATCH_SHA256" \
+            --output "$RUNNER_TEMP/b2-test/interrupted" --interrupt-after 1; then
+            echo "The interruption test unexpectedly succeeded."
+            exit 1
+          fi
+          test ! -e "$RUNNER_TEMP/b2-test/interrupted"
+          python3 "$uploader" upload --batch "$batch" --sha256 "$BATCH_SHA256" \
+            --output "$RUNNER_TEMP/b2-test/verified"
+          python3 "$uploader" upload --batch "$batch" --sha256 "$BATCH_SHA256" \
+            --output "$RUNNER_TEMP/b2-test/repeated"
+          jq --exit-status '.uploaded == 0' "$RUNNER_TEMP/b2-test/repeated/result.json"
+          cmp "$RUNNER_TEMP/b2-test/verified/index.html" "$RUNNER_TEMP/b2-test/repeated/index.html"
+      - name: Save verified HTML and manifest
+        uses: actions/upload-artifact@v4
+        with:
+          name: b2-image-hosting-test
+          path: |
+            ${{ runner.temp }}/b2-test/verified/index.html
+            ${{ runner.temp }}/b2-test/verified/result.json
+            ${{ runner.temp }}/b2-test/repeated/result.json
+          if-no-files-found: error
+          retention-days: 3
