@@ -249,12 +249,12 @@ def document(images: list[dict[str, Any]]) -> str:
             f'alt="Synthetic image {index}"></a><figcaption>{caption}</figcaption></figure>'
         )
     return (
-        '<!doctype html><html lang="en"><meta charset="utf-8">'
+        '<!doctype html><html lang="en"><head><meta charset="utf-8">'
         '<meta name="viewport" content="width=device-width, initial-scale=1">'
         "<title>Collection image hosting test</title>"
         "<style>body{max-width:46rem;margin:3rem auto;padding:0 1rem;"
         "font:18px/1.6 system-ui}img{max-width:100%;height:auto}figure{margin:2rem 0}</style>"
-        "<body><article><h1>Collection image hosting test</h1>"
+        "</head><body><article><h1>Collection image hosting test</h1>"
         "<p>This separate test page checks synthetic images served from Backblaze B2. "
         "The images were uploaded through GitHub Actions and verified before publication.</p>"
         + "".join(figures)
