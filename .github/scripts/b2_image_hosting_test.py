@@ -10,10 +10,13 @@ import json
 import os
 import re
 import sys
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
 import zipfile
+from collections.abc import Callable
+from email.utils import parsedate_to_datetime
 from pathlib import Path, PurePosixPath
 from typing import Any
 
@@ -21,6 +24,8 @@ BUCKET = "my-collection-images"
 PREFIX = "image-hosting-test/v1/"
 MAX_BYTES = 32 * 1024 * 1024
 CONTENT_TYPES = {".png": "image/png", ".jpg": "image/jpeg", ".webp": "image/webp"}
+MAX_REQUEST_ATTEMPTS = 5
+MAX_RETRY_DELAY_SECONDS = 60
 
 
 class TestFailure(RuntimeError):
@@ -30,6 +35,44 @@ class TestFailure(RuntimeError):
 class NoRedirect(urllib.request.HTTPRedirectHandler):
     def redirect_request(self, req, fp, code, msg, headers, newurl):
         return None
+
+
+def _retry(operation: Callable[[], Any], label: str) -> Any:
+    for attempt in range(MAX_REQUEST_ATTEMPTS):
+        delay = 2**attempt
+        try:
+            return operation()
+        except urllib.error.HTTPError as error:
+            status = error.code
+            retry_after = error.headers.get("Retry-After") if error.headers else None
+            error.close()
+            if status not in {408, 429} and not 500 <= status < 600:
+                raise TestFailure(f"{label} failed with HTTP {status}") from None
+            detail = f"HTTP {status}"
+            if retry_after:
+                try:
+                    required_delay = float(retry_after)
+                except ValueError:
+                    try:
+                        required_delay = (
+                            parsedate_to_datetime(retry_after).timestamp() - time.time()
+                        )
+                    except (TypeError, ValueError, OverflowError):
+                        required_delay = 0
+                delay = max(delay, required_delay)
+        except (urllib.error.URLError, TimeoutError, ConnectionError):
+            detail = "a connection error"
+        if attempt + 1 == MAX_REQUEST_ATTEMPTS:
+            raise TestFailure(
+                f"{label} failed after {MAX_REQUEST_ATTEMPTS} attempts: {detail}"
+            ) from None
+        if delay > MAX_RETRY_DELAY_SECONDS:
+            raise TestFailure(
+                f"{label} requires a retry delay above "
+                f"{MAX_RETRY_DELAY_SECONDS} seconds: {detail}"
+            ) from None
+        time.sleep(delay)
+    raise AssertionError("Request attempt limit must be positive")
 
 
 def digest(content: bytes) -> str:
@@ -175,11 +218,12 @@ class B2:
                 "Content-Type": "application/json",
             },
         )
-        try:
+
+        def request_once():
             with self.opener.open(request, timeout=60) as response:
                 return json.load(response)
-        except urllib.error.HTTPError as error:
-            raise TestFailure(f"B2 API request failed with HTTP {error.code}") from None
+
+        return _retry(request_once, "B2 API request")
 
     def public_url(self, image: dict[str, Any]) -> str:
         return f"{self.download_url}/file/{BUCKET}/" + urllib.parse.quote(
@@ -187,29 +231,37 @@ class B2:
         )
 
     def verify(self, image: dict[str, Any]) -> bool:
-        try:
-            with self.opener.open(self.public_url(image), timeout=60) as response:
-                content = response.read(MAX_BYTES + 1)
-                content_type = response.headers.get_content_type()
-        except urllib.error.HTTPError as error:
-            if error.code == 404:
+        def verify_once():
+            try:
+                with self.opener.open(self.public_url(image), timeout=60) as response:
+                    content = response.read(MAX_BYTES + 1)
+                    content_type = response.headers.get_content_type()
+            except urllib.error.HTTPError as error:
+                if error.code != 404:
+                    raise
+                error.close()
                 return False
-            raise TestFailure(
-                f"Anonymous image read failed with HTTP {error.code}"
-            ) from None
-        if (
-            digest(content) != image["sha256"]
-            or len(content) != image["bytes"]
-            or content_type != image["content_type"]
-        ):
-            raise TestFailure("Public image checksum, size, or content type mismatch")
-        return True
+            if (
+                digest(content) != image["sha256"]
+                or len(content) != image["bytes"]
+                or content_type != image["content_type"]
+            ):
+                raise TestFailure(
+                    "Public image checksum, size, or content type mismatch"
+                )
+            return True
+
+        return _retry(verify_once, "Anonymous image read")
 
     def upload(self, image: dict[str, Any], content: bytes) -> None:
         if not image["object_key"].startswith(self.name_prefix):
             raise TestFailure(
                 "Object key is outside the application's permitted prefix"
             )
+        _retry(lambda: self._upload_once(image, content), "Image upload")
+
+    def _upload_once(self, image: dict[str, Any], content: bytes) -> None:
+        # A failed upload can require a different storage server and token.
         target = self.request_json(
             f"{self.api_url}/b2api/v4/b2_get_upload_url",
             self.authorization,
@@ -230,11 +282,8 @@ class B2:
                 ),
             },
         )
-        try:
-            with self.opener.open(request, timeout=120) as response:
-                result = json.load(response)
-        except urllib.error.HTTPError as error:
-            raise TestFailure(f"Image upload failed with HTTP {error.code}") from None
+        with self.opener.open(request, timeout=120) as response:
+            result = json.load(response)
         if result.get("fileName") != image["object_key"]:
             raise TestFailure("Uploaded object key mismatch")
 
