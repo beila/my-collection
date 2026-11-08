@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "images": [
+    {
+      "path": "images/v1/088d9e2499fd5c05d35301a85d819073170153f39933491019305be6f251b69b.jpg",
+      "object_key": "images/v1/088d9e2499fd5c05d35301a85d819073170153f39933491019305be6f251b69b.jpg",
+      "sha256": "088d9e2499fd5c05d35301a85d819073170153f39933491019305be6f251b69b",
+      "bytes": 46159,
+      "content_type": "image/jpeg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/088d9e2499fd5c05d35301a85d819073170153f39933491019305be6f251b69b.jpg",
+      "original_path": "facebook-instapaper/unattached/10165161025480923/088d9e2499fd5c05d35301a85d819073170153f39933491019305be6f251b69b.jpg",
+      "repository_path": "image-originals/images/v1/088d9e2499fd5c05d35301a85d819073170153f39933491019305be6f251b69b.jpg"
+    },
+    {
+      "path": "images/v1/6ce997b77985138f583a1b20f32f16662175e57a57b4e6cf47ed992fdb20a0c8.jpg",
+      "object_key": "images/v1/6ce997b77985138f583a1b20f32f16662175e57a57b4e6cf47ed992fdb20a0c8.jpg",
+      "sha256": "6ce997b77985138f583a1b20f32f16662175e57a57b4e6cf47ed992fdb20a0c8",
+      "bytes": 96842,
+      "content_type": "image/jpeg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/6ce997b77985138f583a1b20f32f16662175e57a57b4e6cf47ed992fdb20a0c8.jpg",
+      "original_path": "facebook-instapaper/unattached/10165161025480923/6ce997b77985138f583a1b20f32f16662175e57a57b4e6cf47ed992fdb20a0c8.jpg",
+      "repository_path": "image-originals/images/v1/6ce997b77985138f583a1b20f32f16662175e57a57b4e6cf47ed992fdb20a0c8.jpg"
+    },
+    {
+      "path": "images/v1/a6b0cd6dff83863f8ddfd452571d3bcc93e030b71aa5ee05d8b1bc6134d2a50b.jpg",
+      "object_key": "images/v1/a6b0cd6dff83863f8ddfd452571d3bcc93e030b71aa5ee05d8b1bc6134d2a50b.jpg",
+      "sha256": "a6b0cd6dff83863f8ddfd452571d3bcc93e030b71aa5ee05d8b1bc6134d2a50b",
+      "bytes": 36232,
+      "content_type": "image/jpeg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/a6b0cd6dff83863f8ddfd452571d3bcc93e030b71aa5ee05d8b1bc6134d2a50b.jpg",
+      "original_path": "facebook-instapaper/unattached/10165161025480923/a6b0cd6dff83863f8ddfd452571d3bcc93e030b71aa5ee05d8b1bc6134d2a50b.jpg",
+      "repository_path": "image-originals/images/v1/a6b0cd6dff83863f8ddfd452571d3bcc93e030b71aa5ee05d8b1bc6134d2a50b.jpg"
+    }
+  ]
+}
