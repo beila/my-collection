@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "images": [
+    {
+      "path": "images/v1/2ea2270a5d4e88ecfb637a26efcfb68a475276c894ccffbc5f478a9c2647d001.jpg",
+      "object_key": "images/v1/2ea2270a5d4e88ecfb637a26efcfb68a475276c894ccffbc5f478a9c2647d001.jpg",
+      "sha256": "2ea2270a5d4e88ecfb637a26efcfb68a475276c894ccffbc5f478a9c2647d001",
+      "bytes": 21143,
+      "content_type": "image/jpeg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/2ea2270a5d4e88ecfb637a26efcfb68a475276c894ccffbc5f478a9c2647d001.jpg",
+      "original_path": "facebook-instapaper/tobyilee/10238719957312132/2ea2270a5d4e88ecfb637a26efcfb68a475276c894ccffbc5f478a9c2647d001.jpg",
+      "repository_path": "image-originals/images/v1/2ea2270a5d4e88ecfb637a26efcfb68a475276c894ccffbc5f478a9c2647d001.jpg"
+    },
+    {
+      "path": "images/v1/2b268059cd9c1043edaaa928c777f5517d71b7d1ec920cba62dbfdb65373aadb.jpg",
+      "object_key": "images/v1/2b268059cd9c1043edaaa928c777f5517d71b7d1ec920cba62dbfdb65373aadb.jpg",
+      "sha256": "2b268059cd9c1043edaaa928c777f5517d71b7d1ec920cba62dbfdb65373aadb",
+      "bytes": 30285,
+      "content_type": "image/jpeg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/2b268059cd9c1043edaaa928c777f5517d71b7d1ec920cba62dbfdb65373aadb.jpg",
+      "original_path": "youtube-thumbnails/2b268059cd9c1043edaaa928c777f5517d71b7d1ec920cba62dbfdb65373aadb.jpg",
+      "repository_path": "image-originals/images/v1/2b268059cd9c1043edaaa928c777f5517d71b7d1ec920cba62dbfdb65373aadb.jpg"
+    }
+  ]
+}
