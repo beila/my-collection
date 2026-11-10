@@ -1,0 +1,110 @@
+name: Daily legacy image migration
+run-name: Legacy images before the daily B2 reset
+
+on:
+  schedule:
+    - cron: "45 23 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: legacy-image-migration
+  cancel-in-progress: false
+
+jobs:
+  window:
+    runs-on: ubuntu-latest
+    outputs:
+      permitted: ${{ steps.check.outputs.permitted }}
+    steps:
+      - name: Skip runs delayed beyond the migration window
+        id: check
+        run: |
+          current=$(date -u +%H%M)
+          if (( 10#$current < 2345 || 10#$current > 2355 )); then
+            echo "permitted=false" >> "$GITHUB_OUTPUT"
+            echo "Waiting for the next 23:45 UTC window."
+          else
+            echo "permitted=true" >> "$GITHUB_OUTPUT"
+          fi
+
+  upload:
+    needs: window
+    if: needs.window.outputs.permitted == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Restore the latest cumulative checkpoint
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          manifest=$(sha256sum .github/legacy-image-migration.json | cut -d ' ' -f 1)
+          expected=$(jq -r .manifest_sha256 .github/legacy-image-verified.json)
+          test "$manifest" = "$expected"
+          checkpoint="legacy-image-checkpoint-$manifest"
+          echo "MANIFEST_SHA256=$manifest" >> "$GITHUB_ENV"
+          echo "CHECKPOINT_NAME=$checkpoint" >> "$GITHUB_ENV"
+          mkdir -p "$RUNNER_TEMP/legacy-checkpoint"
+          previous=$(gh api --method GET \
+            "repos/$GITHUB_REPOSITORY/actions/artifacts" \
+            -f name="$checkpoint" -f per_page=100 \
+            --jq '[.artifacts[] | select(.expired == false)] | max_by(.id) | .workflow_run.id // empty')
+          if [[ -n "$previous" ]]; then
+            gh run download "$previous" --repo "$GITHUB_REPOSITORY" \
+              --name "$checkpoint" --dir "$RUNNER_TEMP/legacy-checkpoint"
+          else
+            cp .github/legacy-image-verified.json \
+              "$RUNNER_TEMP/legacy-checkpoint/legacy-image-receipt.json"
+          fi
+      - name: Use the remaining allowance before midnight
+        env:
+          B2_APPLICATION_KEY_ID: ${{ secrets.B2_APPLICATION_KEY_ID }}
+          B2_APPLICATION_KEY: ${{ secrets.B2_APPLICATION_KEY }}
+        run: |
+          receipt="$RUNNER_TEMP/legacy-checkpoint/legacy-image-receipt.json"
+          remaining=$(( $(date -u -d 'today 23:58:00' +%s) - $(date -u +%s) ))
+          if (( remaining <= 0 )); then
+            echo "The migration window has ended; checkpoint retained."
+            exit 0
+          fi
+          set +e
+          timeout --signal=INT --kill-after=5s "${remaining}s" \
+            python3 .github/scripts/legacy_image_migration.py upload \
+              --repo . \
+              --manifest .github/legacy-image-migration.json \
+              --sha256 "$MANIFEST_SHA256" \
+              --output "$receipt" \
+              --resume-receipt "$receipt" \
+              --workers 2 --daily
+          result=$?
+          set -e
+          if [[ "$result" == 124 || "$result" == 130 || "$result" == 137 ]]; then
+            echo "The migration deadline stopped this batch; checkpoint retained."
+          else
+            exit "$result"
+          fi
+      - name: Retain progress for the next day
+        if: always() && env.CHECKPOINT_NAME != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.CHECKPOINT_NAME }}
+          path: ${{ runner.temp }}/legacy-checkpoint/legacy-image-receipt.json
+          if-no-files-found: error
+          overwrite: true
+          retention-days: 30
+      - name: Report cumulative progress
+        if: always() && env.CHECKPOINT_NAME != ''
+        run: |
+          jq -r '"Verified \(.images | length)/\(.expected_objects) images. Status: \(.status).",
+            (.pause_reason // "No pause reason."),
+            (if .daily_upload then
+              "UTC day \(.daily_upload.date): \(.daily_upload.read_requests) reads, \(.daily_upload.download_bytes) image bytes."
+            else "No new migration requests." end)' \
+            "$RUNNER_TEMP/legacy-checkpoint/legacy-image-receipt.json" \
+            >> "$GITHUB_STEP_SUMMARY"

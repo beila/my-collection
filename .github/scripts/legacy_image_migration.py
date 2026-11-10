@@ -10,17 +10,25 @@ import re
 import threading
 import time
 import unicodedata
+import urllib.error
+import urllib.request
 from collections import Counter
 from concurrent.futures import FIRST_COMPLETED, ThreadPoolExecutor, as_completed, wait
+from datetime import UTC, datetime
 from pathlib import Path, PurePosixPath
 from urllib.parse import quote, unquote, urljoin, urlsplit
 
-from b2_image_hosting_test import B2, MAX_BYTES, TestFailure
+from b2_image_hosting_test import B2, MAX_BYTES, NoRedirect, TestFailure
 from b2_image_upload import CONTENT_TYPES, object_key
 
 PUBLIC_BASE = "https://f003.backblazeb2.com/file/my-collection-images/"
 PAGES_BASE = "https://beila.github.io/my-collection/"
 SOURCE_DIRECTORIES = frozenset({"facebook-instapaper", "nasica-blog"})
+DAILY_IMAGES = 500
+DAILY_READ_REQUESTS = 1000
+DAILY_DOWNLOAD_BYTES = 100_000_000
+DAILY_START = 23 * 3600 + 45 * 60
+DAILY_END = 23 * 3600 + 58 * 60
 ATTRIBUTE = re.compile(
     r"""(?P<prefix>\b(?:src|href|xlink:href|poster|data-src|data-original|data-lazy-src|srcset|content)\s*=\s*)"""
     r"""(?P<quote>["'])(?P<value>.*?)(?P=quote)""",
@@ -93,6 +101,97 @@ def source_bytes(repo: Path, image: dict) -> bytes:
     return content
 
 
+class MigrationPaused(TestFailure):
+    pass
+
+
+class DailyMigrationBudget:
+    """Reserve migration reads before they use the shared account allowance."""
+
+    def __init__(self, result, images, checkpoint, lock, *, clock=time.time):
+        self.result = result
+        self.images = {image["url"]: image for image in images.values()}
+        self.checkpoint = checkpoint
+        self.lock = lock
+        self.clock = clock
+        self.opener = urllib.request.build_opener(NoRedirect())
+        day = datetime.fromtimestamp(clock(), UTC).date().isoformat()
+        previous = result.get("daily_upload")
+        if previous is not None:
+            if (
+                not isinstance(previous, dict)
+                or not isinstance(previous.get("date"), str)
+                or not isinstance(previous.get("objects"), list)
+                or len(set(previous["objects"])) != len(previous["objects"])
+                or not set(previous["objects"]) <= images.keys()
+                or len(previous["objects"]) > DAILY_IMAGES
+                or type(previous.get("read_requests")) is not int
+                or not 0 <= previous["read_requests"] <= DAILY_READ_REQUESTS
+                or type(previous.get("download_bytes")) is not int
+                or not 0 <= previous["download_bytes"] <= DAILY_DOWNLOAD_BYTES
+            ):
+                raise TestFailure("Invalid daily migration checkpoint")
+            try:
+                datetime.strptime(previous["date"], "%Y-%m-%d")
+            except ValueError as error:
+                raise TestFailure("Invalid daily migration date") from error
+            if previous["date"] > day:
+                raise TestFailure("Daily migration checkpoint is from the future")
+        self.state = (
+            previous
+            if previous is not None and previous["date"] == day
+            else {
+                "date": day,
+                "objects": [],
+                "read_requests": 0,
+                "download_bytes": 0,
+            }
+        )
+        result["daily_upload"] = self.state
+
+    def deadline(self) -> float:
+        now = datetime.fromtimestamp(self.clock(), UTC)
+        seconds = now.hour * 3600 + now.minute * 60 + now.second
+        if (
+            now.date().isoformat() != self.state["date"]
+            or not DAILY_START <= seconds < DAILY_END
+        ):
+            raise MigrationPaused("outside the 23:45–23:58 UTC migration window")
+        return now.replace(hour=23, minute=58, second=0, microsecond=0).timestamp()
+
+    def open(self, request, *, timeout=60):
+        with self.lock:
+            remaining = self.deadline() - self.clock()
+            if remaining <= 0:
+                raise MigrationPaused("daily migration window ended")
+            url = request if isinstance(request, str) else request.full_url
+            image = self.images.get(url)
+            if image is not None:
+                key = image["object_key"]
+                if (
+                    key not in self.state["objects"]
+                    and len(self.state["objects"]) >= DAILY_IMAGES
+                ):
+                    raise MigrationPaused("daily migration image limit reached")
+                if self.state["read_requests"] >= DAILY_READ_REQUESTS:
+                    raise MigrationPaused("daily migration request limit reached")
+                if self.state["download_bytes"] + image["bytes"] > DAILY_DOWNLOAD_BYTES:
+                    raise MigrationPaused("daily migration byte limit reached")
+                if key not in self.state["objects"]:
+                    self.state["objects"].append(key)
+                self.state["read_requests"] += 1
+                self.state["download_bytes"] += image["bytes"]
+                self.checkpoint()
+        try:
+            return self.opener.open(request, timeout=min(timeout, remaining))
+        except urllib.error.HTTPError as error:
+            if image is not None and error.code == 404:
+                with self.lock:
+                    self.state["download_bytes"] -= image["bytes"]
+                    self.checkpoint()
+            raise
+
+
 def upload_inventory(
     repo: Path,
     manifest: Path,
@@ -102,10 +201,12 @@ def upload_inventory(
     workers: int = 8,
     limit: int = 0,
     resume_receipt: Path | None = None,
+    daily: bool = False,
+    clock=time.time,
     client_factory=B2,
 ) -> dict:
     inventory = read_inventory(manifest, expected_hash)
-    if not 1 <= workers <= 8 or limit < 0:
+    if not 1 <= workers <= 8 or limit < 0 or (daily and limit):
         raise TestFailure("Invalid legacy upload limits")
     unique = {image["object_key"]: image for image in inventory["images"]}
     selected = sorted(unique.values(), key=lambda image: image["object_key"])
@@ -113,6 +214,7 @@ def upload_inventory(
         selected = selected[:limit]
     expected_count = len(selected)
     prior = {}
+    previous = {}
     if resume_receipt is not None:
         previous = json.loads(resume_receipt.read_text())
         if (
@@ -139,11 +241,41 @@ def upload_inventory(
             reused.append(prior[image["object_key"]])
     selected = [image for image in selected if image["object_key"] not in prior]
     local = threading.local()
+    lock = threading.RLock()
+    result = {
+        "schema_version": 1,
+        "manifest_sha256": expected_hash,
+        "status": "partial",
+        "expected_objects": expected_count,
+        "images": reused,
+        "errors": [],
+        "unattempted_objects": expected_count - len(reused),
+    }
+
+    def checkpoint():
+        with lock:
+            write_json(receipt, result)
+
+    budget = None
+    if daily:
+        if "daily_upload" in previous:
+            result["daily_upload"] = previous["daily_upload"]
+        budget = DailyMigrationBudget(result, unique, checkpoint, lock, clock=clock)
+        if not selected:
+            result["status"] = "verified"
+            checkpoint()
+            return result
+        try:
+            budget.deadline()
+        except MigrationPaused as error:
+            result["pause_reason"] = str(error)
+            checkpoint()
+            return result
 
     def transfer(image):
         content = source_bytes(repo, image)
         if not hasattr(local, "client"):
-            local.client = client_factory()
+            local.client = client_factory(opener=budget) if budget else client_factory()
         client = local.client
         if client.public_url(image) != image["url"]:
             raise TestFailure("Legacy image download endpoint changed")
@@ -157,15 +289,7 @@ def upload_inventory(
             for key in ("object_key", "sha256", "bytes", "content_type", "url")
         } | {"reused": reused}
 
-    result = {
-        "schema_version": 1,
-        "manifest_sha256": expected_hash,
-        "status": "partial",
-        "expected_objects": expected_count,
-        "images": reused,
-        "errors": [],
-    }
-    write_json(receipt, result)
+    checkpoint()
     with ThreadPoolExecutor(max_workers=workers) as executor:
         pending = {}
         remaining = iter(selected)
@@ -183,12 +307,21 @@ def upload_inventory(
             for future in finished:
                 key = pending.pop(future)
                 try:
-                    result["images"].append(future.result())
+                    record = future.result()
+                    with lock:
+                        result["images"].append(record)
+                except MigrationPaused as error:
+                    with lock:
+                        result["pause_reason"] = str(error)
+                    stopped = True
                 except (OSError, ValueError, RuntimeError) as error:
-                    result["errors"].append({"object_key": key, "error": str(error)})
+                    with lock:
+                        result["errors"].append(
+                            {"object_key": key, "error": str(error)}
+                        )
                     stopped |= "download_cap_exceeded" in str(error)
                 if (len(result["images"]) + len(result["errors"])) % 25 == 0:
-                    write_json(receipt, result)
+                    checkpoint()
                     print(
                         f"Verified {len(result['images'])}/{expected_count} legacy images; "
                         f"failed {len(result['errors'])}",
@@ -201,9 +334,22 @@ def upload_inventory(
     result["unattempted_objects"] = (
         expected_count - len(result["images"]) - len(result["errors"])
     )
-    result["status"] = "failed" if result["errors"] else "verified"
-    write_json(receipt, result)
-    if result["errors"]:
+    cap_pause = (
+        daily
+        and result["errors"]
+        and all("download_cap_exceeded" in error["error"] for error in result["errors"])
+    )
+    if cap_pause:
+        result["pause_reason"] = "B2 account cap reached"
+    result["status"] = (
+        "failed"
+        if result["errors"] and not cap_pause
+        else "verified"
+        if len(result["images"]) == expected_count
+        else "partial"
+    )
+    checkpoint()
+    if result["status"] == "failed":
         raise TestFailure(
             f"{len(result['errors'])} legacy image uploads failed: "
             + result["errors"][0]["error"]
@@ -619,6 +765,7 @@ def main() -> None:
     parser.add_argument("--revision")
     parser.add_argument("--capture", type=Path)
     parser.add_argument("--resume-receipt", type=Path)
+    parser.add_argument("--daily", action="store_true")
     args = parser.parse_args()
     if args.operation == "upload":
         if not args.sha256:
@@ -631,6 +778,7 @@ def main() -> None:
             workers=args.workers,
             limit=args.limit,
             resume_receipt=args.resume_receipt,
+            daily=args.daily,
         )
         print(json.dumps({"verified": len(result["images"])}))
     elif args.operation == "plan":

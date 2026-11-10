@@ -190,8 +190,8 @@ def b2_endpoint(url: str) -> str:
 
 
 class B2:
-    def __init__(self) -> None:
-        self.opener = urllib.request.build_opener(NoRedirect())
+    def __init__(self, *, opener=None) -> None:
+        self.opener = opener or urllib.request.build_opener(NoRedirect())
         try:
             credentials = f"{os.environ['B2_APPLICATION_KEY_ID']}:{os.environ['B2_APPLICATION_KEY']}"
         except KeyError as error:
