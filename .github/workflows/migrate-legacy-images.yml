@@ -35,13 +35,18 @@ jobs:
           MANIFEST_SHA256: ${{ inputs.manifest_sha256 }}
           IMAGE_LIMIT: ${{ inputs.limit }}
         run: |
+          resume=()
+          if [[ -f .github/legacy-image-verified.json ]]; then
+            resume=(--resume-receipt .github/legacy-image-verified.json)
+          fi
           python3 .github/scripts/legacy_image_migration.py upload \
             --repo . \
             --manifest .github/legacy-image-migration.json \
             --sha256 "$MANIFEST_SHA256" \
             --output "$RUNNER_TEMP/legacy-image-receipt.json" \
             --workers 8 \
-            --limit "$IMAGE_LIMIT"
+            --limit "$IMAGE_LIMIT" \
+            "${resume[@]}"
       - name: Retain the migration receipt
         if: always()
         uses: actions/upload-artifact@v4

@@ -8,9 +8,12 @@ import html
 import json
 import re
 import threading
-from concurrent.futures import ThreadPoolExecutor, as_completed
+import time
+import unicodedata
+from collections import Counter
+from concurrent.futures import FIRST_COMPLETED, ThreadPoolExecutor, as_completed, wait
 from pathlib import Path, PurePosixPath
-from urllib.parse import unquote, urljoin, urlsplit
+from urllib.parse import quote, unquote, urljoin, urlsplit
 
 from b2_image_hosting_test import B2, MAX_BYTES, TestFailure
 from b2_image_upload import CONTENT_TYPES, object_key
@@ -19,7 +22,7 @@ PUBLIC_BASE = "https://f003.backblazeb2.com/file/my-collection-images/"
 PAGES_BASE = "https://beila.github.io/my-collection/"
 SOURCE_DIRECTORIES = frozenset({"facebook-instapaper", "nasica-blog"})
 ATTRIBUTE = re.compile(
-    r"""(?P<prefix>\b(?:src|href|xlink:href|poster|data-src|data-original|data-lazy-src|srcset)\s*=\s*)"""
+    r"""(?P<prefix>\b(?:src|href|xlink:href|poster|data-src|data-original|data-lazy-src|srcset|content)\s*=\s*)"""
     r"""(?P<quote>["'])(?P<value>.*?)(?P=quote)""",
     re.IGNORECASE | re.DOTALL,
 )
@@ -98,6 +101,7 @@ def upload_inventory(
     *,
     workers: int = 8,
     limit: int = 0,
+    resume_receipt: Path | None = None,
     client_factory=B2,
 ) -> dict:
     inventory = read_inventory(manifest, expected_hash)
@@ -107,6 +111,33 @@ def upload_inventory(
     selected = sorted(unique.values(), key=lambda image: image["object_key"])
     if limit:
         selected = selected[:limit]
+    expected_count = len(selected)
+    prior = {}
+    if resume_receipt is not None:
+        previous = json.loads(resume_receipt.read_text())
+        if (
+            previous.get("schema_version") != 1
+            or previous.get("manifest_sha256") != expected_hash
+            or previous.get("status") not in {"verified", "partial", "failed"}
+        ):
+            raise TestFailure("Resume receipt does not match the inventory")
+        for record in previous.get("images", []):
+            key = record.get("object_key")
+            image = unique.get(key)
+            fields = ("object_key", "sha256", "bytes", "content_type", "url")
+            if (
+                image is None
+                or key in prior
+                or any(record.get(field) != image[field] for field in fields)
+            ):
+                raise TestFailure("Resume receipt has an invalid image")
+            prior[key] = {field: image[field] for field in fields} | {"reused": True}
+    reused = []
+    for image in selected:
+        if image["object_key"] in prior:
+            source_bytes(repo, image)
+            reused.append(prior[image["object_key"]])
+    selected = [image for image in selected if image["object_key"] not in prior]
     local = threading.local()
 
     def transfer(image):
@@ -130,33 +161,53 @@ def upload_inventory(
         "schema_version": 1,
         "manifest_sha256": expected_hash,
         "status": "partial",
-        "expected_objects": len(selected),
-        "images": [],
+        "expected_objects": expected_count,
+        "images": reused,
         "errors": [],
     }
     write_json(receipt, result)
     with ThreadPoolExecutor(max_workers=workers) as executor:
-        pending = {
-            executor.submit(transfer, image): image["object_key"] for image in selected
-        }
-        for future in as_completed(pending):
-            try:
-                result["images"].append(future.result())
-            except (OSError, ValueError, RuntimeError) as error:
-                result["errors"].append(
-                    {"object_key": pending[future], "error": str(error)}
-                )
-            if (len(result["images"]) + len(result["errors"])) % 25 == 0:
-                write_json(receipt, result)
-                print(
-                    f"Verified {len(result['images'])}/{len(selected)} legacy images",
-                    flush=True,
-                )
+        pending = {}
+        remaining = iter(selected)
+
+        def submit_next():
+            image = next(remaining, None)
+            if image is not None:
+                pending[executor.submit(transfer, image)] = image["object_key"]
+
+        for _ in range(workers):
+            submit_next()
+        stopped = False
+        while pending:
+            finished, _unfinished = wait(pending, return_when=FIRST_COMPLETED)
+            for future in finished:
+                key = pending.pop(future)
+                try:
+                    result["images"].append(future.result())
+                except (OSError, ValueError, RuntimeError) as error:
+                    result["errors"].append({"object_key": key, "error": str(error)})
+                    stopped |= "download_cap_exceeded" in str(error)
+                if (len(result["images"]) + len(result["errors"])) % 25 == 0:
+                    write_json(receipt, result)
+                    print(
+                        f"Verified {len(result['images'])}/{expected_count} legacy images; "
+                        f"failed {len(result['errors'])}",
+                        flush=True,
+                    )
+            if not stopped:
+                for _ in finished:
+                    submit_next()
     result["images"].sort(key=lambda image: image["object_key"])
+    result["unattempted_objects"] = (
+        expected_count - len(result["images"]) - len(result["errors"])
+    )
     result["status"] = "failed" if result["errors"] else "verified"
     write_json(receipt, result)
     if result["errors"]:
-        raise TestFailure(f"{len(result['errors'])} legacy image uploads failed")
+        raise TestFailure(
+            f"{len(result['errors'])} legacy image uploads failed: "
+            + result["errors"][0]["error"]
+        )
     return result
 
 
@@ -302,18 +353,262 @@ def capture_readers(
                 write_json(output, result)
                 print(f"Captured {len(result['readers'])} saved readers", flush=True)
     result["readers"].sort(key=lambda reader: reader["bookmark_id"])
-    protected = {
-        path for reader in result["readers"] for path in reader["images"]
-    }
+    protected = {path for reader in result["readers"] for path in reader["images"]}
     result["protected_paths"] = sorted(protected)
     result["protected_bytes"] = sum(images[path]["bytes"] for path in protected)
     write_json(output, result)
     return result
 
 
+def publication_files(
+    repo: Path,
+    manifest: Path,
+    receipt: Path,
+    protected_paths: set[str],
+) -> dict[Path, str]:
+    inventory = read_inventory(manifest)
+    images = {image["original_path"]: image for image in inventory["images"]}
+    expected = {
+        image["object_key"]: {
+            key: image[key]
+            for key in ("object_key", "sha256", "bytes", "content_type", "url")
+        }
+        for image in images.values()
+    }
+    verified = json.loads(receipt.read_text())
+    actual = {
+        image["object_key"]: {key: image[key] for key in expected[image["object_key"]]}
+        for image in verified.get("images", [])
+    }
+    if (
+        verified.get("status") != "verified"
+        or verified.get("manifest_sha256") != digest(manifest.read_bytes())
+        or actual != expected
+        or not protected_paths <= images.keys()
+    ):
+        raise TestFailure("Complete matching upload verification is required")
+    for image in images.values():
+        source_bytes(repo, image)
+    files = {}
+    for path in sorted(repo.rglob("*.html")):
+        relative = path.relative_to(repo)
+        if any(part.startswith(".") for part in relative.parts):
+            continue
+        document = path.read_text()
+        rewritten, used = rewrite_document(
+            document, urljoin(PAGES_BASE, relative.as_posix()), images
+        )
+        if not used:
+            continue
+        if rewritten != document:
+            files[relative] = rewritten
+        metadata_path = path.with_name(path.name + ".images.json")
+        metadata = (
+            json.loads(metadata_path.read_text())
+            if metadata_path.exists()
+            else {"schema_version": 1, "images": []}
+        )
+        merged = {image["original_path"]: image for image in metadata["images"]}
+        for original_path in used:
+            image = images[original_path]
+            merged[original_path] = image | {"repository_path": original_path}
+        metadata["images"] = [merged[key] for key in sorted(merged)]
+        files[metadata_path.relative_to(repo)] = (
+            json.dumps(metadata, ensure_ascii=False, indent=2) + "\n"
+        )
+    excluded = sorted(images.keys() - protected_paths)
+    if any(re.search(r"[*?\[\]\r\n]", path) for path in excluded):
+        raise TestFailure("Unsupported pattern in a Pages image path")
+    files[Path(".github/pages-excluded-assets.txt")] = "".join(
+        f"/{path}\n" for path in excluded
+    )
+    return files
+
+
+def retain_inventory(
+    repo: Path, manifest: Path, revision: str, *, directory: Path | None = None
+) -> int:
+    from image_originals import store_original
+
+    if not re.fullmatch(r"[0-9a-f]{40}", revision):
+        raise TestFailure("An immutable repository revision is required")
+    inventory = read_inventory(manifest)
+    unique = {image["object_key"]: image for image in inventory["images"]}
+    for index, image in enumerate(unique.values(), start=1):
+        store_original(
+            image["url"],
+            source_bytes(repo, image),
+            image["content_type"],
+            expected_sha256=image["sha256"],
+            expected_bytes=image["bytes"],
+            directory=directory,
+            source_url=(
+                f"https://raw.githubusercontent.com/beila/my-collection/{revision}/"
+                + quote(image["original_path"], safe="/")
+            ),
+        )
+        if index % 250 == 0:
+            print(f"Retained {index}/{len(unique)} image originals", flush=True)
+    return len(unique)
+
+
+def reader_compatibility(before: str, after: str, images: dict[str, dict]) -> list[str]:
+    from bs4 import BeautifulSoup
+
+    def normalized(text):
+        return "".join(unicodedata.normalize("NFC", text).split())
+
+    source = BeautifulSoup(before, "html.parser")
+    target = BeautifulSoup(after, "html.parser")
+    for node in target.select("script, style, head"):
+        node.decompose()
+    target_text = normalized(target.get_text(" ", strip=True))
+    missing = [
+        node
+        for node in source.select(
+            "p, li, h1, h2, h3, h4, h5, h6, td, th, figcaption, pre"
+        )
+        if (text := normalized(node.get_text(" ", strip=True)))
+        and text not in target_text
+    ]
+    rewritten, used = rewrite_document(before, PAGES_BASE, images)
+    missing_images = [
+        path for path in used if images[path]["url"] not in html.unescape(after)
+    ]
+    image_urls = {images[path]["url"] for path in used}
+
+    def placements(document):
+        result = Counter()
+        for node in BeautifulSoup(document, "html.parser").select(
+            "img, source, video, a"
+        ):
+            urls = {
+                node.get(attribute, "")
+                for attribute in ("src", "href", "poster", "data-src", "data-original")
+            }
+            urls.update(
+                entry.strip().split()[0]
+                for entry in node.get("srcset", "").split(",")
+                if entry.strip()
+            )
+            for url in urls & image_urls:
+                result[node.name, url] += 1
+        return result
+
+    missing_placements = placements(rewritten) - placements(after)
+    errors = []
+    if missing:
+        errors.append(f"missing saved text blocks: {len(missing)}")
+    if missing_images:
+        errors.append(f"missing migrated image references: {len(missing_images)}")
+    if missing_placements:
+        errors.append(f"missing image placements: {sum(missing_placements.values())}")
+    return errors
+
+
+def refresh_readers(
+    repo: Path,
+    manifest: Path,
+    capture: Path,
+    output: Path,
+    *,
+    limit: int = 0,
+    workers: int = 4,
+    client_factory=None,
+    fetch=None,
+) -> dict:
+    if not 1 <= workers <= 4 or limit < 0:
+        raise TestFailure("Invalid Reader migration limits")
+    if client_factory is None:
+        from instapaper_v2 import InstapaperV2Client, access_token
+
+        def client_factory():
+            return InstapaperV2Client(access_token())
+
+    if fetch is None:
+        from discussion_publication import fetch_published_document
+
+        fetch = fetch_published_document
+    inventory = read_inventory(manifest)
+    images = {image["original_path"]: image for image in inventory["images"]}
+    readers = json.loads(capture.read_text())["readers"]
+    previous = json.loads(output.read_text()) if output.exists() else {}
+    if previous and previous.get("manifest_sha256") != digest(manifest.read_bytes()):
+        raise TestFailure("Reader migration checkpoint changed inventory")
+    results = previous.get("bookmarks", {})
+    selected = [
+        reader
+        for reader in readers
+        if reader["images"]
+        and results.get(reader["bookmark_id"], {}).get("status") != "verified"
+    ]
+    if limit:
+        selected = selected[:limit]
+    result = {
+        "schema_version": 1,
+        "manifest_sha256": digest(manifest.read_bytes()),
+        "bookmarks": results,
+    }
+    local = threading.local()
+    write_json(output, result)
+
+    def refresh(reader):
+        identifier = reader["bookmark_id"]
+        outcome = {"status": "pending", "images": reader["images"]}
+        try:
+            relative = image_path(reader["url"], PAGES_BASE)
+            if not relative:
+                raise TestFailure("Saved article has no collection path")
+            source = (repo / relative).resolve()
+            if not source.is_relative_to(repo.resolve()):
+                raise TestFailure("Saved article escapes the collection")
+            document = source.read_text()
+            before = (capture.parent / "readers" / f"{identifier}.html").read_text()
+            errors = reader_compatibility(before, document, images)
+            if errors:
+                raise TestFailure("; ".join(errors))
+            if fetch(reader["url"]) != document.encode():
+                raise TestFailure("Published article does not match the migration")
+            if not hasattr(local, "client"):
+                local.client = client_factory()
+            client = local.client
+            after = client.parse_bookmark(identifier, force=True)
+            errors = reader_compatibility(before, after, images)
+            for delay in (1, 3, 5):
+                if not errors:
+                    break
+                time.sleep(delay)
+                after = client.parse_bookmark(identifier, force=False)
+                errors = reader_compatibility(before, after, images)
+            if errors:
+                raise TestFailure("; ".join(errors))
+            destination = output.parent / "refreshed-readers" / f"{identifier}.html"
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            destination.write_text(after)
+            destination.chmod(0o600)
+            outcome = {"status": "verified", "sha256": digest(after.encode())}
+        except (OSError, ValueError, RuntimeError) as error:
+            outcome["error"] = str(error)
+        return identifier, outcome
+
+    with ThreadPoolExecutor(max_workers=workers) as executor:
+        pending = [executor.submit(refresh, reader) for reader in selected]
+        for index, future in enumerate(as_completed(pending), start=1):
+            identifier, outcome = future.result()
+            results[identifier] = outcome
+            write_json(output, result)
+            if index % 25 == 0:
+                print(
+                    f"Checked {index}/{len(selected)} saved reader updates", flush=True
+                )
+    return result
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("operation", choices=("upload", "plan", "readers"))
+    parser.add_argument(
+        "operation", choices=("upload", "plan", "readers", "retain", "refresh")
+    )
     parser.add_argument("--repo", type=Path, required=True)
     parser.add_argument("--manifest", type=Path, required=True)
     parser.add_argument("--sha256")
@@ -321,6 +616,9 @@ def main() -> None:
     parser.add_argument("--bookmarks", type=Path)
     parser.add_argument("--workers", type=int, default=8)
     parser.add_argument("--limit", type=int, default=0)
+    parser.add_argument("--revision")
+    parser.add_argument("--capture", type=Path)
+    parser.add_argument("--resume-receipt", type=Path)
     args = parser.parse_args()
     if args.operation == "upload":
         if not args.sha256:
@@ -332,6 +630,7 @@ def main() -> None:
             args.output,
             workers=args.workers,
             limit=args.limit,
+            resume_receipt=args.resume_receipt,
         )
         print(json.dumps({"verified": len(result["images"])}))
     elif args.operation == "plan":
@@ -349,7 +648,7 @@ def main() -> None:
                 }
             )
         )
-    else:
+    elif args.operation == "readers":
         if args.bookmarks is None:
             parser.error("readers requires --bookmarks")
         result = capture_readers(args.manifest, args.bookmarks, args.output)
@@ -359,6 +658,37 @@ def main() -> None:
                     "captured": len(result["readers"]),
                     "failed": len(result["errors"]),
                     "protected_bytes": result["protected_bytes"],
+                }
+            )
+        )
+    elif args.operation == "retain":
+        if not args.revision:
+            parser.error("retain requires --revision")
+        count = retain_inventory(args.repo, args.manifest, args.revision)
+        write_json(args.output, {"retained": count, "revision": args.revision})
+        print(json.dumps({"retained": count}))
+    else:
+        if args.capture is None:
+            parser.error("refresh requires --capture")
+        result = refresh_readers(
+            args.repo,
+            args.manifest,
+            args.capture,
+            args.output,
+            limit=args.limit,
+            workers=min(args.workers, 4),
+        )
+        print(
+            json.dumps(
+                {
+                    "verified": sum(
+                        record["status"] == "verified"
+                        for record in result["bookmarks"].values()
+                    ),
+                    "pending": sum(
+                        record["status"] != "verified"
+                        for record in result["bookmarks"].values()
+                    ),
                 }
             )
         )

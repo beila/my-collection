@@ -37,6 +37,17 @@ class NoRedirect(urllib.request.HTTPRedirectHandler):
         return None
 
 
+def _error_code(error: urllib.error.HTTPError) -> str:
+    if error.fp is None:
+        return ""
+    try:
+        payload = json.loads(error.read(4096))
+    except (OSError, ValueError, UnicodeError):
+        return ""
+    code = payload.get("code") if isinstance(payload, dict) else None
+    return code if isinstance(code, str) and re.fullmatch(r"[\w-]{1,96}", code) else ""
+
+
 def _retry(operation: Callable[[], Any], label: str) -> Any:
     for attempt in range(MAX_REQUEST_ATTEMPTS):
         delay = 2**attempt
@@ -45,10 +56,11 @@ def _retry(operation: Callable[[], Any], label: str) -> Any:
         except urllib.error.HTTPError as error:
             status = error.code
             retry_after = error.headers.get("Retry-After") if error.headers else None
+            code = _error_code(error)
+            detail = f"HTTP {status}" + (f" ({code})" if code else "")
             error.close()
             if status not in {408, 429} and not 500 <= status < 600:
-                raise TestFailure(f"{label} failed with HTTP {status}") from None
-            detail = f"HTTP {status}"
+                raise TestFailure(f"{label} failed with {detail}") from None
             if retry_after:
                 try:
                     required_delay = float(retry_after)
