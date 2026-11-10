@@ -1,0 +1,52 @@
+name: Migrate legacy collection images
+run-name: Legacy images ${{ inputs.manifest_sha256 }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      manifest_sha256:
+        description: SHA-256 of the committed legacy image inventory
+        required: true
+        type: string
+      limit:
+        description: Maximum objects for a probe, or zero for all objects
+        default: "0"
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: legacy-image-migration
+  cancel-in-progress: false
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Upload and anonymously verify existing images
+        env:
+          B2_APPLICATION_KEY_ID: ${{ secrets.B2_APPLICATION_KEY_ID }}
+          B2_APPLICATION_KEY: ${{ secrets.B2_APPLICATION_KEY }}
+          MANIFEST_SHA256: ${{ inputs.manifest_sha256 }}
+          IMAGE_LIMIT: ${{ inputs.limit }}
+        run: |
+          python3 .github/scripts/legacy_image_migration.py upload \
+            --repo . \
+            --manifest .github/legacy-image-migration.json \
+            --sha256 "$MANIFEST_SHA256" \
+            --output "$RUNNER_TEMP/legacy-image-receipt.json" \
+            --workers 8 \
+            --limit "$IMAGE_LIMIT"
+      - name: Retain the migration receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: legacy-images-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/legacy-image-receipt.json
+          if-no-files-found: error
+          retention-days: 30
