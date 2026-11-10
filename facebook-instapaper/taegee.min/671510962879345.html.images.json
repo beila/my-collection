@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "images": [
+    {
+      "path": "images/v1/63ef318d96b5d0d0ceba6e04a4e622b1158335cdc67c49e27839132c6f655058.png",
+      "object_key": "images/v1/63ef318d96b5d0d0ceba6e04a4e622b1158335cdc67c49e27839132c6f655058.png",
+      "sha256": "63ef318d96b5d0d0ceba6e04a4e622b1158335cdc67c49e27839132c6f655058",
+      "bytes": 68,
+      "content_type": "image/png",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/63ef318d96b5d0d0ceba6e04a4e622b1158335cdc67c49e27839132c6f655058.png",
+      "original_path": "facebook-instapaper/taegee.min/671510962879345/63ef318d96b5d0d0ceba6e04a4e622b1158335cdc67c49e27839132c6f655058.png",
+      "repository_path": "image-originals/images/v1/63ef318d96b5d0d0ceba6e04a4e622b1158335cdc67c49e27839132c6f655058.png"
+    },
+    {
+      "path": "images/v1/0d5cd258e9431b0c9462a5e9332a1951e521366eba355c0586f2b603135fd11f.jpg",
+      "object_key": "images/v1/0d5cd258e9431b0c9462a5e9332a1951e521366eba355c0586f2b603135fd11f.jpg",
+      "sha256": "0d5cd258e9431b0c9462a5e9332a1951e521366eba355c0586f2b603135fd11f",
+      "bytes": 5391,
+      "content_type": "image/jpeg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/0d5cd258e9431b0c9462a5e9332a1951e521366eba355c0586f2b603135fd11f.jpg",
+      "original_path": "youtube-thumbnails/0d5cd258e9431b0c9462a5e9332a1951e521366eba355c0586f2b603135fd11f.jpg",
+      "repository_path": "image-originals/images/v1/0d5cd258e9431b0c9462a5e9332a1951e521366eba355c0586f2b603135fd11f.jpg"
+    }
+  ]
+}
