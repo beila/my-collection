@@ -5,6 +5,8 @@ Public generated reading copies used by local automation. The
 articles and copied media.
 
 A GitHub Pages artifact is deployed after each push to `main`.
+Build and deployment use separate jobs. Each upload has a unique artifact
+name; deployment retries reuse the successful build's artifact.
 
 ## Image Retention
 
