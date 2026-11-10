@@ -1,0 +1,39 @@
+name: Check public B2 image access
+
+on:
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Read the B2 error response
+        run: |
+          python3 - <<'PY'
+          import hashlib
+          import json
+          import urllib.error
+          import urllib.request
+
+          base = "https://f003.backblazeb2.com/file/my-collection-images/images/v1/"
+          names = (
+              "0001fa485bd3032d095a17a53b42c649cb6f94edbab279c5cbf4d34aaa559e0a.jpg",
+              "39ff57b607093ee99c9dbf00c7fd55524532b648e5db30d46573cad2bf55edd1.jpg",
+          )
+          for name in names:
+              try:
+                  with urllib.request.urlopen(base + name, timeout=30) as response:
+                      content = response.read(32 * 1024 * 1024 + 1)
+                      print(json.dumps({
+                          "object": name,
+                          "status": response.status,
+                          "bytes": len(content),
+                          "sha256": hashlib.sha256(content).hexdigest(),
+                      }))
+              except urllib.error.HTTPError as error:
+                  body = error.read(4096).decode("utf-8", errors="replace")
+                  print(json.dumps({"object": name, "status": error.code, "body": body}))
+          PY
