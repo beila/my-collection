@@ -1,10 +1,13 @@
 name: Daily legacy image migration
-run-name: Legacy images before the daily B2 reset
+run-name: Legacy images ${{ inputs.migration_day }}
 
 on:
-  schedule:
-    - cron: "45 23 * * *"
   workflow_dispatch:
+    inputs:
+      migration_day:
+        description: UTC date of the permitted migration window (YYYY-MM-DD)
+        required: true
+        type: string
 
 permissions:
   contents: read
@@ -15,28 +18,22 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  window:
-    runs-on: ubuntu-latest
-    outputs:
-      permitted: ${{ steps.check.outputs.permitted }}
-    steps:
-      - name: Skip runs delayed beyond the migration window
-        id: check
-        run: |
-          current=$(date -u +%H%M)
-          if (( 10#$current < 2345 || 10#$current > 2355 )); then
-            echo "permitted=false" >> "$GITHUB_OUTPUT"
-            echo "Waiting for the next 23:45 UTC window."
-          else
-            echo "permitted=true" >> "$GITHUB_OUTPUT"
-          fi
-
   upload:
-    needs: window
-    if: needs.window.outputs.permitted == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
+      - name: Require the requested migration window
+        env:
+          MIGRATION_DAY: ${{ inputs.migration_day }}
+        run: |
+          current=$(date -u +%H%M)
+          day=$(date -u +%Y-%m-%d)
+          if [[ "$MIGRATION_DAY" != "$day" ]] || (( 10#$current < 2345 || 10#$current > 2355 )); then
+            message="Missed migration window: requested $MIGRATION_DAY, runner started $day $current UTC."
+            echo "::error::$message"
+            echo "$message No images were transferred." >> "$GITHUB_STEP_SUMMARY"
+            exit 1
+          fi
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
@@ -70,8 +67,8 @@ jobs:
           receipt="$RUNNER_TEMP/legacy-checkpoint/legacy-image-receipt.json"
           remaining=$(( $(date -u -d 'today 23:58:00' +%s) - $(date -u +%s) ))
           if (( remaining <= 0 )); then
-            echo "The migration window has ended; checkpoint retained."
-            exit 0
+            echo "::error::The migration window ended before the upload started; checkpoint retained."
+            exit 1
           fi
           set +e
           timeout --signal=INT --kill-after=5s "${remaining}s" \
