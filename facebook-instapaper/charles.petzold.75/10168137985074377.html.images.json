@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "images": [
+    {
+      "path": "images/v1/6b47d5cdbcb3dfceb821b2e8999212fe4ac96cb60194ae18bdac1143c10e9b78.jpg",
+      "object_key": "images/v1/6b47d5cdbcb3dfceb821b2e8999212fe4ac96cb60194ae18bdac1143c10e9b78.jpg",
+      "sha256": "6b47d5cdbcb3dfceb821b2e8999212fe4ac96cb60194ae18bdac1143c10e9b78",
+      "bytes": 20835,
+      "content_type": "image/jpeg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/6b47d5cdbcb3dfceb821b2e8999212fe4ac96cb60194ae18bdac1143c10e9b78.jpg",
+      "original_path": "facebook-instapaper/charles.petzold.75/10168137985074377/6b47d5cdbcb3dfceb821b2e8999212fe4ac96cb60194ae18bdac1143c10e9b78.jpg",
+      "repository_path": "image-originals/images/v1/6b47d5cdbcb3dfceb821b2e8999212fe4ac96cb60194ae18bdac1143c10e9b78.jpg"
+    },
+    {
+      "path": "images/v1/ff330b4ec029819c1a357d02f7323576021665ae7fbb228bd899833d2a679b98.jpg",
+      "object_key": "images/v1/ff330b4ec029819c1a357d02f7323576021665ae7fbb228bd899833d2a679b98.jpg",
+      "sha256": "ff330b4ec029819c1a357d02f7323576021665ae7fbb228bd899833d2a679b98",
+      "bytes": 28736,
+      "content_type": "image/jpeg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/ff330b4ec029819c1a357d02f7323576021665ae7fbb228bd899833d2a679b98.jpg",
+      "original_path": "youtube-thumbnails/ff330b4ec029819c1a357d02f7323576021665ae7fbb228bd899833d2a679b98.jpg",
+      "repository_path": "image-originals/images/v1/ff330b4ec029819c1a357d02f7323576021665ae7fbb228bd899833d2a679b98.jpg"
+    }
+  ]
+}
