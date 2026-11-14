@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Instapaper · Operations</title>
+<style>
+:root{--paper:oklch(97% .014 85);--panel:oklch(99% .006 85);--ink:oklch(26% .025 54);--muted:oklch(49% .025 60);--accent:oklch(47% .15 32);--line:oklch(85% .02 75);--tint:oklch(92% .034 48);font:14px/1.5 "Avenir Next",Avenir,"Trebuchet MS","Noto Sans",sans-serif;color:var(--ink);background:var(--paper)}
+*{box-sizing:border-box}body{margin:0;min-width:320px}a{color:var(--accent);text-underline-offset:3px}button,input,select{font:inherit;color:inherit}button,select{cursor:pointer}button,input,select{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:8px 10px}button:focus-visible,a:focus-visible,summary:focus-visible,input:focus-visible,select:focus-visible,[tabindex]:focus-visible{outline:3px solid var(--accent);outline-offset:3px}h1,h2,p{margin:0}h1{font-size:21px;letter-spacing:-.03em}h2{font-size:17px}header{border-bottom:1px solid var(--line);padding:18px clamp(18px,4vw,64px);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}nav{display:flex;gap:16px;align-items:center;font-size:12px}main{max-width:1500px;margin:auto;padding:24px clamp(18px,4vw,64px) 48px}.intro{color:var(--muted);max-width:850px;font-size:13px}.filters{display:flex;gap:12px;flex-wrap:wrap;margin:22px 0}.filters label{display:grid;gap:4px;min-width:130px;font-size:11px;color:var(--muted)}.filters select{max-width:290px;color:var(--ink);font-size:13px;height:40px}.filters .source{flex:1;min-width:180px}.source select{max-width:100%;width:100%}.facts{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);background:var(--panel);margin:22px 0 30px}.fact{padding:18px 20px;border-right:1px solid var(--line)}.fact:last-child{border:0}.fact span{display:block;font-size:11px;color:var(--muted)}.fact strong{display:block;font-size:30px;line-height:1.4;font-weight:500;font-variant-numeric:tabular-nums}.fact small{font-size:11px;color:var(--muted)}.grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}.panel{min-width:0;border-top:2px solid var(--ink);padding-top:15px}.wide{grid-column:1/-1}.panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.caption{font-size:12px;color:var(--muted);margin:6px 0 16px}.caption strong{color:var(--ink);font-weight:500}.chart{background:var(--panel);border:1px solid var(--line);padding:12px;min-height:180px}.chart svg{display:block;width:100%;height:auto;max-height:280px;overflow:visible}.chart text{font:11px "Trebuchet MS",sans-serif;fill:var(--muted)}.chart .gridline{stroke:var(--line);stroke-width:1;stroke-dasharray:3 4}.legend{display:flex;gap:9px 16px;flex-wrap:wrap;margin:12px 0 4px;font-size:11px}.key{display:inline-block;width:9px;height:9px;margin-right:6px;border-radius:50%}.empty{color:var(--muted);font-size:13px;min-height:170px;display:grid;place-content:center;text-align:center;padding:22px}.readout{font-size:12px;color:var(--muted);min-height:22px;margin-top:8px}.notice{padding:12px 16px;background:var(--tint);font-size:12px;margin-top:20px;line-height:1.7}.searchbar{display:flex;gap:8px;align-items:center;margin:14px 0}.searchbar input{flex:1;min-width:0}.table-wrap{overflow:auto;max-height:440px}table{border-collapse:collapse;width:100%;font-size:12px}th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);white-space:nowrap}th{font-size:11px;color:var(--muted);background:var(--paper);position:sticky;top:0}td:first-child{white-space:normal;min-width:160px}td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}td a{color:var(--ink)}.table-button{border:0;background:none;padding:0;color:var(--accent);text-align:left}.table-button:hover{text-decoration:underline}details{font-size:12px;margin-top:12px}summary{cursor:pointer;color:var(--muted)}.definitions{margin-top:30px;border-top:1px solid var(--line);padding-top:14px;color:var(--muted);font-size:12px;line-height:1.8}.definitions p{margin:8px 0}.sync{font-size:11px;color:var(--muted);margin-top:8px}#error{color:var(--accent)}
+.searchbar{flex-wrap:wrap}.searchbar input{flex:1 1 160px}.searchbar label{display:flex;gap:8px;align-items:center}
+@media(max-width:760px){.grid{grid-template-columns:1fr;gap:28px}.wide{grid-column:auto}.facts{grid-template-columns:1fr 1fr}.fact:nth-child(2){border-right:0}.fact:nth-child(-n+2){border-bottom:1px solid var(--line)}.fact{padding:14px}.filters label{flex:1;min-width:120px}.filters select{width:100%;max-width:100%}.filters .source{flex-basis:100%}header nav{gap:12px}.fact strong{font-size:26px}.chart{padding:9px}}
+@media(prefers-reduced-motion:no-preference){button,a{transition:color .12s,background .12s}}
+</style>
+</head>
+<body>
+<header><h1>Instapaper operations</h1><nav aria-label="Pages"><a href="./index.html">Sources</a><strong aria-current="page">Statistics</strong><button id="refresh" type="button">Refresh ↻</button></nav></header>
+<main>
+<p class="intro">What gets checked, what arrives, and what is waiting. Actual activity is separate from the configured schedule in the source browser.</p>
+<p id="sync" class="sync" role="status">Loading recorded activity…</p>
+<p id="error" role="alert"></p>
+<div class="filters" aria-label="Statistics filters">
+ <label>Period<select id="period"><option value="7">Last 7 days</option><option value="30" selected>Last 30 days</option><option value="90">Last 90 days</option><option value="365">Last year</option></select></label>
+ <label>Interval<select id="interval"><option value="day">Daily</option><option value="week">Weekly</option></select></label>
+ <label>Group activity by<select id="group"><option value="group">Monitoring cadence</option><option value="destination">Destination</option><option value="source">Individual source</option></select></label>
+ <label>Destination<select id="destination"><option value="">All destinations</option></select></label>
+ <label class="source">Source<select id="source"><option value="">All sources</option></select></label>
+ <button id="reset" type="button">Reset</button>
+</div>
+<section class="facts" aria-label="Selected period summary" id="facts"></section>
+<div class="grid">
+ <section class="panel wide"><div class="panel-head"><h2>Source activity</h2><label><select id="measure" aria-label="Activity measure"><option value="checks">Source checks</option><option value="bookmarks">New bookmarks & editions</option><option value="conversions">Conversions</option></select></label></div><p class="caption" id="activity-caption"></p><div id="activity-chart" class="chart"></div><div id="activity-legend" class="legend"></div><div id="activity-readout" class="readout" aria-live="polite"></div><details><summary>Activity values</summary><div id="activity-values" class="table-wrap"></div></details></section>
+ <section class="panel"><h2>Facebook acquisition queue</h2><p class="caption">Global · last observation of each day; thin line shows that day's observed peak. Cooldown includes recurring profiles.</p><div id="queue-chart" class="chart"></div><div id="queue-legend" class="legend"></div><div id="queue-readout" class="readout" aria-live="polite"></div><details><summary>Queue values</summary><div id="queue-values" class="table-wrap"></div></details></section>
+ <section class="panel"><h2>Scheduler invocations</h2><p class="caption" id="run-caption">Global · includes maintenance, Facebook acquisition, repair passes, and manual scopes.</p><div id="runs-chart" class="chart"></div><div id="runs-legend" class="legend"></div><div id="runs-readout" class="readout" aria-live="polite"></div><details><summary>Invocation values</summary><div id="runs-values" class="table-wrap"></div></details></section>
+ <section class="panel wide"><h2>Sources in this period</h2><p class="caption">Select a name to isolate its trend. “Browse” opens its preview and monitoring rule. Unrecorded checks are shown as —.</p><div class="searchbar"><input id="search" type="search" aria-label="Find a source in statistics" placeholder="Find a source…"><button id="clear" type="button" aria-label="Clear source search">×</button><label>Sort <select id="sort"><option value="checks">Most checks</option><option value="added">Most added</option><option value="failed">Most failures</option><option value="name">Name</option></select></label></div><div id="source-table" class="table-wrap"></div></section>
+ <section class="panel"><h2>Reported failures by stage</h2><p class="caption">Global · failure occurrences per pass, including a held failure reported again. These are not unique incidents.</p><div id="failure-table" class="table-wrap"></div></section>
+ <section class="panel"><h2>Current queue detail</h2><p class="caption">Global · latest sampled state, independent of the selected date range.</p><div id="queue-detail" class="table-wrap"></div></section>
+</div>
+<div class="notice" id="coverage"></div>
+<details class="definitions"><summary>Definitions, coverage, and retention</summary>
+<p><strong>Source check:</strong> one attempted acquisition and parse for a direct feed, rolling newsletter, reading-index source, or enabled Facebook profile. Inner HTTP retries are one check. A condition being evaluated without a fetch is not a check.</p>
+<p><strong>New bookmarks & editions:</strong> unique bookmark IDs with confirmed delivery receipts. Replacement newsletter editions count as arrivals. Conversions of existing saved links have their own measure; refreshes, temporary verification copies, and moves are excluded. A 다읽기 page counts as one bookmark, even when it contains several articles.</p>
+<p><strong>Historical additions:</strong> confirmed, dated feed-monitor records retained locally. They provide partial history, not an account-wide total. Checks and queue measurements begin when recording was installed; blank earlier periods mean unknown. Source cadence and destination associations for checks use the current catalog; delivered bookmark destinations are recorded at delivery.</p>
+<p><strong>Invocations:</strong> CLI starts, including manual scopes and lock-deferred attempts. “Open / interrupted” means no exit was recorded; it does not establish that a process is still running. Duration excludes invocations without a recorded exit.</p>
+<p>Daily activity and invocation records are retained for 365 days; hourly queue observations for 35 days. The public snapshot updates with collection page deployments. All dates and chart buckets use UTC. No bookmark text, repair notes, error messages, or credentials are exported.</p>
+</details>
+</main>
+<script>
+const $=id=>document.getElementById(id), esc=value=>String(value??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const colors=["#a34427","#276b70","#817137","#755f92","#526a42","#376699","#867362","#b37a8a"];
+const names={frequent:"Every ~15 min",hourly:"About hourly · 다읽기",daily:"Daily rotation",facebook:"Facebook queue",conditional:"When triggered"};
+let data, fetching=false, catalog=new Map(), firstLoad=true;
+const num=n=>Math.round(n||0).toLocaleString();
+const dayOf=at=>new Date(at).toISOString().slice(0,10);
+const start=()=>dayOf(Date.now()-(Number($("period").value)-1)*86400000);
+const selected=source=>!$("source").value||source===$("source").value;
+const folder=value=>String(value||"").toLocaleLowerCase();
+function matches(row) {
+ if(!selected(row.source)) return false;
+ const destination=folder($("destination").value), source=catalog.get(row.source);
+ return !destination||(row.metric==="bookmarks"?folder(row.destination)===destination: [source?.folder,source?.collection].some(v=>folder(v)===destination));
+}
+function bucket(day){if($("interval").value==="day")return day;const d=new Date(day+"T00:00:00Z");d.setUTCDate(d.getUTCDate()-((d.getUTCDay()+6)%7));return dayOf(d);}
+function inPeriod(day){return day>=start()&&day<=dayOf(Date.now());}
+function grouped(rows,label,value){const map=new Map();for(const row of rows){const key=bucket(row.day),series=label(row);if(!map.has(key))map.set(key,{});const values=map.get(key);values[series]=(values[series]||0)+value(row);}return [...map].sort(([a],[b])=>a.localeCompare(b)).map(([day,values])=>({day,...values}));}
+function valuesTable(rows,series){return '<table><thead><tr><th>UTC date</th>'+series.map(s=>'<th class="num">'+esc(s)+'</th>').join("")+'</tr></thead><tbody>'+rows.map(r=>'<tr><td>'+esc(r.day)+'</td>'+series.map(s=>'<td class="num">'+num(r[s])+'</td>').join("")+'</tr>').join("")+'</tbody></table>';}
+function chart(id,rows,series,{stack=false,peak=false}={}){
+ $(id+"-legend").innerHTML=series.map((s,i)=>'<span><i class="key" style="background:'+colors[i%colors.length]+'"></i>'+esc(s)+'</span>').join("");
+ $(id+"-values").innerHTML=valuesTable(rows,series);
+ const target=$(id+"-chart");$(id+"-readout").textContent="";
+ if(!rows.length){target.innerHTML='<p class="empty">No observations recorded in this period.</p>';return;}
+ const W=Math.max(280,target.clientWidth-24),H=240,L=46,R=16,T=14,B=30,w=W-L-R,h=H-T-B,pad=stack?20:8;
+ const first=new Date(rows[0].day+"T00:00:00Z").getTime(),last=new Date(rows.at(-1).day+"T00:00:00Z").getTime();
+ const x=r=>L+(last===first?w/2:pad+(new Date(r.day+"T00:00:00Z").getTime()-first)/(last-first)*(w-2*pad));
+ const max=Math.max(1,...rows.map(r=>stack?series.reduce((n,s)=>n+(r[s]||0),0):Math.max(...series.map(s=>r[s]||0))));
+ const y=n=>T+h-n/max*h;
+ let svg='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+esc(id)+' trend; exact values follow">';
+ for(let i=0;i<4;i++){const n=max*i/3;svg+='<line class="gridline" x1="'+L+'" x2="'+(W-R)+'" y1="'+y(n)+'" y2="'+y(n)+'"/><text x="'+(L-8)+'" y="'+(y(n)+4)+'" text-anchor="end">'+num(n)+'</text>';}
+ if(stack){const bw=Math.min(38,w/Math.max(2,rows.length)*.75);for(const row of rows){let sum=0;series.forEach((s,i)=>{const n=row[s]||0;svg+='<rect x="'+(x(row)-bw/2)+'" y="'+y(sum+n)+'" width="'+bw+'" height="'+(n/max*h)+'" fill="'+colors[i%colors.length]+'"/>';sum+=n;});}}
+ else series.forEach((s,i)=>{const points=rows.map(r=>x(r)+","+y(r[s]||0)).join(" ");svg+='<polyline points="'+points+'" fill="none" stroke="'+colors[i%colors.length]+'" stroke-width="'+(peak&&s==="Observed peak"?1:2.5)+'"'+(peak&&s==="Observed peak"?' stroke-dasharray="5 5"':"")+'/>';});
+ rows.forEach((row,index)=>{const desc=row.day+" · "+series.map(s=>s+": "+num(row[s])).join(" · ");svg+='<g tabindex="0" data-chart="'+id+'" data-row="'+index+'" aria-label="'+esc(desc)+'"><title>'+esc(desc)+'</title><rect x="'+(x(row)-8)+'" y="'+T+'" width="16" height="'+h+'" fill="transparent"/>';if(!stack)series.forEach((s,i)=>{svg+='<circle cx="'+x(row)+'" cy="'+y(row[s]||0)+'" r="3" fill="'+colors[i%colors.length]+'"/>';});svg+='</g>';});
+ [rows[0],...(rows.length>2?[rows[Math.floor(rows.length/2)]]:[]),...(rows.length>1?[rows.at(-1)]:[])].forEach(r=>{svg+='<text x="'+x(r)+'" y="'+(H-6)+'" text-anchor="middle">'+esc(r.day.slice(5))+'</text>';});
+ target.innerHTML=svg+'</svg>';
+ const describe=e=>{const mark=e.target.closest("[data-row]");if(mark)$(id+"-readout").textContent=mark.getAttribute("aria-label");};
+ target.onpointerover=describe;target.onclick=describe;target.onfocusin=describe;
+}
+function table(rows,headers){return '<table><thead><tr>'+headers.map(h=>'<th>'+esc(h)+'</th>').join("")+'</tr></thead><tbody>'+rows.map(r=>'<tr>'+r.map(v=>'<td>'+esc(v)+'</td>').join("")+'</tr>').join("")+'</tbody></table>';}
+function render(){
+ const rows=data.activity.filter(r=>inPeriod(r.day)), filtered=rows.filter(matches), runs=data.runs.filter(r=>inPeriod(r.day));
+ const sum=(a,fn)=>a.reduce((n,r)=>n+fn(r),0), checks=filtered.filter(r=>r.metric==="checks"), added=filtered.filter(r=>r.metric==="bookmarks"&&r.status!=="conversion"), failed=sum(checks,r=>r.status==="failed"?r.count:0), runCount=sum(runs,r=>r.count), last=data.queue.at(-1);
+ $("facts").innerHTML=[
+  ["Source checks",checks.length?num(sum(checks,r=>r.count)):"—",checks.length?num(failed)+" failed · "+(100*failed/sum(checks,r=>r.count)).toFixed(1)+"%":"No check history in this period"],
+  ["Arrivals",num(sum(added,r=>r.count)),"Confirmed new bookmarks & editions"],
+  ["Invocations · global",runs.length?num(runCount):"—",runs.length?num(sum(runs,r=>r.status==="failed"?r.count:0))+" nonzero exits":"No invocation history in this period"],
+  ["Ready queue jobs · now",last?num(last.ready):"—",last?num(last.cooldown)+" on cooldown · "+num(last.failed)+" failed":"No queue sample yet"]
+ ].map(([label,value,note])=>'<div class="fact"><span>'+esc(label)+'</span><strong>'+esc(value)+'</strong><small>'+esc(note)+'</small></div>').join("");
+ const measure=$("measure").value, activity=filtered.filter(r=>measure==="checks"?r.metric==="checks":r.metric==="bookmarks"&&(measure==="conversions"?r.status==="conversion":r.status!=="conversion"));
+ const label=r=>{const s=catalog.get(r.source);if($("group").value==="source")return s?.name||r.source;if($("group").value==="destination")return r.metric==="bookmarks"?r.destination:(s?.collection||s?.folder||"Unassigned");return names[s?.group]||"Other";};
+ let points=grouped(activity,label,r=>r.count), totals={};points.forEach(r=>Object.entries(r).forEach(([k,v])=>{if(k!=="day")totals[k]=(totals[k]||0)+v;}));
+ const ranked=Object.keys(totals).sort((a,b)=>totals[b]-totals[a]), kept=ranked.slice(0,6), extra=ranked.slice(6);
+ if(extra.length){points=points.map(r=>({...r,Other:sum(extra,k=>r[k]||0)}));kept.push("Other");}
+ $("activity-caption").textContent=(measure==="checks"?"Attempted acquisition and parsing, including failed checks.":measure==="conversions"?"Existing links converted into readable bookmarks; refreshes and verification copies excluded.":"One delivered page is one bookmark. Dated historical feed additions are partial.")+" Grouping uses "+$("group").selectedOptions[0].text.toLowerCase()+".";
+ chart("activity",points,kept,{stack:measure!=="checks"});
+ const qdays=new Map();for(const q of data.queue){const day=q.hour.slice(0,10);if(!inPeriod(day))continue;const prior=qdays.get(day);qdays.set(day,{...q,day,peak:Math.max(q.peak,prior?.peak||0)});}
+ const qrows=[...qdays.values()].map(q=>({day:q.day,Ready:q.ready,Cooldown:q.cooldown,Running:q.running,Failed:q.failed,"Observed peak":q.peak}));
+ chart("queue",qrows,["Ready","Cooldown","Running","Failed","Observed peak"],{peak:true});
+ const runNames={maintenance:"Maintenance",facebook:"Facebook",repair:"Repair",kindle:"Kindle",scoped:"Manual scope","repair-runner":"Repair runner"};
+ const rpoints=grouped(runs,r=>runNames[r.mode]||r.mode,r=>r.count), rseries=[...new Set(runs.map(r=>runNames[r.mode]||r.mode))];
+ chart("runs",rpoints,rseries,{stack:true});
+ const finished=sum(runs,r=>r.status==="running"?0:r.count), seconds=sum(runs,r=>r.seconds);
+ $("run-caption").textContent="Global · "+(finished?"average completed invocation "+(seconds/finished/60).toFixed(1)+" min · ":"")+num(sum(runs,r=>r.status==="running"?r.count:0))+" open / interrupted. Scopes can overlap.";
+ const stages=grouped(rows.filter(r=>r.metric==="failures"),r=>r.source,r=>r.count), stageTotals={};
+ stages.forEach(r=>Object.entries(r).forEach(([k,v])=>{if(k!=="day")stageTotals[k]=(stageTotals[k]||0)+v;}));
+ $("failure-table").innerHTML=Object.keys(stageTotals).length?table(Object.entries(stageTotals).sort((a,b)=>b[1]-a[1]).map(([k,v])=>[k,num(v)]),["Stage","Occurrences"]):'<p class="caption">No recorded failure occurrences in this period.</p>';
+ $("queue-detail").innerHTML=last?table([["Post jobs",num(last.posts)],["Profile jobs",num(last.profiles)],["Oldest ready work",last.oldest_ready_hours.toFixed(1)+" hours"],["Sampled",new Date(last.at*1000).toLocaleString("en-GB",{timeZone:"UTC"})+" UTC"]],["Metric","Latest value"]):'<p class="caption">No observations yet.</p>';
+ $("coverage").textContent=data.recording_started?"Full instrumentation began "+new Date(data.recording_started*1000).toLocaleString("en-GB",{timeZone:"UTC"})+" UTC. Earlier arrivals are partial retained feed history. Blank checks and queue history mean unknown, not zero.":"Recording has not started. History will appear after the next instrumented scheduler run.";
+ renderSources(filtered);
+}
+function renderSources(rows){
+ const activeIds=new Set(rows.map(r=>r.source));
+ const stats=new Map(data.sources.filter(s=>selected(s.id)&&(!$("destination").value||activeIds.has(s.id)||[s.folder,s.collection].some(v=>folder(v)===folder($("destination").value)))).map(s=>[s.id,{...s,checks:0,added:0,failed:0,observed:false}]));
+ for(const r of rows){const s=stats.get(r.source);if(!s)continue;if(r.metric==="checks"){s.observed=true;s.checks+=r.count;if(r.status==="failed")s.failed+=r.count;}if(r.metric==="bookmarks"&&r.status!=="conversion")s.added+=r.count;}
+ const needle=$("search").value.toLocaleLowerCase(), order=$("sort").value;
+ const list=[...stats.values()].filter(s=>s.name.toLocaleLowerCase().includes(needle)).sort((a,b)=>order==="name"?a.name.localeCompare(b.name):b[order]-a[order]||a.name.localeCompare(b.name));
+ $("source-table").innerHTML='<table><thead><tr><th>Source</th><th>Cadence</th><th>Destination</th><th class="num">Checks</th><th class="num">Failed</th><th class="num">Arrivals</th><th>Preview</th></tr></thead><tbody>'+list.map(s=>'<tr><td><button type="button" class="table-button" data-source="'+esc(s.id)+'">'+esc(s.name)+'</button></td><td>'+esc(names[s.group]||s.group)+'</td><td>'+esc(s.collection||s.folder||"—")+'</td><td class="num">'+(s.observed?num(s.checks):"—")+'</td><td class="num">'+(s.observed?num(s.failed):"—")+'</td><td class="num">'+num(s.added)+'</td><td>'+(s.configured!==false?'<a href="./index.html?source='+encodeURIComponent(s.id)+'">Browse ↗</a>':"—")+'</td></tr>').join("")+'</tbody></table>';
+ if(!list.length)$("source-table").innerHTML='<p class="caption">No sources match.</p>';
+}
+async function refresh(){
+ if(fetching)return;fetching=true;$("refresh").disabled=true;
+ try{
+  const response=await fetch("./statistics.json",{cache:"no-store"});if(!response.ok)throw Error("Statistics snapshot is unavailable");
+  const next=await response.json();if(next.unavailable)throw Error("Operational history is unavailable in this snapshot.");if(!Array.isArray(next.sources)||!Array.isArray(next.activity))throw Error("Statistics snapshot is incomplete.");data=next;catalog=new Map(data.sources.map(s=>[s.id,s]));
+  const previousSource=firstLoad?new URLSearchParams(location.search).get("source")||"":$("source").value, previousDestination=$("destination").value;
+  $("source").innerHTML='<option value="">All sources</option>'+data.sources.slice().sort((a,b)=>a.name.localeCompare(b.name)).map(s=>'<option value="'+esc(s.id)+'">'+esc(s.name)+'</option>').join("");
+  $("source").value=catalog.has(previousSource)?previousSource:"";
+  const destinations=[...new Set([...data.sources.flatMap(s=>[s.folder,s.collection]),...data.activity.filter(r=>r.metric==="bookmarks").map(r=>r.destination)].filter(Boolean).map(folder))].sort();
+  $("destination").innerHTML='<option value="">All destinations</option>'+destinations.map(d=>'<option value="'+esc(d)+'">'+esc(d)+'</option>').join("");$("destination").value=destinations.includes(previousDestination)?previousDestination:"";
+  $("sync").textContent="Snapshot "+new Date(data.generated_at).toLocaleString("en-GB",{timeZone:"UTC"})+" UTC · updates with page deployments";
+  $("error").textContent="";firstLoad=false;render();
+ }catch(error){$("error").textContent=error.message;}finally{fetching=false;$("refresh").disabled=false;}
+}
+["period","interval","group","destination","source","measure","sort"].forEach(id=>$(id).addEventListener("change",()=>data&&render()));
+$("search").addEventListener("input",()=>data&&render());$("clear").onclick=()=>{$("search").value="";if(data)render();$("search").focus();};
+$("reset").onclick=()=>{$("source").value="";$("destination").value="";$("search").value="";if(data)render();};
+$("source-table").onclick=e=>{const button=e.target.closest("[data-source]");if(button){$("source").value=button.dataset.source;render();$("activity-chart").scrollIntoView({block:"center"});}};
+$("refresh").onclick=refresh;document.addEventListener("visibilitychange",()=>{if(!document.hidden)refresh();});refresh();
+let resizeFrame;window.addEventListener("resize",()=>{cancelAnimationFrame(resizeFrame);resizeFrame=requestAnimationFrame(()=>{if(data&&!data.unavailable)render();});});
+</script>
+</body>
+</html>

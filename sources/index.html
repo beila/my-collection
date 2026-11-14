@@ -116,7 +116,7 @@ dd { margin: 0; font-size: 12px; line-height: 1.7; overflow-wrap: anywhere; }
 <header class="masthead">
   <div class="topline">
     <h1>Instapaper sources</h1>
-    <div class="sync"><span class="sync-dot" aria-hidden="true"></span><span id="sync-status" role="status">Loading sources…</span><button id="refresh" type="button">Refresh ↻</button></div>
+    <div class="sync"><a href="./statistics.html">Statistics ↗</a><span class="sync-dot" aria-hidden="true"></span><span id="sync-status" role="status">Loading sources…</span><button id="refresh" type="button">Refresh ↻</button></div>
   </div>
 </header>
 <div class="toolbar" role="search" aria-label="Filter sources">
@@ -172,7 +172,7 @@ function details(source) {
     editions+
     '<dl class="detail-facts">'+fact("Checked",source.monitoring,true)+fact("Added when",source.rule,true)+fact("Delivered as",source.delivery,true)+fact("Destination",source.folder)+fact("Tags",source.tags.join(" ")||"No new tags")+'</dl>'+
     (source.error?'<div class="rule-error"><strong>Recorded source error</strong><br>'+esc(source.error)+'</div>':"")+
-    '<div class="provenance">'+(source.config?'Configuration: '+esc(source.config)+'.<br>':"")+'Previews are saved excerpts. This page does not change bookmarks.</div>';
+    '<div class="provenance"><a href="./statistics.html?source='+encodeURIComponent(source.id)+'">Activity statistics ↗</a><br>'+(source.config?'Configuration: '+esc(source.config)+'.<br>':"")+'Previews are saved excerpts. This page does not change bookmarks.</div>';
 }
 function articlePreviews(source) {
   return '<div class="preview-heading"><h3>'+(source.previews.length?"Latest available previews":"Source preview")+'</h3><small>'+(source.cached_at?"Cache checked "+esc(date(source.cached_at)):"")+'</small></div>'+
