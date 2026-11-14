@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "images": [
+    {
+      "path": "images/v1/591dd119fcaa9437de330d267ebf16beba40ad68b2c1ef929ab5c5a9037a04e1.jpg",
+      "object_key": "images/v1/591dd119fcaa9437de330d267ebf16beba40ad68b2c1ef929ab5c5a9037a04e1.jpg",
+      "sha256": "591dd119fcaa9437de330d267ebf16beba40ad68b2c1ef929ab5c5a9037a04e1",
+      "bytes": 337200,
+      "content_type": "image/jpeg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/591dd119fcaa9437de330d267ebf16beba40ad68b2c1ef929ab5c5a9037a04e1.jpg",
+      "original_path": "facebook-instapaper/charles.petzold.75/10168197533029377/591dd119fcaa9437de330d267ebf16beba40ad68b2c1ef929ab5c5a9037a04e1.jpg",
+      "repository_path": "image-originals/images/v1/591dd119fcaa9437de330d267ebf16beba40ad68b2c1ef929ab5c5a9037a04e1.jpg"
+    },
+    {
+      "path": "images/v1/a2d7d48ab2069c2d910a263a39a5b7bf55bb35343f73a0f7d358ecf25ee87d71.jpg",
+      "object_key": "images/v1/a2d7d48ab2069c2d910a263a39a5b7bf55bb35343f73a0f7d358ecf25ee87d71.jpg",
+      "sha256": "a2d7d48ab2069c2d910a263a39a5b7bf55bb35343f73a0f7d358ecf25ee87d71",
+      "bytes": 350217,
+      "content_type": "image/jpeg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/a2d7d48ab2069c2d910a263a39a5b7bf55bb35343f73a0f7d358ecf25ee87d71.jpg",
+      "original_path": "facebook-instapaper/charles.petzold.75/10168197533029377/a2d7d48ab2069c2d910a263a39a5b7bf55bb35343f73a0f7d358ecf25ee87d71.jpg",
+      "repository_path": "image-originals/images/v1/a2d7d48ab2069c2d910a263a39a5b7bf55bb35343f73a0f7d358ecf25ee87d71.jpg"
+    }
+  ]
+}
