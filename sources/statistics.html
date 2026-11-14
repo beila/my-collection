@@ -58,7 +58,7 @@ const folder=value=>String(value||"").toLocaleLowerCase();
 function matches(row) {
  if(!selected(row.source)) return false;
  const destination=folder($("destination").value), source=catalog.get(row.source);
- return !destination||(row.metric==="bookmarks"?folder(row.destination)===destination: [source?.folder,source?.collection].some(v=>folder(v)===destination));
+ return !destination||(row.metric==="bookmarks"?folder(row.destination)===destination||folder(source?.collection)===destination: [source?.folder,source?.collection].some(v=>folder(v)===destination));
 }
 function bucket(day){if($("interval").value==="day")return day;const d=new Date(day+"T00:00:00Z");d.setUTCDate(d.getUTCDate()-((d.getUTCDay()+6)%7));return dayOf(d);}
 function inPeriod(day){return day>=start()&&day<=dayOf(Date.now());}
@@ -130,6 +130,7 @@ async function refresh(){
  try{
   const response=await fetch("./statistics.json",{cache:"no-store"});if(!response.ok)throw Error("Statistics snapshot is unavailable");
   const next=await response.json();if(next.unavailable)throw Error("Operational history is unavailable in this snapshot.");if(!Array.isArray(next.sources)||!Array.isArray(next.activity))throw Error("Statistics snapshot is incomplete.");data=next;catalog=new Map(data.sources.map(s=>[s.id,s]));
+  if(firstLoad&&!data.activity.some(row=>row.metric==="checks"))$("measure").value="bookmarks";
   const previousSource=firstLoad?new URLSearchParams(location.search).get("source")||"":$("source").value, previousDestination=$("destination").value;
   $("source").innerHTML='<option value="">All sources</option>'+data.sources.slice().sort((a,b)=>a.name.localeCompare(b.name)).map(s=>'<option value="'+esc(s.id)+'">'+esc(s.name)+'</option>').join("");
   $("source").value=catalog.has(previousSource)?previousSource:"";
