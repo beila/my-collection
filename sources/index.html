@@ -157,7 +157,7 @@ function matches() {
   const needle=state.search.toLocaleLowerCase();
   return state.data.sources.filter(source=>
     (!state.filter||source.group===state.filter) &&
-    (!state.destination||source.folder===state.destination) &&
+    (!state.destination||source.folder===state.destination||source.collection===state.destination) &&
     (!state.attention||source.error) &&
     (!needle||[source.name,source.kind,source.rule,source.folder,...source.previews.map(item=>item.title)].join(" ").toLocaleLowerCase().includes(needle))
   );
@@ -230,7 +230,7 @@ async function refresh() {
     if (!response.ok) throw new Error(data.error||"Could not refresh sources");
     if (!state.selected) state.selected=(data.sources.find(source=>source.name.includes("Interesting Engineering"))||data.sources.find(source=>source.previews.length)||data.sources[0])?.id||"";
     state.data=data;
-    const destinations=[...new Set(data.sources.map(source=>source.folder))].sort();
+    const destinations=[...new Set(data.sources.flatMap(source=>[source.folder,source.collection]).filter(Boolean))].sort();
     if (!destinations.includes(state.destination)) state.destination="";
     document.querySelector("#destination").innerHTML='<option value="">All destinations</option>'+destinations.map(folder=>'<option value="'+esc(folder)+'"'+(folder===state.destination?' selected':"")+'>'+esc(folder)+'</option>').join("");
     document.querySelector("#sync-status").textContent=(data.public?"Published ":"Updated ")+date(data.generated_at);
