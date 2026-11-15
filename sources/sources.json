@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-15T05:59:39.403808+00:00",
+  "generated_at": "2026-11-15T06:37:56.011009+00:00",
   "sources": [
     {
       "id": "frequent:bluesky-capcold",
@@ -13,7 +13,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-15T05:55:53.134651+00:00",
+      "cached_at": "2026-11-15T06:36:19.112761+00:00",
       "url": "https://bsky.app/profile/capcold.bsky.social",
       "error": "",
       "previews": [
@@ -55,7 +55,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-15T05:55:55.701306+00:00",
+      "cached_at": "2026-11-15T06:36:21.748509+00:00",
       "url": "https://coffeepot.me/rss",
       "error": "",
       "previews": [
@@ -95,7 +95,7 @@
       "delivery": "Individual articles",
       "monitoring": "Each maintenance pass, nominally every 15 minutes with up to 10 minutes of delay.",
       "tags": [],
-      "cached_at": "2026-11-15T05:55:57.102395+00:00",
+      "cached_at": "2026-11-15T06:36:22.781347+00:00",
       "url": "https://kill-the-newsletter.com/feeds/j50w0hwaltovoqbe.xml",
       "error": "",
       "previews": [
@@ -119,7 +119,7 @@
       "delivery": "Individual articles",
       "monitoring": "Each maintenance pass, nominally every 15 minutes with up to 10 minutes of delay.",
       "tags": [],
-      "cached_at": "2026-11-15T05:55:58.620212+00:00",
+      "cached_at": "2026-11-15T06:36:23.196304+00:00",
       "url": "https://kill-the-newsletter.com/feeds/x65bw2k2if80qbp6jk0n.xml",
       "error": "",
       "previews": [
@@ -161,7 +161,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-15T05:55:59.944261+00:00",
+      "cached_at": "2026-11-15T06:36:23.804734+00:00",
       "url": "https://kill-the-newsletter.com/feeds/la1dwxu6ovmqf6gn.xml",
       "error": "",
       "previews": [
@@ -203,7 +203,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-15T05:56:00.819598+00:00",
+      "cached_at": "2026-11-15T06:36:24.470730+00:00",
       "url": "https://blog.outsider.ne.kr/atom",
       "error": "",
       "previews": [
@@ -245,7 +245,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-15T05:56:03.262442+00:00",
+      "cached_at": "2026-11-15T06:36:25.755257+00:00",
       "url": "http://feeds.feedburner.com/Economic_View",
       "error": "",
       "previews": [
@@ -287,7 +287,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-15T05:56:03.983576+00:00",
+      "cached_at": "2026-11-15T06:36:26.176720+00:00",
       "url": "https://fenews.substack.com/feed",
       "error": "",
       "previews": [
@@ -329,7 +329,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-15T05:56:04.713571+00:00",
+      "cached_at": "2026-11-15T06:36:26.725716+00:00",
       "url": "https://unchartedterritories.tomaspueyo.com/feed",
       "error": "",
       "previews": [
@@ -371,7 +371,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-15T05:56:05.773564+00:00",
+      "cached_at": "2026-11-15T06:36:27.334713+00:00",
       "url": "https://blog.instapaper.com/rss",
       "error": "",
       "previews": [
@@ -413,35 +413,11 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-15T05:56:06.284805+00:00",
+      "cached_at": "2026-11-15T06:09:29.099435+00:00",
       "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCbbQalJ4OaC0oQ0AqRaOJ9g",
       "error": "",
-      "previews": [
-        {
-          "title": "Why a Language Map of the World is Impossible",
-          "published": "2026-09-21T16:57:44+00:00",
-          "summary": "",
-          "author": "Map Men https://www.youtube.com/channel/UCbbQalJ4OaC0oQ0AqRaOJ9g",
-          "origin": "Cached feed",
-          "url": "https://www.youtube.com/watch?v=hX21ctsGhNc"
-        },
-        {
-          "title": "Where do hills come from?",
-          "published": "2026-06-29T16:18:53+00:00",
-          "summary": "",
-          "author": "Map Men https://www.youtube.com/channel/UCbbQalJ4OaC0oQ0AqRaOJ9g",
-          "origin": "Cached feed",
-          "url": "https://www.youtube.com/watch?v=6zq5XtyV3yg"
-        },
-        {
-          "title": "The first TWO voyages around the world",
-          "published": "2026-06-15T17:07:00+00:00",
-          "summary": "",
-          "author": "Map Men https://www.youtube.com/channel/UCbbQalJ4OaC0oQ0AqRaOJ9g",
-          "origin": "Cached feed",
-          "url": "https://www.youtube.com/watch?v=3mQKM8tE8-E"
-        }
-      ]
+      "previews": [],
+      "preview_note": "No public feed preview is available."
     },
     {
       "id": "frequent:bbc-learning-english-conversations",
@@ -455,7 +431,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-15T05:56:07.196554+00:00",
+      "cached_at": "2026-11-15T06:36:27.758710+00:00",
       "url": "https://podcasts.files.bbci.co.uk/p02pc9zn.rss",
       "error": "",
       "previews": [
@@ -497,7 +473,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-15T05:40:21.772196+00:00",
+      "cached_at": "2026-11-15T06:09:52.359070+00:00",
       "url": "https://rss.diffbot.com/rss?url=https://www.newstomato.com/SearchList.aspx?keyword%3D%25ec%2598%25a4%25eb%258f%2599%25ec%25a7%2584%25ec%259d%2598%252c%2B%25eb%2582%2598%25ec%259d%2598%2B%25ec%2595%258c%25ec%25bd%2594%25ec%2598%25ac%2B%25ec%259d%25bc%25ec%25a7%2580",
       "error": "",
       "previews": [
@@ -539,14 +515,22 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-15T05:56:21.659454+00:00",
+      "cached_at": "2026-11-15T06:36:41.817543+00:00",
       "url": "https://hnrss.org/newest?points=1000",
       "error": "",
       "previews": [
         {
+          "title": "SpaceX catches the Starship to end Flight 15",
+          "published": "Sat, 14 Nov 2026 21:22:24 +0000",
+          "summary": "https://x.com/SpaceX/status/2121316300702056595 https://youtu.be/jHlpfNSpBmw?t=3233 Comments URL: https://news.ycombinator.com/item?id=50500963 Points: 1020 # Comments: 681",
+          "author": "ls612",
+          "origin": "Cached feed",
+          "url": "https://www.spacex.com/launches/starship-flight-15"
+        },
+        {
           "title": "Nvidia allegedly engineered scarcity by funding AI startups to buy its GPUs",
           "published": "Sat, 14 Nov 2026 02:52:59 +0000",
-          "summary": "Article URL: https://www.techpowerup.com/354814/nvidia-allegedly-engineered-scarcity-by-funding-ai-startups-to-buy-its-gpus Comments URL: https://news.ycombinator.com/item?id=50493251 Points: 1049 # Comments: 623",
+          "summary": "Article URL: https://www.techpowerup.com/354814/nvidia-allegedly-engineered-scarcity-by-funding-ai-startups-to-buy-its-gpus Comments URL: https://news.ycombinator.com/item?id=50493251 Points: 1062 # Comments: 628",
           "author": "speckx",
           "origin": "Cached feed",
           "url": "https://www.techpowerup.com/354814/nvidia-allegedly-engineered-scarcity-by-funding-ai-startups-to-buy-its-gpus"
@@ -554,18 +538,10 @@
         {
           "title": "FAA issues national ground stop – lifted 4.5 hours later",
           "published": "Fri, 13 Nov 2026 21:05:53 +0000",
-          "summary": "https://www.fly.faa.gov/adv/adv_otherdis?adv_date=11132026&a... https://www.fly.faa.gov/adv/adv_otherdis?adv_date=11142026&a... https://www.nytimes.com/live/2026/11/13/us/ground-stop-natio... Comments URL: https://news.ycombinator.com/item?id=50489641 Points: 1638 # Comments: 1273",
+          "summary": "https://www.fly.faa.gov/adv/adv_otherdis?adv_date=11132026&a... https://www.fly.faa.gov/adv/adv_otherdis?adv_date=11142026&a... https://www.nytimes.com/live/2026/11/13/us/ground-stop-natio... Comments URL: https://news.ycombinator.com/item?id=50489641 Points: 1639 # Comments: 1273",
           "author": "zulln",
           "origin": "Cached feed",
           "url": "https://www.nbcnews.com/news/us-news/faa-orders-nationwide-ground-stop-departing-flights-reasons-safety-rcna609247"
-        },
-        {
-          "title": "Service degradation on Microsoft 365",
-          "published": "Thu, 12 Nov 2026 18:20:48 +0000",
-          "summary": "https://www.abc.net.au/news/2026-11-13/microsoft-outage-affe... https://www.reddit.com/r/sysadmin/comments/1xuje83/microsoft... https://downdetector.com/status/microsoft-365/ Comments URL: https://news.ycombinator.com/item?id=50471731 Points: 1171 # Comments: 993",
-          "author": "dkpk",
-          "origin": "Cached feed",
-          "url": "https://status.cloud.microsoft/"
         }
       ]
     },
@@ -581,7 +557,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-15T05:56:22.751446+00:00",
+      "cached_at": "2026-11-15T06:36:42.448622+00:00",
       "url": "https://haskellweekly.news/newsletter.atom",
       "error": "",
       "previews": [
@@ -623,7 +599,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-15T05:56:26.789322+00:00",
+      "cached_at": "2026-11-15T06:36:44.821753+00:00",
       "url": "https://sovidence.tistory.com/rss",
       "error": "",
       "previews": [
@@ -665,7 +641,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-15T05:56:27.932410+00:00",
+      "cached_at": "2026-11-15T06:36:45.556603+00:00",
       "url": "https://ciechanow.ski/atom.xml",
       "error": "",
       "previews": [
@@ -699,7 +675,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-15T05:56:28.640405+00:00",
+      "cached_at": "2026-11-15T06:36:45.824601+00:00",
       "url": "https://blog.ploeh.dk/rss.xml",
       "error": "",
       "previews": [
@@ -741,7 +717,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-15T05:56:29.436400+00:00",
+      "cached_at": "2026-11-15T06:36:46.387598+00:00",
       "url": "https://www.stephendiehl.com/feed.xml",
       "error": "",
       "previews": [
@@ -783,7 +759,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-15T05:56:32.227380+00:00",
+      "cached_at": "2026-11-15T06:36:48.582585+00:00",
       "url": "https://registerspill.thorstenball.com/feed",
       "error": "",
       "previews": [
@@ -825,7 +801,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-15T05:56:33.120374+00:00",
+      "cached_at": "2026-11-15T06:36:49.122581+00:00",
       "url": "https://meetingcpp.com/feed.xml",
       "error": "",
       "previews": [
@@ -867,7 +843,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-15T05:56:36.472478+00:00",
+      "cached_at": "2026-11-15T06:36:51.603063+00:00",
       "url": "https://rss.blog.naver.com/xqon1.xml",
       "error": "",
       "previews": [
@@ -909,7 +885,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-15T05:56:39.383176+00:00",
+      "cached_at": "2026-11-15T06:36:54.106310+00:00",
       "url": "https://rss.blog.naver.com/pamina7776.xml",
       "error": "",
       "previews": [
@@ -951,7 +927,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-15T05:56:42.168082+00:00",
+      "cached_at": "2026-11-15T06:36:56.513133+00:00",
       "url": "https://rss.blog.naver.com/indizio.xml",
       "error": "",
       "previews": [
@@ -993,7 +969,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-15T05:56:44.893435+00:00",
+      "cached_at": "2026-11-15T06:36:58.644523+00:00",
       "url": "https://rss.diffbot.com/rss?url=https://www.joongang.co.kr/series/11656",
       "error": "",
       "previews": [
@@ -1035,7 +1011,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-15T05:56:45.981502+00:00",
+      "cached_at": "2026-11-15T06:36:59.145935+00:00",
       "url": "https://www.bbc.co.uk/news/topics/cpml2v678pxt",
       "error": "",
       "previews": [
@@ -1077,7 +1053,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-15T05:56:46.769280+00:00",
+      "cached_at": "2026-11-15T06:36:59.818516+00:00",
       "url": "https://slownews.kr/feed",
       "error": "",
       "previews": [
@@ -1119,7 +1095,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-15T05:56:47.655274+00:00",
+      "cached_at": "2026-11-15T06:37:00.394513+00:00",
       "url": "https://www.ianvisits.co.uk/articles/feed/",
       "error": "",
       "previews": [
@@ -1159,7 +1135,7 @@
       "delivery": "Individual articles",
       "monitoring": "Each maintenance pass, nominally every 15 minutes with up to 10 minutes of delay.",
       "tags": [],
-      "cached_at": "2026-11-15T05:56:48.172056+00:00",
+      "cached_at": "2026-11-15T06:37:00.798601+00:00",
       "url": "https://www.ianvisits.co.uk/articles/feed/",
       "error": "",
       "previews": [
