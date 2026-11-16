@@ -9,6 +9,7 @@
 :root{--paper:oklch(97% .014 85);--panel:oklch(99% .006 85);--ink:oklch(26% .025 54);--muted:oklch(49% .025 60);--accent:oklch(47% .15 32);--line:oklch(85% .02 75);--tint:oklch(92% .034 48);font:14px/1.5 "Avenir Next",Avenir,"Trebuchet MS","Noto Sans",sans-serif;color:var(--ink);background:var(--paper)}
 *{box-sizing:border-box}body{margin:0;min-width:320px}a{color:var(--accent);text-underline-offset:3px}button,input,select{font:inherit;color:inherit}button,select{cursor:pointer}button,input,select{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:8px 10px}button:focus-visible,a:focus-visible,summary:focus-visible,input:focus-visible,select:focus-visible,[tabindex]:focus-visible{outline:3px solid var(--accent);outline-offset:3px}h1,h2,p{margin:0}h1{font-size:21px;letter-spacing:-.03em}h2{font-size:17px}header{border-bottom:1px solid var(--line);padding:18px clamp(18px,4vw,64px);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}nav{display:flex;gap:16px;align-items:center;font-size:12px}main{max-width:1500px;margin:auto;padding:24px clamp(18px,4vw,64px) 48px}.intro{color:var(--muted);max-width:850px;font-size:13px}.filters{display:flex;gap:12px;flex-wrap:wrap;margin:22px 0}.filters label{display:grid;gap:4px;min-width:130px;font-size:11px;color:var(--muted)}.filters select{max-width:290px;color:var(--ink);font-size:13px;height:40px}.filters .source{flex:1;min-width:180px}.source select{max-width:100%;width:100%}.facts{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);background:var(--panel);margin:22px 0 30px}.fact{padding:18px 20px;border-right:1px solid var(--line)}.fact:last-child{border:0}.fact span{display:block;font-size:11px;color:var(--muted)}.fact strong{display:block;font-size:30px;line-height:1.4;font-weight:500;font-variant-numeric:tabular-nums}.fact small{font-size:11px;color:var(--muted)}.grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}.panel{min-width:0;border-top:2px solid var(--ink);padding-top:15px}.wide{grid-column:1/-1}.panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.caption{font-size:12px;color:var(--muted);margin:6px 0 16px}.caption strong{color:var(--ink);font-weight:500}.chart{background:var(--panel);border:1px solid var(--line);padding:12px;min-height:180px}.chart svg{display:block;width:100%;height:auto;max-height:280px;overflow:visible}.chart text{font:11px "Trebuchet MS",sans-serif;fill:var(--muted)}.chart .gridline{stroke:var(--line);stroke-width:1;stroke-dasharray:3 4}.legend{display:flex;gap:9px 16px;flex-wrap:wrap;margin:12px 0 4px;font-size:11px}.key{display:inline-block;width:9px;height:9px;margin-right:6px;border-radius:50%}.empty{color:var(--muted);font-size:13px;min-height:170px;display:grid;place-content:center;text-align:center;padding:22px}.readout{font-size:12px;color:var(--muted);min-height:22px;margin-top:8px}.notice{padding:12px 16px;background:var(--tint);font-size:12px;margin-top:20px;line-height:1.7}.searchbar{display:flex;gap:8px;align-items:center;margin:14px 0}.searchbar input{flex:1;min-width:0}.table-wrap{overflow:auto;max-height:440px}table{border-collapse:collapse;width:100%;font-size:12px}th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);white-space:nowrap}th{font-size:11px;color:var(--muted);background:var(--paper);position:sticky;top:0}td:first-child{white-space:normal;min-width:160px}td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}td a{color:var(--ink)}.table-button{border:0;background:none;padding:0;color:var(--accent);text-align:left}.table-button:hover{text-decoration:underline}details{font-size:12px;margin-top:12px}summary{cursor:pointer;color:var(--muted)}.definitions{margin-top:30px;border-top:1px solid var(--line);padding-top:14px;color:var(--muted);font-size:12px;line-height:1.8}.definitions p{margin:8px 0}.sync{font-size:11px;color:var(--muted);margin-top:8px}#error{color:var(--accent)}
 .searchbar{flex-wrap:wrap}.searchbar input{flex:1 1 160px}.searchbar label{display:flex;gap:8px;align-items:center}
+.panel-head select{max-width:100%;min-width:0}.kindle-composition{display:grid;gap:6px;margin-bottom:14px;font-size:12px}.kindle-composition select{max-width:100%}
 @media(max-width:760px){.grid{grid-template-columns:1fr;gap:28px}.wide{grid-column:auto}.facts{grid-template-columns:1fr 1fr}.fact:nth-child(2){border-right:0}.fact:nth-child(-n+2){border-bottom:1px solid var(--line)}.fact{padding:14px}.filters label{flex:1;min-width:120px}.filters select{width:100%;max-width:100%}.filters .source{flex-basis:100%}header nav{gap:12px}.fact strong{font-size:26px}.chart{padding:9px}}
 @media(prefers-reduced-motion:no-preference){button,a{transition:color .12s,background .12s}}
 </style>
@@ -29,6 +30,11 @@
 </div>
 <section class="facts" aria-label="Selected period summary" id="facts"></section>
 <div class="grid">
+ <section class="panel wide" id="kindle"><div class="panel-head"><h2>Kindle digests</h2><a href="#kindle-history">Digest history ↓</a></div><p class="caption">Smith digests · selected period and interval · independent of the source and destination filters. A confirmed send means the email was accepted, not that a device was opened.</p><div class="facts" id="kindle-facts"></div></section>
+ <section class="panel"><div class="panel-head"><h2>Digest output</h2><select id="kindle-measure" aria-label="Digest measure"><option value="sent">Confirmed sends</option><option value="built">Documents built</option><option value="articles">Articles sent</option><option value="bytes">Average EPUB size · MiB</option><option value="images">Images sent</option><option value="words">Words sent</option><option value="build_seconds">Average build time · seconds</option></select></div><p class="caption" id="kindle-caption"></p><div id="kindle-chart" class="chart"></div><div id="kindle-legend" class="legend"></div><div id="kindle-readout" class="readout" aria-live="polite"></div><details><summary>Digest values</summary><div id="kindle-values" class="table-wrap"></div></details></section>
+ <section class="panel"><h2>Where the articles came from</h2><p class="caption">Actual articles in confirmed sends, classified before population. Returned Trinity articles remain Trinity. Markers and series companions are excluded.</p><label class="kindle-composition">Composition<select id="kindle-composition"><option value="">All confirmed sends in period</option></select></label><div id="kindle-origins" class="table-wrap"></div><h2 style="margin-top:22px">Directly into Smith</h2><p class="caption">Among articles already in Smith before population. Program additions require a delivery record. Unattributed can include manual additions and older program activity; it is not a verified manual count.</p><div id="kindle-entries" class="table-wrap"></div></section>
+ <section class="panel wide" id="kindle-history"><h2>Digest history</h2><p class="caption" id="kindle-history-caption"></p><div id="kindle-history-table" class="table-wrap"></div></section>
+ <section class="panel wide"><h2>Digest measurements</h2><p class="caption">Confirmed sends in this period. Averages exclude missing historical measurements.</p><div id="kindle-measurements" class="table-wrap"></div></section>
  <section class="panel wide"><div class="panel-head"><h2>Source activity</h2><label><select id="measure" aria-label="Activity measure"><option value="checks">Source checks</option><option value="bookmarks">New bookmarks & editions</option><option value="conversions">Conversions</option><option value="routed">Routed bookmarks</option></select></label></div><p class="caption" id="activity-caption"></p><div id="activity-chart" class="chart"></div><div id="activity-legend" class="legend"></div><div id="activity-readout" class="readout" aria-live="polite"></div><details><summary>Activity values</summary><div id="activity-values" class="table-wrap"></div></details></section>
  <section class="panel"><h2>Facebook acquisition queue</h2><p class="caption">Global · last observation of each day; thin line shows that day's observed peak. Cooldown includes recurring profiles.</p><div id="queue-chart" class="chart"></div><div id="queue-legend" class="legend"></div><div id="queue-readout" class="readout" aria-live="polite"></div><details><summary>Queue values</summary><div id="queue-values" class="table-wrap"></div></details></section>
  <section class="panel"><h2>Scheduler invocations</h2><p class="caption" id="run-caption">Global · includes maintenance, Facebook acquisition, repair passes, and manual scopes.</p><div id="runs-chart" class="chart"></div><div id="runs-legend" class="legend"></div><div id="runs-readout" class="readout" aria-live="polite"></div><details><summary>Invocation values</summary><div id="runs-values" class="table-wrap"></div></details></section>
@@ -41,6 +47,8 @@
 <p><strong>Source check:</strong> one attempted acquisition and parse for a direct feed, rolling newsletter, reading-index source, or enabled Facebook profile, or one Readnext selection attempt when Smith needs articles. Inner retries are one check. A condition being evaluated without fetching or selecting articles is not a check.</p>
 <p><strong>New bookmarks & editions:</strong> unique bookmark IDs with confirmed delivery receipts. Replacement newsletter editions count as arrivals. Conversions of existing saved links have their own measure; refreshes, temporary verification copies, and moves are excluded. A 다읽기 page counts as one bookmark, even when it contains several articles.</p>
 <p><strong>Routed bookmarks:</strong> Readnext articles confirmed in Smith after population finishes, counted once per population. Series companions moved to Morpheus are excluded. These moves are separate from new arrivals. Earlier Readnext activity is not reconstructed.</p>
+<p><strong>Kindle digests:</strong> one document identity counts once across retries. “Built” requires a measured EPUB; confirmed sends include a retained prior delivery when available. A pending or uncertain send does not count as confirmed. History before instrumentation is partial; missing sizes and origins stay unknown. The source breakdown uses only articles actually included in the EPUB, even when building skips an article. “Repeated” means present in the previous confirmed digest, regardless of source.</p>
+<p><strong>Digest size:</strong> MiB is 1,048,576 bytes. Images include the cover; image bytes are uncompressed ZIP member sizes. Words are whitespace-separated text units in article chapters; headings exclude the navigation document. Build time excludes email delivery. Direct program additions require recorded delivery into Smith; conversions do not establish who added the original.</p>
 <p><strong>Historical additions:</strong> confirmed, dated feed-monitor records retained locally. They provide partial history, not an account-wide total. Checks and queue measurements begin when recording was installed; blank earlier periods mean unknown. Source cadence and destination associations for checks use the current catalog; delivered bookmark destinations are recorded at delivery.</p>
 <p><strong>Invocations:</strong> CLI starts, including manual scopes and lock-deferred attempts. “Open / interrupted” means no exit was recorded; it does not establish that a process is still running. Duration excludes invocations without a recorded exit.</p>
 <p>Daily activity and invocation records are retained for 365 days; hourly queue observations for 35 days. The public snapshot updates with collection page deployments. All dates and chart buckets use UTC. No bookmark text, repair notes, error messages, or credentials are exported.</p>
@@ -64,10 +72,10 @@ function matches(row) {
 function bucket(day){if($("interval").value==="day")return day;const d=new Date(day+"T00:00:00Z");d.setUTCDate(d.getUTCDate()-((d.getUTCDay()+6)%7));return dayOf(d);}
 function inPeriod(day){return day>=start()&&day<=dayOf(Date.now());}
 function grouped(rows,label,value){const map=new Map();for(const row of rows){const key=bucket(row.day),series=label(row);if(!map.has(key))map.set(key,{});const values=map.get(key);values[series]=(values[series]||0)+value(row);}return [...map].sort(([a],[b])=>a.localeCompare(b)).map(([day,values])=>({day,...values}));}
-function valuesTable(rows,series){return '<table><thead><tr><th>UTC date</th>'+series.map(s=>'<th class="num">'+esc(s)+'</th>').join("")+'</tr></thead><tbody>'+rows.map(r=>'<tr><td>'+esc(r.day)+'</td>'+series.map(s=>'<td class="num">'+num(r[s])+'</td>').join("")+'</tr>').join("")+'</tbody></table>';}
-function chart(id,rows,series,{stack=false,peak=false}={}){
+function valuesTable(rows,series,format=num){return '<table><thead><tr><th>UTC date</th>'+series.map(s=>'<th class="num">'+esc(s)+'</th>').join("")+'</tr></thead><tbody>'+rows.map(r=>'<tr><td>'+esc(r.day)+'</td>'+series.map(s=>'<td class="num">'+format(r[s])+'</td>').join("")+'</tr>').join("")+'</tbody></table>';}
+function chart(id,rows,series,{stack=false,peak=false,format=num}={}){
  $(id+"-legend").innerHTML=series.map((s,i)=>'<span><i class="key" style="background:'+colors[i%colors.length]+'"></i>'+esc(s)+'</span>').join("");
- $(id+"-values").innerHTML=valuesTable(rows,series);
+ $(id+"-values").innerHTML=valuesTable(rows,series,format);
  const target=$(id+"-chart");$(id+"-readout").textContent="";
  if(!rows.length){target.innerHTML='<p class="empty">No observations recorded in this period.</p>';return;}
  const W=Math.max(280,target.clientWidth-24),H=240,L=46,R=16,T=14,B=30,w=W-L-R,h=H-T-B,pad=stack?20:8;
@@ -76,16 +84,61 @@ function chart(id,rows,series,{stack=false,peak=false}={}){
  const max=Math.max(1,...rows.map(r=>stack?series.reduce((n,s)=>n+(r[s]||0),0):Math.max(...series.map(s=>r[s]||0))));
  const y=n=>T+h-n/max*h;
  let svg='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+esc(id)+' trend; exact values follow">';
- for(let i=0;i<4;i++){const n=max*i/3;svg+='<line class="gridline" x1="'+L+'" x2="'+(W-R)+'" y1="'+y(n)+'" y2="'+y(n)+'"/><text x="'+(L-8)+'" y="'+(y(n)+4)+'" text-anchor="end">'+num(n)+'</text>';}
+ for(let i=0;i<4;i++){const n=max*i/3;svg+='<line class="gridline" x1="'+L+'" x2="'+(W-R)+'" y1="'+y(n)+'" y2="'+y(n)+'"/><text x="'+(L-8)+'" y="'+(y(n)+4)+'" text-anchor="end">'+format(n)+'</text>';}
  if(stack){const bw=Math.min(38,w/Math.max(2,rows.length)*.75);for(const row of rows){let sum=0;series.forEach((s,i)=>{const n=row[s]||0;svg+='<rect x="'+(x(row)-bw/2)+'" y="'+y(sum+n)+'" width="'+bw+'" height="'+(n/max*h)+'" fill="'+colors[i%colors.length]+'"/>';sum+=n;});}}
  else series.forEach((s,i)=>{const points=rows.map(r=>x(r)+","+y(r[s]||0)).join(" ");svg+='<polyline points="'+points+'" fill="none" stroke="'+colors[i%colors.length]+'" stroke-width="'+(peak&&s==="Observed peak"?1:2.5)+'"'+(peak&&s==="Observed peak"?' stroke-dasharray="5 5"':"")+'/>';});
- rows.forEach((row,index)=>{const desc=row.day+" · "+series.map(s=>s+": "+num(row[s])).join(" · ");svg+='<g tabindex="0" data-chart="'+id+'" data-row="'+index+'" aria-label="'+esc(desc)+'"><title>'+esc(desc)+'</title><rect x="'+(x(row)-8)+'" y="'+T+'" width="16" height="'+h+'" fill="transparent"/>';if(!stack)series.forEach((s,i)=>{svg+='<circle cx="'+x(row)+'" cy="'+y(row[s]||0)+'" r="3" fill="'+colors[i%colors.length]+'"/>';});svg+='</g>';});
+ rows.forEach((row,index)=>{const desc=row.day+" · "+series.map(s=>s+": "+format(row[s])).join(" · ");svg+='<g tabindex="0" data-chart="'+id+'" data-row="'+index+'" aria-label="'+esc(desc)+'"><title>'+esc(desc)+'</title><rect x="'+(x(row)-8)+'" y="'+T+'" width="16" height="'+h+'" fill="transparent"/>';if(!stack)series.forEach((s,i)=>{svg+='<circle cx="'+x(row)+'" cy="'+y(row[s]||0)+'" r="3" fill="'+colors[i%colors.length]+'"/>';});svg+='</g>';});
  [rows[0],...(rows.length>2?[rows[Math.floor(rows.length/2)]]:[]),...(rows.length>1?[rows.at(-1)]:[])].forEach(r=>{svg+='<text x="'+x(r)+'" y="'+(H-6)+'" text-anchor="middle">'+esc(r.day.slice(5))+'</text>';});
  target.innerHTML=svg+'</svg>';
  const describe=e=>{const mark=e.target.closest("[data-row]");if(mark)$(id+"-readout").textContent=mark.getAttribute("aria-label");};
  target.onpointerover=describe;target.onclick=describe;target.onfocusin=describe;
 }
 function table(rows,headers){return '<table><thead><tr>'+headers.map(h=>'<th>'+esc(h)+'</th>').join("")+'</tr></thead><tbody>'+rows.map(r=>'<tr>'+r.map(v=>'<td>'+esc(v)+'</td>').join("")+'</tr>').join("")+'</tbody></table>';}
+function renderKindle(){
+ const sentDay=d=>Number.isFinite(d.sent_at)?dayOf(d.sent_at*1000):d.day;
+ const docs=(data.kindle||[]).filter(d=>inPeriod(d.day)||(d.status==="sent"&&inPeriod(sentDay(d))));
+ const sent=docs.filter(d=>d.status==="sent"&&inPeriod(sentDay(d))), built=docs.filter(d=>Number.isFinite(d.built_at)&&inPeriod(d.day));
+ const sum=(rows,key)=>rows.reduce((n,d)=>n+(d[key]||0),0), sized=sent.filter(d=>Number.isFinite(d.bytes)), avg=sized.length?sum(sized,"bytes")/sized.length/1048576:null;
+ $("kindle-facts").innerHTML=[
+  ["Confirmed sends",num(sent.length),num(built.length)+" measured documents built"],
+  ["Articles sent",num(sum(sent,"articles")),sent.length?(sum(sent,"articles")/sent.length).toFixed(1)+" per digest":"No confirmed sends recorded"],
+  ["Average EPUB size",avg===null?"—":avg.toFixed(2)+" MiB",num(sized.length)+" measured sends"],
+  ["Awaiting confirmation",num(docs.length-sent.length),num(docs.filter(d=>d.status==="uncertain").length)+" uncertain · "+num(docs.filter(d=>d.status==="failed").length)+" failed"]
+ ].map(([label,value,note])=>'<div class="fact"><span>'+esc(label)+'</span><strong>'+esc(value)+'</strong><small>'+esc(note)+'</small></div>').join("");
+ const measure=$("kindle-measure").value, average=["bytes","build_seconds"].includes(measure);
+ const selectedDocs=measure==="built"?built:measure==="build_seconds"?built.filter(d=>Number.isFinite(d[measure])):measure==="sent"?sent:sent.filter(d=>Number.isFinite(d[measure]));
+ const buckets=new Map();
+ for(const doc of selectedDocs){const day=bucket(["built","build_seconds"].includes(measure)?doc.day:sentDay(doc));if(!buckets.has(day))buckets.set(day,[]);buckets.get(day).push(doc);}
+ const label=$("kindle-measure").selectedOptions[0].text;
+ const rows=[...buckets].sort(([a],[b])=>a.localeCompare(b)).map(([day,items])=>({day,[label]:["built","sent"].includes(measure)?items.length:sum(items,measure)/(average?items.length:1)/(measure==="bytes"?1048576:1)}));
+ chart("kindle",rows,[label],{stack:!average,format:average?n=>(n||0).toFixed(2):num});
+ $("kindle-caption").textContent=average?"Averages use only measured documents; missing historical measurements are excluded.":"Documents count once across retries. Unmeasured historical builds are excluded.";
+ const origins={smith_above:"Smith · above marker",smith_below:"Smith · below marker",unread_above:"Unread · above marker",unread_below:"Unread · below marker",trinity:"Trinity",readnext:"Readnext",unknown:"Unknown"};
+ const entries={program:"Direct · program confirmed",unattributed:"Direct · unattributed",carried:"Retained from previous digest",other:"Other / unknown"};
+ const prior=$("kindle-composition").value;
+ $("kindle-composition").innerHTML='<option value="">All confirmed sends in period</option>'+sent.map((d,i)=>'<option value="'+i+'">'+esc(d.day+" #"+(d.sequence||1))+'</option>').join("");
+ if(prior!==""&&sent[Number(prior)])$("kindle-composition").value=prior;
+ const composition=$("kindle-composition").value===""?sent:[sent[Number($("kindle-composition").value)]];
+ $("kindle-origins").innerHTML=table(Object.entries(origins).map(([key,label])=>[label,num(composition.reduce((n,d)=>n+(d.origins?.[key]||0),0))]),["Source before population","Articles sent"]);
+ $("kindle-entries").innerHTML=table(Object.entries(entries).map(([key,label])=>[label,num(composition.reduce((n,d)=>n+(d.smith_entries?.[key]||0),0))]),["Smith entry","Articles sent"]);
+ const measurements=[
+  ["EPUB size · smallest", "bytes", docs=>Math.min(...docs.map(d=>d.bytes))/1048576, "MiB"],
+  ["EPUB size · largest", "bytes", docs=>Math.max(...docs.map(d=>d.bytes))/1048576, "MiB"],
+  ["EPUB bytes · total", "bytes", docs=>sum(docs,"bytes")/1048576, "MiB"],
+  ["Images · total", "images", docs=>sum(docs,"images"), ""],
+  ["Image bytes · total, uncompressed", "image_bytes", docs=>sum(docs,"image_bytes")/1048576, "MiB"],
+  ["Repeated articles · total", "repeated", docs=>sum(docs,"repeated"), ""],
+  ["Skipped articles · total", "skipped", docs=>sum(docs,"skipped"), ""],
+  ["Non-Trinity articles · total", "non_trinity", docs=>sum(docs,"non_trinity"), ""],
+  ["Population to build · average", "wait_seconds", docs=>sum(docs,"wait_seconds")/docs.length/60, "min"]
+ ];
+ $("kindle-measurements").innerHTML=table(measurements.map(([label,key,fn,unit])=>{const known=sent.filter(d=>Number.isFinite(d[key]));return [label,known.length?(unit?fn(known).toFixed(2)+" "+unit:num(fn(known))):"—",num(known.length)];}),["Measurement","Value","Measured sends"]);
+ const optional=(doc,key,format=num)=>Number.isFinite(doc[key])?format(doc[key]):"—";
+ $("kindle-history-caption").textContent="One row per document, newest first. "+num(docs.filter(d=>d.historical).length)+" retained historical delivery records have incomplete measurements. Blank values mean unknown.";
+ $("kindle-history-table").innerHTML=docs.length?table(docs.slice().sort((a,b)=>b.day.localeCompare(a.day)||(b.sequence||1)-(a.sequence||1)).map(d=>[
+  (d.status==="sent"?sentDay(d):d.day)+" #"+(d.sequence||1),d.status,d.reason,optional(d,"articles"),optional(d,"candidates"),optional(d,"skipped"),optional(d,"bytes",n=>(n/1048576).toFixed(2)),optional(d,"images"),optional(d,"words"),optional(d,"headings"),optional(d,"repeated"),optional(d,"build_seconds",n=>n.toFixed(1))
+ ]),["UTC date","Status","Trigger","Articles","Candidates","Skipped","MiB","Images","Words","Headings","Repeated","Build seconds"]):'<p class="caption">No digest records in this period.</p>';
+}
 function render(){
  const rows=data.activity.filter(r=>inPeriod(r.day)), filtered=rows.filter(matches), runs=data.runs.filter(r=>inPeriod(r.day));
  const sum=(a,fn)=>a.reduce((n,r)=>n+fn(r),0), checks=filtered.filter(r=>r.metric==="checks"), added=filtered.filter(r=>r.metric==="bookmarks"&&r.status!=="conversion"), failed=sum(checks,r=>r.status==="failed"?r.count:0), runCount=sum(runs,r=>r.count), last=data.queue.at(-1);
@@ -116,6 +169,7 @@ function render(){
  $("queue-detail").innerHTML=last?table([["Post jobs",num(last.posts)],["Profile jobs",num(last.profiles)],["Oldest ready work",last.oldest_ready_hours.toFixed(1)+" hours"],["Sampled",new Date(last.at*1000).toLocaleString("en-GB",{timeZone:"UTC"})+" UTC"]],["Metric","Latest value"]):'<p class="caption">No observations yet.</p>';
  $("coverage").textContent=data.recording_started?"Activity recording began "+new Date(data.recording_started*1000).toLocaleString("en-GB",{timeZone:"UTC"})+" UTC. Each source's history begins when its recorder was enabled. Earlier arrivals are partial retained feed history. Blank checks and queue history mean unknown, not zero.":"Recording has not started. History will appear after the next instrumented scheduler run.";
  renderSources(filtered);
+ renderKindle();
 }
 function renderSources(rows){
  const activeIds=new Set(rows.map(r=>r.source));
@@ -141,7 +195,7 @@ async function refresh(){
   $("error").textContent="";firstLoad=false;render();
  }catch(error){$("error").textContent=error.message;}finally{fetching=false;$("refresh").disabled=false;}
 }
-["period","interval","group","destination","source","measure","sort"].forEach(id=>$(id).addEventListener("change",()=>data&&render()));
+["period","interval","group","destination","source","measure","sort","kindle-measure","kindle-composition"].forEach(id=>$(id).addEventListener("change",()=>data&&render()));
 $("search").addEventListener("input",()=>data&&render());$("clear").onclick=()=>{$("search").value="";if(data)render();$("search").focus();};
 $("reset").onclick=()=>{$("source").value="";$("destination").value="";$("search").value="";if(data)render();};
 $("source-table").onclick=e=>{const button=e.target.closest("[data-source]");if(button){$("source").value=button.dataset.source;render();$("activity-chart").scrollIntoView({block:"center"});}};
