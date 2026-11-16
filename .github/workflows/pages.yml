@@ -23,6 +23,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
+        id: pages
       - name: Read the latest migration checkpoint
         continue-on-error: true
         env:
@@ -31,10 +32,25 @@ jobs:
       - name: Prepare public artifact
         run: bash .github/scripts/prepare-pages.sh . _site
       - name: Measure the staged website
+        id: measurements
         continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PUBLIC_HISTORY_URL: ${{ steps.pages.outputs.base_url }}/sources/collection.json
         run: |
+          bash .github/scripts/read-pages-history.sh "$RUNNER_TEMP/pages-history" "$PUBLIC_HISTORY_URL"
           python3 .github/scripts/collection_statistics.py \
-            --repo . --site _site --checkpoint-dir "$RUNNER_TEMP/migration"
+            --repo . --site _site --checkpoint-dir "$RUNNER_TEMP/migration" \
+            --history .github/pages-size-history.json \
+            --history "$RUNNER_TEMP/pages-history/collection.json"
+      - name: Retain deployment measurements
+        if: steps.measurements.outcome == 'success'
+        continue-on-error: true
+        uses: actions/upload-artifact@v4
+        with:
+          name: pages-size-history
+          path: _site/sources/collection.json
+          retention-days: 90
       - uses: actions/upload-pages-artifact@v3
         with:
           name: pages-${{ github.run_id }}-${{ github.run_attempt }}

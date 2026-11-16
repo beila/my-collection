@@ -25,7 +25,7 @@
 <div class="filters" aria-label="Statistics filters">
  <label>Period<select id="period"><option value="7">Last 7 days</option><option value="30" selected>Last 30 days</option><option value="90">Last 90 days</option><option value="365">Last year</option></select></label>
  <label>Interval<select id="interval"><option value="day">Daily</option><option value="week">Weekly</option></select></label>
- <label>Group activity by<select id="group"><option value="group">Monitoring cadence</option><option value="destination">Destination</option><option value="source">Individual source</option></select></label>
+ <label>Group activity by<select id="group"><option value="group">Monitoring cadence</option><option value="destination" selected>Destination</option><option value="source">Individual source</option></select></label>
  <label>Destination<select id="destination"><option value="">All destinations</option></select></label>
  <label class="source">Source<select id="source"><option value="">All sources</option></select></label>
  <button id="reset" type="button">Reset</button>
@@ -38,7 +38,7 @@
  <details class="panel wide folded-panel" id="kindle-history"><summary><h2>Digest history</h2></summary><p class="caption" id="kindle-history-caption"></p><div id="kindle-history-table" class="table-wrap"></div></details>
  <details class="panel wide folded-panel" id="kindle-measurements-panel"><summary><h2>Digest measurements</h2></summary><p class="caption">Confirmed sends in this period. Averages exclude missing historical measurements.</p><div id="kindle-measurements" class="table-wrap"></div></details>
  <section class="panel wide" id="migration"><h2>Backblaze migration</h2><p class="caption" id="migration-caption">Loading the latest deployment measurements…</p><progress id="migration-progress" class="migration-progress" aria-label="Verified legacy image uploads" max="1" value="0" hidden></progress><div id="migration-facts" class="facts storage-facts"></div><p id="migration-note" class="storage-note"></p><details><summary>Latest migration batch</summary><div id="migration-batch" class="table-wrap"></div></details></section>
- <section class="panel wide" id="pages-size"><h2>GitHub Pages deployment size</h2><p class="caption" id="pages-size-caption">Measured from the staged website before deployment, after exclusions.</p><div id="pages-size-facts" class="facts storage-facts"></div><div id="pages-size-chart"></div><details><summary>Exact size values</summary><div id="pages-size-values" class="table-wrap"></div></details></section>
+ <section class="panel wide" id="pages-size"><div class="panel-head"><h2>GitHub Pages deployment size</h2><select id="pages-size-measure" aria-label="Deployment size measure"><option value="total">Total deployment</option><option value="types">File types</option></select></div><p class="caption" id="pages-size-caption">One point per deployment, after exclusions.</p><div id="pages-size-facts" class="facts storage-facts"></div><div id="pages-size-chart" class="chart"></div><div id="pages-size-legend" class="legend"></div><div id="pages-size-readout" class="readout" aria-live="polite"></div><p id="pages-size-history-note" class="storage-note"></p><details><summary>Exact size history</summary><div id="pages-size-values" class="table-wrap"></div></details></section>
  <section class="panel wide"><div class="panel-head"><h2>Source activity</h2><label><select id="measure" aria-label="Activity measure"><option value="checks">Source checks</option><option value="bookmarks">New bookmarks & editions</option><option value="conversions">Conversions</option><option value="routed">Routed bookmarks</option></select></label></div><p class="caption" id="activity-caption"></p><div id="activity-chart" class="chart"></div><div id="activity-legend" class="legend"></div><div id="activity-readout" class="readout" aria-live="polite"></div><details><summary>Activity values</summary><div id="activity-values" class="table-wrap"></div></details></section>
  <section class="panel"><h2>Facebook acquisition queue</h2><p class="caption">Global · last observation of each day; thin line shows that day's observed peak. Cooldown includes recurring profiles.</p><div id="queue-chart" class="chart"></div><div id="queue-legend" class="legend"></div><div id="queue-readout" class="readout" aria-live="polite"></div><details><summary>Queue values</summary><div id="queue-values" class="table-wrap"></div></details></section>
  <section class="panel"><h2>Scheduler invocations</h2><p class="caption" id="run-caption">Global · includes maintenance, Facebook acquisition, repair passes, and manual scopes.</p><div id="runs-chart" class="chart"></div><div id="runs-legend" class="legend"></div><div id="runs-readout" class="readout" aria-live="polite"></div><details><summary>Invocation values</summary><div id="runs-values" class="table-wrap"></div></details></section>
@@ -53,7 +53,7 @@
 <p><strong>Routed bookmarks:</strong> Readnext articles confirmed in Smith after population finishes, counted once per population. Series companions moved to Morpheus are excluded. These moves are separate from new arrivals. Earlier Readnext activity is not reconstructed.</p>
 <p><strong>Kindle digests:</strong> one document identity counts once across retries. “Built” requires a measured EPUB; confirmed sends include a retained prior delivery when available. A pending or uncertain send does not count as confirmed. History before instrumentation is partial; missing sizes and origins stay unknown. The source breakdown uses only articles actually included in the EPUB, even when building skips an article. “Repeated” means present in the previous confirmed digest, regardless of source.</p>
 <p><strong>Digest size:</strong> MiB is 1,048,576 bytes. Images include the cover; image bytes are uncompressed ZIP member sizes. Words are whitespace-separated text units in article chapters; headings exclude the navigation document. Build time excludes email delivery. Direct program additions require recorded delivery into Smith; conversions do not establish who added the original.</p>
-<p><strong>Collection storage:</strong> deployment size is the uncompressed total of the staged website, including its measurement file. Git history and excluded originals are separate. Migration counts distinct, verified B2 objects; uploading an image does not remove its old Pages copy. Daily migration usage counts reserved requests and bytes, not account-wide Backblaze usage. These measurements update with deployments and do not follow the activity filters.</p>
+<p><strong>Collection storage:</strong> deployment size is the uncompressed total of the staged website, including its measurement file. One point per successful deployment uses its build time in UTC. History follows the selected period and keeps individual deployments in weekly views; source and destination filters do not apply. Up to 365 days or 5,000 deployments are retained. Git history and excluded originals are separate. Migration counts distinct, verified B2 objects; uploading an image does not remove its old Pages copy. Daily migration usage counts reserved requests and bytes, not account-wide Backblaze usage.</p>
 <p><strong>Historical additions:</strong> confirmed, dated feed-monitor records retained locally. They provide partial history, not an account-wide total. Checks and queue measurements begin when recording was installed; blank earlier periods mean unknown. Source cadence and destination associations for checks use the current catalog; delivered bookmark destinations are recorded at delivery.</p>
 <p><strong>Invocations:</strong> CLI starts, including manual scopes and lock-deferred attempts. “Open / interrupted” means no exit was recorded; it does not establish that a process is still running. Duration excludes invocations without a recorded exit.</p>
 <p>Daily activity and invocation records are retained for 365 days; hourly queue observations for 35 days. The public snapshot updates with collection page deployments. All dates and chart buckets use UTC. No bookmark text, repair notes, error messages, or credentials are exported.</p>
@@ -79,14 +79,14 @@ function bucket(day){if($("interval").value==="day")return day;const d=new Date(
 function inPeriod(day){return day>=start()&&day<=dayOf(Date.now());}
 function grouped(rows,label,value){const map=new Map();for(const row of rows){const key=bucket(row.day),series=label(row);if(!map.has(key))map.set(key,{});const values=map.get(key);values[series]=(values[series]||0)+value(row);}return [...map].sort(([a],[b])=>a.localeCompare(b)).map(([day,values])=>({day,...values}));}
 function valuesTable(rows,series,format=num){return '<table><thead><tr><th>UTC date</th>'+series.map(s=>'<th class="num">'+esc(s)+'</th>').join("")+'</tr></thead><tbody>'+rows.map(r=>'<tr><td>'+esc(r.day)+'</td>'+series.map(s=>'<td class="num">'+format(r[s])+'</td>').join("")+'</tr>').join("")+'</tbody></table>';}
-function chart(id,rows,series,{stack=false,peak=false,format=num,categories=false}={}){
+function chart(id,rows,series,{stack=false,peak=false,format=num,exactFormat=format,categories=false,time=false}={}){
  $(id+"-legend").innerHTML=series.map((s,i)=>'<span><i class="key" style="background:'+colors[i%colors.length]+'"></i>'+esc(s)+'</span>').join("");
- $(id+"-values").innerHTML=valuesTable(rows,series,format);
- const target=$(id+"-chart");$(id+"-readout").textContent="";
+ $(id+"-values").innerHTML=valuesTable(rows,series,exactFormat);
+ const target=$(id+"-chart");target.onpointermove=null;$(id+"-readout").textContent="";
  if(!rows.length){target.innerHTML='<p class="empty">No observations recorded in this period.</p>';return;}
- const W=Math.max(280,target.clientWidth-24,categories?rows.length*60+62:0),H=categories?260:240,L=46,R=16,T=14,B=categories?50:30,w=W-L-R,h=H-T-B,pad=stack?20:8;
- const first=new Date(rows[0].day+"T00:00:00Z").getTime(),last=new Date(rows.at(-1).day+"T00:00:00Z").getTime();
- const x=r=>categories?L+(rows.indexOf(r)+.5)*w/rows.length:L+(last===first?w/2:pad+(new Date(r.day+"T00:00:00Z").getTime()-first)/(last-first)*(w-2*pad));
+ const W=Math.max(280,target.clientWidth-24,categories?rows.length*60+62:0),H=categories?260:240,L=time?78:46,R=16,T=14,B=categories||time?50:30,w=W-L-R,h=H-T-B,pad=stack?20:8;
+ const stamp=r=>new Date(time?r.at:r.day+"T00:00:00Z").getTime(), first=stamp(rows[0]),last=stamp(rows.at(-1));
+ const x=r=>categories?L+(rows.indexOf(r)+.5)*w/rows.length:L+(last===first?w/2:pad+(stamp(r)-first)/(last-first)*(w-2*pad));
  const max=Math.max(1,...rows.map(r=>stack?series.reduce((n,s)=>n+(r[s]||0),0):Math.max(...series.map(s=>r[s]||0))));
  const y=n=>T+h-n/max*h;
  let svg='<svg viewBox="0 0 '+W+' '+H+'"'+(categories?' style="width:'+W+'px"':"")+' role="img" aria-label="'+esc(id)+' trend; exact values follow">';
@@ -95,10 +95,22 @@ function chart(id,rows,series,{stack=false,peak=false,format=num,categories=fals
  if(stack){const bw=Math.min(38,w/Math.max(2,rows.length)*.75);for(const row of rows){if(row.missing){svg+='<text x="'+x(row)+'" y="'+(T+h/2)+'" text-anchor="middle">?</text>';continue;}let sum=0;series.forEach((s,i)=>{const n=row[s]||0;svg+='<rect x="'+(x(row)-bw/2)+'" y="'+y(sum+n)+'" width="'+bw+'" height="'+(n/max*h)+'" fill="'+colors[i%colors.length]+'"/>';sum+=n;});}}
  else series.forEach((s,i)=>{const points=rows.map(r=>x(r)+","+y(r[s]||0)).join(" ");svg+='<polyline points="'+points+'" fill="none" stroke="'+colors[i%colors.length]+'" stroke-width="'+(peak&&s==="Observed peak"?1:2.5)+'"'+(peak&&s==="Observed peak"?' stroke-dasharray="5 5"':"")+'/>';});
  rows.forEach((row,index)=>{const desc=row.day+" · "+(row.missing?"History unavailable":series.map(s=>s+": "+format(row[s])).join(" · "));svg+='<g tabindex="0" data-chart="'+id+'" data-row="'+index+'" aria-label="'+esc(desc)+'"><title>'+esc(desc)+'</title><rect x="'+(x(row)-8)+'" y="'+T+'" width="16" height="'+h+'" fill="transparent"/>';if(!stack)series.forEach((s,i)=>{svg+='<circle cx="'+x(row)+'" cy="'+y(row[s]||0)+'" r="3" fill="'+colors[i%colors.length]+'"/>';});svg+='</g>';});
- (categories?rows:[rows[0],...(rows.length>2?[rows[Math.floor(rows.length/2)]]:[]),...(rows.length>1?[rows.at(-1)]:[])]).forEach(r=>{svg+='<text x="'+x(r)+'" y="'+(categories?H-23:H-6)+'" text-anchor="middle">'+esc(r.day.slice(5,10))+(categories?'<tspan x="'+x(r)+'" dy="14">'+esc(r.day.split(" ")[1])+'</tspan>':"")+'</text>';});
+ if(time){
+  (first===last?[.5]:W>600?[0,.5,1]:[0,1]).forEach(fraction=>{
+   const date=new Date(first+(last-first)*fraction).toISOString(),position=L+(first===last?w/2:pad+fraction*(w-2*pad));
+   svg+='<text x="'+position+'" y="'+(H-23)+'" text-anchor="middle">'+date.slice(5,10)+'<tspan x="'+position+'" dy="14">'+date.slice(11,16)+'</tspan></text>';
+  });
+ }else{
+  (categories?rows:[rows[0],...(rows.length>2?[rows[Math.floor(rows.length/2)]]:[]),...(rows.length>1?[rows.at(-1)]:[])]).forEach(r=>{svg+='<text x="'+x(r)+'" y="'+(categories?H-23:H-6)+'" text-anchor="middle">'+esc(r.day.slice(5,10))+(categories?'<tspan x="'+x(r)+'" dy="14">'+esc(r.day.split(" ")[1])+'</tspan>':"")+'</text>';});
+ }
  target.innerHTML=svg+'</svg>';
  const describe=e=>{const mark=e.target.closest("[data-row]");if(mark)$(id+"-readout").textContent=mark.getAttribute("aria-label");};
  target.onpointerover=describe;target.onclick=describe;target.onfocusin=describe;
+ target.onpointermove=time?e=>{
+  const bounds=target.querySelector("svg").getBoundingClientRect(),position=(e.clientX-bounds.left)*W/bounds.width;
+  const nearest=rows.reduce((best,row)=>Math.abs(x(row)-position)<Math.abs(x(best)-position)?row:best);
+  $(id+"-readout").textContent=nearest.day+" · "+series.map(s=>s+": "+format(nearest[s])).join(" · ");
+ }:null;
 }
 function table(rows,headers){return '<table><thead><tr>'+headers.map(h=>'<th>'+esc(h)+'</th>').join("")+'</tr></thead><tbody>'+rows.map(r=>'<tr>'+r.map(v=>'<td>'+esc(v)+'</td>').join("")+'</tr>').join("")+'</tbody></table>';}
 function renderKindle(){
@@ -176,6 +188,7 @@ function render(){
  $("coverage").textContent=data.recording_started?"Activity recording began "+new Date(data.recording_started*1000).toLocaleString("en-GB",{timeZone:"UTC"})+" UTC. Each source's history begins when its recorder was enabled. Earlier arrivals are partial retained feed history. Blank checks and queue history mean unknown, not zero.":"Recording has not started. History will appear after the next instrumented scheduler run.";
  renderSources(filtered);
  renderKindle();
+ renderCollection();
 }
 function renderSources(rows){
  const activeIds=new Set(rows.map(r=>r.source));
@@ -215,19 +228,21 @@ function renderCollection(){
  }
  if(site?.categories){
   const originals=collection.repository_originals;
-  $("pages-size-caption").textContent="Uncompressed files staged for this deployment, after exclusions · measured "+new Date(collection.measured_at).toLocaleString("en-GB",{timeZone:"UTC"})+" UTC. Independent of the activity filters.";
+  const history=(collection.history||[collection]).filter(r=>r.site?.categories).slice().sort((a,b)=>a.measured_at.localeCompare(b.measured_at));
+  const period=history.filter(r=>inPeriod(r.measured_at.slice(0,10))), previous=history.at(-2), change=previous?site.bytes-previous.site.bytes:null;
+  $("pages-size-caption").textContent="Uncompressed website bytes over time · one point per successful deployment, at its UTC build time. Uses the selected period; source, destination, and daily/weekly grouping do not apply.";
   $("pages-size-facts").innerHTML=factCards([
-   ["Total deployment",bytes(site.bytes),num(site.files)+" files"],
+   ["Latest deployment",bytes(site.bytes),num(site.files)+" files"+(change===null?"":" · "+(change>=0?"+":"−")+bytes(Math.abs(change))+" since previous")],
    ["Published images",bytes(site.categories.images.bytes),num(site.categories.images.files)+" image files"],
    ["HTML",bytes(site.categories.html.bytes),num(site.categories.html.files)+" pages"],
    ["Originals excluded from Pages",bytes(originals?.bytes),num(originals?.files)+" retained files"]
   ]);
-  const labels={images:"Images",html:"HTML",other:"Other files"}, max=Math.max(1,...Object.values(site.categories).map(r=>r.bytes));
-  $("pages-size-chart").innerHTML='<div class="bar-chart" role="list" aria-label="Deployment size by file type">'+Object.entries(labels).map(([key,label])=>'<div class="bar-row" role="listitem"><div class="bar-heading"><span>'+label+'</span><strong>'+bytes(site.categories[key].bytes)+'</strong></div><div class="bar-track" aria-hidden="true"><div class="bar-fill" style="--bar-size:'+site.categories[key].bytes/max*100+'%"></div></div></div>').join("")+'</div>';
-  $("pages-size-values").innerHTML=table([["Total",num(site.files),num(site.bytes)],...Object.entries(labels).map(([key,label])=>[label,num(site.categories[key].files),num(site.categories[key].bytes)])],["File type","Files","Bytes"]);
+  const rows=period.map(r=>({at:r.measured_at,day:r.measured_at.slice(0,19).replace("T"," ")+" UTC · run "+(r.deployment?.GITHUB_RUN_ID||"unknown"),"Total":r.site.bytes,"Images":r.site.categories.images.bytes,"HTML":r.site.categories.html.bytes,"Other files":r.site.categories.other.bytes}));
+  chart("pages-size",rows,$("pages-size-measure").value==="types"?["Images","HTML","Other files"]:["Total"],{time:true,format:bytes,exactFormat:n=>num(n)+" B"});
+  $("pages-size-history-note").textContent=num(period.length)+" deployments in this period. "+(history.length?"Available history begins "+history[0].measured_at.slice(0,10)+". ":"")+(period.length===1?"One recorded point is not yet a trend. ":"")+"Earlier deployment sizes were not recorded. Retains up to 365 days or 5,000 deployments.";
  }else{
   $("pages-size-caption").textContent="Website size will appear when the deployment measures its staged files.";
-  $("pages-size-facts").innerHTML="";$("pages-size-chart").innerHTML="";$("pages-size-values").innerHTML="";
+  $("pages-size-facts").innerHTML="";$("pages-size-chart").innerHTML="";$("pages-size-values").innerHTML="";$("pages-size-legend").innerHTML="";$("pages-size-readout").textContent="";$("pages-size-history-note").textContent="";
  }
 }
 async function refreshCollection(){
@@ -251,6 +266,7 @@ async function refresh(){
  }catch(error){$("error").textContent=error.message;}finally{fetching=false;$("refresh").disabled=false;}
 }
 ["period","interval","group","destination","source","measure","sort","kindle-measure"].forEach(id=>$(id).addEventListener("change",()=>data&&render()));
+$("pages-size-measure").addEventListener("change",renderCollection);
 $("search").addEventListener("input",()=>data&&render());$("clear").onclick=()=>{$("search").value="";if(data)render();$("search").focus();};
 $("reset").onclick=()=>{$("source").value="";$("destination").value="";$("search").value="";if(data)render();};
 $("source-table").onclick=e=>{const button=e.target.closest("[data-source]");if(button){$("source").value=button.dataset.source;render();$("activity-chart").scrollIntoView({block:"center"});}};

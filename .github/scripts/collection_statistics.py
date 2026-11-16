@@ -6,7 +6,7 @@ import argparse
 import hashlib
 import json
 import os
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 from legacy_image_migration import (
@@ -29,6 +29,56 @@ IMAGE_EXTENSIONS = {
     ".tiff",
     ".webp",
 }
+HISTORY_DAYS = 365
+HISTORY_LIMIT = 5000
+
+
+def size_observation(report: dict) -> dict:
+    measured_at = datetime.fromisoformat(report["measured_at"].replace("Z", "+00:00"))
+    if measured_at.tzinfo is None:
+        raise ValueError("Deployment measurement has no timezone")
+    site = report["site"]
+    categories = {}
+    for name in ("images", "html", "other"):
+        row = site["categories"][name]
+        if any(type(row.get(key)) is not int or row[key] < 0 for key in ("files", "bytes")):
+            raise ValueError("Invalid deployment measurement")
+        categories[name] = {key: row[key] for key in ("files", "bytes")}
+    if any(
+        type(site.get(key)) is not int
+        or site[key] != sum(row[key] for row in categories.values())
+        for key in ("files", "bytes")
+    ):
+        raise ValueError("Deployment totals do not match their categories")
+    deployment = report.get("deployment", {})
+    run_id = str(deployment.get("GITHUB_RUN_ID", ""))
+    attempt = str(deployment.get("GITHUB_RUN_ATTEMPT", "1"))
+    if not run_id.isdecimal() or not attempt.isdecimal():
+        raise ValueError("Deployment measurement has no run identity")
+    return {
+        "measured_at": measured_at.astimezone(UTC).isoformat(),
+        "deployment": {"GITHUB_RUN_ID": run_id, "GITHUB_RUN_ATTEMPT": attempt},
+        "site": {**{key: site[key] for key in ("files", "bytes")}, "categories": categories},
+    }
+
+
+def read_history(paths: list[Path], now: str) -> list[dict]:
+    cutoff = datetime.fromisoformat(now.replace("Z", "+00:00")) - timedelta(
+        days=HISTORY_DAYS
+    )
+    observations = {}
+    for path in paths:
+        document = json.loads(path.read_text())
+        rows = document.get("history", [document])
+        if not isinstance(rows, list):
+            raise ValueError("Invalid deployment history")
+        for row in rows:
+            item = size_observation(row)
+            if cutoff <= datetime.fromisoformat(item["measured_at"]):
+                observations[item["deployment"]["GITHUB_RUN_ID"]] = item
+    return sorted(observations.values(), key=lambda row: row["measured_at"])[
+        -HISTORY_LIMIT:
+    ]
 
 
 def tree_totals(root: Path) -> dict:
@@ -134,6 +184,7 @@ def write_report(
     checkpoint_dir: Path | None = None,
     *,
     now: str | None = None,
+    history_paths: list[Path] | None = None,
 ) -> dict:
     output = site / "sources/collection.json"
     output.parent.mkdir(parents=True, exist_ok=True)
@@ -145,6 +196,10 @@ def write_report(
             if key in os.environ
         },
     }
+    history = read_history(history_paths or [], report["measured_at"])
+    report["history"] = history
+    report["history_days"] = HISTORY_DAYS
+    report["history_limit"] = HISTORY_LIMIT
     try:
         report["migration"] = migration_totals(repo, site, checkpoint_dir)
     except (OSError, ValueError, KeyError, TypeError, RuntimeError):
@@ -158,6 +213,15 @@ def write_report(
             if report.get("site") == measured:
                 return report
             report["site"] = measured
+            if report["deployment"].get("GITHUB_RUN_ID"):
+                current = size_observation(report)
+                prior = [
+                    row
+                    for row in history
+                    if row["deployment"]["GITHUB_RUN_ID"]
+                    != current["deployment"]["GITHUB_RUN_ID"]
+                ]
+                report["history"] = (prior + [current])[-HISTORY_LIMIT:]
         raise ValueError("Staged measurements did not converge")
     except (OSError, ValueError):
         report["site"] = {"available": False}
@@ -170,8 +234,11 @@ def main() -> None:
     parser.add_argument("--repo", type=Path, required=True)
     parser.add_argument("--site", type=Path, required=True)
     parser.add_argument("--checkpoint-dir", type=Path)
+    parser.add_argument("--history", type=Path, action="append", default=[])
     args = parser.parse_args()
-    report = write_report(args.repo, args.site, args.checkpoint_dir)
+    report = write_report(
+        args.repo, args.site, args.checkpoint_dir, history_paths=args.history
+    )
     print(json.dumps({"site": report["site"], "migration": report["migration"]}))
 
 
