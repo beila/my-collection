@@ -120,7 +120,8 @@ function renderKindle(){
  if(prior!==""&&sent[Number(prior)])$("kindle-composition").value=prior;
  const composition=$("kindle-composition").value===""?sent:[sent[Number($("kindle-composition").value)]];
  $("kindle-origins").innerHTML=table(Object.entries(origins).map(([key,label])=>[label,num(composition.reduce((n,d)=>n+(d.origins?.[key]||0),0))]),["Source before population","Articles sent"]);
- $("kindle-entries").innerHTML=table(Object.entries(entries).map(([key,label])=>[label,num(composition.reduce((n,d)=>n+(d.smith_entries?.[key]||0),0))]),["Smith entry","Articles sent"]);
+ const knownOrigins=composition.reduce((n,d)=>n+Object.entries(d.origins||{}).reduce((total,[key,count])=>total+(key==="unknown"?0:count),0),0);
+ $("kindle-entries").innerHTML=table(Object.entries(entries).map(([key,label])=>[label,knownOrigins?num(composition.reduce((n,d)=>n+(d.smith_entries?.[key]||0),0)):"—"]),["Smith entry","Articles sent"]);
  const measurements=[
   ["EPUB size · smallest", "bytes", docs=>Math.min(...docs.map(d=>d.bytes))/1048576, "MiB"],
   ["EPUB size · largest", "bytes", docs=>Math.max(...docs.map(d=>d.bytes))/1048576, "MiB"],
