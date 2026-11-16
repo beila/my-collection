@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
   pages: write
   id-token: write
 
@@ -22,8 +23,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
+      - name: Read the latest migration checkpoint
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: bash .github/scripts/read-migration-checkpoint.sh . "$RUNNER_TEMP/migration"
       - name: Prepare public artifact
-        run: .github/scripts/prepare-pages.sh . _site
+        run: bash .github/scripts/prepare-pages.sh . _site
+      - name: Measure the staged website
+        continue-on-error: true
+        run: |
+          python3 .github/scripts/collection_statistics.py \
+            --repo . --site _site --checkpoint-dir "$RUNNER_TEMP/migration"
       - uses: actions/upload-pages-artifact@v3
         with:
           name: pages-${{ github.run_id }}-${{ github.run_attempt }}

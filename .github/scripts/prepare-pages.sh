@@ -10,6 +10,10 @@ if [[ -e "$repo/facebook-instapaper/state.json" ]]; then
 fi
 
 mkdir -p "$site"
+exclusions=()
+if [[ -f "$repo/.github/pages-excluded-assets.txt" ]]; then
+  exclusions+=(--exclude-from="$repo/.github/pages-excluded-assets.txt")
+fi
 rsync \
   -a \
   --exclude '.git/' \
@@ -17,5 +21,6 @@ rsync \
   --exclude '.jj/' \
   --exclude '_site/' \
   --exclude '/image-originals/' \
+  "${exclusions[@]}" \
   "$repo/" \
   "$site/"

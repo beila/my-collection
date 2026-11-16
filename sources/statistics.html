@@ -11,6 +11,7 @@
 .searchbar{flex-wrap:wrap}.searchbar input{flex:1 1 160px}.searchbar label{display:flex;gap:8px;align-items:center}
 .panel-head select{max-width:100%;min-width:0}.kindle-composition{display:grid;gap:6px;margin-bottom:14px;font-size:12px}.kindle-composition select{max-width:100%}
 .bar-chart{display:grid;gap:13px;margin:18px 0 6px}.bar-heading{display:flex;justify-content:space-between;gap:16px;font-size:12px;margin-bottom:5px}.bar-heading span{min-width:0}.bar-heading strong{font-weight:500;font-variant-numeric:tabular-nums;flex-shrink:0}.bar-track{height:8px;background:var(--line);overflow:hidden}.bar-fill{height:100%;width:var(--bar-size);background:var(--accent)}.bar-row.unknown .bar-fill{background:var(--muted)}.bar-row.missing .bar-track{background:none;border-bottom:1px dashed var(--line)}.bar-axis{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-top:3px}.bar-note{font-size:12px;color:var(--muted);margin:12px 0}.folded-panel{margin-top:0}.folded-panel>summary{color:var(--ink)}.folded-panel>summary h2{display:inline}.folded-panel[open]>summary{margin-bottom:12px}
+.digest-trend{overflow-x:auto}.digest-trend svg{max-width:none;max-height:none}.migration-progress{width:100%;height:12px;accent-color:var(--accent)}.storage-facts{margin-bottom:18px}.storage-note{font-size:12px;color:var(--muted);margin-top:10px}
 @media(max-width:760px){.grid{grid-template-columns:1fr;gap:28px}.wide{grid-column:auto}.facts{grid-template-columns:1fr 1fr}.fact:nth-child(2){border-right:0}.fact:nth-child(-n+2){border-bottom:1px solid var(--line)}.fact{padding:14px}.filters label{flex:1;min-width:120px}.filters select{width:100%;max-width:100%}.filters .source{flex-basis:100%}header nav{gap:12px}.fact strong{font-size:26px}.chart{padding:9px}}
 @media(prefers-reduced-motion:no-preference){button,a{transition:color .12s,background .12s}}
 </style>
@@ -33,9 +34,11 @@
 <div class="grid">
  <section class="panel wide" id="kindle"><div class="panel-head"><h2>Kindle digests</h2><a href="#kindle-history" id="kindle-history-link">Digest history ↓</a></div><p class="caption">Smith digests · selected period and interval · independent of the source and destination filters. A confirmed send means the email was accepted, not that a device was opened.</p><div class="facts" id="kindle-facts"></div></section>
  <section class="panel"><div class="panel-head"><h2>Digest output</h2><select id="kindle-measure" aria-label="Digest measure"><option value="sent">Confirmed sends</option><option value="built">Documents built</option><option value="articles">Articles sent</option><option value="bytes">Average EPUB size · MiB</option><option value="images">Images sent</option><option value="words">Words sent</option><option value="build_seconds">Average build time · seconds</option></select></div><p class="caption" id="kindle-caption"></p><div id="kindle-chart" class="chart"></div><div id="kindle-legend" class="legend"></div><div id="kindle-readout" class="readout" aria-live="polite"></div><details><summary>Digest values</summary><div id="kindle-values" class="table-wrap"></div></details></section>
- <section class="panel"><h2>Where the articles came from</h2><p class="caption">Actual articles in confirmed sends, classified before population. Returned Trinity articles remain Trinity. Markers and series companions are excluded.</p><label class="kindle-composition">Composition<select id="kindle-composition"><option value="">All confirmed sends in period</option></select></label><div id="kindle-origins"></div><details><summary>Source values</summary><div id="kindle-origins-values" class="table-wrap"></div></details><h2 style="margin-top:22px">Directly into Smith</h2><p class="caption">Among articles already in Smith before population. Program additions require a delivery record. Unattributed can include manual additions and older program activity; it is not a verified manual count.</p><div id="kindle-entries"></div><details><summary>Smith entry values</summary><div id="kindle-entries-values" class="table-wrap"></div></details></section>
+ <section class="panel"><h2>Where the articles came from</h2><p class="caption">One bar per confirmed Kindle digest, oldest first. Sources are recorded before population. Returned Trinity articles remain Trinity; markers and series companions are excluded.</p><div id="kindle-origins"><div id="kindle-origins-chart" class="chart digest-trend"></div><div id="kindle-origins-legend" class="legend"></div><div id="kindle-origins-readout" class="readout" aria-live="polite"></div></div><details><summary>Source values</summary><div id="kindle-origins-values" class="table-wrap"></div></details><h2 style="margin-top:22px">Directly into Smith</h2><p class="caption">One bar per digest. Program additions require a delivery record; unattributed does not prove manual addition. Missing history is marked “?”. These charts keep individual digests in daily and weekly views.</p><div id="kindle-entries"><div id="kindle-entries-chart" class="chart digest-trend"></div><div id="kindle-entries-legend" class="legend"></div><div id="kindle-entries-readout" class="readout" aria-live="polite"></div></div><details><summary>Smith entry values</summary><div id="kindle-entries-values" class="table-wrap"></div></details></section>
  <details class="panel wide folded-panel" id="kindle-history"><summary><h2>Digest history</h2></summary><p class="caption" id="kindle-history-caption"></p><div id="kindle-history-table" class="table-wrap"></div></details>
  <details class="panel wide folded-panel" id="kindle-measurements-panel"><summary><h2>Digest measurements</h2></summary><p class="caption">Confirmed sends in this period. Averages exclude missing historical measurements.</p><div id="kindle-measurements" class="table-wrap"></div></details>
+ <section class="panel wide" id="migration"><h2>Backblaze migration</h2><p class="caption" id="migration-caption">Loading the latest deployment measurements…</p><progress id="migration-progress" class="migration-progress" aria-label="Verified legacy image uploads" max="1" value="0" hidden></progress><div id="migration-facts" class="facts storage-facts"></div><p id="migration-note" class="storage-note"></p><details><summary>Latest migration batch</summary><div id="migration-batch" class="table-wrap"></div></details></section>
+ <section class="panel wide" id="pages-size"><h2>GitHub Pages deployment size</h2><p class="caption" id="pages-size-caption">Measured from the staged website before deployment, after exclusions.</p><div id="pages-size-facts" class="facts storage-facts"></div><div id="pages-size-chart"></div><details><summary>Exact size values</summary><div id="pages-size-values" class="table-wrap"></div></details></section>
  <section class="panel wide"><div class="panel-head"><h2>Source activity</h2><label><select id="measure" aria-label="Activity measure"><option value="checks">Source checks</option><option value="bookmarks">New bookmarks & editions</option><option value="conversions">Conversions</option><option value="routed">Routed bookmarks</option></select></label></div><p class="caption" id="activity-caption"></p><div id="activity-chart" class="chart"></div><div id="activity-legend" class="legend"></div><div id="activity-readout" class="readout" aria-live="polite"></div><details><summary>Activity values</summary><div id="activity-values" class="table-wrap"></div></details></section>
  <section class="panel"><h2>Facebook acquisition queue</h2><p class="caption">Global · last observation of each day; thin line shows that day's observed peak. Cooldown includes recurring profiles.</p><div id="queue-chart" class="chart"></div><div id="queue-legend" class="legend"></div><div id="queue-readout" class="readout" aria-live="polite"></div><details><summary>Queue values</summary><div id="queue-values" class="table-wrap"></div></details></section>
  <section class="panel"><h2>Scheduler invocations</h2><p class="caption" id="run-caption">Global · includes maintenance, Facebook acquisition, repair passes, and manual scopes.</p><div id="runs-chart" class="chart"></div><div id="runs-legend" class="legend"></div><div id="runs-readout" class="readout" aria-live="polite"></div><details><summary>Invocation values</summary><div id="runs-values" class="table-wrap"></div></details></section>
@@ -50,6 +53,7 @@
 <p><strong>Routed bookmarks:</strong> Readnext articles confirmed in Smith after population finishes, counted once per population. Series companions moved to Morpheus are excluded. These moves are separate from new arrivals. Earlier Readnext activity is not reconstructed.</p>
 <p><strong>Kindle digests:</strong> one document identity counts once across retries. “Built” requires a measured EPUB; confirmed sends include a retained prior delivery when available. A pending or uncertain send does not count as confirmed. History before instrumentation is partial; missing sizes and origins stay unknown. The source breakdown uses only articles actually included in the EPUB, even when building skips an article. “Repeated” means present in the previous confirmed digest, regardless of source.</p>
 <p><strong>Digest size:</strong> MiB is 1,048,576 bytes. Images include the cover; image bytes are uncompressed ZIP member sizes. Words are whitespace-separated text units in article chapters; headings exclude the navigation document. Build time excludes email delivery. Direct program additions require recorded delivery into Smith; conversions do not establish who added the original.</p>
+<p><strong>Collection storage:</strong> deployment size is the uncompressed total of the staged website, including its measurement file. Git history and excluded originals are separate. Migration counts distinct, verified B2 objects; uploading an image does not remove its old Pages copy. Daily migration usage counts reserved requests and bytes, not account-wide Backblaze usage. These measurements update with deployments and do not follow the activity filters.</p>
 <p><strong>Historical additions:</strong> confirmed, dated feed-monitor records retained locally. They provide partial history, not an account-wide total. Checks and queue measurements begin when recording was installed; blank earlier periods mean unknown. Source cadence and destination associations for checks use the current catalog; delivered bookmark destinations are recorded at delivery.</p>
 <p><strong>Invocations:</strong> CLI starts, including manual scopes and lock-deferred attempts. “Open / interrupted” means no exit was recorded; it does not establish that a process is still running. Duration excludes invocations without a recorded exit.</p>
 <p>Daily activity and invocation records are retained for 365 days; hourly queue observations for 35 days. The public snapshot updates with collection page deployments. All dates and chart buckets use UTC. No bookmark text, repair notes, error messages, or credentials are exported.</p>
@@ -59,8 +63,9 @@
 const $=id=>document.getElementById(id), esc=value=>String(value??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const colors=["#a34427","#276b70","#817137","#755f92","#526a42","#376699","#867362","#b37a8a"];
 const names={frequent:"Every ~15 min",hourly:"About hourly · 다읽기",daily:"Daily rotation",facebook:"Facebook queue",conditional:"When triggered"};
-let data, fetching=false, catalog=new Map(), firstLoad=true;
+let data, collection, fetching=false, catalog=new Map(), firstLoad=true;
 const num=n=>Math.round(n||0).toLocaleString();
+const bytes=n=>{if(!Number.isFinite(n))return "—";const power=n>=1073741824?3:n>=1048576?2:n>=1024?1:0;return (n/1024**power).toFixed(power?2:0)+" "+["B","KiB","MiB","GiB"][power];};
 const dayOf=at=>new Date(at).toISOString().slice(0,10);
 const start=()=>dayOf(Date.now()-(Number($("period").value)-1)*86400000);
 const selected=source=>!$("source").value||source===$("source").value;
@@ -74,35 +79,28 @@ function bucket(day){if($("interval").value==="day")return day;const d=new Date(
 function inPeriod(day){return day>=start()&&day<=dayOf(Date.now());}
 function grouped(rows,label,value){const map=new Map();for(const row of rows){const key=bucket(row.day),series=label(row);if(!map.has(key))map.set(key,{});const values=map.get(key);values[series]=(values[series]||0)+value(row);}return [...map].sort(([a],[b])=>a.localeCompare(b)).map(([day,values])=>({day,...values}));}
 function valuesTable(rows,series,format=num){return '<table><thead><tr><th>UTC date</th>'+series.map(s=>'<th class="num">'+esc(s)+'</th>').join("")+'</tr></thead><tbody>'+rows.map(r=>'<tr><td>'+esc(r.day)+'</td>'+series.map(s=>'<td class="num">'+format(r[s])+'</td>').join("")+'</tr>').join("")+'</tbody></table>';}
-function chart(id,rows,series,{stack=false,peak=false,format=num}={}){
+function chart(id,rows,series,{stack=false,peak=false,format=num,categories=false}={}){
  $(id+"-legend").innerHTML=series.map((s,i)=>'<span><i class="key" style="background:'+colors[i%colors.length]+'"></i>'+esc(s)+'</span>').join("");
  $(id+"-values").innerHTML=valuesTable(rows,series,format);
  const target=$(id+"-chart");$(id+"-readout").textContent="";
  if(!rows.length){target.innerHTML='<p class="empty">No observations recorded in this period.</p>';return;}
- const W=Math.max(280,target.clientWidth-24),H=240,L=46,R=16,T=14,B=30,w=W-L-R,h=H-T-B,pad=stack?20:8;
+ const W=Math.max(280,target.clientWidth-24,categories?rows.length*60+62:0),H=categories?260:240,L=46,R=16,T=14,B=categories?50:30,w=W-L-R,h=H-T-B,pad=stack?20:8;
  const first=new Date(rows[0].day+"T00:00:00Z").getTime(),last=new Date(rows.at(-1).day+"T00:00:00Z").getTime();
- const x=r=>L+(last===first?w/2:pad+(new Date(r.day+"T00:00:00Z").getTime()-first)/(last-first)*(w-2*pad));
+ const x=r=>categories?L+(rows.indexOf(r)+.5)*w/rows.length:L+(last===first?w/2:pad+(new Date(r.day+"T00:00:00Z").getTime()-first)/(last-first)*(w-2*pad));
  const max=Math.max(1,...rows.map(r=>stack?series.reduce((n,s)=>n+(r[s]||0),0):Math.max(...series.map(s=>r[s]||0))));
  const y=n=>T+h-n/max*h;
- let svg='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+esc(id)+' trend; exact values follow">';
- for(let i=0;i<4;i++){const n=max*i/3;svg+='<line class="gridline" x1="'+L+'" x2="'+(W-R)+'" y1="'+y(n)+'" y2="'+y(n)+'"/><text x="'+(L-8)+'" y="'+(y(n)+4)+'" text-anchor="end">'+format(n)+'</text>';}
- if(stack){const bw=Math.min(38,w/Math.max(2,rows.length)*.75);for(const row of rows){let sum=0;series.forEach((s,i)=>{const n=row[s]||0;svg+='<rect x="'+(x(row)-bw/2)+'" y="'+y(sum+n)+'" width="'+bw+'" height="'+(n/max*h)+'" fill="'+colors[i%colors.length]+'"/>';sum+=n;});}}
+ let svg='<svg viewBox="0 0 '+W+' '+H+'"'+(categories?' style="width:'+W+'px"':"")+' role="img" aria-label="'+esc(id)+' trend; exact values follow">';
+ const allMissing=rows.every(r=>r.missing);
+ if(!allMissing)for(let i=0;i<4;i++){const n=max*i/3;svg+='<line class="gridline" x1="'+L+'" x2="'+(W-R)+'" y1="'+y(n)+'" y2="'+y(n)+'"/><text x="'+(L-8)+'" y="'+(y(n)+4)+'" text-anchor="end">'+format(n)+'</text>';}
+ if(stack){const bw=Math.min(38,w/Math.max(2,rows.length)*.75);for(const row of rows){if(row.missing){svg+='<text x="'+x(row)+'" y="'+(T+h/2)+'" text-anchor="middle">?</text>';continue;}let sum=0;series.forEach((s,i)=>{const n=row[s]||0;svg+='<rect x="'+(x(row)-bw/2)+'" y="'+y(sum+n)+'" width="'+bw+'" height="'+(n/max*h)+'" fill="'+colors[i%colors.length]+'"/>';sum+=n;});}}
  else series.forEach((s,i)=>{const points=rows.map(r=>x(r)+","+y(r[s]||0)).join(" ");svg+='<polyline points="'+points+'" fill="none" stroke="'+colors[i%colors.length]+'" stroke-width="'+(peak&&s==="Observed peak"?1:2.5)+'"'+(peak&&s==="Observed peak"?' stroke-dasharray="5 5"':"")+'/>';});
- rows.forEach((row,index)=>{const desc=row.day+" · "+series.map(s=>s+": "+format(row[s])).join(" · ");svg+='<g tabindex="0" data-chart="'+id+'" data-row="'+index+'" aria-label="'+esc(desc)+'"><title>'+esc(desc)+'</title><rect x="'+(x(row)-8)+'" y="'+T+'" width="16" height="'+h+'" fill="transparent"/>';if(!stack)series.forEach((s,i)=>{svg+='<circle cx="'+x(row)+'" cy="'+y(row[s]||0)+'" r="3" fill="'+colors[i%colors.length]+'"/>';});svg+='</g>';});
- [rows[0],...(rows.length>2?[rows[Math.floor(rows.length/2)]]:[]),...(rows.length>1?[rows.at(-1)]:[])].forEach(r=>{svg+='<text x="'+x(r)+'" y="'+(H-6)+'" text-anchor="middle">'+esc(r.day.slice(5))+'</text>';});
+ rows.forEach((row,index)=>{const desc=row.day+" · "+(row.missing?"History unavailable":series.map(s=>s+": "+format(row[s])).join(" · "));svg+='<g tabindex="0" data-chart="'+id+'" data-row="'+index+'" aria-label="'+esc(desc)+'"><title>'+esc(desc)+'</title><rect x="'+(x(row)-8)+'" y="'+T+'" width="16" height="'+h+'" fill="transparent"/>';if(!stack)series.forEach((s,i)=>{svg+='<circle cx="'+x(row)+'" cy="'+y(row[s]||0)+'" r="3" fill="'+colors[i%colors.length]+'"/>';});svg+='</g>';});
+ (categories?rows:[rows[0],...(rows.length>2?[rows[Math.floor(rows.length/2)]]:[]),...(rows.length>1?[rows.at(-1)]:[])]).forEach(r=>{svg+='<text x="'+x(r)+'" y="'+(categories?H-23:H-6)+'" text-anchor="middle">'+esc(r.day.slice(5,10))+(categories?'<tspan x="'+x(r)+'" dy="14">'+esc(r.day.split(" ")[1])+'</tspan>':"")+'</text>';});
  target.innerHTML=svg+'</svg>';
  const describe=e=>{const mark=e.target.closest("[data-row]");if(mark)$(id+"-readout").textContent=mark.getAttribute("aria-label");};
  target.onpointerover=describe;target.onclick=describe;target.onfocusin=describe;
 }
 function table(rows,headers){return '<table><thead><tr>'+headers.map(h=>'<th>'+esc(h)+'</th>').join("")+'</tr></thead><tbody>'+rows.map(r=>'<tr>'+r.map(v=>'<td>'+esc(v)+'</td>').join("")+'</tr>').join("")+'</tbody></table>';}
-function breakdown(id,rows,label){
- const known=rows.some(r=>Number.isFinite(r.value)), max=Math.max(0,...rows.map(r=>r.value||0));
- $(id).innerHTML=(known?"":'<p class="bar-note">No Smith entry history was recorded for this selection.</p>')+'<div class="bar-chart" role="list" aria-label="'+esc(label)+'">'+rows.map(r=>{
-  const missing=!Number.isFinite(r.value), value=missing?"—":num(r.value);
-  return '<div class="bar-row'+(missing?' missing':r.key==="unknown"?' unknown':"")+'" role="listitem"><div class="bar-heading"><span>'+esc(r.label)+'</span><strong>'+value+'</strong></div><div class="bar-track" aria-hidden="true"><div class="bar-fill" style="--bar-size:'+(missing?0:r.value/(max||1)*100)+'%"></div></div></div>';
- }).join("")+'</div>'+(known?'<div class="bar-axis" aria-hidden="true"><span>0</span><span>'+num(max)+(max===1?' article':' articles')+'</span></div>':"");
- $(id+"-values").innerHTML=table(rows.map(r=>[r.label,Number.isFinite(r.value)?num(r.value):"—"]),[label,"Articles sent"]);
-}
 function renderKindle(){
  const sentDay=d=>Number.isFinite(d.sent_at)?dayOf(d.sent_at*1000):d.day;
  const docs=(data.kindle||[]).filter(d=>inPeriod(d.day)||(d.status==="sent"&&inPeriod(sentDay(d))));
@@ -124,13 +122,11 @@ function renderKindle(){
  $("kindle-caption").textContent=average?"Averages use only measured documents; missing historical measurements are excluded.":"Documents count once across retries. Unmeasured historical builds are excluded.";
  const origins={smith_above:"Smith · above marker",smith_below:"Smith · below marker",unread_above:"Unread · above marker",unread_below:"Unread · below marker",trinity:"Trinity",readnext:"Readnext",unknown:"Unknown"};
  const entries={program:"Direct · program confirmed",unattributed:"Direct · unattributed",carried:"Retained from previous digest",other:"Other / unknown"};
- const prior=$("kindle-composition").value;
- $("kindle-composition").innerHTML='<option value="">All confirmed sends in period</option>'+sent.map((d,i)=>'<option value="'+i+'">'+esc(d.day+" #"+(d.sequence||1))+'</option>').join("");
- if(prior!==""&&sent[Number(prior)])$("kindle-composition").value=prior;
- const composition=$("kindle-composition").value===""?sent:[sent[Number($("kindle-composition").value)]];
- breakdown("kindle-origins",Object.entries(origins).map(([key,label])=>({key,label,value:composition.reduce((n,d)=>n+(d.origins?.[key]||0),0)})),"Source before population");
- const knownOrigins=composition.reduce((n,d)=>n+Object.entries(d.origins||{}).reduce((total,[key,count])=>total+(key==="unknown"?0:count),0),0);
- breakdown("kindle-entries",Object.entries(entries).map(([key,label])=>({key,label,value:knownOrigins?composition.reduce((n,d)=>n+(d.smith_entries?.[key]||0),0):null})),"Smith entry");
+ const composition=sent.slice().sort((a,b)=>a.day.localeCompare(b.day)||(a.sequence||1)-(b.sequence||1));
+ const originRows=composition.map(d=>({day:d.day+" #"+(d.sequence||1),...Object.fromEntries(Object.entries(origins).map(([key,label])=>[label,d.origins?.[key]||0]))}));
+ const entryRows=composition.map(d=>{const missing=!Object.entries(d.origins||{}).some(([key,count])=>key!=="unknown"&&count>0);return {day:d.day+" #"+(d.sequence||1),missing,...Object.fromEntries(Object.entries(entries).map(([key,label])=>[label,missing?null:d.smith_entries?.[key]||0]))};});
+ chart("kindle-origins",originRows,Object.values(origins),{stack:true,categories:true});
+ chart("kindle-entries",entryRows,Object.values(entries),{stack:true,categories:true,format:n=>n===null?"—":num(n)});
  const measurements=[
   ["EPUB size · smallest", "bytes", docs=>Math.min(...docs.map(d=>d.bytes))/1048576, "MiB"],
   ["EPUB size · largest", "bytes", docs=>Math.max(...docs.map(d=>d.bytes))/1048576, "MiB"],
@@ -190,8 +186,57 @@ function renderSources(rows){
  $("source-table").innerHTML='<table><thead><tr><th>Source</th><th>Cadence</th><th>Destination</th><th class="num">Checks</th><th class="num">Failed</th><th class="num">Arrivals</th><th class="num">Routed</th><th>Preview</th></tr></thead><tbody>'+list.map(s=>'<tr><td><button type="button" class="table-button" data-source="'+esc(s.id)+'">'+esc(s.name)+'</button></td><td>'+esc(names[s.group]||s.group)+'</td><td>'+esc(s.collection||s.folder||"—")+'</td><td class="num">'+(s.observed?num(s.checks):"—")+'</td><td class="num">'+(s.observed?num(s.failed):"—")+'</td><td class="num">'+num(s.added)+'</td><td class="num">'+num(s.routed)+'</td><td>'+(s.configured!==false?'<a href="./index.html?source='+encodeURIComponent(s.id)+'">Browse ↗</a>':"—")+'</td></tr>').join("")+'</tbody></table>';
  if(!list.length)$("source-table").innerHTML='<p class="caption">No sources match.</p>';
 }
+function factCards(rows){return rows.map(([label,value,note])=>'<div class="fact"><span>'+esc(label)+'</span><strong>'+esc(value)+'</strong><small>'+esc(note)+'</small></div>').join("");}
+function renderCollection(){
+ const migration=collection?.migration, site=collection?.site;
+ if(migration?.available){
+  const percent=migration.objects?100*migration.verified_objects/migration.objects:0;
+  $("migration-caption").textContent=percent.toFixed(1)+"% of distinct legacy images verified in B2 · "+(migration.checkpoint==="latest"?"checkpoint "+new Date(migration.updated_at).toLocaleString("en-GB",{timeZone:"UTC"})+" UTC":"retained baseline; a newer checkpoint was unavailable")+".";
+  $("migration-progress").hidden=false;$("migration-progress").max=migration.objects||1;$("migration-progress").value=migration.verified_objects;
+  $("migration-facts").innerHTML=factCards([
+   ["Verified uploads",num(migration.verified_objects),num(migration.objects)+" distinct images"],
+   ["Remaining uploads",num(migration.objects-migration.verified_objects),"From the legacy inventory"],
+   ["Verified image bytes",bytes(migration.verified_bytes),bytes(migration.bytes)+" total"],
+   ["Legacy files still on Pages",num(migration.remaining_files),bytes(migration.remaining_bytes)+" still served"]
+  ]);
+  $("migration-note").textContent="Uploads and removal from Pages are separate steps. Saved Readers must be verified before their old image URLs are removed. Repository originals are retained. Daily batches run at 23:45–23:58 UTC; new images take priority.";
+  const daily=migration.daily||{}, limits=migration.limits||{};
+  $("migration-batch").innerHTML=table([
+   ["UTC day",daily.date||"Unknown"],
+   ["Images reserved",daily.date?num(daily.objects)+" / "+num(limits.objects):"—"],
+   ["Reads reserved",daily.date?num(daily.read_requests)+" / "+num(limits.read_requests):"—"],
+   ["Download bytes reserved",daily.date?bytes(daily.download_bytes)+" / "+bytes(limits.download_bytes):"—"],
+   ["Checkpoint status",migration.status],
+   ["Reported errors",num(migration.errors)]
+  ],["Measurement","Latest batch"]);
+ }else{
+  $("migration-caption").textContent="Migration measurements are unavailable for this deployment.";
+  $("migration-progress").hidden=true;$("migration-facts").innerHTML="";$("migration-note").textContent="";$("migration-batch").innerHTML="";
+ }
+ if(site?.categories){
+  const originals=collection.repository_originals;
+  $("pages-size-caption").textContent="Uncompressed files staged for this deployment, after exclusions · measured "+new Date(collection.measured_at).toLocaleString("en-GB",{timeZone:"UTC"})+" UTC. Independent of the activity filters.";
+  $("pages-size-facts").innerHTML=factCards([
+   ["Total deployment",bytes(site.bytes),num(site.files)+" files"],
+   ["Published images",bytes(site.categories.images.bytes),num(site.categories.images.files)+" image files"],
+   ["HTML",bytes(site.categories.html.bytes),num(site.categories.html.files)+" pages"],
+   ["Originals excluded from Pages",bytes(originals?.bytes),num(originals?.files)+" retained files"]
+  ]);
+  const labels={images:"Images",html:"HTML",other:"Other files"}, max=Math.max(1,...Object.values(site.categories).map(r=>r.bytes));
+  $("pages-size-chart").innerHTML='<div class="bar-chart" role="list" aria-label="Deployment size by file type">'+Object.entries(labels).map(([key,label])=>'<div class="bar-row" role="listitem"><div class="bar-heading"><span>'+label+'</span><strong>'+bytes(site.categories[key].bytes)+'</strong></div><div class="bar-track" aria-hidden="true"><div class="bar-fill" style="--bar-size:'+site.categories[key].bytes/max*100+'%"></div></div></div>').join("")+'</div>';
+  $("pages-size-values").innerHTML=table([["Total",num(site.files),num(site.bytes)],...Object.entries(labels).map(([key,label])=>[label,num(site.categories[key].files),num(site.categories[key].bytes)])],["File type","Files","Bytes"]);
+ }else{
+  $("pages-size-caption").textContent="Website size will appear when the deployment measures its staged files.";
+  $("pages-size-facts").innerHTML="";$("pages-size-chart").innerHTML="";$("pages-size-values").innerHTML="";
+ }
+}
+async function refreshCollection(){
+ try{const response=await fetch("./collection.json",{cache:"no-store"});if(!response.ok)throw Error("No deployment measurements");collection=await response.json();}
+ catch{collection=null;}
+ renderCollection();
+}
 async function refresh(){
- if(fetching)return;fetching=true;$("refresh").disabled=true;
+ if(fetching)return;fetching=true;$("refresh").disabled=true;refreshCollection();
  try{
   const response=await fetch("./statistics.json",{cache:"no-store"});if(!response.ok)throw Error("Statistics snapshot is unavailable");
   const next=await response.json();if(next.unavailable)throw Error("Operational history is unavailable in this snapshot.");if(!Array.isArray(next.sources)||!Array.isArray(next.activity))throw Error("Statistics snapshot is incomplete.");data=next;catalog=new Map(data.sources.map(s=>[s.id,s]));
@@ -205,7 +250,7 @@ async function refresh(){
   $("error").textContent="";firstLoad=false;render();
  }catch(error){$("error").textContent=error.message;}finally{fetching=false;$("refresh").disabled=false;}
 }
-["period","interval","group","destination","source","measure","sort","kindle-measure","kindle-composition"].forEach(id=>$(id).addEventListener("change",()=>data&&render()));
+["period","interval","group","destination","source","measure","sort","kindle-measure"].forEach(id=>$(id).addEventListener("change",()=>data&&render()));
 $("search").addEventListener("input",()=>data&&render());$("clear").onclick=()=>{$("search").value="";if(data)render();$("search").focus();};
 $("reset").onclick=()=>{$("source").value="";$("destination").value="";$("search").value="";if(data)render();};
 $("source-table").onclick=e=>{const button=e.target.closest("[data-source]");if(button){$("source").value=button.dataset.source;render();$("activity-chart").scrollIntoView({block:"center"});}};
