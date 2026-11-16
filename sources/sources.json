@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-16T00:15:57.212593+00:00",
+  "generated_at": "2026-11-16T00:52:15.883750+00:00",
   "sources": [
     {
       "id": "frequent:bluesky-capcold",
@@ -13,7 +13,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-16T00:04:07.806983+00:00",
+      "cached_at": "2026-11-16T00:47:31.474860+00:00",
       "url": "https://bsky.app/profile/capcold.bsky.social",
       "error": "",
       "previews": [
@@ -55,7 +55,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-16T00:04:10.397899+00:00",
+      "cached_at": "2026-11-16T00:47:34.055035+00:00",
       "url": "https://coffeepot.me/rss",
       "error": "",
       "previews": [
@@ -95,7 +95,7 @@
       "delivery": "Individual articles",
       "monitoring": "Each maintenance pass, nominally every 15 minutes with up to 10 minutes of delay.",
       "tags": [],
-      "cached_at": "2026-11-16T00:04:11.919441+00:00",
+      "cached_at": "2026-11-16T00:47:35.571081+00:00",
       "url": "https://kill-the-newsletter.com/feeds/j50w0hwaltovoqbe.xml",
       "error": "",
       "previews": [],
@@ -111,7 +111,7 @@
       "delivery": "Individual articles",
       "monitoring": "Each maintenance pass, nominally every 15 minutes with up to 10 minutes of delay.",
       "tags": [],
-      "cached_at": "2026-11-16T00:04:13.427859+00:00",
+      "cached_at": "2026-11-16T00:47:36.105920+00:00",
       "url": "https://kill-the-newsletter.com/feeds/x65bw2k2if80qbp6jk0n.xml",
       "error": "",
       "previews": [
@@ -153,10 +153,18 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-16T00:04:15.530550+00:00",
+      "cached_at": "2026-11-16T00:47:36.890838+00:00",
       "url": "https://kill-the-newsletter.com/feeds/la1dwxu6ovmqf6gn.xml",
       "error": "",
       "previews": [
+        {
+          "title": "[GN#384] 클라우드 없이 어디까지 테스트할 수 있을까?",
+          "published": "2026-11-16T00:07:11.134Z",
+          "summary": "[GN#384] 클라우드 없이 어디까지 테스트할 수 있을까? G eek N ews Weekly 클라우드 없이 어디까지 테스트할 수 있을까? AWS는 우리가 많이 쓰는 클라우드지만, 그동안 여러 서비스를 한꺼번에 테스트할 수 있는 공식 에뮬레이터 가 없었습니다. S3에 파일을 올리고 SQS로 작업을 넘기는 기본적인 흐름도 노트북에서 처음부터 끝까지 돌려보려면 별도의 도구가 필요했는데요. 그 빈자리를 LocalStack 같은 외부 프로젝트 가 채워왔습니다. 긱뉴스 초기에 소개해 드렸던 LocalStack 도 7년 동안 많이 달라졌습니다. 지금은 무료 Hobby 플랜에서 30개 이상, 상위 유료 플랜에서는 110개 이상의 AWS 서비스를 지원하는데요. 하지만 올해 3월부터는 최신 버전을 실행하려면 계정과 인증 토큰이 필요 해졌고, 회사에서 쓰려면 …",
+          "author": "010101a1e1add3d0-7c9a4083-2896-4e23-9bf9-85eb5c4172ad-000000@mail.hada.io 010101a1e1add3d0-7c9a4083-2896-4e23-9bf9-85eb5…",
+          "origin": "Cached feed",
+          "url": "https://news.hada.io/weekly/202646"
+        },
         {
           "title": "[GN#383] AI가 다른 AI의 머릿속을 고쳤다",
           "published": "2026-11-09T00:07:06.324Z",
@@ -172,14 +180,6 @@
           "author": "010101a19994ae68-a4b66840-6d4a-4fea-a780-27ea17e6916d-000000@mail.hada.io 010101a19994ae68-a4b66840-6d4a-4fea-a780-27ea1…",
           "origin": "Cached feed",
           "url": "https://news.hada.io/weekly/202644"
-        },
-        {
-          "title": "[GN#381] AI에게 다 물어볼 수 있어도, 알고 있어야 할 수 있는 일",
-          "published": "2026-10-26T00:12:58.793Z",
-          "summary": "[GN#381] AI에게 다 물어볼 수 있어도, 알고 있어야 할 수 있는 일 G eek N ews Weekly AI에게 다 물어볼 수 있어도, 알고 있어야 할 수 있는 일 이번 주 긱뉴스에서 가장 많은 추천을 받은 세 글은 모두 긴 학습 자료였습니다. 약 3시간짜리 「 시니어 엔지니어처럼 소프트웨어 시스템 설계하기 」 강의 영상, 16개 장에 걸쳐 에이전트를 직접 만드는 「 Harness Engineering 101 」, 그리고 「 지능을 전기처럼 쓰는 시대 — AI 네이티브 핸드북 2026 」입니다. AI에게 물으면 무엇이든 바로 답을 얻을 수 있는 시기에, 긱뉴스 독자들은 시간을 들여야 하는 긴 자료에 가장 많이 추천을 눌렀네요. 시스템 설계 강의 에서는 음악 스트리밍, 호텔 예약, 메시징 서비스를 요구사항 확인부터 병목과 장애 검토까지 …",
-          "author": "010101a175880bb5-e33f9c74-9c5e-46be-ac63-ed0d847d54e7-000000@mail.hada.io 010101a175880bb5-e33f9c74-9c5e-46be-ac63-ed0d8…",
-          "origin": "Cached feed",
-          "url": "https://news.hada.io/weekly/202643"
         }
       ]
     },
@@ -195,7 +195,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-16T00:04:17.527923+00:00",
+      "cached_at": "2026-11-16T00:47:37.310055+00:00",
       "url": "https://blog.outsider.ne.kr/atom",
       "error": "",
       "previews": [
@@ -237,7 +237,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-16T00:04:23.010985+00:00",
+      "cached_at": "2026-11-16T00:47:38.593089+00:00",
       "url": "http://feeds.feedburner.com/Economic_View",
       "error": "",
       "previews": [
@@ -279,7 +279,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-16T00:04:24.606879+00:00",
+      "cached_at": "2026-11-16T00:47:39.567247+00:00",
       "url": "https://fenews.substack.com/feed",
       "error": "",
       "previews": [
@@ -321,7 +321,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-16T00:04:26.989864+00:00",
+      "cached_at": "2026-11-16T00:47:40.154013+00:00",
       "url": "https://unchartedterritories.tomaspueyo.com/feed",
       "error": "",
       "previews": [
@@ -363,7 +363,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-16T00:04:28.510854+00:00",
+      "cached_at": "2026-11-16T00:47:41.316995+00:00",
       "url": "https://blog.instapaper.com/rss",
       "error": "",
       "previews": [
@@ -405,7 +405,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-16T00:05:12.137971+00:00",
+      "cached_at": "2026-11-16T00:47:43.179915+00:00",
       "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCbbQalJ4OaC0oQ0AqRaOJ9g",
       "error": "",
       "previews": [],
@@ -423,7 +423,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-16T00:05:12.439578+00:00",
+      "cached_at": "2026-11-16T00:47:43.337965+00:00",
       "url": "https://podcasts.files.bbci.co.uk/p02pc9zn.rss",
       "error": "",
       "previews": [
@@ -465,7 +465,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-16T00:05:29.744468+00:00",
+      "cached_at": "2026-11-16T00:47:56.963206+00:00",
       "url": "https://rss.diffbot.com/rss?url=https://www.newstomato.com/SearchList.aspx?keyword%3D%25ec%2598%25a4%25eb%258f%2599%25ec%25a7%2584%25ec%259d%2598%252c%2B%25eb%2582%2598%25ec%259d%2598%2B%25ec%2595%258c%25ec%25bd%2594%25ec%2598%25ac%2B%25ec%259d%25bc%25ec%25a7%2580",
       "error": "",
       "previews": [
@@ -507,7 +507,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-16T00:05:35.278433+00:00",
+      "cached_at": "2026-11-16T00:38:58.116100+00:00",
       "url": "https://hnrss.org/newest?points=1000",
       "error": "",
       "previews": [
@@ -549,7 +549,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-16T00:05:36.630424+00:00",
+      "cached_at": "2026-11-16T00:48:29.233289+00:00",
       "url": "https://haskellweekly.news/newsletter.atom",
       "error": "",
       "previews": [
@@ -591,7 +591,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-16T00:05:40.589823+00:00",
+      "cached_at": "2026-11-16T00:48:31.789402+00:00",
       "url": "https://sovidence.tistory.com/rss",
       "error": "",
       "previews": [
@@ -633,7 +633,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-16T00:05:41.835391+00:00",
+      "cached_at": "2026-11-16T00:48:32.644239+00:00",
       "url": "https://ciechanow.ski/atom.xml",
       "error": "",
       "previews": [
@@ -667,7 +667,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-16T00:05:42.400388+00:00",
+      "cached_at": "2026-11-16T00:48:32.908236+00:00",
       "url": "https://blog.ploeh.dk/rss.xml",
       "error": "",
       "previews": [
@@ -709,7 +709,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-16T00:05:50.522336+00:00",
+      "cached_at": "2026-11-16T00:48:33.465228+00:00",
       "url": "https://www.stephendiehl.com/feed.xml",
       "error": "",
       "previews": [
@@ -751,7 +751,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-16T00:05:52.776321+00:00",
+      "cached_at": "2026-11-16T00:48:35.724195+00:00",
       "url": "https://registerspill.thorstenball.com/feed",
       "error": "",
       "previews": [
@@ -793,7 +793,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-16T00:05:54.938308+00:00",
+      "cached_at": "2026-11-16T00:48:36.263187+00:00",
       "url": "https://meetingcpp.com/feed.xml",
       "error": "",
       "previews": [
@@ -835,7 +835,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-16T00:05:58.575720+00:00",
+      "cached_at": "2026-11-16T00:48:39.411142+00:00",
       "url": "https://rss.blog.naver.com/xqon1.xml",
       "error": "",
       "previews": [
@@ -877,7 +877,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-16T00:06:02.444309+00:00",
+      "cached_at": "2026-11-16T00:48:41.913936+00:00",
       "url": "https://rss.blog.naver.com/pamina7776.xml",
       "error": "",
       "previews": [
@@ -919,7 +919,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-16T00:06:06.930749+00:00",
+      "cached_at": "2026-11-16T00:48:45.025812+00:00",
       "url": "https://rss.blog.naver.com/indizio.xml",
       "error": "",
       "previews": [
@@ -961,7 +961,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-16T00:06:47.110385+00:00",
+      "cached_at": "2026-11-16T00:48:47.184462+00:00",
       "url": "https://rss.diffbot.com/rss?url=https://www.joongang.co.kr/series/11656",
       "error": "",
       "previews": [
@@ -1003,7 +1003,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-16T00:06:48.319375+00:00",
+      "cached_at": "2026-11-16T00:48:48.027972+00:00",
       "url": "https://www.bbc.co.uk/news/topics/cpml2v678pxt",
       "error": "",
       "previews": [
@@ -1045,7 +1045,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-16T00:06:51.528964+00:00",
+      "cached_at": "2026-11-16T00:48:49.409998+00:00",
       "url": "https://slownews.kr/feed",
       "error": "",
       "previews": [
@@ -1087,7 +1087,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-16T00:06:53.438313+00:00",
+      "cached_at": "2026-11-16T00:48:50.186987+00:00",
       "url": "https://www.ianvisits.co.uk/articles/feed/",
       "error": "",
       "previews": [
@@ -1127,7 +1127,7 @@
       "delivery": "Individual articles",
       "monitoring": "Each maintenance pass, nominally every 15 minutes with up to 10 minutes of delay.",
       "tags": [],
-      "cached_at": "2026-11-16T00:06:54.474115+00:00",
+      "cached_at": "2026-11-16T00:48:50.636998+00:00",
       "url": "https://www.ianvisits.co.uk/articles/feed/",
       "error": "",
       "previews": [
@@ -1834,7 +1834,7 @@
         "🗞️"
       ],
       "cached_at": "2026-11-16T00:07:00.481883+00:00",
-      "next_in_rotation": true,
+      "next_in_rotation": false,
       "url": "https://kill-the-newsletter.com/feeds/nvgtzce5f58tdgnd.xml",
       "error": "",
       "previews": [
@@ -1869,7 +1869,7 @@
         "🗞️"
       ],
       "cached_at": "2026-10-21T23:05:01.474194+00:00",
-      "next_in_rotation": false,
+      "next_in_rotation": true,
       "url": "https://bubbles.town/weekly/feed",
       "error": "",
       "previews": [
@@ -9717,6 +9717,22 @@
       "preview_note": "This is a rule, rather than a subscribed publication."
     },
     {
+      "id": "workflow:readnext",
+      "name": "Readnext",
+      "group": "conditional",
+      "kind": "Workflow",
+      "folder": "Smith",
+      "rule": "Smith population needs additional articles.",
+      "delivery": "Select saved articles from eligible folders; move selected articles to Smith and the rest of a series to Morpheus.",
+      "monitoring": "Condition checked on maintenance passes.",
+      "tags": [],
+      "cached_at": "",
+      "url": "",
+      "error": "",
+      "previews": [],
+      "preview_note": "This is a rule, rather than a subscribed publication."
+    },
+    {
       "id": "workflow:smith",
       "name": "Smith population & Kindle",
       "group": "conditional",
@@ -9738,7 +9754,7 @@
     "hourly": 181,
     "daily": 30,
     "facebook": 13,
-    "conditional": 19
+    "conditional": 20
   },
   "warnings": [],
   "public": true
