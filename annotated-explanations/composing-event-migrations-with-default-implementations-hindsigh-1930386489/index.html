@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Composing Event Migrations with Default Implementations - Hindsight — Haskell은 타입으로 이벤트 마이그레이션을 어떻게 연결하나요?</title>
+<meta content="Hindsight의 이벤트 버전 변환을 예로 타입 승격, 동등성 제약, 인스턴스 문맥, 가시적 타입 적용을 설명합니다." name="description"/>
+<meta content="https://hindsight.events/content/posts/composing-event-migrations-with-default-implementations.html" name="source-url"/>
+<meta content="2026-11-17" name="review-date"/>
+<meta content="1" name="explanation-article-format"/>
+<meta content="8bd2d203c3dfe2f108537176a962f4caa7283601828b351693d2b11c30a27a03" name="explanation-content-sha256"/>
+<meta content="https://beila.github.io/my-collection/annotated-explanations/composing-event-migrations-with-default-implementations-hindsigh-1930386489/?instapaper_explanation=1-8bd2d203c3dfe2f1" name="instapaper-ingestion-url"/>
+<link href="https://beila.github.io/my-collection/annotated-explanations/composing-event-migrations-with-default-implementations-hindsigh-1930386489/" rel="canonical"/>
+<style>:root {
+  color-scheme: dark;
+  --paper: oklch(0.19 0.005 260);
+  --panel: oklch(0.235 0.006 260);
+  --ink: oklch(0.93 0.006 85);
+  --muted: oklch(0.76 0.006 85);
+  --accent: oklch(0.84 0.07 85);
+  --line: oklch(0.43 0.008 260);
+}
+* { box-sizing: border-box; }
+html { background: var(--paper); scroll-padding-top: 1.5rem; }
+body {
+  margin: 0; min-height: 100dvh; color: var(--ink); background: var(--paper);
+  font-family: "Apple SD Gothic Neo", "Noto Sans CJK KR", "Malgun Gothic", system-ui, sans-serif;
+  font-size: 1.0625rem; line-height: 1.9; overflow-wrap: anywhere;
+}
+main { width: min(100% - 3rem, 43rem); margin: 0 auto; padding: 4rem 0 5rem; }
+h1, h2, h3 { line-height: 1.4; font-weight: 700; word-break: keep-all; overflow-wrap: anywhere; }
+h1 { font-size: 2.125rem; margin: 0 0 2rem; letter-spacing: -0.025em; }
+h2 { font-size: 1.5rem; margin: 4rem 0 1.5rem; padding-top: 1rem; border-top: 1px solid var(--line); }
+h3 { font-size: 1.1875rem; margin: 2.5rem 0 1rem; }
+p { margin: 0 0 1.5rem; }
+p[data-publication-metadata] { color: var(--muted); font-size: 0.9375rem; margin-bottom: 0.5rem; }
+a { color: var(--accent); text-decoration-thickness: 0.075em; text-underline-offset: 0.2em; }
+a:hover { text-decoration-thickness: 0.13em; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; border-radius: 1px; }
+code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace; font-size: 0.88em; }
+:not(pre) > code { background: var(--panel); padding: 0.1em 0.25em; border-radius: 0.15em; }
+pre {
+  white-space: pre; overflow-x: auto; max-width: 100%;
+  padding: 1rem; margin: 1rem 0 1.5rem; background: var(--panel);
+  border: 1px solid var(--line); line-height: 1.6;
+}
+pre code { background: none; padding: 0; }
+blockquote { margin: 1rem 0 1.5rem; padding: 1rem; border: 1px solid var(--line); color: var(--ink); }
+blockquote p:last-child { margin-bottom: 0; }
+table { border-collapse: collapse; width: 100%; table-layout: fixed; margin: 1.5rem 0; font-size: 0.9375rem; }
+th, td { padding: 0.75rem; border: 1px solid var(--line); text-align: left; vertical-align: top; }
+th { background: var(--panel); font-weight: 700; }
+th:first-child, td:first-child { width: 40%; }
+ul, ol { margin: 1rem 0 1.5rem; padding-left: 1.5rem; }
+li { margin-bottom: 0.75rem; }
+img { max-width: 100%; height: auto; }
+@media (max-width: 30rem) {
+  main { width: calc(100% - 2rem); padding-top: 2rem; }
+  h1 { font-size: 1.75rem; }
+  h2 { font-size: 1.375rem; margin-top: 3rem; }
+  th, td { padding: 0.5rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
+@media print {
+  :root {
+    color-scheme: light;
+    --paper: white; --panel: #f5f5f5; --ink: black;
+    --muted: black; --accent: black; --line: #777;
+  }
+  html, body { background: white; color: black; }
+  main { width: 100%; max-width: none; margin: 0; padding: 0; font-size: 10.5pt; }
+  h1 { font-size: 22pt; }
+  h2 { font-size: 16pt; break-after: avoid; border-color: #777; }
+  h3 { font-size: 12pt; break-after: avoid; }
+  p[data-publication-metadata], a { color: black; }
+  pre, th, :not(pre) > code { background: #f5f5f5; color: black; }
+  pre { white-space: pre-wrap; overflow-wrap: anywhere; overflow: visible; break-inside: avoid; }
+  blockquote, th, td, pre { border-color: #777; }
+  a { text-decoration: underline; }
+  a[href^="https://"]::after { content: " [" attr(href) "]"; font-size: 8pt; overflow-wrap: anywhere; }
+}
+@page { margin: 16mm; }</style>
+<meta property="og:title" content="Composing Event Migrations with Default Implementations - Hindsight — Haskell은 타입으로 이벤트 마이그레이션을 어떻게 연결하나요?"><meta property="og:description" content="Hindsight의 이벤트 버전 변환을 예로 타입 승격, 동등성 제약, 인스턴스 문맥, 가시적 타입 적용을 설명합니다."><meta property="og:url" content="https://beila.github.io/my-collection/annotated-explanations/composing-event-migrations-with-default-implementations-hindsigh-1930386489/index.html"><meta property="og:type" content="article"><meta name="twitter:card" content="summary"></head>
+<body><main><article>
+<section class="reviewed-content"><h1 id="haskell은-타입으로-이벤트-마이그레이션을-어떻게-연결하나요">Haskell은 타입으로 이벤트 마이그레이션을 어떻게 연결하나요?</h1>
+<p data-publication-metadata="true">해설 대상 원문: Gaël Deest, <a href="https://hindsight.events/content/posts/composing-event-migrations-with-default-implementations.html">“Composing Event Migrations with Default Implementations”</a></p><p data-publication-metadata="true">검토 날짜: <time datetime="2026-11-17">2026-11-17</time></p><p data-publication-metadata="true"><a href="https://beila.github.io/my-collection/annotated-explanations/composing-event-migrations-with-default-implementations-hindsigh-1930386489/composing-event-migrations-with-default-implementations-hindsigh-1930386489.epub">EPUB 파일을 내려받습니다.</a></p><h2 id="이-문서에서-설명하는-내용">이 문서에서 설명하는 내용</h2>
+<p>저장된 이벤트가 예전 형식이어도 현재 코드가 읽을 수 있으려면, 이전 버전의 페이로드를 현재 버전으로 바꿔야 합니다. 원문의 Hindsight 예제에서는 사용자가 인접한 버전 사이의 변환인 <code>upcast</code>를 정의하고, 기본 구현이 그 변환들을 연결합니다. 예를 들어 최신 버전이 V2라면 V0 페이로드는 V0 → V1 → V2 순서로 변환되고, 이미 V2인 페이로드는 그대로 반환됩니다. 이 설명에서 V0, V1, V2는 관계를 보여 주기 위한 예시입니다. <a href="https://github.com/hindsight-es/hindsight/blob/911d97db189ed766aca7512df2ab91abcc7c67cb/website/content/posts/composing-event-migrations-with-default-implementations.md">원문 및 해당 구현</a></p>
+<p>이 연결에 쓰이는 <code>'True</code>, <code>~</code>, <code>instance</code>, <code>@</code>는 각각 다른 일을 합니다. 먼저 값과 타입의 관계를 구분한 다음, 원문에서 이 표기들이 어떻게 조합되는지 살펴보겠습니다.</p>
+<h2 id="먼저-알아야-할-공통-개념">먼저 알아야 할 공통 개념</h2>
+<h3 id="값-타입-종류">값, 타입, 종류</h3>
+<p>Haskell에서 값(value)의 타입(type)은 그 값이 어떤 종류의 값인지 나타냅니다. 예를 들어 실행 시 사용할 수 있는 <code>True</code>는 타입 <code>Bool</code>의 값입니다. 종류(kind)는 타입이나 타입 수준 표현을 분류합니다. <a href="https://downloads.haskell.org/ghc/9.10.3/docs/users_guide/exts/data_kinds.html">GHC의 데이터 타입 승격 설명</a>에 따르면 <code>DataKinds</code> 확장은 데이터 생성자를 타입 수준으로 승격해 이런 표현을 가능하게 합니다.</p>
+<table>
+<colgroup>
+<col style="width: 50%"/>
+<col style="width: 50%"/>
+</colgroup>
+<thead>
+<tr>
+<th scope="col">표현</th>
+<th scope="col">수준과 의미</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>True :: Bool</code></td>
+<td><code>True</code>는 값이고 <code>Bool</code>은 그 값의 타입입니다.</td>
+</tr>
+<tr>
+<td><code>'True :: Bool</code></td>
+<td><code>'True</code>는 승격된 생성자이고 <code>Bool</code>은 그 타입 수준 표현의 종류입니다.</td>
+</tr>
+<tr>
+<td><code>ver :: PeanoNat</code></td>
+<td><code>ver</code>는 타입 수준 버전 변수이고 <code>PeanoNat</code>은 그 종류입니다.</td>
+</tr>
+<tr>
+<td><code>event :: Symbol</code></td>
+<td><code>event</code>는 타입 수준 이벤트 이름 변수이고 <code>Symbol</code>은 그 종류입니다.</td>
+</tr>
+</tbody>
+</table>
+<p>여기서 <code>::</code>의 오른쪽은 첫 행에서는 값의 타입이고 나머지 행에서는 타입 수준 표현의 종류입니다. 작은따옴표는 승격된 생성자를 가리키거나 다른 이름과 구별하는 표기이며 문자열을 감싸는 기호가 아닙니다.</p>
+<p>원문에서 보조 클래스 <code>ConsecutiveUpcast</code>의 매개변수는 순서대로 최신 버전 여부인 <code>isLatest</code>, 버전인 <code>ver</code>, 이벤트 이름인 <code>event</code>입니다. 타입 패밀리(type family) <code>IsLatest</code>는 버전과 최대 버전을 비교해 타입 수준의 <code>'True</code> 또는 <code>'False</code>를 계산합니다. GHC는 이 결과에 맞는 인스턴스를 선택합니다. 런타임 불리언 값을 받아 <code>case</code>로 분기한다는 뜻은 아닙니다. 선택된 메서드는 실제 페이로드를 전달받았을 때 값을 변환합니다. <a href="https://github.com/hindsight-es/hindsight/blob/c1721b9295168be31a74f3876f07633a84f1a73f/hindsight-core/src/Hindsight/Events.hs">Hindsight의 고정된 구현</a></p>
+<p>버전에는 0과 후속자(successor)로 수를 표현하는 페아노 수(Peano number)를 사용합니다. 예를 들어 타입 수준의 <code>'PeanoSucc ver</code>는 <code>ver</code>의 다음 버전을 나타냅니다. 이 구현은 <code>Nat</code>과 <code>PeanoNat</code>을 별도 표현으로 다루며 타입 패밀리로 명시적으로 변환합니다. 이는 내장 <code>Nat</code>에서 타입 수준 연산이나 재귀가 불가능하다는 뜻은 아닙니다. <a href="https://github.com/hindsight-es/hindsight/blob/c1721b9295168be31a74f3876f07633a84f1a73f/hindsight-core/src/Hindsight/Events/Internal/TypeLevel.hs">페아노 수와 변환의 구현</a></p>
+<h2 id="하이라이트별-해설">하이라이트별 해설</h2>
+<h3 id="타입-수준의-true는-무엇을-뜻하나요">타입 수준의 <code>'True</code>는 무엇을 뜻하나요?</h3>
+<p><strong>하이라이트:</strong> <code>'True</code></p>
+<p><strong>원문 문맥:</strong></p>
+<blockquote>
+<p>When the Bool is 'True (at latest): one instance provides identity</p>
+</blockquote>
+<p>이 문장은 원문의 “How It Works: Default Implementations and Dispatch” 절에서 보조 클래스의 두 경우를 소개합니다. 여기의 <code>'True</code>는 “현재 버전이 최신이다”라는 타입 수준 계산 결과입니다. 이 결과를 첫 번째 매개변수로 받는 인스턴스는 <code>viaConsecutive = id</code>를 정의하므로, 최신 버전의 페이로드는 추가 변환 없이 반환됩니다. 값 <code>True</code>를 메서드의 일반 인자로 넘기는 것은 아닙니다.</p>
+<h3 id="는-어떤-같음을-요구하나요"><code>~</code>는 어떤 같음을 요구하나요?</h3>
+<p><strong>하이라이트:</strong> <code>~</code></p>
+<p><strong>원문 문맥:</strong></p>
+<pre class="haskell" tabindex="0"><code>instance
+    ( ver ~ MaxVersionPeano event
+    , PayloadAtVersion ver (EventVersionVector event) ~ CurrentPayloadType event
+    ) =&gt; ConsecutiveUpcast 'True ver event where
+    viaConsecutive = id</code></pre>
+<p>첫 번째 <code>~</code>는 <code>ver</code>와 해당 이벤트의 최대 버전 표현 <code>MaxVersionPeano event</code>가 같은 타입 수준 표현이어야 한다는 동등성 제약(equality constraint)입니다. 실행 중 두 값을 비교해 <code>Bool</code>을 반환하는 <code>(==)</code>가 아닙니다. 이 제약 아래에서 타입 검사기는 양쪽을 같은 것으로 사용할 수 있습니다. <a href="https://downloads.haskell.org/ghc/9.10.3/docs/users_guide/exts/equality_constraints.html">GHC의 동등성 제약 설명</a></p>
+<p>바로 아래 두 번째 제약은 다른 같음을 요구합니다. 현재 버전에서 꺼낸 페이로드의 타입이 최신 페이로드의 타입과 같아야 합니다. <code>id</code>는 받은 값을 같은 타입으로 돌려주므로, 이 두 번째 제약이 있어야 여기서 요구하는 입력과 출력 타입에 <code>id</code>를 사용할 수 있습니다. 첫 번째는 버전 인덱스의 같음이고, 두 번째는 페이로드 타입의 같음입니다.</p>
+<h3 id="instance-다음의-괄호는-무엇을-묶나요"><code>instance</code> 다음의 괄호는 무엇을 묶나요?</h3>
+<p><strong>하이라이트:</strong></p>
+<pre class="haskell" tabindex="0"><code>instance
+    (</code></pre>
+<p><strong>원문 문맥:</strong></p>
+<pre class="haskell" tabindex="0"><code>instance
+    ( ver ~ MaxVersionPeano event
+    , PayloadAtVersion ver (EventVersionVector event) ~ CurrentPayloadType event
+    ) =&gt; ConsecutiveUpcast 'True ver event where
+    viaConsecutive = id</code></pre>
+<p>줄바꿈 뒤의 괄호는 일반 값으로 전달되는 튜플이 아니라 인스턴스 문맥(instance context)입니다. 쉼표로 구분된 두 제약을 묶고, <code>=&gt;</code> 뒤에서 어떤 인스턴스를 정의하는지 밝힙니다. 이 예에서는 <code>ConsecutiveUpcast 'True ver event</code>가 인스턴스 헤드(instance head)이며, <code>where</code> 뒤는 그 인스턴스의 메서드 구현입니다. 즉 이 헤드에 해당하는 인스턴스를 사용할 때 문맥의 제약도 충족해야 합니다. 인스턴스 선택은 헤드에 따라 이루어지며, 괄호 안의 제약을 런타임 분기 조건으로 검사하는 것은 아닙니다. <a href="https://downloads.haskell.org/ghc/9.10.3/docs/users_guide/exts/instances.html">GHC의 인스턴스 선언과 해석</a></p>
+<p>원문의 사용자 측 <code>MigrateVersion</code> 선언처럼 메서드를 직접 쓰지 않은 인스턴스는 클래스가 제공한 기본 구현을 사용할 수 있습니다. 이때 해당 기본 구현이 요구하는 제약도 충족되어야 합니다. 따라서 빈 선언과 수동 구현은 서로 다른 선택지입니다. <a href="https://downloads.haskell.org/ghc/9.10.3/docs/users_guide/exts/default_signatures.html">GHC의 기본 메서드 시그니처</a></p>
+<h3 id="viaconsecutive는-뒤의-타입을-어떻게-받나요"><code>viaConsecutive</code>는 <code>@</code> 뒤의 타입을 어떻게 받나요?</h3>
+<p><strong>하이라이트:</strong> <code>@</code></p>
+<p><strong>원문 문맥:</strong></p>
+<pre class="haskell" tabindex="0"><code>    viaConsecutive =
+        viaConsecutive @(IsLatest ('PeanoSucc ver) event) @('PeanoSucc ver)
+            . upcast @(FromPeanoNat ver)</code></pre>
+<p><strong>사용자 메모:</strong> Is this referring to the type? But does viaConsecutive accept a type?</p>
+<p>네. 이 <code>@</code>는 가시적 타입 적용(visible type application)으로, 바로 뒤의 타입 수준 표현을 <code>viaConsecutive</code>의 타입 매개변수에 명시적으로 지정합니다. <code>TypeApplications</code> 확장에서 다형 함수나 메서드의 지정 가능한 타입 변수를 이런 식으로 구체화할 수 있습니다. 이것은 런타임에 타입 객체를 값 인자로 전달하는 호출이 아닙니다. <a href="https://downloads.haskell.org/ghc/9.10.3/docs/users_guide/exts/type_applications.html">GHC의 가시적 타입 적용 설명</a></p>
+<p>원문에 보이는 <code>PayloadAtVersion ... -&gt; CurrentPayloadType ...</code>는 <strong>값 인자와 반환값</strong>의 관계를 나타냅니다. 여기에 클래스의 타입 매개변수와 <code>ConsecutiveUpcast</code> 제약까지 포함해야 메서드의 전체 다형 타입을 이해할 수 있습니다. 클래스 메서드의 가시적 타입 인자는 클래스 선언의 매개변수부터 순서대로 지정합니다. 따라서 이 메서드에서는 <code>isLatest</code>, <code>ver</code>, <code>event</code> 순서입니다.</p>
+<p>첫 번째 <code>@(IsLatest ('PeanoSucc ver) event)</code>는 다음 버전이 최신인지에 관한 타입 수준 결과를 <code>isLatest</code>에 지정합니다. 바로 뒤의 <code>@('PeanoSucc ver)</code>는 다음 버전 자체를 <code>ver</code>에 지정합니다. 원문에 고정된 실제 구현은 이어서 세 번째 매개변수도 <code>@event</code>로 명시합니다. 원문에 실린 발췌는 이 부분을 생략합니다. <a href="https://github.com/hindsight-es/hindsight/blob/c1721b9295168be31a74f3876f07633a84f1a73f/hindsight-core/src/Hindsight/Events.hs">실제 재귀 인스턴스</a></p>
+<p>인용한 식의 <code>.</code>은 함수 합성입니다. 페이로드가 주어지면 오른쪽의 <code>upcast</code>가 먼저 현재 버전을 다음 버전으로 바꾸고, 왼쪽의 <code>viaConsecutive</code>가 그 다음 버전부터 최신 버전까지 이어서 변환합니다. 다음 버전이 이미 최신이면 선택된 <code>'True</code> 인스턴스의 <code>id</code>가 결과를 그대로 돌려줍니다.</p>
+<h2 id="정리">정리</h2>
+<p>기본 구현은 인접 변환을 연결하고, 타입 수준의 최신 버전 여부는 계속할지 멈출지에 맞는 인스턴스를 고릅니다. 동등성 제약은 각 타입 관계를 검사하고, <code>@</code>는 그 선택에 필요한 타입 매개변수를 명시합니다. 타입 검사는 연결되는 입력과 출력의 호환성을 보장하지만, 사용자가 작성한 변환의 업무상 의미나 누락된 과거 데이터의 복구까지 증명하지는 않습니다.</p>
+<p>원문의 일부 코드는 설명을 위해 생략되어 있으므로 독립적으로 컴파일되는 전체 프로그램으로 취급하지 않는 것이 좋습니다. 실제 구현에는 추가 동등성 제약과 명시적인 타입 인자가 있습니다.</p>
+<h2 id="참고-자료">참고 자료</h2>
+<ul>
+<li><a href="https://github.com/hindsight-es/hindsight/blob/911d97db189ed766aca7512df2ab91abcc7c67cb/website/content/posts/composing-event-migrations-with-default-implementations.md">원문 저장소 사본과 저자 정보</a></li>
+<li><a href="https://github.com/hindsight-es/hindsight/blob/c1721b9295168be31a74f3876f07633a84f1a73f/hindsight-core/src/Hindsight/Events.hs">원문이 가리키는 Hindsight 이벤트 구현</a></li>
+<li><a href="https://github.com/hindsight-es/hindsight/blob/c1721b9295168be31a74f3876f07633a84f1a73f/hindsight-core/src/Hindsight/Events/Internal/TypeLevel.hs">Hindsight의 타입 수준 수와 변환 구현</a></li>
+<li><a href="https://downloads.haskell.org/ghc/9.10.3/docs/users_guide/exts/data_kinds.html">GHC: 데이터 타입 승격</a></li>
+<li><a href="https://downloads.haskell.org/ghc/9.10.3/docs/users_guide/exts/type_applications.html">GHC: 가시적 타입 적용</a></li>
+<li><a href="https://downloads.haskell.org/ghc/9.10.3/docs/users_guide/exts/equality_constraints.html">GHC: 동등성 제약</a></li>
+<li><a href="https://downloads.haskell.org/ghc/9.10.3/docs/users_guide/exts/instances.html">GHC: 인스턴스 선언</a>과 <a href="https://downloads.haskell.org/ghc/9.10.3/docs/users_guide/exts/default_signatures.html">기본 메서드 시그니처</a></li>
+</ul>
+</section>
+</article></main></body></html>
+
