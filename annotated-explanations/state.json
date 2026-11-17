@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-17T15:31:05Z",
+  "updated_at": "2026-11-17T17:39:27Z",
   "articles": {
     "1815258460": {
       "slug": "effectful-storage-abstraction-explained",
@@ -347,6 +347,41 @@
         "writer_model": "claude-opus-5-5",
         "reviewer_model": "claude-sonnet-5-5",
         "generation_model": "claude-opus-5-5"
+      },
+      "delivery_owner": "scheduler",
+      "kindle_delivery_owner": "user_managed",
+      "deleted_superseded_bookmark_ids": []
+    },
+    "1930386489": {
+      "slug": "composing-event-migrations-with-default-implementations-hindsigh-1930386489",
+      "title": "Composing Event Migrations with Default Implementations - Hindsight — Haskell은 타입으로 이벤트 마이그레이션을 어떻게 연결하나요?",
+      "source_title": "Composing Event Migrations with Default Implementations - Hindsight",
+      "article_title": "Haskell은 타입으로 이벤트 마이그레이션을 어떻게 연결하나요?",
+      "source_bookmark_id": "1930386489",
+      "cypher_source_bookmark_id": "1930386489",
+      "source_url": "https://hindsight.events/content/posts/composing-event-migrations-with-default-implementations.html",
+      "article_format": 2,
+      "source_sha256": "8bd2d203c3dfe2f108537176a962f4caa7283601828b351693d2b11c30a27a03",
+      "html_sha256": "ecf8e8c3d8b300cc6d67d37a7f66036881489bc8092ab2df01ed2e4eaf79f1f3",
+      "epub_sha256": "0fdb393c3eac8eab006b709e0f798d1fa769d8e1b9870cbb98704f208c3702b4",
+      "canonical_url": "https://beila.github.io/my-collection/annotated-explanations/composing-event-migrations-with-default-implementations-hindsigh-1930386489/",
+      "instapaper_url": "https://beila.github.io/my-collection/annotated-explanations/composing-event-migrations-with-default-implementations-hindsigh-1930386489/index.html",
+      "epub_url": "https://beila.github.io/my-collection/annotated-explanations/composing-event-migrations-with-default-implementations-hindsigh-1930386489/composing-event-migrations-with-default-implementations-hindsigh-1930386489.epub",
+      "instapaper_bookmark_id": "2057943289",
+      "instapaper_api_verification": {
+        "status": "passed",
+        "verified_at": "2026-11-17T17:39:27Z"
+      },
+      "epub_validation": {
+        "status": "passed",
+        "errors": 0,
+        "warnings": 0
+      },
+      "generation_workflow": {
+        "generation_model": "openai.gpt-6.1-sol",
+        "research_model": "openai.gpt-6.1-sol",
+        "reviewer_model": "openai.gpt-6.1-sol",
+        "writer_model": "openai.gpt-6.1-terra"
       },
       "delivery_owner": "scheduler",
       "kindle_delivery_owner": "user_managed",
