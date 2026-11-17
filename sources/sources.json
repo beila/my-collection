@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-17T04:32:08.896977+00:00",
+  "generated_at": "2026-11-17T05:10:37.920974+00:00",
   "sources": [
     {
       "id": "frequent:bluesky-capcold",
@@ -13,7 +13,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-17T04:27:45.250620+00:00",
+      "cached_at": "2026-11-17T05:08:07.576355+00:00",
       "url": "https://bsky.app/profile/capcold.bsky.social",
       "error": "",
       "previews": [
@@ -55,7 +55,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-17T04:27:49.668585+00:00",
+      "cached_at": "2026-11-17T05:08:11.650616+00:00",
       "url": "https://coffeepot.me/rss",
       "error": "",
       "previews": [
@@ -95,7 +95,7 @@
       "delivery": "Individual articles",
       "monitoring": "Each maintenance pass, nominally every 15 minutes with up to 10 minutes of delay.",
       "tags": [],
-      "cached_at": "2026-11-17T04:27:52.072336+00:00",
+      "cached_at": "2026-11-17T05:08:15.046784+00:00",
       "url": "https://kill-the-newsletter.com/feeds/j50w0hwaltovoqbe.xml",
       "error": "",
       "previews": [],
@@ -111,7 +111,7 @@
       "delivery": "Individual articles",
       "monitoring": "Each maintenance pass, nominally every 15 minutes with up to 10 minutes of delay.",
       "tags": [],
-      "cached_at": "2026-11-17T04:27:52.671958+00:00",
+      "cached_at": "2026-11-17T05:08:15.675292+00:00",
       "url": "https://kill-the-newsletter.com/feeds/x65bw2k2if80qbp6jk0n.xml",
       "error": "",
       "previews": [
@@ -153,7 +153,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-17T04:27:53.663011+00:00",
+      "cached_at": "2026-11-17T05:08:16.629471+00:00",
       "url": "https://kill-the-newsletter.com/feeds/la1dwxu6ovmqf6gn.xml",
       "error": "",
       "previews": [
@@ -195,7 +195,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-17T04:27:54.194548+00:00",
+      "cached_at": "2026-11-17T05:08:17.143281+00:00",
       "url": "https://blog.outsider.ne.kr/atom",
       "error": "",
       "previews": [
@@ -237,7 +237,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-17T04:27:56.185075+00:00",
+      "cached_at": "2026-11-17T05:08:19.152489+00:00",
       "url": "http://feeds.feedburner.com/Economic_View",
       "error": "",
       "previews": [
@@ -279,7 +279,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-17T04:27:57.304364+00:00",
+      "cached_at": "2026-11-17T05:08:19.747261+00:00",
       "url": "https://fenews.substack.com/feed",
       "error": "",
       "previews": [
@@ -321,7 +321,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-17T04:27:58.420514+00:00",
+      "cached_at": "2026-11-17T05:08:20.883252+00:00",
       "url": "https://unchartedterritories.tomaspueyo.com/feed",
       "error": "",
       "previews": [
@@ -363,7 +363,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-17T04:27:59.580505+00:00",
+      "cached_at": "2026-11-17T05:08:21.955244+00:00",
       "url": "https://blog.instapaper.com/rss",
       "error": "",
       "previews": [
@@ -405,7 +405,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-17T04:28:00.201500+00:00",
+      "cached_at": "2026-11-17T05:08:22.489015+00:00",
       "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCbbQalJ4OaC0oQ0AqRaOJ9g",
       "error": "",
       "previews": [
@@ -447,7 +447,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-17T04:28:01.042493+00:00",
+      "cached_at": "2026-11-17T05:08:23.287233+00:00",
       "url": "https://podcasts.files.bbci.co.uk/p02pc9zn.rss",
       "error": "",
       "previews": [
@@ -531,14 +531,22 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-17T04:28:43.081158+00:00",
+      "cached_at": "2026-11-17T05:09:01.181940+00:00",
       "url": "https://hnrss.org/newest?points=1000",
       "error": "",
       "previews": [
         {
+          "title": "Carnegie Mellon is putting computer science courses on YouTube for free",
+          "published": "Mon, 16 Nov 2026 20:43:36 +0000",
+          "summary": "Article URL: https://www.cs.cmu.edu/learn/ Comments URL: https://news.ycombinator.com/item?id=50522980 Points: 1019 # Comments: 157",
+          "author": "pcompeau",
+          "origin": "Cached feed",
+          "url": "https://www.cs.cmu.edu/learn/"
+        },
+        {
           "title": "All AI-generated code should be Open Source",
           "published": "Sun, 15 Nov 2026 14:46:58 +0000",
-          "summary": "Article URL: https://jakub.jankiewicz.org/blog/ai-code-open-source/ Comments URL: https://news.ycombinator.com/item?id=50507303 Points: 1259 # Comments: 652",
+          "summary": "Article URL: https://jakub.jankiewicz.org/blog/ai-code-open-source/ Comments URL: https://news.ycombinator.com/item?id=50507303 Points: 1270 # Comments: 657",
           "author": "jcubic",
           "origin": "Cached feed",
           "url": "https://jakub.jankiewicz.org/blog/ai-code-open-source/"
@@ -546,18 +554,10 @@
         {
           "title": "SpaceX catches the Starship to end Flight 15",
           "published": "Sat, 14 Nov 2026 21:22:24 +0000",
-          "summary": "https://x.com/SpaceX/status/2121316300702056595 https://youtu.be/jHlpfNSpBmw?t=3233 Comments URL: https://news.ycombinator.com/item?id=50500963 Points: 1742 # Comments: 1347",
+          "summary": "https://x.com/SpaceX/status/2121316300702056595 https://youtu.be/jHlpfNSpBmw?t=3233 Comments URL: https://news.ycombinator.com/item?id=50500963 Points: 1743 # Comments: 1358",
           "author": "ls612",
           "origin": "Cached feed",
           "url": "https://www.spacex.com/launches/starship-flight-15"
-        },
-        {
-          "title": "Lovable apps expose passport details and more than 200K private messages",
-          "published": "Sat, 14 Nov 2026 17:43:10 +0000",
-          "summary": "Article URL: https://www.crissyfield.de/research/lovable-en/ Comments URL: https://news.ycombinator.com/item?id=50499017 Points: 1002 # Comments: 377",
-          "author": "armcat",
-          "origin": "Cached feed",
-          "url": "https://www.crissyfield.de/research/lovable-en/"
         }
       ]
     },
@@ -573,7 +573,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-17T04:28:44.359148+00:00",
+      "cached_at": "2026-11-17T05:09:02.579214+00:00",
       "url": "https://haskellweekly.news/newsletter.atom",
       "error": "",
       "previews": [
@@ -615,7 +615,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-17T04:28:47.082445+00:00",
+      "cached_at": "2026-11-17T05:09:05.823904+00:00",
       "url": "https://sovidence.tistory.com/rss",
       "error": "",
       "previews": [
@@ -657,7 +657,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-17T04:28:48.262117+00:00",
+      "cached_at": "2026-11-17T05:09:07.007895+00:00",
       "url": "https://ciechanow.ski/atom.xml",
       "error": "",
       "previews": [
@@ -691,7 +691,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-17T04:28:48.825112+00:00",
+      "cached_at": "2026-11-17T05:09:07.364892+00:00",
       "url": "https://blog.ploeh.dk/rss.xml",
       "error": "",
       "previews": [
@@ -733,7 +733,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-17T04:28:49.989103+00:00",
+      "cached_at": "2026-11-17T05:09:08.257885+00:00",
       "url": "https://www.stephendiehl.com/feed.xml",
       "error": "",
       "previews": [
@@ -775,7 +775,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-17T04:28:56.368052+00:00",
+      "cached_at": "2026-11-17T05:09:14.434206+00:00",
       "url": "https://registerspill.thorstenball.com/feed",
       "error": "",
       "previews": [
@@ -817,7 +817,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-17T04:28:57.488044+00:00",
+      "cached_at": "2026-11-17T05:09:15.607828+00:00",
       "url": "https://meetingcpp.com/feed.xml",
       "error": "",
       "previews": [
@@ -859,7 +859,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-17T04:29:00.271022+00:00",
+      "cached_at": "2026-11-17T05:09:18.248853+00:00",
       "url": "https://rss.blog.naver.com/xqon1.xml",
       "error": "",
       "previews": [
@@ -901,7 +901,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-17T04:29:04.359032+00:00",
+      "cached_at": "2026-11-17T05:09:22.004482+00:00",
       "url": "https://rss.blog.naver.com/pamina7776.xml",
       "error": "",
       "previews": [
@@ -943,7 +943,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-17T04:29:08.193013+00:00",
+      "cached_at": "2026-11-17T05:09:25.693019+00:00",
       "url": "https://rss.blog.naver.com/indizio.xml",
       "error": "",
       "previews": [
@@ -985,7 +985,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-17T04:29:11.697780+00:00",
+      "cached_at": "2026-11-17T05:09:29.057994+00:00",
       "url": "https://rss.diffbot.com/rss?url=https://www.joongang.co.kr/series/11656",
       "error": "",
       "previews": [
@@ -1027,7 +1027,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-17T04:29:12.884920+00:00",
+      "cached_at": "2026-11-17T05:09:30.248008+00:00",
       "url": "https://www.bbc.co.uk/news/topics/cpml2v678pxt",
       "error": "",
       "previews": [
@@ -1069,7 +1069,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-17T04:29:14.139912+00:00",
+      "cached_at": "2026-11-17T05:09:31.437706+00:00",
       "url": "https://slownews.kr/feed",
       "error": "",
       "previews": [
@@ -1111,7 +1111,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-17T04:29:15.143938+00:00",
+      "cached_at": "2026-11-17T05:09:32.439494+00:00",
       "url": "https://www.ianvisits.co.uk/articles/feed/",
       "error": "",
       "previews": [
@@ -1151,7 +1151,7 @@
       "delivery": "Individual articles",
       "monitoring": "Each maintenance pass, nominally every 15 minutes with up to 10 minutes of delay.",
       "tags": [],
-      "cached_at": "2026-11-17T04:29:15.800546+00:00",
+      "cached_at": "2026-11-17T05:09:33.034394+00:00",
       "url": "https://www.ianvisits.co.uk/articles/feed/",
       "error": "",
       "previews": [
