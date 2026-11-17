@@ -23,8 +23,8 @@
 <p id="sync" class="sync" role="status">Loading recorded activity…</p>
 <p id="error" role="alert"></p>
 <div class="filters" aria-label="Statistics filters">
- <label>Period<select id="period"><option value="7">Last 7 days</option><option value="30" selected>Last 30 days</option><option value="90">Last 90 days</option><option value="365">Last year</option></select></label>
- <label>Interval<select id="interval"><option value="day">Daily</option><option value="week">Weekly</option></select></label>
+ <label>Period<select id="period"><option value="all" selected>All recorded time</option><option value="7">Last 7 days</option><option value="30">Last 30 days</option><option value="90">Last 90 days</option><option value="365">Last year</option></select></label>
+ <label>Interval<select id="interval"><option value="day">Daily</option><option value="week">Weekly</option><option value="month">Monthly</option><option value="year">Yearly</option></select></label>
  <label>Group activity by<select id="group"><option value="group">Monitoring cadence</option><option value="destination" selected>Destination</option><option value="source">Individual source</option></select></label>
  <label>Destination<select id="destination"><option value="">All destinations</option></select></label>
  <label class="source">Source<select id="source"><option value="">All sources</option></select></label>
@@ -32,31 +32,33 @@
 </div>
 <section class="facts" aria-label="Selected period summary" id="facts"></section>
 <div class="grid">
+ <section class="panel wide" id="instapaper-usage"><div class="panel-head"><h2>Instapaper usage</h2><select id="instapaper-measure" aria-label="Instapaper usage measure"><option value="total">Total saved bookmarks</option><option value="changes">Additions, moves & deletions</option></select></div><p class="caption" id="instapaper-caption"></p><div class="facts" id="instapaper-facts"></div><div id="instapaper-chart" class="chart"></div><div id="instapaper-legend" class="legend"></div><div id="instapaper-readout" class="readout" aria-live="polite"></div><details><summary>Instapaper values</summary><div id="instapaper-values" class="table-wrap"></div></details></section>
  <section class="panel wide" id="kindle"><div class="panel-head"><h2>Kindle digests</h2><a href="#kindle-history" id="kindle-history-link">Digest history ↓</a></div><p class="caption">Smith digests · selected period and interval · independent of the source and destination filters. A confirmed send means the email was accepted, not that a device was opened.</p><div class="facts" id="kindle-facts"></div></section>
  <section class="panel"><div class="panel-head"><h2>Digest output</h2><select id="kindle-measure" aria-label="Digest measure"><option value="sent">Confirmed sends</option><option value="built">Documents built</option><option value="articles">Articles sent</option><option value="bytes">Average EPUB size · MiB</option><option value="images">Images sent</option><option value="words">Words sent</option><option value="build_seconds">Average build time · seconds</option></select></div><p class="caption" id="kindle-caption"></p><div id="kindle-chart" class="chart"></div><div id="kindle-legend" class="legend"></div><div id="kindle-readout" class="readout" aria-live="polite"></div><details><summary>Digest values</summary><div id="kindle-values" class="table-wrap"></div></details></section>
  <section class="panel"><h2>Where the articles came from</h2><p class="caption">One bar per confirmed Kindle digest, oldest first. Sources are recorded before population. Returned Trinity articles remain Trinity; markers and series companions are excluded.</p><div id="kindle-origins"><div id="kindle-origins-chart" class="chart digest-trend"></div><div id="kindle-origins-legend" class="legend"></div><div id="kindle-origins-readout" class="readout" aria-live="polite"></div></div><details><summary>Source values</summary><div id="kindle-origins-values" class="table-wrap"></div></details><h2 style="margin-top:22px">Directly into Smith</h2><p class="caption">One bar per digest. Program additions require a delivery record; unattributed does not prove manual addition. Missing history is marked “?”. These charts keep individual digests in daily and weekly views.</p><div id="kindle-entries"><div id="kindle-entries-chart" class="chart digest-trend"></div><div id="kindle-entries-legend" class="legend"></div><div id="kindle-entries-readout" class="readout" aria-live="polite"></div></div><details><summary>Smith entry values</summary><div id="kindle-entries-values" class="table-wrap"></div></details></section>
  <details class="panel wide folded-panel" id="kindle-history"><summary><h2>Digest history</h2></summary><p class="caption" id="kindle-history-caption"></p><div id="kindle-history-table" class="table-wrap"></div></details>
  <details class="panel wide folded-panel" id="kindle-measurements-panel"><summary><h2>Digest measurements</h2></summary><p class="caption">Confirmed sends in this period. Averages exclude missing historical measurements.</p><div id="kindle-measurements" class="table-wrap"></div></details>
- <section class="panel wide" id="migration"><h2>Backblaze migration</h2><p class="caption" id="migration-caption">Loading the latest deployment measurements…</p><progress id="migration-progress" class="migration-progress" aria-label="Verified legacy image uploads" max="1" value="0" hidden></progress><div id="migration-facts" class="facts storage-facts"></div><p id="migration-note" class="storage-note"></p><details><summary>Latest migration batch</summary><div id="migration-batch" class="table-wrap"></div></details></section>
- <section class="panel wide" id="pages-size"><div class="panel-head"><h2>GitHub Pages deployment size</h2><select id="pages-size-measure" aria-label="Deployment size measure"><option value="total">Total deployment</option><option value="types">File types</option></select></div><p class="caption" id="pages-size-caption">One point per deployment, after exclusions.</p><div id="pages-size-facts" class="facts storage-facts"></div><div id="pages-size-chart" class="chart"></div><div id="pages-size-legend" class="legend"></div><div id="pages-size-readout" class="readout" aria-live="polite"></div><p id="pages-size-history-note" class="storage-note"></p><details><summary>Exact size history</summary><div id="pages-size-values" class="table-wrap"></div></details></section>
+ <section class="panel wide" id="migration"><div class="panel-head"><h2>Backblaze migration</h2><select id="migration-measure" aria-label="Migration trend measure"><option value="objects">Uploads · images</option><option value="bytes">Uploads · bytes</option><option value="legacy">Legacy files still on Pages</option></select></div><p class="caption" id="migration-caption">Loading the latest deployment measurements…</p><progress id="migration-progress" class="migration-progress" aria-label="Verified legacy image uploads" max="1" value="0" hidden></progress><div id="migration-facts" class="facts storage-facts"></div><div id="migration-chart" class="chart"></div><div id="migration-legend" class="legend"></div><div id="migration-readout" class="readout" aria-live="polite"></div><p id="migration-history-note" class="storage-note"></p><details><summary>Migration history</summary><div id="migration-values" class="table-wrap"></div></details><p id="migration-note" class="storage-note"></p><details><summary>Latest migration batch</summary><div id="migration-batch" class="table-wrap"></div></details></section>
+ <section class="panel wide" id="pages-size"><div class="panel-head"><h2>GitHub Pages deployment size</h2><select id="pages-size-measure" aria-label="Deployment size measure"><option value="total">Total deployment</option><option value="types">File types</option><option value="originals">Excluded repository originals</option></select></div><p class="caption" id="pages-size-caption">One point per deployment, after exclusions.</p><div id="pages-size-facts" class="facts storage-facts"></div><div id="pages-size-chart" class="chart"></div><div id="pages-size-legend" class="legend"></div><div id="pages-size-readout" class="readout" aria-live="polite"></div><p id="pages-size-history-note" class="storage-note"></p><details><summary>Exact size history</summary><div id="pages-size-values" class="table-wrap"></div></details></section>
  <section class="panel wide"><div class="panel-head"><h2>Source activity</h2><label><select id="measure" aria-label="Activity measure"><option value="checks">Source checks</option><option value="bookmarks">New bookmarks & editions</option><option value="conversions">Conversions</option><option value="routed">Routed bookmarks</option></select></label></div><p class="caption" id="activity-caption"></p><div id="activity-chart" class="chart"></div><div id="activity-legend" class="legend"></div><div id="activity-readout" class="readout" aria-live="polite"></div><details><summary>Activity values</summary><div id="activity-values" class="table-wrap"></div></details></section>
- <section class="panel"><h2>Facebook acquisition queue</h2><p class="caption">Global · last observation of each day; thin line shows that day's observed peak. Cooldown includes recurring profiles.</p><div id="queue-chart" class="chart"></div><div id="queue-legend" class="legend"></div><div id="queue-readout" class="readout" aria-live="polite"></div><details><summary>Queue values</summary><div id="queue-values" class="table-wrap"></div></details></section>
+ <section class="panel"><h2>Facebook acquisition queue</h2><p class="caption">Global · last observation in each interval; thin line shows its observed peak. Cooldown includes recurring profiles.</p><div id="queue-chart" class="chart"></div><div id="queue-legend" class="legend"></div><div id="queue-readout" class="readout" aria-live="polite"></div><details><summary>Queue values</summary><div id="queue-values" class="table-wrap"></div></details></section>
  <section class="panel"><h2>Scheduler invocations</h2><p class="caption" id="run-caption">Global · includes maintenance, Facebook acquisition, repair passes, and manual scopes.</p><div id="runs-chart" class="chart"></div><div id="runs-legend" class="legend"></div><div id="runs-readout" class="readout" aria-live="polite"></div><details><summary>Invocation values</summary><div id="runs-values" class="table-wrap"></div></details></section>
  <section class="panel wide"><h2>Sources in this period</h2><p class="caption">Select a name to isolate its trend. “Browse” opens its preview and monitoring rule. Unrecorded checks are shown as —.</p><div class="searchbar"><input id="search" type="search" aria-label="Find a source in statistics" placeholder="Find a source…"><button id="clear" type="button" aria-label="Clear source search">×</button><label>Sort <select id="sort"><option value="checks">Most checks</option><option value="added">Most added</option><option value="routed">Most routed</option><option value="failed">Most failures</option><option value="name">Name</option></select></label></div><div id="source-table" class="table-wrap"></div></section>
- <section class="panel"><h2>Reported failures by stage</h2><p class="caption">Global · failure occurrences per pass, including a held failure reported again. These are not unique incidents.</p><div id="failure-table" class="table-wrap"></div></section>
+ <section class="panel"><h2>Reported failures by stage</h2><p class="caption">Global · failure occurrences over time, including a held failure reported again. These are not unique incidents.</p><div id="failures-chart" class="chart"></div><div id="failures-legend" class="legend"></div><div id="failures-readout" class="readout" aria-live="polite"></div><details><summary>Failure history</summary><div id="failures-values" class="table-wrap"></div></details><div id="failure-table" class="table-wrap"></div></section>
  <section class="panel"><h2>Current queue detail</h2><p class="caption">Global · latest sampled state, independent of the selected date range.</p><div id="queue-detail" class="table-wrap"></div></section>
 </div>
 <div class="notice" id="coverage"></div>
 <details class="definitions"><summary>Definitions, coverage, and retention</summary>
+<p><strong>Instapaper usage:</strong> the total includes every saved bookmark across Unread, Archive, and custom folders. Additions, folder moves, and deletions are observed changes between complete library synchronizations, including manual and automated activity. Reordering and metadata edits are not moves. The first observation establishes a baseline and does not count existing bookmarks as additions. Changes that happen entirely between observations are unknown. Earlier totals and deleted bookmarks cannot be reconstructed.</p>
 <p><strong>Source check:</strong> one attempted acquisition and parse for a direct feed, rolling newsletter, reading-index source, or enabled Facebook profile, or one Readnext selection attempt when Smith needs articles. Inner retries are one check. A condition being evaluated without fetching or selecting articles is not a check.</p>
 <p><strong>New bookmarks & editions:</strong> unique bookmark IDs with confirmed delivery receipts. Replacement newsletter editions count as arrivals. Conversions of existing saved links have their own measure; refreshes, temporary verification copies, and moves are excluded. A 다읽기 page counts as one bookmark, even when it contains several articles.</p>
 <p><strong>Routed bookmarks:</strong> Readnext articles confirmed in Smith after population finishes, counted once per population. Series companions moved to Morpheus are excluded. These moves are separate from new arrivals. Earlier Readnext activity is not reconstructed.</p>
 <p><strong>Kindle digests:</strong> one document identity counts once across retries. “Built” requires a measured EPUB; confirmed sends include a retained prior delivery when available. A pending or uncertain send does not count as confirmed. History before instrumentation is partial; missing sizes and origins stay unknown. The source breakdown uses only articles actually included in the EPUB, even when building skips an article. “Repeated” means present in the previous confirmed digest, regardless of source.</p>
 <p><strong>Digest size:</strong> MiB is 1,048,576 bytes. Images include the cover; image bytes are uncompressed ZIP member sizes. Words are whitespace-separated text units in article chapters; headings exclude the navigation document. Build time excludes email delivery. Direct program additions require recorded delivery into Smith; conversions do not establish who added the original.</p>
-<p><strong>Collection storage:</strong> deployment size is the uncompressed total of the staged website, including its measurement file. One point per successful deployment uses its build time in UTC. History follows the selected period and keeps individual deployments in weekly views; source and destination filters do not apply. Up to 365 days or 5,000 deployments are retained. Git history and excluded originals are separate. Migration counts distinct, verified B2 objects; uploading an image does not remove its old Pages copy. Daily migration usage counts reserved requests and bytes, not account-wide Backblaze usage.</p>
+<p><strong>Collection storage:</strong> deployment size is the uncompressed total of the staged website, including its measurement file. One point per successful deployment uses its build time in UTC. All recorded deployment, migration, and excluded-original measurements are retained. History follows the selected period; source, destination, and interval filters do not apply. Missing older measurements remain blank. Migration counts distinct, verified B2 objects; uploading an image does not remove its old Pages copy. Daily migration usage counts reserved requests and bytes, not account-wide Backblaze usage.</p>
 <p><strong>Historical additions:</strong> confirmed, dated feed-monitor records retained locally. They provide partial history, not an account-wide total. Checks and queue measurements begin when recording was installed; blank earlier periods mean unknown. Source cadence and destination associations for checks use the current catalog; delivered bookmark destinations are recorded at delivery.</p>
 <p><strong>Invocations:</strong> CLI starts, including manual scopes and lock-deferred attempts. “Open / interrupted” means no exit was recorded; it does not establish that a process is still running. Duration excludes invocations without a recorded exit.</p>
-<p>Daily activity and invocation records are retained for 365 days; hourly queue observations for 35 days. The public snapshot updates with collection page deployments. All dates and chart buckets use UTC. No bookmark text, repair notes, error messages, or credentials are exported.</p>
+<p>All recorded activity, Instapaper usage, digest, deployment, and daily queue history is retained. Detailed hourly queue observations are kept for 35 days. “All recorded time” includes available history; it does not imply coverage before recording began. The public snapshot updates with collection page deployments. All dates and chart buckets use UTC. No bookmark identities, text, repair notes, error messages, or credentials are exported.</p>
 </details>
 </main>
 <script>
@@ -67,7 +69,7 @@ let data, collection, fetching=false, catalog=new Map(), firstLoad=true;
 const num=n=>Math.round(n||0).toLocaleString();
 const bytes=n=>{if(!Number.isFinite(n))return "—";const power=n>=1073741824?3:n>=1048576?2:n>=1024?1:0;return (n/1024**power).toFixed(power?2:0)+" "+["B","KiB","MiB","GiB"][power];};
 const dayOf=at=>new Date(at).toISOString().slice(0,10);
-const start=()=>dayOf(Date.now()-(Number($("period").value)-1)*86400000);
+const start=()=>$("period").value==="all"?"0000-01-01":dayOf(Date.now()-(Number($("period").value)-1)*86400000);
 const selected=source=>!$("source").value||source===$("source").value;
 const folder=value=>String(value||"").toLocaleLowerCase();
 function matches(row) {
@@ -75,11 +77,12 @@ function matches(row) {
  const destination=folder($("destination").value), source=catalog.get(row.source);
  return !destination||(["bookmarks","routed"].includes(row.metric)?folder(row.destination)===destination||folder(source?.collection)===destination: [source?.folder,source?.collection].some(v=>folder(v)===destination));
 }
-function bucket(day){if($("interval").value==="day")return day;const d=new Date(day+"T00:00:00Z");d.setUTCDate(d.getUTCDate()-((d.getUTCDay()+6)%7));return dayOf(d);}
+function bucket(day){const interval=$("interval").value;if(interval==="day")return day;if(interval==="month")return day.slice(0,7)+"-01";if(interval==="year")return day.slice(0,4)+"-01-01";const d=new Date(day+"T00:00:00Z");d.setUTCDate(d.getUTCDate()-((d.getUTCDay()+6)%7));return dayOf(d);}
 function inPeriod(day){return day>=start()&&day<=dayOf(Date.now());}
 function grouped(rows,label,value){const map=new Map();for(const row of rows){const key=bucket(row.day),series=label(row);if(!map.has(key))map.set(key,{});const values=map.get(key);values[series]=(values[series]||0)+value(row);}return [...map].sort(([a],[b])=>a.localeCompare(b)).map(([day,values])=>({day,...values}));}
 function valuesTable(rows,series,format=num){return '<table><thead><tr><th>UTC date</th>'+series.map(s=>'<th class="num">'+esc(s)+'</th>').join("")+'</tr></thead><tbody>'+rows.map(r=>'<tr><td>'+esc(r.day)+'</td>'+series.map(s=>'<td class="num">'+format(r[s])+'</td>').join("")+'</tr>').join("")+'</tbody></table>';}
-function chart(id,rows,series,{stack=false,peak=false,format=num,exactFormat=format,categories=false,time=false}={}){
+function chart(id,rows,series,{stack=false,peak=false,format=num,exactFormat=format,categories=false,time=false,gaps=false}={}){
+ if(gaps){const formatter=format,exact=exactFormat;format=n=>Number.isFinite(n)?formatter(n):"—";exactFormat=n=>Number.isFinite(n)?exact(n):"—";}
  $(id+"-legend").innerHTML=series.map((s,i)=>'<span><i class="key" style="background:'+colors[i%colors.length]+'"></i>'+esc(s)+'</span>').join("");
  $(id+"-values").innerHTML=valuesTable(rows,series,exactFormat);
  const target=$(id+"-chart");target.onpointermove=null;$(id+"-readout").textContent="";
@@ -87,21 +90,21 @@ function chart(id,rows,series,{stack=false,peak=false,format=num,exactFormat=for
  const W=Math.max(280,target.clientWidth-24,categories?rows.length*60+62:0),H=categories?260:240,L=time?78:46,R=16,T=14,B=categories||time?50:30,w=W-L-R,h=H-T-B,pad=stack?20:8;
  const stamp=r=>new Date(time?r.at:r.day+"T00:00:00Z").getTime(), first=stamp(rows[0]),last=stamp(rows.at(-1));
  const x=r=>categories?L+(rows.indexOf(r)+.5)*w/rows.length:L+(last===first?w/2:pad+(stamp(r)-first)/(last-first)*(w-2*pad));
- const max=Math.max(1,...rows.map(r=>stack?series.reduce((n,s)=>n+(r[s]||0),0):Math.max(...series.map(s=>r[s]||0))));
+ const max=rows.reduce((largest,r)=>Math.max(largest,stack?series.reduce((n,s)=>n+(r[s]||0),0):series.reduce((n,s)=>Math.max(n,r[s]||0),0)),1);
  const y=n=>T+h-n/max*h;
  let svg='<svg viewBox="0 0 '+W+' '+H+'"'+(categories?' style="width:'+W+'px"':"")+' role="img" aria-label="'+esc(id)+' trend; exact values follow">';
  const allMissing=rows.every(r=>r.missing);
  if(!allMissing)for(let i=0;i<4;i++){const n=max*i/3;svg+='<line class="gridline" x1="'+L+'" x2="'+(W-R)+'" y1="'+y(n)+'" y2="'+y(n)+'"/><text x="'+(L-8)+'" y="'+(y(n)+4)+'" text-anchor="end">'+format(n)+'</text>';}
  if(stack){const bw=Math.min(38,w/Math.max(2,rows.length)*.75);for(const row of rows){if(row.missing){svg+='<text x="'+x(row)+'" y="'+(T+h/2)+'" text-anchor="middle">?</text>';continue;}let sum=0;series.forEach((s,i)=>{const n=row[s]||0;svg+='<rect x="'+(x(row)-bw/2)+'" y="'+y(sum+n)+'" width="'+bw+'" height="'+(n/max*h)+'" fill="'+colors[i%colors.length]+'"/>';sum+=n;});}}
- else series.forEach((s,i)=>{const points=rows.map(r=>x(r)+","+y(r[s]||0)).join(" ");svg+='<polyline points="'+points+'" fill="none" stroke="'+colors[i%colors.length]+'" stroke-width="'+(peak&&s==="Observed peak"?1:2.5)+'"'+(peak&&s==="Observed peak"?' stroke-dasharray="5 5"':"")+'/>';});
- rows.forEach((row,index)=>{const desc=row.day+" · "+(row.missing?"History unavailable":series.map(s=>s+": "+format(row[s])).join(" · "));svg+='<g tabindex="0" data-chart="'+id+'" data-row="'+index+'" aria-label="'+esc(desc)+'"><title>'+esc(desc)+'</title><rect x="'+(x(row)-8)+'" y="'+T+'" width="16" height="'+h+'" fill="transparent"/>';if(!stack)series.forEach((s,i)=>{svg+='<circle cx="'+x(row)+'" cy="'+y(row[s]||0)+'" r="3" fill="'+colors[i%colors.length]+'"/>';});svg+='</g>';});
+ else series.forEach((s,i)=>{const segments=[[]];for(const row of rows){if(gaps&&!Number.isFinite(row[s])){if(segments.at(-1).length)segments.push([]);continue;}segments.at(-1).push(x(row)+","+y(row[s]||0));}for(const points of segments){if(points.length)svg+='<polyline points="'+points.join(" ")+'" fill="none" stroke="'+colors[i%colors.length]+'" stroke-width="'+(peak&&s==="Observed peak"?1:2.5)+'"'+(peak&&s==="Observed peak"?' stroke-dasharray="5 5"':"")+'/>';}});
+ rows.forEach((row,index)=>{const desc=row.day+" · "+(row.missing?"History unavailable":series.map(s=>s+": "+format(row[s])).join(" · "));svg+='<g tabindex="0" data-chart="'+id+'" data-row="'+index+'" aria-label="'+esc(desc)+'"><title>'+esc(desc)+'</title><rect x="'+(x(row)-8)+'" y="'+T+'" width="16" height="'+h+'" fill="transparent"/>';if(!stack)series.forEach((s,i)=>{if(!gaps||Number.isFinite(row[s]))svg+='<circle cx="'+x(row)+'" cy="'+y(row[s]||0)+'" r="3" fill="'+colors[i%colors.length]+'"/>';});svg+='</g>';});
  if(time){
   (first===last?[.5]:W>600?[0,.5,1]:[0,1]).forEach(fraction=>{
    const date=new Date(first+(last-first)*fraction).toISOString(),position=L+(first===last?w/2:pad+fraction*(w-2*pad));
-   svg+='<text x="'+position+'" y="'+(H-23)+'" text-anchor="middle">'+date.slice(5,10)+'<tspan x="'+position+'" dy="14">'+date.slice(11,16)+'</tspan></text>';
+   svg+='<text x="'+position+'" y="'+(H-23)+'" text-anchor="'+(fraction===0?"start":fraction===1?"end":"middle")+'">'+date.slice(0,10)+'<tspan x="'+position+'" dy="14">'+date.slice(11,16)+'</tspan></text>';
   });
  }else{
-  (categories?rows:[rows[0],...(rows.length>2?[rows[Math.floor(rows.length/2)]]:[]),...(rows.length>1?[rows.at(-1)]:[])]).forEach(r=>{svg+='<text x="'+x(r)+'" y="'+(categories?H-23:H-6)+'" text-anchor="middle">'+esc(r.day.slice(5,10))+(categories?'<tspan x="'+x(r)+'" dy="14">'+esc(r.day.split(" ")[1])+'</tspan>':"")+'</text>';});
+  (categories?rows:[rows[0],...(rows.length>2?[rows[Math.floor(rows.length/2)]]:[]),...(rows.length>1?[rows.at(-1)]:[])]).forEach((r,i,a)=>{svg+='<text x="'+x(r)+'" y="'+(categories?H-23:H-6)+'" text-anchor="'+(categories||a.length===1?"middle":i===0?"start":i===a.length-1?"end":"middle")+'">'+esc(r.day.slice(0,10))+(categories?'<tspan x="'+x(r)+'" dy="14">'+esc(r.day.split(" ")[1])+'</tspan>':"")+'</text>';});
  }
  target.innerHTML=svg+'</svg>';
  const describe=e=>{const mark=e.target.closest("[data-row]");if(mark)$(id+"-readout").textContent=mark.getAttribute("aria-label");};
@@ -113,6 +116,21 @@ function chart(id,rows,series,{stack=false,peak=false,format=num,exactFormat=for
  }:null;
 }
 function table(rows,headers){return '<table><thead><tr>'+headers.map(h=>'<th>'+esc(h)+'</th>').join("")+'</tr></thead><tbody>'+rows.map(r=>'<tr>'+r.map(v=>'<td>'+esc(v)+'</td>').join("")+'</tr>').join("")+'</tbody></table>';}
+function renderInstapaper(){
+ const usage=data.instapaper||{}, history=usage.history||[], selectedRows=history.filter(r=>inPeriod(r.day)), latest=history.at(-1);
+ const totals=key=>selectedRows.reduce((n,r)=>n+(r[key]||0),0);
+ $("instapaper-facts").innerHTML=factCards([
+  ["Total saved · latest",latest?num(latest.total):"—",latest?"Across all folders · "+latest.day:"Waiting for a complete library observation"],
+  ["Added",latest?num(totals("added")):"—","Observed additions in the selected period"],
+  ["Moved",latest?num(totals("moved")):"—","Folder changes in the selected period"],
+  ["Deleted",latest?num(totals("deleted")):"—","Observed removals in the selected period"]
+ ]);
+ const buckets=new Map();
+ for(const row of selectedRows){const day=bucket(row.day),previous=buckets.get(day)||{day,Added:0,Moved:0,Deleted:0};buckets.set(day,{...previous,Total:row.total,Added:previous.Added+row.added,Moved:previous.Moved+row.moved,Deleted:previous.Deleted+row.deleted});}
+ const rows=[...buckets.values()];
+ chart("instapaper",rows,$("instapaper-measure").value==="total"?["Total"]:["Added","Moved","Deleted"]);
+ $("instapaper-caption").textContent=usage.recording_started?"Global · manual and automated changes since "+dayOf(usage.recording_started*1000)+". The first snapshot is a baseline; earlier activity is unknown. Total uses the last observation in each interval. Moves mean changes between folders; reordering is excluded.":"Global · history begins with the first complete library observation. Earlier additions, moves, and deletions are unknown.";
+}
 function renderKindle(){
  const sentDay=d=>Number.isFinite(d.sent_at)?dayOf(d.sent_at*1000):d.day;
  const docs=(data.kindle||[]).filter(d=>inPeriod(d.day)||(d.status==="sent"&&inPeriod(sentDay(d))));
@@ -173,7 +191,7 @@ function render(){
  if(extra.length){points=points.map(r=>({...r,Other:sum(extra,k=>r[k]||0)}));kept.push("Other");}
  $("activity-caption").textContent=(measure==="checks"?"Attempted acquisition and selection, including failed checks.":measure==="routed"?"Readnext articles moved to Smith after completed population; series companions excluded.":measure==="conversions"?"Existing links converted into readable bookmarks; refreshes and verification copies excluded.":"One delivered page is one bookmark. Dated historical feed additions are partial.")+" Grouping uses "+$("group").selectedOptions[0].text.toLowerCase()+".";
  chart("activity",points,kept,{stack:measure!=="checks"});
- const qdays=new Map();for(const q of data.queue){const day=q.hour.slice(0,10);if(!inPeriod(day))continue;const prior=qdays.get(day);qdays.set(day,{...q,day,peak:Math.max(q.peak,prior?.peak||0)});}
+ const qdays=new Map();for(const q of data.queue){const observedDay=q.hour.slice(0,10);if(!inPeriod(observedDay))continue;const day=bucket(observedDay),prior=qdays.get(day);qdays.set(day,{...q,day,peak:Math.max(q.peak,prior?.peak||0)});}
  const qrows=[...qdays.values()].map(q=>({day:q.day,Ready:q.ready,Cooldown:q.cooldown,Running:q.running,Failed:q.failed,"Observed peak":q.peak}));
  chart("queue",qrows,["Ready","Cooldown","Running","Failed","Observed peak"],{peak:true});
  const runNames={maintenance:"Maintenance",facebook:"Facebook",repair:"Repair",kindle:"Kindle",scoped:"Manual scope","repair-runner":"Repair runner"};
@@ -184,9 +202,11 @@ function render(){
  const stages=grouped(rows.filter(r=>r.metric==="failures"),r=>r.source,r=>r.count), stageTotals={};
  stages.forEach(r=>Object.entries(r).forEach(([k,v])=>{if(k!=="day")stageTotals[k]=(stageTotals[k]||0)+v;}));
  $("failure-table").innerHTML=Object.keys(stageTotals).length?table(Object.entries(stageTotals).sort((a,b)=>b[1]-a[1]).map(([k,v])=>[k,num(v)]),["Stage","Occurrences"]):'<p class="caption">No recorded failure occurrences in this period.</p>';
+ chart("failures",stages,Object.keys(stageTotals).sort((a,b)=>stageTotals[b]-stageTotals[a]));
  $("queue-detail").innerHTML=last?table([["Post jobs",num(last.posts)],["Profile jobs",num(last.profiles)],["Oldest ready work",last.oldest_ready_hours.toFixed(1)+" hours"],["Sampled",new Date(last.at*1000).toLocaleString("en-GB",{timeZone:"UTC"})+" UTC"]],["Metric","Latest value"]):'<p class="caption">No observations yet.</p>';
  $("coverage").textContent=data.recording_started?"Activity recording began "+new Date(data.recording_started*1000).toLocaleString("en-GB",{timeZone:"UTC"})+" UTC. Each source's history begins when its recorder was enabled. Earlier arrivals are partial retained feed history. Blank checks and queue history mean unknown, not zero.":"Recording has not started. History will appear after the next instrumented scheduler run.";
  renderSources(filtered);
+ renderInstapaper();
  renderKindle();
  renderCollection();
 }
@@ -202,6 +222,19 @@ function renderSources(rows){
 function factCards(rows){return rows.map(([label,value,note])=>'<div class="fact"><span>'+esc(label)+'</span><strong>'+esc(value)+'</strong><small>'+esc(note)+'</small></div>').join("");}
 function renderCollection(){
  const migration=collection?.migration, site=collection?.site;
+ const allHistory=(collection?.history||[collection]).filter(r=>r?.site?.categories).slice().sort((a,b)=>a.measured_at.localeCompare(b.measured_at));
+ const measuredHistory=allHistory.filter(r=>inPeriod(r.measured_at.slice(0,10)));
+ const migrationRows=measuredHistory.map(r=>{
+  const m=r.migration, reliable=m&&m.checkpoint==="latest";
+  return {at:r.measured_at,day:r.measured_at.slice(0,19).replace("T"," ")+" UTC",
+   "Verified uploads":reliable?m.verified_objects:null,"Remaining uploads":reliable?m.objects-m.verified_objects:null,
+   "Verified bytes":reliable?m.verified_bytes:null,"Remaining bytes":reliable?m.bytes-m.verified_bytes:null,
+   "Legacy files on Pages":m?.remaining_files};
+ });
+ const migrationMeasure=$("migration-measure").value;
+ chart("migration",migrationRows,migrationMeasure==="bytes"?["Verified bytes","Remaining bytes"]:migrationMeasure==="legacy"?["Legacy files on Pages"]:["Verified uploads","Remaining uploads"],{time:true,gaps:true,format:migrationMeasure==="bytes"?bytes:num});
+ const migrationStart=allHistory.find(r=>r.migration?.checkpoint==="latest");
+ $("migration-history-note").textContent="One observation per deployment. "+(migrationStart?"Verified upload history begins "+migrationStart.measured_at.slice(0,10)+". ":"")+"Earlier or unavailable checkpoints remain blank; the retained baseline is not treated as current progress.";
  if(migration?.available){
   const percent=migration.objects?100*migration.verified_objects/migration.objects:0;
   $("migration-caption").textContent=percent.toFixed(1)+"% of distinct legacy images verified in B2 · "+(migration.checkpoint==="latest"?"checkpoint "+new Date(migration.updated_at).toLocaleString("en-GB",{timeZone:"UTC"})+" UTC":"retained baseline; a newer checkpoint was unavailable")+".";
@@ -228,7 +261,7 @@ function renderCollection(){
  }
  if(site?.categories){
   const originals=collection.repository_originals;
-  const history=(collection.history||[collection]).filter(r=>r.site?.categories).slice().sort((a,b)=>a.measured_at.localeCompare(b.measured_at));
+  const history=allHistory;
   const period=history.filter(r=>inPeriod(r.measured_at.slice(0,10))), previous=history.at(-2), change=previous?site.bytes-previous.site.bytes:null;
   $("pages-size-caption").textContent="Uncompressed website bytes over time · one point per successful deployment, at its UTC build time. Uses the selected period; source, destination, and daily/weekly grouping do not apply.";
   $("pages-size-facts").innerHTML=factCards([
@@ -237,9 +270,9 @@ function renderCollection(){
    ["HTML",bytes(site.categories.html.bytes),num(site.categories.html.files)+" pages"],
    ["Originals excluded from Pages",bytes(originals?.bytes),num(originals?.files)+" retained files"]
   ]);
-  const rows=period.map(r=>({at:r.measured_at,day:r.measured_at.slice(0,19).replace("T"," ")+" UTC · run "+(r.deployment?.GITHUB_RUN_ID||"unknown"),"Total":r.site.bytes,"Images":r.site.categories.images.bytes,"HTML":r.site.categories.html.bytes,"Other files":r.site.categories.other.bytes}));
-  chart("pages-size",rows,$("pages-size-measure").value==="types"?["Images","HTML","Other files"]:["Total"],{time:true,format:bytes,exactFormat:n=>num(n)+" B"});
-  $("pages-size-history-note").textContent=num(period.length)+" deployments in this period. "+(history.length?"Available history begins "+history[0].measured_at.slice(0,10)+". ":"")+(period.length===1?"One recorded point is not yet a trend. ":"")+"Earlier deployment sizes were not recorded. Retains up to 365 days or 5,000 deployments.";
+  const rows=period.map(r=>({at:r.measured_at,day:r.measured_at.slice(0,19).replace("T"," ")+" UTC · run "+(r.deployment?.GITHUB_RUN_ID||"unknown"),"Total":r.site.bytes,"Images":r.site.categories.images.bytes,"HTML":r.site.categories.html.bytes,"Other files":r.site.categories.other.bytes,"Excluded originals":r.repository_originals?.bytes}));
+  chart("pages-size",rows,$("pages-size-measure").value==="types"?["Images","HTML","Other files"]:$("pages-size-measure").value==="originals"?["Excluded originals"]:["Total"],{time:true,gaps:true,format:bytes,exactFormat:n=>num(n)+" B"});
+  $("pages-size-history-note").textContent=num(period.length)+" deployments in this period. "+(history.length?"Available history begins "+history[0].measured_at.slice(0,10)+". ":"")+(period.length===1?"One recorded point is not yet a trend. ":"")+"All recorded measurements are retained; earlier sizes are unknown.";
  }else{
   $("pages-size-caption").textContent="Website size will appear when the deployment measures its staged files.";
   $("pages-size-facts").innerHTML="";$("pages-size-chart").innerHTML="";$("pages-size-values").innerHTML="";$("pages-size-legend").innerHTML="";$("pages-size-readout").textContent="";$("pages-size-history-note").textContent="";
@@ -265,8 +298,9 @@ async function refresh(){
   $("error").textContent="";firstLoad=false;render();
  }catch(error){$("error").textContent=error.message;}finally{fetching=false;$("refresh").disabled=false;}
 }
-["period","interval","group","destination","source","measure","sort","kindle-measure"].forEach(id=>$(id).addEventListener("change",()=>data&&render()));
+["period","interval","group","destination","source","measure","sort","kindle-measure","instapaper-measure"].forEach(id=>$(id).addEventListener("change",()=>data&&render()));
 $("pages-size-measure").addEventListener("change",renderCollection);
+$("migration-measure").addEventListener("change",renderCollection);
 $("search").addEventListener("input",()=>data&&render());$("clear").onclick=()=>{$("search").value="";if(data)render();$("search").focus();};
 $("reset").onclick=()=>{$("source").value="";$("destination").value="";$("search").value="";if(data)render();};
 $("source-table").onclick=e=>{const button=e.target.closest("[data-source]");if(button){$("source").value=button.dataset.source;render();$("activity-chart").scrollIntoView({block:"center"});}};

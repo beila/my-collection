@@ -6,7 +6,7 @@ import argparse
 import hashlib
 import json
 import os
-from datetime import UTC, datetime, timedelta
+from datetime import UTC, datetime
 from pathlib import Path
 
 from legacy_image_migration import (
@@ -29,19 +29,19 @@ IMAGE_EXTENSIONS = {
     ".tiff",
     ".webp",
 }
-HISTORY_DAYS = 365
-HISTORY_LIMIT = 5000
 
 
 def size_observation(report: dict) -> dict:
-    measured_at = datetime.fromisoformat(report["measured_at"].replace("Z", "+00:00"))
+    measured_at = datetime.fromisoformat(report["measured_at"])
     if measured_at.tzinfo is None:
         raise ValueError("Deployment measurement has no timezone")
     site = report["site"]
     categories = {}
     for name in ("images", "html", "other"):
         row = site["categories"][name]
-        if any(type(row.get(key)) is not int or row[key] < 0 for key in ("files", "bytes")):
+        if any(
+            type(row.get(key)) is not int or row[key] < 0 for key in ("files", "bytes")
+        ):
             raise ValueError("Invalid deployment measurement")
         categories[name] = {key: row[key] for key in ("files", "bytes")}
     if any(
@@ -55,30 +55,60 @@ def size_observation(report: dict) -> dict:
     attempt = str(deployment.get("GITHUB_RUN_ATTEMPT", "1"))
     if not run_id.isdecimal() or not attempt.isdecimal():
         raise ValueError("Deployment measurement has no run identity")
-    return {
+    observation = {
         "measured_at": measured_at.astimezone(UTC).isoformat(),
         "deployment": {"GITHUB_RUN_ID": run_id, "GITHUB_RUN_ATTEMPT": attempt},
-        "site": {**{key: site[key] for key in ("files", "bytes")}, "categories": categories},
+        "site": {
+            **{key: site[key] for key in ("files", "bytes")},
+            "categories": categories,
+        },
     }
+    migration = report.get("migration", {})
+    if migration and migration.get("available", True):
+        fields = (
+            "objects",
+            "verified_objects",
+            "bytes",
+            "verified_bytes",
+            "legacy_files",
+            "remaining_files",
+            "remaining_bytes",
+            "errors",
+        )
+        if any(
+            type(migration.get(key)) is not int or migration[key] < 0 for key in fields
+        ):
+            raise ValueError("Invalid migration observation")
+        observation["migration"] = {key: migration[key] for key in fields}
+        observation["migration"]["checkpoint"] = (
+            "latest" if migration.get("checkpoint") == "latest" else "baseline"
+        )
+    originals = report.get("repository_originals", {})
+    if all(
+        type(originals.get(key)) is int and originals[key] >= 0
+        for key in ("files", "bytes")
+    ):
+        observation["repository_originals"] = {
+            key: originals[key] for key in ("files", "bytes")
+        }
+    return observation
 
 
 def read_history(paths: list[Path], now: str) -> list[dict]:
-    cutoff = datetime.fromisoformat(now.replace("Z", "+00:00")) - timedelta(
-        days=HISTORY_DAYS
-    )
+    latest = datetime.fromisoformat(now)
     observations = {}
     for path in paths:
         document = json.loads(path.read_text())
         rows = document.get("history", [document])
         if not isinstance(rows, list):
             raise ValueError("Invalid deployment history")
+        if "site" in document and document.get("deployment", {}).get("GITHUB_RUN_ID"):
+            rows = [*rows, document]
         for row in rows:
             item = size_observation(row)
-            if cutoff <= datetime.fromisoformat(item["measured_at"]):
+            if datetime.fromisoformat(item["measured_at"]) <= latest:
                 observations[item["deployment"]["GITHUB_RUN_ID"]] = item
-    return sorted(observations.values(), key=lambda row: row["measured_at"])[
-        -HISTORY_LIMIT:
-    ]
+    return sorted(observations.values(), key=lambda row: row["measured_at"])
 
 
 def tree_totals(root: Path) -> dict:
@@ -198,8 +228,8 @@ def write_report(
     }
     history = read_history(history_paths or [], report["measured_at"])
     report["history"] = history
-    report["history_days"] = HISTORY_DAYS
-    report["history_limit"] = HISTORY_LIMIT
+    report["history_days"] = None
+    report["history_limit"] = None
     try:
         report["migration"] = migration_totals(repo, site, checkpoint_dir)
     except (OSError, ValueError, KeyError, TypeError, RuntimeError):
@@ -221,7 +251,7 @@ def write_report(
                     if row["deployment"]["GITHUB_RUN_ID"]
                     != current["deployment"]["GITHUB_RUN_ID"]
                 ]
-                report["history"] = (prior + [current])[-HISTORY_LIMIT:]
+                report["history"] = prior + [current]
         raise ValueError("Staged measurements did not converge")
     except (OSError, ValueError):
         report["site"] = {"available": False}
