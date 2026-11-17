@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-03T22:04:39Z",
+  "updated_at": "2026-11-17T15:31:05Z",
   "articles": {
     "1815258460": {
       "slug": "effectful-storage-abstraction-explained",
@@ -312,6 +312,41 @@
         "writer_model": "openai.gpt-6.1-sol",
         "reviewer_model": "openai.gpt-6-sol",
         "generation_model": "openai.gpt-6.1-sol"
+      },
+      "delivery_owner": "scheduler",
+      "kindle_delivery_owner": "user_managed",
+      "deleted_superseded_bookmark_ids": []
+    },
+    "2045988488": {
+      "slug": "functors-map-categories-2045988488",
+      "title": "Functors map categories — Haskell의 종류(kind)로 범주 읽기: Cat k, (:~:), Refl 해설",
+      "source_title": "Functors map categories",
+      "article_title": "Haskell의 종류(kind)로 범주 읽기: Cat k, (:~:), Refl 해설",
+      "source_bookmark_id": "2045988488",
+      "cypher_source_bookmark_id": "2045988488",
+      "source_url": "https://beila.github.io/my-collection/reddit-discussion/17hzl8d.html?reddit_discussion=4-c3447a8448206aef",
+      "article_format": 1,
+      "source_sha256": "7521cc2aa4e6dfb7f637d787c16dfd7323f5815bef42fc7b08802add7e86b3fb",
+      "html_sha256": "6cce913cd87c3f1750c6f55bcef0736c96a2ec71e6d4baf818f6b19464f6273a",
+      "epub_sha256": "4081c1de5b924c97c5db7836cf9005166721cf02ff8dfa988147c659b1f9f24a",
+      "canonical_url": "https://beila.github.io/my-collection/annotated-explanations/functors-map-categories-2045988488/",
+      "instapaper_url": "https://beila.github.io/my-collection/annotated-explanations/functors-map-categories-2045988488/index.html",
+      "epub_url": "https://beila.github.io/my-collection/annotated-explanations/functors-map-categories-2045988488/functors-map-categories-2045988488.epub",
+      "instapaper_bookmark_id": "2057909962",
+      "instapaper_api_verification": {
+        "status": "passed",
+        "verified_at": "2026-11-17T15:31:05Z"
+      },
+      "epub_validation": {
+        "status": "passed",
+        "errors": 0,
+        "warnings": 0
+      },
+      "generation_workflow": {
+        "research_model": "claude-opus-5-5",
+        "writer_model": "claude-opus-5-5",
+        "reviewer_model": "claude-sonnet-5-5",
+        "generation_model": "claude-opus-5-5"
       },
       "delivery_owner": "scheduler",
       "kindle_delivery_owner": "user_managed",
