@@ -1,0 +1,529 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Functors map categories — Haskell의 종류(kind)로 범주 읽기: Cat k, (:~:), Refl 해설</title>
+<meta name="description" content="Haskell에서 범주를 k -&gt; k -&gt; Type 종류의 타입 생성자로 표현하는 방식과 Cat k, (:~:), Refl의 의미를 메모의 질문에 맞춰 풀어 설명합니다.">
+<link rel="canonical" href="https://beila.github.io/my-collection/annotated-explanations/functors-map-categories-2045988488/">
+<meta name="source-url" content="https://beila.github.io/my-collection/reddit-discussion/17hzl8d.html?reddit_discussion=4-c3447a8448206aef">
+<meta name="review-date" content="2026-11-17">
+<meta name="explanation-article-format" content="1">
+<meta name="explanation-content-sha256" content="7521cc2aa4e6dfb7f637d787c16dfd7323f5815bef42fc7b08802add7e86b3fb">
+<meta name="instapaper-ingestion-url" content="https://beila.github.io/my-collection/annotated-explanations/functors-map-categories-2045988488/?instapaper_explanation=1-7521cc2aa4e6dfb7">
+<style>
+:root {
+  color-scheme: dark;
+  --bg: #111214;
+  --fg: #e7e5e2;
+  --muted: #b0b3b8;
+  --link: #8cb8ff;
+  --link-visited: #c9b0ff;
+  --code-bg: #1b1d21;
+  --code-fg: #e7e5e2;
+  --border: #3a3d44;
+  --focus: #ffd479;
+}
+* { box-sizing: border-box; }
+html {
+  background: var(--bg);
+  color: var(--fg);
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: system-ui, -apple-system, "Segoe UI", "Apple SD Gothic Neo",
+    "Noto Sans KR", "Malgun Gothic", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.7;
+}
+main {
+  max-width: 44rem;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 4rem;
+}
+article { overflow-wrap: break-word; word-break: keep-all; }
+h1, h2, h3, h4 {
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+  word-break: keep-all;
+}
+h1 { font-size: 1.9rem; margin: 0 0 1rem; }
+h2 {
+  font-size: 1.45rem;
+  margin: 2.6rem 0 1rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--border);
+}
+h3 { font-size: 1.2rem; margin: 2rem 0 0.8rem; }
+p, ul, ol, blockquote, pre, .table-wrap { margin: 0 0 1.1rem; }
+li { margin: 0.35rem 0; }
+p[data-publication-metadata="true"] {
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin: 0 0 0.4rem;
+}
+p[data-publication-metadata="true"] + h2 { margin-top: 2rem; }
+a { color: var(--link); text-decoration: underline; text-underline-offset: 0.15em; overflow-wrap: anywhere; }
+a:visited { color: var(--link-visited); }
+a:focus-visible, pre:focus-visible, .table-wrap:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+strong { color: #ffffff; }
+blockquote {
+  margin-left: 0;
+  padding: 0.2rem 0 0.2rem 1rem;
+  border-left: 4px solid var(--border);
+  color: var(--fg);
+}
+blockquote p { margin: 0.4rem 0; }
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono",
+    "D2Coding", monospace;
+  font-size: 0.92em;
+  background: var(--code-bg);
+  color: var(--code-fg);
+  padding: 0.08em 0.3em;
+  border-radius: 3px;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+pre {
+  background: var(--code-bg);
+  color: var(--code-fg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.9rem 1rem;
+  overflow-x: auto;
+  line-height: 1.5;
+  max-width: 100%;
+}
+pre code {
+  background: none;
+  padding: 0;
+  font-size: 0.9rem;
+  white-space: pre;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+.table-wrap { overflow-x: auto; max-width: 100%; }
+table { border-collapse: collapse; width: 100%; font-size: 0.95rem; }
+th, td {
+  border: 1px solid var(--border);
+  padding: 0.45rem 0.6rem;
+  text-align: left;
+  vertical-align: top;
+  min-width: 7rem;
+}
+th { background: var(--code-bg); }
+@media (max-width: 30rem) {
+  main { padding: 1.25rem 0.9rem 3rem; }
+  h1 { font-size: 1.55rem; }
+  h2 { font-size: 1.3rem; }
+  h3 { font-size: 1.12rem; }
+}
+@media print {
+  :root { color-scheme: light; }
+  html, body { background: #ffffff; color: #000000; }
+  main { max-width: none; padding: 0; }
+  a, a:visited { color: #000000; }
+  a[href^="http"]::after { content: " <" attr(href) ">"; font-size: 0.85em; word-break: break-all; }
+  strong { color: #000000; }
+  code, pre, th { background: #f3f3f3; color: #000000; }
+  pre { white-space: pre-wrap; overflow: visible; border-color: #999999; }
+  pre code { white-space: pre-wrap; }
+  .table-wrap { overflow: visible; }
+  th, td, blockquote { border-color: #999999; }
+  p[data-publication-metadata="true"] { color: #000000; }
+  h2, h3 { break-after: avoid; }
+  pre, blockquote, tr { break-inside: avoid; }
+}
+</style>
+<meta property="og:title" content="Functors map categories — Haskell의 종류(kind)로 범주 읽기: Cat k, (:~:), Refl 해설"><meta property="og:description" content="Haskell에서 범주를 k -&gt; k -&gt; Type 종류의 타입 생성자로 표현하는 방식과 Cat k, (:~:), Refl의 의미를 메모의 질문에 맞춰 풀어 설명합니다."><meta property="og:url" content="https://beila.github.io/my-collection/annotated-explanations/functors-map-categories-2045988488/index.html"><meta property="og:type" content="article"><meta name="twitter:card" content="summary"></head>
+<body>
+<main>
+<article>
+<section class="reviewed-content">
+<h1 id="article-title">Haskell의 종류(kind)로 범주 읽기: Cat k, (:~:), Refl 해설</h1>
+<p data-publication-metadata="true">해설 대상 원문: Iceland_jack, <a href="https://beila.github.io/my-collection/reddit-discussion/17hzl8d.html?reddit_discussion=4-c3447a8448206aef">“Functors map categories”</a></p>
+<p data-publication-metadata="true">검토일: <time datetime="2026-11-17">2026-11-17</time></p>
+<p data-publication-metadata="true">이 해설의 EPUB 전자책 판: <a href="https://beila.github.io/my-collection/annotated-explanations/functors-map-categories-2045988488/functors-map-categories-2045988488.epub">EPUB 파일 내려받기</a></p>
+<h2 id="what-this-document-explains">이 문서에서 설명하는 내용</h2>
+<p>원문은 Reddit 사용자 Iceland_jack이 2023년 10월 27일 r/haskell에 올린 글 「Functors map categories」입니다. 글의 중심 주장은 "함자(functor)를 쓴다는 것은 범주(category)를 대응시키는 것"이라는 관점입니다. 저자는 타입 생성자의 인자마다, 그리고 결과마다 범주를 하나씩 짝지을 수 있다고 봅니다. 그리고 <code>fmap</code>, <code>contramap</code>, <code>bimap</code>, <code>dimap</code> 같은 사상 함수의 타입을 보면 각 인자가 어떤 범주로 바뀌는지 읽을 수 있다고 설명합니다. 함자 법칙(functor laws)도 "함자는 범주의 구조, 곧 항등 사상 <code>id</code>와 합성 <code>(.)</code>을 보존한다"는 사실에서 나온다고 말합니다.</p>
+<p>남겨 주신 메모 다섯 개는 모두 글 앞부분의 세 지점에 모여 있습니다.</p>
+<ul>
+<li>함자 <code>F</code>의 원천 범주로 나열된 <code>(-&gt;)</code>, <code>(:~:) @Type</code>, <code>(&lt;-)</code>가 무엇인지에 관한 질문입니다.</li>
+<li><code>Cat</code>의 정의 두 줄(<code>type Cat :: Type -&gt; Type</code>, <code>type Cat k = k -&gt; k -&gt; Type</code>)에 관한 질문 세 개입니다.</li>
+<li>동등성 타입 <code>(:~:)</code>의 생성자 <code>Refl</code>에 관한 질문입니다.</li>
+</ul>
+<p><strong>독자 이해에 관한 추정:</strong> <code>Cat</code>을 "종류"라고 부르신 점, <code>type Cat k = …</code>가 귀납적 정의인지 물으신 점, 두 인자의 종류가 왜 같아야 하는지 물으신 점을 보면, (1) 종류와 타입의 관계, (2) 타입 동의어(type synonym)라는 장치, (3) Haskell에서 범주를 "두 인자를 받는 타입 생성자"로 표현하는 관례가 아직 익숙하지 않으신 것으로 보입니다. 또 <code>Refl</code>이 "where 절 안에서 정의되었다"는 표현은 GADT 문법의 <code>where</code>를 함수의 지역 정의용 <code>where</code>로 읽으셨을 가능성을 보여 줍니다. 반면 <code>(Type-&gt;Type) -&gt; Type -&gt; Type</code>처럼 괄호를 정확히 친 종류를 직접 쓰신 것을 보면, 화살표로 된 종류를 읽고 쓰는 일 자체에는 익숙하신 것으로 추정합니다.</p>
+<p>그래서 이 문서는 먼저 공통 개념 다섯 가지를 설명하고, 그다음 원문에 나오는 순서대로 각 하이라이트와 메모에 답합니다.</p>
+<h2 id="core-concepts">먼저 알아야 할 공통 개념</h2>
+<h3 id="kinds-are-types-of-types">종류(kind)는 타입의 타입입니다</h3>
+<p>값에 타입이 있듯이 타입에도 "타입"이 있으며, 이것을 종류(kind)라고 부릅니다. 값을 가질 수 있는 보통의 타입은 종류 <code>Type</code>을 가집니다. <code>Data.Kind</code> 문서는 <code>Type</code>을 "들림(lifted) 값을 가지는 타입들의 종류(The kind of types with lifted values)"라고 설명하고 <code>Int :: Type</code>을 예로 듭니다. GHC에는 값이 있어도 종류가 <code>Type</code>이 아닌 비들림(unlifted) 타입도 있지만, 이 글을 읽는 데에는 필요하지 않으므로 이 문서에서는 다루지 않습니다(<a href="https://hackage.haskell.org/package/base/docs/Data-Kind.html">base <code>Data.Kind</code> 문서</a>).</p>
+<div class="table-wrap" tabindex="0"><table>
+<thead>
+<tr>
+<th>타입 수준의 대상</th>
+<th>종류</th>
+<th>읽는 법</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Int</code>, <code>Bool</code>, <code>[Int]</code></td>
+<td><code>Type</code></td>
+<td>값을 가지는 보통의 타입입니다.</td>
+</tr>
+<tr>
+<td><code>Maybe</code>, <code>[]</code></td>
+<td><code>Type -&gt; Type</code></td>
+<td>타입 하나를 받아 타입을 만듭니다.</td>
+</tr>
+<tr>
+<td><code>(-&gt;)</code>, <code>Either</code></td>
+<td><code>Type -&gt; Type -&gt; Type</code></td>
+<td>타입 둘을 받아 타입을 만듭니다.</td>
+</tr>
+</tbody>
+</table></div>
+<p>GHCi에서 종류를 출력하면 <code>Type</code> 대신 <code>*</code>가 보이기도 합니다. <code>*</code>는 <code>Type</code>의 옛 표기입니다.</p>
+<p>중요한 점이 하나 더 있습니다. 현대 GHC에서는 타입과 종류가 같은 세계에 있습니다. GHC 사용자 안내서는 "GHC 안에서는 타입과 종류를 구별하지 않는다"고 하고, <code>Type</code>의 타입은 그냥 <code>Type</code>이라고 설명합니다(<a href="https://downloads.haskell.org/ghc/latest/docs/users_guide/exts/poly_kinds.html#overview-of-type-in-type">GHC 사용자 안내서, 종류 다형성 개요</a>). 따라서 <code>Type -&gt; Type -&gt; Type</code>이라는 종류도 그 자체로 종류 <code>Type</code>을 가지는 하나의 타입 수준 표현입니다. 이 사실이 뒤에서 <code>Cat :: Type -&gt; Type</code>을 읽을 때 핵심이 됩니다.</p>
+<p><code>DataKinds</code> 확장을 켜면 보통의 자료형도 종류로 쓸 수 있습니다. GHC는 모든 자료형을 종류로, 그 값 생성자를 타입 생성자로 승격합니다(<a href="https://downloads.haskell.org/ghc/latest/docs/users_guide/exts/data_kinds.html">GHC 사용자 안내서, DataKinds</a>). 그래서 <code>Bool</code>은 <code>'False</code>와 <code>'True</code>라는 두 타입을 가진 종류가 되고, 타입 수준 자연수의 종류 <code>Nat</code>에는 <code>0</code>, <code>1</code>, <code>36</code> 같은 리터럴 타입이 속합니다. 원문 뒷부분의 <code>Cat Nat</code>, <code>Cat Bool</code>은 이런 종류를 가리킵니다.</p>
+<h3 id="standalone-kind-signatures-and-type-synonyms">독립 종류 시그니처와 타입 동의어</h3>
+<p>원문의 <code>Cat</code> 정의는 서로 다른 두 선언으로 되어 있습니다.</p>
+<pre tabindex="0"><code class="language-haskell">type Cat :: Type -&gt; Type
+type Cat k = k -&gt; k -&gt; Type</code></pre>
+<p>첫 줄은 <strong>독립 종류 시그니처</strong>(standalone kind signature)입니다. 함수 정의 위에 <code>f :: Int -&gt; Int</code>라는 타입 시그니처를 따로 쓰듯이, 타입 수준 선언 위에 그 종류를 따로 적는 문법입니다. GHC 8.10.1에서 <code>StandaloneKindSignatures</code> 확장으로 도입되었고 GHC2021 언어 판에 포함되어 있습니다(<a href="https://downloads.haskell.org/ghc/latest/docs/users_guide/exts/poly_kinds.html#extension-StandaloneKindSignatures">GHC 사용자 안내서, StandaloneKindSignatures</a>). 이 시그니처는 선택 사항입니다. GHC 9.10.3에서 시그니처를 빼고 둘째 줄만 선언해도 GHC가 같은 종류 <code>Type -&gt; Type</code>을 추론하는 것을 확인했습니다. 따라서 첫 줄은 문서화와 검사를 위한 것입니다.</p>
+<p>둘째 줄은 매개변수가 하나인 <strong>타입 동의어</strong>(type synonym)입니다. Haskell 2010 보고서는 타입 동의어를 "편리하지만 순전히 구문적인 장치"라고 정의합니다. 또한 대수적 자료형이 중간에 끼지 않는 한 재귀할 수 없고, 부분 적용할 수 없다고 규정합니다(<a href="https://www.haskell.org/onlinereport/haskell2010/haskellch4.html">Haskell 2010 보고서 4.2.2절</a>). 즉 <code>Cat X</code>라고 쓰면 컴파일러는 이를 곧바로 <code>X -&gt; X -&gt; Type</code>으로 바꿔 쓴다고 생각하시면 됩니다. <code>Cat</code>은 <code>Maybe</code>처럼 새 타입을 만드는 타입 생성자가 아니라 긴 표현의 약어입니다.</p>
+<h3 id="categories-as-two-argument-type-constructors">Haskell에서 범주는 "두 인자를 받는 타입 생성자"로 표현합니다</h3>
+<p>수학에서 범주는 대상(object)들과 대상 사이의 사상(morphism)들로 이루어집니다. 두 대상 x, y의 쌍마다 x에서 y로 가는 사상의 모임이 있고, 각 대상에는 항등 사상이 있으며, 이어지는 사상은 합성할 수 있습니다. 합성은 결합 법칙과 단위 법칙을 만족해야 합니다(<a href="https://ncatlab.org/nlab/show/category">nLab, category</a>; <a href="https://bartoszmilewski.com/2014/11/04/category-the-essence-of-composition/">Bartosz Milewski, 「Category: The Essence of Composition」</a>).</p>
+<p>Haskell은 이 구조를 다음과 같이 옮깁니다. 범주 하나를 타입 생성자 <code>cat</code> 하나로 나타내고, <code>cat a b</code>를 "대상 <code>a</code>에서 대상 <code>b</code>로 가는 사상들의 타입"으로 읽습니다. 표준 라이브러리 <code>Control.Category</code>의 클래스가 정확히 이 모양입니다(<a href="https://hackage.haskell.org/package/base/docs/Control-Category.html">base <code>Control.Category</code> 문서</a>).</p>
+<pre tabindex="0"><code class="language-haskell">class Category (cat :: k -&gt; k -&gt; Type) where
+  id  :: cat a a
+  (.) :: cat b c -&gt; cat a b -&gt; cat a c</code></pre>
+<p>위 코드는 문서에 나온 클래스 선언과 두 메서드의 타입을 간략히 옮겨 적은 것입니다. 문서에는 각 메서드의 <code>forall</code>과 종류 주석이 더 자세히 적혀 있습니다. 여기서 대응 관계는 다음과 같습니다.</p>
+<div class="table-wrap" tabindex="0"><table>
+<thead>
+<tr>
+<th>범주론의 개념</th>
+<th>Haskell에서의 표현</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>대상</td>
+<td>종류 <code>k</code>를 가지는 타입들</td>
+</tr>
+<tr>
+<td>x에서 y로 가는 사상들의 모임</td>
+<td>타입 <code>cat x y</code>, 그 값 하나하나가 사상입니다.</td>
+</tr>
+<tr>
+<td>항등 사상</td>
+<td><code>id :: cat a a</code></td>
+</tr>
+<tr>
+<td>합성</td>
+<td><code>(.) :: cat b c -&gt; cat a b -&gt; cat a c</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>원문의 <code>type Cat k = k -&gt; k -&gt; Type</code>은 바로 이 <code>cat</code>의 종류 <code>k -&gt; k -&gt; Type</code>에 이름을 붙인 것입니다. 그래서 "<code>X :: Cat k</code>"는 "<code>X</code>는 대상의 종류가 <code>k</code>인 범주를 나타내는 타입 생성자"라고 읽으면 됩니다. base에 이미 있는 <code>Category</code> 인스턴스로는 함수 <code>(-&gt;)</code>, 뒤집힌 함수 <code>Op</code>, 동등성 <code>(:~:)</code>, <code>Kleisli m</code> 등이 있습니다(같은 문서의 인스턴스 목록).</p>
+<p><strong>교육적 단순화:</strong> 이 문서는 <code>(-&gt;)</code>를 "Haskell 타입을 대상으로, 함수를 사상으로 하는 범주"라고 부릅니다. 무한 루프나 <code>undefined</code> 같은 값까지 엄밀히 따지면 세부 사항이 더 복잡하지만, 원문과 메모를 이해하는 데에는 이 모델로 충분합니다.</p>
+<h3 id="functors-map-objects-and-morphisms">함자는 대상과 사상을 함께 옮기며, 원문은 인자마다 범주를 하나씩 둡니다</h3>
+<p>범주론에서 함자는 범주 사이의 대응입니다. 함자는 대상을 대상으로, 사상을 사상으로 옮기며 항등 사상과 합성을 보존합니다. Haskell의 <code>Functor</code>에서는 타입 생성자가 대상(타입)을 옮기고 <code>fmap</code>이 사상(함수)을 옮깁니다(<a href="https://bartoszmilewski.com/2015/01/20/functors/">Bartosz Milewski, 「Functors」</a>).</p>
+<p>원문은 이 그림을 인자가 여럿인 타입 생성자로 넓힙니다. 원문 해석으로 정리하면 읽는 방법은 다음과 같습니다.</p>
+<ul>
+<li>타입 생성자 <code>F</code>의 인자 하나하나는 "대상"입니다.</li>
+<li>각 인자 자리마다 "그 인자를 어떤 종류의 사상으로 바꿀 수 있는가"를 정하는 범주가 하나 있습니다. 이것이 원천 범주(source category)입니다.</li>
+<li>결과 자리에도 범주가 하나 있습니다. 이것이 목표 범주(target category)입니다.</li>
+<li>사상 함수 <code>mapF</code>는 인자마다 해당 범주의 사상을 하나씩 받아서 목표 범주의 사상 하나를 돌려줍니다.</li>
+</ul>
+<p>예를 들어 보통의 <code>fmap :: (a -&gt; a') -&gt; (f a -&gt; f a')</code>은 인자 자리의 범주가 <code>(-&gt;)</code>, 결과 자리의 범주도 <code>(-&gt;)</code>인 경우입니다. 원문은 이를 <code>FunctorOf (-&gt;) (-&gt;) f</code>라고 표기합니다. <code>FunOf</code>, <code>FunctorOf</code>, <code>BifunctorOf</code>, <code>Nat</code> 같은 이름은 저자가 이 글과 예전 글에서 쓰는 표기법이며 base에 들어 있는 정의가 아닙니다.</p>
+<h3 id="gadt-syntax-and-type-equality">GADT 문법과 타입 동등성 <code>(:~:)</code></h3>
+<p><code>data T a where</code>로 시작해서 생성자마다 타입 시그니처를 적는 선언은 <strong>GADT 문법</strong>(GADT syntax)입니다. GHC 사용자 안내서의 해당 절 제목도 "명시적인 생성자 시그니처로 자료형 선언하기(Declaring data types with explicit constructor signatures)"입니다. 안내서는 <code>data T a where</code> 머리의 타입 변수는 생성자 시그니처 안에서 유효 범위가 없고, 각 생성자의 시그니처는 서로 독립적이며 평소처럼 암묵적으로 전칭 한정된다고 말합니다(<a href="https://downloads.haskell.org/ghc/latest/docs/users_guide/exts/gadt_syntax.html">GHC 사용자 안내서, GADT 문법</a>). 여기의 <code>where</code>는 생성자 목록을 여는 키워드일 뿐이며, 함수 정의 뒤에 지역 정의를 붙이는 <code>where</code>와는 이름만 같습니다.</p>
+<p>생성자마다 결과 타입을 따로 정할 수 있는 자료형을 GADT(generalised algebraic data type)라고 부릅니다. 안내서는 "GADT의 핵심은 패턴 매칭이 타입 정제(type refinement)를 일으킨다는 점"이라고 요약합니다(<a href="https://downloads.haskell.org/ghc/latest/docs/users_guide/exts/gadt.html">GHC 사용자 안내서, GADTs</a>). 어떤 생성자와 일치했는지 알게 되면 그 분기 안에서 컴파일러가 타입에 관한 추가 사실을 알게 된다는 뜻입니다.</p>
+<p>이 성질을 이용하는 가장 유명한 GADT가 타입 동등성 <code>(:~:)</code>입니다. base의 <code>Data.Type.Equality</code> 모듈이 이를 "명제적 동등성(propositional equality)"이라는 이름으로 제공합니다. 문서에 따르면 <code>a :~: b</code> 타입에 종료하는 값이 있으면 <code>a</code>와 <code>b</code>는 같은 타입입니다. 그리고 <code>Refl</code> 생성자로 패턴 매칭하면 그 본문 안에서 컴파일러가 <code>a ~ b</code>를 압니다(<a href="https://hackage.haskell.org/package/base/docs/Data-Type-Equality.html">base <code>Data.Type.Equality</code> 문서</a>). 여기서 <code>a ~ b</code>는 "<code>a</code>와 <code>b</code>가 같은 타입이다"라는 타입 동등성 제약(equality constraint)입니다. 또 <code>data a :~: b</code>처럼 연산자 기호로 된 타입 이름을 중위로 선언하고 쓰려면 <code>TypeOperators</code> 확장이 필요합니다(<a href="https://downloads.haskell.org/ghc/latest/docs/users_guide/exts/type_operators.html">GHC 사용자 안내서, TypeOperators</a>). 원문은 이 정의를 <code>Cat k</code> 시그니처와 함께 다시 적어 보여 줍니다.</p>
+<h2 id="highlights-and-notes">하이라이트와 메모별 해설</h2>
+<h3 id="source-categories-of-f"><code>(-&gt;)</code>, <code>(:~:) @Type</code>, <code>(&lt;-)</code>는 각각 어떤 범주인가요</h3>
+<p><strong>하이라이트:</strong> <code>(-&gt;), (:~:) @Type, (&lt;-)</code></p>
+<p><strong>원문 문맥:</strong></p>
+<blockquote>
+<p>The functor <code>F</code> maps three source categories <code>(-&gt;)</code>, <code>(:~:) @Type</code>, <code>(&lt;-)</code> to a target category <code>(-&gt;)</code> using the mapping function <em>mapF</em>:</p>
+</blockquote>
+<p><strong>사용자 메모:</strong> “What do these represent?”</p>
+<p>이 세 표현은 함자 <code>F</code>의 <strong>세 인자 각각에 배정된 원천 범주</strong>입니다. 각 범주는 앞에서 설명한 관례대로 "사상들의 타입을 만드는 두 인자 타입 생성자"로 적혀 있습니다. 바로 아래에 나오는 원문의 <code>mapF</code> 타입을 함께 보면 의미가 분명해집니다.</p>
+<pre tabindex="0"><code class="language-haskell">mapF :: (a -&gt; a') -&gt; (b :~: b') -&gt; (c &lt;- c') -&gt; (F a b c -&gt; F a' b' c')</code></pre>
+<p><code>mapF</code>의 첫째, 둘째, 셋째 인자의 타입이 각각 <code>(-&gt;) a a'</code>, <code>(:~:) b b'</code>, <code>(&lt;-) c c'</code>입니다. 즉 세 범주에서 사상을 하나씩 받습니다. 결과 <code>F a b c -&gt; F a' b' c'</code>은 목표 범주 <code>(-&gt;)</code>의 사상, 곧 보통의 함수입니다. 이를 표로 정리하면 다음과 같습니다.</p>
+<div class="table-wrap" tabindex="0"><table>
+<thead>
+<tr>
+<th>자리</th>
+<th>범주</th>
+<th><code>mapF</code>가 받는 사상</th>
+<th>의미</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>첫째 인자 <code>a</code></td>
+<td><code>(-&gt;)</code></td>
+<td><code>a -&gt; a'</code></td>
+<td>보통의 함수로 바꿉니다. 공변(covariant) 자리입니다.</td>
+</tr>
+<tr>
+<td>둘째 인자 <code>b</code></td>
+<td><code>(:~:) @Type</code></td>
+<td><code>b :~: b'</code></td>
+<td><code>b</code>와 <code>b'</code>가 같은 타입이라는 증거만 받습니다. 사실상 바꿀 수 없는 자리입니다.</td>
+</tr>
+<tr>
+<td>셋째 인자 <code>c</code></td>
+<td><code>(&lt;-)</code></td>
+<td><code>c &lt;- c'</code>, 즉 <code>c' -&gt; c</code> 방향의 함수</td>
+<td>화살표를 거꾸로 받습니다. 반변(contravariant) 자리입니다.</td>
+</tr>
+<tr>
+<td>결과</td>
+<td><code>(-&gt;)</code></td>
+<td><code>F a b c -&gt; F a' b' c'</code></td>
+<td>결과는 보통의 함수로 나옵니다.</td>
+</tr>
+</tbody>
+</table></div>
+<p>세 범주를 하나씩 보겠습니다.</p>
+<p>먼저 <code>(-&gt;)</code>는 Haskell 타입을 대상으로, 함수를 사상으로 하는 범주입니다. base에 <code>Category (-&gt;)</code> 인스턴스가 있으며 <code>id</code>는 항등 함수, <code>(.)</code>는 함수 합성입니다(<a href="https://hackage.haskell.org/package/base/docs/Control-Category.html">base <code>Control.Category</code> 문서</a>). 첫째 인자를 이 범주로 옮긴다는 것은 <code>fmap</code>처럼 <code>a -&gt; a'</code> 함수 하나로 <code>a</code> 자리를 바꿀 수 있다는 뜻입니다.</p>
+<p>다음으로 <code>(:~:) @Type</code>은 동등성 범주입니다. 대상은 타입이고, <code>a</code>에서 <code>b</code>로 가는 사상은 <code>a :~: b</code>의 값입니다. 그런데 이 타입의 유일한 생성자 <code>Refl :: a :~: a</code>는 양쪽이 같을 때만 만들 수 있습니다. 따라서 이 범주에는 각 대상의 항등 사상만 있습니다. 이런 범주를 이산 범주(discrete category)라고 부릅니다(<a href="https://ncatlab.org/nlab/show/discrete+category">nLab, discrete category</a>). base에도 <code>Category (:~:)</code> 인스턴스가 있습니다. 둘째 인자가 이 범주에 배정되었다는 것은 원문 해석으로 "<code>mapF</code>는 둘째 인자를 실제로는 바꾸지 못하고, 같은 타입에서 같은 타입으로만 옮긴다"는 뜻입니다.</p>
+<p>뒤에 붙은 <code>@Type</code>은 <strong>가시적 종류 적용</strong>(visible kind application)입니다. <code>(:~:)</code>는 종류 다형적이어서 원문 표기로 <code>Cat k</code>, 곧 어떤 종류 <code>k</code>에 대해서든 쓸 수 있습니다. <code>@Type</code>은 그 <code>k</code>를 <code>Type</code>으로 고정합니다. <code>F</code>의 둘째 인자가 종류 <code>Type</code>이므로 그 자리의 범주도 <code>Cat Type</code>이어야 하기 때문입니다.</p>
+<p>마지막으로 <code>(&lt;-)</code>는 <code>(-&gt;)</code>의 반대 범주(opposite category)입니다. 대상은 같고 화살표 방향만 뒤집힌 범주로, 반대 범주의 x에서 y로 가는 사상은 원래 범주의 y에서 x로 가는 사상과 같습니다(<a href="https://ncatlab.org/nlab/show/opposite+category">nLab, opposite category</a>). 그래서 <code>c &lt;- c'</code>는 <code>c' -&gt; c</code> 방향의 함수를 뜻합니다. 반변 함자는 반대 범주에서 출발하는 보통의 함자라는 설명도 같은 생각입니다(<a href="https://bartoszmilewski.com/2015/02/03/functoriality/">Bartosz Milewski, 「Functoriality」</a>). 원문 뒷부분의 <code>contramap :: (a &lt;- a') -&gt; (c a -&gt; c a')</code>이 이 표기를 씁니다. base의 <code>contramap :: (a' -&gt; a) -&gt; f a -&gt; f a'</code>과 같은 내용입니다.</p>
+<p>정리하면, 이 목록은 "<code>F</code>의 첫째 인자는 함수로, 둘째 인자는 동등성으로만, 셋째 인자는 거꾸로 된 함수로 바꿀 수 있다"는 정보를 범주의 이름으로 적은 것입니다. 원문의 <code>F</code>는 설명을 위해 가정한 임의의 타입 생성자이며 구체적인 정의가 없습니다. 그래서 세 범주가 실제로 어떻게 쓰이는지 보이기 위해 구체적인 <code>F</code>를 하나 만들어 보겠습니다. <strong>이 문서가 새로 만든 예제이며 원문 코드가 아닙니다.</strong> GHC 9.10.3에서 <code>module … where</code> 아래에 두고 <code>-Wall</code>로 검사했을 때 경고 없이 통과했습니다. <code>(&lt;-)</code>는 실제 코드로 쓸 수 없으므로 셋째 인자는 <code>c' -&gt; c</code>로 적었습니다.</p>
+<pre tabindex="0"><code class="language-haskell">{-# LANGUAGE GADTs, TypeOperators #-}
+import Data.Type.Equality ((:~:) (..))
+
+data F a b c = F a (b -&gt; b) (c -&gt; Int)
+
+mapF :: (a -&gt; a') -&gt; (b :~: b') -&gt; (c' -&gt; c) -&gt; (F a b c -&gt; F a' b' c')
+mapF f Refl g (F x h k) = F (f x) h (k . g)</code></pre>
+<p>세 자리를 하나씩 보면 다음과 같습니다.</p>
+<ul>
+<li>첫째 인자 <code>a</code>는 값 <code>x :: a</code>로 들어 있습니다. 그래서 <code>f :: a -&gt; a'</code>를 그대로 적용해 <code>f x :: a'</code>를 만들 수 있습니다. 이것이 <code>(-&gt;)</code> 범주의 사상입니다.</li>
+<li>둘째 인자 <code>b</code>는 <code>b -&gt; b</code> 안에서 입력과 출력 양쪽에 나옵니다. 따라서 보통의 함수 하나로는 이 자리를 바꿀 수 없습니다. 대신 <code>Refl</code>로 패턴 매칭하면 그 분기에서 <code>b</code>와 <code>b'</code>가 같아지므로 <code>h</code>를 그대로 돌려줄 수 있습니다. 이것이 <code>(:~:)</code> 범주의 사상입니다.</li>
+<li>셋째 인자 <code>c</code>는 <code>c -&gt; Int</code>의 입력 자리에 있습니다. 그래서 <code>g :: c' -&gt; c</code>를 앞에 합성해 <code>k . g :: c' -&gt; Int</code>를 만듭니다. 화살표를 거꾸로 받는 <code>(&lt;-)</code> 범주의 사상입니다.</li>
+<li>결과 <code>F a b c -&gt; F a' b' c'</code>은 보통의 함수, 곧 목표 범주 <code>(-&gt;)</code>의 사상입니다.</li>
+</ul>
+<p><strong>참고: 실제 코드로 옮길 때의 세부 사항.</strong> GHC 사용자 안내서는 타입 적용 문법을 종류 변수에도 쓸 수 있으나, 사용자가 명시한(specified) 변수에만 적용할 수 있고 추론된(inferred) 변수에는 적용할 수 없다고 설명합니다(<a href="https://downloads.haskell.org/ghc/latest/docs/users_guide/exts/type_applications.html">GHC 사용자 안내서, TypeApplications</a>). 이 문서를 위해 GHC 9.10.3과 base 4.20에서 확인한 결과, 원문처럼 <code>type (:~:) :: Cat k</code> 시그니처로 직접 정의한 동등성 타입에는 <code>@Type</code>을 적용할 수 있었습니다. 그러나 base의 <code>Data.Type.Equality.(:~:)</code>에 <code>@Type</code>을 적용하면 오류가 났습니다. base 쪽 종류 변수가 추론된 변수(<code>forall {k}.</code>)로 표시되기 때문입니다. base의 것을 쓸 때에는 <code>(:~:) :: Cat Type</code>처럼 종류 주석을 붙이면 됩니다. 이후 버전의 동작은 확인하지 않았습니다. 또 <code>&lt;-</code>는 Haskell 2010의 예약 연산자이므로(<a href="https://www.haskell.org/onlinereport/haskell2010/haskellch2.html">Haskell 2010 보고서 2.4절</a>) <code>type a &lt;- b = b -&gt; a</code>라고 선언하면 GHC 9.10.3은 구문 오류를 냅니다. base에서 <code>(&lt;-)</code>와 같은 역할을 하는 타입은 <code>Data.Functor.Contravariant</code>의 <code>newtype Op a b = Op { getOp :: b -&gt; a }</code>입니다. 문서는 이를 "뒤집힌 함수 화살표(dual function arrows)"라고 부르고 <code>Category Op</code> 인스턴스를 제공합니다(<a href="https://hackage.haskell.org/package/base/docs/Data-Functor-Contravariant.html">base <code>Data.Functor.Contravariant</code> 문서</a>).</p>
+<h3 id="is-cat-a-kind"><code>Cat</code>은 종류인가요: <code>type Cat :: Type -&gt; Type</code> 읽기</h3>
+<p><strong>하이라이트:</strong> <code>type Cat :: Type -&gt; Type</code></p>
+<p><strong>원문 문맥:</strong></p>
+<blockquote>
+<p>For the following categories</p>
+</blockquote>
+<pre tabindex="0"><code class="language-haskell">type Cat :: Type -&gt; Type
+type Cat k = k -&gt; k -&gt; Type
+
+(-&gt;)  :: Cat Type
+(&lt;-)  :: Cat Type
+(:~:) :: Cat k</code></pre>
+<p><strong>사용자 메모:</strong> “Is it correct to say that Cat is a kind that maps from Type to Type?”</p>
+<p>절반은 맞고 절반은 바로잡아야 합니다. "<code>Type</code>에서 <code>Type</code>으로 간다"는 부분은 맞지만, "<code>Cat</code>이 종류다"라는 부분은 정확하지 않습니다.</p>
+<p>이 줄은 독립 종류 시그니처이므로 "<code>Cat</code><strong>의</strong> 종류는 <code>Type -&gt; Type</code>이다"라는 뜻입니다. <code>f :: Int -&gt; Int</code>가 "<code>f</code>는 <code>Int -&gt; Int</code>라는 타입이다"가 아니라 "<code>f</code>는 <code>Int -&gt; Int</code>라는 타입을 <strong>가진</strong> 함수다"라는 뜻인 것과 같습니다. 따라서 더 정확한 표현은 다음과 같습니다.</p>
+<blockquote>
+<p><code>Cat</code>은 인자 하나를 받는 타입 수준의 함수(타입 동의어)이며, 그 자신의 종류가 <code>Type -&gt; Type</code>입니다.</p>
+</blockquote>
+<p>그렇다면 <code>Cat</code>은 실제로 무엇을 무엇으로 보낼까요. 둘째 줄 <code>type Cat k = k -&gt; k -&gt; Type</code>을 보면 인자 <code>k</code>도 종류이고 결과 <code>k -&gt; k -&gt; Type</code>도 종류입니다. 그러므로 <code>Cat</code>은 <strong>종류 하나를 받아서 종류 하나를 돌려주는 함수</strong>입니다. 대상의 종류 <code>k</code>를 받아서 "그런 대상을 가지는 범주의 종류"를 돌려줍니다.</p>
+<p>그런데 왜 종류에서 종류로 가는 함수의 종류가 <code>Type -&gt; Type</code>으로 적힐까요. 앞에서 설명했듯 GHC에서는 <code>Type :: Type</code>이므로 <code>Type</code>, <code>Type -&gt; Type</code>, <code>Nat</code>, <code>Bool</code> 같은 종류도 모두 종류 <code>Type</code>을 가지는 타입 수준 표현이기 때문입니다. 이 문서를 위해 GHC 9.10.3의 GHCi에서 확인한 결과는 다음과 같습니다. <code>*</code>는 <code>Type</code>의 옛 표기입니다.</p>
+<pre tabindex="0"><code class="language-text">Cat :: * -&gt; *
+Cat Type :: *
+= * -&gt; * -&gt; *
+Cat (Type -&gt; Type) :: *
+= (* -&gt; *) -&gt; (* -&gt; *) -&gt; *</code></pre>
+<p><code>Maybe :: Type -&gt; Type</code>과 비교하면 차이가 잘 보입니다. 두 이름의 종류는 똑같이 <code>Type -&gt; Type</code>입니다. 하지만 <code>Maybe Int</code>는 값이 있는 보통의 타입입니다. 반면 <code>Cat Type</code>은 <code>Type -&gt; Type -&gt; Type</code>이라는 <strong>종류</strong>이며, 그 안에 직접 값이 들어 있지 않습니다. <code>Cat Type</code>에 속하는 것은 <code>(-&gt;)</code>나 <code>Op</code> 같은 타입 생성자입니다. 종류만 보아서는 두 경우가 구별되지 않는데, 이것이 "타입과 종류를 구별하지 않는다"는 설계의 결과입니다.</p>
+<p>원문 문맥의 아래 세 줄도 같은 방식으로 읽으면 됩니다. <code>(-&gt;)  :: Cat Type</code>은 "<code>(-&gt;)</code>의 종류는 <code>Cat Type</code>, 곧 <code>Type -&gt; Type -&gt; Type</code>이다"라는 뜻입니다. 따라서 <code>(-&gt;)</code>는 대상이 종류 <code>Type</code>인 범주입니다. 원문 해석으로 보면 이 세 줄은 선언이 아니라 "이런 것들이 범주의 예"라는 설명용 목록입니다. <code>(&lt;-)</code>는 앞 절에서 말했듯 실제 코드로 선언할 수 없고, <code>(:~:) :: Cat k</code>의 <code>k</code>는 "어떤 종류든"을 뜻합니다.</p>
+<p>마지막으로 <code>Cat</code>은 타입 동의어이므로 항상 인자를 채워 <code>Cat Type</code>, <code>Cat k</code>처럼 써야 합니다. 인자 없이 <code>Cat</code>만 단독으로 쓰면 GHC가 오류를 냅니다.</p>
+<h3 id="is-cat-an-inductive-definition"><code>type Cat k</code>는 귀납적 정의인가요</h3>
+<p><strong>하이라이트:</strong> <code>type Cat k</code></p>
+<p><strong>원문 문맥:</strong></p>
+<pre tabindex="0"><code class="language-haskell">type Cat k = k -&gt; k -&gt; Type</code></pre>
+<p><strong>사용자 메모:</strong> “Is this an inductive definition? Can you show me some examples?”</p>
+<p>선택하신 부분은 위 줄에서 등호 앞의 왼쪽, 곧 정의되는 이름과 매개변수입니다. 결론부터 말하면 <strong>귀납적 정의가 아닙니다.</strong> 귀납적(재귀적) 정의는 정의하는 이름이 정의의 오른쪽에 다시 나타나야 합니다. 그런데 <code>type Cat k = k -&gt; k -&gt; Type</code>의 오른쪽에는 <code>Cat</code>이 없습니다. 왼쪽과 오른쪽에 함께 나오는 <code>k</code>는 단순한 매개변수입니다. 값 수준의 <code>pair x = (x, x)</code>에서 <code>x</code>가 양쪽에 나오는 것과 같습니다. 그래서 <code>Cat</code>을 어디에 쓰든 한 번 펼치면 끝납니다.</p>
+<pre tabindex="0"><code class="language-text">Cat Type           =  Type -&gt; Type -&gt; Type
+Cat Bool           =  Bool -&gt; Bool -&gt; Type
+Cat (Type -&gt; Type) =  (Type -&gt; Type) -&gt; (Type -&gt; Type) -&gt; Type</code></pre>
+<p>또 Haskell은 타입 동의어의 재귀를 허용하지 않습니다. 앞에서 인용한 Haskell 2010 보고서 4.2.2절의 규정대로입니다. 예를 들어 이 문서에서 시험용으로 만든 다음 선언은 GHC 9.10.3에서 "타입 동의어 선언에 순환이 있다(Cycle in type synonym declarations)"는 오류로 거부됩니다.</p>
+<pre tabindex="0"><code class="language-haskell">-- 이 문서가 만든 예제입니다. 컴파일되지 않습니다.
+type Loop :: Type -&gt; Type
+type Loop k = Loop k -&gt; Type</code></pre>
+<p>원문에서 진짜 귀납적 정의를 찾으면, 자기 자신을 다시 언급하는 <code>data</code>/<code>newtype</code> 선언이 있습니다. 예를 들어 <code>newtype Fix f where</code>의 생성자 <code>In :: f (Fix f) -&gt; Fix f</code>는 <code>Fix f</code>를 다시 사용하고, <code>Vec</code>의 생성자 <code>(:&gt;) :: a -&gt; Vec n a -&gt; Vec (1 + n) a</code>는 더 짧은 <code>Vec n a</code>로 긴 벡터를 만듭니다. 이것들은 자료형이므로 재귀가 허용됩니다.</p>
+<p>메모의 "예시"가 귀납적 정의의 예를 뜻했을 수도 있으므로, 가장 간단한 귀납적 정의와 <code>Cat</code>을 나란히 놓아 보겠습니다. 첫 줄은 <strong>이 문서가 만든 예제</strong>이며 GHC 9.10.3에서 경고 없이 통과했습니다. 둘째 줄은 원문의 정의입니다.</p>
+<pre tabindex="0"><code class="language-haskell">data List a = Nil | Cons a (List a)   -- 귀납적: 오른쪽에 List가 다시 나옵니다.
+type Cat k = k -&gt; k -&gt; Type           -- 귀납적이지 않음: 오른쪽에 Cat이 없습니다.</code></pre>
+<p><code>List</code>는 <code>Nil</code>에서 출발해 <code>Cons</code>를 한 번씩 더 붙여 가며 값을 쌓아 올립니다. 이것이 귀납적 정의의 전형적인 모양입니다. 반면 <code>Cat k</code>는 한 번 펼치면 끝나는 약어입니다.</p>
+<p>"귀납"이라는 말이 떠오른 이유로 짐작되는 부분도 하나 있습니다. 원문 토론에서 저자는 "커리된 함수의 귀납적 성질(the inductive nature of curried functions)"을 언급합니다. 저자는 인자가 여럿인 함자를 <code>Nat</code>으로 한 겹씩 감싸서 만듭니다. 예를 들어 <code>TrifunctorOf src1 src2 src3 tgt = FunctorOf src1 (Nat src2 (Nat src3 tgt))</code>처럼 정의합니다. 원문 해석으로 보면, 이 귀납은 인자 목록 <code>A -&gt; B -&gt; C -&gt; Res</code>를 앞에서부터 하나씩 처리하는 구조에 관한 것이며 <code>Cat</code>의 정의에 관한 것이 아닙니다. 메모가 그 토론을 염두에 두었는지는 알 수 없습니다.</p>
+<p><code>Cat k</code>의 예시는 대상의 종류별로 정리하면 다음과 같습니다. 표의 <code>Op</code>, <code>Kleisli Maybe</code>, <code>(:~:)</code>는 base에 있는 타입입니다. 표의 <code>(:~:)</code>는 종류 다형적이므로 각 행의 종류로 맞춰 씁니다. 원문의 정의라면 <code>(:~:) @Type</code>, <code>(:~:) @Nat</code>처럼 쓰고, base의 것이라면 앞의 참고 단락에서 설명했듯 <code>(:~:) :: Cat Type</code>처럼 종류 주석으로 고정합니다. <code>(~&gt;)</code>, <code>(&lt;-&gt;)</code>, <code>Fun</code>, <code>(&lt;=)</code>, <code>Divides</code>, <code>(-?&gt;)</code>는 원문과 토론에 나오는 저자의 표기 또는 자체 정의입니다.</p>
+<div class="table-wrap" tabindex="0"><table>
+<thead>
+<tr>
+<th><code>Cat k</code>의 <code>k</code></th>
+<th>펼친 종류</th>
+<th>이 종류를 가지는 범주의 예</th>
+<th>사상의 의미</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Type</code></td>
+<td><code>Type -&gt; Type -&gt; Type</code></td>
+<td><code>(-&gt;)</code>, <code>Op</code>(원문의 <code>(&lt;-)</code>), <code>(:~:)</code>, <code>Kleisli Maybe</code>, 원문의 <code>(&lt;-&gt;)</code>와 <code>Fun</code></td>
+<td>함수, 뒤집힌 함수, 동등성 증거, <code>a -&gt; Maybe b</code> 꼴의 함수, 동형 사상 쌍, 정해진 함수만 허용하는 사상</td>
+</tr>
+<tr>
+<td><code>Type -&gt; Type</code></td>
+<td><code>(Type -&gt; Type) -&gt; (Type -&gt; Type) -&gt; Type</code></td>
+<td>원문의 <code>(~&gt;)</code>, <code>(:~:)</code></td>
+<td>자연 변환 <code>forall x. f x -&gt; f' x</code>, 타입 생성자 사이의 동등성</td>
+</tr>
+<tr>
+<td><code>Nat</code></td>
+<td><code>Nat -&gt; Nat -&gt; Type</code></td>
+<td><code>(:~:)</code>, 토론의 <code>Divides</code>, 원문의 <code>(-?&gt;)</code></td>
+<td>자연수 사이의 동등성, "n이 n'을 나눈다"는 증거, 원문에서 정의하지 않은 길이 사상</td>
+</tr>
+<tr>
+<td><code>Bool</code></td>
+<td><code>Bool -&gt; Bool -&gt; Type</code></td>
+<td>원문의 <code>(&lt;=)</code>, <code>(&gt;=)</code></td>
+<td><code>False ≤ True</code> 순서 관계의 증거</td>
+</tr>
+</tbody>
+</table></div>
+<p>아래 코드는 이 표의 일부를 실제로 선언해 본 것입니다. <strong>이 문서가 새로 만든 예제이며 원문 코드가 아닙니다.</strong> GHC 9.10.3에서 <code>-Wall</code>로 경고 없이 타입 검사를 통과했습니다. 원문의 <code>(&lt;=) :: Cat Bool</code>은 표준 연산자 이름과 겹치므로, 같은 생각을 <code>LeBool</code>이라는 이름으로 옮겼습니다.</p>
+<pre tabindex="0"><code class="language-haskell">{-# LANGUAGE StandaloneKindSignatures, PolyKinds, DataKinds, GADTs, TypeOperators, RankNTypes #-}
+module CatExamples where
+
+import Control.Arrow (Kleisli)
+import Data.Functor.Contravariant (Op (..))
+import Data.Kind (Type)
+import Data.Type.Equality ((:~:) (..))
+import GHC.TypeNats (Nat)
+
+type Cat :: Type -&gt; Type
+type Cat k = k -&gt; k -&gt; Type
+
+-- Cat Type = Type -&gt; Type -&gt; Type
+type Fn :: Cat Type
+type Fn = (-&gt;)
+
+type Opposite :: Cat Type
+type Opposite = Op
+
+type EqType :: Cat Type
+type EqType = (:~:)
+
+type KleisliMaybe :: Cat Type
+type KleisliMaybe = Kleisli Maybe
+
+-- Cat (Type -&gt; Type) = (Type -&gt; Type) -&gt; (Type -&gt; Type) -&gt; Type
+type (~&gt;) :: Cat (Type -&gt; Type)
+data f ~&gt; g where
+  NT :: (forall x. f x -&gt; g x) -&gt; (f ~&gt; g)
+
+-- Cat Nat = Nat -&gt; Nat -&gt; Type
+type EqNat :: Cat Nat
+type EqNat = (:~:)
+
+-- Cat Bool = Bool -&gt; Bool -&gt; Type
+type LeBool :: Cat Bool
+data LeBool a b where
+  LeRefl    :: LeBool a a
+  FalseTrue :: LeBool 'False 'True</code></pre>
+<p><code>LeBool</code>은 <code>Bool</code>을 대상으로 하는 작은 범주입니다. 대상은 <code>'False</code>와 <code>'True</code> 두 개입니다. 각 대상에서 자기 자신으로 가는 항등 사상 <code>LeRefl</code>이 있고, <code>'False</code>에서 <code>'True</code>로 가는 사상 <code>FalseTrue</code>가 하나 더 있습니다. 거짓 ≤ 참이라는 순서를 화살표로 그린 셈입니다. 이렇게 <code>Cat k</code>의 예를 만드는 일은 항상 "대상의 종류 <code>k</code>를 정하고, 대상 사이에 어떤 사상을 둘지 정하는 일"입니다.</p>
+<h3 id="must-both-arguments-share-a-kind">두 인자는 꼭 같은 종류여야 하나요: <code>k -&gt; k -&gt; Type</code></h3>
+<p><strong>하이라이트:</strong> <code>k -&gt; k -&gt; Type</code></p>
+<p><strong>원문 문맥:</strong></p>
+<pre tabindex="0"><code class="language-haskell">type Cat k = k -&gt; k -&gt; Type</code></pre>
+<p><strong>사용자 메모:</strong> “Must the two input be the same kind? Why can't it be (Type-&gt;Type) -&gt; Type -&gt; Type?”</p>
+<p>선택하신 부분은 위 줄에서 등호 뒤의 오른쪽, 곧 <code>Cat k</code>가 펼쳐지는 종류입니다. <strong>범주를 나타내려면 두 인자는 같은 종류여야 합니다.</strong> 이유는 두 가지이며, 하나는 정의에서, 다른 하나는 연산에서 나옵니다.</p>
+<p>첫째, 정의상 그렇습니다. 범주에서 사상의 모임은 <strong>한 범주에 속한</strong> 두 대상의 쌍마다 정해집니다(<a href="https://ncatlab.org/nlab/show/category">nLab, category</a>). <code>cat a b</code>의 <code>a</code>와 <code>b</code>는 같은 범주의 대상이고, 이 범주의 대상은 모두 종류 <code>k</code>의 타입입니다. 그러니 두 자리 모두 <code>k</code>가 됩니다.</p>
+<p>둘째, <code>id</code>와 <code>(.)</code>가 그것을 강제합니다. <code>Control.Category</code>의 두 메서드를 다시 보겠습니다.</p>
+<pre tabindex="0"><code class="language-haskell">id  :: cat a a
+(.) :: cat b c -&gt; cat a b -&gt; cat a c</code></pre>
+<p><code>id :: cat a a</code>는 같은 <code>a</code>를 첫째 자리와 둘째 자리에 동시에 넣습니다. 첫째 자리의 종류가 <code>j</code>이고 둘째 자리의 종류가 <code>k</code>라면 <code>a</code>는 <code>j</code>이면서 <code>k</code>여야 하므로 <code>j</code>와 <code>k</code>는 같아야 합니다. 합성도 마찬가지입니다. <code>b</code>가 <code>cat a b</code>에서는 둘째 자리에, <code>cat b c</code>에서는 첫째 자리에 들어갑니다. 그래서 <code>Control.Category</code>는 클래스의 종류를 <code>cat :: k -&gt; k -&gt; Type</code>으로 고정합니다(<a href="https://hackage.haskell.org/package/base/docs/Control-Category.html">base <code>Control.Category</code> 문서</a>). base에는 종류가 서로 다른 두 타입을 비교하는 이종 동등성 <code>(:~~:) :: k1 -&gt; k2 -&gt; Type</code>도 있습니다. 하지만 그 <code>Category</code> 인스턴스는 두 종류가 같은 경우인 <code>(:~~:) :: k -&gt; k -&gt; Type</code>에만 주어집니다(같은 문서의 인스턴스 목록; <a href="https://hackage.haskell.org/package/base/docs/Data-Type-Equality.html">base <code>Data.Type.Equality</code> 문서</a>).</p>
+<p>이제 <code>(Type-&gt;Type) -&gt; Type -&gt; Type</code>이 왜 안 되는지 보겠습니다. 먼저 바로잡을 점은, <strong>이 종류 자체는 문법적으로 완전히 올바른 종류</strong>라는 것입니다. 이 종류를 가지는 타입 생성자도 실제로 많습니다. 예를 들어 <code>MaybeT :: (Type -&gt; Type) -&gt; Type -&gt; Type</code>가 있고, <code>IdentityT</code>, <code>Data.Monoid</code>의 <code>Ap</code>와 <code>Alt</code>도 종류 다형적인 <code>(k -&gt; Type) -&gt; k -&gt; Type</code>에서 <code>k = Type</code>으로 놓으면 이 종류가 됩니다(GHC 9.10.3의 GHCi에서 확인했습니다). 다만 이것은 <strong>범주의 종류는 아닙니다.</strong> 메모의 의도에 따라 두 가지로 읽을 수 있으므로 둘 다 답하겠습니다.</p>
+<p><strong>해석 1: "한쪽은 <code>Type -&gt; Type</code>, 다른 쪽은 <code>Type</code>인 대상 사이의 사상"을 원하신 경우.</strong> 이는 <code>j -&gt; k -&gt; Type</code>에서 <code>j = Type -&gt; Type</code>, <code>k = Type</code>으로 놓은 모양입니다. 이 경우 첫째 자리의 대상은 타입 생성자이고 둘째 자리의 대상은 보통의 타입입니다. 그러면 <code>id :: cat a a</code>를 쓸 수 없습니다. <code>a</code>가 타입 생성자이면서 보통의 타입일 수는 없기 때문입니다. 합성 역시 한 사상의 끝을 다음 사상의 시작에 이을 수 없습니다. 이 문서가 시험한 결과도 같습니다. 종류가 <code>(Type -&gt; Type) -&gt; Type -&gt; Type</code>인 <code>newtype Wrap f a = Wrap (f a)</code>에 <code>Category</code> 인스턴스를 선언하면, GHC 9.10.3은 종류가 맞지 않는다는 오류를 냅니다. (이 <code>Wrap</code>은 이 문서가 만든 예제입니다.)</p>
+<p>범주론에도 서로 다른 두 범주의 대상 사이를 잇는 화살표라는 개념은 있습니다. 이것을 이종 사상(heteromorphism)이라고 부르며, 보통 프로펑터(profunctor) 𝒞^op × 𝒟 → Set으로 다룹니다(<a href="https://ncatlab.org/nlab/show/heteromorphism">nLab, heteromorphism</a>). 하지만 이런 화살표는 같은 모임 안에서 자기들끼리 이어 붙일 수 없으므로 그 자체로 하나의 범주를 이루지 않습니다. 이 단락은 배경 지식이며 원문이 다루는 내용은 아닙니다.</p>
+<p><strong>해석 2: 원문의 <code>Fix</code> 절처럼 "인자가 <code>Type -&gt; Type</code>일 때의 범주"를 생각하신 경우.</strong> 원문은 <code>Fix :: (Type -&gt; Type) -&gt; Type</code>의 인자를 옮기기 위해 <code>(~&gt;) :: Cat (Type -&gt; Type)</code>을 씁니다. 그런데 이 종류를 펼치면 메모의 종류가 아니라 다음과 같습니다.</p>
+<pre tabindex="0"><code class="language-text">Cat (Type -&gt; Type)  =  (Type -&gt; Type) -&gt; (Type -&gt; Type) -&gt; Type
+메모의 종류         =  (Type -&gt; Type) -&gt; Type -&gt; Type</code></pre>
+<p>차이는 둘째 자리에 있습니다. <code>Cat (Type -&gt; Type)</code>에서는 첫째와 둘째 자리가 모두 <code>Type -&gt; Type</code>이지만, 메모의 종류에서는 둘째 자리가 <code>Type</code>입니다. <code>(~&gt;)</code>의 사상 <code>f ~&gt; f'</code>은 타입 생성자 <code>f</code>에서 타입 생성자 <code>f'</code>으로 가는 자연 변환이며, 양 끝이 모두 <code>Type -&gt; Type</code>입니다. GHC 9.10.3에서도 두 종류가 서로 다르게 계산되는 것을 확인했습니다.</p>
+<p><strong>서로 다른 종류가 만나는 곳은 범주가 아니라 함자입니다.</strong> 원문 뒷부분의 시그니처를 보면 이 점이 드러납니다.</p>
+<pre tabindex="0"><code class="language-haskell">type FunctorOf :: Cat s -&gt; Cat t -&gt; (s -&gt; t) -&gt; Constraint</code></pre>
+<p>여기서 원천 범주 <code>Cat s</code>와 목표 범주 <code>Cat t</code>는 대상의 종류가 서로 달라도 됩니다. 예를 들어 원문의 <code>mapFix</code>는 <code>FunctorOf (~&gt;) (-&gt;) Fix</code>의 사상 함수입니다. 이 함자는 대상의 종류가 <code>Type -&gt; Type</code>인 범주 <code>(~&gt;)</code>에서 대상의 종류가 <code>Type</code>인 범주 <code>(-&gt;)</code>로 갑니다. 다만 각 범주 <strong>안에서는</strong> 사상의 양 끝이 같은 종류입니다. 원문 해석으로 확장하면, 메모의 종류 <code>(Type-&gt;Type) -&gt; Type -&gt; Type</code>을 가진 <code>MaybeT</code> 같은 타입 생성자는 범주가 아니라 <strong>함자로 옮겨질 대상</strong>입니다. 원문의 표기를 빌리면 첫째 인자에는 <code>(~&gt;)</code>, 둘째 인자와 결과에는 <code>(-&gt;)</code>를 배정하는 식으로 생각할 수 있습니다. 이 배정은 원문에 나오지 않으며, 원문의 <code>FunOf</code>가 실제 코드로 정의되어 있지 않아 컴파일러로 확인하지도 않았습니다.</p>
+<h3 id="what-is-refl"><code>Refl</code>은 무엇이고, 정말 쓰이지 않나요</h3>
+<p><strong>하이라이트:</strong></p>
+<pre tabindex="0"><code class="language-haskell">data a :~: b where
+  Refl :: a :~: a</code></pre>
+<p><strong>원문 문맥:</strong></p>
+<pre tabindex="0"><code class="language-haskell">type (:~:) :: Cat k
+data a :~: b where
+  Refl :: a :~: a
+
+mapFCong :: (a :~: a') -&gt; (b :~: b') -&gt; (c :~: c') -&gt; (F a b c :~: F a' b' c')
+mapFCong Refl Refl Refl = Refl</code></pre>
+<p><strong>사용자 메모:</strong> “What is Refl? Is it correct to say that Refl it’s defined within where clause but not used anywhere?”</p>
+<p>메모의 두 전제는 모두 바로잡아야 합니다.</p>
+<p><strong>첫째, 이 <code>where</code>는 지역 정의를 담는 <code>where</code> 절이 아닙니다.</strong> 공통 개념에서 설명한 GADT 문법의 <code>where</code>이며, "이제부터 이 타입의 생성자 목록을 적는다"는 뜻입니다. 따라서 <code>Refl</code>은 어떤 함수 안에 숨은 지역 정의가 아니라 <code>(:~:)</code> 타입의 <strong>데이터 생성자</strong>(data constructor)입니다. Haskell 98 문법으로 <code>data Maybe a = Nothing | Just a</code>를 쓰면 <code>Nothing</code>과 <code>Just</code>가 생성자가 되는 것과 같은 위치입니다. 다만 생성자의 전체 타입을 직접 적는다는 점이 다릅니다. 데이터 생성자는 최상위 이름이므로 선언한 모듈 전체에서 쓸 수 있고, 모듈이 내보내면 그 모듈을 가져오는 다른 모듈에서도 쓸 수 있습니다.</p>
+<p><strong>둘째, <code>Refl</code>은 바로 아래 <code>mapFCong</code> 정의에서 네 번 쓰입니다.</strong> <code>mapFCong Refl Refl Refl = Refl</code>에서 왼쪽의 세 <code>Refl</code>은 인자를 패턴 매칭하는 패턴이고, 오른쪽의 <code>Refl</code>은 결과로 돌려주는 값입니다.</p>
+<p>이제 <code>Refl</code>이 무엇인지 보겠습니다. <code>data a :~: b where</code>는 두 타입 인자 <code>a</code>, <code>b</code>를 받는 타입 연산자 <code>(:~:)</code>를 선언합니다. 이렇게 중위 타입 이름을 쓰려면 공통 개념에서 말한 <code>TypeOperators</code> 확장이 필요합니다. 그리고 생성자는 <code>Refl :: a :~: a</code> 하나뿐입니다. GADT 문법에서는 머리의 변수 <code>a</code>, <code>b</code>가 생성자 시그니처 안에서 유효 범위가 없으므로, <code>Refl</code>의 <code>a</code>는 "아무 타입 <code>a</code>"라는 새 변수입니다(<a href="https://downloads.haskell.org/ghc/latest/docs/users_guide/exts/gadt_syntax.html">GHC 사용자 안내서, GADT 문법</a>). 따라서 이 시그니처는 다음을 뜻합니다.</p>
+<blockquote>
+<p>어떤 타입 <code>a</code>에 대해서든 <code>a :~: a</code> 타입의 값 <code>Refl</code>을 만들 수 있습니다. 그러나 양쪽이 다른 <code>a :~: b</code> 타입의 값을 만드는 생성자는 없습니다.</p>
+</blockquote>
+<p>그래서 <code>Refl :: Int :~: Int</code>는 타입 검사를 통과하지만 <code>Refl :: Int :~: Bool</code>은 "<code>Int</code>와 <code>Bool</code>을 일치시킬 수 없다"는 오류가 납니다(GHC 9.10.3에서 확인했습니다). 결국 <code>a :~: b</code> 타입의 값이 있다는 것은 "<code>a</code>와 <code>b</code>가 같은 타입이다"라는 <strong>증거</strong>가 있다는 뜻입니다. base 문서도 같은 내용을 설명합니다(<a href="https://hackage.haskell.org/package/base/docs/Data-Type-Equality.html">base <code>Data.Type.Equality</code> 문서</a>). 이름 <code>Refl</code>은 동등성의 반사성(reflexivity), 곧 "모든 것은 자기 자신과 같다"에서 왔다고 흔히 설명합니다. 다만 이 어원을 명시한 공식 문서는 이번에 확인하지 못했습니다.</p>
+<p>이 증거는 패턴 매칭할 때 쓸모가 생깁니다. <code>Refl</code>과 일치했다면 그 값은 <code>a :~: a</code> 꼴로 만들어졌을 수밖에 없으므로, 컴파일러는 그 분기 안에서 <code>a</code>와 <code>b</code>가 같은 타입이라는 사실을 사용합니다. 이것이 앞에서 말한 타입 정제입니다. 다음은 <strong>이 문서가 만든 예제</strong>입니다. GHC 9.10.3에서 경고 없이 통과했으며, base의 <code>castWith</code>와 같은 일을 합니다.</p>
+<pre tabindex="0"><code class="language-haskell">coerceVia :: (a :~: b) -&gt; a -&gt; b
+coerceVia Refl x = x</code></pre>
+<p><code>x</code>의 타입은 <code>a</code>인데 반환 타입은 <code>b</code>입니다. 보통이라면 타입 오류이지만, <code>Refl</code>로 패턴 매칭한 덕분에 그 분기에서는 <code>a</code>와 <code>b</code>가 같은 타입이므로 통과합니다.</p>
+<p>원문의 <code>mapFCong</code>도 같은 원리로 읽으면 됩니다. 세 인자에서 <code>Refl</code>을 꺼내면 그 분기 안에서 <code>a</code>와 <code>a'</code>, <code>b</code>와 <code>b'</code>, <code>c</code>와 <code>c'</code>가 각각 같아집니다. 그러면 <code>F a b c</code>와 <code>F a' b' c'</code>도 같은 타입이므로 결과로 <code>Refl</code>을 돌려줄 수 있습니다. 이름의 <code>Cong</code>은 원문 해석상 합동(congruence), 곧 "같은 것을 넣으면 같은 것이 나온다"는 성질을 가리키는 것으로 보입니다.</p>
+<p>이 코드가 원문에서 맡는 역할도 짚어 두겠습니다. <code>(:~:)</code>는 그 자체로 범주입니다. base에 <code>Category (:~:)</code> 인스턴스가 있으며, 원문 해석으로 보면 항등 사상은 <code>Refl</code>이고 합성은 동등성의 추이성("a = b이고 b = c이면 a = c")에 해당합니다. 앞 절에서 본 것처럼 이 범주에는 항등 사상만 있으므로 이산 범주입니다. 원문이 말하는 "요령(trick)"은 다음과 같습니다. 모든 인자와 결과에 이 동등성 범주를 배정하면, <strong>어떤 타입 생성자든 아무 조건 없이 함자가 됩니다.</strong> 같은 인자를 넣으면 같은 결과가 나온다는 사실만 있으면 되고, <code>mapFCong</code>이 바로 그 사실의 증명입니다. 원문 표기로 <code>FunOf (:~:) (:~:) ..</code>라고 적은 것이 이것입니다. 원문은 타입 생성자를 예로 들지만 주장 자체는 더 넓습니다. 원문은 "어떤 함수든(any function)" 이런 개념적 인스턴스를 가진다고 말하고, 뒤에서 "모든 함수는 어떤 식으로든 함자"라고 일반화합니다. 그리고 원문의 <code>F</code>에서 둘째 인자에 <code>(:~:) @Type</code>이 배정된 것도, 그 인자에 대해서는 이 최소한의 함자성만 주장한다는 뜻으로 읽을 수 있습니다.</p>
+<p>덧붙이면, 원문의 이 선언은 base의 <code>Data.Type.Equality.(:~:)</code>와 같은 것을 <code>type (:~:) :: Cat k</code> 시그니처와 함께 다시 적은 것입니다. 실제 코드에서는 직접 정의하지 않고 base의 것을 가져다 쓰면 됩니다.</p>
+<h2 id="summary">정리</h2>
+<ul>
+<li>원문은 타입 생성자의 인자와 결과마다 범주를 하나씩 배정하고, 사상 함수의 타입으로 그 배정을 읽는 관점을 제시합니다. <code>(-&gt;)</code>, <code>(:~:) @Type</code>, <code>(&lt;-)</code>는 <code>F</code>의 세 인자에 배정된 원천 범주이며, 각각 함수, 동등성 증거, 거꾸로 된 함수로 인자를 바꾼다는 뜻입니다.</li>
+<li>Haskell에서 범주는 <code>cat :: k -&gt; k -&gt; Type</code>인 타입 생성자로 표현하고, <code>cat a b</code>를 <code>a</code>에서 <code>b</code>로 가는 사상들의 타입으로 읽습니다. <code>Cat k</code>는 이 종류의 약어입니다.</li>
+<li><code>Cat</code> 자체는 종류가 아니라, 종류 <code>k</code>를 받아 종류 <code>k -&gt; k -&gt; Type</code>을 돌려주는 타입 동의어입니다. <code>Type :: Type</code>이므로 그 종류가 <code>Type -&gt; Type</code>으로 적힙니다.</li>
+<li><code>type Cat k = …</code>는 재귀하지 않는 타입 동의어이므로 귀납적 정의가 아니며, Haskell은 타입 동의어의 재귀를 금지합니다.</li>
+<li>범주 안의 두 인자는 같은 종류여야 합니다. 사상은 한 범주의 두 대상 사이에 있고, <code>id</code>와 <code>(.)</code>가 같은 변수를 두 자리에 넣기 때문입니다. <code>(Type-&gt;Type) -&gt; Type -&gt; Type</code>은 올바른 종류이지만 범주의 종류가 아니며, 서로 다른 종류는 범주가 아니라 함자 <code>FunctorOf :: Cat s -&gt; Cat t -&gt; (s -&gt; t) -&gt; Constraint</code> 수준에서 만납니다.</li>
+<li><code>Refl</code>은 GADT로 선언된 <code>(:~:)</code>의 유일한 데이터 생성자입니다. 이 값은 두 타입이 같다는 증거이며, 원문의 <code>mapFCong</code>에서 패턴과 결과로 네 번 쓰입니다.</li>
+</ul>
+<h2 id="references">참고 자료</h2>
+<ul>
+<li><a href="https://www.reddit.com/r/haskell/comments/17hzl8d/functors_map_categories/">Iceland_jack, 「Functors map categories」, r/haskell, 2023-10-27</a>: 원문 Reddit 스레드입니다. 이 해설은 저장된 페이지의 본문과 토론을 기준으로 작성했으며, Reddit 원본에 직접 접속해 대조하지는 못했습니다.</li>
+<li><a href="https://downloads.haskell.org/ghc/latest/docs/users_guide/exts/poly_kinds.html">GHC 사용자 안내서, 종류 다형성과 StandaloneKindSignatures</a>: <code>Type :: Type</code>, 타입과 종류를 구별하지 않는 설계, 독립 종류 시그니처의 도입 버전을 확인할 수 있습니다.</li>
+<li><a href="https://downloads.haskell.org/ghc/latest/docs/users_guide/exts/type_applications.html">GHC 사용자 안내서, TypeApplications</a>: <code>@Type</code> 같은 가시적 종류 적용과, 명시한 변수와 추론된 변수의 차이를 설명합니다.</li>
+<li><a href="https://downloads.haskell.org/ghc/latest/docs/users_guide/exts/gadt_syntax.html">GHC 사용자 안내서, GADT 문법</a>: <code>data T a where</code> 문법과 머리 변수의 유효 범위를 설명합니다.</li>
+<li><a href="https://downloads.haskell.org/ghc/latest/docs/users_guide/exts/gadt.html">GHC 사용자 안내서, GADTs</a>: 패턴 매칭에 의한 타입 정제를 설명합니다.</li>
+<li><a href="https://downloads.haskell.org/ghc/latest/docs/users_guide/exts/type_operators.html">GHC 사용자 안내서, TypeOperators</a>: <code>(:~:)</code>처럼 연산자 기호로 된 타입 이름을 쓰는 데 필요한 확장을 설명합니다.</li>
+<li><a href="https://downloads.haskell.org/ghc/latest/docs/users_guide/exts/data_kinds.html">GHC 사용자 안내서, DataKinds</a>: 자료형을 종류로 승격하는 규칙을 설명합니다.</li>
+<li><a href="https://hackage.haskell.org/package/base/docs/Data-Kind.html">base <code>Data.Kind</code> 문서</a>: 종류 <code>Type</code>의 정의입니다.</li>
+<li><a href="https://hackage.haskell.org/package/base/docs/Control-Category.html">base <code>Control.Category</code> 문서</a>: <code>Category</code> 클래스의 종류 <code>k -&gt; k -&gt; Type</code>, <code>id</code>와 <code>(.)</code>, 인스턴스 목록을 확인할 수 있습니다.</li>
+<li><a href="https://hackage.haskell.org/package/base/docs/Data-Type-Equality.html">base <code>Data.Type.Equality</code> 문서</a>: <code>(:~:)</code>, <code>Refl</code>, <code>(:~~:)</code>, <code>castWith</code>의 정의와 설명입니다.</li>
+<li><a href="https://hackage.haskell.org/package/base/docs/Data-Functor-Contravariant.html">base <code>Data.Functor.Contravariant</code> 문서</a>: 원문의 <code>(&lt;-)</code>에 해당하는 <code>Op</code>과 <code>contramap</code>의 정의입니다.</li>
+<li><a href="https://www.haskell.org/onlinereport/haskell2010/haskellch2.html">Haskell 2010 보고서 2장, 어휘 구조</a>: <code>&lt;-</code>가 예약 연산자라는 규정입니다.</li>
+<li><a href="https://www.haskell.org/onlinereport/haskell2010/haskellch4.html">Haskell 2010 보고서 4장, 선언</a>: 4.2.2절에서 타입 동의어가 구문적 약어이며 재귀와 부분 적용이 금지된다는 규정을 확인할 수 있습니다.</li>
+<li><a href="https://ncatlab.org/nlab/show/category">nLab, category</a>: 범주의 정의입니다.</li>
+<li><a href="https://ncatlab.org/nlab/show/opposite+category">nLab, opposite category</a>: 반대 범주의 정의입니다.</li>
+<li><a href="https://ncatlab.org/nlab/show/discrete+category">nLab, discrete category</a>: 항등 사상만 있는 이산 범주의 정의입니다.</li>
+<li><a href="https://ncatlab.org/nlab/show/heteromorphism">nLab, heteromorphism</a>: 서로 다른 범주의 대상 사이를 잇는 이종 사상과 프로펑터의 관계입니다.</li>
+<li><a href="https://bartoszmilewski.com/2014/11/04/category-the-essence-of-composition/">Bartosz Milewski, 「Category: The Essence of Composition」</a>: 프로그래머를 위한 범주 입문입니다.</li>
+<li><a href="https://bartoszmilewski.com/2015/01/20/functors/">Bartosz Milewski, 「Functors」</a>: 함자가 대상과 사상을 옮기고 항등과 합성을 보존한다는 설명입니다.</li>
+<li><a href="https://bartoszmilewski.com/2015/02/03/functoriality/">Bartosz Milewski, 「Functoriality」</a>: 반변 함자를 반대 범주에서 출발하는 함자로 보는 설명과, 함수 화살표가 프로펑터라는 설명입니다.</li>
+</ul>
+</section>
+</article>
+</main>
+</body>
+</html>
