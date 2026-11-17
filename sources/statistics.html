@@ -121,9 +121,9 @@ function renderInstapaper(){
  const totals=key=>selectedRows.reduce((n,r)=>n+(r[key]||0),0);
  $("instapaper-facts").innerHTML=factCards([
   ["Total saved · latest",latest?num(latest.total):"—",latest?"Across all folders · "+latest.day:"Waiting for a complete library observation"],
-  ["Added",latest?num(totals("added")):"—","Observed additions in the selected period"],
-  ["Moved",latest?num(totals("moved")):"—","Folder changes in the selected period"],
-  ["Deleted",latest?num(totals("deleted")):"—","Observed removals in the selected period"]
+  ["Added",selectedRows.length?num(totals("added")):"—","Observed additions in the selected period"],
+  ["Moved",selectedRows.length?num(totals("moved")):"—","Folder changes in the selected period"],
+  ["Deleted",selectedRows.length?num(totals("deleted")):"—","Observed removals in the selected period"]
  ]);
  const buckets=new Map();
  for(const row of selectedRows){const day=bucket(row.day),previous=buckets.get(day)||{day,Added:0,Moved:0,Deleted:0};buckets.set(day,{...previous,Total:row.total,Added:previous.Added+row.added,Moved:previous.Moved+row.moved,Deleted:previous.Deleted+row.deleted});}
