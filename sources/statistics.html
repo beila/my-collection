@@ -11,6 +11,7 @@
 .searchbar{flex-wrap:wrap}.searchbar input{flex:1 1 160px}.searchbar label{display:flex;gap:8px;align-items:center}
 .panel-head select{max-width:100%;min-width:0}.kindle-composition{display:grid;gap:6px;margin-bottom:14px;font-size:12px}.kindle-composition select{max-width:100%}
 .bar-chart{display:grid;gap:13px;margin:18px 0 6px}.bar-heading{display:flex;justify-content:space-between;gap:16px;font-size:12px;margin-bottom:5px}.bar-heading span{min-width:0}.bar-heading strong{font-weight:500;font-variant-numeric:tabular-nums;flex-shrink:0}.bar-track{height:8px;background:var(--line);overflow:hidden}.bar-fill{height:100%;width:var(--bar-size);background:var(--accent)}.bar-row.unknown .bar-fill{background:var(--muted)}.bar-row.missing .bar-track{background:none;border-bottom:1px dashed var(--line)}.bar-axis{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-top:3px}.bar-note{font-size:12px;color:var(--muted);margin:12px 0}.folded-panel{margin-top:0}.folded-panel>summary{color:var(--ink)}.folded-panel>summary h2{display:inline}.folded-panel[open]>summary{margin-bottom:12px}
+.key.line{width:16px;height:0;border-radius:0;border-top:3px solid;vertical-align:middle}
 .digest-trend{overflow-x:auto}.digest-trend svg{max-width:none;max-height:none}.migration-progress{width:100%;height:12px;accent-color:var(--accent)}.storage-facts{margin-bottom:18px}.storage-note{font-size:12px;color:var(--muted);margin-top:10px}
 @media(max-width:760px){.grid{grid-template-columns:1fr;gap:28px}.wide{grid-column:auto}.facts{grid-template-columns:1fr 1fr}.fact:nth-child(2){border-right:0}.fact:nth-child(-n+2){border-bottom:1px solid var(--line)}.fact{padding:14px}.filters label{flex:1;min-width:120px}.filters select{width:100%;max-width:100%}.filters .source{flex-basis:100%}header nav{gap:12px}.fact strong{font-size:26px}.chart{padding:9px}}
 @media(prefers-reduced-motion:no-preference){button,a{transition:color .12s,background .12s}}
@@ -34,7 +35,8 @@
 <div class="grid">
  <section class="panel wide" id="external-access"><div class="panel-head"><h2>Facebook & Instapaper accesses</h2><select id="access-measure" aria-label="External access measure"><option value="all">All attempts</option><option value="ok">Completed accesses</option><option value="failed">Failed accesses</option></select></div><p class="caption" id="access-caption"></p><div class="facts" id="access-facts"></div><div id="access-chart" class="chart"></div><div id="access-legend" class="legend"></div><div id="access-readout" class="readout" aria-live="polite"></div><details><summary>Access values</summary><div id="access-values" class="table-wrap"></div></details></section>
  <section class="panel wide" id="agent-access"><h2>Successful agent CLI calls</h2><p class="caption" id="agents-caption"></p><div class="facts" id="agents-facts"></div><div id="agents-chart" class="chart"></div><div id="agents-legend" class="legend"></div><div id="agents-readout" class="readout" aria-live="polite"></div><details><summary>Agent call values</summary><div id="agents-values" class="table-wrap"></div></details></section>
- <section class="panel wide" id="instapaper-usage"><div class="panel-head"><h2>Instapaper usage</h2><select id="instapaper-measure" aria-label="Instapaper usage measure"><option value="total">Total saved bookmarks</option><option value="changes">Additions, moves & deletions</option></select></div><p class="caption" id="instapaper-caption"></p><div class="facts" id="instapaper-facts"></div><div id="instapaper-chart" class="chart"></div><div id="instapaper-legend" class="legend"></div><div id="instapaper-readout" class="readout" aria-live="polite"></div><details><summary>Instapaper values</summary><div id="instapaper-values" class="table-wrap"></div></details></section>
+ <section class="panel wide" id="instapaper-usage"><h2>Instapaper usage</h2><p class="caption" id="instapaper-caption"></p><div class="facts" id="instapaper-facts"></div><div id="instapaper-chart" class="chart"></div><div id="instapaper-legend" class="legend"></div><div id="instapaper-readout" class="readout" aria-live="polite"></div><details><summary>Folder values</summary><div id="instapaper-values" class="table-wrap"></div></details></section>
+ <section class="panel wide" id="instapaper-changes"><h2>Instapaper changes</h2><p class="caption">Global · observed additions, folder moves, and deletions in each interval. Manual and automated changes both count. Reordering is excluded.</p><div id="instapaper-changes-chart" class="chart"></div><div id="instapaper-changes-legend" class="legend"></div><div id="instapaper-changes-readout" class="readout" aria-live="polite"></div><details><summary>Change values</summary><div id="instapaper-changes-values" class="table-wrap"></div></details></section>
  <section class="panel wide" id="kindle"><div class="panel-head"><h2>Kindle digests</h2><a href="#kindle-history" id="kindle-history-link">Digest history ↓</a></div><p class="caption">Smith digests · selected period and interval · independent of the source and destination filters. A confirmed send means the email was accepted, not that a device was opened.</p><div class="facts" id="kindle-facts"></div></section>
  <section class="panel"><div class="panel-head"><h2>Digest output</h2><select id="kindle-measure" aria-label="Digest measure"><option value="sent">Confirmed sends</option><option value="built">Documents built</option><option value="articles">Articles sent</option><option value="bytes">Average EPUB size · MiB</option><option value="images">Images sent</option><option value="words">Words sent</option><option value="build_seconds">Average build time · seconds</option></select></div><p class="caption" id="kindle-caption"></p><div id="kindle-chart" class="chart"></div><div id="kindle-legend" class="legend"></div><div id="kindle-readout" class="readout" aria-live="polite"></div><details><summary>Digest values</summary><div id="kindle-values" class="table-wrap"></div></details></section>
  <section class="panel"><h2>Where the articles came from</h2><p class="caption">One bar per confirmed Kindle digest, oldest first. Sources are recorded before population. Returned Trinity articles remain Trinity; markers and series companions are excluded.</p><div id="kindle-origins"><div id="kindle-origins-chart" class="chart digest-trend"></div><div id="kindle-origins-legend" class="legend"></div><div id="kindle-origins-readout" class="readout" aria-live="polite"></div></div><details><summary>Source values</summary><div id="kindle-origins-values" class="table-wrap"></div></details><h2 style="margin-top:22px">Directly into Smith</h2><p class="caption">One bar per digest. Program additions require a delivery record; unattributed does not prove manual addition. Missing history is marked “?”. These charts keep individual digests in daily and weekly views.</p><div id="kindle-entries"><div id="kindle-entries-chart" class="chart digest-trend"></div><div id="kindle-entries-legend" class="legend"></div><div id="kindle-entries-readout" class="readout" aria-live="polite"></div></div><details><summary>Smith entry values</summary><div id="kindle-entries-values" class="table-wrap"></div></details></section>
@@ -50,7 +52,7 @@
 </div>
 <div class="notice" id="coverage"></div>
 <details class="definitions"><summary>Definitions, coverage, and retention</summary>
-<p><strong>Instapaper usage:</strong> the total includes every saved bookmark across Unread, Archive, and custom folders. Additions, folder moves, and deletions are observed changes between complete library synchronizations, including manual and automated activity. Reordering and metadata edits are not moves. The first observation establishes a baseline and does not count existing bookmarks as additions. Changes that happen entirely between observations are unknown. Earlier totals and deleted bookmarks cannot be reconstructed.</p>
+<p><strong>Instapaper usage:</strong> Unread and custom folders form the stacked area on the left axis. Archive is a separate line on the right axis and is excluded from the stack. Folder sizes use the last complete observation in each interval; earlier missing breakdowns remain blank. Additions, folder moves, and deletions appear in a separate graph and sum observed changes within each interval. Manual and automated activity both count. Reordering and metadata edits are not moves. The first observation establishes a baseline and does not count existing bookmarks as additions. Changes that happen entirely between observations are unknown. Earlier totals and deleted bookmarks cannot be reconstructed.</p>
 <p><strong>Source check:</strong> one attempted acquisition and parse for a direct feed, rolling newsletter, reading-index source, or enabled Facebook profile, or one Readnext selection attempt when Smith needs articles. Inner retries are one check. A condition being evaluated without fetching or selecting articles is not a check.</p>
 <p><strong>New bookmarks & editions:</strong> unique bookmark IDs with confirmed delivery receipts. Replacement newsletter editions count as arrivals. Conversions of existing saved links have their own measure; refreshes, temporary verification copies, and moves are excluded. A 다읽기 page counts as one bookmark, even when it contains several articles.</p>
 <p><strong>Routed bookmarks:</strong> Readnext articles confirmed in Smith after population finishes, counted once per population. Series companions moved to Morpheus are excluded. These moves are separate from new arrivals. Earlier Readnext activity is not reconstructed.</p>
@@ -82,24 +84,47 @@ function matches(row) {
 function bucket(day){const interval=$("interval").value;if(interval==="day")return day;if(interval==="month")return day.slice(0,7)+"-01";if(interval==="year")return day.slice(0,4)+"-01-01";const d=new Date(day+"T00:00:00Z");d.setUTCDate(d.getUTCDate()-((d.getUTCDay()+6)%7));return dayOf(d);}
 function inPeriod(day){return day>=start()&&day<=dayOf(Date.now());}
 function grouped(rows,label,value){const map=new Map();for(const row of rows){const key=bucket(row.day),series=label(row);if(!map.has(key))map.set(key,{});const values=map.get(key);values[series]=(values[series]||0)+value(row);}return [...map].sort(([a],[b])=>a.localeCompare(b)).map(([day,values])=>({day,...values}));}
-function valuesTable(rows,series,format=num){return '<table><thead><tr><th>UTC date</th>'+series.map(s=>'<th class="num">'+esc(s)+'</th>').join("")+'</tr></thead><tbody>'+rows.map(r=>'<tr><td>'+esc(r.day)+'</td>'+series.map(s=>'<td class="num">'+format(r[s])+'</td>').join("")+'</tr>').join("")+'</tbody></table>';}
-function chart(id,rows,series,{stack=false,peak=false,format=num,exactFormat=format,categories=false,time=false,gaps=false}={}){
+function valuesTable(rows,series,format=num,label=s=>s){return '<table><thead><tr><th>UTC date</th>'+series.map(s=>'<th class="num">'+esc(label(s))+'</th>').join("")+'</tr></thead><tbody>'+rows.map(r=>'<tr><td>'+esc(r.day)+'</td>'+series.map(s=>'<td class="num">'+format(r[s])+'</td>').join("")+'</tr>').join("")+'</tbody></table>';}
+function chart(id,rows,series,{stack=false,area=false,overlay=[],secondary=false,label=s=>s,palette=null,peak=false,format=num,exactFormat=format,categories=false,time=false,gaps=false}={}){
  if(gaps){const formatter=format,exact=exactFormat;format=n=>Number.isFinite(n)?formatter(n):"—";exactFormat=n=>Number.isFinite(n)?exact(n):"—";}
- $(id+"-legend").innerHTML=series.map((s,i)=>'<span><i class="key" style="background:'+colors[i%colors.length]+'"></i>'+esc(s)+'</span>').join("");
- $(id+"-values").innerHTML=valuesTable(rows,series,exactFormat);
+ const allSeries=[...series,...overlay],color=s=>palette?.[s]||colors[allSeries.indexOf(s)%colors.length];
+ $(id+"-legend").innerHTML=allSeries.map(s=>'<span><i class="key'+(overlay.includes(s)?" line":"")+'" style="'+(overlay.includes(s)?"border-color:":"background:")+color(s)+'"></i>'+esc(label(s))+'</span>').join("");
+ $(id+"-values").innerHTML=valuesTable(rows,allSeries,exactFormat,label);
  const target=$(id+"-chart");target.onpointermove=null;$(id+"-readout").textContent="";
  if(!rows.length){target.innerHTML='<p class="empty">No observations recorded in this period.</p>';return;}
- const W=Math.max(280,target.clientWidth-24,categories?rows.length*60+62:0),H=categories?260:240,L=time?78:46,R=16,T=14,B=categories||time?50:30,w=W-L-R,h=H-T-B,pad=stack?20:8;
+ const W=Math.max(280,target.clientWidth-24,categories?rows.length*60+62:0),H=categories?260:240,L=secondary?64:time?78:46,R=secondary?64:16,T=secondary?30:14,B=categories||time?50:30,w=W-L-R,h=H-T-B,pad=stack&&!area?20:8;
  const stamp=r=>new Date(time?r.at:r.day+"T00:00:00Z").getTime(), first=stamp(rows[0]),last=stamp(rows.at(-1));
  const x=r=>categories?L+(rows.indexOf(r)+.5)*w/rows.length:L+(last===first?w/2:pad+(stamp(r)-first)/(last-first)*(w-2*pad));
  const max=rows.reduce((largest,r)=>Math.max(largest,stack?series.reduce((n,s)=>n+(r[s]||0),0):series.reduce((n,s)=>Math.max(n,r[s]||0),0)),1);
  const y=n=>T+h-n/max*h;
+ const overlayMax=secondary?rows.reduce((largest,r)=>Math.max(largest,...overlay.map(s=>r[s]||0)),1):max;
+ const overlayY=n=>T+h-n/overlayMax*h;
  let svg='<svg viewBox="0 0 '+W+' '+H+'"'+(categories?' style="width:'+W+'px"':"")+' role="img" aria-label="'+esc(id)+' trend; exact values follow">';
  const allMissing=rows.every(r=>r.missing);
  if(!allMissing)for(let i=0;i<4;i++){const n=max*i/3;svg+='<line class="gridline" x1="'+L+'" x2="'+(W-R)+'" y1="'+y(n)+'" y2="'+y(n)+'"/><text x="'+(L-8)+'" y="'+(y(n)+4)+'" text-anchor="end">'+format(n)+'</text>';}
- if(stack){const bw=Math.min(38,w/Math.max(2,rows.length)*.75);for(const row of rows){if(row.missing){svg+='<text x="'+x(row)+'" y="'+(T+h/2)+'" text-anchor="middle">?</text>';continue;}let sum=0;series.forEach((s,i)=>{const n=row[s]||0;svg+='<rect x="'+(x(row)-bw/2)+'" y="'+y(sum+n)+'" width="'+bw+'" height="'+(n/max*h)+'" fill="'+colors[i%colors.length]+'"/>';sum+=n;});}}
- else series.forEach((s,i)=>{const segments=[[]];for(const row of rows){if(gaps&&!Number.isFinite(row[s])){if(segments.at(-1).length)segments.push([]);continue;}segments.at(-1).push(x(row)+","+y(row[s]||0));}for(const points of segments){if(points.length)svg+='<polyline points="'+points.join(" ")+'" fill="none" stroke="'+colors[i%colors.length]+'" stroke-width="'+(peak&&s==="Observed peak"?1:2.5)+'"'+(peak&&s==="Observed peak"?' stroke-dasharray="5 5"':"")+'/>';}});
- rows.forEach((row,index)=>{const desc=row.day+" · "+(row.missing?"History unavailable":series.map(s=>s+": "+format(row[s])).join(" · "));svg+='<g tabindex="0" data-chart="'+id+'" data-row="'+index+'" aria-label="'+esc(desc)+'"><title>'+esc(desc)+'</title><rect x="'+(x(row)-8)+'" y="'+T+'" width="16" height="'+h+'" fill="transparent"/>';if(!stack)series.forEach((s,i)=>{if(!gaps||Number.isFinite(row[s]))svg+='<circle cx="'+x(row)+'" cy="'+y(row[s]||0)+'" r="3" fill="'+colors[i%colors.length]+'"/>';});svg+='</g>';});
+ if(secondary&&!allMissing){
+  svg+='<text x="'+L+'" y="14">Folders</text><text x="'+(W-R)+'" y="14" text-anchor="end">Archive</text>';
+  for(let i=0;i<4;i++){const n=overlayMax*i/3;svg+='<text x="'+(W-R+8)+'" y="'+(overlayY(n)+4)+'">'+format(n)+'</text>';}
+ }
+ if(stack){
+  const bw=Math.min(38,w/Math.max(2,rows.length)*.75);
+  if(area){
+   const bases=rows.map(()=>0);
+   for(const s of series){
+    const segments=[[]];
+    rows.forEach((row,i)=>{if(row.missing){if(segments.at(-1).length)segments.push([]);return;}const base=bases[i],top=base+(row[s]||0);segments.at(-1).push({row,base,top});bases[i]=top;});
+    for(const segment of segments){
+     if(segment.length===1){const {row,base,top}=segment[0];svg+='<rect data-series="'+esc(s)+'" x="'+(x(row)-bw/2)+'" y="'+y(top)+'" width="'+bw+'" height="'+(y(base)-y(top))+'" fill="'+color(s)+'"/>';continue;}
+     if(segment.length){const points=[...segment.map(p=>x(p.row)+","+y(p.top)),...segment.slice().reverse().map(p=>x(p.row)+","+y(p.base))];svg+='<polygon data-series="'+esc(s)+'" points="'+points.join(" ")+'" fill="'+color(s)+'"/>';}
+    }
+   }
+  }else for(const row of rows){if(row.missing)continue;let sum=0;series.forEach(s=>{const n=row[s]||0;svg+='<rect x="'+(x(row)-bw/2)+'" y="'+y(sum+n)+'" width="'+bw+'" height="'+(n/max*h)+'" fill="'+color(s)+'"/>';sum+=n;});}
+  for(const row of rows)if(row.missing)svg+='<text x="'+x(row)+'" y="'+(T+h/2)+'" text-anchor="middle">?</text>';
+ }
+ const drawLine=(s,lineY)=>{const segments=[[]];for(const row of rows){if(gaps&&!Number.isFinite(row[s])){if(segments.at(-1).length)segments.push([]);continue;}segments.at(-1).push(x(row)+","+lineY(row[s]||0));}for(const points of segments){if(points.length)svg+='<polyline data-series="'+esc(s)+'" points="'+points.join(" ")+'" fill="none" stroke="'+color(s)+'" stroke-width="'+(peak&&s==="Observed peak"?1:2.5)+'"'+(peak&&s==="Observed peak"?' stroke-dasharray="5 5"':"")+'/>';}};
+ if(!stack)series.forEach(s=>drawLine(s,y));
+ overlay.forEach(s=>drawLine(s,overlayY));
+ rows.forEach((row,index)=>{const desc=row.day+" · "+(row.missing?(row.missingLabel||"History unavailable"):allSeries.map(s=>label(s)+": "+format(row[s])).join(" · "));svg+='<g tabindex="0" data-chart="'+id+'" data-row="'+index+'" aria-label="'+esc(desc)+'"><title>'+esc(desc)+'</title><rect x="'+(x(row)-8)+'" y="'+T+'" width="16" height="'+h+'" fill="transparent"/>';const dots=stack?overlay:allSeries;dots.forEach(s=>{if(!gaps||Number.isFinite(row[s]))svg+='<circle cx="'+x(row)+'" cy="'+(overlay.includes(s)?overlayY:y)(row[s]||0)+'" r="3" fill="'+color(s)+'"/>';});svg+='</g>';});
  if(time){
   (first===last?[.5]:W>600?[0,.5,1]:[0,1]).forEach(fraction=>{
    const date=new Date(first+(last-first)*fraction).toISOString(),position=L+(first===last?w/2:pad+fraction*(w-2*pad));
@@ -114,7 +139,7 @@ function chart(id,rows,series,{stack=false,peak=false,format=num,exactFormat=for
  target.onpointermove=time?e=>{
   const bounds=target.querySelector("svg").getBoundingClientRect(),position=(e.clientX-bounds.left)*W/bounds.width;
   const nearest=rows.reduce((best,row)=>Math.abs(x(row)-position)<Math.abs(x(best)-position)?row:best);
-  $(id+"-readout").textContent=nearest.day+" · "+series.map(s=>s+": "+format(nearest[s])).join(" · ");
+  $(id+"-readout").textContent=nearest.day+" · "+allSeries.map(s=>label(s)+": "+format(nearest[s])).join(" · ");
  }:null;
 }
 function table(rows,headers){return '<table><thead><tr>'+headers.map(h=>'<th>'+esc(h)+'</th>').join("")+'</tr></thead><tbody>'+rows.map(r=>'<tr>'+r.map(v=>'<td>'+esc(v)+'</td>').join("")+'</tr>').join("")+'</tbody></table>';}
@@ -128,10 +153,17 @@ function renderInstapaper(){
   ["Deleted",selectedRows.length?num(totals("deleted")):"—","Observed removals in the selected period"]
  ]);
  const buckets=new Map();
- for(const row of selectedRows){const day=bucket(row.day),previous=buckets.get(day)||{day,Added:0,Moved:0,Deleted:0};buckets.set(day,{...previous,Total:row.total,Added:previous.Added+row.added,Moved:previous.Moved+row.moved,Deleted:previous.Deleted+row.deleted});}
- const rows=[...buckets.values()];
- chart("instapaper",rows,$("instapaper-measure").value==="total"?["Total"]:["Added","Moved","Deleted"]);
- $("instapaper-caption").textContent=usage.recording_started?"Global · manual and automated changes since "+dayOf(usage.recording_started*1000)+". The first snapshot is a baseline; earlier activity is unknown. Total uses the last observation in each interval. Moves mean changes between folders; reordering is excluded.":"Global · history begins with the first complete library observation. Earlier additions, moves, and deletions are unknown.";
+ for(const row of selectedRows){const day=bucket(row.day),previous=buckets.get(day)||{day,Added:0,Moved:0,Deleted:0};buckets.set(day,{...previous,Total:row.total,folders:row.folders,Added:previous.Added+row.added,Moved:previous.Moved+row.moved,Deleted:previous.Deleted+row.deleted});}
+ const rows=[...buckets.values()].sort((a,b)=>a.day.localeCompare(b.day));
+ const folders=[...new Set(rows.flatMap(r=>Object.keys(r.folders||{})))].filter(name=>name!=="archive").sort((a,b)=>a.localeCompare(b,undefined,{numeric:true}));
+ const series=folders.map(name=>"folder:"+name),palette=Object.fromEntries(series.map((s,i)=>[s,i<colors.length?colors[i]:"hsl("+((i*137.508)%360)+" 42% 44%)"]));palette.Archive="#29221c";
+ const label=s=>s.startsWith("folder:")?s.slice(7).replace(/^./,c=>c.toLocaleUpperCase()):s==="Archive"?"Archive · right axis":s;
+ const folderRows=rows.map(row=>({day:row.day,Total:row.Total,missing:!row.folders,missingLabel:"Folder breakdown unavailable · total saved: "+num(row.Total),...Object.fromEntries(folders.map(name=>["folder:"+name,row.folders?(row.folders[name]||0):undefined])),Archive:row.folders?row.folders.archive||0:undefined}));
+ chart("instapaper",folderRows,series,{stack:true,area:true,overlay:["Archive"],secondary:true,gaps:true,palette,label});
+ $("instapaper-values").innerHTML=valuesTable(folderRows,["Total",...series,"Archive"],n=>Number.isFinite(n)?num(n):"—",label);
+ chart("instapaper-changes",rows,["Added","Moved","Deleted"]);
+ const breakdownStarted=history.find(row=>row.folders)?.day;
+ $("instapaper-caption").textContent="Global · folders are stacked on the left axis; Archive is a separate line on the right axis. Sizes use the last complete observation in each interval. "+(breakdownStarted?"Folder breakdowns are recorded since "+breakdownStarted+"; earlier breakdowns are unavailable.":"Waiting for the first recorded folder breakdown. Earlier totals remain available in Folder values.");
 }
 function renderAccesses(){
  const access=data.accesses||{}, rows=(access.history||[]).filter(r=>inPeriod(r.day));
@@ -320,7 +352,7 @@ async function refresh(){
   $("error").textContent="";firstLoad=false;render();
  }catch(error){$("error").textContent=error.message;}finally{fetching=false;$("refresh").disabled=false;}
 }
-["period","interval","group","destination","source","measure","sort","kindle-measure","instapaper-measure","access-measure"].forEach(id=>$(id).addEventListener("change",()=>data&&render()));
+["period","interval","group","destination","source","measure","sort","kindle-measure","access-measure"].forEach(id=>$(id).addEventListener("change",()=>data&&render()));
 $("pages-size-measure").addEventListener("change",renderCollection);
 $("migration-measure").addEventListener("change",renderCollection);
 $("search").addEventListener("input",()=>data&&render());$("clear").onclick=()=>{$("search").value="";if(data)render();$("search").focus();};
