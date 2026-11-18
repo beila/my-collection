@@ -53,7 +53,7 @@
 </div>
 <div class="notice" id="coverage"></div>
 <details class="definitions"><summary>Definitions, coverage, and retention</summary>
-<p><strong>Instapaper usage:</strong> Unread and custom folders form the stacked area on the left axis. Archive is a separate line on the right axis and is excluded from the stack. Folder sizes use the last complete observation in each interval; earlier missing breakdowns remain blank. Additions, folder moves, and deletions appear in a separate graph and sum observed changes within each interval. Manual and automated activity both count. Reordering and metadata edits are not moves. The first observation establishes a baseline and does not count existing bookmarks as additions. Changes that happen entirely between observations are unknown. Earlier totals and deleted bookmarks cannot be reconstructed.</p>
+<p><strong>Instapaper usage:</strong> Unread and custom folders form the stacked area on the left axis. Archive is a separate line on the right axis and is excluded from the stack. Both axes use the same bookmark count scale. Folder sizes use the last complete observation in each interval; earlier missing breakdowns remain blank. Additions, folder moves, and deletions appear in a separate graph and sum observed changes within each interval. Manual and automated activity both count. Reordering and metadata edits are not moves. The first observation establishes a baseline and does not count existing bookmarks as additions. Changes that happen entirely between observations are unknown. Earlier totals and deleted bookmarks cannot be reconstructed.</p>
 <p><strong>Source check:</strong> one attempted acquisition and parse for a direct feed, rolling newsletter, reading-index source, or enabled Facebook profile, or one Readnext selection attempt when Smith needs articles. Inner retries are one check. A condition being evaluated without fetching or selecting articles is not a check.</p>
 <p><strong>New bookmarks & editions:</strong> unique bookmark IDs with confirmed delivery receipts. Replacement newsletter editions count as arrivals. Conversions of existing saved links have their own measure; refreshes, temporary verification copies, and moves are excluded. A 다읽기 page counts as one bookmark, even when it contains several articles.</p>
 <p><strong>Routed bookmarks:</strong> Readnext articles confirmed in Smith after population finishes, counted once per population. Series companions moved to Morpheus are excluded. These moves are separate from new arrivals. Earlier Readnext activity is not reconstructed.</p>
@@ -88,7 +88,7 @@ function grouped(rows,label,value){const map=new Map();for(const row of rows){co
 function valuesTable(rows,series,format=num,label=s=>s){return '<table><thead><tr><th>UTC date</th>'+series.map(s=>'<th class="num">'+esc(label(s))+'</th>').join("")+'</tr></thead><tbody>'+rows.map(r=>'<tr><td>'+esc(r.day)+'</td>'+series.map(s=>'<td class="num">'+format(r[s])+'</td>').join("")+'</tr>').join("")+'</tbody></table>';}
 function describeChartPoint(e){const mark=e.target.closest("[data-chart][data-row]");if(mark)$(mark.getAttribute("data-chart")+"-readout").textContent=mark.getAttribute("aria-label");}
 document.addEventListener("focusin",describeChartPoint);
-function chart(id,rows,series,{stack=false,area=false,overlay=[],secondary=false,axisLabels=[],label=s=>s,palette=null,peak=false,format=num,exactFormat=format,categories=false,time=false,gaps=false}={}){
+function chart(id,rows,series,{stack=false,area=false,overlay=[],secondary=false,sharedScale=false,axisLabels=[],label=s=>s,palette=null,peak=false,format=num,exactFormat=format,categories=false,time=false,gaps=false}={}){
  if(gaps){const formatter=format,exact=exactFormat;format=n=>Number.isFinite(n)?formatter(n):"—";exactFormat=n=>Number.isFinite(n)?exact(n):"—";}
  const allSeries=[...series,...overlay],color=s=>palette?.[s]||colors[allSeries.indexOf(s)%colors.length];
  $(id+"-legend").innerHTML=allSeries.map(s=>'<span><i class="key'+(overlay.includes(s)?" line":"")+'" style="'+(overlay.includes(s)?"border-color:":"background:")+color(s)+'"></i>'+esc(label(s))+'</span>').join("");
@@ -98,9 +98,10 @@ function chart(id,rows,series,{stack=false,area=false,overlay=[],secondary=false
  const W=Math.max(280,target.clientWidth-24,categories?rows.length*60+62:0),H=categories?260:240,L=secondary?80:time?78:46,R=secondary?80:16,T=secondary?30:14,B=categories||time?50:30,w=W-L-R,h=H-T-B,pad=stack&&!area?20:8;
  const stamp=r=>new Date(time?r.at:r.day+"T00:00:00Z").getTime(), first=stamp(rows[0]),last=stamp(rows.at(-1));
  const x=r=>categories?L+(rows.indexOf(r)+.5)*w/rows.length:L+(last===first?w/2:pad+(stamp(r)-first)/(last-first)*(w-2*pad));
- const max=rows.reduce((largest,r)=>Math.max(largest,stack?series.reduce((n,s)=>n+(r[s]||0),0):series.reduce((n,s)=>Math.max(n,r[s]||0),0)),1);
+ const primaryMax=rows.reduce((largest,r)=>Math.max(largest,stack?series.reduce((n,s)=>n+(r[s]||0),0):series.reduce((n,s)=>Math.max(n,r[s]||0),0)),1);
+ const max=sharedScale?rows.reduce((largest,r)=>Math.max(largest,...overlay.map(s=>r[s]||0)),primaryMax):primaryMax;
  const y=n=>T+h-n/max*h;
- const overlayMax=secondary?rows.reduce((largest,r)=>Math.max(largest,...overlay.map(s=>r[s]||0)),1):max;
+ const overlayMax=secondary&&!sharedScale?rows.reduce((largest,r)=>Math.max(largest,...overlay.map(s=>r[s]||0)),1):max;
  const overlayY=n=>T+h-n/overlayMax*h;
  const leftColor=secondary&&!stack&&series.length===1?color(series[0]):"var(--ink)",rightColor=secondary&&overlay.length===1?color(overlay[0]):"var(--ink)";
  let svg='<svg viewBox="0 0 '+W+' '+H+'"'+(categories?' style="width:'+W+'px"':"")+' role="img" aria-label="'+esc(id)+' trend; '+(secondary?'left axis: '+esc(axisLabels[0])+'; right axis: '+esc(axisLabels[1])+'; ':"")+'exact values follow">';
@@ -167,11 +168,11 @@ function renderInstapaper(){
  const series=folders.map(name=>"folder:"+name),palette=Object.fromEntries(series.map((s,i)=>[s,i<colors.length?colors[i]:"hsl("+((i*137.508)%360)+" 42% 44%)"]));palette.Archive="#29221c";
  const label=s=>s.startsWith("folder:")?s.slice(7).replace(/^./,c=>c.toLocaleUpperCase()):s==="Archive"?"Archive · right axis":s;
  const folderRows=rows.map(row=>({day:row.day,Total:row.Total,missing:!row.folders,missingLabel:"Folder breakdown unavailable · total saved: "+num(row.Total),...Object.fromEntries(folders.map(name=>["folder:"+name,row.folders?(row.folders[name]||0):undefined])),Archive:row.folders?row.folders.archive||0:undefined}));
- chart("instapaper",folderRows,series,{stack:true,area:true,overlay:["Archive"],secondary:true,axisLabels:["Folder bookmarks","Archived bookmarks"],gaps:true,palette,label});
+ chart("instapaper",folderRows,series,{stack:true,area:true,overlay:["Archive"],secondary:true,sharedScale:true,axisLabels:["Folder bookmarks","Archived bookmarks"],gaps:true,palette,label});
  $("instapaper-values").innerHTML=valuesTable(folderRows,["Total",...series,"Archive"],n=>Number.isFinite(n)?num(n):"—",label);
  chart("instapaper-changes",rows,["Added","Moved","Deleted"]);
  const breakdownStarted=history.find(row=>row.folders)?.day;
- $("instapaper-caption").textContent="Global · folders are stacked on the left axis; Archive is a separate line on the right axis. Sizes use the last complete observation in each interval. "+(breakdownStarted?"Folder breakdowns are recorded since "+breakdownStarted+"; earlier breakdowns are unavailable.":"Waiting for the first recorded folder breakdown. Earlier totals remain available in Folder values.");
+ $("instapaper-caption").textContent="Global · folders are stacked on the left axis; Archive is a separate line on the right axis. Both axes use the same bookmark count scale. Sizes use the last complete observation in each interval. "+(breakdownStarted?"Folder breakdowns are recorded since "+breakdownStarted+"; earlier breakdowns are unavailable.":"Waiting for the first recorded folder breakdown. Earlier totals remain available in Folder values.");
 }
 function renderAccesses(){
  const access=data.accesses||{}, rows=(access.history||[]).filter(r=>inPeriod(r.day));
