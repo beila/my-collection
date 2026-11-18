@@ -6,6 +6,7 @@ import argparse
 import hashlib
 import json
 import os
+import re
 from datetime import UTC, datetime
 from pathlib import Path
 
@@ -29,6 +30,12 @@ IMAGE_EXTENSIONS = {
     ".tiff",
     ".webp",
 }
+IMAGE_STORAGE_FIELDS = (
+    "github_deployed_bytes",
+    "github_new_bytes",
+    "backblaze_legacy_bytes",
+    "backblaze_new_bytes",
+)
 
 
 def size_observation(report: dict) -> dict:
@@ -91,6 +98,26 @@ def size_observation(report: dict) -> dict:
         observation["repository_originals"] = {
             key: originals[key] for key in ("files", "bytes")
         }
+    storage = report.get("image_storage")
+    if storage is None:
+        storage = {
+            "github_deployed_bytes": categories["images"]["bytes"],
+            "github_new_bytes": None,
+            "backblaze_legacy_bytes": (
+                migration.get("verified_bytes")
+                if migration.get("checkpoint") == "latest"
+                else None
+            ),
+            "backblaze_new_bytes": None,
+        }
+    if not isinstance(storage, dict) or any(
+        value is not None and (type(value) is not int or value < 0)
+        for value in (storage.get(key) for key in IMAGE_STORAGE_FIELDS)
+    ):
+        raise ValueError("Invalid image storage measurement")
+    observation["image_storage"] = {
+        key: storage.get(key) for key in IMAGE_STORAGE_FIELDS
+    }
     return observation
 
 
@@ -135,7 +162,7 @@ def tree_totals(root: Path) -> dict:
     }
 
 
-def migration_totals(repo: Path, site: Path, checkpoint_dir: Path | None) -> dict:
+def migration_checkpoint(repo: Path, checkpoint_dir: Path | None) -> tuple:
     manifest = repo / ".github/legacy-image-migration.json"
     inventory = read_inventory(manifest)
     expected = {row["object_key"]: row for row in inventory["images"]}
@@ -168,6 +195,13 @@ def migration_totals(repo: Path, site: Path, checkpoint_dir: Path | None) -> dic
         seen.add(key)
     if verified["status"] == "verified" and len(seen) != len(expected):
         raise ValueError("Verified migration checkpoint is incomplete")
+    return inventory, expected, verified, metadata, seen
+
+
+def migration_totals(repo: Path, site: Path, checkpoint_dir: Path | None) -> dict:
+    inventory, expected, verified, metadata, seen = migration_checkpoint(
+        repo, checkpoint_dir
+    )
     remaining = [
         site / row["original_path"]
         for row in inventory["images"]
@@ -208,6 +242,50 @@ def migration_totals(repo: Path, site: Path, checkpoint_dir: Path | None) -> dic
     }
 
 
+def image_storage_totals(repo: Path, checkpoint_dir: Path | None) -> dict:
+    result = dict.fromkeys(IMAGE_STORAGE_FIELDS)
+    archived = {}
+    root = repo / "image-originals/images/v1"
+    try:
+        inventory = read_inventory(repo / ".github/legacy-image-migration.json")
+        expected = {row["object_key"]: row for row in inventory["images"]}
+        if root.is_dir():
+            for path in root.iterdir():
+                if (
+                    path.is_symlink()
+                    or not path.is_file()
+                    or path.suffix.lower() not in IMAGE_EXTENSIONS
+                    or not re.fullmatch(r"[0-9a-f]{64}", path.stem)
+                ):
+                    raise ValueError("Invalid archived image identity")
+                content = path.read_bytes()
+                if not content or hashlib.sha256(content).hexdigest() != path.stem:
+                    raise ValueError("Archived image checksum mismatch")
+                archived["images/v1/" + path.name] = len(content)
+        if any(
+            size != expected[key]["bytes"]
+            for key, size in archived.items()
+            if key in expected
+        ):
+            raise ValueError("Conflicting stored image size")
+        new_bytes = sum(size for key, size in archived.items() if key not in expected)
+        result["github_new_bytes"] = result["backblaze_new_bytes"] = new_bytes
+    except (OSError, ValueError, KeyError, TypeError, RuntimeError):
+        return result
+    try:
+        _inventory, expected, _receipt, metadata, seen = migration_checkpoint(
+            repo, checkpoint_dir
+        )
+        if metadata:
+            legacy = seen | (archived.keys() & expected.keys())
+            result["backblaze_legacy_bytes"] = sum(
+                expected[key]["bytes"] for key in legacy
+            )
+    except (OSError, ValueError, KeyError, TypeError, RuntimeError):
+        pass
+    return result
+
+
 def write_report(
     repo: Path,
     site: Path,
@@ -236,6 +314,7 @@ def write_report(
         report["migration"] = {"available": False}
     try:
         report["repository_originals"] = tree_totals(repo / "image-originals")
+        report["image_storage"] = image_storage_totals(repo, checkpoint_dir)
         # Include this report in the staged file and byte counts.
         for _attempt in range(10):
             output.write_text(json.dumps(report, ensure_ascii=False) + "\n")
@@ -243,6 +322,9 @@ def write_report(
             if report.get("site") == measured:
                 return report
             report["site"] = measured
+            report["image_storage"]["github_deployed_bytes"] = measured["categories"][
+                "images"
+            ]["bytes"]
             if report["deployment"].get("GITHUB_RUN_ID"):
                 current = size_observation(report)
                 prior = [
