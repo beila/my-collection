@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-18T12:25:08.248047+00:00",
+  "generated_at": "2026-11-18T12:39:20.767924+00:00",
   "sources": [
     {
       "id": "frequent:bluesky-capcold",
@@ -13,7 +13,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-18T12:23:09.101670+00:00",
+      "cached_at": "2026-11-18T12:36:46.870938+00:00",
       "url": "https://bsky.app/profile/capcold.bsky.social",
       "error": "",
       "previews": [
@@ -55,7 +55,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-18T12:23:11.795679+00:00",
+      "cached_at": "2026-11-18T12:36:51.019955+00:00",
       "url": "https://coffeepot.me/rss",
       "error": "",
       "previews": [
@@ -95,11 +95,19 @@
       "delivery": "Individual articles",
       "monitoring": "Each maintenance pass, nominally every 15 minutes with up to 10 minutes of delay.",
       "tags": [],
-      "cached_at": "2026-11-18T12:23:13.030624+00:00",
+      "cached_at": "2026-11-18T12:36:53.496263+00:00",
       "url": "https://kill-the-newsletter.com/feeds/j50w0hwaltovoqbe.xml",
       "error": "",
-      "previews": [],
-      "preview_note": "No public feed preview is available."
+      "previews": [
+        {
+          "title": "Fw: SDE Good Reads (2026-11-17)",
+          "published": "2026-11-18T12:30:31.600Z",
+          "summary": "From: Zajac, Alexandre <zajaalex@amazon.es> Sent: 17 November 2026 19:28 To: sde-good-reads@amazon.com <sde-good-reads@amazon.com> Subject: SDE Good Reads (2026-11-17) zajaalex The bedrock of software design https://alex.draftist.io/blog/the-bedrock-of-software-design-ycqvcedsj Sum types used to make invalid states unrepresentable, with Rust examples of Result and Option compared with exception-based error handling. …",
+          "author": "010001a1eea31af9-0669c8a1-0033-4be2-8890-e7ab0b34cfec-000000@corpmail.amazon.co.uk 010001a1eea31af9-0669c8a1-0033-4be2-8…",
+          "origin": "Cached feed",
+          "url": "https://kill-the-newsletter.com/feeds/j50w0hwaltovoqbe/entries/7ot814ll9lgm1x6gglt96qiffbok8rimecvpjofn.html"
+        }
+      ]
     },
     {
       "id": "frequent:okhotsk-report",
@@ -111,7 +119,7 @@
       "delivery": "Individual articles",
       "monitoring": "Each maintenance pass, nominally every 15 minutes with up to 10 minutes of delay.",
       "tags": [],
-      "cached_at": "2026-11-18T12:23:13.371544+00:00",
+      "cached_at": "2026-11-18T12:36:53.919837+00:00",
       "url": "https://kill-the-newsletter.com/feeds/x65bw2k2if80qbp6jk0n.xml",
       "error": "",
       "previews": [
@@ -153,7 +161,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-18T12:23:14.101815+00:00",
+      "cached_at": "2026-11-18T12:36:54.767426+00:00",
       "url": "https://kill-the-newsletter.com/feeds/la1dwxu6ovmqf6gn.xml",
       "error": "",
       "previews": [
@@ -195,7 +203,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-18T12:23:14.632689+00:00",
+      "cached_at": "2026-11-18T12:36:55.521891+00:00",
       "url": "https://blog.outsider.ne.kr/atom",
       "error": "",
       "previews": [
@@ -237,7 +245,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-18T12:23:16.396694+00:00",
+      "cached_at": "2026-11-18T12:36:57.748872+00:00",
       "url": "http://feeds.feedburner.com/Economic_View",
       "error": "",
       "previews": [
@@ -279,7 +287,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-18T12:23:16.827696+00:00",
+      "cached_at": "2026-11-18T12:36:58.382876+00:00",
       "url": "https://fenews.substack.com/feed",
       "error": "",
       "previews": [
@@ -321,7 +329,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-18T12:23:17.479315+00:00",
+      "cached_at": "2026-11-18T12:36:59.591869+00:00",
       "url": "https://unchartedterritories.tomaspueyo.com/feed",
       "error": "",
       "previews": [
@@ -363,7 +371,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-18T12:23:18.145700+00:00",
+      "cached_at": "2026-11-18T12:37:00.678863+00:00",
       "url": "https://blog.instapaper.com/rss",
       "error": "",
       "previews": [
@@ -405,7 +413,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-18T12:23:18.524701+00:00",
+      "cached_at": "2026-11-18T12:37:01.249398+00:00",
       "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCbbQalJ4OaC0oQ0AqRaOJ9g",
       "error": "",
       "previews": [
@@ -447,7 +455,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-18T12:23:19.014703+00:00",
+      "cached_at": "2026-11-18T12:37:02.060856+00:00",
       "url": "https://podcasts.files.bbci.co.uk/p02pc9zn.rss",
       "error": "",
       "previews": [
@@ -531,7 +539,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-18T10:32:18.413675+00:00",
+      "cached_at": "2026-11-18T12:37:40.244644+00:00",
       "url": "https://hnrss.org/newest?points=1000",
       "error": "",
       "previews": [
@@ -573,7 +581,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-18T12:23:39.125763+00:00",
+      "cached_at": "2026-11-18T12:37:41.289638+00:00",
       "url": "https://haskellweekly.news/newsletter.atom",
       "error": "",
       "previews": [
@@ -615,7 +623,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-18T12:23:42.343419+00:00",
+      "cached_at": "2026-11-18T12:37:44.929648+00:00",
       "url": "https://sovidence.tistory.com/rss",
       "error": "",
       "previews": [
@@ -657,7 +665,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-18T12:23:43.249774+00:00",
+      "cached_at": "2026-11-18T12:37:46.184610+00:00",
       "url": "https://ciechanow.ski/atom.xml",
       "error": "",
       "previews": [
@@ -691,7 +699,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-18T12:23:43.713776+00:00",
+      "cached_at": "2026-11-18T12:37:46.503608+00:00",
       "url": "https://blog.ploeh.dk/rss.xml",
       "error": "",
       "previews": [
@@ -733,7 +741,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-18T12:23:44.526778+00:00",
+      "cached_at": "2026-11-18T12:37:47.531603+00:00",
       "url": "https://www.stephendiehl.com/feed.xml",
       "error": "",
       "previews": [
@@ -775,7 +783,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-18T12:23:47.503445+00:00",
+      "cached_at": "2026-11-18T12:37:53.896567+00:00",
       "url": "https://registerspill.thorstenball.com/feed",
       "error": "",
       "previews": [
@@ -817,7 +825,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-18T12:23:48.156788+00:00",
+      "cached_at": "2026-11-18T12:37:54.928561+00:00",
       "url": "https://meetingcpp.com/feed.xml",
       "error": "",
       "previews": [
@@ -859,7 +867,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-18T12:23:50.723794+00:00",
+      "cached_at": "2026-11-18T12:37:57.518912+00:00",
       "url": "https://rss.blog.naver.com/xqon1.xml",
       "error": "",
       "previews": [
@@ -901,7 +909,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-18T12:23:53.713334+00:00",
+      "cached_at": "2026-11-18T12:38:01.656523+00:00",
       "url": "https://rss.blog.naver.com/pamina7776.xml",
       "error": "",
       "previews": [
@@ -943,7 +951,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-18T12:23:56.619373+00:00",
+      "cached_at": "2026-11-18T12:38:05.708990+00:00",
       "url": "https://rss.blog.naver.com/indizio.xml",
       "error": "",
       "previews": [
@@ -985,7 +993,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-18T12:23:58.940671+00:00",
+      "cached_at": "2026-11-18T12:38:09.126480+00:00",
       "url": "https://rss.diffbot.com/rss?url=https://www.joongang.co.kr/series/11656",
       "error": "",
       "previews": [
@@ -1027,7 +1035,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-18T12:23:59.639976+00:00",
+      "cached_at": "2026-11-18T12:38:10.416708+00:00",
       "url": "https://www.bbc.co.uk/news/topics/cpml2v678pxt",
       "error": "",
       "previews": [
@@ -1069,7 +1077,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-18T12:24:00.318818+00:00",
+      "cached_at": "2026-11-18T12:38:11.842464+00:00",
       "url": "https://slownews.kr/feed",
       "error": "",
       "previews": [
@@ -1111,7 +1119,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-18T12:24:00.941911+00:00",
+      "cached_at": "2026-11-18T12:38:12.956681+00:00",
       "url": "https://www.ianvisits.co.uk/articles/feed/",
       "error": "",
       "previews": [
@@ -1151,7 +1159,7 @@
       "delivery": "Individual articles",
       "monitoring": "Each maintenance pass, nominally every 15 minutes with up to 10 minutes of delay.",
       "tags": [],
-      "cached_at": "2026-11-18T12:24:01.370044+00:00",
+      "cached_at": "2026-11-18T12:38:13.573454+00:00",
       "url": "https://www.ianvisits.co.uk/articles/feed/",
       "error": "",
       "previews": [
