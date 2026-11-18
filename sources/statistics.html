@@ -19,7 +19,7 @@
 <body>
 <header><h1>Instapaper operations</h1><nav aria-label="Pages"><a href="./index.html">Sources</a><strong aria-current="page">Statistics</strong><button id="refresh" type="button">Refresh ↻</button></nav></header>
 <main>
-<p class="intro">What gets checked, what arrives, and what is waiting. Actual activity is separate from the configured schedule in the source browser.</p>
+<p class="intro">External accesses, saved bookmarks, and delivered articles over time. Counts come from recorded activity in this automation.</p>
 <p id="sync" class="sync" role="status">Loading recorded activity…</p>
 <p id="error" role="alert"></p>
 <div class="filters" aria-label="Statistics filters">
@@ -32,6 +32,8 @@
 </div>
 <section class="facts" aria-label="Selected period summary" id="facts"></section>
 <div class="grid">
+ <section class="panel wide" id="external-access"><div class="panel-head"><h2>Facebook & Instapaper accesses</h2><select id="access-measure" aria-label="External access measure"><option value="all">All attempts</option><option value="ok">Completed accesses</option><option value="failed">Failed accesses</option></select></div><p class="caption" id="access-caption"></p><div class="facts" id="access-facts"></div><div id="access-chart" class="chart"></div><div id="access-legend" class="legend"></div><div id="access-readout" class="readout" aria-live="polite"></div><details><summary>Access values</summary><div id="access-values" class="table-wrap"></div></details></section>
+ <section class="panel wide" id="agent-access"><h2>Successful agent CLI calls</h2><p class="caption" id="agents-caption"></p><div class="facts" id="agents-facts"></div><div id="agents-chart" class="chart"></div><div id="agents-legend" class="legend"></div><div id="agents-readout" class="readout" aria-live="polite"></div><details><summary>Agent call values</summary><div id="agents-values" class="table-wrap"></div></details></section>
  <section class="panel wide" id="instapaper-usage"><div class="panel-head"><h2>Instapaper usage</h2><select id="instapaper-measure" aria-label="Instapaper usage measure"><option value="total">Total saved bookmarks</option><option value="changes">Additions, moves & deletions</option></select></div><p class="caption" id="instapaper-caption"></p><div class="facts" id="instapaper-facts"></div><div id="instapaper-chart" class="chart"></div><div id="instapaper-legend" class="legend"></div><div id="instapaper-readout" class="readout" aria-live="polite"></div><details><summary>Instapaper values</summary><div id="instapaper-values" class="table-wrap"></div></details></section>
  <section class="panel wide" id="kindle"><div class="panel-head"><h2>Kindle digests</h2><a href="#kindle-history" id="kindle-history-link">Digest history ↓</a></div><p class="caption">Smith digests · selected period and interval · independent of the source and destination filters. A confirmed send means the email was accepted, not that a device was opened.</p><div class="facts" id="kindle-facts"></div></section>
  <section class="panel"><div class="panel-head"><h2>Digest output</h2><select id="kindle-measure" aria-label="Digest measure"><option value="sent">Confirmed sends</option><option value="built">Documents built</option><option value="articles">Articles sent</option><option value="bytes">Average EPUB size · MiB</option><option value="images">Images sent</option><option value="words">Words sent</option><option value="build_seconds">Average build time · seconds</option></select></div><p class="caption" id="kindle-caption"></p><div id="kindle-chart" class="chart"></div><div id="kindle-legend" class="legend"></div><div id="kindle-readout" class="readout" aria-live="polite"></div><details><summary>Digest values</summary><div id="kindle-values" class="table-wrap"></div></details></section>
@@ -42,7 +44,6 @@
  <section class="panel wide" id="pages-size"><div class="panel-head"><h2>GitHub Pages deployment size</h2><select id="pages-size-measure" aria-label="Deployment size measure"><option value="total">Total deployment</option><option value="types">File types</option><option value="originals">Excluded repository originals</option></select></div><p class="caption" id="pages-size-caption">One point per deployment, after exclusions.</p><div id="pages-size-facts" class="facts storage-facts"></div><div id="pages-size-chart" class="chart"></div><div id="pages-size-legend" class="legend"></div><div id="pages-size-readout" class="readout" aria-live="polite"></div><p id="pages-size-history-note" class="storage-note"></p><details><summary>Exact size history</summary><div id="pages-size-values" class="table-wrap"></div></details></section>
  <section class="panel wide"><div class="panel-head"><h2>Source activity</h2><label><select id="measure" aria-label="Activity measure"><option value="checks">Source checks</option><option value="bookmarks">New bookmarks & editions</option><option value="conversions">Conversions</option><option value="routed">Routed bookmarks</option></select></label></div><p class="caption" id="activity-caption"></p><div id="activity-chart" class="chart"></div><div id="activity-legend" class="legend"></div><div id="activity-readout" class="readout" aria-live="polite"></div><details><summary>Activity values</summary><div id="activity-values" class="table-wrap"></div></details></section>
  <section class="panel"><h2>Facebook acquisition queue</h2><p class="caption">Global · last observation in each interval; thin line shows its observed peak. Cooldown includes recurring profiles.</p><div id="queue-chart" class="chart"></div><div id="queue-legend" class="legend"></div><div id="queue-readout" class="readout" aria-live="polite"></div><details><summary>Queue values</summary><div id="queue-values" class="table-wrap"></div></details></section>
- <section class="panel"><h2>Scheduler invocations</h2><p class="caption" id="run-caption">Global · includes maintenance, Facebook acquisition, repair passes, and manual scopes.</p><div id="runs-chart" class="chart"></div><div id="runs-legend" class="legend"></div><div id="runs-readout" class="readout" aria-live="polite"></div><details><summary>Invocation values</summary><div id="runs-values" class="table-wrap"></div></details></section>
  <section class="panel wide"><h2>Sources in this period</h2><p class="caption">Select a name to isolate its trend. “Browse” opens its preview and monitoring rule. Unrecorded checks are shown as —.</p><div class="searchbar"><input id="search" type="search" aria-label="Find a source in statistics" placeholder="Find a source…"><button id="clear" type="button" aria-label="Clear source search">×</button><label>Sort <select id="sort"><option value="checks">Most checks</option><option value="added">Most added</option><option value="routed">Most routed</option><option value="failed">Most failures</option><option value="name">Name</option></select></label></div><div id="source-table" class="table-wrap"></div></section>
  <section class="panel"><h2>Reported failures by stage</h2><p class="caption">Global · failure occurrences over time, including a held failure reported again. These are not unique incidents.</p><div id="failures-chart" class="chart"></div><div id="failures-legend" class="legend"></div><div id="failures-readout" class="readout" aria-live="polite"></div><details><summary>Failure history</summary><div id="failures-values" class="table-wrap"></div></details><div id="failure-table" class="table-wrap"></div></section>
  <section class="panel"><h2>Current queue detail</h2><p class="caption">Global · latest sampled state, independent of the selected date range.</p><div id="queue-detail" class="table-wrap"></div></section>
@@ -57,7 +58,8 @@
 <p><strong>Digest size:</strong> MiB is 1,048,576 bytes. Images include the cover; image bytes are uncompressed ZIP member sizes. Words are whitespace-separated text units in article chapters; headings exclude the navigation document. Build time excludes email delivery. Direct program additions require recorded delivery into Smith; conversions do not establish who added the original.</p>
 <p><strong>Collection storage:</strong> deployment size is the uncompressed total of the staged website, including its measurement file. One point per successful deployment uses its build time in UTC. All recorded deployment, migration, and excluded-original measurements are retained. History follows the selected period; source, destination, and interval filters do not apply. Missing older measurements remain blank. Migration counts distinct, verified B2 objects; uploading an image does not remove its old Pages copy. Daily migration usage counts reserved requests and bytes, not account-wide Backblaze usage.</p>
 <p><strong>Historical additions:</strong> confirmed, dated feed-monitor records retained locally. They provide partial history, not an account-wide total. Checks and queue measurements begin when recording was installed; blank earlier periods mean unknown. Source cadence and destination associations for checks use the current catalog; delivered bookmark destinations are recorded at delivery.</p>
-<p><strong>Invocations:</strong> CLI starts, including manual scopes and lock-deferred attempts. “Open / interrupted” means no exit was recorded; it does not establish that a process is still running. Duration excludes invocations without a recorded exit.</p>
+<p><strong>External accesses:</strong> one count per explicit Instapaper API or authenticated web request, Facebook browser page load, or HTTP fetch from Facebook and its media hosts. Each retry counts separately. Local caches and lock polling add no accesses. Completed accesses mean successful HTTP responses or browser loads without a network error; they do not prove that a page's content was usable. Implicit browser asset requests and scrolling requests are not measured. These global counts use the selected period and interval, independent of source and destination filters.</p>
+<p><strong>Successful agent CLI calls:</strong> one count per accepted Codex, Claude, or Kiro CLI completion through this automation's shared agent launcher. Failed, unavailable, and authentication-deferred fallbacks do not count. A direct Claude call requires a successful exit and a valid result envelope. Completion dates use UTC. These are CLI calls, not individual model requests, tool calls, or interactive sessions elsewhere. Earlier calls are not reconstructed from output files.</p>
 <p>All recorded activity, Instapaper usage, digest, deployment, and daily queue history is retained. Detailed hourly queue observations are kept for 35 days. “All recorded time” includes available history; it does not imply coverage before recording began. The public snapshot updates with collection page deployments. All dates and chart buckets use UTC. No bookmark identities, text, repair notes, error messages, or credentials are exported.</p>
 </details>
 </main>
@@ -131,6 +133,30 @@ function renderInstapaper(){
  chart("instapaper",rows,$("instapaper-measure").value==="total"?["Total"]:["Added","Moved","Deleted"]);
  $("instapaper-caption").textContent=usage.recording_started?"Global · manual and automated changes since "+dayOf(usage.recording_started*1000)+". The first snapshot is a baseline; earlier activity is unknown. Total uses the last observation in each interval. Moves mean changes between folders; reordering is excluded.":"Global · history begins with the first complete library observation. Earlier additions, moves, and deletions are unknown.";
 }
+function renderAccesses(){
+ const access=data.accesses||{}, rows=(access.history||[]).filter(r=>inPeriod(r.day));
+ const services=rows.filter(r=>["instapaper","facebook"].includes(r.service)), agents=rows.filter(r=>["codex","claude","kiro-cli"].includes(r.service)&&r.status==="ok");
+ const total=items=>items.reduce((n,r)=>n+r.count,0), count=items=>access.recording_started?num(total(items)):"—";
+ const since=access.recording_started?dayOf(access.recording_started*1000):null;
+ const names={instapaper:"Instapaper",facebook:"Facebook",codex:"Codex",claude:"Claude","kiro-cli":"Kiro CLI"};
+ $("access-facts").innerHTML=factCards([
+  ["Instapaper",count(services.filter(r=>r.service==="instapaper")),"API and authenticated web requests"],
+  ["Facebook",count(services.filter(r=>r.service==="facebook")),"Page loads and explicit HTTP fetches"],
+  ["Completed accesses",count(services.filter(r=>r.status==="ok")),"Across both services"],
+  ["Failed accesses",count(services.filter(r=>r.status==="failed")),"Each failed request attempt"]
+ ]);
+ const measure=$("access-measure").value, measured=services.filter(r=>measure==="all"||r.status===measure);
+ chart("access",grouped(measured,r=>names[r.service],r=>r.count),["Instapaper","Facebook"]);
+ $("access-caption").textContent="Global · each explicit request or page load counts once; retries count again. Local caches and lock polling add no accesses. Browser subrequests are not measured. "+(since?"Recording began "+since+"; earlier accesses are unknown.":"Waiting for the first recorded access.");
+ $("agents-facts").innerHTML=factCards([
+  ["Codex",count(agents.filter(r=>r.service==="codex")),"Successful CLI completions"],
+  ["Claude",count(agents.filter(r=>r.service==="claude")),"Successful CLI completions"],
+  ["Kiro CLI",count(agents.filter(r=>r.service==="kiro-cli")),"Successful CLI completions"],
+  ["Total",count(agents),"Accepted agent calls in this period"]
+ ]);
+ chart("agents",grouped(agents,r=>names[r.service],r=>r.count),["Codex","Claude","Kiro CLI"]);
+ $("agents-caption").textContent="Global · successful calls through this automation's agent launcher. Authentication failures, unavailable agents, and polling do not count. CLI calls are separate from model requests or tool calls. "+(since?"History begins with access recording on "+since+"; earlier calls are unknown.":"Waiting for access recording.");
+}
 function renderKindle(){
  const sentDay=d=>Number.isFinite(d.sent_at)?dayOf(d.sent_at*1000):d.day;
  const docs=(data.kindle||[]).filter(d=>inPeriod(d.day)||(d.status==="sent"&&inPeriod(sentDay(d))));
@@ -176,12 +202,12 @@ function renderKindle(){
  ]),["UTC date","Status","Trigger","Articles","Candidates","Skipped","MiB","Images","Words","Headings","Repeated","Build seconds"]):'<p class="caption">No digest records in this period.</p>';
 }
 function render(){
- const rows=data.activity.filter(r=>inPeriod(r.day)), filtered=rows.filter(matches), runs=data.runs.filter(r=>inPeriod(r.day));
- const sum=(a,fn)=>a.reduce((n,r)=>n+fn(r),0), checks=filtered.filter(r=>r.metric==="checks"), added=filtered.filter(r=>r.metric==="bookmarks"&&r.status!=="conversion"), failed=sum(checks,r=>r.status==="failed"?r.count:0), runCount=sum(runs,r=>r.count), last=data.queue.at(-1);
+ const rows=data.activity.filter(r=>inPeriod(r.day)), filtered=rows.filter(matches), accesses=(data.accesses?.history||[]).filter(r=>inPeriod(r.day)&&["instapaper","facebook"].includes(r.service));
+ const sum=(a,fn)=>a.reduce((n,r)=>n+fn(r),0), checks=filtered.filter(r=>r.metric==="checks"), added=filtered.filter(r=>r.metric==="bookmarks"&&r.status!=="conversion"), failed=sum(checks,r=>r.status==="failed"?r.count:0), last=data.queue.at(-1);
  $("facts").innerHTML=[
   ["Source checks",checks.length?num(sum(checks,r=>r.count)):"—",checks.length?num(failed)+" failed · "+(100*failed/sum(checks,r=>r.count)).toFixed(1)+"%":"No check history in this period"],
   ["Arrivals",num(sum(added,r=>r.count)),"Confirmed new bookmarks & editions"],
-  ["Invocations · global",runs.length?num(runCount):"—",runs.length?num(sum(runs,r=>r.status==="failed"?r.count:0))+" nonzero exits":"No invocation history in this period"],
+  ["External accesses · global",data.accesses?.recording_started?num(sum(accesses,r=>r.count)):"—","Facebook and Instapaper · selected period"],
   ["Ready queue jobs · now",last?num(last.ready):"—",last?num(last.cooldown)+" on cooldown · "+num(last.failed)+" failed":"No queue sample yet"]
  ].map(([label,value,note])=>'<div class="fact"><span>'+esc(label)+'</span><strong>'+esc(value)+'</strong><small>'+esc(note)+'</small></div>').join("");
  const measure=$("measure").value, activity=filtered.filter(r=>measure==="checks"?r.metric==="checks":measure==="routed"?r.metric==="routed":r.metric==="bookmarks"&&(measure==="conversions"?r.status==="conversion":r.status!=="conversion"));
@@ -194,11 +220,6 @@ function render(){
  const qdays=new Map();for(const q of data.queue){const observedDay=q.hour.slice(0,10);if(!inPeriod(observedDay))continue;const day=bucket(observedDay),prior=qdays.get(day);qdays.set(day,{...q,day,peak:Math.max(q.peak,prior?.peak||0)});}
  const qrows=[...qdays.values()].map(q=>({day:q.day,Ready:q.ready,Cooldown:q.cooldown,Running:q.running,Failed:q.failed,"Observed peak":q.peak}));
  chart("queue",qrows,["Ready","Cooldown","Running","Failed","Observed peak"],{peak:true});
- const runNames={maintenance:"Maintenance",facebook:"Facebook",repair:"Repair",kindle:"Kindle",scoped:"Manual scope","repair-runner":"Repair runner"};
- const rpoints=grouped(runs,r=>runNames[r.mode]||r.mode,r=>r.count), rseries=[...new Set(runs.map(r=>runNames[r.mode]||r.mode))];
- chart("runs",rpoints,rseries,{stack:true});
- const finished=sum(runs,r=>r.status==="running"?0:r.count), seconds=sum(runs,r=>r.seconds);
- $("run-caption").textContent="Global · "+(finished?"average completed invocation "+(seconds/finished/60).toFixed(1)+" min · ":"")+num(sum(runs,r=>r.status==="running"?r.count:0))+" open / interrupted. Scopes can overlap.";
  const stages=grouped(rows.filter(r=>r.metric==="failures"),r=>r.source,r=>r.count), stageTotals={};
  stages.forEach(r=>Object.entries(r).forEach(([k,v])=>{if(k!=="day")stageTotals[k]=(stageTotals[k]||0)+v;}));
  $("failure-table").innerHTML=Object.keys(stageTotals).length?table(Object.entries(stageTotals).sort((a,b)=>b[1]-a[1]).map(([k,v])=>[k,num(v)]),["Stage","Occurrences"]):'<p class="caption">No recorded failure occurrences in this period.</p>';
@@ -206,6 +227,7 @@ function render(){
  $("queue-detail").innerHTML=last?table([["Post jobs",num(last.posts)],["Profile jobs",num(last.profiles)],["Oldest ready work",last.oldest_ready_hours.toFixed(1)+" hours"],["Sampled",new Date(last.at*1000).toLocaleString("en-GB",{timeZone:"UTC"})+" UTC"]],["Metric","Latest value"]):'<p class="caption">No observations yet.</p>';
  $("coverage").textContent=data.recording_started?"Activity recording began "+new Date(data.recording_started*1000).toLocaleString("en-GB",{timeZone:"UTC"})+" UTC. Each source's history begins when its recorder was enabled. Earlier arrivals are partial retained feed history. Blank checks and queue history mean unknown, not zero.":"Recording has not started. History will appear after the next instrumented scheduler run.";
  renderSources(filtered);
+ renderAccesses();
  renderInstapaper();
  renderKindle();
  renderCollection();
@@ -298,7 +320,7 @@ async function refresh(){
   $("error").textContent="";firstLoad=false;render();
  }catch(error){$("error").textContent=error.message;}finally{fetching=false;$("refresh").disabled=false;}
 }
-["period","interval","group","destination","source","measure","sort","kindle-measure","instapaper-measure"].forEach(id=>$(id).addEventListener("change",()=>data&&render()));
+["period","interval","group","destination","source","measure","sort","kindle-measure","instapaper-measure","access-measure"].forEach(id=>$(id).addEventListener("change",()=>data&&render()));
 $("pages-size-measure").addEventListener("change",renderCollection);
 $("migration-measure").addEventListener("change",renderCollection);
 $("search").addEventListener("input",()=>data&&render());$("clear").onclick=()=>{$("search").value="";if(data)render();$("search").focus();};
