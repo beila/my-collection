@@ -60,7 +60,7 @@
 <p><strong>Digest size:</strong> MiB is 1,048,576 bytes. Images include the cover; image bytes are uncompressed ZIP member sizes. Words are whitespace-separated text units in article chapters; headings exclude the navigation document. Build time excludes email delivery. Direct program additions require recorded delivery into Smith; conversions do not establish who added the original.</p>
 <p><strong>Collection storage:</strong> deployment size is the uncompressed total of the staged website, including its measurement file. One point per successful deployment uses its build time in UTC. All recorded deployment, migration, and excluded-original measurements are retained. History follows the selected period; source, destination, and interval filters do not apply. Missing older measurements remain blank. Migration counts distinct, verified B2 objects; uploading an image does not remove its old Pages copy. Daily migration usage counts reserved requests and bytes, not account-wide Backblaze usage.</p>
 <p><strong>Historical additions:</strong> confirmed, dated feed-monitor records retained locally. They provide partial history, not an account-wide total. Checks and queue measurements begin when recording was installed; blank earlier periods mean unknown. Source cadence and destination associations for checks use the current catalog; delivered bookmark destinations are recorded at delivery.</p>
-<p><strong>External accesses:</strong> one count per explicit Instapaper API or authenticated web request, Facebook browser page load, or HTTP fetch from Facebook and its media hosts. Each retry counts separately. Local caches and lock polling add no accesses. Completed accesses mean successful HTTP responses or browser loads without a network error; they do not prove that a page's content was usable. Implicit browser asset requests and scrolling requests are not measured. These global counts use the selected period and interval, independent of source and destination filters.</p>
+<p><strong>External accesses:</strong> Instapaper uses the left axis and Facebook uses the right axis, with independent count scales on the same timeline. One count means one explicit Instapaper API or authenticated web request, Facebook browser page load, or HTTP fetch from Facebook and its media hosts. Each retry counts separately. Local caches and lock polling add no accesses. Completed accesses mean successful HTTP responses or browser loads without a network error; they do not prove that a page's content was usable. Implicit browser asset requests and scrolling requests are not measured. These global counts use the selected period and interval, independent of source and destination filters.</p>
 <p><strong>Successful agent CLI calls:</strong> one count per accepted Codex, Claude, or Kiro CLI completion through this automation's shared agent launcher. Failed, unavailable, and authentication-deferred fallbacks do not count. A direct Claude call requires a successful exit and a valid result envelope. Completion dates use UTC. These are CLI calls, not individual model requests, tool calls, or interactive sessions elsewhere. Earlier calls are not reconstructed from output files.</p>
 <p>All recorded activity, Instapaper usage, digest, deployment, and daily queue history is retained. Detailed hourly queue observations are kept for 35 days. “All recorded time” includes available history; it does not imply coverage before recording began. The public snapshot updates with collection page deployments. All dates and chart buckets use UTC. No bookmark identities, text, repair notes, error messages, or credentials are exported.</p>
 </details>
@@ -85,7 +85,9 @@ function bucket(day){const interval=$("interval").value;if(interval==="day")retu
 function inPeriod(day){return day>=start()&&day<=dayOf(Date.now());}
 function grouped(rows,label,value){const map=new Map();for(const row of rows){const key=bucket(row.day),series=label(row);if(!map.has(key))map.set(key,{});const values=map.get(key);values[series]=(values[series]||0)+value(row);}return [...map].sort(([a],[b])=>a.localeCompare(b)).map(([day,values])=>({day,...values}));}
 function valuesTable(rows,series,format=num,label=s=>s){return '<table><thead><tr><th>UTC date</th>'+series.map(s=>'<th class="num">'+esc(label(s))+'</th>').join("")+'</tr></thead><tbody>'+rows.map(r=>'<tr><td>'+esc(r.day)+'</td>'+series.map(s=>'<td class="num">'+format(r[s])+'</td>').join("")+'</tr>').join("")+'</tbody></table>';}
-function chart(id,rows,series,{stack=false,area=false,overlay=[],secondary=false,label=s=>s,palette=null,peak=false,format=num,exactFormat=format,categories=false,time=false,gaps=false}={}){
+function describeChartPoint(e){const mark=e.target.closest("[data-chart][data-row]");if(mark)$(mark.getAttribute("data-chart")+"-readout").textContent=mark.getAttribute("aria-label");}
+document.addEventListener("focusin",describeChartPoint);
+function chart(id,rows,series,{stack=false,area=false,overlay=[],secondary=false,axisLabels=[],label=s=>s,palette=null,peak=false,format=num,exactFormat=format,categories=false,time=false,gaps=false}={}){
  if(gaps){const formatter=format,exact=exactFormat;format=n=>Number.isFinite(n)?formatter(n):"—";exactFormat=n=>Number.isFinite(n)?exact(n):"—";}
  const allSeries=[...series,...overlay],color=s=>palette?.[s]||colors[allSeries.indexOf(s)%colors.length];
  $(id+"-legend").innerHTML=allSeries.map(s=>'<span><i class="key'+(overlay.includes(s)?" line":"")+'" style="'+(overlay.includes(s)?"border-color:":"background:")+color(s)+'"></i>'+esc(label(s))+'</span>').join("");
@@ -103,7 +105,7 @@ function chart(id,rows,series,{stack=false,area=false,overlay=[],secondary=false
  const allMissing=rows.every(r=>r.missing);
  if(!allMissing)for(let i=0;i<4;i++){const n=max*i/3;svg+='<line class="gridline" x1="'+L+'" x2="'+(W-R)+'" y1="'+y(n)+'" y2="'+y(n)+'"/><text x="'+(L-8)+'" y="'+(y(n)+4)+'" text-anchor="end">'+format(n)+'</text>';}
  if(secondary&&!allMissing){
-  svg+='<text x="'+L+'" y="14">Folders</text><text x="'+(W-R)+'" y="14" text-anchor="end">Archive</text>';
+  svg+='<text x="'+L+'" y="14">'+esc(axisLabels[0])+'</text><text x="'+(W-R)+'" y="14" text-anchor="end">'+esc(axisLabels[1])+'</text>';
   for(let i=0;i<4;i++){const n=overlayMax*i/3;svg+='<text x="'+(W-R+8)+'" y="'+(overlayY(n)+4)+'">'+format(n)+'</text>';}
  }
  if(stack){
@@ -130,12 +132,16 @@ function chart(id,rows,series,{stack=false,area=false,overlay=[],secondary=false
    const date=new Date(first+(last-first)*fraction).toISOString(),position=L+(first===last?w/2:pad+fraction*(w-2*pad));
    svg+='<text x="'+position+'" y="'+(H-23)+'" text-anchor="'+(fraction===0?"start":fraction===1?"end":"middle")+'">'+date.slice(0,10)+'<tspan x="'+position+'" dy="14">'+date.slice(11,16)+'</tspan></text>';
   });
+ }else if(categories){
+  rows.forEach(r=>{svg+='<text x="'+x(r)+'" y="'+(H-23)+'" text-anchor="middle">'+esc(r.day.slice(0,10))+'<tspan x="'+x(r)+'" dy="14">'+esc(r.day.split(" ")[1])+'</tspan></text>';});
  }else{
-  (categories?rows:[rows[0],...(rows.length>2?[rows[Math.floor(rows.length/2)]]:[]),...(rows.length>1?[rows.at(-1)]:[])]).forEach((r,i,a)=>{svg+='<text x="'+x(r)+'" y="'+(categories?H-23:H-6)+'" text-anchor="'+(categories||a.length===1?"middle":i===0?"start":i===a.length-1?"end":"middle")+'">'+esc(r.day.slice(0,10))+(categories?'<tspan x="'+x(r)+'" dy="14">'+esc(r.day.split(" ")[1])+'</tspan>':"")+'</text>';});
+  (first===last?[.5]:W>600&&last-first>=172800000?[0,.5,1]:[0,1]).forEach(fraction=>{
+   const day=new Date(first+(last-first)*fraction).toISOString().slice(0,10),position=L+(first===last?w/2:pad+fraction*(w-2*pad));
+   svg+='<text x="'+position+'" y="'+(H-6)+'" text-anchor="'+(fraction===0?"start":fraction===1?"end":"middle")+'">'+day+'</text>';
+  });
  }
  target.innerHTML=svg+'</svg>';
- const describe=e=>{const mark=e.target.closest("[data-row]");if(mark)$(id+"-readout").textContent=mark.getAttribute("aria-label");};
- target.onpointerover=describe;target.onclick=describe;target.onfocusin=describe;
+ target.onpointerover=describeChartPoint;target.onclick=describeChartPoint;
  target.onpointermove=time?e=>{
   const bounds=target.querySelector("svg").getBoundingClientRect(),position=(e.clientX-bounds.left)*W/bounds.width;
   const nearest=rows.reduce((best,row)=>Math.abs(x(row)-position)<Math.abs(x(best)-position)?row:best);
@@ -159,7 +165,7 @@ function renderInstapaper(){
  const series=folders.map(name=>"folder:"+name),palette=Object.fromEntries(series.map((s,i)=>[s,i<colors.length?colors[i]:"hsl("+((i*137.508)%360)+" 42% 44%)"]));palette.Archive="#29221c";
  const label=s=>s.startsWith("folder:")?s.slice(7).replace(/^./,c=>c.toLocaleUpperCase()):s==="Archive"?"Archive · right axis":s;
  const folderRows=rows.map(row=>({day:row.day,Total:row.Total,missing:!row.folders,missingLabel:"Folder breakdown unavailable · total saved: "+num(row.Total),...Object.fromEntries(folders.map(name=>["folder:"+name,row.folders?(row.folders[name]||0):undefined])),Archive:row.folders?row.folders.archive||0:undefined}));
- chart("instapaper",folderRows,series,{stack:true,area:true,overlay:["Archive"],secondary:true,gaps:true,palette,label});
+ chart("instapaper",folderRows,series,{stack:true,area:true,overlay:["Archive"],secondary:true,axisLabels:["Folders","Archive"],gaps:true,palette,label});
  $("instapaper-values").innerHTML=valuesTable(folderRows,["Total",...series,"Archive"],n=>Number.isFinite(n)?num(n):"—",label);
  chart("instapaper-changes",rows,["Added","Moved","Deleted"]);
  const breakdownStarted=history.find(row=>row.folders)?.day;
@@ -178,8 +184,8 @@ function renderAccesses(){
   ["Failed accesses",count(services.filter(r=>r.status==="failed")),"Each failed request attempt"]
  ]);
  const measure=$("access-measure").value, measured=services.filter(r=>measure==="all"||r.status===measure);
- chart("access",grouped(measured,r=>names[r.service],r=>r.count),["Instapaper","Facebook"]);
- $("access-caption").textContent="Global · each explicit request or page load counts once; retries count again. Local caches and lock polling add no accesses. Browser subrequests are not measured. "+(since?"Recording began "+since+"; earlier accesses are unknown.":"Waiting for the first recorded access.");
+ chart("access",grouped(measured,r=>names[r.service],r=>r.count),["Instapaper"],{overlay:["Facebook"],secondary:true,axisLabels:["Instapaper","Facebook"],label:s=>s+(s==="Facebook"?" · right axis":" · left axis")});
+ $("access-caption").textContent="Global · Instapaper uses the left axis; Facebook uses the right axis. Each explicit request or page load counts once; retries count again. Local caches and lock polling add no accesses. Browser subrequests are not measured. "+(since?"Recording began "+since+"; earlier accesses are unknown.":"Waiting for the first recorded access.");
  $("agents-facts").innerHTML=factCards([
   ["Codex",count(agents.filter(r=>r.service==="codex")),"Successful CLI completions"],
   ["Claude",count(agents.filter(r=>r.service==="claude")),"Successful CLI completions"],
