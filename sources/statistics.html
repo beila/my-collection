@@ -12,6 +12,7 @@
 .panel-head select{max-width:100%;min-width:0}.kindle-composition{display:grid;gap:6px;margin-bottom:14px;font-size:12px}.kindle-composition select{max-width:100%}
 .bar-chart{display:grid;gap:13px;margin:18px 0 6px}.bar-heading{display:flex;justify-content:space-between;gap:16px;font-size:12px;margin-bottom:5px}.bar-heading span{min-width:0}.bar-heading strong{font-weight:500;font-variant-numeric:tabular-nums;flex-shrink:0}.bar-track{height:8px;background:var(--line);overflow:hidden}.bar-fill{height:100%;width:var(--bar-size);background:var(--accent)}.bar-row.unknown .bar-fill{background:var(--muted)}.bar-row.missing .bar-track{background:none;border-bottom:1px dashed var(--line)}.bar-axis{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-top:3px}.bar-note{font-size:12px;color:var(--muted);margin:12px 0}.folded-panel{margin-top:0}.folded-panel>summary{color:var(--ink)}.folded-panel>summary h2{display:inline}.folded-panel[open]>summary{margin-bottom:12px}
 .key.line{width:16px;height:0;border-radius:0;border-top:3px solid;vertical-align:middle}
+.chart .axis-title{font-size:12px;font-weight:600}
 .digest-trend{overflow-x:auto}.digest-trend svg{max-width:none;max-height:none}.migration-progress{width:100%;height:12px;accent-color:var(--accent)}.storage-facts{margin-bottom:18px}.storage-note{font-size:12px;color:var(--muted);margin-top:10px}
 @media(max-width:760px){.grid{grid-template-columns:1fr;gap:28px}.wide{grid-column:auto}.facts{grid-template-columns:1fr 1fr}.fact:nth-child(2){border-right:0}.fact:nth-child(-n+2){border-bottom:1px solid var(--line)}.fact{padding:14px}.filters label{flex:1;min-width:120px}.filters select{width:100%;max-width:100%}.filters .source{flex-basis:100%}header nav{gap:12px}.fact strong{font-size:26px}.chart{padding:9px}}
 @media(prefers-reduced-motion:no-preference){button,a{transition:color .12s,background .12s}}
@@ -94,19 +95,20 @@ function chart(id,rows,series,{stack=false,area=false,overlay=[],secondary=false
  $(id+"-values").innerHTML=valuesTable(rows,allSeries,exactFormat,label);
  const target=$(id+"-chart");target.onpointermove=null;$(id+"-readout").textContent="";
  if(!rows.length){target.innerHTML='<p class="empty">No observations recorded in this period.</p>';return;}
- const W=Math.max(280,target.clientWidth-24,categories?rows.length*60+62:0),H=categories?260:240,L=secondary?64:time?78:46,R=secondary?64:16,T=secondary?30:14,B=categories||time?50:30,w=W-L-R,h=H-T-B,pad=stack&&!area?20:8;
+ const W=Math.max(280,target.clientWidth-24,categories?rows.length*60+62:0),H=categories?260:240,L=secondary?80:time?78:46,R=secondary?80:16,T=secondary?30:14,B=categories||time?50:30,w=W-L-R,h=H-T-B,pad=stack&&!area?20:8;
  const stamp=r=>new Date(time?r.at:r.day+"T00:00:00Z").getTime(), first=stamp(rows[0]),last=stamp(rows.at(-1));
  const x=r=>categories?L+(rows.indexOf(r)+.5)*w/rows.length:L+(last===first?w/2:pad+(stamp(r)-first)/(last-first)*(w-2*pad));
  const max=rows.reduce((largest,r)=>Math.max(largest,stack?series.reduce((n,s)=>n+(r[s]||0),0):series.reduce((n,s)=>Math.max(n,r[s]||0),0)),1);
  const y=n=>T+h-n/max*h;
  const overlayMax=secondary?rows.reduce((largest,r)=>Math.max(largest,...overlay.map(s=>r[s]||0)),1):max;
  const overlayY=n=>T+h-n/overlayMax*h;
- let svg='<svg viewBox="0 0 '+W+' '+H+'"'+(categories?' style="width:'+W+'px"':"")+' role="img" aria-label="'+esc(id)+' trend; exact values follow">';
+ const leftColor=secondary&&!stack&&series.length===1?color(series[0]):"var(--ink)",rightColor=secondary&&overlay.length===1?color(overlay[0]):"var(--ink)";
+ let svg='<svg viewBox="0 0 '+W+' '+H+'"'+(categories?' style="width:'+W+'px"':"")+' role="img" aria-label="'+esc(id)+' trend; '+(secondary?'left axis: '+esc(axisLabels[0])+'; right axis: '+esc(axisLabels[1])+'; ':"")+'exact values follow">';
  const allMissing=rows.every(r=>r.missing);
- if(!allMissing)for(let i=0;i<4;i++){const n=max*i/3;svg+='<line class="gridline" x1="'+L+'" x2="'+(W-R)+'" y1="'+y(n)+'" y2="'+y(n)+'"/><text x="'+(L-8)+'" y="'+(y(n)+4)+'" text-anchor="end">'+format(n)+'</text>';}
+ if(!allMissing)for(let i=0;i<4;i++){const n=max*i/3;svg+='<line class="gridline" x1="'+L+'" x2="'+(W-R)+'" y1="'+y(n)+'" y2="'+y(n)+'"/><text x="'+(L-8)+'" y="'+(y(n)+4)+'" text-anchor="end"'+(secondary?' style="fill:'+leftColor+'"':"")+'>'+format(n)+'</text>';}
  if(secondary&&!allMissing){
-  svg+='<text x="'+L+'" y="14">'+esc(axisLabels[0])+'</text><text x="'+(W-R)+'" y="14" text-anchor="end">'+esc(axisLabels[1])+'</text>';
-  for(let i=0;i<4;i++){const n=overlayMax*i/3;svg+='<text x="'+(W-R+8)+'" y="'+(overlayY(n)+4)+'">'+format(n)+'</text>';}
+  svg+='<text class="axis-title" transform="translate(12 '+(T+h/2)+') rotate(-90)" text-anchor="middle" dy=".35em" style="fill:'+leftColor+'">'+esc(axisLabels[0])+'</text><text class="axis-title" transform="translate('+(W-12)+' '+(T+h/2)+') rotate(90)" text-anchor="middle" dy=".35em" style="fill:'+rightColor+'">'+esc(axisLabels[1])+'</text>';
+  for(let i=0;i<4;i++){const n=overlayMax*i/3;svg+='<text x="'+(W-R+8)+'" y="'+(overlayY(n)+4)+'" style="fill:'+rightColor+'">'+format(n)+'</text>';}
  }
  if(stack){
   const bw=Math.min(38,w/Math.max(2,rows.length)*.75);
@@ -137,7 +139,7 @@ function chart(id,rows,series,{stack=false,area=false,overlay=[],secondary=false
  }else{
   (first===last?[.5]:W>600&&last-first>=172800000?[0,.5,1]:[0,1]).forEach(fraction=>{
    const day=new Date(first+(last-first)*fraction).toISOString().slice(0,10),position=L+(first===last?w/2:pad+fraction*(w-2*pad));
-   svg+='<text x="'+position+'" y="'+(H-6)+'" text-anchor="'+(fraction===0?"start":fraction===1?"end":"middle")+'">'+day+'</text>';
+   svg+='<text x="'+position+'" y="'+(H-6)+'" text-anchor="'+(secondary?"middle":fraction===0?"start":fraction===1?"end":"middle")+'">'+day+'</text>';
   });
  }
  target.innerHTML=svg+'</svg>';
@@ -165,7 +167,7 @@ function renderInstapaper(){
  const series=folders.map(name=>"folder:"+name),palette=Object.fromEntries(series.map((s,i)=>[s,i<colors.length?colors[i]:"hsl("+((i*137.508)%360)+" 42% 44%)"]));palette.Archive="#29221c";
  const label=s=>s.startsWith("folder:")?s.slice(7).replace(/^./,c=>c.toLocaleUpperCase()):s==="Archive"?"Archive · right axis":s;
  const folderRows=rows.map(row=>({day:row.day,Total:row.Total,missing:!row.folders,missingLabel:"Folder breakdown unavailable · total saved: "+num(row.Total),...Object.fromEntries(folders.map(name=>["folder:"+name,row.folders?(row.folders[name]||0):undefined])),Archive:row.folders?row.folders.archive||0:undefined}));
- chart("instapaper",folderRows,series,{stack:true,area:true,overlay:["Archive"],secondary:true,axisLabels:["Folders","Archive"],gaps:true,palette,label});
+ chart("instapaper",folderRows,series,{stack:true,area:true,overlay:["Archive"],secondary:true,axisLabels:["Folder bookmarks","Archived bookmarks"],gaps:true,palette,label});
  $("instapaper-values").innerHTML=valuesTable(folderRows,["Total",...series,"Archive"],n=>Number.isFinite(n)?num(n):"—",label);
  chart("instapaper-changes",rows,["Added","Moved","Deleted"]);
  const breakdownStarted=history.find(row=>row.folders)?.day;
@@ -184,7 +186,7 @@ function renderAccesses(){
   ["Failed accesses",count(services.filter(r=>r.status==="failed")),"Each failed request attempt"]
  ]);
  const measure=$("access-measure").value, measured=services.filter(r=>measure==="all"||r.status===measure);
- chart("access",grouped(measured,r=>names[r.service],r=>r.count),["Instapaper"],{overlay:["Facebook"],secondary:true,axisLabels:["Instapaper","Facebook"],label:s=>s+(s==="Facebook"?" · right axis":" · left axis")});
+ chart("access",grouped(measured,r=>names[r.service],r=>r.count),["Instapaper"],{overlay:["Facebook"],secondary:true,axisLabels:["Instapaper accesses","Facebook accesses"],label:s=>s+(s==="Facebook"?" · right axis":" · left axis")});
  $("access-caption").textContent="Global · Instapaper uses the left axis; Facebook uses the right axis. Each explicit request or page load counts once; retries count again. Local caches and lock polling add no accesses. Browser subrequests are not measured. "+(since?"Recording began "+since+"; earlier accesses are unknown.":"Waiting for the first recorded access.");
  $("agents-facts").innerHTML=factCards([
   ["Codex",count(agents.filter(r=>r.service==="codex")),"Successful CLI completions"],
