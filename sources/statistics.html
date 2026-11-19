@@ -306,7 +306,7 @@ function renderCollection(){
    ["Verified image bytes",bytes(migration.verified_bytes),bytes(migration.bytes)+" total"],
    ["Legacy files still on Pages",num(migration.remaining_files),bytes(migration.remaining_bytes)+" still served"]
   ]);
-  $("migration-note").textContent="Uploads and removal from Pages are separate steps. Saved Readers must be verified before their old image URLs are removed. Repository originals are retained. Daily batches run at 23:45–23:58 UTC; new images take priority.";
+  $("migration-note").textContent="Verified batches switch pages to B2 and refresh saved Readers before old Pages copies are excluded. Browser checks require working images on the published pages. Repository originals are retained. Uploads run at 23:45–23:58 UTC; new images take priority. Verification shares the daily migration allowance.";
   const daily=migration.daily||{}, limits=migration.limits||{};
   $("migration-batch").innerHTML=table([
    ["UTC day",daily.date||"Unknown"],

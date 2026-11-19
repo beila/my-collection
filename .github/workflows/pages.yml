@@ -22,6 +22,8 @@ jobs:
       artifact_name: pages-${{ github.run_id }}-${{ github.run_attempt }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
       - uses: actions/configure-pages@v5
         id: pages
       - name: Read the latest migration checkpoint
@@ -31,6 +33,61 @@ jobs:
         run: bash .github/scripts/read-migration-checkpoint.sh . "$RUNNER_TEMP/migration"
       - name: Prepare public artifact
         run: bash .github/scripts/prepare-pages.sh . _site
+      - name: Check legacy image exclusions
+        run: |
+          python3 .github/scripts/legacy_image_cutover_verify.py \
+            --repo . --site _site --static-only
+      - name: Select image cutover verification
+        id: cutover
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          plan=".github/legacy-image-cutover.json"
+          if [[ -f "$plan" ]] && [[ $(jq -r '.disabled // false' "$plan") != true ]]; then
+            request=$(jq -er '.request_id | select(test("^[a-f0-9]{64}$"))' "$plan")
+            echo "request_id=$request" >> "$GITHUB_OUTPUT"
+            previous=$(gh api --method GET \
+              "repos/$GITHUB_REPOSITORY/actions/artifacts" \
+              -f "name=legacy-image-cutover-$request" -f per_page=100 \
+              --jq '[.artifacts[] | select(.expired == false)] | max_by(.id) | .workflow_run.id // empty')
+            if [[ -n "$previous" ]]; then
+              mkdir -p "$RUNNER_TEMP/cutover-verification"
+              gh run download "$previous" --repo "$GITHUB_REPOSITORY" \
+                --name "legacy-image-cutover-$request" \
+                --dir "$RUNNER_TEMP/cutover-verification"
+              if [[ -f "$RUNNER_TEMP/cutover-verification/failure.json" ]]; then
+                echo "::error::The cutover failed verification; a new allowance is required."
+                exit 1
+              fi
+              prior_status=$(gh run view "$previous" --repo "$GITHUB_REPOSITORY" \
+                --json conclusion --jq .conclusion)
+              budget_day=$(jq -r .budget_date "$plan")
+              if [[ "$prior_status" != success ]] && [[ "$budget_day" != $(date -u +%F) ]]; then
+                echo "::error::The incomplete cutover needs a new UTC-day allowance."
+                exit 1
+              fi
+              python3 .github/scripts/legacy_image_cutover_verify.py \
+                --repo . --site _site \
+                --cached "$RUNNER_TEMP/cutover-verification/result.json"
+              echo "cached=true" >> "$GITHUB_OUTPUT"
+            fi
+          fi
+      - name: Install the image browser verifier
+        if: steps.cutover.outputs.request_id != '' && steps.cutover.outputs.cached != 'true'
+        run: python3 -m pip install selenium==4.40.0
+      - name: Verify public images and page rendering
+        if: steps.cutover.outputs.request_id != '' && steps.cutover.outputs.cached != 'true'
+        run: |
+          python3 .github/scripts/legacy_image_cutover_verify.py \
+            --repo . --site _site --output "$RUNNER_TEMP/cutover-verification"
+      - name: Retain the image cutover verification
+        if: always() && steps.cutover.outputs.request_id != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: legacy-image-cutover-${{ steps.cutover.outputs.request_id }}
+          path: ${{ runner.temp }}/cutover-verification
+          if-no-files-found: error
+          retention-days: 90
       - name: Measure the staged website
         id: measurements
         continue-on-error: true

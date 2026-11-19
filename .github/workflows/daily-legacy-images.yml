@@ -78,7 +78,8 @@ jobs:
               --sha256 "$MANIFEST_SHA256" \
               --output "$receipt" \
               --resume-receipt "$receipt" \
-              --workers 2 --daily
+              --workers 2 --daily \
+              --cutover-usage .github/legacy-image-cutover-usage.json
           result=$?
           set -e
           if [[ "$result" == 124 || "$result" == 130 || "$result" == 137 ]]; then

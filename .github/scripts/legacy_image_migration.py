@@ -108,7 +108,9 @@ class MigrationPaused(TestFailure):
 class DailyMigrationBudget:
     """Reserve migration reads before they use the shared account allowance."""
 
-    def __init__(self, result, images, checkpoint, lock, *, clock=time.time):
+    def __init__(
+        self, result, images, checkpoint, lock, *, clock=time.time, cutover_usage=None
+    ):
         self.result = result
         self.images = {image["url"]: image for image in images.values()}
         self.checkpoint = checkpoint
@@ -147,6 +149,34 @@ class DailyMigrationBudget:
                 "download_bytes": 0,
             }
         )
+        if cutover_usage is not None:
+            if (
+                not isinstance(cutover_usage, dict)
+                or not isinstance(cutover_usage.get("date"), str)
+                or any(
+                    type(cutover_usage.get(key)) is not int or cutover_usage[key] < 0
+                    for key in ("read_requests", "download_bytes")
+                )
+            ):
+                raise TestFailure("Invalid cutover allowance")
+            datetime.strptime(cutover_usage["date"], "%Y-%m-%d")
+            if cutover_usage["date"] > day:
+                raise TestFailure("Cutover allowance is from the future")
+            if cutover_usage["date"] == day:
+                for key, maximum in (
+                    ("read_requests", DAILY_READ_REQUESTS),
+                    ("download_bytes", DAILY_DOWNLOAD_BYTES),
+                ):
+                    charged = self.state.get("cutover_" + key, 0)
+                    reserved = cutover_usage[key]
+                    if (
+                        type(charged) is not int
+                        or not 0 <= charged <= reserved <= maximum
+                        or self.state[key] + reserved - charged > maximum
+                    ):
+                        raise TestFailure("Cutover allowance exceeds the daily limit")
+                    self.state[key] += reserved - charged
+                    self.state["cutover_" + key] = reserved
         result["daily_upload"] = self.state
 
     def deadline(self) -> float:
@@ -204,6 +234,7 @@ def upload_inventory(
     daily: bool = False,
     clock=time.time,
     client_factory=B2,
+    cutover_usage: dict | None = None,
 ) -> dict:
     inventory = read_inventory(manifest, expected_hash)
     if not 1 <= workers <= 8 or limit < 0 or (daily and limit):
@@ -260,7 +291,9 @@ def upload_inventory(
     if daily:
         if "daily_upload" in previous:
             result["daily_upload"] = previous["daily_upload"]
-        budget = DailyMigrationBudget(result, unique, checkpoint, lock, clock=clock)
+        budget = DailyMigrationBudget(
+            result, unique, checkpoint, lock, clock=clock, cutover_usage=cutover_usage
+        )
         if not selected:
             result["status"] = "verified"
             checkpoint()
@@ -571,6 +604,146 @@ def publication_files(
     return files
 
 
+def verified_inventory(manifest: Path, receipt: Path) -> dict[str, dict]:
+    inventory = read_inventory(manifest)
+    expected = {image["object_key"]: image for image in inventory["images"]}
+    verified = json.loads(receipt.read_text())
+    if verified.get("manifest_sha256") != digest(manifest.read_bytes()) or verified.get(
+        "status"
+    ) not in {"partial", "verified", "failed"}:
+        raise TestFailure("Upload verification does not match the inventory")
+    seen = set()
+    for image in verified["images"]:
+        key = image["object_key"]
+        if (
+            key in seen
+            or key not in expected
+            or any(
+                image.get(field) != expected[key][field]
+                for field in ("sha256", "bytes", "content_type", "url")
+            )
+        ):
+            raise TestFailure("Invalid verified image identity")
+        seen.add(key)
+    if verified["status"] == "verified" and seen != expected.keys():
+        raise TestFailure("Verified upload inventory is incomplete")
+    return {
+        image["original_path"]: image
+        for image in inventory["images"]
+        if image["object_key"] in seen
+    }
+
+
+def incremental_publication_files(
+    repo: Path,
+    manifest: Path,
+    receipt: Path,
+    documents: tuple[str, ...],
+    *,
+    expected_documents: dict[str, str] | None = None,
+    source_checks: dict[Path, str] | None = None,
+) -> tuple[dict[Path, str], dict[str, dict]]:
+    inventory = read_inventory(manifest)
+    all_images = {image["original_path"]: image for image in inventory["images"]}
+    verified = verified_inventory(manifest, receipt)
+    files = {}
+    selected = {}
+    for relative in documents:
+        path = repo / relative
+        if (
+            Path(relative).is_absolute()
+            or ".." in Path(relative).parts
+            or any(part.startswith(".") for part in Path(relative).parts)
+            or path.suffix != ".html"
+            or not path.resolve().is_relative_to(repo.resolve())
+        ):
+            raise TestFailure("Invalid migration document path")
+        before = path.read_text()
+        if expected_documents and digest(before.encode()) != expected_documents.get(
+            relative
+        ):
+            raise TestFailure("The migration article changed during preparation")
+        if source_checks is not None:
+            source_checks[Path(relative)] = digest(before.encode())
+        _document, used = rewrite_document(
+            before, urljoin(PAGES_BASE, relative), all_images
+        )
+        if not used or not used <= verified.keys():
+            raise TestFailure("The article contains unverified legacy images")
+        images = {original: verified[original] for original in used}
+        for image in images.values():
+            source_bytes(repo, image)
+        after, _used = rewrite_document(before, urljoin(PAGES_BASE, relative), images)
+        files[Path(relative)] = after
+        metadata_path = path.with_name(path.name + ".images.json")
+        metadata_before = metadata_path.read_text() if metadata_path.exists() else ""
+        if source_checks is not None:
+            source_checks[metadata_path.relative_to(repo)] = digest(
+                metadata_before.encode()
+            )
+        metadata = (
+            json.loads(metadata_before)
+            if metadata_before
+            else {"schema_version": 1, "images": []}
+        )
+        merged = {image["original_path"]: image for image in metadata["images"]}
+        for original, image in images.items():
+            merged[original] = image | {"repository_path": original}
+        metadata["images"] = [merged[key] for key in sorted(merged)]
+        files[metadata_path.relative_to(repo)] = (
+            json.dumps(metadata, ensure_ascii=False, indent=2) + "\n"
+        )
+        selected.update(images)
+    return files, selected
+
+
+def incremental_exclusion_files(
+    repo: Path,
+    manifest: Path,
+    images: dict[str, dict],
+    *,
+    protected_paths: set[str],
+) -> dict[Path, str]:
+    inventory = read_inventory(manifest)
+    known = {image["original_path"]: image for image in inventory["images"]}
+    if (
+        not images.keys() <= known.keys()
+        or not protected_paths <= known.keys()
+        or any(image != known[path] for path, image in images.items())
+    ):
+        raise TestFailure("Invalid incremental exclusion inventory")
+    referenced = set()
+    for path in repo.rglob("*"):
+        relative = path.relative_to(repo)
+        if path.suffix not in {".html", ".htm", ".css", ".js"} or any(
+            part.startswith(".") for part in relative.parts
+        ):
+            continue
+        document = path.read_text()
+        page_url = urljoin(PAGES_BASE, relative.as_posix())
+        _document, used = rewrite_document(document, page_url, known)
+        for token in re.finditer(r"""(["'])([^"'\r\n]{1,2048})\1""", document):
+            original = image_path(token[2], page_url)
+            if original in known:
+                used.add(original)
+        referenced.update(used)
+    exclusions = Path(".github/pages-excluded-assets.txt")
+    previous = (
+        (repo / exclusions).read_text().splitlines()
+        if (repo / exclusions).exists()
+        else []
+    )
+    if any(not line.startswith("/") or line[1:] not in known for line in previous):
+        raise TestFailure("Invalid existing Pages exclusions")
+    removable = images.keys() - referenced - protected_paths
+    for original in removable:
+        source_bytes(repo, known[original])
+    excluded = {line[1:] for line in previous} | removable
+    if excluded & referenced:
+        raise TestFailure("A published article still needs an excluded image")
+    return {exclusions: "".join(f"/{path}\n" for path in sorted(excluded))}
+
+
 def retain_inventory(
     repo: Path, manifest: Path, revision: str, *, directory: Path | None = None
 ) -> int:
@@ -642,9 +815,22 @@ def reader_compatibility(before: str, after: str, images: dict[str, dict]) -> li
         return result
 
     missing_placements = placements(rewritten) - placements(after)
+    paragraphs = Counter(
+        normalized(node.get_text(" ", strip=True))
+        for node in source.select("p, li, td, th, figcaption, pre")
+        if not node.select("p, li, td, th, figcaption, pre")
+        and normalized(node.get_text(" ", strip=True))
+    )
+    missing_duplicates = sum(
+        max(0, count - target_text.count(text))
+        for text, count in paragraphs.items()
+        if count > 1
+    )
     errors = []
     if missing:
         errors.append(f"missing saved text blocks: {len(missing)}")
+    if missing_duplicates:
+        errors.append(f"missing repeated saved text blocks: {missing_duplicates}")
     if missing_images:
         errors.append(f"missing migrated image references: {len(missing_images)}")
     if missing_placements:
@@ -766,6 +952,7 @@ def main() -> None:
     parser.add_argument("--capture", type=Path)
     parser.add_argument("--resume-receipt", type=Path)
     parser.add_argument("--daily", action="store_true")
+    parser.add_argument("--cutover-usage", type=Path)
     args = parser.parse_args()
     if args.operation == "upload":
         if not args.sha256:
@@ -779,6 +966,11 @@ def main() -> None:
             limit=args.limit,
             resume_receipt=args.resume_receipt,
             daily=args.daily,
+            cutover_usage=(
+                json.loads(args.cutover_usage.read_text())
+                if args.cutover_usage and args.cutover_usage.exists()
+                else None
+            ),
         )
         print(json.dumps({"verified": len(result["images"])}))
     elif args.operation == "plan":
