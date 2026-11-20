@@ -86,7 +86,7 @@ function matches(row) {
 function bucket(day){const interval=$("interval").value;if(interval==="day")return day;if(interval==="month")return day.slice(0,7)+"-01";if(interval==="year")return day.slice(0,4)+"-01-01";const d=new Date(day+"T00:00:00Z");d.setUTCDate(d.getUTCDate()-((d.getUTCDay()+6)%7));return dayOf(d);}
 function inPeriod(day){return day>=start()&&day<=dayOf(Date.now());}
 function grouped(rows,label,value){const map=new Map();for(const row of rows){const key=bucket(row.day),series=label(row);if(!map.has(key))map.set(key,{});const values=map.get(key);values[series]=(values[series]||0)+value(row);}return [...map].sort(([a],[b])=>a.localeCompare(b)).map(([day,values])=>({day,...values}));}
-function valuesTable(rows,series,format=num,label=s=>s){return '<table><thead><tr><th>UTC date</th>'+series.map(s=>'<th class="num">'+esc(label(s))+'</th>').join("")+'</tr></thead><tbody>'+rows.map(r=>'<tr><td>'+esc(r.day)+'</td>'+series.map(s=>'<td class="num">'+format(r[s],s,r)+'</td>').join("")+'</tr>').join("")+'</tbody></table>';}
+function valuesTable(rows,series,format=num,label=s=>s){return '<table><thead><tr><th>UTC date</th>'+series.map(s=>'<th class="num">'+esc(label(s))+'</th>').join("")+'</tr></thead><tbody>'+rows.map(r=>'<tr><td>'+esc(r.day)+'</td>'+series.map(s=>'<td class="num">'+format(r[s])+'</td>').join("")+'</tr>').join("")+'</tbody></table>';}
 function describeChartPoint(e){const mark=e.target.closest("[data-chart][data-row]");if(mark)$(mark.getAttribute("data-chart")+"-readout").textContent=mark.getAttribute("aria-label");}
 document.addEventListener("focusin",describeChartPoint);
 function chart(id,rows,series,{stack=false,stackTopFirst=false,area=false,overlay=[],secondary=false,sharedScale=false,axisLabels=[],label=s=>s,palette=null,peak=false,format=num,exactFormat=format,categories=false,time=false,gaps=false}={}){
@@ -132,7 +132,7 @@ function chart(id,rows,series,{stack=false,stackTopFirst=false,area=false,overla
  const drawLine=(s,lineY)=>{const segments=[[]];for(const row of rows){if(gaps&&!Number.isFinite(row[s])){if(segments.at(-1).length)segments.push([]);continue;}segments.at(-1).push(x(row)+","+lineY(row[s]||0));}for(const points of segments){if(points.length)svg+='<polyline data-series="'+esc(s)+'" points="'+points.join(" ")+'" fill="none" stroke="'+color(s)+'" stroke-width="'+(peak&&s==="Observed peak"?1:2.5)+'"'+(peak&&s==="Observed peak"?' stroke-dasharray="5 5"':"")+'/>';}};
  if(!stack)series.forEach(s=>drawLine(s,y));
  overlay.forEach(s=>drawLine(s,overlayY));
- rows.forEach((row,index)=>{const desc=row.day+" · "+(row.missing?(row.missingLabel||"History unavailable"):allSeries.map(s=>label(s,row)+": "+format(row[s])).join(" · "));svg+='<g tabindex="0" data-chart="'+id+'" data-row="'+index+'" aria-label="'+esc(desc)+'"><title>'+esc(desc)+'</title><rect x="'+(x(row)-8)+'" y="'+T+'" width="16" height="'+h+'" fill="transparent"/>';const dots=stack?overlay:allSeries;dots.forEach(s=>{if(!gaps||Number.isFinite(row[s]))svg+='<circle cx="'+x(row)+'" cy="'+(overlay.includes(s)?overlayY:y)(row[s]||0)+'" r="3" fill="'+color(s)+'"/>';});svg+='</g>';});
+ rows.forEach((row,index)=>{const desc=row.day+" · "+(row.missing?(row.missingLabel||"History unavailable"):allSeries.map(s=>label(s)+": "+format(row[s])).join(" · "));svg+='<g tabindex="0" data-chart="'+id+'" data-row="'+index+'" aria-label="'+esc(desc)+'"><title>'+esc(desc)+'</title><rect x="'+(x(row)-8)+'" y="'+T+'" width="16" height="'+h+'" fill="transparent"/>';const dots=stack?overlay:allSeries;dots.forEach(s=>{if(!gaps||Number.isFinite(row[s]))svg+='<circle cx="'+x(row)+'" cy="'+(overlay.includes(s)?overlayY:y)(row[s]||0)+'" r="3" fill="'+color(s)+'"/>';});svg+='</g>';});
  if(time){
   (first===last?[.5]:W>600?[0,.5,1]:[0,1]).forEach(fraction=>{
    const date=new Date(first+(last-first)*fraction).toISOString(),position=L+(first===last?w/2:pad+fraction*(w-2*pad));
@@ -151,35 +151,10 @@ function chart(id,rows,series,{stack=false,stackTopFirst=false,area=false,overla
  target.onpointermove=time?e=>{
   const bounds=target.querySelector("svg").getBoundingClientRect(),position=(e.clientX-bounds.left)*W/bounds.width;
   const nearest=rows.reduce((best,row)=>Math.abs(x(row)-position)<Math.abs(x(best)-position)?row:best);
-  $(id+"-readout").textContent=nearest.day+" · "+allSeries.map(s=>label(s,nearest)+": "+format(nearest[s])).join(" · ");
+  $(id+"-readout").textContent=nearest.day+" · "+allSeries.map(s=>label(s)+": "+format(nearest[s])).join(" · ");
  }:null;
 }
 function table(rows,headers){return '<table><thead><tr>'+headers.map(h=>'<th>'+esc(h)+'</th>').join("")+'</tr></thead><tbody>'+rows.map(r=>'<tr>'+r.map(v=>'<td>'+esc(v)+'</td>').join("")+'</tr>').join("")+'</tbody></table>';}
-function instapaperFolderSeries(intervals){
- const series=new Set(), isYear=name=>/^\d{4}$/.test(name);
- // Use the latest sidebar order, then append folders that only appear in older snapshots.
- const rows=intervals.slice().reverse().map(({day,snapshot})=>{
-  const {folders,total}=snapshot, year=snapshot.day.slice(0,4);
-  const row={day,year,Total:total,missing:!folders};
-  if(!folders){row.missingLabel="Folder breakdown unavailable · total saved: "+num(total);return row;}
-  series.add("folder:unread");
-  series.add("this-year");
-  const names=snapshot.folder_order??Object.keys(folders);
-  const lastOtherYear=names.findLast(name=>name!==year&&isYear(name));
-  for(const name of names){
-   if(name==="archive")continue;
-   const key=name===year?"this-year":isYear(name)?"other-years":"folder:"+name;
-   row[key]=(row[key]||0)+folders[name];
-   if(key!=="other-years"||name===lastOtherYear)series.add(key);
-  }
-  row.Archive=folders.archive||0;
-  return row;
- }).reverse();
- for(const row of rows){
-  if(!row.missing)for(const key of series)row[key]??=0;
- }
- return {rows,series:[...series]};
-}
 function renderInstapaper(){
  const usage=data.instapaper||{}, history=usage.history||[], selectedRows=history.filter(r=>inPeriod(r.day)), latest=history.at(-1);
  const totals=key=>selectedRows.reduce((n,r)=>n+(r[key]||0),0);
@@ -190,21 +165,17 @@ function renderInstapaper(){
   ["Deleted",selectedRows.length?num(totals("deleted")):"—","Observed removals in the selected period"]
  ]);
  const buckets=new Map();
- for(const row of selectedRows){const day=bucket(row.day),previous=buckets.get(day)||{day,Added:0,Moved:0,Deleted:0};buckets.set(day,{day,snapshot:row,Added:previous.Added+row.added,Moved:previous.Moved+row.moved,Deleted:previous.Deleted+row.deleted});}
+ for(const row of selectedRows){const day=bucket(row.day),previous=buckets.get(day)||{day,Added:0,Moved:0,Deleted:0};buckets.set(day,{...previous,Total:row.total,folders:row.folders,Added:previous.Added+row.added,Moved:previous.Moved+row.moved,Deleted:previous.Deleted+row.deleted});}
  const rows=[...buckets.values()].sort((a,b)=>a.day.localeCompare(b.day));
- const {rows:folderRows,series}=instapaperFolderSeries(rows);
- const palette=Object.fromEntries(series.map((s,i)=>[s,i<colors.length?colors[i]:"hsl("+((i*137.508)%360)+" 42% 44%)"]));palette.Archive="#29221c";
- const label=(s,row)=>{
-  if(s==="this-year")return row?"This year ("+row.year+")":"This year";
-  if(s==="other-years")return "Other years";
-  return s.startsWith("folder:")?s.slice(7).replace(/^./,c=>c.toLocaleUpperCase()):s==="Archive"?"Archive · right axis":s;
- };
- chart("instapaper",folderRows,series,{stack:true,stackTopFirst:true,area:true,overlay:["Archive"],secondary:true,sharedScale:true,axisLabels:["Folder bookmarks","Archived bookmarks"],gaps:true,palette,label});
- const folderValue=(n,s,row)=>Number.isFinite(n)?num(n)+(s==="this-year"?" ("+esc(row.year)+")":""):"—";
- $("instapaper-values").innerHTML=valuesTable(folderRows,["Total",...series,"Archive"],folderValue,label);
+ const folders=[...new Set(rows.flatMap(r=>Object.keys(r.folders||{})))].filter(name=>name!=="archive").sort((a,b)=>a.localeCompare(b,undefined,{numeric:true}));
+ const series=folders.map(name=>"folder:"+name),palette=Object.fromEntries(series.map((s,i)=>[s,i<colors.length?colors[i]:"hsl("+((i*137.508)%360)+" 42% 44%)"]));palette.Archive="#29221c";
+ const label=s=>s.startsWith("folder:")?s.slice(7).replace(/^./,c=>c.toLocaleUpperCase()):s==="Archive"?"Archive · right axis":s;
+ const folderRows=rows.map(row=>({day:row.day,Total:row.Total,missing:!row.folders,missingLabel:"Folder breakdown unavailable · total saved: "+num(row.Total),...Object.fromEntries(folders.map(name=>["folder:"+name,row.folders?(row.folders[name]||0):undefined])),Archive:row.folders?row.folders.archive||0:undefined}));
+ chart("instapaper",folderRows,series,{stack:true,area:true,overlay:["Archive"],secondary:true,sharedScale:true,axisLabels:["Folder bookmarks","Archived bookmarks"],gaps:true,palette,label});
+ $("instapaper-values").innerHTML=valuesTable(folderRows,["Total",...series,"Archive"],n=>Number.isFinite(n)?num(n):"—",label);
  chart("instapaper-changes",rows,["Added","Moved","Deleted"]);
  const breakdownStarted=history.find(row=>row.folders)?.day;
- $("instapaper-caption").textContent="Folders follow sidebar order from top to bottom. “This year” uses the year of the last observation in each interval. “Other years” combines the remaining year folders. Archive uses the right axis at the same scale. "+(breakdownStarted?"Folder breakdowns have been recorded since "+breakdownStarted+".":"Waiting for the first recorded folder breakdown. Earlier totals remain available in Folder values.");
+ $("instapaper-caption").textContent="Global · folders are stacked on the left axis; Archive is a separate line on the right axis. Both axes use the same bookmark count scale. Sizes use the last complete observation in each interval. "+(breakdownStarted?"Folder breakdowns are recorded since "+breakdownStarted+"; earlier breakdowns are unavailable.":"Waiting for the first recorded folder breakdown. Earlier totals remain available in Folder values.");
 }
 function renderAccesses(){
  const access=data.accesses||{}, rows=(access.history||[]).filter(r=>inPeriod(r.day));
