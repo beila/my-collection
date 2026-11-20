@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "images": [
+    {
+      "path": "images/v1/1620f68372d5d804d17010fb25f227bdcf4745f3a20bfa86dfa42387b4516d07.jpg",
+      "object_key": "images/v1/1620f68372d5d804d17010fb25f227bdcf4745f3a20bfa86dfa42387b4516d07.jpg",
+      "sha256": "1620f68372d5d804d17010fb25f227bdcf4745f3a20bfa86dfa42387b4516d07",
+      "bytes": 4694,
+      "content_type": "image/jpeg",
+      "original_path": "facebook-instapaper/minbok/10164554369339831/1620f68372d5d804d17010fb25f227bdcf4745f3a20bfa86dfa42387b4516d07.jpg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/1620f68372d5d804d17010fb25f227bdcf4745f3a20bfa86dfa42387b4516d07.jpg",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/minbok/10164554369339831/1620f68372d5d804d17010fb25f227bdcf4745f3a20bfa86dfa42387b4516d07.jpg"
+    },
+    {
+      "path": "images/v1/6117c6d514095e8a26c3725cd887cb98c9eba3ca28819e2ca639d2238a38657b.jpg",
+      "object_key": "images/v1/6117c6d514095e8a26c3725cd887cb98c9eba3ca28819e2ca639d2238a38657b.jpg",
+      "sha256": "6117c6d514095e8a26c3725cd887cb98c9eba3ca28819e2ca639d2238a38657b",
+      "bytes": 21106,
+      "content_type": "image/jpeg",
+      "original_path": "facebook-instapaper/minbok/10164554369339831/6117c6d514095e8a26c3725cd887cb98c9eba3ca28819e2ca639d2238a38657b.jpg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/6117c6d514095e8a26c3725cd887cb98c9eba3ca28819e2ca639d2238a38657b.jpg",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/minbok/10164554369339831/6117c6d514095e8a26c3725cd887cb98c9eba3ca28819e2ca639d2238a38657b.jpg"
+    }
+  ]
+}
