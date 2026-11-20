@@ -11,8 +11,6 @@ from datetime import UTC, datetime
 from pathlib import Path
 
 from legacy_image_migration import (
-    DAILY_DOWNLOAD_BYTES,
-    DAILY_IMAGES,
     DAILY_READ_REQUESTS,
     read_inventory,
 )
@@ -234,11 +232,7 @@ def migration_totals(repo: Path, site: Path, checkpoint_dir: Path | None) -> dic
         "remaining_bytes": sum(path.stat().st_size for path in remaining),
         "errors": len(verified.get("errors", [])),
         "daily": usage,
-        "limits": {
-            "objects": DAILY_IMAGES,
-            "read_requests": DAILY_READ_REQUESTS,
-            "download_bytes": DAILY_DOWNLOAD_BYTES,
-        },
+        "limits": {"read_requests": DAILY_READ_REQUESTS},
     }
 
 

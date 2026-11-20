@@ -24,9 +24,9 @@ from b2_image_upload import CONTENT_TYPES, object_key
 PUBLIC_BASE = "https://f003.backblazeb2.com/file/my-collection-images/"
 PAGES_BASE = "https://beila.github.io/my-collection/"
 SOURCE_DIRECTORIES = frozenset({"facebook-instapaper", "nasica-blog"})
-DAILY_IMAGES = 500
-DAILY_READ_REQUESTS = 1000
-DAILY_DOWNLOAD_BYTES = 100_000_000
+DAILY_READ_REQUESTS = 2500
+DAYTIME_READ_REQUESTS = 1000
+DAYTIME_DOWNLOAD_BYTES = 100_000_000
 DAILY_START = 23 * 3600 + 45 * 60
 DAILY_END = 23 * 3600 + 58 * 60
 ATTRIBUTE = re.compile(
@@ -44,10 +44,12 @@ def digest(content: bytes) -> str:
     return hashlib.sha256(content).hexdigest()
 
 
-def write_json(path: Path, value: object) -> None:
+def write_json(path: Path, value: object, *, compact: bool = False) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary = path.with_suffix(path.suffix + ".tmp")
-    temporary.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n")
+    temporary.write_text(
+        json.dumps(value, ensure_ascii=False, indent=None if compact else 2) + "\n"
+    )
     temporary.replace(path)
 
 
@@ -126,11 +128,12 @@ class DailyMigrationBudget:
                 or not isinstance(previous.get("objects"), list)
                 or len(set(previous["objects"])) != len(previous["objects"])
                 or not set(previous["objects"]) <= images.keys()
-                or len(previous["objects"]) > DAILY_IMAGES
                 or type(previous.get("read_requests")) is not int
-                or not 0 <= previous["read_requests"] <= DAILY_READ_REQUESTS
+                or not len(previous["objects"])
+                <= previous["read_requests"]
+                <= DAILY_READ_REQUESTS
                 or type(previous.get("download_bytes")) is not int
-                or not 0 <= previous["download_bytes"] <= DAILY_DOWNLOAD_BYTES
+                or previous["download_bytes"] < 0
             ):
                 raise TestFailure("Invalid daily migration checkpoint")
             try:
@@ -163,16 +166,21 @@ class DailyMigrationBudget:
             if cutover_usage["date"] > day:
                 raise TestFailure("Cutover allowance is from the future")
             if cutover_usage["date"] == day:
-                for key, maximum in (
-                    ("read_requests", DAILY_READ_REQUESTS),
-                    ("download_bytes", DAILY_DOWNLOAD_BYTES),
+                for key, daytime_limit in (
+                    ("read_requests", DAYTIME_READ_REQUESTS),
+                    ("download_bytes", DAYTIME_DOWNLOAD_BYTES),
                 ):
                     charged = self.state.get("cutover_" + key, 0)
                     reserved = cutover_usage[key]
                     if (
                         type(charged) is not int
-                        or not 0 <= charged <= reserved <= maximum
-                        or self.state[key] + reserved - charged > maximum
+                        or not 0 <= charged <= reserved <= daytime_limit
+                        or charged > self.state[key]
+                        or (
+                            key == "read_requests"
+                            and self.state[key] + reserved - charged
+                            > DAILY_READ_REQUESTS
+                        )
                     ):
                         raise TestFailure("Cutover allowance exceeds the daily limit")
                     self.state[key] += reserved - charged
@@ -198,15 +206,8 @@ class DailyMigrationBudget:
             image = self.images.get(url)
             if image is not None:
                 key = image["object_key"]
-                if (
-                    key not in self.state["objects"]
-                    and len(self.state["objects"]) >= DAILY_IMAGES
-                ):
-                    raise MigrationPaused("daily migration image limit reached")
                 if self.state["read_requests"] >= DAILY_READ_REQUESTS:
                     raise MigrationPaused("daily migration request limit reached")
-                if self.state["download_bytes"] + image["bytes"] > DAILY_DOWNLOAD_BYTES:
-                    raise MigrationPaused("daily migration byte limit reached")
                 if key not in self.state["objects"]:
                     self.state["objects"].append(key)
                 self.state["read_requests"] += 1
@@ -285,7 +286,7 @@ def upload_inventory(
 
     def checkpoint():
         with lock:
-            write_json(receipt, result)
+            write_json(receipt, result, compact=True)
 
     budget = None
     if daily:
@@ -294,6 +295,16 @@ def upload_inventory(
         budget = DailyMigrationBudget(
             result, unique, checkpoint, lock, clock=clock, cutover_usage=cutover_usage
         )
+        if (
+            selected
+            and previous.get("pause_reason") == "B2 account cap reached"
+            and previous.get("daily_upload", {}).get("date") == budget.state["date"]
+        ):
+            result["pause_reason"] = previous["pause_reason"]
+            result["errors"] = previous["errors"]
+            result["unattempted_objects"] -= len(result["errors"])
+            checkpoint()
+            return result
         if not selected:
             result["status"] = "verified"
             checkpoint()
@@ -352,7 +363,7 @@ def upload_inventory(
                         result["errors"].append(
                             {"object_key": key, "error": str(error)}
                         )
-                    stopped |= "download_cap_exceeded" in str(error)
+                    stopped |= account_cap_reached(str(error))
                 if (len(result["images"]) + len(result["errors"])) % 25 == 0:
                     checkpoint()
                     print(
@@ -370,7 +381,7 @@ def upload_inventory(
     cap_pause = (
         daily
         and result["errors"]
-        and all("download_cap_exceeded" in error["error"] for error in result["errors"])
+        and all(account_cap_reached(error["error"]) for error in result["errors"])
     )
     if cap_pause:
         result["pause_reason"] = "B2 account cap reached"
@@ -388,6 +399,10 @@ def upload_inventory(
             + result["errors"][0]["error"]
         )
     return result
+
+
+def account_cap_reached(message: str) -> bool:
+    return bool(re.search(r"\b(?:download|transaction)_cap_exceeded\b", message))
 
 
 def image_path(url: str, page_url: str) -> str | None:
@@ -649,52 +664,72 @@ def incremental_publication_files(
     files = {}
     selected = {}
     for relative in documents:
-        path = repo / relative
-        if (
-            Path(relative).is_absolute()
-            or ".." in Path(relative).parts
-            or any(part.startswith(".") for part in Path(relative).parts)
-            or path.suffix != ".html"
-            or not path.resolve().is_relative_to(repo.resolve())
-        ):
-            raise TestFailure("Invalid migration document path")
-        before = path.read_text()
-        if expected_documents and digest(before.encode()) != expected_documents.get(
-            relative
-        ):
-            raise TestFailure("The migration article changed during preparation")
-        if source_checks is not None:
-            source_checks[Path(relative)] = digest(before.encode())
-        _document, used = rewrite_document(
-            before, urljoin(PAGES_BASE, relative), all_images
+        prepared, images = incremental_document_files(
+            repo,
+            relative,
+            all_images,
+            verified,
+            expected_digest=expected_documents.get(relative, "")
+            if expected_documents
+            else None,
+            source_checks=source_checks,
         )
-        if not used or not used <= verified.keys():
-            raise TestFailure("The article contains unverified legacy images")
-        images = {original: verified[original] for original in used}
-        for image in images.values():
-            source_bytes(repo, image)
-        after, _used = rewrite_document(before, urljoin(PAGES_BASE, relative), images)
-        files[Path(relative)] = after
-        metadata_path = path.with_name(path.name + ".images.json")
-        metadata_before = metadata_path.read_text() if metadata_path.exists() else ""
-        if source_checks is not None:
-            source_checks[metadata_path.relative_to(repo)] = digest(
-                metadata_before.encode()
-            )
-        metadata = (
-            json.loads(metadata_before)
-            if metadata_before
-            else {"schema_version": 1, "images": []}
-        )
-        merged = {image["original_path"]: image for image in metadata["images"]}
-        for original, image in images.items():
-            merged[original] = image | {"repository_path": original}
-        metadata["images"] = [merged[key] for key in sorted(merged)]
-        files[metadata_path.relative_to(repo)] = (
-            json.dumps(metadata, ensure_ascii=False, indent=2) + "\n"
-        )
+        files.update(prepared)
         selected.update(images)
     return files, selected
+
+
+def incremental_document_files(
+    repo: Path,
+    relative: str,
+    all_images: dict,
+    verified: dict,
+    *,
+    expected_digest: str | None = None,
+    source_checks: dict[Path, str] | None = None,
+) -> tuple[dict[Path, str], dict[str, dict]]:
+    path = repo / relative
+    if (
+        Path(relative).is_absolute()
+        or ".." in Path(relative).parts
+        or any(part.startswith(".") for part in Path(relative).parts)
+        or path.suffix != ".html"
+        or not path.resolve().is_relative_to(repo.resolve())
+    ):
+        raise TestFailure("Invalid migration document path")
+    before = path.read_text()
+    before_hash = digest(before.encode())
+    if expected_digest is not None and before_hash != expected_digest:
+        raise TestFailure("The migration article changed during preparation")
+    after, used = rewrite_document(before, urljoin(PAGES_BASE, relative), all_images)
+    if not used or not used <= verified.keys():
+        raise TestFailure("The article contains unverified legacy images")
+    images = {original: verified[original] for original in used}
+    for image in images.values():
+        source_bytes(repo, image)
+    metadata_path = path.with_name(path.name + ".images.json")
+    metadata_before = metadata_path.read_text() if metadata_path.exists() else ""
+    if source_checks is not None:
+        source_checks[Path(relative)] = before_hash
+        source_checks[metadata_path.relative_to(repo)] = digest(
+            metadata_before.encode()
+        )
+    metadata = (
+        json.loads(metadata_before)
+        if metadata_before
+        else {"schema_version": 1, "images": []}
+    )
+    merged = {image["original_path"]: image for image in metadata["images"]}
+    for original, image in images.items():
+        merged[original] = image | {"repository_path": original}
+    metadata["images"] = [merged[key] for key in sorted(merged)]
+    return {
+        Path(relative): after,
+        metadata_path.relative_to(repo): json.dumps(
+            metadata, ensure_ascii=False, indent=2
+        )
+        + "\n",
+    }, images
 
 
 def incremental_exclusion_files(

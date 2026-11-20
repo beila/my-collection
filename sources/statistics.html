@@ -449,9 +449,9 @@ function renderCollection(){
   const daily=migration.daily||{}, limits=migration.limits||{};
   $("migration-batch").innerHTML=table([
    ["UTC day",daily.date||"Unknown"],
-   ["Images reserved",daily.date?num(daily.objects)+" / "+num(limits.objects):"—"],
+   ["Images reserved",daily.date?num(daily.objects):"—"],
    ["Reads reserved",daily.date?num(daily.read_requests)+" / "+num(limits.read_requests):"—"],
-   ["Download bytes reserved",daily.date?bytes(daily.download_bytes)+" / "+bytes(limits.download_bytes):"—"],
+   ["Download bytes reserved",daily.date?bytes(daily.download_bytes):"—"],
    ["Checkpoint status",migration.status],
    ["Reported errors",num(migration.errors)]
   ],["Measurement","Latest batch"]);
