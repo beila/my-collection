@@ -207,8 +207,13 @@ def migration_totals(repo: Path, site: Path, checkpoint_dir: Path | None) -> dic
     ]
     daily = verified.get("daily_upload", {})
     usage = {}
+    read_limit = DAILY_READ_REQUESTS
     if daily:
         datetime.strptime(daily["date"], "%Y-%m-%d")
+        # Older receipts used a fixed limit of 1,000 reads.
+        read_limit = daily.get("read_limit", 1000)
+        if type(read_limit) is not int or read_limit < 1:
+            raise ValueError("Invalid daily migration read limit")
         for key in ("read_requests", "download_bytes"):
             if type(daily.get(key)) is not int or daily[key] < 0:
                 raise ValueError("Invalid daily migration usage")
@@ -232,7 +237,7 @@ def migration_totals(repo: Path, site: Path, checkpoint_dir: Path | None) -> dic
         "remaining_bytes": sum(path.stat().st_size for path in remaining),
         "errors": len(verified.get("errors", [])),
         "daily": usage,
-        "limits": {"read_requests": DAILY_READ_REQUESTS},
+        "limits": {"read_requests": read_limit},
     }
 
 

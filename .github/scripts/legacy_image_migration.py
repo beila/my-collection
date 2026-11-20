@@ -185,6 +185,7 @@ class DailyMigrationBudget:
                         raise TestFailure("Cutover allowance exceeds the daily limit")
                     self.state[key] += reserved - charged
                     self.state["cutover_" + key] = reserved
+        self.state["read_limit"] = DAILY_READ_REQUESTS
         result["daily_upload"] = self.state
 
     def deadline(self) -> float:
