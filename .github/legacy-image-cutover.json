@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "phase": "switch",
+  "phase": "exclude",
   "manifest_sha256": "40a0f46a94674d75041f71416985a3521294e9dbbd8450b456d57af29645508b",
   "documents": {
     "facebook-instapaper/100000613419858/494059550624488.html": {
@@ -356,5 +356,35 @@
     }
   ],
   "budget_date": "2026-11-20",
-  "request_id": "c107d71f9c4660b0af4792ed8a2bb93e206358ba4f53033f68ba2275d32aa66c"
+  "request_id": "9ffe6dd9e7546c321d5431285f4275d5ec1c13ab110dbc774fe095826386f616",
+  "excluded_paths": [
+    "facebook-instapaper/100000613419858/494059550624488/30f830f251a46fed21d9a7fc2d9478e8b84063da8733ebc776a1469362ac66ff.jpg",
+    "facebook-instapaper/agnes.doook/10163910685758051/7d6b91a7df04a873acf2a35df1b48476b21e19291bfb77c89e1b6c8bf9372148.jpg",
+    "facebook-instapaper/agnes.doook/10163926398418051/79ab8683e0889208e86060ce3ba37c04c1b30ae840fb3db0cbd69e8f53184c6f.jpg",
+    "facebook-instapaper/agnes.doook/10163926575588051/78c3a3263869c6ce3815ad65998f951b60b328c2339349dc729761caf7dc1e95.jpg",
+    "facebook-instapaper/andrew.chaa/10164783794775516/7e02366c9aa65185be101527a9ae6acfdb9180409f002889ec757d9ff1c2647a.jpg",
+    "facebook-instapaper/andrew.chaa/10165190740745516/799611e1f977e5f678fdc31d459849240ed740172a4764dec84e50b85c5bcc50.jpg",
+    "facebook-instapaper/dreamfactoryboss/1675003190650351/63ef318d96b5d0d0ceba6e04a4e622b1158335cdc67c49e27839132c6f655058.png",
+    "facebook-instapaper/fupfin.geek/3215710325484595/2aab4c814d26050a58dc9ca87f54559a974e6eb26645cbe86f9ed0040f39aa3e.jpg",
+    "facebook-instapaper/fupfin.geek/3232718700450424/6ffc640d987229a5bec5e144bf6bc849e8a1454866d35621532e8b417ee069d7.jpg",
+    "facebook-instapaper/fupfin.geek/3233266877062273/5158ad4eb7c200715d10a5fdd6c8dfa32bc2005b86e8caec3a6f65f6427fec8d.jpg",
+    "facebook-instapaper/fupfin.geek/3233301160392178/19e66e9bf29df54f25713b8984bc43659d31b5d13aa437e82b0cca9c0e3cb159.jpg",
+    "facebook-instapaper/fupfin.geek/3237062153349412/1e8af00928c80dad7457d75aef050e6d6dc39f74250d75bee0a07a9e3fd202ad.jpg",
+    "facebook-instapaper/fupfin.geek/3238060496582911/076bf61cb57ca4ddcf2192010ddf6e91d3a04cce373df0e6d8223c00c27a92c0.jpg",
+    "facebook-instapaper/fupfin.geek/3240533176335643/2dad03f6dc047ba80a09712286efc63220790c7832f65f8877a512ff9eb6116f.jpg",
+    "facebook-instapaper/fupfin.geek/3246378222417805/2e85366451f51316e0b4dcab8d551b31cae548f756ba5f97f21638021cf051e4.jpg",
+    "facebook-instapaper/fupfin.geek/3260818874307073/46cefed0e5dc0d85a127d386c25464d5a37b85a86a7402aacf9b8dea3b7ed289.jpg",
+    "facebook-instapaper/fupfin/10243289504354717/130a02c062cb17097cac6b0dc0c374bb250f82834c0e7bbd50e7c1df4b37c165.jpg",
+    "facebook-instapaper/fupfin/10243311971876391/3b874153c0ac7e1ec692d82cb3e6f2c8b8f44fd7644011987d0662e143fee502.jpg",
+    "facebook-instapaper/fupfin/10243368665933707/52a3b895a61d35df3e24c7ceb938b82e5dc9bfe31a3ea185cbf9cb4477af36a1.jpg",
+    "facebook-instapaper/fupfin/10243475227437678/508b70339b5de518e8932c8ef1853ad5ae078c7e2bb82f23df763ad3c48d7874.jpg",
+    "facebook-instapaper/fupfin/10243495421502517/09a5e217f105ddf98d749a575892cd74eeee6e715e40a3152e7407882b7410d3.jpg",
+    "facebook-instapaper/fupfin/10243505658398433/12e067b3c619d4e4f1dce3113a37d897e3b3740d2772f0f5210b0d13493783d8.jpg",
+    "facebook-instapaper/fupfin/10243505658398433/2d7e64b1fe7f6d0e09d1bce3703f4f4d3d9cb28b7d6d680a87298a4b7b324b4f.jpg",
+    "facebook-instapaper/fupfin/10243505658398433/55cff997b6482ada39509ea2736120c6f0e14a7832c33a48840a8566f1a5afe1.jpg",
+    "facebook-instapaper/fupfin/10243505658398433/562c6187a6638f3c079379d2c19becf93dc6b2b9d4e2e010b72a7f568c7d2409.jpg",
+    "facebook-instapaper/fupfin/10243594363296000/79853945e072275bc65d07a9f719662f819b90697d56ba6881d0c7eb3bca1cec.jpg",
+    "facebook-instapaper/hanseongbong.2025/2101885649886357/7dd9335bdb59b3367b29325dafc2171b060bdcdcc87b01330f7c83d2f9f7c072.jpg",
+    "facebook-instapaper/hareem76/10162608146950426/48f4cbd08aa374a7225357f71d819355d0c93a20491e0ee1687c2a48e08474af.jpg"
+  ]
 }
