@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-17T17:39:27Z",
+  "updated_at": "2026-11-21T23:49:02Z",
   "articles": {
     "1815258460": {
       "slug": "effectful-storage-abstraction-explained",
@@ -386,6 +386,310 @@
       "delivery_owner": "scheduler",
       "kindle_delivery_owner": "user_managed",
       "deleted_superseded_bookmark_ids": []
+    },
+    "1892375009-01": {
+      "slug": "distributors-1892375009-01-parsers-printers",
+      "title": "Distributors 해설 1/8: 파서와 프린터 (Parsers & Printers)",
+      "source_title": "Distributors",
+      "article_title": "Distributors 해설 1/8: 파서와 프린터 (Parsers & Printers)",
+      "source_bookmark_id": "1892375009",
+      "source_url": "https://github.com/morphismtech/distributors/blob/main/blog.md",
+      "article_format": 2,
+      "source_sha256": "1978cd80074227c169a2c9b1918be79a57127707d404fe8e5d7c0406ff087c47",
+      "html_sha256": "7eb30f264b038c9f2c81ae4829c142f32f0b391f1fb1b12212825b35deeaea4e",
+      "canonical_url": "https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-01-parsers-printers/",
+      "instapaper_url": "https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-01-parsers-printers/index.html",
+      "ingestion_url": "https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-01-parsers-printers/?instapaper_explanation=2-1978cd80074227c1",
+      "instapaper_bookmark_id": "2059158805",
+      "instapaper_folder": "unread",
+      "series": {
+        "name": "distributors-1892375009",
+        "index": 1,
+        "total": 8,
+        "section": "per article section"
+      },
+      "instapaper_api_verification": {
+        "status": "passed",
+        "verified_at": "2026-11-21T23:49:02Z"
+      },
+      "generation_workflow": {
+        "research_model": "claude-opus-5-5",
+        "writer_model": "claude-opus-5-5",
+        "reviewer_model": "claude-sonnet-5-5",
+        "generation_model": "claude-opus-5-5"
+      },
+      "publication_approval": "user request on 2026-11-21",
+      "delivery_owner": "manual",
+      "kindle_delivery_owner": "user_managed",
+      "deleted_superseded_bookmark_ids": [
+        "2059156821"
+      ]
+    },
+    "1892375009-02": {
+      "slug": "distributors-1892375009-02-profunctors",
+      "title": "Distributors 해설 2/8: 프로펑터 (Profunctors)",
+      "source_title": "Distributors",
+      "article_title": "Distributors 해설 2/8: 프로펑터 (Profunctors)",
+      "source_bookmark_id": "1892375009",
+      "source_url": "https://github.com/morphismtech/distributors/blob/main/blog.md",
+      "article_format": 2,
+      "source_sha256": "7ea1360569e44a09ecfbe5f7dd236894c2192e417bfe30c57dfa356b87903cdd",
+      "html_sha256": "f0826c9d44c80750e8b09b0ce2207fd57d714ce5f1f842ed9dd93bfb2104ddbc",
+      "canonical_url": "https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-02-profunctors/",
+      "instapaper_url": "https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-02-profunctors/index.html",
+      "ingestion_url": "https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-02-profunctors/?instapaper_explanation=2-7ea1360569e44a09",
+      "instapaper_bookmark_id": "2059158818",
+      "instapaper_folder": "morpheus",
+      "series": {
+        "name": "distributors-1892375009",
+        "index": 2,
+        "total": 8,
+        "section": "per article section"
+      },
+      "instapaper_api_verification": {
+        "status": "passed",
+        "verified_at": "2026-11-21T23:49:02Z"
+      },
+      "generation_workflow": {
+        "research_model": "claude-opus-5-5",
+        "writer_model": "claude-opus-5-5",
+        "reviewer_model": "claude-sonnet-5-5",
+        "generation_model": "claude-opus-5-5"
+      },
+      "publication_approval": "user request on 2026-11-21",
+      "delivery_owner": "manual",
+      "kindle_delivery_owner": "user_managed",
+      "deleted_superseded_bookmark_ids": [
+        "2059156837"
+      ]
+    },
+    "1892375009-03": {
+      "slug": "distributors-1892375009-03-tokens",
+      "title": "Distributors 해설 3/8: 토큰 (Tokens)",
+      "source_title": "Distributors",
+      "article_title": "Distributors 해설 3/8: 토큰 (Tokens)",
+      "source_bookmark_id": "1892375009",
+      "source_url": "https://github.com/morphismtech/distributors/blob/main/blog.md",
+      "article_format": 2,
+      "source_sha256": "f03c38924b4f3bbf7141c5c82af4a8a4784c95ddf562f4129a06d7c568c50810",
+      "html_sha256": "5c082f345b0a012ea431f35c8dc68c1605ccf1a9875c2b1b2b8536c272bb7f1a",
+      "canonical_url": "https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-03-tokens/",
+      "instapaper_url": "https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-03-tokens/index.html",
+      "ingestion_url": "https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-03-tokens/?instapaper_explanation=2-f03c38924b4f3bbf",
+      "instapaper_bookmark_id": "2059158816",
+      "instapaper_folder": "morpheus",
+      "series": {
+        "name": "distributors-1892375009",
+        "index": 3,
+        "total": 8,
+        "section": "per article section"
+      },
+      "instapaper_api_verification": {
+        "status": "passed",
+        "verified_at": "2026-11-21T23:49:02Z"
+      },
+      "generation_workflow": {
+        "research_model": "claude-opus-5-5",
+        "writer_model": "claude-opus-5-5",
+        "reviewer_model": "claude-sonnet-5-5",
+        "generation_model": "claude-opus-5-5"
+      },
+      "publication_approval": "user request on 2026-11-21",
+      "delivery_owner": "manual",
+      "kindle_delivery_owner": "user_managed",
+      "deleted_superseded_bookmark_ids": [
+        "2059156836"
+      ]
+    },
+    "1892375009-04": {
+      "slug": "distributors-1892375009-04-optics-patterns",
+      "title": "Distributors 해설 4/8: 옵틱과 패턴 (Optics & Patterns)",
+      "source_title": "Distributors",
+      "article_title": "Distributors 해설 4/8: 옵틱과 패턴 (Optics & Patterns)",
+      "source_bookmark_id": "1892375009",
+      "source_url": "https://github.com/morphismtech/distributors/blob/main/blog.md",
+      "article_format": 2,
+      "source_sha256": "83cd30cf99d17f8c87d1ee251445f34d09510c664f88339b108d593e07526ec9",
+      "html_sha256": "a7e61d19c631d32d4bb40c9436fcb5ed124c4724a7023eddf2244dbb1ab9b18b",
+      "canonical_url": "https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-04-optics-patterns/",
+      "instapaper_url": "https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-04-optics-patterns/index.html",
+      "ingestion_url": "https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-04-optics-patterns/?instapaper_explanation=2-83cd30cf99d17f8c",
+      "instapaper_bookmark_id": "2059158815",
+      "instapaper_folder": "morpheus",
+      "series": {
+        "name": "distributors-1892375009",
+        "index": 4,
+        "total": 8,
+        "section": "per article section"
+      },
+      "instapaper_api_verification": {
+        "status": "passed",
+        "verified_at": "2026-11-21T23:49:02Z"
+      },
+      "generation_workflow": {
+        "research_model": "claude-opus-5-5",
+        "writer_model": "claude-opus-5-5",
+        "reviewer_model": "claude-sonnet-5-5",
+        "generation_model": "claude-opus-5-5"
+      },
+      "publication_approval": "user request on 2026-11-21",
+      "delivery_owner": "manual",
+      "kindle_delivery_owner": "user_managed",
+      "deleted_superseded_bookmark_ids": [
+        "2059156834"
+      ]
+    },
+    "1892375009-05": {
+      "slug": "distributors-1892375009-05-monoidal-profunctors",
+      "title": "Distributors 해설 5/8: 모노이드 프로펑터 (Monoidal Profunctors)",
+      "source_title": "Distributors",
+      "article_title": "Distributors 해설 5/8: 모노이드 프로펑터 (Monoidal Profunctors)",
+      "source_bookmark_id": "1892375009",
+      "source_url": "https://github.com/morphismtech/distributors/blob/main/blog.md",
+      "article_format": 2,
+      "source_sha256": "969713d10748000ef0da655fd16ccffab2823275c59fa439a69a42308fcfc475",
+      "html_sha256": "b9b4209a9599e16bfc01aca1b5ff1e0939d0ee50fdeb071d39b696aab3ca1fd1",
+      "canonical_url": "https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-05-monoidal-profunctors/",
+      "instapaper_url": "https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-05-monoidal-profunctors/index.html",
+      "ingestion_url": "https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-05-monoidal-profunctors/?instapaper_explanation=2-969713d10748000e",
+      "instapaper_bookmark_id": "2059158813",
+      "instapaper_folder": "morpheus",
+      "series": {
+        "name": "distributors-1892375009",
+        "index": 5,
+        "total": 8,
+        "section": "per article section"
+      },
+      "instapaper_api_verification": {
+        "status": "passed",
+        "verified_at": "2026-11-21T23:49:02Z"
+      },
+      "generation_workflow": {
+        "research_model": "claude-opus-5-5",
+        "writer_model": "claude-opus-5-5",
+        "reviewer_model": "claude-sonnet-5-5",
+        "generation_model": "claude-opus-5-5"
+      },
+      "publication_approval": "user request on 2026-11-21",
+      "delivery_owner": "manual",
+      "kindle_delivery_owner": "user_managed",
+      "deleted_superseded_bookmark_ids": [
+        "2059156833"
+      ]
+    },
+    "1892375009-06": {
+      "slug": "distributors-1892375009-06-distributors",
+      "title": "Distributors 해설 6/8: 디스트리뷰터 (Distributors)",
+      "source_title": "Distributors",
+      "article_title": "Distributors 해설 6/8: 디스트리뷰터 (Distributors)",
+      "source_bookmark_id": "1892375009",
+      "source_url": "https://github.com/morphismtech/distributors/blob/main/blog.md",
+      "article_format": 2,
+      "source_sha256": "2a6c0bb6bcfaf04390880627e7a6960249a5a0b5eefb8e15346f2ed36cf4d6b6",
+      "html_sha256": "a327c78bfc4934a9af8e449d762ae74e628d0596c31969434da6565dabef5e5f",
+      "canonical_url": "https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-06-distributors/",
+      "instapaper_url": "https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-06-distributors/index.html",
+      "ingestion_url": "https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-06-distributors/?instapaper_explanation=2-2a6c0bb6bcfaf043",
+      "instapaper_bookmark_id": "2059158811",
+      "instapaper_folder": "morpheus",
+      "series": {
+        "name": "distributors-1892375009",
+        "index": 6,
+        "total": 8,
+        "section": "per article section"
+      },
+      "instapaper_api_verification": {
+        "status": "passed",
+        "verified_at": "2026-11-21T23:49:02Z"
+      },
+      "generation_workflow": {
+        "research_model": "claude-opus-5-5",
+        "writer_model": "claude-opus-5-5",
+        "reviewer_model": "claude-sonnet-5-5",
+        "generation_model": "claude-opus-5-5"
+      },
+      "publication_approval": "user request on 2026-11-21",
+      "delivery_owner": "manual",
+      "kindle_delivery_owner": "user_managed",
+      "deleted_superseded_bookmark_ids": [
+        "2059156832"
+      ]
+    },
+    "1892375009-07": {
+      "slug": "distributors-1892375009-07-grammars",
+      "title": "Distributors 해설 7/8: 문법 (Grammars)",
+      "source_title": "Distributors",
+      "article_title": "Distributors 해설 7/8: 문법 (Grammars)",
+      "source_bookmark_id": "1892375009",
+      "source_url": "https://github.com/morphismtech/distributors/blob/main/blog.md",
+      "article_format": 2,
+      "source_sha256": "641235096dd68749f71efd85d5c5b1f85bc1ab1f97aa15dfb21e8144f9d05e00",
+      "html_sha256": "a006d2558ebcb06bfbd01fc7f1caec59ccf5ad6cef0ca368594ed489c91fa081",
+      "canonical_url": "https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-07-grammars/",
+      "instapaper_url": "https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-07-grammars/index.html",
+      "ingestion_url": "https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-07-grammars/?instapaper_explanation=2-641235096dd68749",
+      "instapaper_bookmark_id": "2059158808",
+      "instapaper_folder": "morpheus",
+      "series": {
+        "name": "distributors-1892375009",
+        "index": 7,
+        "total": 8,
+        "section": "per article section"
+      },
+      "instapaper_api_verification": {
+        "status": "passed",
+        "verified_at": "2026-11-21T23:49:02Z"
+      },
+      "generation_workflow": {
+        "research_model": "claude-opus-5-5",
+        "writer_model": "claude-opus-5-5",
+        "reviewer_model": "claude-sonnet-5-5",
+        "generation_model": "claude-opus-5-5"
+      },
+      "publication_approval": "user request on 2026-11-21",
+      "delivery_owner": "manual",
+      "kindle_delivery_owner": "user_managed",
+      "deleted_superseded_bookmark_ids": [
+        "2059156827"
+      ]
+    },
+    "1892375009-08": {
+      "slug": "distributors-1892375009-08-extroduction",
+      "title": "Distributors 해설 8/8: 맺음말 (Extroduction)",
+      "source_title": "Distributors",
+      "article_title": "Distributors 해설 8/8: 맺음말 (Extroduction)",
+      "source_bookmark_id": "1892375009",
+      "source_url": "https://github.com/morphismtech/distributors/blob/main/blog.md",
+      "article_format": 2,
+      "source_sha256": "b86235a16b010a43d95ef73d72f4d838269f426df91eabe836e21427158d9d2a",
+      "html_sha256": "61de4aaf5d7ea97d49c02d3d6f48df9a5d71954732675a2c0e9ddc86532d0fd5",
+      "canonical_url": "https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-08-extroduction/",
+      "instapaper_url": "https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-08-extroduction/index.html",
+      "ingestion_url": "https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-08-extroduction/?instapaper_explanation=2-b86235a16b010a43",
+      "instapaper_bookmark_id": "2059158806",
+      "instapaper_folder": "morpheus",
+      "series": {
+        "name": "distributors-1892375009",
+        "index": 8,
+        "total": 8,
+        "section": "per article section"
+      },
+      "instapaper_api_verification": {
+        "status": "passed",
+        "verified_at": "2026-11-21T23:49:02Z"
+      },
+      "generation_workflow": {
+        "research_model": "claude-opus-5-5",
+        "writer_model": "claude-opus-5-5",
+        "reviewer_model": "claude-sonnet-5-5",
+        "generation_model": "claude-opus-5-5"
+      },
+      "publication_approval": "user request on 2026-11-21",
+      "delivery_owner": "manual",
+      "kindle_delivery_owner": "user_managed",
+      "deleted_superseded_bookmark_ids": [
+        "2059156823"
+      ]
     }
   }
 }
