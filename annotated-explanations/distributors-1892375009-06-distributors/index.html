@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Distributors 해설 6/8: 디스트리뷰터 (Distributors)</title>
+<meta name="description" content="이 쪽은 여덟 쪽 시리즈의 여섯 번째 쪽이며, 글의 제목이 된 &quot;Distributors&quot; 절을 다룹니다. 5쪽에서 프린터-파서(printer-parser)를 차례로 잇는 방법(곱)을 얻었으니, 이제 &quot;여러 경우 중 하나&quot;를 다루는 방법(합)과 반복, 실패를 다룹니다.">
+<link rel="canonical" href="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-06-distributors/">
+<meta name="source-url" content="https://github.com/morphismtech/distributors/blob/main/blog.md">
+<meta name="review-date" content="2026-11-21">
+<meta name="explanation-article-format" content="1">
+<meta name="explanation-content-sha256" content="2a6c0bb6bcfaf04390880627e7a6960249a5a0b5eefb8e15346f2ed36cf4d6b6">
+<meta name="instapaper-ingestion-url" content="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-06-distributors/?instapaper_explanation=1-2a6c0bb6bcfaf043">
+<style>
+:root {
+  color-scheme: dark;
+  --bg: #111214;
+  --fg: #e7e5e2;
+  --muted: #b0b3b8;
+  --link: #8cb8ff;
+  --link-visited: #c9b0ff;
+  --code-bg: #1b1d21;
+  --code-fg: #e7e5e2;
+  --border: #3a3d44;
+  --focus: #ffd479;
+}
+* { box-sizing: border-box; }
+html {
+  background: var(--bg);
+  color: var(--fg);
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: system-ui, -apple-system, "Segoe UI", "Apple SD Gothic Neo",
+    "Noto Sans KR", "Malgun Gothic", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.7;
+}
+main {
+  max-width: 44rem;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 4rem;
+}
+article { overflow-wrap: break-word; word-break: keep-all; }
+h1, h2, h3, h4 {
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+  word-break: keep-all;
+}
+h1 { font-size: 1.9rem; margin: 0 0 1rem; }
+h2 {
+  font-size: 1.45rem;
+  margin: 2.6rem 0 1rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--border);
+}
+h3 { font-size: 1.2rem; margin: 2rem 0 0.8rem; }
+h4 { font-size: 1.05rem; margin: 1.6rem 0 0.7rem; }
+p, ul, ol, blockquote, pre, .table-wrap { margin: 0 0 1.1rem; }
+ul, ol { padding-left: 1.5rem; }
+li { margin: 0.35rem 0; }
+p[data-publication-metadata="true"] {
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin: 0 0 0.4rem;
+}
+p[data-publication-metadata="true"] + p:not([data-publication-metadata="true"]) { margin-top: 1.6rem; }
+p[data-series-navigation="true"] {
+  margin-top: 2.6rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+a { color: var(--link); text-decoration: underline; text-underline-offset: 0.15em; overflow-wrap: anywhere; }
+a:visited { color: var(--link-visited); }
+a:focus-visible, pre:focus-visible, .table-wrap:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+strong { color: #ffffff; }
+blockquote {
+  margin-left: 0;
+  margin-right: 0;
+  padding: 0.2rem 0 0.2rem 1rem;
+  border-left: 4px solid var(--border);
+  color: var(--fg);
+}
+blockquote p { margin: 0.4rem 0; }
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono",
+    "D2Coding", monospace;
+  font-size: 0.92em;
+  background: var(--code-bg);
+  color: var(--code-fg);
+  padding: 0.08em 0.3em;
+  border-radius: 3px;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+pre {
+  background: var(--code-bg);
+  color: var(--code-fg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.9rem 1rem;
+  overflow-x: auto;
+  line-height: 1.5;
+  max-width: 100%;
+}
+pre code {
+  background: none;
+  padding: 0;
+  font-size: 0.9rem;
+  white-space: pre;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+.table-wrap { overflow-x: auto; max-width: 100%; }
+table { border-collapse: collapse; width: 100%; font-size: 0.95rem; }
+th, td {
+  border: 1px solid var(--border);
+  padding: 0.45rem 0.6rem;
+  text-align: left;
+  vertical-align: top;
+  min-width: 7rem;
+}
+th { background: var(--code-bg); }
+@media (max-width: 30rem) {
+  main { padding: 1.25rem 0.9rem 3rem; }
+  h1 { font-size: 1.55rem; }
+  h2 { font-size: 1.3rem; }
+  h3 { font-size: 1.12rem; }
+}
+@media print {
+  :root { color-scheme: light; }
+  html, body { background: #ffffff; color: #000000; }
+  main { max-width: none; padding: 0; }
+  a, a:visited { color: #000000; }
+  a[href^="http"]::after { content: " <" attr(href) ">"; font-size: 0.85em; word-break: break-all; }
+  strong { color: #000000; }
+  code, pre, th { background: #f3f3f3; color: #000000; }
+  pre { white-space: pre-wrap; overflow: visible; border-color: #999999; }
+  pre code { white-space: pre-wrap; }
+  .table-wrap { overflow: visible; }
+  th, td, blockquote { border-color: #999999; }
+  p[data-publication-metadata="true"], p[data-series-navigation="true"] { color: #000000; }
+  h2, h3 { break-after: avoid; }
+  pre, blockquote, tr { break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+<main>
+<article>
+<section class="reviewed-content">
+<h1 id="article-title">Distributors 해설 6/8: 디스트리뷰터 (Distributors)</h1>
+<p data-publication-metadata="true">해설 대상 원문: Eitan Chatav, <a href="https://github.com/morphismtech/distributors/blob/main/blog.md">“Distributors — Unifying Parsers, Printers &amp; Grammars”</a></p>
+<p data-publication-metadata="true">검토일: <time datetime="2026-11-21">2026-11-21</time></p>
+<p>이 쪽은 여덟 쪽 시리즈의 여섯 번째 쪽이며, 글의 제목이 된 "Distributors" 절을 다룹니다. 5쪽에서 프린터-파서(printer-parser)를 차례로 잇는 방법(곱)을 얻었으니, 이제 "여러 경우 중 하나"를 다루는 방법(합)과 반복, 실패를 다룹니다. 원문은 <code>Alternative</code>를 쌍대곱(coproduct)의 관점에서 다시 쓰고, 그 모양을 프로펑터(profunctor)로 옮긴 <code>Distributor</code> 클래스를 도입합니다. 이어서 실패를 허용하는 <code>Alternator</code>와 그 쌍대인 <code>Filtrator</code>를 정의하고, 끝에서 양의 십진 정수를 파싱하고 출력하는 첫 번째 "제대로 된" 예제 <code>posDecInt</code>를 완성합니다.</p>
+<h2 id="5쪽까지에서-가져올-것">5쪽까지에서 가져올 것</h2>
+<ul>
+<li><code>Alternative</code>의 <code>empty</code>는 실패, <code>&lt;|&gt;</code>는 "둘 다 시도", <code>many</code>/<code>some</code>/<code>optional</code>은 0번 이상/1번 이상/0번 또는 1번 반복입니다. 1쪽에서 작은 파서 예제와 함께 처음부터 설명했습니다.</li>
+<li><code>Monoidal p</code>는 <code>(Profunctor p, forall x. Applicative (p x))</code>이며, <code>oneP :: p () ()</code>와 <code>&gt;*&lt; :: p a b -&gt; p c d -&gt; p (a,c) (b,d)</code>를 줍니다(5쪽). <code>forall x.</code>가 들어간 제약은 양화 제약(quantified constraint)입니다.</li>
+<li><code>mapIso</code>는 동형(isomorphism)을, <code>&gt;?</code>는 프리즘(prism)을, <code>&gt;?&lt;</code>는 부분 동형(partial isomorphism)을 프린터-파서에 적용합니다(4쪽).</li>
+<li>결과 컨테이너 <code>f</code>에 <code>Applicative</code>만 요구하면 망라적(exhaustive), <code>Alternative</code>를 요구하면 부분적(partial)입니다(2쪽).</li>
+<li><code>Parsor</code>는 출력 쪽만, <code>Printor</code>는 입력 쪽만 씁니다(2쪽).</li>
+</ul>
+<h2 id="alternative-다시-보기"><code>Alternative</code> 다시 보기</h2>
+<p>원문은 파싱 이야기에서 <code>Applicative</code>가 늘 주인공이고 <code>Alternative</code>는 관심을 덜 받는다고 말하며, <code>Alternative</code>를 다시 봅니다.</p>
+<pre tabindex="0"><code class="language-haskell">class Applicative f =&gt; Alternative f where
+  empty :: f a
+  (&lt;|&gt;) :: f a -&gt; f a -&gt; f a</code></pre>
+<p>base의 실제 클래스에는 <code>some</code>과 <code>many</code>도 메서드로 들어 있지만, 최소 정의는 이 두 메서드입니다. <code>empty</code>는 결과가 없는 계산이고, <code>&lt;|&gt;</code>는 <strong>같은 타입</strong> <code>f a</code>의 두 계산을 합칩니다.</p>
+<h2 id="쌍대곱으로-다시-쓰기-zerof와-">쌍대곱으로 다시 쓰기: <code>zeroF</code>와 <code>&lt;+&gt;</code></h2>
+<p>원문은 <code>empty</code>와 <code>&lt;|&gt;</code> 대신 <code>zeroF</code>와 <code>&lt;+&gt;</code>라는 이름으로 <code>Alternative</code>를 다시 특징짓습니다. 그렇게 하면 <code>Alternative</code>가 0항 쌍대곱 <code>Void</code>, 2항 쌍대곱 <code>Either</code>와 어떤 관계인지 더 분명해진다는 것입니다.</p>
+<p>먼저 용어입니다. 쌍대곱(coproduct)은 "둘 중 하나"를 나타내는 타입, 즉 합 타입(sum type)을 범주론(category theory)에서 부르는 이름입니다. 2항 쌍대곱은 <code>Either a b</code>이고, 0항 쌍대곱은 "고를 것이 하나도 없는" 타입 <code>Void</code>입니다. <code>Data.Void</code> 모듈의 <code>Void</code>는 값이 하나도 없는 타입이며, <code>absurd :: Void -&gt; a</code>는 "있을 수 없는 값을 받았으니 아무 타입이나 돌려줄 수 있다"는 함수입니다. 실제로 호출될 일은 없습니다. 곱(product) 쪽에서 <code>(,)</code>와 <code>()</code>가 하던 일을 합 쪽에서 <code>Either</code>와 <code>Void</code>가 합니다.</p>
+<pre tabindex="0"><code class="language-haskell">zeroF :: Alternative f =&gt; f Void
+zeroF = empty
+
+(&lt;+&gt;) :: Alternative f =&gt; f a -&gt; f b -&gt; f (Either a b)
+a &lt;+&gt; b = Left &lt;$&gt; a &lt;|&gt; Right &lt;$&gt; b
+
+prop&gt; empty = absurd &lt;$&gt; zeroF
+prop&gt; a &lt;|&gt; b = either id id &lt;$&gt; (a &lt;+&gt; b)</code></pre>
+<ul>
+<li><code>zeroF :: f Void</code>: 결과 타입이 <code>Void</code>인 계산입니다. 결과 값이 있을 수 없으므로 실패하는 계산일 수밖에 없습니다.</li>
+<li><code>a &lt;+&gt; b</code>: <code>a</code>를 시도해 결과에 <code>Left</code>를 붙이고, <code>b</code>를 시도해 결과에 <code>Right</code>를 붙여 합칩니다. <code>&lt;|&gt;</code>와 달리 두 계산의 결과 타입이 달라도 되고, 결과에서 <strong>어느 쪽에서 왔는지</strong> 알 수 있습니다.</li>
+<li><code>prop&gt;</code>로 시작하는 줄은 정의가 아니라 법칙입니다. doctest의 QuickCheck 속성 표기이며, "왼쪽과 오른쪽이 같아야 한다"는 뜻입니다. 첫 법칙은 <code>zeroF</code>에서 <code>empty</code>를 되찾고, 둘째 법칙은 <code>&lt;+&gt;</code>의 결과에서 <code>Left</code>/<code>Right</code> 표시를 지워(<code>either id id</code>) <code>&lt;|&gt;</code>를 되찾습니다. 즉 두 묶음의 연산은 서로를 정의할 수 있습니다.</li>
+</ul>
+<p>다음은 원문 코드가 아닌 예시입니다. 이 쪽의 예시는 모두 원문과 필요한 라이브러리 정의를 최소한으로 다시 만든 코드로 GHC 9.10.3에서 실행한 결과입니다.</p>
+<pre tabindex="0"><code class="language-haskell">&gt;&gt;&gt; Just 1 &lt;+&gt; (Nothing :: Maybe Char)
+Just (Left 1)
+&gt;&gt;&gt; [1,2] &lt;+&gt; "ab"
+[Left 1,Left 2,Right 'a',Right 'b']
+&gt;&gt;&gt; either id id &lt;$&gt; ([1,2] &lt;+&gt; [3])
+[1,2,3]</code></pre>
+<h2 id="왜-monoidal과-같은-방법이-통하지-않을까요">왜 <code>Monoidal</code>과 같은 방법이 통하지 않을까요</h2>
+<p>원문은 "<code>Profunctor</code>와 <code>Applicative</code>를 합쳐 <code>Monoidal</code>을 정의한 방법이 <code>Alternative</code>에는 통하지 않는다"고만 말하고 이유를 길게 설명하지 않습니다. 다음은 원문과 이후의 정의에서 읽어 낸 해석입니다.</p>
+<p><code>(Profunctor p, forall x. Alternative (p x))</code>라고 쓰면, <code>&lt;|&gt;</code>는 <code>p x a -&gt; p x a -&gt; p x a</code>처럼 <strong>입력 타입이 같은</strong> 두 프린터-파서만 합칠 수 있습니다. 그런데 "여러 경우 중 하나"를 출력하려면, 프린터가 입력 값을 보고 어느 경우인지 판단해 <strong>알맞은 하위 프린터로 보내야</strong> 합니다. 예를 들어 <code>Either a c</code>를 출력하려면 <code>Left a</code>는 <code>a</code>용 프린터로, <code>Right c</code>는 <code>c</code>용 프린터로 가야 합니다. <code>&lt;|&gt;</code>는 같은 입력을 두 쪽에 모두 줄 뿐 입력을 갈래에 따라 나누지 못합니다. 또한 함수 화살표 <code>(-&gt;)</code>는 <code>either f g</code>처럼 경우를 나누는 일을 자연스럽게 하지만, 실패를 뜻하는 <code>empty</code>를 만들 수 없으므로 <code>Alternative</code>가 될 수 없습니다. 그래서 입력 쪽과 출력 쪽 <strong>모두</strong>에서 <code>Either</code>를 다루는 새 연산이 필요합니다.</p>
+<h2 id="distributor-클래스"><code>Distributor</code> 클래스</h2>
+<pre tabindex="0"><code class="language-haskell">class Monoidal p =&gt; Distributor p where
+  zeroP :: p Void Void
+  (&gt;+&lt;) :: p a b -&gt; p c d -&gt; p (Either a c) (Either b d)</code></pre>
+<p><code>&lt;+&gt;</code>를 프로펑터로 옮긴 모양입니다. 5쪽의 <code>oneP</code>와 <code>&gt;*&lt;</code>가 <code>()</code>와 <code>(,)</code>를 다뤘다면, <code>zeroP</code>와 <code>&gt;+&lt;</code>는 <code>Void</code>와 <code>Either</code>를 다룹니다.</p>
+<ul>
+<li><code>zeroP :: p Void Void</code>: 입력도 출력도 있을 수 없는 프린터-파서입니다. 프린터로는 출력할 값이 들어올 수 없고, 파서로는 결과를 낼 수 없으므로 항상 실패합니다.</li>
+<li><code>x &gt;+&lt; y</code>: <code>x :: p a b</code>와 <code>y :: p c d</code>로 <code>Either</code>를 다루는 프린터-파서를 만듭니다. 프린터로는 입력이 <code>Left a</code>이면 <code>x</code>로, <code>Right c</code>이면 <code>y</code>로 출력합니다. 즉 <strong>입력에 대한 경우 나누기</strong>입니다. 파서로는 <code>x</code>로 파싱해 <code>Left</code>를 붙이거나 <code>y</code>로 파싱해 <code>Right</code>를 붙입니다.</li>
+<li><code>class Monoidal p =&gt; Distributor p</code>: 모든 <code>Distributor</code>는 <code>Monoidal</code>입니다. 곱과 합을 함께 다룹니다.</li>
+</ul>
+<p>함수 화살표 <code>(-&gt;)</code>가 대표적인 <code>Distributor</code>입니다. 원문은 인스턴스를 보여 주지 않으므로 다음은 재구성입니다.</p>
+<pre tabindex="0"><code class="language-haskell">instance Distributor (-&gt;) where
+  zeroP = id
+  f &gt;+&lt; g = either (Left . f) (Right . g)</code></pre>
+<pre tabindex="0"><code class="language-haskell">&gt;&gt;&gt; (show &gt;+&lt; not) (Right True :: Either Int Bool)
+Right False</code></pre>
+<p><code>Right True</code>가 들어오면 오른쪽 함수 <code>not</code>이 처리하고 결과에 <code>Right</code>가 붙습니다. 경우 나누기가 실패 없이 이루어지므로 이것은 망라적인 <code>Distributor</code>입니다.</p>
+<h2 id="optionalp와-manyp-반복을-쌍대곱으로"><code>optionalP</code>와 <code>manyP</code>: 반복을 쌍대곱으로</h2>
+<p>원문은 <code>Alternative</code>에 0번 이상의 <code>many</code>와 0번 또는 1번의 <code>optional</code>이 있듯이, <code>manyP</code>와 <code>optionalP</code>를 정의할 수 있다고 말합니다.</p>
+<pre tabindex="0"><code class="language-haskell">optionalP :: Distributor p =&gt; p a b -&gt; p (Maybe a) (Maybe b)
+optionalP p = mapIso eotMaybe (oneP &gt;+&lt; p)
+
+manyP :: p a b -&gt; p [a] [b]
+manyP p = mapIso listEot (oneP &gt;+&lt; p &gt;*&lt; manyP p)
+
+eotMaybe :: Iso (Maybe a) (Maybe b) (Either () a) (Either () b)
+
+listEot
+  :: (Cons s s a a, AsEmpty t, Cons t t b b)
+  =&gt; Iso s t (Either () (a,s)) (Either () (b,t))</code></pre>
+<h3 id="튜플의-either-표현">튜플의 Either 표현</h3>
+<p>이 정의의 열쇠는 자료형을 <code>Either</code>와 튜플로 다시 쓰는 것입니다.</p>
+<ul>
+<li><code>Maybe a</code>는 "아무것도 없음 또는 <code>a</code> 하나"이므로 <code>Either () a</code>와 같은 정보를 담습니다. <code>Nothing</code>은 <code>Left ()</code>, <code>Just x</code>는 <code>Right x</code>입니다.</li>
+<li>목록 <code>[a]</code>는 "빈 목록 또는 (머리, 꼬리)"이므로 <code>Either () (a, [a])</code>와 같은 정보를 담습니다.</li>
+</ul>
+<p><code>eotMaybe</code>와 <code>listEot</code>는 이 대응을 나타내는 동형(isomorphism)이며, 이름의 <code>eot</code>는 "eithers-of-tuples"(튜플의 Either 표현)의 줄임말입니다. 원문은 타입 시그니처만 주고 본문은 생략했습니다. 다음은 <code>Maybe</code>와 목록에 한정한 재구성입니다.</p>
+<pre tabindex="0"><code class="language-haskell">eotMaybe = iso (maybe (Left ()) Right) (either (const Nothing) Just)
+
+listEot = iso (\xs -&gt; case xs of [] -&gt; Left (); (a:as) -&gt; Right (a, as))
+              (either (const []) (uncurry (:)))</code></pre>
+<p>원문의 <code>listEot</code> 시그니처는 더 일반적입니다. 3쪽의 <code>Cons</code> 클래스로 스트림(stream)을 (머리, 꼬리)로 나누고, lens의 <code>AsEmpty</code> 클래스로 빈 값을 만듭니다. <code>AsEmpty</code>는 "빈 값"이라는 경우를 가리키는 프리즘 <code>_Empty</code>를 가진 타입들의 클래스입니다.</p>
+<h3 id="정의-읽기">정의 읽기</h3>
+<ul>
+<li><code>optionalP p = mapIso eotMaybe (oneP &gt;+&lt; p)</code>: "아무것도 하지 않기(<code>oneP</code>) 또는 <code>p</code> 한 번"을 <code>&gt;+&lt;</code>로 만들면 타입이 <code>p (Either () a) (Either () b)</code>가 되고, <code>mapIso eotMaybe</code>가 그것을 <code>p (Maybe a) (Maybe b)</code>로 바꿉니다.</li>
+<li><code>manyP p = mapIso listEot (oneP &gt;+&lt; p &gt;*&lt; manyP p)</code>: "아무것도 하지 않기 또는 (<code>p</code> 한 번, 그 뒤에 <code>manyP p</code>)"입니다. 목록의 정의 자체를 따라가는 재귀입니다. 5쪽에서 말했듯이 원문은 연산자 우선순위를 적지 않았지만, 패키지는 <code>&gt;+&lt;</code>를 <code>infixr 3</code>, <code>&gt;*&lt;</code>를 <code>infixr 5</code>로 선언하므로 이 식은 <code>oneP &gt;+&lt; (p &gt;*&lt; manyP p)</code>로 읽힙니다.</li>
+</ul>
+<p><strong>짧은 주의.</strong> 원문의 <code>manyP :: p a b -&gt; p [a] [b]</code>에는 <code>Distributor p =&gt;</code> 제약이 빠져 있습니다. 본문이 <code>oneP</code>와 <code>&gt;+&lt;</code>를 쓰므로 이 제약 없이는 타입 검사를 통과하지 못합니다. 오타로 읽으면 됩니다.</p>
+<h3 id="값이-흐르는-모습">값이 흐르는 모습</h3>
+<p>함수 화살표에서 <code>manyP</code>는 우리가 아는 함수가 됩니다. 원문 코드가 아닌 예시입니다.</p>
+<pre tabindex="0"><code class="language-haskell">&gt;&gt;&gt; manyP (+1) [1,2,3]
+[2,3,4]
+&gt;&gt;&gt; optionalP not (Just True)
+Just False</code></pre>
+<p><code>manyP</code>는 함수에서 <code>map</code>이고, <code>optionalP</code>는 <code>fmap</code>입니다. <code>Distributor</code> 구조가 "경우 나누기와 쌍 다루기"이고, <code>map</code>이 하는 일이 바로 목록에 대한 경우 나누기와 쌍 다루기이기 때문입니다.</p>
+<p>프린터-파서에서는 다음과 같습니다.</p>
+<pre tabindex="0"><code class="language-haskell">&gt;&gt;&gt; runParsor (optionalP (token 'x') :: Parsor String [] (Maybe ()) (Maybe ())) "xy"
+[(Nothing,"xy"),(Just (),"y")]
+&gt;&gt;&gt; runParsor (manyP (satisfy isDigit) :: Parsor String [] String String) "12a"
+[("","12a"),("1","2a"),("12","a")]
+&gt;&gt;&gt; [pr "" | pr &lt;- runPrintor (manyP (satisfy isDigit) :: Printor String [] String String) "42"]
+["42"]</code></pre>
+<p>파서의 결과 순서에 주목하십시오. <code>oneP</code>가 <code>&gt;+&lt;</code>의 왼쪽에 있으므로 "아무것도 읽지 않은 경우"가 먼저 나오고, 목록 파서는 짧은 결과부터 돌려줍니다. 1쪽에서 본 base의 <code>many</code>는 반대로 긴 결과부터 돌려주었습니다. 참고로 현재 <code>distributors</code> 패키지는 <code>optionalP</code>와 <code>manyP</code>의 갈래 순서를 원문과 반대로 바꾸어 긴 쪽을 먼저 시도합니다.</p>
+<h2 id="이름-이야기-디스트리뷰터">이름 이야기: 디스트리뷰터</h2>
+<p>원문은 <code>(-&gt;)</code>가 <code>Distributor</code>의 대표적인 예라고 말한 뒤, 이름의 내력을 설명합니다.</p>
+<ul>
+<li>범주론(category theory)에서 디스트리뷰터(distributor)는 프로펑터의 다른 이름입니다. Jean Bénabou가 이 개념을 만들 때 처음에는 "profunctor"라는 말을 썼다가 나중에 "distributor"를 선호했다고 합니다. 이 설명은 <a href="https://ncatlab.org/nlab/show/profunctor">nLab의 profunctor 항목</a>과 같고, 원문이 링크한 Bénabou의 강의 노트 <a href="http://www.entretemps.asso.fr/maths/Distributors.pdf">Distributors at Work</a>는 디스트리뷰터를 범주 사이의 관계로 다룹니다.</li>
+<li>"profunctor"가 널리 쓰이는 이름이 되었으므로, 원문은 "distributor"를 <strong>더 제한적인 인터페이스</strong>, 즉 느슨한 분배 프로펑터(lax distributive profunctor)의 이름으로 씁니다. 분배(distributive)라는 말은 <code>()</code>, <code>(,)</code>, <code>Void</code>, <code>Either</code>가 이루는 분배 구조를 쓴다는 뜻입니다. 곱이 합 위로 분배되는 것, 예를 들어 <code>(a, Either b c)</code>가 <code>Either (a, b) (a, c)</code>와 같은 정보를 담는다는 성질입니다.</li>
+</ul>
+<p><strong>용어에 관한 짧은 주의.</strong> 범주론 문헌에서 "distributor"를 찾으면 이 글의 <code>zeroP</code>와 <code>&gt;+&lt;</code> 같은 추가 구조 없이 그냥 프로펑터를 뜻합니다. 이 글의 <code>Distributor</code>는 그 이름을 빌려 더 많은 구조를 가진 클래스에 붙인 것이며, 원문도 그렇게 밝힙니다. 덧붙여 McBride와 Paterson 논문에는 "applicative distributor"라는 표현이 있는데, 이것은 오늘날의 <code>sequenceA</code>에 해당하는 함수를 가리키는 전혀 다른 쓰임입니다.</p>
+<p>원문은 또 디스트리뷰터가 모노이드 프로펑터만큼 연구되지 않았고, <code>Alternative</code>처럼 마땅한 관심을 받지 못하는 것 같다고 말합니다. 이것은 저자의 평가입니다. 관련 인터페이스가 아예 없지는 않습니다. 예를 들어 product-profunctors 패키지의 <code>SumProfunctor</code> 클래스는 <code>(+++!) :: p a b -&gt; p a' b' -&gt; p (Either a a') (Either b b')</code>를 가지며, <code>zeroP</code>는 없지만 <code>&gt;+&lt;</code>와 같은 모양입니다.</p>
+<h3 id="디옵터와-위치-패턴">디옵터와 위치 패턴</h3>
+<p>원문은 <code>Distributor</code>에 대응하는 옵틱을 "디옵터(diopter)"라고 이름 붙였고, 이것을 위치 패턴(positional pattern)으로 생각할 수 있다고 말합니다. 이 이름은 저자의 용어이며, 현재 패키지는 <code>Diopter</code>를 <code>forall p f. (Distributor p, Applicative f) =&gt; p a (f b) -&gt; p s (f t)</code>로 정의합니다. 4쪽의 <code>Iso</code>나 <code>Prism</code>과 같은 모양에서 <code>p</code>의 제약만 <code>Distributor</code>로 바뀐 것입니다.</p>
+<p>"위치 패턴"의 뜻은 다음 문장에 있습니다. 대수적 자료형을 <a href="https://hackage.haskell.org/package/generics-eot-0.4.0.1/docs/Generics-Eot.html">generics-eot</a> 라이브러리의 튜플의 Either 표현으로 바꾸면, 그 대수적 구조를 <code>&gt;*&lt;</code>, <code>oneP</code>, <code>&gt;+&lt;</code>, <code>zeroP</code>로 그대로 맞출 수 있습니다. 예를 들어 generics-eot 문서는 <code>data Foo = A Int Bool | B String</code>을 <code>Either (Int, (Bool, ())) (Either (String, ()) Void)</code>로 나타냅니다. 이 타입의 프린터-파서는 생성자 이름 없이 "첫 번째 갈래의 첫 번째 필드"처럼 <strong>위치</strong>만으로 구조를 따라 만들 수 있습니다.</p>
+<pre tabindex="0"><code class="language-text">Either (Int, (Bool, ())) (Either (String, ()) Void)
+   ~   (intP &gt;*&lt; boolP &gt;*&lt; oneP) &gt;+&lt; ((stringP &gt;*&lt; oneP) &gt;+&lt; zeroP)</code></pre>
+<p>위 그림은 원문에 없는 설명용 대응이며, <code>intP</code>, <code>boolP</code>, <code>stringP</code>는 가상의 부품 이름입니다.</p>
+<h2 id="alternator-실패를-허용하는-디스트리뷰터"><code>Alternator</code>: 실패를 허용하는 디스트리뷰터</h2>
+<p>원문은 <code>Distributor</code>가 프로펑터에 대한 <code>Alternative</code>의 <strong>망라적인</strong> 대응물이라고 말합니다. 부분성과 실패가 필요하면 <code>Alternative</code>와 더 닮은 다음 인터페이스가 필요합니다.</p>
+<pre tabindex="0"><code class="language-haskell">class (Choice p, Distributor p, forall x. Alternative (p x)) =&gt; Alternator p where
+  alternate :: Either (p a b) (p c d) -&gt; p (Either a c) (Either b d)</code></pre>
+<ul>
+<li>상위 클래스: <code>Choice</code>(4쪽), <code>Distributor</code>, 그리고 양화 제약 <code>forall x. Alternative (p x)</code>입니다. 즉 <code>Alternator</code>는 출력 쪽에 대해 진짜 <code>Alternative</code>이기도 합니다.</li>
+<li><code>alternate</code>: 프린터-파서 <strong>하나</strong>를 받아, 그것을 <code>Either</code>의 한쪽 갈래에 놓습니다. <code>alternate (Left x)</code>는 "왼쪽 갈래만 담당하는 <code>x</code>"입니다. 프린터로는 <code>Left a</code>가 들어오면 <code>x</code>로 출력하고 <code>Right c</code>가 들어오면 <strong>실패</strong>합니다. 파서로는 <code>x</code>로 파싱해 결과에 <code>Left</code>를 붙입니다.</li>
+</ul>
+<p>원문은 <code>alternate</code>가 <code>Distributor</code>의 메서드에 기본 구현을 준다고 말하고 다음 법칙을 적습니다.</p>
+<pre tabindex="0"><code class="language-haskell">prop&gt; zeroP = empty
+prop&gt; x &gt;+&lt; y = alternate (Left x) &lt;|&gt; alternate (Right y)</code></pre>
+<p>둘째 법칙을 읽어 보겠습니다. 왼쪽 갈래 담당 <code>x</code>와 오른쪽 갈래 담당 <code>y</code>를 <code>&lt;|&gt;</code>로 합칩니다. 프린터로는 입력이 <code>Left a</code>이면 왼쪽 시도만 성공하고 오른쪽 시도는 실패하므로, 결과적으로 <code>x</code>로 출력됩니다. 파서로는 두 시도가 모두 실행되어 <code>Left</code> 결과와 <code>Right</code> 결과가 함께 나옵니다. 이렇게 "실패할 수 있는 갈래 담당 두 개를 <code>&lt;|&gt;</code>로 합치는" 방식으로도 <code>&gt;+&lt;</code>를 얻을 수 있습니다. 다만 이 방식은 <code>empty</code>와 <code>&lt;|&gt;</code>가 필요하므로 부분적입니다.</p>
+<p>원문은 이 차이를 다음과 같이 정리합니다. 펑터에서는 <code>zeroF</code>와 <code>&lt;+&gt;</code>로 쓴 <code>Alternative</code>와 <code>empty</code>와 <code>&lt;|&gt;</code>로 쓴 <code>Alternative</code>가 동등하지만, 프로펑터에서는 둘이 갈라집니다. 망라적일 수 있는 <code>Distributor</code>와, 반드시 부분적인 <code>Alternator</code>입니다. 함수 화살표 <code>(-&gt;)</code>는 <code>Alternative</code>가 아니므로, <code>Choice</code>이면서 <code>Distributor</code>이지만 <code>Alternator</code>는 아닌 예입니다. 함수는 언제나 값을 돌려줘야 하므로 <code>empty</code>를 만들 수 없기 때문입니다.</p>
+<h2 id="parsor와-printor의-인스턴스"><code>Parsor</code>와 <code>Printor</code>의 인스턴스</h2>
+<p>원문은 <code>Parsor</code>와 <code>Printor</code>가 모두 인스턴스를 가진다고 말하고 다음 코드를 보여 줍니다. <code>alternate</code>의 정의에 쓰인 <code>\case</code>는 <code>LambdaCase</code> 확장의 문법이며, <code>\x -&gt; case x of</code>의 줄임말입니다.</p>
+<pre tabindex="0"><code class="language-haskell">instance (Alternative f, Monad f) =&gt; Alternative (Parsor s f a) where
+  empty = Parsor (\_ -&gt; empty)
+  Parsor p &lt;|&gt; Parsor q = Parsor (\str -&gt; p str &lt;|&gt; q str)
+
+instance (Alternative f, Monad f) =&gt; Alternator (Parsor s f) where
+  alternate = \case
+    Left (Parsor p) -&gt; Parsor (fmap (\(b, str) -&gt; (Left b, str)) . p)
+    Right (Parsor p) -&gt; Parsor (fmap (\(b, str) -&gt; (Right b, str)) . p)
+
+instance (Alternative f, Monad f) =&gt; Distributor (Parsor s f)
+
+instance Alternative f =&gt; Alternative (Printor s f a) where
+  empty = Printor (\_ -&gt; empty)
+  Printor p &lt;|&gt; Printor q = Printor (\a -&gt; p a &lt;|&gt; q a)
+
+instance Applicative f =&gt; Distributor (Printor s f) where
+  zeroP = Printor absurd
+  Printor p &gt;+&lt; Printor q = Printor (either p q)
+
+instance Alternative f =&gt; Alternator (Printor s f) where
+  alternate = \case
+    Left (Printor p) -&gt; Printor (either p (\_ -&gt; empty))
+    Right (Printor p) -&gt; Printor (either (\_ -&gt; empty) p)</code></pre>
+<h3 id="파서-쪽">파서 쪽</h3>
+<ul>
+<li><code>Alternative (Parsor s f a)</code>: <code>empty</code>는 입력을 무시하고 컨테이너의 <code>empty</code>를 돌려주므로 항상 실패합니다. <code>&lt;|&gt;</code>는 <strong>같은 입력</strong>을 두 파서에 주고 결과를 컨테이너의 <code>&lt;|&gt;</code>로 합칩니다. 목록이면 두 결과 목록을 이어 붙입니다. <code>Monad f</code>는 상위 클래스인 <code>Applicative (Parsor s f a)</code>(5쪽)가 요구하므로 함께 적혀 있습니다.</li>
+<li><code>Alternator (Parsor s f)</code>: <code>alternate</code>는 파서를 실행하고 결과에 <code>Left</code> 또는 <code>Right</code>를 붙입니다. 파서는 입력 쪽을 쓰지 않으므로 "다른 갈래면 실패"할 일이 없습니다.</li>
+<li><code>Distributor (Parsor s f)</code>: 본문이 비어 있습니다. 원문의 설명대로 <code>zeroP</code>와 <code>&gt;+&lt;</code>의 기본 구현, 즉 위의 법칙을 그대로 씁니다. 원문의 클래스 선언에는 기본 구현이 보이지 않습니다. 이 법칙을 기본 구현으로 쓰려면 "<code>p</code>가 <code>Alternator</code>이기도 할 때만 쓸 수 있는 기본 구현"이 필요합니다. 하스켈에서는 <code>DefaultSignatures</code> 확장의 기본 시그니처(default signature)가 이런 기본 구현을 허용합니다. 클래스 안에 <code>default zeroP :: Alternator p =&gt; p Void Void</code>처럼 더 강한 제약을 붙인 시그니처와 그 구현을 적어 두면, 그 제약을 만족하는 인스턴스만 본문 없이 기본 구현을 쓸 수 있습니다. 원문은 이것을 "<code>Parsor</code>는 <code>Alternator</code>일 때 정확히 <code>Distributor</code>이다"라고 표현합니다.</li>
+</ul>
+<h3 id="프린터-쪽">프린터 쪽</h3>
+<ul>
+<li><code>Alternative (Printor s f a)</code>: <code>empty</code>는 어떤 값도 출력하지 못합니다. <code>&lt;|&gt;</code>는 <strong>같은 값</strong>을 두 프린터에 주고 결과를 합칩니다. 목록이면 두 프린터의 출력이 모두 결과에 들어가고, <code>Maybe</code>이면 먼저 성공한 쪽이 쓰입니다.</li>
+<li><code>Distributor (Printor s f)</code>: <code>zeroP = Printor absurd</code>는 <code>Void</code> 값이 들어올 수 없으므로 <code>absurd</code>로 충분합니다. <code>Printor p &gt;+&lt; Printor q = Printor (either p q)</code>는 입력이 <code>Left</code>이면 <code>p</code>로, <code>Right</code>이면 <code>q</code>로 보냅니다. 실패가 끼어들 자리가 없으므로 <code>Applicative f</code>만 요구합니다. 이것이 <strong>망라적인</strong> 프린터입니다.</li>
+<li><code>Alternator (Printor s f)</code>: <code>alternate (Left p)</code>는 <code>Left</code> 값만 <code>p</code>로 출력하고 <code>Right</code> 값에서는 <code>empty</code>로 실패합니다. 실패가 필요하므로 <code>Alternative f</code>를 요구합니다. 이것은 <strong>부분적인</strong> 프린터입니다.</li>
+</ul>
+<p>원문은 이 점을 짚습니다. <code>Printor</code>의 <code>Distributor</code> 인스턴스는 망라적인 프린터에서 동작하고, <code>Alternator</code> 인스턴스는 부분적인 프린터에서만 동작합니다. 2쪽의 "출력은 망라적, 파싱은 부분적"이라는 관찰이 여기서 두 클래스로 나뉘어 나타납니다.</p>
+<h3 id="값이-흐르는-모습-1">값이 흐르는 모습</h3>
+<p>다음은 원문 코드가 아닌 예시입니다. <code>tx</code>는 "아무 글자 하나 또는 글자 <code>x</code>"입니다.</p>
+<pre tabindex="0"><code class="language-haskell">tx :: (Tokenized Char Char p, Cochoice p, Distributor p) =&gt; p (Either Char ()) (Either Char ())
+tx = anyToken &gt;+&lt; token 'x'</code></pre>
+<pre tabindex="0"><code class="language-haskell">&gt;&gt;&gt; runParsor (tx :: Parsor String [] (Either Char ()) (Either Char ())) "xy"
+[(Left 'x',"y"),(Right (),"y")]
+&gt;&gt;&gt; [pr "" | pr &lt;- runPrintor (tx :: Printor String [] (Either Char ()) (Either Char ())) (Right ())]
+["x"]
+&gt;&gt;&gt; [pr "" | pr &lt;- runPrintor (tx :: Printor String [] (Either Char ()) (Either Char ())) (Left 'q')]
+["q"]</code></pre>
+<p>파서는 <code>"xy"</code>의 <code>'x'</code>를 두 갈래 모두로 읽을 수 있으므로 결과가 두 개입니다. 프린터는 입력의 갈래에 따라 정확히 한 갈래로 출력합니다.</p>
+<h2 id="somep-1번-이상-반복"><code>someP</code>: 1번 이상 반복</h2>
+<p>원문은 <code>Alternator</code>가 있으면 <code>Alternative</code>의 1번 이상 반복 <code>some</code>을 프로펑터로 넓힐 수 있다고 말합니다.</p>
+<pre tabindex="0"><code class="language-haskell">someP :: Alternator p =&gt; p a b -&gt; p [a] [b]
+someP p = _Cons &gt;? p &gt;*&lt; manyP p</code></pre>
+<p>패키지의 우선순위(<code>&gt;?</code>는 <code>infixl 4</code>, <code>&gt;*&lt;</code>는 <code>infixr 5</code>)를 따르면 이 식은 <code>_Cons &gt;? (p &gt;*&lt; manyP p)</code>입니다.</p>
+<ul>
+<li><code>p &gt;*&lt; manyP p :: p (a, [a]) (b, [b])</code>: 원소 하나를 <code>p</code>로, 나머지를 <code>manyP p</code>로 다룹니다.</li>
+<li><code>_Cons &gt;? ...</code>: 3쪽의 <code>_Cons</code> 프리즘으로 목록과 (머리, 꼬리) 쌍을 연결합니다. 4쪽의 <code>(&gt;?)</code>이므로, 프린터로는 목록을 <code>_Cons</code>로 맞추어 보고, 파서로는 결과 쌍을 <code>_Cons</code>로 목록으로 만듭니다.</li>
+<li>빈 목록은 <code>_Cons</code>에 맞지 않으므로 프린터가 실패합니다. 1번 이상 반복이 빈 목록을 출력하지 못하는 것은 당연합니다. 이 실패 때문에 <code>Distributor</code>가 아니라 <code>Alternator</code>가 필요합니다. 프린터의 <code>(&gt;?)</code>는 <code>Choice</code>를 쓰는데, <code>Printor</code>의 <code>Choice</code>는 맞지 않는 경우에 <code>empty</code>가 필요하기 때문입니다(4쪽).</li>
+</ul>
+<pre tabindex="0"><code class="language-haskell">&gt;&gt;&gt; runParsor (someP (satisfy isDigit) :: Parsor String [] String String) "a"
+[]
+&gt;&gt;&gt; [pr "" | pr &lt;- runPrintor (someP (satisfy isDigit) :: Printor String [] String String) ""]
+[]
+&gt;&gt;&gt; [pr "" | pr &lt;- runPrintor (manyP (satisfy isDigit) :: Printor String [] String String) ""]
+[""]</code></pre>
+<p><code>someP</code>는 빈 목록을 출력하지 못하고, <code>manyP</code>는 빈 목록을 빈 출력으로 출력합니다.</p>
+<h2 id="filtrator-filterable의-프로펑터-버전"><code>Filtrator</code>: <code>Filterable</code>의 프로펑터 버전</h2>
+<p>원문은 4쪽에서 <code>Filterable</code>이 <code>Alternative</code>의 쌍대라고 했던 것을 떠올리며, <code>Filterable</code>을 프로펑터로 넓혀 <code>Distributor</code>의 쌍대를 만듭니다. 그리고 <code>Alternator</code>이면서 <code>Filtrator</code>인 것을 부분 디스트리뷰터(partial distributor)라고 부릅니다.</p>
+<pre tabindex="0"><code class="language-haskell">class (Cochoice p, forall x. Filterable (p x)) =&gt; Filtrator p where
+  filtrate :: p (Either a c) (Either b d) -&gt; (p a b, p c d)
+
+instance Filterable f =&gt; Filtrator (Parsor s f) where
+  filtrate (Parsor p) =
+    ( Parsor (mapMaybe leftMay . p)
+    , Parsor (mapMaybe rightMay . p)
+    ) where
+      leftMay (e, str) = either (\b -&gt; Just (b, str)) (\_ -&gt; Nothing) e
+      rightMay (e, str) = either (\_ -&gt; Nothing) (\b -&gt; Just (b, str)) e
+
+instance Filtrator (Printor s f) where
+  filtrate (Printor p) = (Printor (p . Left), Printor (p . Right))</code></pre>
+<ul>
+<li>상위 클래스: <code>Cochoice</code>(4쪽)와 양화 제약 <code>forall x. Filterable (p x)</code>입니다.</li>
+<li><code>filtrate</code>: <code>Either</code>를 다루는 프린터-파서 하나를 두 갈래의 프린터-파서 쌍으로 <strong>쪼갭니다.</strong></li>
+<li>파서 인스턴스: 원래 파서를 실행한 뒤 <code>Left</code> 결과만 남긴 파서와 <code>Right</code> 결과만 남긴 파서를 만듭니다. <code>leftMay</code>와 <code>rightMay</code>는 결과 쌍 <code>(e, str)</code>에서 원하는 갈래이면 <code>Just</code>로, 아니면 <code>Nothing</code>으로 바꾸고, <code>mapMaybe</code>(4쪽)가 <code>Nothing</code>을 버립니다.</li>
+<li>프린터 인스턴스: 입력을 <code>Left</code>로 감싸 넘기는 프린터와 <code>Right</code>로 감싸 넘기는 프린터를 만듭니다. 아무 제약도 필요 없습니다.</li>
+</ul>
+<p>원문은 <code>filtrate</code>의 타입을 <code>uncurry (&gt;+&lt;)</code>와 비교해 보라고 합니다.</p>
+<pre tabindex="0"><code class="language-haskell">uncurry (&gt;+&lt;) :: (p a b, p c d) -&gt; p (Either a c) (Either b d)
+filtrate      :: p (Either a c) (Either b d) -&gt; (p a b, p c d)</code></pre>
+<p>화살표가 정확히 반대입니다. <code>&gt;+&lt;</code>는 두 갈래를 <strong>합치고</strong>, <code>filtrate</code>는 합쳐진 것을 <strong>나눕니다</strong>. 위의 <code>tx</code>로 확인해 보겠습니다. 원문 코드가 아닌 예시입니다.</p>
+<pre tabindex="0"><code class="language-haskell">&gt;&gt;&gt; let (fl, fr) = filtrate (tx :: Parsor String [] (Either Char ()) (Either Char ()))
+&gt;&gt;&gt; runParsor fl "xy"
+[('x',"y")]
+&gt;&gt;&gt; runParsor fr "xy"
+[((),"y")]
+&gt;&gt;&gt; runParsor fr "zy"
+[]</code></pre>
+<h2 id="종합-예제-posdecint">종합 예제: <code>posDecInt</code></h2>
+<p>원문은 이제 기본 조합자(combinator)가 다 갖추어졌다며 양의 십진 정수를 위한 프린터-파서를 씁니다.</p>
+<pre tabindex="0"><code class="language-haskell">&gt;&gt;&gt; :{
+posDecInt :: (Tokenized Char Char p, Alternator p, Filtrator p) =&gt; p Int Int
+posDecInt = iso show read &gt;?&lt;
+  someP (satisfy (\c -&gt; generalCategory c == DecimalNumber))
+:}
+&gt;&gt;&gt; runParsor posDecInt "2001 A Space Odyssey" :: [(Int,String)]
+[(2,"001 A Space Odyssey"),(20,"01 A Space Odyssey"),(200,"1 A Space Odyssey"),(2001," A Space Odyssey")]
+&gt;&gt;&gt; [pr " A Space Odyssey" | pr &lt;- runPrintor posDecInt 2001] :: [String]
+["2001 A Space Odyssey"]</code></pre>
+<h3 id="코드-읽기">코드 읽기</h3>
+<ul>
+<li><code>:{</code>와 <code>:}</code>: GHCi에서 여러 줄 입력을 시작하고 끝내는 명령입니다.</li>
+<li>시그니처: <code>Char</code> 토큰(token)을 다루고, <code>Alternator</code>이며 <code>Filtrator</code>인(즉 부분 디스트리뷰터인) 모든 <code>p</code>에서 동작합니다. <code>p Int Int</code>이므로 프린터로는 <code>Int</code>를 받고 파서로는 <code>Int</code>를 냅니다.</li>
+<li><code>satisfy (\c -&gt; generalCategory c == DecimalNumber)</code>: 4쪽의 <code>satisfy</code>로 십진 숫자 하나를 다룹니다. <code>Data.Char</code>의 <code>generalCategory</code>는 글자의 유니코드 일반 범주(Unicode general category)를 돌려주고, <code>DecimalNumber</code>는 유니코드 범주 <code>Nd</code>(십진 숫자)입니다.</li>
+<li><code>someP (...)</code>: 숫자 글자를 1개 이상 다루므로 <code>p String String</code>입니다.</li>
+<li><code>iso show read &gt;?&lt; ...</code>: 동형 <code>iso show read :: Iso Int Int String String</code>을 부분 동형 자리에 넣습니다(4쪽에서 말했듯이 모든 <code>Iso</code>는 <code>PartialIso</code>로 쓸 수 있습니다). 2쪽의 핵심 표대로 프린터는 입력 쪽 함수 <code>show</code>를, 파서는 출력 쪽 함수 <code>read</code>를 씁니다.</li>
+</ul>
+<h3 id="두-방향의-흐름">두 방향의 흐름</h3>
+<ul>
+<li><strong>파서</strong>: <code>someP</code>가 숫자 글자를 1개 이상 읽고, <code>read</code>로 <code>Int</code>를 만듭니다. 결과 컨테이너가 목록이므로 가능한 모든 길이가 나오고, <code>manyP</code>의 <code>oneP</code> 갈래가 먼저 시도되므로 짧은 것부터 나옵니다. 그래서 <code>"2001 A Space Odyssey"</code>에서 <code>2</code>, <code>20</code>, <code>200</code>, <code>2001</code> 네 결과가 이 순서로 나옵니다. 마지막 결과의 남은 입력 <code>" A Space Odyssey"</code>는 공백으로 시작합니다.</li>
+<li><strong>프린터</strong>: <code>show 2001 = "2001"</code>을 만들고, <code>someP</code>가 각 글자를 <code>satisfy</code>로 검사하며 출력합니다. 남은 스트림 <code>" A Space Odyssey"</code> 앞에 붙여 <code>"2001 A Space Odyssey"</code>가 됩니다.</li>
+</ul>
+<h3 id="경계-사례">경계 사례</h3>
+<p>다음은 원문에 없는 확인입니다.</p>
+<pre tabindex="0"><code class="language-haskell">&gt;&gt;&gt; [pr "" | pr &lt;- runPrintor (posDecInt :: Printor String [] Int Int) (-5)]
+[]
+&gt;&gt;&gt; last (runParsor (posDecInt :: Parsor String [] Int Int) "007")
+(7,"")</code></pre>
+<ul>
+<li>음수는 출력되지 않습니다. <code>show (-5) = "-5"</code>의 <code>'-'</code>가 십진 숫자가 아니어서 <code>satisfy</code>에서 걸러집니다. 프린터 쪽의 검사가 <code>show</code>의 결과를 다시 확인하는 셈입니다.</li>
+<li><code>"007"</code>은 <code>7</code>로 파싱됩니다. 앞자리 0이 허용되고, 이름은 "positive"이지만 <code>"0"</code>도 받아들입니다. 따라서 <code>7</code>을 출력하면 <code>"7"</code>이 되어, <code>"007"</code>과 왕복이 같지 않습니다.</li>
+<li><code>generalCategory</code>가 <code>DecimalNumber</code>인 글자에는 아라비아-인도 숫자 <code>'\x0663'</code> 같은 비ASCII 숫자도 있습니다. GHC에서 확인해 보면 <code>reads "\x0663" :: [(Int,String)]</code>가 <code>[]</code>이므로, 이런 글자를 파싱하면 <code>read</code>가 예외를 던질 수 있습니다.</li>
+</ul>
+<p>이 사례들은 예제의 결함이라기보다 "한 정의가 두 방향을 모두 규정한다"는 점이 어디까지 정확한지를 보여 줍니다. 부분 동형의 두 함수가 서로의 역이 아니면 왕복이 깨집니다.</p>
+<h2 id="바이포컬">바이포컬</h2>
+<p>원문은 부분 디스트리뷰터에 대응하는 옵틱을 "바이포컬(bifocal)"이라고 이름 붙였다고 짧게 말합니다. 이 역시 저자의 용어이며, 현재 패키지는 <code>Bifocal</code>을 <code>forall p f. (Alternator p, Filtrator p, Alternative f, Filterable f) =&gt; p a (f b) -&gt; p s (f t)</code>로 정의하고 "양방향 파서 옵틱(bidirectional parser optics)"이라고 설명합니다. 지금까지 본 옵틱들과 같은 모양에서 제약만 강해진 것입니다.</p>
+<h2 id="이-쪽이-글의-목표에-기여하는-바">이 쪽이 글의 목표에 기여하는 바</h2>
+<p>이 절로 파서 조합자의 거의 모든 도구가 프린터-파서 버전으로 갖추어졌습니다. 차례로 잇기(<code>&gt;*&lt;</code>, <code>&gt;*</code>, <code>*&lt;</code>), 경우 나누기(<code>&gt;+&lt;</code>), 선택과 실패(<code>&lt;|&gt;</code>, <code>empty</code>), 반복(<code>optionalP</code>, <code>manyP</code>, <code>someP</code>), 걸러 내기(<code>filtrate</code>)입니다. <code>posDecInt</code>는 이 도구들로 쓴 한 정의가 파서와 프린터로 모두 동작하는 것을 보여 줍니다. 7쪽은 이 도구들을 하나의 문법 인터페이스로 묶고, 같은 정의에서 문법 문서까지 만들어 냅니다.</p>
+<h2 id="참고-자료">참고 자료</h2>
+<ul>
+<li>Eitan Chatav, <a href="https://github.com/morphismtech/distributors/blob/main/blog.md">Distributors — Unifying Parsers, Printers &amp; Grammars</a>: 원문입니다. 이 쪽은 "Distributors" 절을 다룹니다.</li>
+<li><a href="https://ncatlab.org/nlab/show/profunctor">nLab: profunctor</a>: Bénabou가 "distributor"라는 이름을 선호했다는 설명과 프로펑터의 다른 이름들을 확인할 수 있습니다.</li>
+<li>Jean Bénabou, <a href="http://www.entretemps.asso.fr/maths/Distributors.pdf">Distributors at Work</a>: 원문이 링크한 디스트리뷰터 강의 노트(2000년, Thomas Streicher 정리)입니다.</li>
+<li><a href="https://hackage.haskell.org/package/generics-eot-0.4.0.1/docs/Generics-Eot.html">generics-eot 문서</a>: 자료형의 튜플의 Either 표현과 그 예를 확인할 수 있습니다.</li>
+<li><a href="https://hackage.haskell.org/package/product-profunctors/docs/Data-Profunctor-Product.html">product-profunctors 문서: Data.Profunctor.Product</a>: <code>SumProfunctor</code> 클래스를 확인할 수 있습니다.</li>
+<li><a href="https://hackage.haskell.org/package/distributors">distributors 패키지</a>: <code>Data.Profunctor.Distributor</code>, <code>Control.Lens.Diopter</code>, <code>Control.Lens.Bifocal</code> 모듈이 있는 현재 패키지입니다. 원문과 달라진 부분이 있으므로 원문 코드와 구별해서 보십시오.</li>
+</ul>
+<h2 id="정리">정리</h2>
+<ul>
+<li><code>Alternative</code>는 <code>zeroF :: f Void</code>와 <code>&lt;+&gt; :: f a -&gt; f b -&gt; f (Either a b)</code>로 다시 쓸 수 있으며, 그러면 쌍대곱 <code>Void</code>와 <code>Either</code>에 관한 인터페이스라는 점이 드러납니다.</li>
+<li><code>Distributor</code>는 그 모양을 프로펑터로 옮긴 <code>zeroP</code>와 <code>&gt;+&lt;</code>를 가지며, 프린터로는 입력에 대한 경우 나누기, 파서로는 결과에 갈래 표시를 붙이는 선택입니다. 함수 화살표가 대표적인 예이고 실패 없이 망라적일 수 있습니다.</li>
+<li><code>optionalP</code>와 <code>manyP</code>는 <code>Maybe</code>와 목록을 튜플의 Either 표현으로 바꾸는 동형과 <code>oneP &gt;+&lt; ...</code>로 정의됩니다. 원문의 정의에서는 짧은 결과가 먼저 나옵니다.</li>
+<li><code>Alternator</code>는 <code>alternate</code>와 <code>Alternative</code>를 더한 부분적인 디스트리뷰터이고, <code>someP</code>처럼 실패가 필요한 조합자를 가능하게 합니다. <code>Filtrator</code>의 <code>filtrate</code>는 <code>&gt;+&lt;</code>의 반대 방향으로 갈래를 나눕니다.</li>
+<li><code>posDecInt = iso show read &gt;?&lt; someP (satisfy ...)</code> 한 정의가 파서로는 숫자를 읽어 <code>read</code>하고, 프린터로는 <code>show</code>한 숫자를 출력합니다.</li>
+</ul>
+<p data-series-navigation="true">이전: <a href="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-05-monoidal-profunctors/">Distributors 해설 5/8: 모노이드 프로펑터 (Monoidal Profunctors)</a> · 다음: <a href="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-07-grammars/">Distributors 해설 7/8: 문법 (Grammars)</a> · <a href="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-01-parsers-printers/">시리즈 처음</a></p>
+</section>
+</article>
+</main>
+</body>
+</html>

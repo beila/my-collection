@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Distributors 해설 1/8: 파서와 프린터 (Parsers &amp; Printers)</title>
+<meta name="description" content="이 쪽은 Eitan Chatav의 글 &quot;Distributors — Unifying Parsers, Printers &amp; Grammars&quot;를 여덟 쪽에 걸쳐 풀어 읽는 시리즈의 첫 번째 쪽입니다. 글의 제목 부분과 첫 절 &quot;Parsers &amp; Printers&quot;를 다룹니다.">
+<link rel="canonical" href="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-01-parsers-printers/">
+<meta name="source-url" content="https://github.com/morphismtech/distributors/blob/main/blog.md">
+<meta name="review-date" content="2026-11-21">
+<meta name="explanation-article-format" content="1">
+<meta name="explanation-content-sha256" content="1978cd80074227c169a2c9b1918be79a57127707d404fe8e5d7c0406ff087c47">
+<meta name="instapaper-ingestion-url" content="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-01-parsers-printers/?instapaper_explanation=1-1978cd80074227c1">
+<style>
+:root {
+  color-scheme: dark;
+  --bg: #111214;
+  --fg: #e7e5e2;
+  --muted: #b0b3b8;
+  --link: #8cb8ff;
+  --link-visited: #c9b0ff;
+  --code-bg: #1b1d21;
+  --code-fg: #e7e5e2;
+  --border: #3a3d44;
+  --focus: #ffd479;
+}
+* { box-sizing: border-box; }
+html {
+  background: var(--bg);
+  color: var(--fg);
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: system-ui, -apple-system, "Segoe UI", "Apple SD Gothic Neo",
+    "Noto Sans KR", "Malgun Gothic", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.7;
+}
+main {
+  max-width: 44rem;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 4rem;
+}
+article { overflow-wrap: break-word; word-break: keep-all; }
+h1, h2, h3, h4 {
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+  word-break: keep-all;
+}
+h1 { font-size: 1.9rem; margin: 0 0 1rem; }
+h2 {
+  font-size: 1.45rem;
+  margin: 2.6rem 0 1rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--border);
+}
+h3 { font-size: 1.2rem; margin: 2rem 0 0.8rem; }
+h4 { font-size: 1.05rem; margin: 1.6rem 0 0.7rem; }
+p, ul, ol, blockquote, pre, .table-wrap { margin: 0 0 1.1rem; }
+ul, ol { padding-left: 1.5rem; }
+li { margin: 0.35rem 0; }
+p[data-publication-metadata="true"] {
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin: 0 0 0.4rem;
+}
+p[data-publication-metadata="true"] + p:not([data-publication-metadata="true"]) { margin-top: 1.6rem; }
+p[data-series-navigation="true"] {
+  margin-top: 2.6rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+a { color: var(--link); text-decoration: underline; text-underline-offset: 0.15em; overflow-wrap: anywhere; }
+a:visited { color: var(--link-visited); }
+a:focus-visible, pre:focus-visible, .table-wrap:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+strong { color: #ffffff; }
+blockquote {
+  margin-left: 0;
+  margin-right: 0;
+  padding: 0.2rem 0 0.2rem 1rem;
+  border-left: 4px solid var(--border);
+  color: var(--fg);
+}
+blockquote p { margin: 0.4rem 0; }
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono",
+    "D2Coding", monospace;
+  font-size: 0.92em;
+  background: var(--code-bg);
+  color: var(--code-fg);
+  padding: 0.08em 0.3em;
+  border-radius: 3px;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+pre {
+  background: var(--code-bg);
+  color: var(--code-fg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.9rem 1rem;
+  overflow-x: auto;
+  line-height: 1.5;
+  max-width: 100%;
+}
+pre code {
+  background: none;
+  padding: 0;
+  font-size: 0.9rem;
+  white-space: pre;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+.table-wrap { overflow-x: auto; max-width: 100%; }
+table { border-collapse: collapse; width: 100%; font-size: 0.95rem; }
+th, td {
+  border: 1px solid var(--border);
+  padding: 0.45rem 0.6rem;
+  text-align: left;
+  vertical-align: top;
+  min-width: 7rem;
+}
+th { background: var(--code-bg); }
+@media (max-width: 30rem) {
+  main { padding: 1.25rem 0.9rem 3rem; }
+  h1 { font-size: 1.55rem; }
+  h2 { font-size: 1.3rem; }
+  h3 { font-size: 1.12rem; }
+}
+@media print {
+  :root { color-scheme: light; }
+  html, body { background: #ffffff; color: #000000; }
+  main { max-width: none; padding: 0; }
+  a, a:visited { color: #000000; }
+  a[href^="http"]::after { content: " <" attr(href) ">"; font-size: 0.85em; word-break: break-all; }
+  strong { color: #000000; }
+  code, pre, th { background: #f3f3f3; color: #000000; }
+  pre { white-space: pre-wrap; overflow: visible; border-color: #999999; }
+  pre code { white-space: pre-wrap; }
+  .table-wrap { overflow: visible; }
+  th, td, blockquote { border-color: #999999; }
+  p[data-publication-metadata="true"], p[data-series-navigation="true"] { color: #000000; }
+  h2, h3 { break-after: avoid; }
+  pre, blockquote, tr { break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+<main>
+<article>
+<section class="reviewed-content">
+<h1 id="article-title">Distributors 해설 1/8: 파서와 프린터 (Parsers &amp; Printers)</h1>
+<p data-publication-metadata="true">해설 대상 원문: Eitan Chatav, <a href="https://github.com/morphismtech/distributors/blob/main/blog.md">“Distributors — Unifying Parsers, Printers &amp; Grammars”</a></p>
+<p data-publication-metadata="true">검토일: <time datetime="2026-11-21">2026-11-21</time></p>
+<p>이 쪽은 Eitan Chatav의 글 "Distributors — Unifying Parsers, Printers &amp; Grammars"를 여덟 쪽에 걸쳐 풀어 읽는 시리즈의 첫 번째 쪽입니다. 글의 제목 부분과 첫 절 "Parsers &amp; Printers"를 다룹니다. 이 절은 글 전체가 풀려는 문제, 즉 "구문을 한 번만 기술하고 그 기술에서 파서(parser)와 프린터(printer)를 함께 얻는 방법"을 제시하고, 그 시도가 처음 부딪힌 장애물인 공변성(covariance)과 반변성(contravariance)의 충돌을 설명합니다. 뒤의 일곱 쪽은 모두 이 장애물을 넘는 과정이므로, 이 쪽에서는 배경 지식을 조금 넉넉하게 준비합니다.</p>
+<h2 id="글의-제목과-저자">글의 제목과 저자</h2>
+<p>원문의 머리 부분은 세 줄입니다.</p>
+<blockquote>
+<p><strong>Distributors</strong></p>
+<p><strong>Unifying Parsers, Printers &amp; Grammars</strong></p>
+<p><strong>Eitan Chatav</strong></p>
+</blockquote>
+<p>제목 "Distributors"는 이 글이 새로 도입하는 타입 클래스의 이름입니다. 부제 "Unifying Parsers, Printers &amp; Grammars"는 글의 목표를 그대로 말합니다. 파서(parser), 프린터(printer), 문법(grammar)을 하나의 기술(description)로 통합하겠다는 뜻입니다. 저자 Eitan Chatav는 Hackage에 올라 있는 <code>distributors</code> 패키지의 관리자이며, 원문은 그 패키지의 GitHub 저장소에 있는 <code>blog.md</code> 파일입니다(<a href="https://github.com/morphismtech/distributors/blob/main/blog.md">원문</a>).</p>
+<p>"distributor"라는 단어는 범주론(category theory)에서 프로펑터(profunctor)를 부르는 옛 이름입니다. 이 이름이 왜 붙었는지는 6쪽에서 자세히 다룹니다. 지금은 "프로펑터 위에 몇 가지 구조를 더한 인터페이스의 이름"이라고만 기억하면 충분합니다.</p>
+<h3 id="시리즈-전체의-지도">시리즈 전체의 지도</h3>
+<p>글은 여덟 절로 되어 있고, 이 시리즈도 절마다 한 쪽씩 대응합니다.</p>
+<div class="table-wrap" tabindex="0"><table>
+<thead>
+<tr>
+<th>쪽</th>
+<th>원문 절</th>
+<th>이 쪽에서 얻는 것</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Parsers &amp; Printers</td>
+<td>문제 제기: 파서와 프린터를 하나로 묶을 때의 장애물</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Profunctors</td>
+<td>해결의 출발점: 프로펑터, 그리고 <code>Parsor</code>와 <code>Printor</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td>Tokens</td>
+<td>가장 작은 기본 부품 <code>anyToken</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td>Optics &amp; Patterns</td>
+<td>패턴을 나타내는 옵틱(optic)으로 프린터-파서를 다듬는 방법</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Monoidal Profunctors</td>
+<td>차례로 이어 붙이기(곱)</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Distributors</td>
+<td>갈래 나누기(합), 반복, 실패</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Grammars</td>
+<td>문법 인터페이스와 정규 표현식(regular expression) 예제</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Extroduction</td>
+<td>정리와 열린 질문</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="문제-파서와-프린터를-따로-쓰면-생기는-일">문제: 파서와 프린터를 따로 쓰면 생기는 일</h2>
+<p>파서(parser)는 텍스트를 읽어서 값을 만듭니다. 예를 들어 <code>"42"</code>라는 문자열을 읽어 <code>Int</code> 값 <code>42</code>를 만드는 함수가 파서입니다. 프린터(printer)는 반대 방향으로, 값을 받아 텍스트를 씁니다. <code>42</code>를 받아 <code>"42"</code>를 쓰는 함수가 프린터입니다. 설정 파일, JSON, 프로그래밍 언어의 소스 코드처럼 "사람이 읽고 쓰는 형식"을 다루는 프로그램은 대개 둘 다 필요합니다.</p>
+<p>원문은 이 상황을 다음과 같이 지적합니다.</p>
+<blockquote>
+<p>When designing a language syntax, programmers usually have to write both a parser <em>and</em> a printer, violating the <a href="https://en.wikipedia.org/wiki/Don%27t_repeat_yourself">Don't Repeat Yourself</a> principle.</p>
+</blockquote>
+<p>반복 금지 원칙(Don't Repeat Yourself, DRY)은 "같은 지식을 두 곳에 쓰지 말라"는 원칙입니다. 파서와 프린터는 같은 지식, 즉 "이 형식의 구문이 어떻게 생겼는가"를 서로 반대 방향으로 두 번 적은 것입니다. 두 번 적으면 둘이 서로 어긋날 수 있습니다. 예를 들어 새 구문 요소를 파서에만 추가하고 프린터에는 빠뜨리면, 프린터가 쓴 텍스트를 파서가 다시 읽지 못하거나, 반대로 파서가 받아들이는 값을 프린터가 쓰지 못하는 일이 생깁니다. 이상적으로는 모든 값 <code>x</code>에 대해 "<code>x</code>를 출력한 텍스트를 다시 파싱하면 <code>x</code>가 나온다"는 왕복(round-trip) 성질이 성립해야 하는데, 두 코드를 따로 관리하면 이 성질을 사람이 계속 지켜야 합니다.</p>
+<p>이 글의 목표는 구문을 <strong>한 번만</strong> 기술하고, 그 하나의 기술에서 파서와 프린터를 모두 얻는 것입니다. 원문은 이렇게 두 방향으로 쓰이는 값 하나를 프린터-파서(printer-parser)라고 부릅니다. 7쪽에서는 같은 기술로 문법 문서까지 얻습니다.</p>
+<h2 id="배경-1-파서-조합자와-applicativealternative">배경 1: 파서 조합자와 Applicative/Alternative</h2>
+<p>원문 첫 문단은 McBride와 Paterson의 논문 <a href="https://www.staff.city.ac.uk/~ross/papers/Applicative.html">Applicative Programming with Effects</a>를 언급하며, 이 논문이 <code>Applicative</code> 인터페이스를 소개했고 이후 <code>Alternative</code> 인터페이스와 "파서 조합자(parser combinator)"에 관한 많은 연구를 낳았다고 말합니다. 이 글의 모든 쪽이 이 두 인터페이스를 전제로 하므로, 파서 코드에서 이들이 어떻게 쓰이는지 처음부터 정리하겠습니다.</p>
+<h3 id="성공-목록-파서">성공 목록 파서</h3>
+<p>가장 단순한 파서 타입은 다음과 같습니다. 이 타입은 원문의 코드 블록에도 그대로 나옵니다.</p>
+<pre tabindex="0"><code class="language-haskell">newtype Parser a = Parser (String -&gt; [(a,String)])</code></pre>
+<p><code>Parser a</code>는 입력 문자열을 받아서 <code>(결과, 남은 입력)</code> 쌍의 목록을 돌려주는 함수입니다. 목록이 비어 있으면 파싱이 실패한 것이고, 원소가 여러 개이면 입력을 해석하는 방법이 여러 가지라는 뜻입니다. 이 방식을 성공 목록(list of successes) 방식이라고 부릅니다(Wadler의 1985년 논문 제목 "How to replace failure by a list of successes"에서 온 이름입니다). 이후의 쪽에서도 예제는 대부분 이 목록 방식으로 결과를 보여 줍니다.</p>
+<p>이제부터 보이는 코드는 원문 코드가 아니라 개념을 보여 주기 위한 작은 예시입니다. 원문이 정의하지 않은 <code>Applicative</code>, <code>Alternative</code> 인스턴스를 직접 써서, 파서 조합자가 어떻게 동작하는지 보여 줍니다. 결과는 GHC 9.10.3에서 실행하여 확인했습니다.</p>
+<pre tabindex="0"><code class="language-haskell">runParser :: Parser a -&gt; String -&gt; [(a, String)]
+runParser (Parser p) = p
+
+-- Read one character.
+item :: Parser Char
+item = Parser $ \s -&gt; case s of
+  (c:cs) -&gt; [(c, cs)]
+  []     -&gt; []
+
+-- Read one character only when it is equal to c.
+charP :: Char -&gt; Parser Char
+charP c = Parser $ \s -&gt; case s of
+  (x:xs) | x == c -&gt; [(x, xs)]
+  _               -&gt; []
+
+-- Read one decimal digit.
+digitP :: Parser Char
+digitP = Parser $ \s -&gt; case s of
+  (c:cs) | isDigit c -&gt; [(c, cs)]
+  _                  -&gt; []</code></pre>
+<p><code>item</code>은 첫 글자를 하나 읽습니다. <code>charP 'a'</code>는 첫 글자가 <code>'a'</code>일 때만 성공합니다. <code>digitP</code>는 첫 글자가 숫자일 때만 성공합니다. 이 세 개가 가장 작은 "부품"입니다. 여기와 아래에서 쓰는 <code>isDigit</code>, <code>digitToInt</code>, <code>intToDigit</code>은 <code>Data.Char</code> 모듈의 함수이고, <code>Alternative</code> 관련 이름은 <code>Control.Applicative</code> 모듈에서 옵니다.</p>
+<h3 id="functor-결과-바꾸기">Functor: 결과 바꾸기</h3>
+<p><code>fmap f p</code>는 파서 <code>p</code>를 실행한 뒤 결과에 <code>f</code>를 적용하는 파서입니다. 남은 입력은 그대로 둡니다. 원문이 보여 주는 <code>Functor Parser</code> 인스턴스가 바로 이것이며, 아래에서 코드를 자세히 읽습니다.</p>
+<pre tabindex="0"><code class="language-haskell">&gt;&gt;&gt; runParser (fmap digitToInt digitP) "7up"
+[(7,"up")]
+&gt;&gt;&gt; runParser digitP "up"
+[]</code></pre>
+<h3 id="applicative-차례로-이어-붙이기">Applicative: 차례로 이어 붙이기</h3>
+<p><code>Applicative</code>는 "여러 파서를 차례로 실행하고 결과를 모으는" 방법을 줍니다. 파서 코드에서 자주 보이는 연산자는 다섯 가지입니다.</p>
+<ul>
+<li><code>pure x</code>: 입력을 하나도 읽지 않고 결과 <code>x</code>로 성공합니다.</li>
+<li><code>pf &lt;*&gt; px</code>: 먼저 <code>pf</code>를 실행해 함수를 얻고, 남은 입력에 <code>px</code>를 실행해 값을 얻은 뒤, 함수를 값에 적용합니다.</li>
+<li><code>f &lt;$&gt; p</code>: <code>fmap f p</code>의 연산자 표기입니다.</li>
+<li><code>p *&gt; q</code>: <code>p</code>와 <code>q</code>를 차례로 실행하고 <code>q</code>의 결과만 남깁니다.</li>
+<li><code>p &lt;* q</code>: <code>p</code>와 <code>q</code>를 차례로 실행하고 <code>p</code>의 결과만 남깁니다.</li>
+</ul>
+<p>예시 인스턴스는 다음과 같습니다. 리스트 컴프리헨션 안에서 <code>pf</code>가 남긴 입력 <code>s'</code>를 <code>px</code>에 넘기는 부분이 "차례로"의 핵심입니다.</p>
+<pre tabindex="0"><code class="language-haskell">instance Applicative Parser where
+  pure x = Parser $ \s -&gt; [(x, s)]
+  Parser pf &lt;*&gt; Parser px = Parser $ \s -&gt;
+    [(f a, s'') | (f, s') &lt;- pf s, (a, s'') &lt;- px s']</code></pre>
+<p>이 연산자들을 한 줄에 이어 쓰는 방식을 이디엄 스타일(idiom style)이라고 부릅니다.</p>
+<pre tabindex="0"><code class="language-haskell">&gt;&gt;&gt; runParser ((,) &lt;$&gt; item &lt;*&gt; item) "abc"
+[(('a','b'),"c")]
+&gt;&gt;&gt; runParser (charP '(' *&gt; item &lt;* charP ')') "(x)!"
+[('x',"!")]</code></pre>
+<p>첫 번째 예는 "글자 하나, 그다음 글자 하나를 읽어 쌍으로 묶기"입니다. <code>(,) &lt;$&gt; item</code>은 "글자를 읽어 그 글자를 첫 원소로 하는 쌍을 만드는 함수"를 결과로 내고, <code>&lt;*&gt; item</code>이 두 번째 글자를 읽어 그 함수에 넣습니다. 두 번째 예는 괄호를 읽되 결과에서는 버리고, 괄호 사이의 글자만 남깁니다. 화살표 모양 <code>*&gt;</code>와 <code>&lt;*</code>에서 화살표가 가리키는 쪽의 결과가 남는다고 기억하면 됩니다.</p>
+<p>McBride와 Paterson은 <code>pure f &lt;*&gt; u1 &lt;*&gt; ... &lt;*&gt; un</code>을 ⟦f u1 ... un⟧처럼 쓰는 이디엄 괄호(idiom brackets) 표기도 제안했습니다. 같은 논문은 자료 구조 전체에 효과를 순회시키는 <code>Traversable</code> 인터페이스(<code>traverse</code>)도 소개했습니다. 이 둘은 이 글의 뒷부분에서 다시 쓰이지 않으므로 이름만 알아 두면 됩니다.</p>
+<h3 id="alternative-실패와-선택">Alternative: 실패와 선택</h3>
+<p><code>Alternative</code>는 "실패"와 "둘 중 하나"를 표현합니다.</p>
+<ul>
+<li><code>empty</code>: 항상 실패하는 파서입니다.</li>
+<li><code>p &lt;|&gt; q</code>: <code>p</code>로도 시도하고 <code>q</code>로도 시도합니다. 성공 목록 방식에서는 두 결과 목록을 이어 붙입니다.</li>
+<li><code>many p</code>: <code>p</code>를 0번 이상 반복합니다.</li>
+<li><code>some p</code>: <code>p</code>를 1번 이상 반복합니다.</li>
+<li><code>optional p</code>: <code>p</code>를 0번 또는 1번 적용하고, 결과를 <code>Maybe</code>로 감쌉니다.</li>
+</ul>
+<pre tabindex="0"><code class="language-haskell">instance Alternative Parser where
+  empty = Parser (\_ -&gt; [])
+  Parser p &lt;|&gt; Parser q = Parser $ \s -&gt; p s ++ q s</code></pre>
+<pre tabindex="0"><code class="language-haskell">&gt;&gt;&gt; runParser (charP 'a' &lt;|&gt; charP 'b') "bc"
+[('b',"c")]
+&gt;&gt;&gt; runParser (empty :: Parser Char) "abc"
+[]
+&gt;&gt;&gt; runParser (many digitP) "12a"
+[("12","a"),("1","2a"),("","12a")]
+&gt;&gt;&gt; runParser (some digitP) "a"
+[]
+&gt;&gt;&gt; runParser (optional (charP '-')) "-5"
+[(Just '-',"5"),(Nothing,"-5")]</code></pre>
+<p><code>many digitP</code>의 결과가 세 개인 점에 주목하십시오. 성공 목록 파서는 가능한 해석을 모두 돌려주므로 "숫자 두 개를 읽은 경우", "한 개를 읽은 경우", "하나도 읽지 않은 경우"가 모두 나옵니다. 이런 동작은 6쪽의 <code>posDecInt</code> 예제에서 다시 보게 됩니다.</p>
+<p>이처럼 작은 파서를 연산자로 조합하여 큰 파서를 만드는 함수를 파서 조합자(parser combinator)라고 부릅니다. 원문이 말하는 "the usual <code>Applicative</code> and <code>Alternative</code> parser combinators"가 바로 이 연산자들입니다.</p>
+<h3 id="느슨한-모노이드-펑터-이름만-미리">느슨한 모노이드 펑터 (이름만 미리)</h3>
+<p>원문은 McBride와 Paterson 논문의 마지막 부분이 <code>Applicative</code>를 범주론의 느슨한 모노이드 펑터(lax monoidal functor)와 같은 것으로 본다고 말합니다. 대략 말하면, 느슨한 모노이드 펑터는 <code>pure</code>와 <code>&lt;*&gt;</code> 대신 다음 두 연산을 가진 펑터입니다.</p>
+<pre tabindex="0"><code class="language-haskell">unit :: f ()
+(⋆)  :: f a -&gt; f b -&gt; f (a, b)</code></pre>
+<p><code>unit</code>은 "아무것도 하지 않는 계산"이고, <code>(⋆)</code>은 "두 계산을 차례로 하고 결과를 쌍으로 묶는 연산"입니다. 이 두 연산과 <code>pure</code>/<code>&lt;*&gt;</code>는 서로를 정의할 수 있어서 같은 표현력을 가집니다. 이 형태는 5쪽에서 <code>oneP</code>와 <code>&gt;*&lt;</code>라는 이름으로 프로펑터 버전이 되어 돌아옵니다. 참고로 논문 원문은 이 결론을 "strong lax monoidal functors"라고 쓰고, 이 내용은 결론 절 바로 앞인 7절에 있습니다. 원문의 "final section"이라는 표현은 이 마지막 기술 절을 가리키는 것으로 보입니다.</p>
+<h2 id="배경-2-rendel과-ostermann의-가역-구문-기술">배경 2: Rendel과 Ostermann의 가역 구문 기술</h2>
+<p>원문 둘째 문단은 Tillmann Rendel과 Klaus Ostermann의 논문 <a href="https://www.informatik.uni-marburg.de/~rendel/unparse/">Invertible Syntax Descriptions</a>(Haskell Symposium 2010)를 소개합니다. 이 논문의 착안은 단순합니다. 파싱과 출력은 서로 역방향이므로, 구문을 파서 조합자로 기술했다면 <strong>같은 조합자</strong>로 파서와 프린터를 모두 만들 수 있어야 한다는 것입니다.</p>
+<blockquote>
+<p>The paper reasons that if a syntax is described using parser combinators, then one should be able to use the same combinators to generate both parsers <em>and</em> printers. But unifying the interfaces runs into an immediate issue; while the <code>Parser</code> type is a covariant <code>Functor</code>, the <code>Printer</code> type is instead a <code>Contravariant</code> functor.</p>
+</blockquote>
+<p>이 "즉각적인 문제"를 이해하려면 공변과 반변을 먼저 알아야 합니다.</p>
+<h2 id="공변성과-반변성">공변성과 반변성</h2>
+<h3 id="공변-출력-자리에-있는-타입">공변: 출력 자리에 있는 타입</h3>
+<p>타입 매개변수가 "출력" 자리에 있으면 그 매개변수는 공변(covariant)입니다. <code>Parser a</code>는 <code>a</code>를 <strong>만들어 내므로</strong> <code>a</code>가 출력 자리에 있습니다. 이 경우 함수 <code>a -&gt; b</code>가 있으면 <code>Parser a</code>를 <code>Parser b</code>로 바꿀 수 있습니다. 먼저 <code>a</code>를 만들고, 그 뒤에 <code>a -&gt; b</code>를 적용하면 되기 때문입니다. 이것이 <code>Functor</code>의 <code>fmap</code>입니다.</p>
+<pre tabindex="0"><code class="language-haskell">fmap :: Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b</code></pre>
+<p>화살표 <code>a -&gt; b</code>와 결과 <code>f a -&gt; f b</code>가 <strong>같은 방향</strong>을 가리킵니다. "공변"이라는 이름이 여기서 나옵니다.</p>
+<h3 id="반변-입력-자리에-있는-타입">반변: 입력 자리에 있는 타입</h3>
+<p>타입 매개변수가 "입력" 자리에 있으면 그 매개변수는 반변(contravariant)입니다. <code>Printer a</code>는 <code>a</code>를 <strong>받아들이므로</strong> <code>a</code>가 입력 자리에 있습니다. 이번에는 <code>Printer a</code>를 <code>Printer b</code>로 바꾸려면 <code>a -&gt; b</code>가 아니라 <code>b -&gt; a</code>가 필요합니다. <code>b</code>를 받아서 먼저 <code>a</code>로 바꾼 뒤, 원래 프린터에 넘기면 되기 때문입니다. 이 연산을 제공하는 클래스가 base 라이브러리 <code>Data.Functor.Contravariant</code> 모듈의 <a href="https://hackage.haskell.org/package/base/docs/Data-Functor-Contravariant.html"><code>Contravariant</code></a>입니다.</p>
+<pre tabindex="0"><code class="language-haskell">contramap :: Contravariant f =&gt; (a' -&gt; a) -&gt; f a -&gt; f a'</code></pre>
+<p>화살표 <code>a' -&gt; a</code>와 결과 <code>f a -&gt; f a'</code>가 <strong>반대 방향</strong>을 가리킵니다. 그래서 "반변"입니다.</p>
+<h2 id="원문-코드-읽기-parser와-printer">원문 코드 읽기: Parser와 Printer</h2>
+<p>원문의 첫 코드 블록은 Rendel과 Ostermann 논문의 4.1절과 4.2절에 나오는 두 타입과 같습니다.</p>
+<pre tabindex="0"><code class="language-haskell">newtype Parser a = Parser (String -&gt; [(a,String)])
+
+instance Functor Parser where
+  fmap f (Parser p) = Parser $ \str -&gt;
+    [(f a, str') | (a, str') &lt;- p str]
+
+newtype Printer a = Printer (a -&gt; Maybe String)
+
+instance Contravariant Printer where
+  contramap f (Printer p) = Printer $ p . f</code></pre>
+<p>한 줄씩 읽겠습니다.</p>
+<ul>
+<li><code>newtype Parser a = Parser (String -&gt; [(a,String)])</code>: 위에서 본 성공 목록 파서입니다. <code>newtype</code>은 기존 타입(여기서는 함수 타입)에 새 이름을 붙이고 생성자 하나로 감싸는 선언입니다. 생성자 이름과 타입 이름이 모두 <code>Parser</code>입니다.</li>
+<li><code>instance Functor Parser where</code>: <code>Parser</code>가 <code>Functor</code>라는 선언입니다. <code>Parser</code>는 매개변수 <code>a</code>를 출력 자리에 두므로 공변이고, 따라서 <code>Functor</code>가 될 수 있습니다.</li>
+<li><code>fmap f (Parser p) = Parser $ \str -&gt; ...</code>: 파서 <code>p</code>를 꺼내고, 입력 <code>str</code>을 받는 새 함수를 만듭니다.</li>
+<li><code>[(f a, str') | (a, str') &lt;- p str]</code>: <code>p str</code>이 돌려준 각 <code>(결과, 남은 입력)</code> 쌍에서 결과 <code>a</code>에만 <code>f</code>를 적용하고, 남은 입력 <code>str'</code>은 그대로 둡니다.</li>
+<li><code>newtype Printer a = Printer (a -&gt; Maybe String)</code>: 프린터는 값 <code>a</code>를 받아 텍스트를 돌려줍니다. 결과가 <code>Maybe String</code>인 이유는 출력이 실패할 수 있기 때문입니다. 예를 들어 "숫자 한 글자"만 출력하는 프린터에 <code>'x'</code>를 주면 <code>Nothing</code>을 돌려줘야 합니다. 여러 경우가 있는 자료형에서 한 경우만 담당하는 프린터도 다른 경우에는 실패해야 합니다.</li>
+<li><code>instance Contravariant Printer where</code>: <code>Printer</code>가 반변 펑터라는 선언입니다.</li>
+<li><code>contramap f (Printer p) = Printer $ p . f</code>: 새 입력을 먼저 <code>f</code>로 바꾸고(<code>f</code>), 그 결과를 원래 프린터 <code>p</code>에 넘깁니다. <code>p . f</code>는 "<code>f</code>를 먼저, <code>p</code>를 나중에" 적용하는 합성입니다.</li>
+</ul>
+<p>작은 예시로 값이 흐르는 모습을 보겠습니다. 원문 코드는 아니며, 위의 <code>digitP</code>와 짝을 이루는 프린터를 하나 정의했습니다.</p>
+<pre tabindex="0"><code class="language-haskell">runPrinter :: Printer a -&gt; a -&gt; Maybe String
+runPrinter (Printer p) = p
+
+-- Print one decimal digit. Refuse other characters.
+digitPr :: Printer Char
+digitPr = Printer $ \c -&gt; if isDigit c then Just [c] else Nothing</code></pre>
+<pre tabindex="0"><code class="language-haskell">&gt;&gt;&gt; runPrinter digitPr 'x'
+Nothing
+&gt;&gt;&gt; runPrinter (contramap intToDigit digitPr) 7
+Just "7"</code></pre>
+<p><code>digitPr</code>는 <code>Char</code>를 받습니다. <code>Int</code>를 출력하고 싶으면 <code>Int -&gt; Char</code> 함수인 <code>intToDigit</code>을 <strong>앞에</strong> 붙이면 됩니다. 반대로 <code>Printer Char</code>와 <code>Char -&gt; Int</code> 함수(<code>digitToInt</code>)만으로는 <code>Printer Int</code>를 만들 수 없습니다. <code>Int</code>를 받았을 때 그것을 <code>Char</code>로 되돌릴 방법이 없기 때문입니다. 그래서 <code>Printer</code>에는 <code>Functor</code> 인스턴스를 줄 수 없습니다.</p>
+<p>이제 문제가 분명해집니다. 파서 조합자 라이브러리는 보통 <code>Functor</code>를 바탕으로 한 <code>Applicative</code>와 <code>Alternative</code> 위에 세워집니다. 그런데 프린터는 <code>Functor</code>가 될 수 없습니다. 파서와 프린터가 같은 인터페이스를 공유하려면 무언가를 바꿔야 합니다.</p>
+<h2 id="둘-다인-펑터는-왜-쓸모가-없나">둘 다인 펑터는 왜 쓸모가 없나</h2>
+<p>원문의 다음 문장은 "그러면 <code>Functor</code>이면서 <code>Contravariant</code>인 타입을 쓰면 되지 않느냐"는 생각을 미리 막습니다.</p>
+<blockquote>
+<p>Any covariant <code>Functor</code> which is <em>also</em> <code>Contravariant</code> is an "invariant", or "phantom", a.k.a. constant functor, which is too strong of a constraint for parsers.</p>
+</blockquote>
+<p>어떤 <code>f</code>가 <code>fmap</code>과 <code>contramap</code>을 모두 가지면, 아무 함수 없이도 <code>f a</code>를 <code>f b</code>로 바꿀 수 있습니다. base 라이브러리에는 이 사실을 그대로 담은 함수가 있습니다.</p>
+<pre tabindex="0"><code class="language-haskell">phantom :: (Functor f, Contravariant f) =&gt; f a -&gt; f b</code></pre>
+<p><code>a</code>와 <code>b</code>가 아무 관계가 없어도 바꿀 수 있다는 것은, <code>f a</code>라는 값이 실제로는 <code>a</code>를 하나도 담고 있지 않고 <code>a</code>를 사용하지도 않는다는 뜻입니다. 이런 매개변수를 유령 타입 매개변수(phantom type parameter)라고 부릅니다. 대표적인 예가 상수 펑터(constant functor) <code>Const r a</code>입니다. <code>Const r a</code>는 <code>r</code> 값 하나만 담고 <code>a</code>는 무시합니다.</p>
+<pre tabindex="0"><code class="language-haskell">&gt;&gt;&gt; getConst (phantom (Const "hi" :: Const String Int) :: Const String Bool)
+"hi"</code></pre>
+<p><code>Const String Int</code>가 아무 변환 없이 <code>Const String Bool</code>이 되었고, 안에 든 값 <code>"hi"</code>는 그대로입니다. 파서가 이런 타입이라면 "<code>Int</code>를 파싱하는 파서"와 "<code>Bool</code>을 파싱하는 파서"를 구별할 수 없습니다. 파서의 결과 타입은 실제 결과를 나타내야 하므로, 이 제약은 파서에게 "너무 강합니다".</p>
+<h3 id="용어에-관한-짧은-주의">용어에 관한 짧은 주의</h3>
+<p>원문은 이 타입을 "invariant", 또는 "phantom", 다른 말로 상수 펑터라고 부릅니다. 이 가운데 "invariant"라는 말은 하스켈 생태계의 일반적인 용법과 다릅니다. 하스켈에서 불변 펑터(invariant functor)는 보통 <a href="https://hackage.haskell.org/package/invariant"><code>invariant</code> 패키지</a>의 <code>Invariant</code> 클래스, 즉 <code>invmap :: (a -&gt; b) -&gt; (b -&gt; a) -&gt; f a -&gt; f b</code>처럼 <strong>양방향 함수가 모두 있어야</strong> 바꿀 수 있는 타입을 가리킵니다. 예를 들어 <code>a -&gt; a</code> 꼴의 함수를 감싼 <code>Endo a</code>가 그렇습니다. <code>Functor</code>이면서 동시에 <code>Contravariant</code>인 타입은 그런 함수가 <strong>하나도 필요 없는</strong> 경우이므로 "유령" 또는 "상수"라고 부르는 것이 정확합니다. 원문의 "invariant"는 느슨한 표현으로 읽으면 됩니다. 7쪽에서도 같은 단어가 비슷하게 쓰입니다.</p>
+<h2 id="rendel과-ostermann의-선택-그리고-이-글의-선택">Rendel과 Ostermann의 선택, 그리고 이 글의 선택</h2>
+<p>원문에 따르면 Rendel과 Ostermann은 <code>Functor</code> 제약을 <strong>버리는</strong> 길을 택했습니다.</p>
+<blockquote>
+<p>So, the paper instead <em>drops</em> the <code>Functor</code> constraint from the usual <code>Applicative</code> and <code>Alternative</code> parser combinators.</p>
+</blockquote>
+<p>실제로 그 논문은 <code>Functor</code>를 상위 클래스로 두지 않는 새 클래스들을 정의합니다. 부분 동형(partial isomorphism)을 따라 결과를 바꾸는 <code>IsoFunctor</code>(논문의 <code>&lt;$&gt;</code>), 두 기술을 차례로 이어 결과를 쌍으로 묶는 <code>ProductFunctor</code>(논문의 <code>&lt;*&gt;</code>), 상위 클래스에 의존하지 않는 자체 <code>Alternative</code>가 있고, 이들을 모은 <code>Syntax</code> 클래스에 글자 하나를 다루는 <code>token</code>이 들어 있습니다.</p>
+<p>여기서 부분 동형(partial isomorphism)은 서로 반대 방향인 두 부분 함수의 쌍입니다. 논문은 이를 <code>data Iso α β = Iso (α → Maybe β) (β → Maybe α)</code>로 정의합니다. 파서는 한쪽 함수로 결과를 바꾸고, 프린터는 다른 쪽 함수로 입력을 되돌립니다. 두 함수가 모두 <code>Maybe</code>를 돌려주는 까닭은, 예를 들어 "문자열을 숫자로"는 숫자 모양이 아닌 문자열에서 실패하기 때문입니다. 이 생각은 4쪽에서 <code>PartialExchange</code>와 <code>PartialIso</code>라는 이름으로 다시 나타나고, 6쪽과 7쪽의 모든 예제에서 쓰입니다.</p>
+<p>원문 첫 절은 다음 문장으로 끝납니다.</p>
+<blockquote>
+<p>At the time another natural interface from category theory had not yet found its way to Haskell, <a href="https://ncatlab.org/nlab/show/profunctor">profunctors</a>.</p>
+</blockquote>
+<p>그 논문이 나온 2010년에는 하스켈에 프로펑터(profunctor)라는 인터페이스가 아직 널리 들어와 있지 않았다는 뜻입니다. Hackage의 <code>profunctors</code> 패키지 첫 판(0.1, Edward Kmett)은 2011년 7월 25일에 올라왔으므로 이 설명과 시기가 맞습니다(<a href="https://hackage.haskell.org/package/profunctors-0.1">profunctors 0.1</a>).</p>
+<p>프로펑터는 타입 매개변수가 두 개이고, 첫 번째는 반변, 두 번째는 공변인 구조입니다. 이 쪽의 문제에 비추어 보면 답이 자연스럽게 보입니다. 하나의 매개변수에 공변과 반변을 동시에 요구하면 유령 타입이 되어 버리지만, <strong>매개변수를 두 개로 나누어</strong> 하나는 프린터가 받는 입력, 하나는 파서가 내는 출력으로 쓰면 충돌이 생기지 않습니다. 2쪽은 이 생각을 코드로 옮깁니다.</p>
+<h2 id="이-쪽이-글의-목표에-기여하는-바">이 쪽이 글의 목표에 기여하는 바</h2>
+<p>이 절은 아직 해결책을 내놓지 않습니다. 대신 해결책이 만족해야 할 조건을 정합니다.</p>
+<ol type="1">
+<li>하나의 기술이 파서로도, 프린터로도 해석되어야 합니다.</li>
+<li>파서는 결과를 <strong>내놓고</strong>(공변), 프린터는 값을 <strong>받아들입니다</strong>(반변). 한 타입 매개변수로 두 방향을 모두 표현할 수는 없습니다.</li>
+<li>결과를 바꾸는 연산에는 양방향 함수 쌍, 특히 실패할 수 있는 부분 동형이 필요합니다.</li>
+<li>파서 조합자의 익숙한 문법(<code>&lt;$&gt;</code>, <code>&lt;*&gt;</code>, <code>&lt;|&gt;</code>, <code>many</code>)과 비슷한 문법을 유지하면 좋습니다.</li>
+</ol>
+<p>다음 쪽부터 저자는 2번 조건을 프로펑터로 풀고, 3번 조건을 옵틱(optic)으로 풀고, 4번 조건을 프로펑터 버전의 조합자로 풉니다.</p>
+<h2 id="참고-자료">참고 자료</h2>
+<ul>
+<li>Eitan Chatav, <a href="https://github.com/morphismtech/distributors/blob/main/blog.md">Distributors — Unifying Parsers, Printers &amp; Grammars</a>: 이 시리즈가 해설하는 원문입니다.</li>
+<li>Conor McBride, Ross Paterson, <a href="https://www.staff.city.ac.uk/~ross/papers/Applicative.html">Applicative Programming with Effects</a>: <code>Applicative</code>, 이디엄 괄호, <code>Traversable</code>을 소개하고 7절에서 느슨한 모노이드 펑터와의 관계를 다룹니다.</li>
+<li>Tillmann Rendel, Klaus Ostermann, <a href="https://www.informatik.uni-marburg.de/~rendel/unparse/">Invertible Syntax Descriptions</a>: 파서와 프린터를 같은 조합자로 기술하는 연구이며, 논문 PDF와 관련 패키지 링크가 있습니다.</li>
+<li><a href="https://hackage.haskell.org/package/base/docs/Data-Functor-Contravariant.html">Data.Functor.Contravariant 문서</a>: <code>Contravariant</code> 클래스와 <code>phantom</code> 함수의 정의를 확인할 수 있습니다.</li>
+<li><a href="https://hackage.haskell.org/package/invariant">invariant 패키지</a>: 하스켈에서 "불변 펑터"가 보통 무엇을 뜻하는지 확인할 수 있습니다.</li>
+<li><a href="https://ncatlab.org/nlab/show/profunctor">nLab: profunctor</a>: 원문이 링크한 프로펑터의 범주론적 정의입니다.</li>
+<li><a href="https://en.wikipedia.org/wiki/Don%27t_repeat_yourself">Wikipedia: Don't repeat yourself</a>: 반복 금지 원칙에 관한 설명입니다.</li>
+</ul>
+<h2 id="정리">정리</h2>
+<ul>
+<li>이 글의 목표는 구문을 한 번만 기술해서 파서, 프린터, 문법을 함께 얻는 것입니다. 파서와 프린터를 따로 쓰면 같은 지식을 두 번 쓰게 되어 둘이 어긋날 수 있습니다.</li>
+<li>파서 조합자는 작은 파서를 <code>&lt;$&gt;</code>, <code>&lt;*&gt;</code>, <code>*&gt;</code>, <code>&lt;*</code>(차례로 잇기)와 <code>empty</code>, <code>&lt;|&gt;</code>, <code>many</code>, <code>some</code>, <code>optional</code>(실패와 선택)로 조합합니다. 이들은 <code>Functor</code>, <code>Applicative</code>, <code>Alternative</code> 인터페이스에서 옵니다.</li>
+<li>파서는 결과를 내므로 공변(<code>fmap</code>)이고, 프린터는 값을 받으므로 반변(<code>contramap</code>)입니다. 둘 다인 타입은 매개변수를 실제로 쓰지 않는 유령 타입이므로 파서에 쓸 수 없습니다.</li>
+<li>Rendel과 Ostermann은 <code>Functor</code> 상위 클래스를 버리고 부분 동형 위에 새 클래스를 세웠습니다. 이 글은 대신 매개변수를 둘로 나누는 프로펑터를 택하며, 그 내용이 2쪽입니다.</li>
+</ul>
+<p data-series-navigation="true">다음: <a href="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-02-profunctors/">Distributors 해설 2/8: 프로펑터 (Profunctors)</a></p>
+</section>
+</article>
+</main>
+</body>
+</html>
