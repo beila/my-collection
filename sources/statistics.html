@@ -35,7 +35,11 @@
 </div>
 <section class="facts" aria-label="Selected period summary" id="facts"></section>
 <div class="grid">
- <section class="panel wide" id="external-access"><div class="panel-head"><h2>Facebook & Instapaper accesses</h2><select id="access-measure" aria-label="External access measure"><option value="all">All attempts</option><option value="ok">Completed accesses</option><option value="failed">Failed accesses</option></select></div><p class="caption" id="access-caption"></p><div class="facts" id="access-facts"></div><div id="access-chart" class="chart"></div><div id="access-legend" class="legend"></div><div id="access-readout" class="readout" aria-live="polite"></div><details><summary>Access values</summary><div id="access-values" class="table-wrap"></div></details></section>
+ <section class="panel wide" id="external-access"><div class="panel-head"><h2>API usage</h2><select id="access-measure" aria-label="API usage measure"><option value="all">All attempts</option><option value="ok">Completed accesses</option><option value="failed">Failed accesses</option></select></div><p class="caption" id="access-caption"></p><div class="facts" id="access-facts"></div></section>
+ <section class="panel wide" id="api-instapaper"><h2>Instapaper requests by feature</h2><p class="caption" id="access-instapaper-caption"></p><div id="access-instapaper-chart" class="chart"></div><div id="access-instapaper-legend" class="legend"></div><div id="access-instapaper-readout" class="readout" aria-live="polite"></div><details><summary>Instapaper values</summary><div id="access-instapaper-values" class="table-wrap"></div></details></section>
+ <section class="panel wide" id="api-facebook"><h2>Facebook requests by feature</h2><p class="caption" id="access-facebook-caption"></p><div id="access-facebook-chart" class="chart"></div><div id="access-facebook-legend" class="legend"></div><div id="access-facebook-readout" class="readout" aria-live="polite"></div><details><summary>Facebook values</summary><div id="access-facebook-values" class="table-wrap"></div></details></section>
+ <section class="panel wide" id="api-github"><h2>GitHub requests by feature</h2><p class="caption" id="access-github-caption"></p><div id="access-github-chart" class="chart"></div><div id="access-github-legend" class="legend"></div><div id="access-github-readout" class="readout" aria-live="polite"></div><details><summary>GitHub values</summary><div id="access-github-values" class="table-wrap"></div></details></section>
+ <section class="panel wide" id="api-backblaze"><div class="panel-head"><h2>Backblaze transactions by feature</h2><select id="access-backblaze-kind" aria-label="Backblaze transaction type"><option value="download">Downloads · Class B</option><option value="upload">Uploads · Class A</option></select></div><p class="caption" id="access-backblaze-caption"></p><div id="access-backblaze-chart" class="chart"></div><div id="access-backblaze-legend" class="legend"></div><div id="access-backblaze-readout" class="readout" aria-live="polite"></div><details><summary>Backblaze values</summary><div id="access-backblaze-values" class="table-wrap"></div></details></section>
  <section class="panel wide" id="agent-access"><h2>Successful agent CLI calls</h2><p class="caption" id="agents-caption"></p><div class="facts" id="agents-facts"></div><div id="agents-chart" class="chart"></div><div id="agents-legend" class="legend"></div><div id="agents-readout" class="readout" aria-live="polite"></div><details><summary>Agent call values</summary><div id="agents-values" class="table-wrap"></div></details></section>
  <section class="panel wide" id="instapaper-usage"><h2>Instapaper usage</h2><p class="caption" id="instapaper-caption"></p><div class="facts" id="instapaper-facts"></div><div id="instapaper-chart" class="chart"></div><div id="instapaper-legend" class="legend"></div><div id="instapaper-readout" class="readout" aria-live="polite"></div><details><summary>Folder values</summary><div id="instapaper-values" class="table-wrap"></div></details></section>
  <section class="panel wide" id="folder-trends"><h2>Folder sizes and trends</h2><p class="caption" id="folder-trends-caption"></p><div id="folder-trends-values" class="table-wrap folder-sizes"></div></section>
@@ -305,21 +309,44 @@ function renderInstapaper(){
  const breakdownStarted=history.find(row=>row.folders)?.day;
  $("instapaper-caption").textContent="Folders follow sidebar order from top to bottom. “This year” uses the year of the last observation in each interval. Each older year has its own band. Archive uses the right axis. Both axes use the same linear scale. "+(breakdownStarted?"Folder breakdowns have been recorded since "+breakdownStarted+".":"Waiting for the first recorded folder breakdown. Earlier totals remain available in Folder values.");
 }
+const FEATURE_NAMES={"library-sync":"Library sync",organiser:"Bookmark organiser",publication:"Page publication",scheduler:"Scheduler bookkeeping",other:"Unnamed component","smith-kindle-digest":"Smith digest","manual-run":"Manual runs",feeds:"Feeds","legacy-image-cutover":"Legacy image cutover","legacy-image-migration":"Nightly legacy image migration"};
+const featureLabel=f=>f==="__other"?"Other features":f==="__unattributed"?"Before feature recording":FEATURE_NAMES[f]||(f.charAt(0).toUpperCase()+f.slice(1)).replaceAll("-"," ");
+const KIND_NAMES={api_v1:"API v1",api_v2:"API v2",web:"web",http:"HTTP",browser:"browser",cli:"gh CLI",git:"Git",pages:"Pages",download:"downloads",upload:"uploads"};
+const FEATURE_LIMIT=7;
+function renderFeatureChart(service,history,features){
+ const totals=new Map(),buckets=new Map();
+ const row=day=>{const key=bucket(day);if(!buckets.has(key))buckets.set(key,{day:key,total:0,attributed:0});return buckets.get(key);};
+ for(const r of history)row(r.day).total+=r.count;
+ for(const r of features){const b=row(r.day);b[r.feature]=(b[r.feature]||0)+r.count;b.attributed+=r.count;totals.set(r.feature,(totals.get(r.feature)||0)+r.count);}
+ const ranked=[...totals].sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0])).map(([f])=>f), shown=ranked.slice(0,FEATURE_LIMIT), hidden=ranked.slice(FEATURE_LIMIT);
+ const rows=[...buckets.values()].sort((a,b)=>a.day.localeCompare(b.day)).map(b=>{const out={day:b.day};for(const f of shown)out[f]=b[f]||0;if(hidden.length)out.__other=hidden.reduce((n,f)=>n+(b[f]||0),0);out.__unattributed=Math.max(0,b.total-b.attributed);return out;});
+ const series=[...shown,...(hidden.length?["__other"]:[]),...(rows.some(r=>r.__unattributed)?["__unattributed"]:[])];
+ const sums=new Map(series.map(s=>[s,rows.reduce((n,r)=>n+(r[s]||0),0)]));
+ const palette=Object.fromEntries(series.map((s,i)=>[s,s==="__unattributed"?"#b9b0a4":s==="__other"?"#8f857a":colors[i%colors.length]]));
+ chart("access-"+service,rows,series,{stack:true,palette,label:featureLabel,legendLabel:s=>featureLabel(s)+" · "+num(sums.get(s))});
+ return hidden;
+}
 function renderAccesses(){
- const access=data.accesses||{}, rows=(access.history||[]).filter(r=>inPeriod(r.day));
- const services=rows.filter(r=>["instapaper","facebook"].includes(r.service)), agents=rows.filter(r=>["codex","claude","kiro-cli"].includes(r.service)&&r.status==="ok");
+ const access=data.accesses||{}, rows=(access.history||[]).filter(r=>inPeriod(r.day)), featureRows=(access.features||[]).filter(r=>inPeriod(r.day));
+ const agents=rows.filter(r=>["codex","claude","kiro-cli"].includes(r.service)&&r.status==="ok");
  const total=items=>items.reduce((n,r)=>n+r.count,0), count=items=>access.recording_started?num(total(items)):"—";
- const since=access.recording_started?dayOf(access.recording_started*1000):null;
- const names={instapaper:"Instapaper",facebook:"Facebook",codex:"Codex",claude:"Claude","kiro-cli":"Kiro CLI"};
- $("access-facts").innerHTML=factCards([
-  ["Instapaper",count(services.filter(r=>r.service==="instapaper")),"API and authenticated web requests"],
-  ["Facebook",count(services.filter(r=>r.service==="facebook")),"Page loads and explicit HTTP fetches"],
-  ["Completed accesses",count(services.filter(r=>r.status==="ok")),"Across both services"],
-  ["Failed accesses",count(services.filter(r=>r.status==="failed")),"Each failed request attempt"]
- ]);
- const measure=$("access-measure").value, measured=services.filter(r=>measure==="all"||r.status===measure);
- chart("access",grouped(measured,r=>names[r.service],r=>r.count),["Instapaper"],{overlay:["Facebook"],secondary:true,axisLabels:["Instapaper accesses","Facebook accesses"],label:s=>s+(s==="Facebook"?" · right axis":" · left axis")});
- $("access-caption").textContent="Global · Instapaper uses the left axis; Facebook uses the right axis. Each explicit request or page load counts once; retries count again. Local caches and lock polling add no accesses. Browser subrequests are not measured. "+(since?"Recording began "+since+"; earlier accesses are unknown.":"Waiting for the first recorded access.");
+ const since=access.recording_started?dayOf(access.recording_started*1000):null, featureSince=access.feature_recording_started?dayOf(access.feature_recording_started*1000):null;
+ const names={instapaper:"Instapaper",facebook:"Facebook",github:"GitHub",backblaze:"Backblaze",codex:"Codex",claude:"Claude","kiro-cli":"Kiro CLI"};
+ const measure=$("access-measure").value, measured=r=>measure==="all"||r.status===measure, b2Kind=$("access-backblaze-kind").value;
+ const services=[["instapaper","API and authenticated web requests"],["facebook","Page loads and explicit HTTP fetches"],["github","gh CLI calls, Git transfers, and Pages requests"],["backblaze","Downloads and uploads"]];
+ $("access-facts").innerHTML=factCards(services.map(([service,note])=>[names[service],count(rows.filter(r=>r.service===service&&measured(r))),note]));
+ const firstDay=service=>rows.find(r=>r.service===service)?.day;
+ for(const [service] of services){
+  const kindMatches=r=>service!=="backblaze"||r.kind===b2Kind;
+  const history=rows.filter(r=>r.service===service&&measured(r)&&kindMatches(r)), features=featureRows.filter(r=>r.service===service&&measured(r)&&kindMatches(r));
+  const hidden=renderFeatureChart(service,history,features);
+  const kinds=new Map();for(const r of rows.filter(r=>r.service===service&&measured(r)))kinds.set(r.kind,(kinds.get(r.kind)||0)+r.count);
+  const breakdown=[...kinds].map(([kind,n])=>(KIND_NAMES[kind]||kind)+" "+num(n)).join(" · ");
+  const started=firstDay(service);
+  $("access-"+service+"-caption").textContent="Global · stacked by the instapaper-picker feature that made each request. "+(breakdown?"Period total: "+breakdown+". ":"")+(hidden.length?"“Other features” combines "+num(hidden.length)+" smaller features. ":"")+(featureSince?"Feature attribution began "+featureSince+"; earlier requests appear as “Before feature recording”. ":"")+(started?"":"No requests recorded in this period.");
+ }
+ $("access-backblaze-caption").textContent+=" The nightly migration and the cutover report their daily download totals in Actions receipts. New-image uploads report each batch once. Local downloads from Backblaze count at the request.";
+ $("access-caption").textContent="Global · one chart per service follows. Each explicit request or page load counts once; retries count again. Local caches and lock polling add no accesses. Browser subrequests are not measured. "+(since?"Recording began "+since+"; earlier accesses are unknown.":"Waiting for the first recorded access.");
  $("agents-facts").innerHTML=factCards([
   ["Codex",count(agents.filter(r=>r.service==="codex")),"Successful CLI completions"],
   ["Claude",count(agents.filter(r=>r.service==="claude")),"Successful CLI completions"],
@@ -498,7 +525,7 @@ async function refresh(){
   $("error").textContent="";firstLoad=false;render();
  }catch(error){$("error").textContent=error.message;}finally{fetching=false;$("refresh").disabled=false;}
 }
-["period","interval","group","destination","source","measure","sort","kindle-measure","access-measure"].forEach(id=>$(id).addEventListener("change",()=>data&&render()));
+["period","interval","group","destination","source","measure","sort","kindle-measure","access-measure","access-backblaze-kind"].forEach(id=>$(id).addEventListener("change",()=>data&&render()));
 $("pages-size-measure").addEventListener("change",renderCollection);
 $("pages-size").addEventListener("toggle",()=>{if($("pages-size").open)renderCollection()});
 $("search").addEventListener("input",()=>data&&render());$("clear").onclick=()=>{$("search").value="";if(data)render();$("search").focus();};
