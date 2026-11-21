@@ -8,9 +8,9 @@
 <link rel="canonical" href="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-05-monoidal-profunctors/">
 <meta name="source-url" content="https://github.com/morphismtech/distributors/blob/main/blog.md">
 <meta name="review-date" content="2026-11-21">
-<meta name="explanation-article-format" content="1">
+<meta name="explanation-article-format" content="2">
 <meta name="explanation-content-sha256" content="969713d10748000ef0da655fd16ccffab2823275c59fa439a69a42308fcfc475">
-<meta name="instapaper-ingestion-url" content="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-05-monoidal-profunctors/?instapaper_explanation=1-969713d10748000e">
+<meta name="instapaper-ingestion-url" content="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-05-monoidal-profunctors/?instapaper_explanation=2-969713d10748000e">
 <style>
 :root {
   color-scheme: dark;
@@ -70,11 +70,14 @@ p[data-publication-metadata="true"] {
 }
 p[data-publication-metadata="true"] + p:not([data-publication-metadata="true"]) { margin-top: 1.6rem; }
 p[data-series-navigation="true"] {
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin: 0 0 0.4rem;
+}
+:not([data-series-navigation="true"]) + p[data-series-navigation="true"] {
   margin-top: 2.6rem;
   padding-top: 0.8rem;
   border-top: 1px solid var(--border);
-  color: var(--muted);
-  font-size: 0.95rem;
 }
 a { color: var(--link); text-decoration: underline; text-underline-offset: 0.15em; overflow-wrap: anywhere; }
 a:visited { color: var(--link-visited); }
@@ -426,7 +429,9 @@ instance (Applicative f, Cons s s Char Char)
 <li><code>oneP</code>, <code>&gt;*&lt;</code>, <code>&gt;*</code>, <code>*&lt;</code>는 각각 "아무것도 하지 않기", "쌍을 차례로 다루기", "왼쪽 구분자 붙이기", "오른쪽 구분자 붙이기"이며, <code>&gt;?&lt;</code>와 함께 되돌릴 수 있는 이디엄 스타일을 이룹니다.</li>
 <li><code>tokens</code>와 <code>IsString</code> 인스턴스 덕분에 <code>OverloadedStrings</code>에서 문자열 리터럴 <code>"abc"</code>가 그 문자열을 파싱하고 출력하는 <code>p () ()</code>가 됩니다.</li>
 </ul>
-<p data-series-navigation="true">이전: <a href="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-04-optics-patterns/">Distributors 해설 4/8: 옵틱과 패턴 (Optics &amp; Patterns)</a> · 다음: <a href="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-06-distributors/">Distributors 해설 6/8: 디스트리뷰터 (Distributors)</a> · <a href="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-01-parsers-printers/">시리즈 처음</a></p>
+<p data-series-navigation="true">이전 쪽: Distributors 해설 4/8: 옵틱과 패턴 (Optics &amp; Patterns) <a href="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-04-optics-patterns/" aria-label="이전 쪽 열기: Distributors 해설 4/8: 옵틱과 패턴 (Optics &amp; Patterns)">열기</a></p>
+<p data-series-navigation="true">다음 쪽: Distributors 해설 6/8: 디스트리뷰터 (Distributors) <a href="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-06-distributors/" aria-label="다음 쪽 열기: Distributors 해설 6/8: 디스트리뷰터 (Distributors)">열기</a></p>
+<p data-series-navigation="true">시리즈 처음: Distributors 해설 1/8: 파서와 프린터 (Parsers &amp; Printers) <a href="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-01-parsers-printers/" aria-label="시리즈 처음 열기: Distributors 해설 1/8: 파서와 프린터 (Parsers &amp; Printers)">열기</a></p>
 </section>
 </article>
 </main>

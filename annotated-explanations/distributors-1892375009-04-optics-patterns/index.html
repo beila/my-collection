@@ -8,9 +8,9 @@
 <link rel="canonical" href="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-04-optics-patterns/">
 <meta name="source-url" content="https://github.com/morphismtech/distributors/blob/main/blog.md">
 <meta name="review-date" content="2026-11-21">
-<meta name="explanation-article-format" content="1">
+<meta name="explanation-article-format" content="2">
 <meta name="explanation-content-sha256" content="83cd30cf99d17f8c87d1ee251445f34d09510c664f88339b108d593e07526ec9">
-<meta name="instapaper-ingestion-url" content="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-04-optics-patterns/?instapaper_explanation=1-83cd30cf99d17f8c">
+<meta name="instapaper-ingestion-url" content="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-04-optics-patterns/?instapaper_explanation=2-83cd30cf99d17f8c">
 <style>
 :root {
   color-scheme: dark;
@@ -70,11 +70,14 @@ p[data-publication-metadata="true"] {
 }
 p[data-publication-metadata="true"] + p:not([data-publication-metadata="true"]) { margin-top: 1.6rem; }
 p[data-series-navigation="true"] {
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin: 0 0 0.4rem;
+}
+:not([data-series-navigation="true"]) + p[data-series-navigation="true"] {
   margin-top: 2.6rem;
   padding-top: 0.8rem;
   border-top: 1px solid var(--border);
-  color: var(--muted);
-  font-size: 0.95rem;
 }
 a { color: var(--link); text-decoration: underline; text-underline-offset: 0.15em; overflow-wrap: anywhere; }
 a:visited { color: var(--link-visited); }
@@ -810,7 +813,9 @@ satisfy f = satisfied f &gt;?&lt; anyToken
 <li>구체, 케밋, 순수 프로펑터 표현은 서로 오갈 수 있는 동등한 표현이며, 케밋 표현에서 <code>p = (-&gt;)</code>를 고르면 반 라르호번 렌즈가 됩니다. lens는 이 호환성 때문에 <code>f</code>가 있는 표현을 쓰고, 원문은 프린터-파서에 바로 맞는 <code>p a b -&gt; p s t</code> 모양을 꺼내 씁니다.</li>
 <li>프리즘(<code>Choice</code>, <code>&gt;?</code>), 코프리즘(<code>Cochoice</code>, <code>?&lt;</code>), 부분 동형(<code>dimapMaybe</code>, <code>&gt;?&lt;</code>)은 실패할 수 있는 패턴을 프린터-파서에 적용합니다. 그 결과로 정해진 글자 하나를 다루는 <code>token</code>과 조건을 만족하는 글자 하나를 다루는 <code>satisfy</code>를 얻습니다.</li>
 </ul>
-<p data-series-navigation="true">이전: <a href="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-03-tokens/">Distributors 해설 3/8: 토큰 (Tokens)</a> · 다음: <a href="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-05-monoidal-profunctors/">Distributors 해설 5/8: 모노이드 프로펑터 (Monoidal Profunctors)</a> · <a href="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-01-parsers-printers/">시리즈 처음</a></p>
+<p data-series-navigation="true">이전 쪽: Distributors 해설 3/8: 토큰 (Tokens) <a href="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-03-tokens/" aria-label="이전 쪽 열기: Distributors 해설 3/8: 토큰 (Tokens)">열기</a></p>
+<p data-series-navigation="true">다음 쪽: Distributors 해설 5/8: 모노이드 프로펑터 (Monoidal Profunctors) <a href="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-05-monoidal-profunctors/" aria-label="다음 쪽 열기: Distributors 해설 5/8: 모노이드 프로펑터 (Monoidal Profunctors)">열기</a></p>
+<p data-series-navigation="true">시리즈 처음: Distributors 해설 1/8: 파서와 프린터 (Parsers &amp; Printers) <a href="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-01-parsers-printers/" aria-label="시리즈 처음 열기: Distributors 해설 1/8: 파서와 프린터 (Parsers &amp; Printers)">열기</a></p>
 </section>
 </article>
 </main>
