@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "images": [
+    {
+      "path": "images/v1/509b92e2a396add3f28f27d84a7c09bf5e0cf8910baf3642338c7b233e2e0eca.jpg",
+      "object_key": "images/v1/509b92e2a396add3f28f27d84a7c09bf5e0cf8910baf3642338c7b233e2e0eca.jpg",
+      "sha256": "509b92e2a396add3f28f27d84a7c09bf5e0cf8910baf3642338c7b233e2e0eca",
+      "bytes": 27500,
+      "content_type": "image/jpeg",
+      "original_path": "facebook-instapaper/innamsik/29276418008642966/509b92e2a396add3f28f27d84a7c09bf5e0cf8910baf3642338c7b233e2e0eca.jpg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/509b92e2a396add3f28f27d84a7c09bf5e0cf8910baf3642338c7b233e2e0eca.jpg",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/innamsik/29276418008642966/509b92e2a396add3f28f27d84a7c09bf5e0cf8910baf3642338c7b233e2e0eca.jpg"
+    },
+    {
+      "path": "images/v1/8f5d815035c9129e5bee864962940aa623f396d922aa05c4827625a8df1c4d21.jpg",
+      "object_key": "images/v1/8f5d815035c9129e5bee864962940aa623f396d922aa05c4827625a8df1c4d21.jpg",
+      "sha256": "8f5d815035c9129e5bee864962940aa623f396d922aa05c4827625a8df1c4d21",
+      "bytes": 89108,
+      "content_type": "image/jpeg",
+      "original_path": "facebook-instapaper/innamsik/29276418008642966/8f5d815035c9129e5bee864962940aa623f396d922aa05c4827625a8df1c4d21.jpg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/8f5d815035c9129e5bee864962940aa623f396d922aa05c4827625a8df1c4d21.jpg",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/innamsik/29276418008642966/8f5d815035c9129e5bee864962940aa623f396d922aa05c4827625a8df1c4d21.jpg"
+    }
+  ]
+}

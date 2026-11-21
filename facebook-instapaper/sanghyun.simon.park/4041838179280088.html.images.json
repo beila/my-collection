@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "images": [
+    {
+      "path": "images/v1/72a4ab103fba7d3ad88ecfae514ed78bc006eb1fdb173b76402698edba1b8c1a.jpg",
+      "object_key": "images/v1/72a4ab103fba7d3ad88ecfae514ed78bc006eb1fdb173b76402698edba1b8c1a.jpg",
+      "sha256": "72a4ab103fba7d3ad88ecfae514ed78bc006eb1fdb173b76402698edba1b8c1a",
+      "bytes": 21948,
+      "content_type": "image/jpeg",
+      "original_path": "facebook-instapaper/sanghyun.simon.park/4041838179280088/72a4ab103fba7d3ad88ecfae514ed78bc006eb1fdb173b76402698edba1b8c1a.jpg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/72a4ab103fba7d3ad88ecfae514ed78bc006eb1fdb173b76402698edba1b8c1a.jpg",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/sanghyun.simon.park/4041838179280088/72a4ab103fba7d3ad88ecfae514ed78bc006eb1fdb173b76402698edba1b8c1a.jpg"
+    },
+    {
+      "path": "images/v1/8659968b3d3007226ab7437f16c03a0d02de4e98b0c3fbf5bce8d1fc772dea70.jpg",
+      "object_key": "images/v1/8659968b3d3007226ab7437f16c03a0d02de4e98b0c3fbf5bce8d1fc772dea70.jpg",
+      "sha256": "8659968b3d3007226ab7437f16c03a0d02de4e98b0c3fbf5bce8d1fc772dea70",
+      "bytes": 13750,
+      "content_type": "image/jpeg",
+      "original_path": "facebook-instapaper/sanghyun.simon.park/4041838179280088/8659968b3d3007226ab7437f16c03a0d02de4e98b0c3fbf5bce8d1fc772dea70.jpg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/8659968b3d3007226ab7437f16c03a0d02de4e98b0c3fbf5bce8d1fc772dea70.jpg",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/sanghyun.simon.park/4041838179280088/8659968b3d3007226ab7437f16c03a0d02de4e98b0c3fbf5bce8d1fc772dea70.jpg"
+    },
+    {
+      "path": "images/v1/8a939886b73ecaa12ee591256b3130c5885059db79bed6065b0e9de5ccc9c745.jpg",
+      "object_key": "images/v1/8a939886b73ecaa12ee591256b3130c5885059db79bed6065b0e9de5ccc9c745.jpg",
+      "sha256": "8a939886b73ecaa12ee591256b3130c5885059db79bed6065b0e9de5ccc9c745",
+      "bytes": 34318,
+      "content_type": "image/jpeg",
+      "original_path": "facebook-instapaper/sanghyun.simon.park/4041838179280088/8a939886b73ecaa12ee591256b3130c5885059db79bed6065b0e9de5ccc9c745.jpg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/8a939886b73ecaa12ee591256b3130c5885059db79bed6065b0e9de5ccc9c745.jpg",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/sanghyun.simon.park/4041838179280088/8a939886b73ecaa12ee591256b3130c5885059db79bed6065b0e9de5ccc9c745.jpg"
+    }
+  ]
+}
