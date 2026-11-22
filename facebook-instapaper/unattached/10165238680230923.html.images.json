@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "images": [
+    {
+      "path": "images/v1/605740b76c6a6dbce8fb96363ed4bf2f0efc77f5d1d6b5b88fa15d1219f33ee3.jpg",
+      "object_key": "images/v1/605740b76c6a6dbce8fb96363ed4bf2f0efc77f5d1d6b5b88fa15d1219f33ee3.jpg",
+      "sha256": "605740b76c6a6dbce8fb96363ed4bf2f0efc77f5d1d6b5b88fa15d1219f33ee3",
+      "bytes": 78595,
+      "content_type": "image/jpeg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/605740b76c6a6dbce8fb96363ed4bf2f0efc77f5d1d6b5b88fa15d1219f33ee3.jpg",
+      "original_path": "facebook-instapaper/unattached/10165238680230923/605740b76c6a6dbce8fb96363ed4bf2f0efc77f5d1d6b5b88fa15d1219f33ee3.jpg",
+      "repository_path": "image-originals/images/v1/605740b76c6a6dbce8fb96363ed4bf2f0efc77f5d1d6b5b88fa15d1219f33ee3.jpg"
+    },
+    {
+      "path": "images/v1/bb91e00b6d581810848b7676152422073aef66889faaeb1f9ccc7041da1567f0.png",
+      "object_key": "images/v1/bb91e00b6d581810848b7676152422073aef66889faaeb1f9ccc7041da1567f0.png",
+      "sha256": "bb91e00b6d581810848b7676152422073aef66889faaeb1f9ccc7041da1567f0",
+      "bytes": 1084,
+      "content_type": "image/png",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/bb91e00b6d581810848b7676152422073aef66889faaeb1f9ccc7041da1567f0.png",
+      "original_path": "facebook-instapaper/unattached/10165238680230923/bb91e00b6d581810848b7676152422073aef66889faaeb1f9ccc7041da1567f0.png",
+      "repository_path": "image-originals/images/v1/bb91e00b6d581810848b7676152422073aef66889faaeb1f9ccc7041da1567f0.png"
+    }
+  ]
+}
