@@ -6,6 +6,7 @@ import argparse
 import hashlib
 import html
 import json
+import os
 import re
 import threading
 import time
@@ -1071,4 +1072,14 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except TestFailure as error:
+        if os.environ.get("GITHUB_ACTIONS") == "true":
+            message = " ".join(str(error).splitlines())
+            annotation = message.replace("%", "%25")
+            print(f"::error title=Legacy image migration::{annotation}", flush=True)
+            if summary := os.environ.get("GITHUB_STEP_SUMMARY"):
+                with Path(summary).open("a", encoding="utf-8") as report:
+                    report.write(f"    {message}\n\n")
+        raise
