@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "images": [
+    {
+      "path": "images/v1/357680b7ce3a0df05cfdf1b766eb970a858424109d2ab22a908154230da6de69.jpg",
+      "object_key": "images/v1/357680b7ce3a0df05cfdf1b766eb970a858424109d2ab22a908154230da6de69.jpg",
+      "sha256": "357680b7ce3a0df05cfdf1b766eb970a858424109d2ab22a908154230da6de69",
+      "bytes": 15977,
+      "content_type": "image/jpeg",
+      "original_path": "facebook-instapaper/joyce.park1/10165498151140903/357680b7ce3a0df05cfdf1b766eb970a858424109d2ab22a908154230da6de69.jpg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/357680b7ce3a0df05cfdf1b766eb970a858424109d2ab22a908154230da6de69.jpg",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/joyce.park1/10165498151140903/357680b7ce3a0df05cfdf1b766eb970a858424109d2ab22a908154230da6de69.jpg"
+    },
+    {
+      "path": "images/v1/9e8ed33d886bc2e9c77acf93d9ba921f07f34abe0cd3660cf7eeab3280a6c8f0.jpg",
+      "object_key": "images/v1/9e8ed33d886bc2e9c77acf93d9ba921f07f34abe0cd3660cf7eeab3280a6c8f0.jpg",
+      "sha256": "9e8ed33d886bc2e9c77acf93d9ba921f07f34abe0cd3660cf7eeab3280a6c8f0",
+      "bytes": 18338,
+      "content_type": "image/jpeg",
+      "original_path": "facebook-instapaper/joyce.park1/10165498151140903/9e8ed33d886bc2e9c77acf93d9ba921f07f34abe0cd3660cf7eeab3280a6c8f0.jpg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/9e8ed33d886bc2e9c77acf93d9ba921f07f34abe0cd3660cf7eeab3280a6c8f0.jpg",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/joyce.park1/10165498151140903/9e8ed33d886bc2e9c77acf93d9ba921f07f34abe0cd3660cf7eeab3280a6c8f0.jpg"
+    }
+  ]
+}
