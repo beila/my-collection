@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "phase": "switch",
+  "phase": "exclude",
   "manifest_sha256": "40a0f46a94674d75041f71416985a3521294e9dbbd8450b456d57af29645508b",
   "documents": {
     "facebook-instapaper/taegee.min/7787911017905935.html": {
@@ -275,6 +275,31 @@
       "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/9c71da95386062cc8437add6abe2b3ae1a383f3cadb5d64ee84489f91a4ea928.jpg"
     }
   ],
-  "budget_date": "2026-11-22",
-  "request_id": "c36a501a82ab383891360243ff7999e18ff2b38f97e85f11ec290a67e9e9c957"
+  "request_id": "0b6bf15793e99a70efa81415405b847a111c8c420ea0b26396390207de21e81f",
+  "excluded_paths": [
+    "facebook-instapaper/taegee.min/7787911017905935/06871053cdb8493dd07750b3c7653b45bd99e439e577128187aa9d4146832fbe.jpg",
+    "facebook-instapaper/taegee.min/7795966123767091/861fa393d0c0541e470403888ba7430106a6c2837212e5c166c90de7b1f9cc2c.jpg",
+    "facebook-instapaper/taegee.min/7809367409093629/2f515638018e1a0e0561c00f122ff1e834abba50c934d5efc4cb0c4b7ab242e8.jpg",
+    "facebook-instapaper/taegee.min/7826200774076959/7baff2e72563b14728bd590dd009ced526de338a81c95f53b37bd7cb33a2aa60.jpg",
+    "facebook-instapaper/taegee.min/7830752453621791/35ae1437dec831a8c990d252abb88fb63c8f9c12546f7d208eb1ba710bf3d5e0.jpg",
+    "facebook-instapaper/taegee.min/7848642935166076/11ddc9e34cbcd692f52de1b3cc80d1eda4ddb99a657c707b0c75fe0f7a4bf287.jpg",
+    "facebook-instapaper/taegee.min/7848642935166076/395f6f94ffedc7a60a8f6fc77e8d06b397c5b097a8915ae364cdaaf933e8394f.jpg",
+    "facebook-instapaper/taegee.min/7848642935166076/96ae6dc7c87c2d9b1061578b704f9bd267ab7fe21ced5ec0eb0c5a8a758e1520.jpg",
+    "facebook-instapaper/taegee.min/7848642935166076/9c71da95386062cc8437add6abe2b3ae1a383f3cadb5d64ee84489f91a4ea928.jpg",
+    "facebook-instapaper/taegee.min/7853050038058699/43d67c7be014c2e54a8d8309e3db1b905920a7e3c9afc16de0aea4e0eec88fbd.jpg",
+    "facebook-instapaper/taegee.min/7853743621322674/3e8b59d2943740c666bffdbdeb2d70c1d9c7a3d4e76034c9b70acfc8e4fc2a3e.jpg",
+    "facebook-instapaper/taegee.min/7853743621322674/4d1bdfea8649dfe595ecae19de00ac7f234943058604eddff9192b706424c80c.jpg",
+    "facebook-instapaper/taegee.min/7853743621322674/6d96b16f495c10f892ddd00225c959638f0b982b0da02adb8bf03442b47dc0bb.jpg",
+    "facebook-instapaper/taegee.min/7857616417602061/955ae645fcc5bf6426e11e0a0d82268265297a09bce6029d222645e9e9ad3187.jpg",
+    "facebook-instapaper/taegee.min/7861144547249248/325e2d095262d5c60d40ca648849dfc7e2c54c2ba74f4d37f5b101cf15dfaf72.jpg",
+    "facebook-instapaper/taegee.min/7866255356738167/207247de1ab04933338ab453ec220a4479c0b2aaf09662a2078a0cd77fb6fea4.jpg",
+    "facebook-instapaper/taegee.min/7866255356738167/680e7310be91dc247c53f687c04f8589f4ada5ff0fef8036ccb684305171c433.jpg",
+    "facebook-instapaper/taegee.min/7876099129087123/8b434f2522cbcafc6d56daabfbd7844806e5e74e16cdf4f56e0d101368161fc9.jpg",
+    "facebook-instapaper/taegee.min/7933500320013670/82d4f47e4db4695e8da8becd79714c316efcf0a3af5b49b1a1a510f8c5bf8abb.jpg",
+    "facebook-instapaper/taegee.min/7952103558153346/1f11bf8b4d4e4cedd0afdcda7e4804ca648b0804c1299b3936e506933abdfbbe.jpg",
+    "facebook-instapaper/taegee.min/8402350573128640/63f027e8eabbd3721bd74be06181462d3ed0bdcbc43a79179fadf13007e63602.jpg",
+    "facebook-instapaper/taegee.min/9201354669894889/404c2a501528178afb41094129ab0bd93ea46505c464ecb8a26faea3106f78b9.jpg",
+    "facebook-instapaper/taegee.min/9588222851208067/73b80f2d4fc9e1b66c442781fc5ec3181168f64ea76225a202d271cba32f2872.jpg"
+  ],
+  "budget_date": "2026-11-22"
 }
