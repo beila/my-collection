@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-23T00:19:10.516685+00:00",
+  "generated_at": "2026-11-23T00:22:02.468633+00:00",
   "sources": [
     {
       "id": "frequent:bluesky-capcold",
@@ -13,7 +13,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-23T00:01:36.408574+00:00",
+      "cached_at": "2026-11-23T00:19:18.112590+00:00",
       "url": "https://bsky.app/profile/capcold.bsky.social",
       "error": "",
       "previews": [
@@ -55,7 +55,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-23T00:01:41.334002+00:00",
+      "cached_at": "2026-11-23T00:19:21.352298+00:00",
       "url": "https://coffeepot.me/rss",
       "error": "",
       "previews": [
@@ -95,7 +95,7 @@
       "delivery": "Individual articles",
       "monitoring": "Each maintenance pass, nominally every 15 minutes with up to 10 minutes of delay.",
       "tags": [],
-      "cached_at": "2026-11-23T00:01:43.971998+00:00",
+      "cached_at": "2026-11-23T00:19:22.877412+00:00",
       "url": "https://kill-the-newsletter.com/feeds/j50w0hwaltovoqbe.xml",
       "error": "",
       "previews": [
@@ -119,7 +119,7 @@
       "delivery": "Individual articles",
       "monitoring": "Each maintenance pass, nominally every 15 minutes with up to 10 minutes of delay.",
       "tags": [],
-      "cached_at": "2026-11-23T00:01:44.717542+00:00",
+      "cached_at": "2026-11-23T00:19:23.443659+00:00",
       "url": "https://kill-the-newsletter.com/feeds/x65bw2k2if80qbp6jk0n.xml",
       "error": "",
       "previews": [
@@ -161,10 +161,18 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-23T00:01:45.834088+00:00",
+      "cached_at": "2026-11-23T00:19:24.310270+00:00",
       "url": "https://kill-the-newsletter.com/feeds/la1dwxu6ovmqf6gn.xml",
       "error": "",
       "previews": [
+        {
+          "title": "[GN#385] AI가 쓴 글은 왜 읽기 힘들까요?",
+          "published": "2026-11-23T00:07:03.711Z",
+          "summary": "[GN#385] AI가 쓴 글은 왜 읽기 힘들까요? G eek N ews Weekly AI가 쓴 글은 왜 읽기 힘들까요? 요즘 해외 기술 블로그부터 긱뉴스의 Show 글과 댓글까지, AI가 쓴 듯한 글 을 자주 만납니다. 문장은 매끄러워 보이지만 일단 분량이 많기도 하고, 읽다 보면 묘하게 AI 냄새 가 난다고 할까요? 클로드와 코덱스도 문체가 조금씩 달라서, 자주 쓰다 보면 각자의 말투가 눈에 들어오는 것 같습니다. 긱뉴스에도 AI로 요약한 뉴스가 많이 올라 오는데요. 이런 요약은 원문에 담긴 생각을 옮기는 일이라, 처음부터 AI가 쓴 글과는 출발점이 조금 다릅니다. 왜 우린 어떤 AI 글은 읽기 싫어지는 걸까요? 이번 주 「 AI 슬롭은 왜 이렇게 읽기 짜증날까? 」는 그 이유로 무슨 말을 하려는지 바로 알기 어렵다 는 점을 꼽습니다. 저…",
+          "author": "010101a205ba3942-52d3e6a4-ba38-4d47-abf5-fc8233cf8ca5-000000@mail.hada.io 010101a205ba3942-52d3e6a4-ba38-4d47-abf5-fc823…",
+          "origin": "Cached feed",
+          "url": "https://news.hada.io/weekly/202647"
+        },
         {
           "title": "[GN#384] 클라우드 없이 어디까지 테스트할 수 있을까?",
           "published": "2026-11-16T00:07:11.134Z",
@@ -180,14 +188,6 @@
           "author": "010101a1bda13c76-cdead132-6774-46d3-a571-b5630bb9c327-000000@mail.hada.io 010101a1bda13c76-cdead132-6774-46d3-a571-b5630…",
           "origin": "Cached feed",
           "url": "https://news.hada.io/weekly/202645"
-        },
-        {
-          "title": "[GN#382] 취약점은 쏟아지는데, 방어하는 사람은 지쳐갑니다",
-          "published": "2026-11-02T00:12:31.085Z",
-          "summary": "[GN#382] 취약점은 쏟아지는데, 방어하는 사람은 지쳐갑니다 G eek N ews Weekly 취약점은 쏟아지는데, 방어하는 사람은 지쳐갑니다 최근 몇 주간 보안 소식이 유난히 많이 올라왔습니다. PHP 자체의 결함으로 서버에서 원격 코드 실행이 가능했던 php2shell , Node.js에서 시작해 Python과 Bun, Envoy까지 영향이 이어진 Brotli 압축 해제 취약점 , HTTPS 인증서를 발급하는 eMudhra의 중간 인증서 개인 키 유출 까지 연달아 나왔는데요. 한국인터넷진흥원의 취약점정보 보안공지 에는 10월 29일과 30일 이틀 동안에만 Linux, Cisco, Redis, VMware, Oracle 등 20개의 업데이트 권고문이 올라왔습니다. 직접 작성한 코드에 문제가 없어도 그 아래에서 쓰는 언어와 라이브러리, 인…",
-          "author": "010101a19994ae68-a4b66840-6d4a-4fea-a780-27ea17e6916d-000000@mail.hada.io 010101a19994ae68-a4b66840-6d4a-4fea-a780-27ea1…",
-          "origin": "Cached feed",
-          "url": "https://news.hada.io/weekly/202644"
         }
       ]
     },
@@ -203,7 +203,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-23T00:01:46.312172+00:00",
+      "cached_at": "2026-11-23T00:19:24.790266+00:00",
       "url": "https://blog.outsider.ne.kr/atom",
       "error": "",
       "previews": [
@@ -245,7 +245,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-23T00:01:48.256106+00:00",
+      "cached_at": "2026-11-23T00:19:26.186140+00:00",
       "url": "http://feeds.feedburner.com/Economic_View",
       "error": "",
       "previews": [
@@ -287,7 +287,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-23T00:01:48.930155+00:00",
+      "cached_at": "2026-11-23T00:19:26.626248+00:00",
       "url": "https://fenews.substack.com/feed",
       "error": "",
       "previews": [
@@ -329,7 +329,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-23T00:01:50.207823+00:00",
+      "cached_at": "2026-11-23T00:19:27.533369+00:00",
       "url": "https://unchartedterritories.tomaspueyo.com/feed",
       "error": "",
       "previews": [
@@ -371,7 +371,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-23T00:01:51.501138+00:00",
+      "cached_at": "2026-11-23T00:19:28.486231+00:00",
       "url": "https://blog.instapaper.com/rss",
       "error": "",
       "previews": [
@@ -413,7 +413,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-23T00:01:52.116507+00:00",
+      "cached_at": "2026-11-23T00:19:28.897227+00:00",
       "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCbbQalJ4OaC0oQ0AqRaOJ9g",
       "error": "",
       "previews": [
@@ -455,7 +455,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-23T00:01:53.050128+00:00",
+      "cached_at": "2026-11-23T00:19:30.052216+00:00",
       "url": "https://podcasts.files.bbci.co.uk/p02pc9zn.rss",
       "error": "",
       "previews": [
@@ -497,7 +497,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-23T00:02:38.900858+00:00",
+      "cached_at": "2026-11-23T00:19:53.716950+00:00",
       "url": "https://rss.diffbot.com/rss?url=https://www.newstomato.com/SearchList.aspx?keyword%3D%25ec%2598%25a4%25eb%258f%2599%25ec%25a7%2584%25ec%259d%2598%252c%2B%25eb%2582%2598%25ec%259d%2598%2B%25ec%2595%258c%25ec%25bd%2594%25ec%2598%25ac%2B%25ec%259d%25bc%25ec%25a7%2580",
       "error": "",
       "previews": [
@@ -539,7 +539,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-23T00:03:08.237499+00:00",
+      "cached_at": "2026-11-23T00:19:58.216953+00:00",
       "url": "https://hnrss.org/newest?points=1000",
       "error": "",
       "previews": [
@@ -581,7 +581,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-23T00:03:09.627618+00:00",
+      "cached_at": "2026-11-23T00:19:59.530941+00:00",
       "url": "https://haskellweekly.news/newsletter.atom",
       "error": "",
       "previews": [
@@ -623,7 +623,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-23T00:03:12.705144+00:00",
+      "cached_at": "2026-11-23T00:20:01.982403+00:00",
       "url": "https://sovidence.tistory.com/rss",
       "error": "",
       "previews": [
@@ -665,7 +665,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-23T00:03:14.013589+00:00",
+      "cached_at": "2026-11-23T00:20:02.941909+00:00",
       "url": "https://ciechanow.ski/atom.xml",
       "error": "",
       "previews": [
@@ -699,7 +699,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-23T00:03:14.380587+00:00",
+      "cached_at": "2026-11-23T00:20:03.941900+00:00",
       "url": "https://blog.ploeh.dk/rss.xml",
       "error": "",
       "previews": [
@@ -741,7 +741,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-23T00:03:15.293581+00:00",
+      "cached_at": "2026-11-23T00:20:04.669893+00:00",
       "url": "https://www.stephendiehl.com/feed.xml",
       "error": "",
       "previews": [
@@ -783,7 +783,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-23T00:03:22.308534+00:00",
+      "cached_at": "2026-11-23T00:20:08.017862+00:00",
       "url": "https://registerspill.thorstenball.com/feed",
       "error": "",
       "previews": [
@@ -825,7 +825,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-23T00:03:22.990530+00:00",
+      "cached_at": "2026-11-23T00:20:08.738856+00:00",
       "url": "https://meetingcpp.com/feed.xml",
       "error": "",
       "previews": [
@@ -867,7 +867,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-23T00:03:25.538512+00:00",
+      "cached_at": "2026-11-23T00:20:11.327139+00:00",
       "url": "https://rss.blog.naver.com/xqon1.xml",
       "error": "",
       "previews": [
@@ -909,7 +909,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-23T00:03:28.362415+00:00",
+      "cached_at": "2026-11-23T00:20:14.328665+00:00",
       "url": "https://rss.blog.naver.com/pamina7776.xml",
       "error": "",
       "previews": [
@@ -951,7 +951,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-23T00:03:31.075525+00:00",
+      "cached_at": "2026-11-23T00:20:17.222765+00:00",
       "url": "https://rss.blog.naver.com/indizio.xml",
       "error": "",
       "previews": [
@@ -993,7 +993,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-23T00:03:33.634311+00:00",
+      "cached_at": "2026-11-23T00:20:19.806942+00:00",
       "url": "https://rss.diffbot.com/rss?url=https://www.joongang.co.kr/series/11656",
       "error": "",
       "previews": [
@@ -1035,7 +1035,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-23T00:03:34.400001+00:00",
+      "cached_at": "2026-11-23T00:20:20.570829+00:00",
       "url": "https://www.bbc.co.uk/news/topics/cpml2v678pxt",
       "error": "",
       "previews": [
@@ -1077,14 +1077,14 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-23T00:03:35.944443+00:00",
+      "cached_at": "2026-11-23T00:20:23.025146+00:00",
       "url": "https://slownews.kr/feed",
       "error": "",
       "previews": [
         {
           "title": "블랙 먼데이 막자, 10조 펀드 풀어 외국인 매물받이 될 수도 있다: 슬로우레터 11월23일.",
           "published": "Sun, 22 Nov 2026 22:37:49 +0000",
-          "summary": "블랙 프라이데이, 더 커진 AI 공포. 반토막 난 삼성전자. 쟁점과 현안. 블랙 먼데이 오나, 18년 만에 증시안정 펀드 돌린다. 국민연금 평가 손실 220조 원. 약세장 대비해야 한다. 비트코인과 금도 폭락. 조희대 탄핵, 민주당 당론으로. 조희대 탄핵, 헌재 인용 가능성은 제로. 교육부 장관 경질. 더 깊게 읽기. 국정원장에 강금실? 앞치마 두르고 시험 봤다. 면접용 가운과 곱창... The post 블랙 먼데이 막자, 10조 펀드 풀어 외국인 매물받이 될 수도 있다: 슬로우레터 11월23일. appeared first on 슬로우뉴스. .",
+          "summary": "🎧 블랙 프라이데이, 더 커진 AI 공포. 반토막 난 삼성전자. 쟁점과 현안. 블랙 먼데이 오나, 18년 만에 증시안정 펀드 돌린다. 국민연금 평가 손실 220조 원. 약세장 대비해야 한다. 비트코인과 금도 폭락. 조희대 탄핵, 민주당 당론으로. 조희대 탄핵, 헌재 인용 가능성은 제로. 교육부 장관 경질. 더 깊게 읽기. 국정원장에 강금실? 앞치마 두르고 시험 봤다. 면접용 가운과... The post 블랙 먼데이 막자, 10조 펀드 풀어 외국인 매물받이 될 수도 있다: 슬로우레터 11월23일. appeared first on 슬로우뉴스. .",
           "author": "이정환",
           "origin": "Cached feed",
           "url": "https://slownews.kr/169968"
@@ -1119,7 +1119,7 @@
       "tags": [
         "🌱"
       ],
-      "cached_at": "2026-11-23T00:03:36.682432+00:00",
+      "cached_at": "2026-11-23T00:20:23.889127+00:00",
       "url": "https://www.ianvisits.co.uk/articles/feed/",
       "error": "",
       "previews": [
@@ -1159,7 +1159,7 @@
       "delivery": "Individual articles",
       "monitoring": "Each maintenance pass, nominally every 15 minutes with up to 10 minutes of delay.",
       "tags": [],
-      "cached_at": "2026-11-23T00:03:37.085747+00:00",
+      "cached_at": "2026-11-23T00:20:24.446774+00:00",
       "url": "https://www.ianvisits.co.uk/articles/feed/",
       "error": "",
       "previews": [
@@ -2151,7 +2151,7 @@
         "🗞️"
       ],
       "cached_at": "2026-11-23T00:03:37.750431+00:00",
-      "next_in_rotation": true,
+      "next_in_rotation": false,
       "url": "http://www.brucelawson.co.uk/feed/",
       "error": "",
       "previews": [
@@ -2237,7 +2237,7 @@
         "🗞️"
       ],
       "cached_at": "2026-10-30T00:07:13.083923+00:00",
-      "next_in_rotation": false,
+      "next_in_rotation": true,
       "url": "https://kill-the-newsletter.com/feeds/1b6b65tvf6z7zlif7rds.xml",
       "error": "",
       "previews": [
@@ -2480,7 +2480,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:05.399899+00:00",
+      "cached_at": "2026-11-23T00:20:28.354877+00:00",
       "url": "https://interestingengineering.com/feed",
       "error": "",
       "previews": [
@@ -2521,7 +2521,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:05.660632+00:00",
+      "cached_at": "2026-11-23T00:20:28.538880+00:00",
       "url": "https://dentaldev.tistory.com/rss",
       "error": "",
       "previews": [
@@ -2562,7 +2562,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:03.045650+00:00",
+      "cached_at": "2026-11-23T00:20:25.998532+00:00",
       "url": "https://takes.jamesomalley.co.uk/feed",
       "error": "",
       "previews": [
@@ -2603,7 +2603,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:03.083650+00:00",
+      "cached_at": "2026-11-23T00:20:26.221544+00:00",
       "url": "https://mropert.github.io/feed.xml",
       "error": "",
       "previews": [
@@ -2644,7 +2644,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:05.326409+00:00",
+      "cached_at": "2026-11-23T00:20:28.780671+00:00",
       "url": "https://thdev.net/rss",
       "error": "",
       "previews": [
@@ -2685,7 +2685,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:03.268648+00:00",
+      "cached_at": "2026-11-23T00:20:26.034696+00:00",
       "url": "https://nicolasbrailo.github.io/blog/rss.xml",
       "error": "",
       "previews": [
@@ -2726,7 +2726,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:06.430627+00:00",
+      "cached_at": "2026-11-23T00:20:29.220841+00:00",
       "url": "https://www.ddanzi.com/ddanziNews/rss",
       "error": "",
       "previews": [
@@ -2767,7 +2767,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:03.157926+00:00",
+      "cached_at": "2026-11-23T00:20:26.109345+00:00",
       "url": "https://www.felesatra.moe/atom.xml",
       "error": "",
       "previews": [
@@ -2808,7 +2808,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:03.438647+00:00",
+      "cached_at": "2026-11-23T00:20:26.465045+00:00",
       "url": "https://www.csun.io/feed.xml",
       "error": "",
       "previews": [
@@ -2849,7 +2849,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:03.540647+00:00",
+      "cached_at": "2026-11-23T00:20:26.365693+00:00",
       "url": "https://thecppway.com/posts/index.xml",
       "error": "",
       "previews": [
@@ -2890,7 +2890,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:03.305648+00:00",
+      "cached_at": "2026-11-23T00:20:26.286694+00:00",
       "url": "https://alexharri.com/rss.xml",
       "error": "",
       "previews": [
@@ -2931,7 +2931,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:05.989763+00:00",
+      "cached_at": "2026-11-23T00:20:28.978322+00:00",
       "url": "https://tobyepril.tistory.com/rss",
       "error": "",
       "previews": [
@@ -2972,7 +2972,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:03.463647+00:00",
+      "cached_at": "2026-11-23T00:20:26.494692+00:00",
       "url": "https://refp.se/rss.xml",
       "error": "",
       "previews": [
@@ -3013,7 +3013,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:03.786035+00:00",
+      "cached_at": "2026-11-23T00:20:26.570692+00:00",
       "url": "https://patentdrop.substack.com/feed/",
       "error": "",
       "previews": [],
@@ -3030,7 +3030,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:03.548646+00:00",
+      "cached_at": "2026-11-23T00:20:26.583691+00:00",
       "url": "https://www.thewoodlandsfarmtrust.org/blog-feed.xml",
       "error": "",
       "previews": [
@@ -3071,7 +3071,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:03.727645+00:00",
+      "cached_at": "2026-11-23T00:20:26.788690+00:00",
       "url": "https://raw.githubusercontent.com/quaintdev/quaintdev.github.io/HEAD/index.xml",
       "error": "",
       "previews": [
@@ -3112,7 +3112,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:04.456640+00:00",
+      "cached_at": "2026-11-23T00:20:27.289685+00:00",
       "url": "https://maily.so/thepunt/feed",
       "error": "",
       "previews": [
@@ -3153,7 +3153,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:04.297642+00:00",
+      "cached_at": "2026-11-23T00:20:27.528776+00:00",
       "url": "https://medium.com/feed/@wolferxy",
       "error": "",
       "previews": [
@@ -3194,7 +3194,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:04.120643+00:00",
+      "cached_at": "2026-11-23T00:20:27.300685+00:00",
       "url": "https://www.joelonsoftware.com/feed/",
       "error": "",
       "previews": [
@@ -3235,7 +3235,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:04.522501+00:00",
+      "cached_at": "2026-11-23T00:20:27.867566+00:00",
       "url": "https://beyond-tabs.com/jobs/atom?filters=%7B%22languages%22:%5B%5D,%22countries%22:%5B%22GBR%22%5D,%22remote%22:false%7D",
       "error": "",
       "previews": [
@@ -3293,7 +3293,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:04.678639+00:00",
+      "cached_at": "2026-11-23T00:20:28.021678+00:00",
       "url": "https://fathy.fr/rss.xml",
       "error": "",
       "previews": [
@@ -3326,7 +3326,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:04.902637+00:00",
+      "cached_at": "2026-11-23T00:20:28.328676+00:00",
       "url": "https://akrzemi1.wordpress.com/feed/",
       "error": "",
       "previews": [
@@ -3367,7 +3367,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:06.375628+00:00",
+      "cached_at": "2026-11-23T00:20:29.589480+00:00",
       "url": "https://rss.blog.naver.com/rockks77.xml",
       "error": "",
       "previews": [
@@ -3408,7 +3408,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:05.258635+00:00",
+      "cached_at": "2026-11-23T00:20:28.780671+00:00",
       "url": "https://ahgamut.github.io/index.xml",
       "error": "",
       "previews": [
@@ -3449,7 +3449,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:05.236393+00:00",
+      "cached_at": "2026-11-23T00:20:28.573842+00:00",
       "url": "https://www.ianvisits.co.uk/articles/feed/",
       "error": "",
       "previews": [
@@ -3531,7 +3531,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:05.464634+00:00",
+      "cached_at": "2026-11-23T00:20:28.707672+00:00",
       "url": "https://jacobmossberg.se/feed.xml",
       "error": "",
       "previews": [
@@ -3572,7 +3572,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:05.916521+00:00",
+      "cached_at": "2026-11-23T00:20:29.032830+00:00",
       "url": "https://til.simonwillison.net/tils/feed.atom",
       "error": "",
       "previews": [
@@ -3613,7 +3613,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:07.224080+00:00",
+      "cached_at": "2026-11-23T00:20:30.230658+00:00",
       "url": "https://m2lim.withbluedot.site/rss/",
       "error": "",
       "previews": [
@@ -3654,7 +3654,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:05.669964+00:00",
+      "cached_at": "2026-11-23T00:20:29.000669+00:00",
       "url": "https://repebble.com/blog/rss",
       "error": "",
       "previews": [
@@ -3695,7 +3695,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:11.952590+00:00",
+      "cached_at": "2026-11-23T00:20:34.227901+00:00",
       "url": "http://overseas.mofa.go.kr/gb-ko/brd/rss.do?brdId=9671",
       "error": "",
       "previews": [
@@ -3736,7 +3736,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:05.773632+00:00",
+      "cached_at": "2026-11-23T00:20:28.902670+00:00",
       "url": "https://martin.kleppmann.com/feed.rss",
       "error": "",
       "previews": [
@@ -3777,7 +3777,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:05.799631+00:00",
+      "cached_at": "2026-11-23T00:20:29.099332+00:00",
       "url": "http://beza1e1.tuxen.de/articles.atom",
       "error": "",
       "previews": [
@@ -3818,7 +3818,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:05.959630+00:00",
+      "cached_at": "2026-11-23T00:20:29.242667+00:00",
       "url": "http://jrsinclair.com/index.rss",
       "error": "",
       "previews": [
@@ -3859,7 +3859,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:07.146493+00:00",
+      "cached_at": "2026-11-23T00:20:30.073019+00:00",
       "url": "https://hackers.pub/@hongminhee/feed.xml?articles",
       "error": "",
       "previews": [
@@ -3892,7 +3892,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:06.046630+00:00",
+      "cached_at": "2026-11-23T00:20:29.202667+00:00",
       "url": "https://natanyellin.com/posts/index.xml",
       "error": "",
       "previews": [
@@ -3933,7 +3933,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:06.179087+00:00",
+      "cached_at": "2026-11-23T00:20:29.360919+00:00",
       "url": "https://siddhantkhare.com/rss.xml",
       "error": "",
       "previews": [
@@ -3974,7 +3974,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:06.376627+00:00",
+      "cached_at": "2026-11-23T00:20:29.601988+00:00",
       "url": "https://rss.beehiiv.com/feeds/nczRb4PQ6t.xml",
       "error": "",
       "previews": [
@@ -4015,7 +4015,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:06.313459+00:00",
+      "cached_at": "2026-11-23T00:20:29.601627+00:00",
       "url": "http://feeds.feedburner.com/dracokr",
       "error": "",
       "previews": [
@@ -4056,7 +4056,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:07.599477+00:00",
+      "cached_at": "2026-11-23T00:20:30.700465+00:00",
       "url": "https://www.chosun.com/arc/outboundfeeds/rss/tags/chojs-numbers/?outputType=xml",
       "error": "",
       "previews": [
@@ -4097,7 +4097,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:06.485627+00:00",
+      "cached_at": "2026-11-23T00:20:29.571582+00:00",
       "url": "https://pudding.cool/rss.xml",
       "error": "",
       "previews": [
@@ -4138,7 +4138,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:06.654626+00:00",
+      "cached_at": "2026-11-23T00:20:29.781662+00:00",
       "url": "https://lorenzofox.dev/feed.xml",
       "error": "",
       "previews": [
@@ -4179,7 +4179,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:09.920660+00:00",
+      "cached_at": "2026-11-23T00:20:33.135632+00:00",
       "url": "https://rss.diffbot.com/rss?url=https://m.dcinside.com/gallog/k3009795?menu%3DG_all",
       "error": "",
       "previews": [
@@ -4204,7 +4204,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:06.851624+00:00",
+      "cached_at": "2026-11-23T00:20:29.993660+00:00",
       "url": "https://fzakaria.com/feed.xml",
       "error": "",
       "previews": [
@@ -4245,7 +4245,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:07.069701+00:00",
+      "cached_at": "2026-11-23T00:20:30.217658+00:00",
       "url": "https://kill-the-newsletter.com/feeds/5lqe0840qndaht7awimp.xml",
       "error": "",
       "previews": [
@@ -4270,7 +4270,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:08.197522+00:00",
+      "cached_at": "2026-11-23T00:20:31.321816+00:00",
       "url": "http://painintheenglish.com/posts/index_rss",
       "error": "",
       "previews": [
@@ -4311,7 +4311,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:07.256622+00:00",
+      "cached_at": "2026-11-23T00:20:30.337657+00:00",
       "url": "https://gpfault.net/rss.xml",
       "error": "",
       "previews": [
@@ -4369,7 +4369,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:07.506822+00:00",
+      "cached_at": "2026-11-23T00:20:30.543809+00:00",
       "url": "https://csvbase.com/blog/posts.rss",
       "error": "",
       "previews": [
@@ -4410,7 +4410,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:07.610619+00:00",
+      "cached_at": "2026-11-23T00:20:30.719654+00:00",
       "url": "https://entropicthoughts.com/feed",
       "error": "",
       "previews": [
@@ -4451,7 +4451,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:07.654619+00:00",
+      "cached_at": "2026-11-23T00:20:30.765653+00:00",
       "url": "https://artificialworlds.net/blog/rss.xml",
       "error": "",
       "previews": [
@@ -4526,7 +4526,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:08.077616+00:00",
+      "cached_at": "2026-11-23T00:20:31.308648+00:00",
       "url": "https://steveklabnik.com/feed.xml",
       "error": "",
       "previews": [
@@ -4567,7 +4567,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:08.512613+00:00",
+      "cached_at": "2026-11-23T00:20:31.578646+00:00",
       "url": "https://unix.foo/posts/index.xml",
       "error": "",
       "previews": [
@@ -4608,7 +4608,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:07.277622+00:00",
+      "cached_at": "2026-11-23T00:20:30.421109+00:00",
       "url": "https://kill-the-newsletter.com/feeds/8u1x0jzzmx7qb5sjcdhq.xml",
       "error": "",
       "previews": [],
@@ -4625,7 +4625,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:08.233032+00:00",
+      "cached_at": "2026-11-23T00:20:31.448037+00:00",
       "url": "https://michaelfeathers.substack.com/feed",
       "error": "",
       "previews": [
@@ -4666,7 +4666,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:09.573606+00:00",
+      "cached_at": "2026-11-23T00:20:32.233640+00:00",
       "url": "https://acko.net/atom.xml",
       "error": "",
       "previews": [
@@ -4707,7 +4707,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:08.928610+00:00",
+      "cached_at": "2026-11-23T00:20:31.660645+00:00",
       "url": "https://raganwald.com/atom.xml",
       "error": "",
       "previews": [
@@ -4748,7 +4748,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:08.861611+00:00",
+      "cached_at": "2026-11-23T00:20:32.161417+00:00",
       "url": "https://quuxplusone.github.io/blog/feed.xml",
       "error": "",
       "previews": [
@@ -4789,7 +4789,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:10.155362+00:00",
+      "cached_at": "2026-11-23T00:20:32.875545+00:00",
       "url": "http://kisskys.tistory.com/rss",
       "error": "",
       "previews": [
@@ -4830,7 +4830,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:09.721605+00:00",
+      "cached_at": "2026-11-23T00:20:32.655636+00:00",
       "url": "https://www.parsonsmatt.org/feed.xml",
       "error": "",
       "previews": [
@@ -4871,7 +4871,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:09.879604+00:00",
+      "cached_at": "2026-11-23T00:20:32.612636+00:00",
       "url": "https://victor-istomin.github.io/c-with-crosses/feed.xml",
       "error": "",
       "previews": [
@@ -4912,7 +4912,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:10.139602+00:00",
+      "cached_at": "2026-11-23T00:20:32.962633+00:00",
       "url": "https://ivaniscoding.github.io/index.xml",
       "error": "",
       "previews": [
@@ -4953,7 +4953,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:10.172602+00:00",
+      "cached_at": "2026-11-23T00:20:33.051632+00:00",
       "url": "http://zninldn.wordpress.com/feed/",
       "error": "",
       "previews": [
@@ -4994,7 +4994,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:10.225602+00:00",
+      "cached_at": "2026-11-23T00:20:32.953633+00:00",
       "url": "https://www.fortressofdoors.com/rss/",
       "error": "",
       "previews": [
@@ -5035,7 +5035,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:10.800019+00:00",
+      "cached_at": "2026-11-23T00:20:33.603858+00:00",
       "url": "http://blog.moneta.co.kr/rss/blog/ky2kyung/-1",
       "error": "",
       "previews": [
@@ -5093,7 +5093,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:11.422160+00:00",
+      "cached_at": "2026-11-23T00:20:34.217650+00:00",
       "url": "http://blog.moneta.co.kr/rss/blog/chung110110/-1",
       "error": "",
       "previews": [
@@ -5134,7 +5134,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:10.349601+00:00",
+      "cached_at": "2026-11-23T00:20:33.162631+00:00",
       "url": "https://blog.benjojo.co.uk/rss.xml",
       "error": "",
       "previews": [
@@ -5175,7 +5175,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:10.722598+00:00",
+      "cached_at": "2026-11-23T00:20:33.387629+00:00",
       "url": "https://au-vimenter.github.io/feed.xml",
       "error": "",
       "previews": [
@@ -5216,7 +5216,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:10.710598+00:00",
+      "cached_at": "2026-11-23T00:20:33.716102+00:00",
       "url": "https://mango.pdf.zone/feed.xml",
       "error": "",
       "previews": [
@@ -5274,7 +5274,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:10.840598+00:00",
+      "cached_at": "2026-11-23T00:20:33.847625+00:00",
       "url": "https://jvns.ca/atom.xml",
       "error": "",
       "previews": [
@@ -5315,7 +5315,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:11.245595+00:00",
+      "cached_at": "2026-11-23T00:20:34.342620+00:00",
       "url": "https://paulcavallaro.com/blog/index.xml",
       "error": "",
       "previews": [
@@ -5356,7 +5356,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:11.643592+00:00",
+      "cached_at": "2026-11-23T00:20:34.364620+00:00",
       "url": "https://webdirections.org/feed/",
       "error": "",
       "previews": [
@@ -5414,7 +5414,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:11.845591+00:00",
+      "cached_at": "2026-11-23T00:20:34.561618+00:00",
       "url": "https://lexi-lambda.github.io/feeds/all.atom.xml",
       "error": "",
       "previews": [
@@ -5455,7 +5455,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:12.078589+00:00",
+      "cached_at": "2026-11-23T00:20:34.619618+00:00",
       "url": "https://hyper-accel.github.io/posts/index.xml",
       "error": "",
       "previews": [
@@ -5496,7 +5496,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:12.060589+00:00",
+      "cached_at": "2026-11-23T00:20:34.720617+00:00",
       "url": "https://www.hallplace.org.uk/feed/",
       "error": "",
       "previews": [
@@ -5537,7 +5537,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:12.840584+00:00",
+      "cached_at": "2026-11-23T00:20:35.032614+00:00",
       "url": "https://jerf.org/iri/rss.xml",
       "error": "",
       "previews": [
@@ -5578,7 +5578,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:12.470587+00:00",
+      "cached_at": "2026-11-23T00:20:35.248612+00:00",
       "url": "https://till.red/b/feed.xml",
       "error": "",
       "previews": [
@@ -5619,7 +5619,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:06.630626+00:00",
+      "cached_at": "2026-11-23T00:20:29.979148+00:00",
       "url": "https://feeds.feedburner.com/simplehelp",
       "error": "",
       "previews": [
@@ -5660,7 +5660,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:12.906584+00:00",
+      "cached_at": "2026-11-23T00:20:35.214562+00:00",
       "url": "https://changelog.complete.org/feed",
       "error": "",
       "previews": [
@@ -5718,7 +5718,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:12.658585+00:00",
+      "cached_at": "2026-11-23T00:20:35.303612+00:00",
       "url": "https://xania.org/feed.atom",
       "error": "",
       "previews": [
@@ -5759,7 +5759,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:14.070944+00:00",
+      "cached_at": "2026-11-23T00:20:36.473007+00:00",
       "url": "https://brunch.co.kr/rss/@@c8wm",
       "error": "",
       "previews": [
@@ -5800,7 +5800,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:12.973583+00:00",
+      "cached_at": "2026-11-23T00:20:35.369611+00:00",
       "url": "https://sunshowers.io/index.xml",
       "error": "",
       "previews": [
@@ -5841,7 +5841,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:13.050583+00:00",
+      "cached_at": "2026-11-23T00:20:35.543609+00:00",
       "url": "https://determinate.systems/rss.xml",
       "error": "",
       "previews": [
@@ -5899,7 +5899,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:13.391580+00:00",
+      "cached_at": "2026-11-23T00:20:35.840960+00:00",
       "url": "http://feeds2.feedburner.com/Command-line-fu",
       "error": "",
       "previews": [
@@ -5940,7 +5940,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:14.242575+00:00",
+      "cached_at": "2026-11-23T00:20:36.895597+00:00",
       "url": "https://jackkelly.name/blog/rss.xml",
       "error": "",
       "previews": [
@@ -5981,7 +5981,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:13.422580+00:00",
+      "cached_at": "2026-11-23T00:20:36.152604+00:00",
       "url": "https://danluu.com/atom.xml",
       "error": "",
       "previews": [
@@ -6022,7 +6022,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:17.256830+00:00",
+      "cached_at": "2026-11-23T00:20:36.597919+00:00",
       "url": "https://rss.diffbot.com/rss?url=https://www.ohmynews.com/NWS_Web/Series/series_general_list.aspx?SRS_CD%3D0000017956",
       "error": "",
       "previews": [
@@ -6063,7 +6063,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:13.573579+00:00",
+      "cached_at": "2026-11-23T00:20:36.451601+00:00",
       "url": "https://blog.veeso.dev/rss/en.xml",
       "error": "",
       "previews": [
@@ -6104,7 +6104,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:13.716578+00:00",
+      "cached_at": "2026-11-23T00:20:36.526601+00:00",
       "url": "https://probablydance.com/feed/",
       "error": "",
       "previews": [
@@ -6145,7 +6145,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:08.006809+00:00",
+      "cached_at": "2026-11-23T00:20:31.085706+00:00",
       "url": "https://rss.blog.naver.com/lunaparkblog.xml",
       "error": "",
       "previews": [
@@ -6186,7 +6186,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:14.058576+00:00",
+      "cached_at": "2026-11-23T00:20:36.910597+00:00",
       "url": "https://blog.nelhage.com/atom.xml",
       "error": "",
       "previews": [
@@ -6244,7 +6244,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:14.290574+00:00",
+      "cached_at": "2026-11-23T00:20:36.929597+00:00",
       "url": "https://ourworldindata.org/atom.xml",
       "error": "",
       "previews": [
@@ -6285,7 +6285,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:15.980095+00:00",
+      "cached_at": "2026-11-23T00:20:38.890579+00:00",
       "url": "http://sbmoon.tistory.com/rss",
       "error": "",
       "previews": [
@@ -6326,7 +6326,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:14.992570+00:00",
+      "cached_at": "2026-11-23T00:20:37.675590+00:00",
       "url": "https://www.brendangregg.com/blog/rss.xml",
       "error": "",
       "previews": [
@@ -6367,7 +6367,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:14.664572+00:00",
+      "cached_at": "2026-11-23T00:20:37.075595+00:00",
       "url": "https://notgull.net/feed.xml",
       "error": "",
       "previews": [
@@ -6408,7 +6408,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:14.856570+00:00",
+      "cached_at": "2026-11-23T00:20:37.258594+00:00",
       "url": "https://estimastory.com/feed/",
       "error": "",
       "previews": [
@@ -6449,7 +6449,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:15.980356+00:00",
+      "cached_at": "2026-11-23T00:20:38.735410+00:00",
       "url": "http://blog.jinbo.net/neoscrum/rss/",
       "error": "",
       "previews": [],
@@ -6483,7 +6483,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:17.214556+00:00",
+      "cached_at": "2026-11-23T00:20:40.025593+00:00",
       "url": "https://channy.creation.net/rss.xml",
       "error": "",
       "previews": [
@@ -6524,7 +6524,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:15.507566+00:00",
+      "cached_at": "2026-11-23T00:20:38.519578+00:00",
       "url": "https://blog.knatten.org/feed/",
       "error": "",
       "previews": [
@@ -6565,7 +6565,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:15.724565+00:00",
+      "cached_at": "2026-11-23T00:20:38.371584+00:00",
       "url": "https://yosemitesam.ch/feed.xml",
       "error": "",
       "previews": [
@@ -6606,7 +6606,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:15.975563+00:00",
+      "cached_at": "2026-11-23T00:20:38.637581+00:00",
       "url": "https://fulghum.io/feed.xml",
       "error": "",
       "previews": [
@@ -6647,7 +6647,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:16.516559+00:00",
+      "cached_at": "2026-11-23T00:20:39.067577+00:00",
       "url": "https://jsomers.net/blog/feed",
       "error": "",
       "previews": [
@@ -6688,7 +6688,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:09.722800+00:00",
+      "cached_at": "2026-11-23T00:20:32.984746+00:00",
       "url": "https://rss.blog.naver.com/correspondent.xml",
       "error": "",
       "previews": [
@@ -6729,7 +6729,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:16.493560+00:00",
+      "cached_at": "2026-11-23T00:20:39.148576+00:00",
       "url": "https://maskray.me/blog/atom.xml",
       "error": "",
       "previews": [
@@ -6770,7 +6770,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:16.087562+00:00",
+      "cached_at": "2026-11-23T00:20:38.837579+00:00",
       "url": "https://samwho.dev/rss.xml",
       "error": "",
       "previews": [
@@ -6828,7 +6828,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:16.317561+00:00",
+      "cached_at": "2026-11-23T00:20:39.541573+00:00",
       "url": "https://www.osnews.com/feed/",
       "error": "",
       "previews": [
@@ -6869,7 +6869,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:16.842557+00:00",
+      "cached_at": "2026-11-23T00:20:39.409574+00:00",
       "url": "https://www.alicemaz.com/atom.xml",
       "error": "",
       "previews": [
@@ -6911,7 +6911,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:16.847557+00:00",
+      "cached_at": "2026-11-23T00:20:39.535573+00:00",
       "url": "https://www.openculture.com/feed",
       "error": "",
       "previews": [
@@ -6952,7 +6952,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:17.137501+00:00",
+      "cached_at": "2026-11-23T00:20:40.024569+00:00",
       "url": "https://antirez.com/rss",
       "error": "",
       "previews": [
@@ -6993,7 +6993,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:17.196555+00:00",
+      "cached_at": "2026-11-23T00:20:39.726571+00:00",
       "url": "https://bthdonohue.com/feed.xml",
       "error": "",
       "previews": [
@@ -7034,7 +7034,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:17.022556+00:00",
+      "cached_at": "2026-11-23T00:20:39.776571+00:00",
       "url": "https://injuly.in/rss.xml",
       "error": "",
       "previews": [
@@ -7075,7 +7075,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:17.358023+00:00",
+      "cached_at": "2026-11-23T00:20:39.898492+00:00",
       "url": "https://netflixtechblog.com/feed",
       "error": "",
       "previews": [
@@ -7116,7 +7116,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:20.121489+00:00",
+      "cached_at": "2026-11-23T00:20:42.900735+00:00",
       "url": "https://infoengineer.tistory.com/rss",
       "error": "",
       "previews": [
@@ -7157,7 +7157,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:17.494553+00:00",
+      "cached_at": "2026-11-23T00:20:40.134567+00:00",
       "url": "https://understandlegacycode.com/rss.xml",
       "error": "",
       "previews": [
@@ -7215,7 +7215,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:06.952682+00:00",
+      "cached_at": "2026-11-23T00:20:30.270116+00:00",
       "url": "http://feeds.feedburner.com/jooyunghan",
       "error": "",
       "previews": [
@@ -7256,10 +7256,18 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:17.308554+00:00",
+      "cached_at": "2026-11-23T00:20:40.167988+00:00",
       "url": "https://slownews.kr/feed",
       "error": "",
       "previews": [
+        {
+          "title": "블랙 먼데이 막자, 10조 펀드 풀어 외국인 매물받이 될 수도 있다: 슬로우레터 11월23일.",
+          "published": "Sun, 22 Nov 2026 22:37:49 +0000",
+          "summary": "🎧 블랙 프라이데이, 더 커진 AI 공포. 반토막 난 삼성전자. 쟁점과 현안. 블랙 먼데이 오나, 18년 만에 증시안정 펀드 돌린다. 국민연금 평가 손실 220조 원. 약세장 대비해야 한다. 비트코인과 금도 폭락. 조희대 탄핵, 민주당 당론으로. 조희대 탄핵, 헌재 인용 가능성은 제로. 교육부 장관 경질. 더 깊게 읽기. 국정원장에 강금실? 앞치마 두르고 시험 봤다. 면접용 가운과... The post 블랙 먼데이 막자, 10조 펀드 풀어 외국인 매물받이 될 수도 있다: 슬로우레터 11월23일. appeared first on 슬로우뉴스. .",
+          "author": "이정환",
+          "origin": "Cached feed",
+          "url": "https://slownews.kr/169968"
+        },
         {
           "title": "심판으로 뛰는 선수들, 밀실에서 논의하는 LNG 수급 계획.",
           "published": "Sun, 22 Nov 2026 22:00:00 +0000",
@@ -7275,14 +7283,6 @@
           "author": "김도연",
           "origin": "Cached feed",
           "url": "https://slownews.kr/169912"
-        },
-        {
-          "title": "블루 쓰나미, 그 뿌리는 감당할 수 없었던 삶",
-          "published": "Fri, 20 Nov 2026 08:34:39 +0000",
-          "summary": "인터뷰어 서문: 부분과 전체 지난 미국 중간선거를 분석해 달라는 내 질문에 AI는 “장바구니 물가가 이념을 꺾었다”라는 제목으로 리포트를 생성했다. 이런 AI 같으니라고. 세상은 그렇게 단순하게 굴러가지 않는다고 캡콜드(김낙호 드렉셀 대학교 교수)는 말했다. 동의한다. 세상은 때론 아주 단순해 보이지만, 그렇게 ‘보여지는 세계’의 이면, 아니 현상의 이면이자 현상과 한 몸이기도 한 본질은 복잡계이며 혼돈 그 자체다. 캡콜드와... The post 블루 쓰나미, 그 뿌리는 감당할 수 없었던 삶 appeared first on 슬로우뉴스. .",
-          "author": "민노씨",
-          "origin": "Cached feed",
-          "url": "https://slownews.kr/169587"
         }
       ]
     },
@@ -7297,7 +7297,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:17.545552+00:00",
+      "cached_at": "2026-11-23T00:20:40.268566+00:00",
       "url": "https://datagubbe.se/atom.xml",
       "error": "",
       "previews": [
@@ -7338,7 +7338,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:17.506553+00:00",
+      "cached_at": "2026-11-23T00:20:40.288874+00:00",
       "url": "https://johngrib.github.io/feed.xml",
       "error": "",
       "previews": [
@@ -7379,7 +7379,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:17.703552+00:00",
+      "cached_at": "2026-11-23T00:20:40.402565+00:00",
       "url": "https://mmhaskell.com/blog?format=rss",
       "error": "",
       "previews": [
@@ -7420,7 +7420,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:18.608545+00:00",
+      "cached_at": "2026-11-23T00:20:41.554555+00:00",
       "url": "http://blog.fupfin.com/?feed=rss2",
       "error": "",
       "previews": [
@@ -7461,7 +7461,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:17.672552+00:00",
+      "cached_at": "2026-11-23T00:20:40.303566+00:00",
       "url": "https://dannorth.net/blog/index.xml",
       "error": "",
       "previews": [
@@ -7502,7 +7502,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:17.776551+00:00",
+      "cached_at": "2026-11-23T00:20:41.251557+00:00",
       "url": "https://wizardzines.com/comics/index.xml",
       "error": "",
       "previews": [
@@ -7543,7 +7543,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:20.813530+00:00",
+      "cached_at": "2026-11-23T00:20:43.756564+00:00",
       "url": "https://www.firenzedt.com/rss/gns_allArticle.xml",
       "error": "",
       "previews": [
@@ -7584,7 +7584,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:24.156963+00:00",
+      "cached_at": "2026-11-23T00:20:41.294557+00:00",
       "url": "https://blog.hayman.net/feed/",
       "error": "",
       "previews": [
@@ -7625,7 +7625,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:17.951978+00:00",
+      "cached_at": "2026-11-23T00:20:40.549886+00:00",
       "url": "https://gwern.substack.com/feed",
       "error": "",
       "previews": [
@@ -7683,7 +7683,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:20.143535+00:00",
+      "cached_at": "2026-11-23T00:20:43.054541+00:00",
       "url": "http://capcold.net/blog/feed",
       "error": "",
       "previews": [
@@ -7724,7 +7724,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:18.779544+00:00",
+      "cached_at": "2026-11-23T00:20:41.600554+00:00",
       "url": "https://bryankeller.github.io/feed.xml",
       "error": "",
       "previews": [
@@ -7749,7 +7749,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:19.036542+00:00",
+      "cached_at": "2026-11-23T00:20:41.516555+00:00",
       "url": "https://sungmooncho.com/feed/",
       "error": "",
       "previews": [
@@ -7790,7 +7790,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:19.417540+00:00",
+      "cached_at": "2026-11-23T00:20:42.159549+00:00",
       "url": "https://interpiler.com/feed.xml",
       "error": "",
       "previews": [
@@ -7865,7 +7865,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:20.048536+00:00",
+      "cached_at": "2026-11-23T00:20:42.314548+00:00",
       "url": "https://www.sassnow.ski/feed.xml",
       "error": "",
       "previews": [
@@ -7890,7 +7890,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:20.274534+00:00",
+      "cached_at": "2026-11-23T00:20:42.374547+00:00",
       "url": "http://marcosh.github.io/feed.xml",
       "error": "",
       "previews": [
@@ -7931,7 +7931,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:20.348534+00:00",
+      "cached_at": "2026-11-23T00:20:42.538546+00:00",
       "url": "https://olano.dev/feed.xml",
       "error": "",
       "previews": [
@@ -7972,7 +7972,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:20.301534+00:00",
+      "cached_at": "2026-11-23T00:20:42.569546+00:00",
       "url": "https://codeinput.com/rss.xml",
       "error": "",
       "previews": [
@@ -8013,7 +8013,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:20.654532+00:00",
+      "cached_at": "2026-11-23T00:20:42.910542+00:00",
       "url": "https://rodarmor.com/blog/feed.xml",
       "error": "",
       "previews": [
@@ -8054,7 +8054,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:20.862530+00:00",
+      "cached_at": "2026-11-23T00:20:43.065541+00:00",
       "url": "https://jcdav.is/atom.xml",
       "error": "",
       "previews": [
@@ -8095,7 +8095,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:21.607525+00:00",
+      "cached_at": "2026-11-23T00:20:44.245530+00:00",
       "url": "https://techblog.lycorp.co.jp/ko/feed/index.xml",
       "error": "",
       "previews": [
@@ -8136,7 +8136,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:20.682763+00:00",
+      "cached_at": "2026-11-23T00:20:43.098557+00:00",
       "url": "https://qntm.org/rss.php",
       "error": "",
       "previews": [
@@ -8177,7 +8177,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:20.887530+00:00",
+      "cached_at": "2026-11-23T00:20:43.160540+00:00",
       "url": "https://peter.gillardmoss.me.uk/feed.xml",
       "error": "",
       "previews": [
@@ -8218,7 +8218,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:11.559614+00:00",
+      "cached_at": "2026-11-23T00:20:34.650636+00:00",
       "url": "https://rss.blog.naver.com/5bpa.xml",
       "error": "",
       "previews": [
@@ -8259,7 +8259,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:20.813530+00:00",
+      "cached_at": "2026-11-23T00:20:43.214540+00:00",
       "url": "https://simonwillison.net/atom/everything/",
       "error": "",
       "previews": [
@@ -8300,7 +8300,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:20.958529+00:00",
+      "cached_at": "2026-11-23T00:20:43.305539+00:00",
       "url": "https://garden.christophertee.dev/index.xml",
       "error": "",
       "previews": [
@@ -8341,7 +8341,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:21.486526+00:00",
+      "cached_at": "2026-11-23T00:20:43.501600+00:00",
       "url": "https://petewarden.com/feed/",
       "error": "",
       "previews": [
@@ -8399,7 +8399,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:21.148528+00:00",
+      "cached_at": "2026-11-23T00:20:43.400538+00:00",
       "url": "https://switowski.com/feed.xml",
       "error": "",
       "previews": [
@@ -8440,7 +8440,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:21.453526+00:00",
+      "cached_at": "2026-11-23T00:20:43.698535+00:00",
       "url": "https://bitbashing.io/feed.xml",
       "error": "",
       "previews": [
@@ -8481,7 +8481,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:21.327527+00:00",
+      "cached_at": "2026-11-23T00:20:43.594536+00:00",
       "url": "https://willempennings.nl/feed/",
       "error": "",
       "previews": [
@@ -8522,7 +8522,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:21.661379+00:00",
+      "cached_at": "2026-11-23T00:20:43.781069+00:00",
       "url": "https://qsantos.fr/feed/",
       "error": "",
       "previews": [
@@ -8563,7 +8563,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:21.702525+00:00",
+      "cached_at": "2026-11-23T00:20:43.860534+00:00",
       "url": "https://reasonablypolymorphic.com/atom.xml",
       "error": "",
       "previews": [
@@ -8604,7 +8604,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:22.532519+00:00",
+      "cached_at": "2026-11-23T00:20:44.894524+00:00",
       "url": "https://horizon.kias.re.kr/feed/",
       "error": "",
       "previews": [
@@ -8645,7 +8645,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:22.093522+00:00",
+      "cached_at": "2026-11-23T00:20:44.237530+00:00",
       "url": "https://blog.frankel.ch/feed.xml",
       "error": "",
       "previews": [
@@ -8686,7 +8686,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:05.068551+00:00",
+      "cached_at": "2026-11-23T00:20:28.390675+00:00",
       "url": "https://medium.com/feed/@martin00001313",
       "error": "",
       "previews": [
@@ -8727,7 +8727,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:13.134582+00:00",
+      "cached_at": "2026-11-23T00:20:36.293700+00:00",
       "url": "https://rss.blog.naver.com/dhlee05.xml",
       "error": "",
       "previews": [
@@ -8768,7 +8768,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:15.222059+00:00",
+      "cached_at": "2026-11-23T00:20:37.707046+00:00",
       "url": "https://brunch.co.kr/atom/@@40WR",
       "error": "",
       "previews": [
@@ -8867,7 +8867,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:18.908052+00:00",
+      "cached_at": "2026-11-23T00:20:38.044409+00:00",
       "url": "https://rss.diffbot.com/rss?url=https://www.hani.co.kr/arti/SERIES/2811",
       "error": "",
       "previews": [
@@ -8908,7 +8908,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:21.831524+00:00",
+      "cached_at": "2026-11-23T00:20:44.199531+00:00",
       "url": "https://tau.dev/feed.xml",
       "error": "",
       "previews": [
@@ -8958,7 +8958,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:22.040522+00:00",
+      "cached_at": "2026-11-23T00:20:44.418529+00:00",
       "url": "https://williamdurand.fr/atom.xml",
       "error": "",
       "previews": [
@@ -8999,7 +8999,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:21.992523+00:00",
+      "cached_at": "2026-11-23T00:20:44.318530+00:00",
       "url": "https://herecomesthemoon.net/posts/index.xml",
       "error": "",
       "previews": [
@@ -9040,7 +9040,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:24.753860+00:00",
+      "cached_at": "2026-11-23T00:20:47.645916+00:00",
       "url": "https://ttalgi21.khan.kr/rss",
       "error": "",
       "previews": [
@@ -9081,7 +9081,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:22.652518+00:00",
+      "cached_at": "2026-11-23T00:20:44.845525+00:00",
       "url": "https://widdershins.verja.net/feed/",
       "error": "",
       "previews": [
@@ -9122,7 +9122,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:22.311366+00:00",
+      "cached_at": "2026-11-23T00:20:44.684526+00:00",
       "url": "https://jorgeortiz.dev/index.xml",
       "error": "",
       "previews": [
@@ -9180,7 +9180,7 @@
       "delivery": "Shared 다읽기 page: 10 articles, or a smaller batch after 24 hours",
       "monitoring": "Every fourth maintenance scan, approximately hourly. Pending page delivery can delay the next fetch.",
       "tags": [],
-      "cached_at": "2026-11-22T23:23:22.835517+00:00",
+      "cached_at": "2026-11-23T00:20:45.538471+00:00",
       "url": "https://this-week-in-rust.org/atom.xml",
       "error": "",
       "previews": [
