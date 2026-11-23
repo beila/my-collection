@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "images": [
+    {
+      "path": "images/v1/560c8351afccd94c910e25443a356f1ab83283a585b438db9e71920fa6ac2e6f.jpg",
+      "object_key": "images/v1/560c8351afccd94c910e25443a356f1ab83283a585b438db9e71920fa6ac2e6f.jpg",
+      "sha256": "560c8351afccd94c910e25443a356f1ab83283a585b438db9e71920fa6ac2e6f",
+      "bytes": 142176,
+      "content_type": "image/jpeg",
+      "original_path": "facebook-instapaper/taegee.min/8097171726979861/560c8351afccd94c910e25443a356f1ab83283a585b438db9e71920fa6ac2e6f.jpg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/560c8351afccd94c910e25443a356f1ab83283a585b438db9e71920fa6ac2e6f.jpg",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/taegee.min/8097171726979861/560c8351afccd94c910e25443a356f1ab83283a585b438db9e71920fa6ac2e6f.jpg"
+    },
+    {
+      "path": "images/v1/6173ce3d65e124d8e4e3b4dccdddc1ef5d52364ae200d7919a5ab0de40d23d15.jpg",
+      "object_key": "images/v1/6173ce3d65e124d8e4e3b4dccdddc1ef5d52364ae200d7919a5ab0de40d23d15.jpg",
+      "sha256": "6173ce3d65e124d8e4e3b4dccdddc1ef5d52364ae200d7919a5ab0de40d23d15",
+      "bytes": 149939,
+      "content_type": "image/jpeg",
+      "original_path": "facebook-instapaper/taegee.min/8097171726979861/6173ce3d65e124d8e4e3b4dccdddc1ef5d52364ae200d7919a5ab0de40d23d15.jpg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/6173ce3d65e124d8e4e3b4dccdddc1ef5d52364ae200d7919a5ab0de40d23d15.jpg",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/taegee.min/8097171726979861/6173ce3d65e124d8e4e3b4dccdddc1ef5d52364ae200d7919a5ab0de40d23d15.jpg"
+    },
+    {
+      "path": "images/v1/838fba94562015c62059b7dbc74a92cc016a7074e84666007d63ec651d182584.jpg",
+      "object_key": "images/v1/838fba94562015c62059b7dbc74a92cc016a7074e84666007d63ec651d182584.jpg",
+      "sha256": "838fba94562015c62059b7dbc74a92cc016a7074e84666007d63ec651d182584",
+      "bytes": 146429,
+      "content_type": "image/jpeg",
+      "original_path": "facebook-instapaper/taegee.min/8097171726979861/838fba94562015c62059b7dbc74a92cc016a7074e84666007d63ec651d182584.jpg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/838fba94562015c62059b7dbc74a92cc016a7074e84666007d63ec651d182584.jpg",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/taegee.min/8097171726979861/838fba94562015c62059b7dbc74a92cc016a7074e84666007d63ec651d182584.jpg"
+    }
+  ]
+}
