@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-23T09:57:27.354350+00:00",
+  "generated_at": "2026-11-23T10:02:49.943684+00:00",
   "sources": [
     {
       "id": "frequent:bluesky-capcold",
@@ -9754,7 +9754,7 @@
       "group": "conditional",
       "kind": "Workflow",
       "folder": "Smith → Kindle",
-      "rule": "Start at 05:00 London. Before midnight, five or fewer non-Trinity articles left from the previous digest can trigger another.",
+      "rule": "Select the daily digest at 05:00 London even after an extra delivery. Five or fewer non-Trinity articles left from the previous digest can trigger an extra at any hour.",
       "delivery": "Finish conversions, populate Smith, then build and send from the next synchronized Smith listing. Resume pending work and suppress identical content.",
       "monitoring": "Condition checked on maintenance passes.",
       "tags": [],
