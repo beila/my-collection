@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "images": [
+    {
+      "path": "images/v1/a81d505e1dfca1c0dc2ac5e245c2c799b77609d0371f2a9dba6760e0045318ff.jpg",
+      "object_key": "images/v1/a81d505e1dfca1c0dc2ac5e245c2c799b77609d0371f2a9dba6760e0045318ff.jpg",
+      "sha256": "a81d505e1dfca1c0dc2ac5e245c2c799b77609d0371f2a9dba6760e0045318ff",
+      "bytes": 187280,
+      "content_type": "image/jpeg",
+      "original_path": "facebook-instapaper/socialego/10243419437961792/a81d505e1dfca1c0dc2ac5e245c2c799b77609d0371f2a9dba6760e0045318ff.jpg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/a81d505e1dfca1c0dc2ac5e245c2c799b77609d0371f2a9dba6760e0045318ff.jpg",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/socialego/10243419437961792/a81d505e1dfca1c0dc2ac5e245c2c799b77609d0371f2a9dba6760e0045318ff.jpg"
+    },
+    {
+      "path": "images/v1/c1ac905b13a6354f78d21c4fc3649cc824b02b233bd7128705eafed997903ea2.jpg",
+      "object_key": "images/v1/c1ac905b13a6354f78d21c4fc3649cc824b02b233bd7128705eafed997903ea2.jpg",
+      "sha256": "c1ac905b13a6354f78d21c4fc3649cc824b02b233bd7128705eafed997903ea2",
+      "bytes": 315384,
+      "content_type": "image/jpeg",
+      "original_path": "facebook-instapaper/socialego/10243419437961792/c1ac905b13a6354f78d21c4fc3649cc824b02b233bd7128705eafed997903ea2.jpg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/c1ac905b13a6354f78d21c4fc3649cc824b02b233bd7128705eafed997903ea2.jpg",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/socialego/10243419437961792/c1ac905b13a6354f78d21c4fc3649cc824b02b233bd7128705eafed997903ea2.jpg"
+    }
+  ]
+}
