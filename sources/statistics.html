@@ -12,7 +12,50 @@
 .panel-head select{max-width:100%;min-width:0}.kindle-composition{display:grid;gap:6px;margin-bottom:14px;font-size:12px}.kindle-composition select{max-width:100%}
 .bar-chart{display:grid;gap:13px;margin:18px 0 6px}.bar-heading{display:flex;justify-content:space-between;gap:16px;font-size:12px;margin-bottom:5px}.bar-heading span{min-width:0}.bar-heading strong{font-weight:500;font-variant-numeric:tabular-nums;flex-shrink:0}.bar-track{height:8px;background:var(--line);overflow:hidden}.bar-fill{height:100%;width:var(--bar-size);background:var(--accent)}.bar-row.unknown .bar-fill{background:var(--muted)}.bar-row.missing .bar-track{background:none;border-bottom:1px dashed var(--line)}.bar-axis{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-top:3px}.bar-note{font-size:12px;color:var(--muted);margin:12px 0}.folded-panel{margin-top:0}.folded-panel>summary{color:var(--ink)}.folded-panel>summary h2{display:inline}.folded-panel[open]>summary{margin-bottom:12px}
 .key.line{width:16px;height:0;border-radius:0;border-top:3px solid;vertical-align:middle}
-.folder-sizes th[scope=row]{position:static;background:transparent;color:var(--ink);font-size:12px;font-weight:500}.folder-sizes .bar-track{width:100%;min-width:64px;max-width:230px}.folder-sizes .bar-fill{background:#276b70}.folder-sizes svg{display:block;width:130px;height:26px}.folder-sizes .trend-zero{stroke:var(--line);stroke-dasharray:3 3}.folder-sizes .trend-line{stroke:#276b70;stroke-width:2;fill:none}
+.folder-tools{display:flex;align-items:end;flex-wrap:wrap;gap:8px 20px;margin:3px 0 12px}
+.folder-tools[hidden]{display:none}
+.folder-tools label{display:grid;gap:2px;font-size:11px;color:var(--muted)}
+.folder-tools select{font-size:13px;padding:4px 7px;max-width:100%;height:30px}
+.folder-tools .date-control{margin-left:auto;display:grid;grid-template-columns:auto minmax(90px,145px);align-items:center;gap:8px}
+.date-control output{font-size:13px;white-space:nowrap;font-variant-numeric:tabular-nums;color:var(--ink)}
+.date-control input{padding:0;min-width:0;width:100%;accent-color:#30685a}
+.folder-tools .flat-control{display:flex;align-items:center;align-self:center;gap:6px;font-size:12px}
+.flat-control input{accent-color:#30685a}
+.folder-figure{overflow:hidden;border-radius:14px;font-variant-numeric:tabular-nums}
+.folder-figure svg{display:block;width:100%;height:auto}
+.folder-figure svg text{font-family:inherit}
+.folder-figure [data-pick],.folder-figure [data-time]{cursor:pointer}
+.folder-figure [data-pick]:is(:hover,:focus-visible) circle{stroke:#202c28;stroke-width:2px}
+.cloud-layout{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);align-items:center;gap:clamp(8px,3vw,36px);padding:16px clamp(14px,3vw,36px);background:#e9eee4;color:#234f46}
+.folder-figure .cloud-graphic{height:clamp(220px,33vh,325px)}
+.cloud-graphic text{fill:var(--bubble-ink,#fff);text-anchor:middle;font-weight:600;pointer-events:none}
+.cloud-graphic .bubble-number{font-weight:400}
+.focus-number{font-size:clamp(28px,4vw,52px);line-height:1.1;letter-spacing:-.05em;font-weight:500;margin:2px 0 4px}
+.cloud-layout h3{font-size:17px;line-height:1.2;margin:0}
+.metric-note,.figure-key{font-size:12px;margin:4px 0}
+.history-line{margin:12px 0 0}.history-line text{fill:#355448;font-size:10px}
+.blank-graphic{display:grid;place-content:center;text-align:center;min-height:180px;padding:20px;font-size:14px}
+.ridge-layout{--ridge-size:#efbe80;padding:13px 17px;background:#132e32;color:#eef3df}
+.ridge-scroll{overflow:auto;scrollbar-color:#526769 #132e32}
+.ridge-scroll-many{max-height:clamp(520px,70vh,800px)}
+.ridge-label{fill:#eef0d8;font-size:13px}.ridge-name{font-size:15px;font-weight:600}
+.ridge-count{fill:var(--ridge-size);font-size:14px}.ridge-size{fill:var(--ridge-size)}
+.ridge-headings text{fill:#bbd0c7;font-size:13px;font-weight:600}
+.ridge-keys{display:flex;align-items:center;flex-wrap:wrap;gap:8px 32px;border-top:1px solid #466061;margin-top:10px;padding-top:9px;font-size:13px}
+.ridge-key{display:flex;align-items:center;flex-wrap:wrap;gap:5px 14px}
+.ridge-key strong{font-weight:600}.ridge-key span{display:inline-flex;align-items:center;gap:5px}
+.ridge-rise-key,.ridge-rise-key span{align-items:flex-end}.ridge-rise-key strong{align-self:center}
+.ridge-rise-key svg{width:34px;flex:none}
+.ridge-size-key i{display:inline-block;flex:none;border-radius:50%;background:var(--ridge-size)}
+.ridge-layout .figure-key{color:#c6d9cf;margin:6px 0 0}
+@media(max-width:660px){
+ .folder-tools{gap:7px 12px}.folder-tools .date-control{margin-left:0;flex-basis:100%;grid-template-columns:92px minmax(100px,1fr)}
+ .cloud-layout{grid-template-columns:1fr;gap:0;padding:12px 15px}.folder-figure .cloud-graphic{height:208px}
+ .folder-figure .history-line{max-height:105px;margin:0}.focus-number{font-size:28px}
+ .ridge-layout{padding:10px 8px}.ridge-label,.ridge-headings text{font-size:12px}.ridge-name{font-size:14px}.ridge-count{font-size:13px}
+ .ridge-key{column-gap:8px}.ridge-keys{font-size:12px}
+}
+@media(max-width:450px){.ridge-keys{gap:12px}.ridge-key{flex-basis:100%}.ridge-key strong{flex-basis:100%}}
 .chart .axis-title{font-size:12px;font-weight:600}
 .migration-progress{width:100%;height:12px;accent-color:var(--accent)}.storage-facts{margin-bottom:18px}.storage-note{font-size:12px;color:var(--muted);margin-top:10px}
 @media(max-width:760px){.grid{grid-template-columns:1fr;gap:28px}.wide{grid-column:auto}.facts{grid-template-columns:1fr 1fr}.fact:nth-child(2){border-right:0}.fact:nth-child(-n+2){border-bottom:1px solid var(--line)}.fact{padding:14px}.filters label{flex:1;min-width:120px}.filters select{width:100%;max-width:100%}.filters .source{flex-basis:100%}header nav{gap:12px}.fact strong{font-size:26px}.chart{padding:9px}}
@@ -41,8 +84,24 @@
  <section class="panel wide" id="api-github"><h2>GitHub requests by feature</h2><p class="caption" id="access-github-caption"></p><div id="access-github-chart" class="chart"></div><div id="access-github-legend" class="legend"></div><div id="access-github-readout" class="readout" aria-live="polite"></div><details><summary>GitHub values</summary><div id="access-github-values" class="table-wrap"></div></details></section>
  <section class="panel wide" id="api-backblaze"><div class="panel-head"><h2>Backblaze transactions by feature</h2><select id="access-backblaze-kind" aria-label="Backblaze transaction type"><option value="download">Downloads · Class B</option><option value="upload" selected>Uploads · Class A</option></select></div><p class="caption" id="access-backblaze-caption"></p><div id="access-backblaze-chart" class="chart"></div><div id="access-backblaze-legend" class="legend"></div><div id="access-backblaze-readout" class="readout" aria-live="polite"></div><details><summary>Backblaze values</summary><div id="access-backblaze-values" class="table-wrap"></div></details></section>
  <section class="panel wide" id="agent-access"><div class="panel-head"><h2>Agent CLI calls by feature</h2><select id="access-agents-agent" aria-label="Agent CLI"><option value="">All agents</option><option value="codex">Codex</option><option value="claude">Claude</option><option value="kiro-cli">Kiro CLI</option></select></div><p class="caption" id="access-agents-caption"></p><div class="facts" id="agents-facts"></div><div id="access-agents-chart" class="chart"></div><div id="access-agents-legend" class="legend"></div><div id="access-agents-readout" class="readout" aria-live="polite"></div><details><summary>Agent call values</summary><div id="access-agents-values" class="table-wrap"></div></details></section>
- <section class="panel wide" id="instapaper-usage"><h2>Instapaper usage</h2><p class="caption" id="instapaper-caption"></p><div class="facts" id="instapaper-facts"></div><div id="instapaper-chart" class="chart"></div><div id="instapaper-legend" class="legend"></div><div id="instapaper-readout" class="readout" aria-live="polite"></div><details><summary>Folder values</summary><div id="instapaper-values" class="table-wrap"></div></details></section>
- <section class="panel wide" id="folder-trends"><h2>Folder sizes and trends</h2><p class="caption" id="folder-trends-caption"></p><div id="folder-trends-values" class="table-wrap folder-sizes"></div></section>
+ <section class="panel wide" id="instapaper-usage">
+  <h2>Folder cloud</h2><p class="caption">Circle area shows folder size. Select a folder to see its bookmark count and history.</p>
+  <div class="folder-tools" id="cloud-tools" hidden>
+   <label>Folder history<select id="cloud-folder"><option value="">Whole library</option></select></label>
+   <label class="flat-control"><input type="checkbox" id="cloud-reading"> Zoom to reading folders</label>
+   <label class="date-control"><output for="cloud-time" id="cloud-date"></output><input type="range" min="0" step="1" id="cloud-time" aria-label="Folder cloud observation date"></label>
+  </div>
+  <div class="folder-figure" id="cloud-figure"></div>
+  <div class="facts" id="instapaper-facts"></div><details><summary>Folder values</summary><div id="instapaper-values" class="table-wrap"></div></details>
+ </section>
+ <section class="panel wide" id="folder-trends">
+  <h2>Ridgelines</h2><p class="caption">Each ridge shows how far its folder rose above its lowest count in the selected period. The ridges share a logarithmic scale. The gold circle and number beside each name show its size on the selected date.</p>
+  <div class="folder-tools" id="ridge-tools" hidden>
+   <label>Folders<select id="ridge-group"><option value="moving" selected>10 largest swings</option><option value="reading">Reading folders</option><option value="all">All folders</option></select></label>
+   <label class="date-control"><output for="ridge-time" id="ridge-date"></output><input type="range" min="0" step="1" id="ridge-time" aria-label="Ridgelines observation date"></label>
+  </div>
+  <div class="folder-figure" id="ridge-figure"></div>
+ </section>
  <section class="panel wide" id="instapaper-additions"><h2>Added by folder</h2><p class="caption">Each band shows new saves in the folder where a complete sync first saw them. The legend gives each folder’s total for the selected period. Older saves with no recorded destination appear under “Folder unknown”.</p><div id="instapaper-additions-chart" class="chart"></div><div id="instapaper-additions-legend" class="legend"></div><div id="instapaper-additions-readout" class="readout" aria-live="polite"></div><details><summary>Added by folder values</summary><div id="instapaper-additions-values" class="table-wrap"></div></details></section>
  <section class="panel wide" id="instapaper-changes"><h2>Archived and deleted</h2><p class="caption">Archived counts existing bookmarks that entered Archive. Deleted counts bookmarks that disappeared from the library. A gap means the Archive count is unknown. A point marked ≥ gives the confirmed minimum.</p><div id="instapaper-changes-chart" class="chart"></div><div id="instapaper-changes-legend" class="legend"></div><div id="instapaper-changes-readout" class="readout" aria-live="polite"></div><details><summary>Change values</summary><div id="instapaper-changes-values" class="table-wrap"></div></details></section>
  <section class="panel wide" id="kindle"><div class="panel-head"><h2>Kindle digests</h2><a href="#kindle-history" id="kindle-history-link">Digest history ↓</a></div><p class="caption">Smith digests · selected period and interval · independent of the source and destination filters. A confirmed send means the email was accepted, not that a device was opened.</p><div class="facts" id="kindle-facts"></div></section>
@@ -60,7 +119,7 @@
 </div>
 <div class="notice" id="coverage"></div>
 <details class="definitions"><summary>Definitions, coverage, and retention</summary>
-<p><strong>Instapaper usage.</strong> Unread and custom folders form the stacked area. Archive has its own line on the same bookmark count scale. Folder sizes use the last complete observation in each interval. The first complete sync establishes a baseline. Later syncs count new saves by their first observed folder, entries into Archive, and deletions. A bookmark first seen in Archive counts as Added to Archive. Manual and automated activity both count. Changes that happen entirely between observations are unknown.</p>
+<p><strong>Instapaper folders.</strong> Folder sizes use the last complete observation in each interval. The reading-folder view excludes Archive and year folders. Ridgelines rank swings by the difference between each folder’s highest and lowest observed counts. Missing folder observations leave gaps. The first complete sync establishes a baseline. Later syncs count new saves by their first observed folder, entries into Archive, and deletions. A bookmark first seen in Archive counts as Added to Archive. Manual and automated activity both count. Changes that happen entirely between observations are unknown.</p>
 <p><strong>Source check:</strong> one attempted acquisition and parse for a direct feed, rolling newsletter, reading-index source, or enabled Facebook profile, or one Readnext selection attempt when Smith needs articles. Inner retries are one check. A condition being evaluated without fetching or selecting articles is not a check.</p>
 <p><strong>New bookmarks & editions:</strong> unique bookmark IDs with confirmed delivery receipts. Replacement newsletter editions count as arrivals. Conversions of existing saved links have their own measure; refreshes, temporary verification copies, and moves are excluded. A 다읽기 page counts as one bookmark, even when it contains several articles.</p>
 <p><strong>Routed bookmarks:</strong> Readnext articles confirmed in Smith after population finishes, counted once per population. Series companions moved to Morpheus are excluded. These moves are separate from new arrivals. Earlier Readnext activity is not reconstructed.</p>
@@ -227,57 +286,260 @@ function instapaperFolderOrder(snapshots){
  }
  return [...names];
 }
-function renderFolderTrends(snapshots,names){
- const first=snapshots.findIndex(row=>row.folders),last=snapshots.findLastIndex(row=>row.folders);
- const target=$("folder-trends-values"),caption=$("folder-trends-caption");
- if(first<0){
-  caption.textContent="No folder breakdowns were recorded in this period.";
-  target.replaceChildren();
-  return;
- }
- const observations=snapshots.slice(first,last+1),baseline=observations[0],latest=observations.at(-1);
- const count=(row,name)=>row.folders?(Object.hasOwn(row.folders,name)?row.folders[name]:0):null;
- let largest=1,limit=0;
- const folders=names.map(name=>{
-  const initial=count(baseline,name),size=count(latest,name);
-  const changes=observations.map(row=>{
-   const value=count(row,name);
-   if(value===null)return null;
-   const delta=value-initial;
-   limit=Math.max(limit,Math.abs(delta));
-   return delta;
+const ridgeSwingLimit = 10;
+let folderChartDay = new URLSearchParams(location.search).get("day");
+const signedCount = n => n > 0 ? "+"+num(n) : n < 0 ? "−"+num(-n) : "0";
+const folderName = key => key ? key.replace(/^./u, letter => letter.toLocaleUpperCase()) : "Whole library";
+const isReading = key => key !== "archive" && !/^\d{4}$/.test(key);
+const folderDateFormat = new Intl.DateTimeFormat("en-GB",{day:"numeric",month:"short",timeZone:"UTC"});
+const shortDate = day => folderDateFormat.format(new Date(day+"T00:00:00Z"));
+const dateOfRow = row => row.snapshot?.day ?? row.day;
+function observedCount(row, key) {
+  if (!key) return row?.snapshot?.total ?? null;
+  const folders = row?.snapshot?.folders;
+  return folders ? (Object.hasOwn(folders,key) ? folders[key] : 0) : null;
+}
+function lineSegments(points) {
+  const sections = [];
+  let segment;
+  for (const point of points) {
+    if (!point) { segment = null; continue; }
+    if (!segment) { segment = []; sections.push(segment); }
+    segment.push(point.join(","));
+  }
+  return sections;
+}
+function packFolders(names, rows) {
+  const discs = names.map(name => ({
+    name, peak: rows.reduce((max,row) => Math.max(max,observedCount(row,name) ?? 0),0)
+  })).filter(d => d.peak).sort((a,b) => b.peak-a.peak || a.name.localeCompare(b.name));
+  if (!discs.length) return null;
+  const largest = discs[0].peak, placed = [];
+  const angles = Array.from({length:48},(_,index) => index*Math.PI/24);
+  for (const disc of discs) {
+    disc.r = 100*Math.sqrt(disc.peak/largest);
+    let best = {x:0,y:0,score:Infinity};
+    for (const anchor of placed) {
+      const distance = anchor.r+disc.r+2.2;
+      for (const angle of angles) {
+        const x = anchor.x+distance*Math.cos(angle), y = anchor.y+distance*Math.sin(angle);
+        const score = (x-18)**2+(1.78*y)**2;
+        if (score >= best.score) continue;
+        if (placed.some(p => (x-p.x)**2+(y-p.y)**2 < (disc.r+p.r+2.1)**2)) continue;
+        best = {x,y,score};
+      }
+    }
+    if (placed.length && !Number.isFinite(best.score)) {
+      best.x=Math.max(...placed.map(p=>p.x+p.r))+disc.r+2.2; best.y=0;
+    }
+    disc.x=best.x; disc.y=best.y; placed.push(disc);
+  }
+  const left=Math.min(...placed.map(d=>d.x-d.r))-4,top=Math.min(...placed.map(d=>d.y-d.r))-4;
+  const right=Math.max(...placed.map(d=>d.x+d.r))+4,bottom=Math.max(...placed.map(d=>d.y+d.r))+4;
+  return {discs, viewBox:[left,top,right-left,bottom-top].join(" ")};
+}
+function historyLine(rows,key,at) {
+  const values=rows.map(row=>observedCount(row,key)), known=values.filter(Number.isFinite);
+  if (!known.length) return '<p class="figure-key">No counts recorded for this folder in this period.</p>';
+  const low=Math.min(...known),high=Math.max(...known);
+  const x=i=>rows.length===1?153:55+215*i/(rows.length-1);
+  const y=n=>high===low?44:73-(n-low)*57/(high-low);
+  const points=values.map((v,i)=>v===null?null:[x(i),y(v)]);
+  const line=lineSegments(points).map(segment=>`<polyline points="${segment.join(" ")}" fill="none" stroke="#377765" stroke-width="2.5"/>`).join("");
+  const dots=values.map((n,i)=>{
+    const desc=shortDate(dateOfRow(rows[i]))+" · "+(n===null?"Unrecorded":num(n)+" bookmarks");
+    const mark=n===null?`<text x="${x(i)}" y="83" text-anchor="middle">×</text>`:
+      `<circle cx="${x(i)}" cy="${y(n)}" r="${at===i?5:3}" fill="${at===i?"#204c40":"#f4f4dc"}" stroke="#377765"/>`;
+    return `<g data-time="${i}"><title>${esc(desc)}</title><rect x="${x(i)-9}" y="5" width="18" height="82" fill="transparent"/>${mark}</g>`;
+  }).join("");
+  const axes=[...new Set([low,high])].map(v=>`<text x="44" y="${y(v)+3}" text-anchor="end">${num(v)}</text>`).join("");
+  const labels=rows.length===1?`<text x="${x(0)}" y="98" text-anchor="middle">${shortDate(dateOfRow(rows[0]))}</text>`:
+    `<text x="${x(0)}" y="98">${shortDate(dateOfRow(rows[0]))}</text><text x="${x(rows.length-1)}" y="98" text-anchor="end">${shortDate(dateOfRow(rows.at(-1)))}</text>`;
+  return `<svg class="history-line" viewBox="0 0 285 105" aria-label="${esc(folderName(key))} history"><line x1="${x(at)}" y1="8" x2="${x(at)}" y2="84" stroke="#9daea0" stroke-dasharray="2 4"/>${axes}${line}${dots}${labels}</svg>`;
+}
+function renderCloud(rows, at, pack, folder) {
+  const row=rows[at], snapshot=row.snapshot, count=observedCount(row,folder);
+  let picture='<div class="blank-graphic">Folder sizes were unrecorded on this date.</div>';
+  if (snapshot?.folders && pack) {
+    const bubbles=pack.discs.map(({name,x,y,r,peak},i)=>{
+      const n=observedCount(row,name); if (!n) return "";
+      const radius=r*Math.sqrt(n/peak), selected=folder===name, year=/^\d{4}$/.test(name);
+      const colors=year?["#a4b99a","#acc4aa","#c4cdaa","#9cbaa8"]:["#cb795c","#b97b57","#d69770","#c38967"];
+      const fill=name==="archive"?"#315e55":colors[i%colors.length], ink=name==="archive"?"#f3f4df":"#2b3730";
+      const label=folderName(name), font=Math.min(radius*.34,radius*2.8/Math.max(4,label.length),16);
+      const words=radius>=10?`<text y="${radius>25?-1:3}" style="font-size:${font}px">${esc(label)}</text>`:"";
+      const number=radius>25?`<text class="bubble-number" y="${font+2}" style="font-size:${font*.78}px">${num(n)}</text>`:"";
+      let spark="";
+      if (radius>25 && at>0) {
+        const history=rows.slice(0,at+1).map(r=>observedCount(r,name)),known=history.filter(Number.isFinite);
+        const low=Math.min(...known),high=Math.max(...known);
+        const points=history.map((v,j)=>v===null?null:[radius*(j/at-.5),font+5+radius*.12*(high===low ? .5 : (high-v)/(high-low))]);
+        spark=lineSegments(points).filter(s=>s.length>1).map(s=>`<polyline class="bubble-spark" points="${s.join(" ")}" fill="none" stroke="${ink}" opacity=".85" stroke-width="1" vector-effect="non-scaling-stroke"/>`).join("");
+      }
+      return `<g data-pick="${esc(name)}" role="button" tabindex="0" aria-label="${esc(label)}, ${num(n)} bookmarks" transform="translate(${x} ${y})" style="--bubble-ink:${ink}"><title>${esc(label)} · ${num(n)}</title><circle r="${radius}" fill="${fill}" stroke="${selected?"#172d28":"none"}" stroke-width="2"/>${words}${number}${spark}</g>`;
+    }).join("");
+    picture=bubbles ? `<svg class="cloud-graphic" viewBox="${pack.viewBox}" aria-label="Folders sized by bookmark count">${bubbles}</svg>` : '<div class="blank-graphic">No saved bookmarks in these folders.</div>';
+  } else if (snapshot?.folders) picture='<div class="blank-graphic">No saved bookmarks in these folders.</div>';
+  const previous=observedCount(rows[at-1],folder);
+  const note=count!==null&&previous!==null?`${signedCount(count-previous)} since ${shortDate(dateOfRow(rows[at-1]))}`:"";
+  const share=folder&&count!==null&&snapshot?.total>0 ? (count/snapshot.total).toLocaleString(undefined,{style:"percent",maximumFractionDigits:2})+" of library" : "";
+  return `<div class="cloud-layout">${picture}<div><h3>${esc(folderName(folder))}</h3><div class="focus-number">${count===null?"—":num(count)}</div><p class="metric-note">${count===null?"Unrecorded":count===1?"bookmark":"bookmarks"} · ${shortDate(dateOfRow(row))}${share?" · "+share:""}${note?" · "+note:""}</p>${historyLine(rows,folder,at)}</div></div>`;
+}
+function ridgeSizeRadius(count) {
+  return count > 0 ? 2.5 + 3 * Math.log10(count) : 0;
+}
+function ridgeKeys(riseHeight) {
+  const rises = [1, 10, 100].map(change => {
+    const top = 1, bottom = top + riseHeight(change);
+    const path = `M0 ${bottom} C8 ${bottom} 11 ${top} 17 ${top} S26 ${bottom} 34 ${bottom}`;
+    return `<span><svg aria-hidden="true" width="34" style="height:${bottom+1}px"><path d="${path} Z" fill="#88c6b3"/><path d="${path}" fill="none" stroke="#cee6cc"/></svg>+${num(change)}</span>`;
   });
-  largest=Math.max(largest,size);
-  return {name,size,changes};
- });
- const hasTrend=observations.length>1;
- caption.textContent="Bars compare folder sizes on "+latest.day+" UTC. Share includes Archive. "+(hasTrend?
-  "Trend lines show change since "+baseline.day+" UTC on a shared linear scale"+(limit?" (−"+num(limit)+" to +"+num(limit)+" bookmarks).":". All observed sizes stayed constant."):
-  "One interval has a folder breakdown. A trend needs two.");
- const times=observations.map(row=>Date.parse(row.day+"T00:00:00Z"));
- const xs=times.map(t=>hasTrend?3+124*(t-times[0])/(times.at(-1)-times[0]):65);
- const y=delta=>13-10*delta/(limit||1);
- const signed=n=>(n<0?"−":n>0?"+":"")+num(Math.abs(n));
- function trendLine(changes){
-  if(!hasTrend)return "—";
-  let path="",dots="";
-  changes.forEach((delta,i)=>{
-   if(delta===null)return;
-   path+=(i&&changes[i-1]!==null?"L":"M")+xs[i]+","+y(delta);
-   if(!i||i===changes.length-1||changes[i-1]===null||changes[i+1]===null){
-    dots+='<circle cx="'+xs[i]+'" cy="'+y(delta)+'" r="2" fill="#276b70"/>';
-   }
+  const examples = [[10, "10"], [100, "100"], [1000, "1k"], [10000, "10k"], [100000, "100k"]];
+  const marks = examples.map(([count, label]) => {
+    const diameter = 2 * ridgeSizeRadius(count);
+    return `<span><i aria-hidden="true" style="width:${diameter}px;height:${diameter}px"></i>${label}</span>`;
   });
-  const known=changes.filter(Number.isFinite);
-  const range=known.reduce(([low,high],n)=>[Math.min(low,n),Math.max(high,n)],[0,0]);
-  return '<svg viewBox="0 0 130 26" role="img" aria-label="Change in bookmarks, minimum '+signed(range[0])+', maximum '+signed(range[1])+'"><path class="trend-zero" d="M0 13H130"/><path class="trend-line" d="'+path+'"/>'+dots+'</svg>';
- }
- const rows=folders.map(({name,size,changes})=>{
-  const label=name===latest.day.slice(0,4)?"This year ("+name+")":name.replace(/^./,c=>c.toLocaleUpperCase());
-  const share=latest.total?(size/latest.total).toLocaleString(undefined,{style:"percent",maximumFractionDigits:2}):"—";
-  return '<tr><th scope="row">'+esc(label)+'</th><td><div class="bar-track" aria-hidden="true"><div class="bar-fill" style="--bar-size:'+100*size/largest+'%"></div></div></td><td class="num">'+num(size)+'</td><td class="num">'+share+'</td><td>'+trendLine(changes)+'</td><td class="num">'+(hasTrend?signed(changes.at(-1)):"—")+'</td></tr>';
- });
- target.innerHTML='<table aria-label="Folder sizes and trends"><thead><tr><th>Folder</th><th>Relative size</th><th class="num">Bookmarks</th><th class="num">Share</th><th>Trend</th><th class="num">Net change</th></tr></thead><tbody>'+rows.join("")+'</tbody></table>';
+  return `<div class="ridge-keys"><div class="ridge-key ridge-rise-key"><strong>Above period low</strong>${rises.join("")}</div><div class="ridge-key ridge-size-key" aria-label="Folder size in bookmarks on a logarithmic scale"><strong>Folder size</strong>${marks.join("")}</div></div>`;
+}
+function renderRidges(stage,rows,at,names,group) {
+  const series=names.map(name=>{
+    const values=rows.map(row=>observedCount(row,name)),known=values.filter(Number.isFinite);
+    return {name,values,low:Math.min(...known),high:Math.max(...known)};
+  }).filter(s=>Number.isFinite(s.low));
+  let selected=series;
+  if (group==="moving") selected=series.slice().sort((a,b)=>(b.high-b.low)-(a.high-a.low)).slice(0,ridgeSwingLimit);
+  if (group==="reading") selected=series.filter(s=>isReading(s.name));
+  if (!selected.length) {
+    stage.innerHTML='<div class="ridge-layout blank-graphic">No folder history recorded in this period.</div>';
+    return;
+  }
+  // Keep a one-bookmark swing small even during a quiet period.
+  const scaleMax = Math.max(100, ...series.map(({low, high}) => high - low));
+  const logMax = Math.log1p(scaleMax / 3);
+  const riseHeight = change => 78 * Math.log1p(change / 3) / logMax;
+  let bottom = 24;
+  const baselines = selected.map(({low, high}) => {
+    bottom += Math.max(44, Math.ceil(riseHeight(high - low)) + 7);
+    return bottom;
+  });
+  const height = bottom + 29;
+  const scrollTop=stage.querySelector(".ridge-scroll")?.scrollTop ?? 0;
+  const scrollClass=selected.length>ridgeSwingLimit?"ridge-scroll ridge-scroll-many":"ridge-scroll";
+  stage.innerHTML=`<div class="ridge-layout"><div class="${scrollClass}"><svg class="ridge-landscape" style="height:${height}px" aria-label="Bookmark counts above each folder’s period low on a shared logarithmic scale, with total folder sizes on the selected date"></svg></div>${ridgeKeys(riseHeight)}<p class="figure-key">At the baseline the folder is at its period low. Each tenfold increase in total adds the same amount to a circle’s diameter. Gaps mark missing observations.</p></div>`;
+  const svg=stage.querySelector(".ridge-landscape"),w=svg.clientWidth;
+  const compact=w<450,left=compact?128:154,right=24;
+  const sizeX=20,labelX=44;
+  const x=i=>rows.length===1?(left+w-right)/2:left+(w-left-right)*i/(rows.length-1);
+  const shades=["#9dd2b9","#88c6b3","#75bbb0","#6ab0ad","#63a4a5","#60999b","#588c94"];
+  const paths=selected.map(({name,values,low,high},j)=>{
+    const base=baselines[j], y=v=>base-riseHeight(v-low);
+    const segments=[];let segment;
+    values.forEach((v,i)=>{
+      if (v===null) {segment=null;return;}
+      const xNow=x(i),yNow=y(v);
+      if (!segment) {
+        segment={firstX:xNow,lastX:xNow,lastY:yNow,path:`M${xNow},${yNow}`};segments.push(segment);
+      } else {
+        const mid=(segment.lastX+xNow)/2;
+        segment.path+=` C${mid},${segment.lastY} ${mid},${yNow} ${xNow},${yNow}`;
+        segment.lastX=xNow;segment.lastY=yNow;
+      }
+    });
+    const shapes=segments.map(s=>`<path d="${s.path} L${s.lastX},${base} H${s.firstX} Z" fill="${shades[j%shades.length]}"/><path d="${s.path}" fill="none" stroke="#cee6cc" stroke-width="1.7"/>`).join("");
+    const markers=values.map((v,i)=>v===null?"":`<circle data-time="${i}" cx="${x(i)}" cy="${y(v)}" r="${i===at?4:2.6}" fill="${i===at?"#ffe0a8":"#275650"}" stroke="#d4e2c6" stroke-width=".8"><title>${esc(folderName(name))} · ${shortDate(dateOfRow(rows[i]))} · ${num(v)} ${v===1?"bookmark":"bookmarks"} · ${num(v-low)} above period low</title></circle>`).join("");
+    const count=values[at],label=folderName(name);
+    const sizeText=count===null?"Size unrecorded":`${num(count)} ${count===1?"bookmark":"bookmarks"}`;
+    const description=esc(`${label} · ${shortDate(dateOfRow(rows[at]))} · ${sizeText}`);
+    const sizeMark=count>0?`<circle class="ridge-size" cx="${sizeX}" cy="${base-9}" r="${ridgeSizeRadius(count)}"/>`:"";
+    const identity=`<g class="ridge-identity" role="group" aria-label="${description}">
+      <title>${description} · low ${num(low)} · high ${num(high)} · swing ${num(high-low)}</title>
+      <text x="${labelX}" y="${base-11}" class="ridge-label ridge-name" clip-path="url(#ridge-name-clip)">${esc(label)}</text>
+      <g class="ridge-readout">${sizeMark}<text x="${labelX}" y="${base+5}" class="ridge-count">${count===null?"—":num(count)}</text></g>
+    </g>`;
+    return `<g data-ridge="${esc(name)}">${identity}${shapes}${markers}</g>`;
+  }).join("");
+  const dateLabels=[...new Set([0,Math.floor((rows.length-1)/2),rows.length-1])].map(i=>`<text x="${x(i)}" y="${height-3}" text-anchor="middle" class="ridge-label">${shortDate(dateOfRow(rows[i]))}</text>`).join("");
+  const headers=`<g class="ridge-headings"><text x="1" y="12">Folder · ${shortDate(dateOfRow(rows[at]))}</text><text x="${left}" y="12">Above period low</text></g>`;
+  const labelClip=`<defs><clipPath id="ridge-name-clip"><rect x="${labelX}" width="${left-labelX-7}" height="${height}"/></clipPath></defs>`;
+  svg.innerHTML=`${labelClip}${headers}<line x1="${x(at)}" x2="${x(at)}" y1="21" y2="${height-18}" stroke="#97b3a5" stroke-dasharray="2 4"/>${paths}${dateLabels}`;
+  svg.parentElement.scrollTop=scrollTop;
+}
+function folderHistoryRange(rows) {
+  const hasFolders = row => row.snapshot?.folders != null;
+  const first = rows.findIndex(hasFolders);
+  return first < 0 ? [] : rows.slice(first, rows.findLastIndex(hasFolders) + 1);
+}
+function renderFolderCharts(observations, names) {
+  const cloudRows = filledBuckets(observations);
+  const ridgeRows = folderHistoryRange(cloudRows);
+  const cloud = $("cloud-figure"), ridges = $("ridge-figure");
+  const choose = $("cloud-folder"), reading = $("cloud-reading"), group = $("ridge-group");
+  let pack;
+
+  function prepareCloud() {
+    const folders = reading.checked ? names.filter(isReading) : names;
+    const previous = choose.value;
+    choose.replaceChildren(new Option("Whole library",""), ...folders.map(name => new Option(folderName(name),name)));
+    choose.value = folders.includes(previous) ? previous : "";
+    pack = packFolders(folders,cloudRows);
+  }
+  function drawDate(id, rows) {
+    const at = Math.max(0, rows.findLastIndex(row => !folderChartDay || dateOfRow(row) <= folderChartDay));
+    const slider = $(id+"-time"), day = dateOfRow(rows[at]);
+    slider.max = rows.length - 1;
+    slider.value = at;
+    slider.disabled = rows.length === 1;
+    slider.setAttribute("aria-valuetext",day+" UTC");
+    $(id+"-date").textContent = shortDate(day)+" "+day.slice(0,4);
+    return at;
+  }
+  function drawCloud() {
+    $("cloud-tools").hidden = !cloudRows.length;
+    cloud.innerHTML = cloudRows.length ? renderCloud(cloudRows,drawDate("cloud",cloudRows),pack,choose.value)
+      : '<p class="empty">No library observations in this period.</p>';
+  }
+  function drawRidges() {
+    $("ridge-tools").hidden = !ridgeRows.length;
+    if (ridgeRows.length) renderRidges(ridges,ridgeRows,drawDate("ridge",ridgeRows),names,group.value);
+    else ridges.innerHTML = '<p class="empty">No folder counts recorded in this period.</p>';
+  }
+  function pickDay(row) {
+    folderChartDay = dateOfRow(row);
+    const url = new URL(location.href);
+    url.searchParams.set("day",folderChartDay);
+    window.history.replaceState(null,"",url);
+    drawCloud();
+    drawRidges();
+  }
+  function pickFolder(name) {
+    choose.value = name;
+    drawCloud();
+  }
+  prepareCloud();
+  choose.onchange = drawCloud;
+  reading.onchange = () => { prepareCloud(); drawCloud(); };
+  group.onchange = drawRidges;
+  $("cloud-time").oninput = event => pickDay(cloudRows[event.target.value]);
+  $("ridge-time").oninput = event => pickDay(ridgeRows[event.target.value]);
+  cloud.onclick = event => {
+    const mark = event.target.closest("[data-pick],[data-time]");
+    if (mark?.hasAttribute("data-pick")) pickFolder(mark.dataset.pick);
+    else if (mark) pickDay(cloudRows[mark.dataset.time]);
+  };
+  cloud.onkeydown = event => {
+    const mark = event.target.closest("[data-pick]");
+    if (mark && ["Enter"," "].includes(event.key)) {
+      event.preventDefault();
+      pickFolder(mark.dataset.pick);
+      cloud.querySelector(`[data-pick="${CSS.escape(mark.dataset.pick)}"]`)?.focus();
+    }
+  };
+  ridges.onclick = event => {
+    const mark = event.target.closest("[data-time]");
+    if (mark) pickDay(ridgeRows[mark.dataset.time]);
+  };
+  drawCloud();
+  drawRidges();
 }
 function renderInstapaper(){
  const usage=data.instapaper||{}, history=usage.history||[], selectedRows=history.filter(r=>inPeriod(r.day)), latest=history.at(-1);
@@ -295,26 +557,23 @@ function renderInstapaper(){
  const palette=Object.fromEntries(series.map((s,i)=>[s,i<colors.length?colors[i]:"hsl("+((i*137.508)%360)+" 42% 44%)"]));palette.Archive="#29221c";
  const label=(s,row)=>{
   if(s==="this-year")return row?"This year ("+row.year+")":"This year";
-  return s.startsWith("folder:")?s.slice(7).replace(/^./,c=>c.toLocaleUpperCase()):s==="Archive"?"Archive · right axis":s;
+  return s.startsWith("folder:")?folderName(s.slice(7)):s;
  };
- chart("instapaper",folderRows,series,{stack:true,stackTopFirst:true,overlay:["Archive"],secondary:true,sharedScale:true,axisLabels:["Folder bookmarks","Archived bookmarks"],gaps:true,palette,label});
  const folderValue=(n,s,row)=>Number.isFinite(n)?num(n)+(s==="this-year"?" ("+esc(row.year)+")":""):"—";
  $("instapaper-values").innerHTML=valuesTable(folderRows,["Total",...series,"Archive"],folderValue,label);
- const snapshots=rows.map(row=>row.snapshot),folderNames=instapaperFolderOrder(selectedRows);
- renderFolderTrends(snapshots,folderNames);
+ const folderNames=instapaperFolderOrder(selectedRows);
+ renderFolderCharts(rows,folderNames);
  chart("instapaper-changes",rows,["Archived","Deleted"],{gaps:true,minimum:(s,row)=>s==="Archived"&&row.incomplete&&row.Archived!==null});
  const folderKeys=folderNames.map(name=>"folder:"+name);
  const addSeries=[...new Set([...folderKeys,...addedTotals.keys()])].filter(s=>s!=="unknown"&&addedTotals.has(s));
  if(addedTotals.has("unknown"))addSeries.push("unknown");
  const addPalette={...palette,"folder:archive":palette.Archive,unknown:"#928a80"};
- const latestYear=snapshots.at(-1)?.day.slice(0,4);
+ const latestYear=selectedRows.at(-1)?.day.slice(0,4);
  if(latestYear)addPalette["folder:"+latestYear]=palette["this-year"];
  const addRows=rows.map(({day,additions})=>({day,...additions}));
  const addLabel=s=>s==="unknown"?"Folder unknown":label(s);
  chart("instapaper-additions",addRows,addSeries,{stack:true,stackTopFirst:true,palette:addPalette,label:addLabel,legendLabel:s=>addLabel(s)+" · "+num(addedTotals.get(s))});
  if(rows.length&&!addSeries.length)$("instapaper-additions-readout").textContent="No new saves in this period.";
- const breakdownStarted=history.find(row=>row.folders)?.day;
- $("instapaper-caption").textContent="Folders follow sidebar order from top to bottom. “This year” uses the year of the last observation in each interval. Each older year has its own band. Archive uses the right axis. Both axes use the same linear scale. "+(breakdownStarted?"Folder breakdowns have been recorded since "+breakdownStarted+".":"Waiting for the first recorded folder breakdown. Earlier totals remain available in Folder values.");
 }
 const FEATURE_NAMES={"library-sync":"Library sync",organiser:"Bookmark organiser",publication:"Page publication",scheduler:"Scheduler bookkeeping",other:"Unnamed component","smith-kindle-digest":"Smith digest","manual-run":"Manual runs",feeds:"Feeds","legacy-image-cutover":"Legacy image cutover","legacy-image-migration":"Nightly legacy image migration"};
 const featureLabel=f=>f==="__other"?"Other features":f==="__unattributed"?"Before feature recording":FEATURE_NAMES[f]||(f.charAt(0).toUpperCase()+f.slice(1)).replaceAll("-"," ");
