@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "images": [
+    {
+      "path": "images/v1/501e33d4733956b1ffd8145f2b313f04d82970511b67d8714071abf7ea999ed7.jpg",
+      "object_key": "images/v1/501e33d4733956b1ffd8145f2b313f04d82970511b67d8714071abf7ea999ed7.jpg",
+      "sha256": "501e33d4733956b1ffd8145f2b313f04d82970511b67d8714071abf7ea999ed7",
+      "bytes": 23910,
+      "content_type": "image/jpeg",
+      "original_path": "facebook-instapaper/fupfin/10243475355960891/501e33d4733956b1ffd8145f2b313f04d82970511b67d8714071abf7ea999ed7.jpg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/501e33d4733956b1ffd8145f2b313f04d82970511b67d8714071abf7ea999ed7.jpg",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/fupfin/10243475355960891/501e33d4733956b1ffd8145f2b313f04d82970511b67d8714071abf7ea999ed7.jpg"
+    },
+    {
+      "path": "images/v1/b69417f011081be94a5c6ba1634452baddf27ca32355ade5554c96a996617984.jpg",
+      "object_key": "images/v1/b69417f011081be94a5c6ba1634452baddf27ca32355ade5554c96a996617984.jpg",
+      "sha256": "b69417f011081be94a5c6ba1634452baddf27ca32355ade5554c96a996617984",
+      "bytes": 7245,
+      "content_type": "image/jpeg",
+      "original_path": "facebook-instapaper/fupfin/10243475355960891/b69417f011081be94a5c6ba1634452baddf27ca32355ade5554c96a996617984.jpg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/b69417f011081be94a5c6ba1634452baddf27ca32355ade5554c96a996617984.jpg",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/fupfin/10243475355960891/b69417f011081be94a5c6ba1634452baddf27ca32355ade5554c96a996617984.jpg"
+    },
+    {
+      "path": "images/v1/c81bf71f5c46e2641354c26815d72d50e8424d1b44bb85d0949f3b8707e69bf6.jpg",
+      "object_key": "images/v1/c81bf71f5c46e2641354c26815d72d50e8424d1b44bb85d0949f3b8707e69bf6.jpg",
+      "sha256": "c81bf71f5c46e2641354c26815d72d50e8424d1b44bb85d0949f3b8707e69bf6",
+      "bytes": 5848,
+      "content_type": "image/jpeg",
+      "original_path": "facebook-instapaper/fupfin/10243475355960891/c81bf71f5c46e2641354c26815d72d50e8424d1b44bb85d0949f3b8707e69bf6.jpg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/c81bf71f5c46e2641354c26815d72d50e8424d1b44bb85d0949f3b8707e69bf6.jpg",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/fupfin/10243475355960891/c81bf71f5c46e2641354c26815d72d50e8424d1b44bb85d0949f3b8707e69bf6.jpg"
+    }
+  ]
+}

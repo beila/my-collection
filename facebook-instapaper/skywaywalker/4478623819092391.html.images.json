@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "images": [
+    {
+      "path": "images/v1/a28e2a51531ebe352af82e4181811fe4625b48c68a975a78c255c36d79d22669.jpg",
+      "object_key": "images/v1/a28e2a51531ebe352af82e4181811fe4625b48c68a975a78c255c36d79d22669.jpg",
+      "sha256": "a28e2a51531ebe352af82e4181811fe4625b48c68a975a78c255c36d79d22669",
+      "bytes": 161081,
+      "content_type": "image/jpeg",
+      "original_path": "facebook-instapaper/skywaywalker/4478623819092391/a28e2a51531ebe352af82e4181811fe4625b48c68a975a78c255c36d79d22669.jpg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/a28e2a51531ebe352af82e4181811fe4625b48c68a975a78c255c36d79d22669.jpg",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/skywaywalker/4478623819092391/a28e2a51531ebe352af82e4181811fe4625b48c68a975a78c255c36d79d22669.jpg"
+    },
+    {
+      "path": "images/v1/ca4e76407159d1f95ae6206776a3ee16415f3c4df710eddc0efc1e2211a9f3f8.jpg",
+      "object_key": "images/v1/ca4e76407159d1f95ae6206776a3ee16415f3c4df710eddc0efc1e2211a9f3f8.jpg",
+      "sha256": "ca4e76407159d1f95ae6206776a3ee16415f3c4df710eddc0efc1e2211a9f3f8",
+      "bytes": 87092,
+      "content_type": "image/jpeg",
+      "original_path": "facebook-instapaper/skywaywalker/4478623819092391/ca4e76407159d1f95ae6206776a3ee16415f3c4df710eddc0efc1e2211a9f3f8.jpg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/ca4e76407159d1f95ae6206776a3ee16415f3c4df710eddc0efc1e2211a9f3f8.jpg",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/skywaywalker/4478623819092391/ca4e76407159d1f95ae6206776a3ee16415f3c4df710eddc0efc1e2211a9f3f8.jpg"
+    }
+  ]
+}
