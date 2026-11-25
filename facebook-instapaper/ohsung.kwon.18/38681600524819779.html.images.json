@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "images": [
+    {
+      "path": "images/v1/1474492baede33fc1b360329a6eb3d36657ca6e3b58c47f3076c93359e7d63f3.jpg",
+      "object_key": "images/v1/1474492baede33fc1b360329a6eb3d36657ca6e3b58c47f3076c93359e7d63f3.jpg",
+      "sha256": "1474492baede33fc1b360329a6eb3d36657ca6e3b58c47f3076c93359e7d63f3",
+      "bytes": 89069,
+      "content_type": "image/jpeg",
+      "original_path": "facebook-instapaper/ohsung.kwon.18/38681600524819779/1474492baede33fc1b360329a6eb3d36657ca6e3b58c47f3076c93359e7d63f3.jpg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/1474492baede33fc1b360329a6eb3d36657ca6e3b58c47f3076c93359e7d63f3.jpg",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/ohsung.kwon.18/38681600524819779/1474492baede33fc1b360329a6eb3d36657ca6e3b58c47f3076c93359e7d63f3.jpg"
+    },
+    {
+      "path": "images/v1/155aa445025d75612a22267f233983a5a965c935a1b0eb2f35a4649ac8a72d0c.jpg",
+      "object_key": "images/v1/155aa445025d75612a22267f233983a5a965c935a1b0eb2f35a4649ac8a72d0c.jpg",
+      "sha256": "155aa445025d75612a22267f233983a5a965c935a1b0eb2f35a4649ac8a72d0c",
+      "bytes": 103471,
+      "content_type": "image/jpeg",
+      "original_path": "facebook-instapaper/ohsung.kwon.18/38681600524819779/155aa445025d75612a22267f233983a5a965c935a1b0eb2f35a4649ac8a72d0c.jpg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/155aa445025d75612a22267f233983a5a965c935a1b0eb2f35a4649ac8a72d0c.jpg",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/ohsung.kwon.18/38681600524819779/155aa445025d75612a22267f233983a5a965c935a1b0eb2f35a4649ac8a72d0c.jpg"
+    },
+    {
+      "path": "images/v1/dea4a340e932d2cbe9271b27a5b9362c7e5e149520e9350bab451ff928f97845.jpg",
+      "object_key": "images/v1/dea4a340e932d2cbe9271b27a5b9362c7e5e149520e9350bab451ff928f97845.jpg",
+      "sha256": "dea4a340e932d2cbe9271b27a5b9362c7e5e149520e9350bab451ff928f97845",
+      "bytes": 105368,
+      "content_type": "image/jpeg",
+      "original_path": "facebook-instapaper/ohsung.kwon.18/38681600524819779/dea4a340e932d2cbe9271b27a5b9362c7e5e149520e9350bab451ff928f97845.jpg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/dea4a340e932d2cbe9271b27a5b9362c7e5e149520e9350bab451ff928f97845.jpg",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/ohsung.kwon.18/38681600524819779/dea4a340e932d2cbe9271b27a5b9362c7e5e149520e9350bab451ff928f97845.jpg"
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "images": [
+    {
+      "path": "images/v1/523cc35a4dda67cfe4f8af30755659036f36a6d11b0b992dd76704c6a1b74732.jpg",
+      "object_key": "images/v1/523cc35a4dda67cfe4f8af30755659036f36a6d11b0b992dd76704c6a1b74732.jpg",
+      "sha256": "523cc35a4dda67cfe4f8af30755659036f36a6d11b0b992dd76704c6a1b74732",
+      "bytes": 791138,
+      "content_type": "image/jpeg",
+      "original_path": "facebook-instapaper/hareem76/10162572530580426/523cc35a4dda67cfe4f8af30755659036f36a6d11b0b992dd76704c6a1b74732.jpg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/523cc35a4dda67cfe4f8af30755659036f36a6d11b0b992dd76704c6a1b74732.jpg",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/hareem76/10162572530580426/523cc35a4dda67cfe4f8af30755659036f36a6d11b0b992dd76704c6a1b74732.jpg"
+    },
+    {
+      "path": "images/v1/7eaa95b7dfb40b68c723c075f0ac20a1b1d1243dc240fdb7ea174a7ce0386bfb.jpg",
+      "object_key": "images/v1/7eaa95b7dfb40b68c723c075f0ac20a1b1d1243dc240fdb7ea174a7ce0386bfb.jpg",
+      "sha256": "7eaa95b7dfb40b68c723c075f0ac20a1b1d1243dc240fdb7ea174a7ce0386bfb",
+      "bytes": 568884,
+      "content_type": "image/jpeg",
+      "original_path": "facebook-instapaper/hareem76/10162572530580426/7eaa95b7dfb40b68c723c075f0ac20a1b1d1243dc240fdb7ea174a7ce0386bfb.jpg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/7eaa95b7dfb40b68c723c075f0ac20a1b1d1243dc240fdb7ea174a7ce0386bfb.jpg",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/hareem76/10162572530580426/7eaa95b7dfb40b68c723c075f0ac20a1b1d1243dc240fdb7ea174a7ce0386bfb.jpg"
+    },
+    {
+      "path": "images/v1/ceca4ec25e2c2ec1557b67a0cc2e8daef0aab48dbd6ab8547ce86350334dc2ae.jpg",
+      "object_key": "images/v1/ceca4ec25e2c2ec1557b67a0cc2e8daef0aab48dbd6ab8547ce86350334dc2ae.jpg",
+      "sha256": "ceca4ec25e2c2ec1557b67a0cc2e8daef0aab48dbd6ab8547ce86350334dc2ae",
+      "bytes": 355132,
+      "content_type": "image/jpeg",
+      "original_path": "facebook-instapaper/hareem76/10162572530580426/ceca4ec25e2c2ec1557b67a0cc2e8daef0aab48dbd6ab8547ce86350334dc2ae.jpg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/ceca4ec25e2c2ec1557b67a0cc2e8daef0aab48dbd6ab8547ce86350334dc2ae.jpg",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/hareem76/10162572530580426/ceca4ec25e2c2ec1557b67a0cc2e8daef0aab48dbd6ab8547ce86350334dc2ae.jpg"
+    }
+  ]
+}

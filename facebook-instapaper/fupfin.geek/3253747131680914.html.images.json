@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "images": [
+    {
+      "path": "images/v1/50109eb247d6958c637868ac269b798e6d9d0f116f96b4a8c7e4ca0ec67c078c.jpg",
+      "object_key": "images/v1/50109eb247d6958c637868ac269b798e6d9d0f116f96b4a8c7e4ca0ec67c078c.jpg",
+      "sha256": "50109eb247d6958c637868ac269b798e6d9d0f116f96b4a8c7e4ca0ec67c078c",
+      "bytes": 161451,
+      "content_type": "image/jpeg",
+      "original_path": "facebook-instapaper/fupfin.geek/3253747131680914/50109eb247d6958c637868ac269b798e6d9d0f116f96b4a8c7e4ca0ec67c078c.jpg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/50109eb247d6958c637868ac269b798e6d9d0f116f96b4a8c7e4ca0ec67c078c.jpg",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/fupfin.geek/3253747131680914/50109eb247d6958c637868ac269b798e6d9d0f116f96b4a8c7e4ca0ec67c078c.jpg"
+    },
+    {
+      "path": "images/v1/d1f70bbf1e0628981b21d4990295fe35a63a0844aa0f8ec38a48be0bd851d881.jpg",
+      "object_key": "images/v1/d1f70bbf1e0628981b21d4990295fe35a63a0844aa0f8ec38a48be0bd851d881.jpg",
+      "sha256": "d1f70bbf1e0628981b21d4990295fe35a63a0844aa0f8ec38a48be0bd851d881",
+      "bytes": 1715518,
+      "content_type": "image/jpeg",
+      "original_path": "facebook-instapaper/fupfin.geek/3253747131680914/d1f70bbf1e0628981b21d4990295fe35a63a0844aa0f8ec38a48be0bd851d881.jpg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/d1f70bbf1e0628981b21d4990295fe35a63a0844aa0f8ec38a48be0bd851d881.jpg",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/fupfin.geek/3253747131680914/d1f70bbf1e0628981b21d4990295fe35a63a0844aa0f8ec38a48be0bd851d881.jpg"
+    }
+  ]
+}

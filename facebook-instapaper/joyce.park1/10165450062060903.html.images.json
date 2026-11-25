@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "images": [
+    {
+      "path": "images/v1/8e8e576d4d8eaaa6abf384b7d5bbb054096dfa6670b26637e16f5fbb15b25841.jpg",
+      "object_key": "images/v1/8e8e576d4d8eaaa6abf384b7d5bbb054096dfa6670b26637e16f5fbb15b25841.jpg",
+      "sha256": "8e8e576d4d8eaaa6abf384b7d5bbb054096dfa6670b26637e16f5fbb15b25841",
+      "bytes": 8647,
+      "content_type": "image/jpeg",
+      "original_path": "facebook-instapaper/joyce.park1/10165450062060903/8e8e576d4d8eaaa6abf384b7d5bbb054096dfa6670b26637e16f5fbb15b25841.jpg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/8e8e576d4d8eaaa6abf384b7d5bbb054096dfa6670b26637e16f5fbb15b25841.jpg",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/joyce.park1/10165450062060903/8e8e576d4d8eaaa6abf384b7d5bbb054096dfa6670b26637e16f5fbb15b25841.jpg"
+    },
+    {
+      "path": "images/v1/b036fbfee8263a46d8cc941cc8d0022399e0d34e5ca32dac8dc98bdd4dd49558.jpg",
+      "object_key": "images/v1/b036fbfee8263a46d8cc941cc8d0022399e0d34e5ca32dac8dc98bdd4dd49558.jpg",
+      "sha256": "b036fbfee8263a46d8cc941cc8d0022399e0d34e5ca32dac8dc98bdd4dd49558",
+      "bytes": 33314,
+      "content_type": "image/jpeg",
+      "original_path": "facebook-instapaper/joyce.park1/10165450062060903/b036fbfee8263a46d8cc941cc8d0022399e0d34e5ca32dac8dc98bdd4dd49558.jpg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/b036fbfee8263a46d8cc941cc8d0022399e0d34e5ca32dac8dc98bdd4dd49558.jpg",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/joyce.park1/10165450062060903/b036fbfee8263a46d8cc941cc8d0022399e0d34e5ca32dac8dc98bdd4dd49558.jpg"
+    },
+    {
+      "path": "images/v1/d51290c8d79af5b15090516973d3f2365427323c65482f28842bb08c34046d93.jpg",
+      "object_key": "images/v1/d51290c8d79af5b15090516973d3f2365427323c65482f28842bb08c34046d93.jpg",
+      "sha256": "d51290c8d79af5b15090516973d3f2365427323c65482f28842bb08c34046d93",
+      "bytes": 12085,
+      "content_type": "image/jpeg",
+      "original_path": "facebook-instapaper/joyce.park1/10165450062060903/d51290c8d79af5b15090516973d3f2365427323c65482f28842bb08c34046d93.jpg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/d51290c8d79af5b15090516973d3f2365427323c65482f28842bb08c34046d93.jpg",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/joyce.park1/10165450062060903/d51290c8d79af5b15090516973d3f2365427323c65482f28842bb08c34046d93.jpg"
+    }
+  ]
+}
