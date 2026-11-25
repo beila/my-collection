@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "images": [
+    {
+      "path": "images/v1/5d59b1a6d1a6ca353a0870621aab16bbddc0df954d13979714c98ba0d0c94c11.jpg",
+      "object_key": "images/v1/5d59b1a6d1a6ca353a0870621aab16bbddc0df954d13979714c98ba0d0c94c11.jpg",
+      "sha256": "5d59b1a6d1a6ca353a0870621aab16bbddc0df954d13979714c98ba0d0c94c11",
+      "bytes": 40104,
+      "content_type": "image/jpeg",
+      "original_path": "facebook-instapaper/taegee.min/5922114821152240/5d59b1a6d1a6ca353a0870621aab16bbddc0df954d13979714c98ba0d0c94c11.jpg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/5d59b1a6d1a6ca353a0870621aab16bbddc0df954d13979714c98ba0d0c94c11.jpg",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/taegee.min/5922114821152240/5d59b1a6d1a6ca353a0870621aab16bbddc0df954d13979714c98ba0d0c94c11.jpg"
+    },
+    {
+      "path": "images/v1/d7ba804f18855e76d29aacfb07b917ab56d34fd20f12333c7551523d25d14c0c.jpg",
+      "object_key": "images/v1/d7ba804f18855e76d29aacfb07b917ab56d34fd20f12333c7551523d25d14c0c.jpg",
+      "sha256": "d7ba804f18855e76d29aacfb07b917ab56d34fd20f12333c7551523d25d14c0c",
+      "bytes": 40984,
+      "content_type": "image/jpeg",
+      "original_path": "facebook-instapaper/taegee.min/5922114821152240/d7ba804f18855e76d29aacfb07b917ab56d34fd20f12333c7551523d25d14c0c.jpg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/d7ba804f18855e76d29aacfb07b917ab56d34fd20f12333c7551523d25d14c0c.jpg",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/taegee.min/5922114821152240/d7ba804f18855e76d29aacfb07b917ab56d34fd20f12333c7551523d25d14c0c.jpg"
+    }
+  ]
+}
