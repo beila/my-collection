@@ -565,8 +565,9 @@ function renderInstapaper(){
  renderFolderCharts(rows,folderNames);
  chart("instapaper-changes",rows,["Archived","Deleted"],{gaps:true,minimum:(s,row)=>s==="Archived"&&row.incomplete&&row.Archived!==null});
  const folderKeys=folderNames.map(name=>"folder:"+name);
- const addSeries=[...new Set([...folderKeys,...addedTotals.keys()])].filter(s=>s!=="unknown"&&addedTotals.has(s));
- if(addedTotals.has("unknown"))addSeries.push("unknown");
+ const lowerBands=["unknown","folder:smith","folder:unread"];
+ const otherFolders=[...new Set([...folderKeys,...addedTotals.keys()])].filter(key=>!lowerBands.includes(key));
+ const addSeries=[...otherFolders,...lowerBands].filter(key=>addedTotals.has(key));
  const addPalette={...palette,"folder:archive":palette.Archive,unknown:"#928a80"};
  const latestYear=selectedRows.at(-1)?.day.slice(0,4);
  if(latestYear)addPalette["folder:"+latestYear]=palette["this-year"];
@@ -575,7 +576,7 @@ function renderInstapaper(){
  chart("instapaper-additions",addRows,addSeries,{stack:true,stackTopFirst:true,palette:addPalette,label:addLabel,legendLabel:s=>addLabel(s)+" · "+num(addedTotals.get(s))});
  if(rows.length&&!addSeries.length)$("instapaper-additions-readout").textContent="No new saves in this period.";
 }
-const FEATURE_NAMES={"library-sync":"Library sync",organiser:"Bookmark organiser",publication:"Page publication",scheduler:"Scheduler bookkeeping",other:"Unnamed component","smith-kindle-digest":"Smith digest","manual-run":"Manual runs",feeds:"Feeds","legacy-image-cutover":"Legacy image cutover","legacy-image-migration":"Nightly legacy image migration"};
+const FEATURE_NAMES={"library-sync":"Library sync",organiser:"Bookmark organiser",publication:"Page publication",scheduler:"Scheduler bookkeeping",other:"Unnamed component","smith-kindle-digest":"Smith digest","manual-run":"Manual runs",feeds:"Feeds","legacy-image-cutover":"Legacy image cutover","legacy-image-migration":"Nightly legacy image migration","whole-document-explanation":"Whole-document explanation","whole-document-explanation-standalone":"Whole-document explanation (standalone)"};
 const featureLabel=f=>f==="__other"?"Other features":f==="__unattributed"?"Before feature recording":FEATURE_NAMES[f]||(f.charAt(0).toUpperCase()+f.slice(1)).replaceAll("-"," ");
 const KIND_NAMES={api_v1:"API v1",api_v2:"API v2",web:"web",http:"HTTP",browser:"browser",cli:"gh CLI",git:"Git",pages:"Pages",download:"downloads",upload:"uploads"};
 const FEATURE_LIMIT=7;
