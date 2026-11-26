@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "images": [
+    {
+      "path": "images/v1/65cd6cb1b65a38898ccd30453225b99f88a6f2b3c26aaa7635ae3b9ae196042c.jpg",
+      "object_key": "images/v1/65cd6cb1b65a38898ccd30453225b99f88a6f2b3c26aaa7635ae3b9ae196042c.jpg",
+      "sha256": "65cd6cb1b65a38898ccd30453225b99f88a6f2b3c26aaa7635ae3b9ae196042c",
+      "bytes": 15108,
+      "content_type": "image/jpeg",
+      "original_path": "facebook-instapaper/leesongheeil/37972276242420796/65cd6cb1b65a38898ccd30453225b99f88a6f2b3c26aaa7635ae3b9ae196042c.jpg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/65cd6cb1b65a38898ccd30453225b99f88a6f2b3c26aaa7635ae3b9ae196042c.jpg",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/leesongheeil/37972276242420796/65cd6cb1b65a38898ccd30453225b99f88a6f2b3c26aaa7635ae3b9ae196042c.jpg"
+    },
+    {
+      "path": "images/v1/c3821cfdd0b4e398f911822d81acd08e44cdb19f8b7c7e853460cc95a9d0a598.jpg",
+      "object_key": "images/v1/c3821cfdd0b4e398f911822d81acd08e44cdb19f8b7c7e853460cc95a9d0a598.jpg",
+      "sha256": "c3821cfdd0b4e398f911822d81acd08e44cdb19f8b7c7e853460cc95a9d0a598",
+      "bytes": 38374,
+      "content_type": "image/jpeg",
+      "original_path": "facebook-instapaper/leesongheeil/37972276242420796/c3821cfdd0b4e398f911822d81acd08e44cdb19f8b7c7e853460cc95a9d0a598.jpg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/c3821cfdd0b4e398f911822d81acd08e44cdb19f8b7c7e853460cc95a9d0a598.jpg",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/leesongheeil/37972276242420796/c3821cfdd0b4e398f911822d81acd08e44cdb19f8b7c7e853460cc95a9d0a598.jpg"
+    },
+    {
+      "path": "images/v1/e45b3f8d67d3804b17a645e47ade6ccb035d08f0a60b71dbdef11d95a3b6e3fe.jpg",
+      "object_key": "images/v1/e45b3f8d67d3804b17a645e47ade6ccb035d08f0a60b71dbdef11d95a3b6e3fe.jpg",
+      "sha256": "e45b3f8d67d3804b17a645e47ade6ccb035d08f0a60b71dbdef11d95a3b6e3fe",
+      "bytes": 132010,
+      "content_type": "image/jpeg",
+      "original_path": "facebook-instapaper/leesongheeil/37972276242420796/e45b3f8d67d3804b17a645e47ade6ccb035d08f0a60b71dbdef11d95a3b6e3fe.jpg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/e45b3f8d67d3804b17a645e47ade6ccb035d08f0a60b71dbdef11d95a3b6e3fe.jpg",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/leesongheeil/37972276242420796/e45b3f8d67d3804b17a645e47ade6ccb035d08f0a60b71dbdef11d95a3b6e3fe.jpg"
+    }
+  ]
+}

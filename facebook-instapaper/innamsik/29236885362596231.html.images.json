@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "images": [
+    {
+      "path": "images/v1/92333d0150743ded8ab5ae87c02c82785793f2d0c14e4737219cbfd8287333f7.jpg",
+      "object_key": "images/v1/92333d0150743ded8ab5ae87c02c82785793f2d0c14e4737219cbfd8287333f7.jpg",
+      "sha256": "92333d0150743ded8ab5ae87c02c82785793f2d0c14e4737219cbfd8287333f7",
+      "bytes": 395408,
+      "content_type": "image/jpeg",
+      "original_path": "facebook-instapaper/innamsik/29236885362596231/92333d0150743ded8ab5ae87c02c82785793f2d0c14e4737219cbfd8287333f7.jpg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/92333d0150743ded8ab5ae87c02c82785793f2d0c14e4737219cbfd8287333f7.jpg",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/innamsik/29236885362596231/92333d0150743ded8ab5ae87c02c82785793f2d0c14e4737219cbfd8287333f7.jpg"
+    },
+    {
+      "path": "images/v1/b68a0e4bb6305873fbea127ba449bdc4008c98eb15decbd8f161535569dc3461.jpg",
+      "object_key": "images/v1/b68a0e4bb6305873fbea127ba449bdc4008c98eb15decbd8f161535569dc3461.jpg",
+      "sha256": "b68a0e4bb6305873fbea127ba449bdc4008c98eb15decbd8f161535569dc3461",
+      "bytes": 206250,
+      "content_type": "image/jpeg",
+      "original_path": "facebook-instapaper/innamsik/29236885362596231/b68a0e4bb6305873fbea127ba449bdc4008c98eb15decbd8f161535569dc3461.jpg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/b68a0e4bb6305873fbea127ba449bdc4008c98eb15decbd8f161535569dc3461.jpg",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/innamsik/29236885362596231/b68a0e4bb6305873fbea127ba449bdc4008c98eb15decbd8f161535569dc3461.jpg"
+    },
+    {
+      "path": "images/v1/e05a73c600068a531992d112a02720efa4118583bd82a2ff373b99d9ea421057.jpg",
+      "object_key": "images/v1/e05a73c600068a531992d112a02720efa4118583bd82a2ff373b99d9ea421057.jpg",
+      "sha256": "e05a73c600068a531992d112a02720efa4118583bd82a2ff373b99d9ea421057",
+      "bytes": 321791,
+      "content_type": "image/jpeg",
+      "original_path": "facebook-instapaper/innamsik/29236885362596231/e05a73c600068a531992d112a02720efa4118583bd82a2ff373b99d9ea421057.jpg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/e05a73c600068a531992d112a02720efa4118583bd82a2ff373b99d9ea421057.jpg",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/innamsik/29236885362596231/e05a73c600068a531992d112a02720efa4118583bd82a2ff373b99d9ea421057.jpg"
+    }
+  ]
+}
