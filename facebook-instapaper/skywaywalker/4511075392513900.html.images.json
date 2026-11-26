@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "images": [
+    {
+      "path": "images/v1/0bc01ade0da7efa89c0e838762340d6b68e60da83f1ec341bbd53eaecc02357b.jpg",
+      "object_key": "images/v1/0bc01ade0da7efa89c0e838762340d6b68e60da83f1ec341bbd53eaecc02357b.jpg",
+      "sha256": "0bc01ade0da7efa89c0e838762340d6b68e60da83f1ec341bbd53eaecc02357b",
+      "bytes": 188404,
+      "content_type": "image/jpeg",
+      "original_path": "facebook-instapaper/skywaywalker/4511075392513900/0bc01ade0da7efa89c0e838762340d6b68e60da83f1ec341bbd53eaecc02357b.jpg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/0bc01ade0da7efa89c0e838762340d6b68e60da83f1ec341bbd53eaecc02357b.jpg",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/skywaywalker/4511075392513900/0bc01ade0da7efa89c0e838762340d6b68e60da83f1ec341bbd53eaecc02357b.jpg"
+    },
+    {
+      "path": "images/v1/471c96159eabed0357b75fa14c6662d1f533314edc2b205b6482fc0f812c26c4.jpg",
+      "object_key": "images/v1/471c96159eabed0357b75fa14c6662d1f533314edc2b205b6482fc0f812c26c4.jpg",
+      "sha256": "471c96159eabed0357b75fa14c6662d1f533314edc2b205b6482fc0f812c26c4",
+      "bytes": 238423,
+      "content_type": "image/jpeg",
+      "original_path": "facebook-instapaper/skywaywalker/4511075392513900/471c96159eabed0357b75fa14c6662d1f533314edc2b205b6482fc0f812c26c4.jpg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/471c96159eabed0357b75fa14c6662d1f533314edc2b205b6482fc0f812c26c4.jpg",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/skywaywalker/4511075392513900/471c96159eabed0357b75fa14c6662d1f533314edc2b205b6482fc0f812c26c4.jpg"
+    },
+    {
+      "path": "images/v1/8338e075e4fb4f6e328891f32ce4cb249081c719986df7c57e75550c0eed24ab.jpg",
+      "object_key": "images/v1/8338e075e4fb4f6e328891f32ce4cb249081c719986df7c57e75550c0eed24ab.jpg",
+      "sha256": "8338e075e4fb4f6e328891f32ce4cb249081c719986df7c57e75550c0eed24ab",
+      "bytes": 264378,
+      "content_type": "image/jpeg",
+      "original_path": "facebook-instapaper/skywaywalker/4511075392513900/8338e075e4fb4f6e328891f32ce4cb249081c719986df7c57e75550c0eed24ab.jpg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/8338e075e4fb4f6e328891f32ce4cb249081c719986df7c57e75550c0eed24ab.jpg",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/skywaywalker/4511075392513900/8338e075e4fb4f6e328891f32ce4cb249081c719986df7c57e75550c0eed24ab.jpg"
+    },
+    {
+      "path": "images/v1/d9b0155253641a26c70a7ad26694550f579633c082fb4a2983dc4cab36d14690.jpg",
+      "object_key": "images/v1/d9b0155253641a26c70a7ad26694550f579633c082fb4a2983dc4cab36d14690.jpg",
+      "sha256": "d9b0155253641a26c70a7ad26694550f579633c082fb4a2983dc4cab36d14690",
+      "bytes": 196807,
+      "content_type": "image/jpeg",
+      "original_path": "facebook-instapaper/skywaywalker/4511075392513900/d9b0155253641a26c70a7ad26694550f579633c082fb4a2983dc4cab36d14690.jpg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/d9b0155253641a26c70a7ad26694550f579633c082fb4a2983dc4cab36d14690.jpg",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/skywaywalker/4511075392513900/d9b0155253641a26c70a7ad26694550f579633c082fb4a2983dc4cab36d14690.jpg"
+    },
+    {
+      "path": "images/v1/e184b9afa58f085e2651481d5e8ccb39ed815b4a6ea72aea93b587858b597c10.jpg",
+      "object_key": "images/v1/e184b9afa58f085e2651481d5e8ccb39ed815b4a6ea72aea93b587858b597c10.jpg",
+      "sha256": "e184b9afa58f085e2651481d5e8ccb39ed815b4a6ea72aea93b587858b597c10",
+      "bytes": 198200,
+      "content_type": "image/jpeg",
+      "original_path": "facebook-instapaper/skywaywalker/4511075392513900/e184b9afa58f085e2651481d5e8ccb39ed815b4a6ea72aea93b587858b597c10.jpg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/e184b9afa58f085e2651481d5e8ccb39ed815b4a6ea72aea93b587858b597c10.jpg",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/skywaywalker/4511075392513900/e184b9afa58f085e2651481d5e8ccb39ed815b4a6ea72aea93b587858b597c10.jpg"
+    }
+  ]
+}
