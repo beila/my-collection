@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "images": [
+    {
+      "path": "images/v1/1a7f3dc87cad2313eff9e26b3d28cee3293d038c35ad93b7a088e222585fef15.jpg",
+      "object_key": "images/v1/1a7f3dc87cad2313eff9e26b3d28cee3293d038c35ad93b7a088e222585fef15.jpg",
+      "sha256": "1a7f3dc87cad2313eff9e26b3d28cee3293d038c35ad93b7a088e222585fef15",
+      "bytes": 455153,
+      "content_type": "image/jpeg",
+      "original_path": "facebook-instapaper/monan.doll/4205865272891631/1a7f3dc87cad2313eff9e26b3d28cee3293d038c35ad93b7a088e222585fef15.jpg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/1a7f3dc87cad2313eff9e26b3d28cee3293d038c35ad93b7a088e222585fef15.jpg",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/monan.doll/4205865272891631/1a7f3dc87cad2313eff9e26b3d28cee3293d038c35ad93b7a088e222585fef15.jpg"
+    },
+    {
+      "path": "images/v1/615adec9e9ef416dcacfbf23673259ee269de9ced32de94d49504906fc7393c8.png",
+      "object_key": "images/v1/615adec9e9ef416dcacfbf23673259ee269de9ced32de94d49504906fc7393c8.png",
+      "sha256": "615adec9e9ef416dcacfbf23673259ee269de9ced32de94d49504906fc7393c8",
+      "bytes": 528766,
+      "content_type": "image/png",
+      "original_path": "facebook-instapaper/monan.doll/4205865272891631/615adec9e9ef416dcacfbf23673259ee269de9ced32de94d49504906fc7393c8.png",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/615adec9e9ef416dcacfbf23673259ee269de9ced32de94d49504906fc7393c8.png",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/monan.doll/4205865272891631/615adec9e9ef416dcacfbf23673259ee269de9ced32de94d49504906fc7393c8.png"
+    },
+    {
+      "path": "images/v1/e62bae4bb812f695e2e1a30f2968fb67c2d396abb8dce2526907584d6d4a84c5.jpg",
+      "object_key": "images/v1/e62bae4bb812f695e2e1a30f2968fb67c2d396abb8dce2526907584d6d4a84c5.jpg",
+      "sha256": "e62bae4bb812f695e2e1a30f2968fb67c2d396abb8dce2526907584d6d4a84c5",
+      "bytes": 16377,
+      "content_type": "image/jpeg",
+      "original_path": "facebook-instapaper/monan.doll/4205865272891631/e62bae4bb812f695e2e1a30f2968fb67c2d396abb8dce2526907584d6d4a84c5.jpg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/e62bae4bb812f695e2e1a30f2968fb67c2d396abb8dce2526907584d6d4a84c5.jpg",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/monan.doll/4205865272891631/e62bae4bb812f695e2e1a30f2968fb67c2d396abb8dce2526907584d6d4a84c5.jpg"
+    }
+  ]
+}

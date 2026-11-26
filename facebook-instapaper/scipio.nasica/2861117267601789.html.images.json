@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "images": [
+    {
+      "path": "images/v1/4f1a1ae2630e8311c62f5099a4615629d93324ecc4344859652b514c9f360330.jpg",
+      "object_key": "images/v1/4f1a1ae2630e8311c62f5099a4615629d93324ecc4344859652b514c9f360330.jpg",
+      "sha256": "4f1a1ae2630e8311c62f5099a4615629d93324ecc4344859652b514c9f360330",
+      "bytes": 45467,
+      "content_type": "image/jpeg",
+      "original_path": "facebook-instapaper/scipio.nasica/2861117267601789/4f1a1ae2630e8311c62f5099a4615629d93324ecc4344859652b514c9f360330.jpg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/4f1a1ae2630e8311c62f5099a4615629d93324ecc4344859652b514c9f360330.jpg",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/scipio.nasica/2861117267601789/4f1a1ae2630e8311c62f5099a4615629d93324ecc4344859652b514c9f360330.jpg"
+    },
+    {
+      "path": "images/v1/f1c76ea8de8be98d7c98017299f6bd19dd223879851214527551d3547e2a8105.jpg",
+      "object_key": "images/v1/f1c76ea8de8be98d7c98017299f6bd19dd223879851214527551d3547e2a8105.jpg",
+      "sha256": "f1c76ea8de8be98d7c98017299f6bd19dd223879851214527551d3547e2a8105",
+      "bytes": 115433,
+      "content_type": "image/jpeg",
+      "original_path": "facebook-instapaper/scipio.nasica/2861117267601789/f1c76ea8de8be98d7c98017299f6bd19dd223879851214527551d3547e2a8105.jpg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/f1c76ea8de8be98d7c98017299f6bd19dd223879851214527551d3547e2a8105.jpg",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/scipio.nasica/2861117267601789/f1c76ea8de8be98d7c98017299f6bd19dd223879851214527551d3547e2a8105.jpg"
+    }
+  ]
+}
