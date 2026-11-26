@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "images": [
+    {
+      "path": "images/v1/c9ab526cc311e65fc94900cccb0aa796e5517f170109080a89c54ccb0fe006c0.jpg",
+      "object_key": "images/v1/c9ab526cc311e65fc94900cccb0aa796e5517f170109080a89c54ccb0fe006c0.jpg",
+      "sha256": "c9ab526cc311e65fc94900cccb0aa796e5517f170109080a89c54ccb0fe006c0",
+      "bytes": 196422,
+      "content_type": "image/jpeg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/c9ab526cc311e65fc94900cccb0aa796e5517f170109080a89c54ccb0fe006c0.jpg",
+      "original_path": "facebook-instapaper/leesongheeil/40307662515548812/c9ab526cc311e65fc94900cccb0aa796e5517f170109080a89c54ccb0fe006c0.jpg",
+      "repository_path": "image-originals/images/v1/c9ab526cc311e65fc94900cccb0aa796e5517f170109080a89c54ccb0fe006c0.jpg"
+    },
+    {
+      "path": "images/v1/3d78e254629a878b14c6ef7b53f1bbf8c769b9d25055e5ec521417cd63babec7.jpg",
+      "object_key": "images/v1/3d78e254629a878b14c6ef7b53f1bbf8c769b9d25055e5ec521417cd63babec7.jpg",
+      "sha256": "3d78e254629a878b14c6ef7b53f1bbf8c769b9d25055e5ec521417cd63babec7",
+      "bytes": 95190,
+      "content_type": "image/jpeg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/3d78e254629a878b14c6ef7b53f1bbf8c769b9d25055e5ec521417cd63babec7.jpg",
+      "original_path": "facebook-instapaper/leesongheeil/40307662515548812/3d78e254629a878b14c6ef7b53f1bbf8c769b9d25055e5ec521417cd63babec7.jpg",
+      "repository_path": "image-originals/images/v1/3d78e254629a878b14c6ef7b53f1bbf8c769b9d25055e5ec521417cd63babec7.jpg"
+    }
+  ]
+}
