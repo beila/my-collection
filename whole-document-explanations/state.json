@@ -25,6 +25,79 @@
           "instapaper_bookmark_id": "2060471059"
         }
       ]
+    },
+    "1213996549": {
+      "article_format": 1,
+      "title": "F-Algebras",
+      "source_url": "https://bartoszmilewski.com/2017/02/28/f-algebras/",
+      "reviewed_sha256": "be84cff02f5f1ab2756c7287d5845cbe6c0ad821720a76403e6307504bc621f5",
+      "reader_verification": "passed",
+      "pages": [
+        {
+          "title": "F-Algebras 해설 1/8 · 쌍대곱은 덧셈과 0을 어떻게 한 함수로 묶을까요?",
+          "reviewed_sha256": "b70a9e121649235c19c02bc28596363016e416b9fa3e7faa25e1d56c2e4e1790",
+          "html_sha256": "9cf327ce226c608ccfd8da44d6d92c47355050a2c2d53b69f52d08c0eb7ffa0e",
+          "canonical_url": "https://beila.github.io/my-collection/whole-document-explanations/f-algebras-1213996549/v1/01/",
+          "instapaper_url": "https://beila.github.io/my-collection/whole-document-explanations/f-algebras-1213996549/v1/01/index.html?instapaper_explanation=1-b70a9e121649235c",
+          "instapaper_bookmark_id": "2060523046"
+        },
+        {
+          "title": "F-Algebras 해설 2/8 · RingF 한 층에서 깊이 제한이 없는 식 트리로",
+          "reviewed_sha256": "a510140048349e406e47cabfb6639abd3d5f2550d55f511529fbb781bd71edd2",
+          "html_sha256": "ade17c325cf39a1086fd4f4d49929bc0c15e37d2e627067c37dc046b8617c581",
+          "canonical_url": "https://beila.github.io/my-collection/whole-document-explanations/f-algebras-1213996549/v1/02/",
+          "instapaper_url": "https://beila.github.io/my-collection/whole-document-explanations/f-algebras-1213996549/v1/02/index.html?instapaper_explanation=1-a510140048349e40",
+          "instapaper_bookmark_id": "2060523103"
+        },
+        {
+          "title": "F-Algebras 해설 3/8 · 초기 대수의 구조 사상 j에는 왜 역함수가 있을까요?",
+          "reviewed_sha256": "ca19c67b754d9c8b9c1750020492dc01c4ba959ff55bcd33358ca57ba2b82eec",
+          "html_sha256": "708f13c975fd56e188fc14dbe63ae46b4a36549c583343a09b986dff9dd5dddf",
+          "canonical_url": "https://beila.github.io/my-collection/whole-document-explanations/f-algebras-1213996549/v1/03/",
+          "instapaper_url": "https://beila.github.io/my-collection/whole-document-explanations/f-algebras-1213996549/v1/03/index.html?instapaper_explanation=1-ca19c67b754d9c8b",
+          "instapaper_bookmark_id": "2060523115"
+        },
+        {
+          "title": "F-Algebras 해설 4/8 · 자연수 2를 접으며 Fix, unFix, cata 읽기",
+          "reviewed_sha256": "f10002f35a5549f52b9666302cf437b3abe7dc0b27919a0e7beb94509189e0d3",
+          "html_sha256": "b2004b00bcf3289c99a70c8980a69223e3589840d3f699704130366c1410f4da",
+          "canonical_url": "https://beila.github.io/my-collection/whole-document-explanations/f-algebras-1213996549/v1/04/",
+          "instapaper_url": "https://beila.github.io/my-collection/whole-document-explanations/f-algebras-1213996549/v1/04/index.html?instapaper_explanation=1-f10002f35a5549f5",
+          "instapaper_bookmark_id": "2060523119"
+        },
+        {
+          "title": "F-Algebras 해설 5/8 · foldr의 두 인자는 리스트의 어느 자리에 들어갈까요?",
+          "reviewed_sha256": "28c7801a60944e7ea2c7f9bef8d113ce46b385b798ca47fcb967c9d2c49c2a6e",
+          "html_sha256": "f41afd5b54456612c721600a49bfbfee0938a7e0b82ae2c0631b2f5d9c8eebf9",
+          "canonical_url": "https://beila.github.io/my-collection/whole-document-explanations/f-algebras-1213996549/v1/05/",
+          "instapaper_url": "https://beila.github.io/my-collection/whole-document-explanations/f-algebras-1213996549/v1/05/index.html?instapaper_explanation=1-28c7801a60944e7e",
+          "instapaper_bookmark_id": "2060523129"
+        },
+        {
+          "title": "F-Algebras 해설 6/8 · 아나모피즘의 화살표를 따라 소수 스트림 만들기",
+          "reviewed_sha256": "862a93cd23af26845a56452d522b4cfbf0f9489039673f6fac40e560cde5f1ba",
+          "html_sha256": "9c63455c3633ad5dec64a3899fee55a1096d1434a9d22d31f145b8c331e5e971",
+          "canonical_url": "https://beila.github.io/my-collection/whole-document-explanations/f-algebras-1213996549/v1/06/",
+          "instapaper_url": "https://beila.github.io/my-collection/whole-document-explanations/f-algebras-1213996549/v1/06/index.html?instapaper_explanation=1-862a93cd23af2684",
+          "instapaper_bookmark_id": "2060523137"
+        },
+        {
+          "title": "F-Algebras 해설 7/8 · unfoldr는 언제 멈추며, 렌즈에서는 무엇을 관찰할까요?",
+          "reviewed_sha256": "55a3579a8db9765af71bc1a13b3ca5074511d2227e6250ecd69904db30691f48",
+          "html_sha256": "59f7c56aca36ccf51aacfb872c197d7bbc3fd19983b0261d02013c4c00bd5b80",
+          "canonical_url": "https://beila.github.io/my-collection/whole-document-explanations/f-algebras-1213996549/v1/07/",
+          "instapaper_url": "https://beila.github.io/my-collection/whole-document-explanations/f-algebras-1213996549/v1/07/index.html?instapaper_explanation=1-55a3579a8db9765a",
+          "instapaper_bookmark_id": "2060523151"
+        },
+        {
+          "title": "F-Algebras 해설 8/8 · 다항식과 행렬을 평가하고, 제곱수와 소수를 펼치기",
+          "reviewed_sha256": "5c354e7427d2fad5ddf2a776f093a7d09716883b173748425c136b59bfe615ca",
+          "html_sha256": "b5fb996f96e66df50db2d6e629c2a5106caacff52a924c525c89791c8b752826",
+          "canonical_url": "https://beila.github.io/my-collection/whole-document-explanations/f-algebras-1213996549/v1/08/",
+          "instapaper_url": "https://beila.github.io/my-collection/whole-document-explanations/f-algebras-1213996549/v1/08/index.html?instapaper_explanation=1-5c354e7427d2fad5",
+          "instapaper_bookmark_id": "2060523158"
+        }
+      ]
     }
   }
 }
