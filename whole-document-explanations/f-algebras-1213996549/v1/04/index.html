@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="canonical" href="https://beila.github.io/my-collection/whole-document-explanations/f-algebras-1213996549/v1/04/">
+  <title>F-Algebras 해설 4/8 · 자연수 2를 접으며 Fix, unFix, cata 읽기</title>
+  <style>
+
+    :root {
+      color-scheme: light dark;
+      --page-background: #fff;
+      --page-text: #222;
+      --secondary-text: #666;
+      --link-text: #075fad;
+      --rule: #ccc;
+      --code-background: #f3f3f3;
+    }
+    * { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+    body {
+      margin: 0;
+      background: var(--page-background);
+      color: var(--page-text);
+      font: 18px/1.7 system-ui, sans-serif;
+    }
+    article {
+      width: 100%;
+      max-width: 48rem;
+      margin: 0 auto;
+      padding: 2rem 1.25rem 4rem;
+    }
+    h1 {
+      margin: 0 0 1.5rem;
+      font-size: 1.9rem;
+      line-height: 1.3;
+      overflow-wrap: anywhere;
+    }
+    h2, h3, h4, h5, h6 {
+      line-height: 1.35;
+      overflow-wrap: anywhere;
+    }
+    p, li { overflow-wrap: anywhere; }
+    a { color: var(--link-text); overflow-wrap: anywhere; }
+    img, video {
+      display: block;
+      width: auto;
+      max-width: 100%;
+      height: auto;
+      margin: 1.25rem auto;
+    }
+    figure { max-width: 100%; margin: 1.25rem 0; }
+    figcaption, .article-metadata {
+      color: var(--secondary-text);
+      font-size: .9em;
+    }
+    blockquote {
+      margin-left: 0;
+      padding-left: 1rem;
+      border-left: 3px solid var(--rule);
+    }
+    pre {
+      max-width: 100%;
+      padding: 1rem;
+      overflow-x: auto;
+      background: var(--code-background);
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+    code, kbd, samp { font-family: ui-monospace, monospace; }
+    table {
+      display: block;
+      width: max-content;
+      max-width: 100%;
+      overflow-x: auto;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: .5rem;
+      border: 1px solid var(--rule);
+      vertical-align: top;
+    }
+    .source {
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--rule);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --page-background: #171717;
+        --page-text: #f1f1f1;
+        --secondary-text: #b8b8b8;
+        --link-text: #8dc7ff;
+        --rule: #555;
+        --code-background: #242424;
+      }
+    }
+    @media (max-width: 40rem) {
+      body { font-size: 17px; line-height: 1.65; }
+      article { padding: 1.25rem 1rem 3rem; }
+      h1 { font-size: 1.65rem; }
+    }
+img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
+                      vertical-align: middle; }
+    img.math-display { display: block; height: auto; margin: 1.25rem auto;
+                       max-width: 100%; }
+.youtube-thumbnail { margin: 1.5rem 0; }
+    .youtube-thumbnail a { display: block; text-decoration: none; }
+    .youtube-thumbnail img { margin: 0 auto; }
+
+  </style>
+<meta property="og:title" content="F-Algebras 해설 4/8 · 자연수 2를 접으며 Fix, unFix, cata 읽기"><meta property="og:description" content="해설 대상 원문 · F-Algebras 원문 열기"><meta property="og:url" content="https://beila.github.io/my-collection/whole-document-explanations/f-algebras-1213996549/v1/04/index.html"><meta property="og:type" content="article"><meta name="twitter:card" content="summary"></head>
+<body>
+  <article>
+    <h1>F-Algebras 해설 4/8 · 자연수 2를 접으며 Fix, unFix, cata 읽기</h1>
+    <section class="instapaper_body">
+<p data-publication-metadata="true">해설 대상 원문 · F-Algebras <a href="https://bartoszmilewski.com/2017/02/28/f-algebras/">원문 열기</a></p>
+<p data-publication-metadata="true">검토일 · <time datetime="2026-11-27">2026-11-27</time></p>
+<p>앞 편은 <code>(Fix f, Fix)</code>에서 임의의 대수로 가는 준동형이 왜 존재하고 왜 하나뿐인가라는 질문에서 멈췄습니다. 이 편은 원문의 「Natural Numbers」 절과 「Catamorphisms」 절을 읽습니다. 먼저 자연수를 F-대수로 쓰고, 자연수 함자에서 그 질문에 직접 답합니다. 이어서 <code>unFix</code>가 무엇을 하는지 값 하나로 확인하고, 초기성 도표에서 <code>cata</code>의 정의를 끌어냅니다. 마지막으로 <code>cata fib</code>가 자연수 2를 어떻게 접는지 따라갑니다.</p>
+<h2 id="0과-다음-수를-한-층으로-묶기">0과 다음 수를 한 층으로 묶기</h2>
+<p>원문은 자연수를 두 사상에서 시작합니다.</p>
+<pre><code>zero :: 1 -&gt; N
+succ :: N -&gt; N</code></pre>
+<p><code>1</code>은 원소가 하나뿐인 집합, 곧 종단 대상(terminal object)입니다. <code>1</code>에서 나가는 함수는 그 유일한 원소를 어디로 보낼지만 정합니다. 그래서 <code>zero</code>는 <code>N</code>의 원소 하나, 곧 0을 고르는 사상입니다. <code>succ</code>는 각 수를 다음 수(successor)로 보냅니다. 첫 편에서 덧셈과 0을 쌍대곱(coproduct)으로 묶었던 것처럼, 두 사상도 <code>1 + N -&gt; N</code> 하나로 묶입니다. 왼쪽의 <code>1 + N</code>이 한 층의 모양이고, Haskell로는 <code>data NatF a = ZeroF | SuccF a</code>입니다. <code>ZeroF</code>는 담는 값이 없는 갈래로 <code>1</code>에 대응합니다. <code>SuccF a</code>는 이전 결과 하나를 담는 갈래로 <code>N</code>에 대응합니다.</p>
+<p>뒤에서 쓸 <code>cata</code>는 <code>Functor f</code> 제약을 요구합니다. 인용한 절의 <code>data</code> 선언만으로는 이 제약이 채워지지 않으므로, 예제를 실행하려면 아래 인스턴스를 함께 적습니다.</p>
+<pre class="haskell"><code>instance Functor NatF where
+  fmap _ ZeroF     = ZeroF
+  fmap h (SuccF n) = SuccF (h n)</code></pre>
+<p><code>fmap</code>은 자식 자리에만 <code>h</code>를 적용합니다. <code>ZeroF</code>에는 자식이 없으므로 그대로 둡니다. 뒤의 준동형 계산에서 쓰는 <code>fmap h (SuccF n) = SuccF (h n)</code>이 이 정의에서 나옵니다.</p>
+<p>이 함자의 대수는 운반체 <code>a</code>와 함수 <code>alg :: NatF a -&gt; a</code>의 쌍입니다. <code>alg</code>를 정하는 일은 두 가지를 정하는 일과 같습니다. <code>z = alg ZeroF</code>는 시작값이고, <code>s x = alg (SuccF x)</code>는 한 걸음 함수입니다. 아래 대수는 이 편을 위해 만든 예입니다. <code>Int</code>에서 <code>z = 0</code>, <code>s = (+1)</code>로 둡니다.</p>
+<pre class="haskell"><code>toInt :: NatF Int -&gt; Int
+toInt ZeroF     = 0
+toInt (SuccF k) = k + 1</code></pre>
+<p>원문은 이 함자의 고정점, 곧 초기 대수를 <code>data Nat = Zero | Succ Nat</code>으로 씁니다. <code>NatF</code>의 <code>a</code> 자리에 <code>Nat</code> 자신을 넣은 모양입니다. 앞 편의 <code>Fix</code>로 쓰면 <code>Fix NatF</code>이며, 대응은 다음과 같습니다.</p>
+<table>
+<thead>
+<tr>
+<th><code>Nat</code></th>
+<th><code>Fix NatF</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Zero</code></td>
+<td><code>Fix ZeroF</code></td>
+</tr>
+<tr>
+<td><code>Succ Zero</code></td>
+<td><code>Fix (SuccF (Fix ZeroF))</code></td>
+</tr>
+<tr>
+<td><code>Succ (Succ Zero)</code></td>
+<td><code>Fix (SuccF (Fix (SuccF (Fix ZeroF))))</code></td>
+</tr>
+</tbody>
+</table>
+<p>이것이 원문이 말하는 페아노 표현(Peano representation)입니다. 2는 0에 다음 수를 두 번 붙인 기록입니다. 아래에서는 <code>one = Fix (SuccF (Fix ZeroF))</code>, <code>two = Fix (SuccF one)</code>이라고 부르겠습니다.</p>
+<h2 id="fix-f를-초기-대수라고-부르는-근거">Fix f를 초기 대수라고 부르는 근거</h2>
+<p><strong>하이라이트:</strong> <code>We call the initial algebra Fix f.</code></p>
+<p><strong>원문 문맥:</strong> 「Catamorphisms」 절의 첫 단락입니다. 원문은 “Let’s rewrite the initiality condition using Haskell notation.” 다음에 이 문장을 쓰고, 이어서 그 평가기가 생성자 <code>Fix</code>라고 말합니다.</p>
+<p><strong>사용자 메모:</strong> Why is Fix the initial algebra?</p>
+<p>먼저, 원문은 이 문장에서 아무것도 증명하지 않습니다. ‘call’은 이름을 붙이는 말입니다. 앞 편의 Lambek 정리는 ‘초기 대수가 있으면 그 운반체는 고정점이다’라는 방향만 주었습니다. <code>Fix f</code>가 고정점이라는 사실만으로는 초기성이 나오지 않습니다. 따라서 확인할 것은 두 가지입니다. <code>(Fix f, Fix)</code>에서 임의의 대수 <code>(a, alg)</code>로 가는 준동형이 있다는 존재와, 그것이 하나뿐이라는 유일성입니다. 정확히 말하면 초기 대수는 타입 <code>Fix f</code> 혼자가 아니라 운반체와 평가기의 쌍 <code>(Fix f, Fix)</code>입니다.</p>
+<p><code>NatF</code>에서 확인합니다. 준동형 조건은 <code>h . Fix = alg . fmap h</code>입니다. 이 식을 두 갈래에 각각 적용합니다.</p>
+<pre><code>h (Fix ZeroF)     = alg (fmap h ZeroF)     = alg ZeroF         = z
+h (Fix (SuccF n)) = alg (fmap h (SuccF n)) = alg (SuccF (h n)) = s (h n)</code></pre>
+<p>준동형이라면 0의 값은 <code>z</code>여야 하고, 다음 수의 값은 이전 수의 값에 <code>s</code>를 적용한 것이어야 합니다. 그러므로 <code>h two = s (h one) = s (s (h (Fix ZeroF))) = s (s z)</code>입니다. 선택의 여지가 없습니다.</p>
+<p>이 두 줄을 함수 정의로 읽으면 존재가 나옵니다. 유한한 자연수는 0에서 다음 수를 유한 번 붙여 만듭니다. 두 줄을 그 횟수만큼 펼치면 값이 정해집니다. 유일성은 귀납(induction)으로 나옵니다. 두 준동형 <code>h</code>와 <code>h'</code>가 있다면 둘 다 0에서 <code>z</code>입니다. 어떤 <code>n</code>에서 <code>h n = h' n</code>이면 <code>h (Fix (SuccF n)) = s (h n) = s (h' n) = h' (Fix (SuccF n))</code>입니다. 따라서 둘은 모든 유한 자연수에서 같습니다. <code>NatF</code>나 앞 편의 <code>RingF</code>처럼 유한한 생성자 트리를 만드는 함자에서도 같은 논증을 씁니다. 바깥 생성자에서는 조건이 값을 강제하고, 각 자식에서는 귀납 가정을 씁니다. 임의의 자기함자에는 자식이나 깊이라는 구조가 주어져 있지 않으므로, 이 귀납이 그대로 적용되지는 않습니다. 저자는 초기 대수를 범주론적으로 구성하는 과정을 <a href="https://bartoszmilewski.com/2020/04/09/initial-algebra-as-directed-colimit/">후속 글</a>에서 따로 다룹니다.</p>
+<p>이 답에는 범위가 있습니다. 위 귀납은 유한하고 완전히 정의된 값에 적용됩니다. Haskell의 <code>Fix NatF</code>에는 <code>inf = Fix (SuccF inf)</code> 같은 무한한 값도 들어갑니다. <code>toInt</code>에서는 <code>h inf = s (h inf)</code>가 끝나지 않는 계산이 됩니다. 지연 평가 언어에서 이런 값까지 포함해 초기성을 말하려면 부분적으로 정의된 값 <code>⊥</code>를 다루는 의미 모형이 필요합니다 (<a href="https://maartenfokkinga.github.io/utwente/mmf91m.pdf">Meijer·Fokkinga·Paterson의 1991년 논문</a>). 원문의 주장은 유한한 식 트리에 대한 주장으로 읽으면 됩니다.</p>
+<p>방금 쓴 두 줄 정의는 바깥 생성자가 무엇인지 보고 자식을 꺼낼 수 있어야 쓸 수 있습니다. 그 일을 하는 함수가 <code>unFix</code>입니다.</p>
+<h2 id="unfix-바깥-한-층만-여는-함수">unFix: 바깥 한 층만 여는 함수</h2>
+<p><strong>하이라이트:</strong> <code>unFix</code></p>
+<p><strong>원문 문맥:</strong> “Lambek’s theorem tells us that the constructor <code>Fix</code> is an isomorphism. We called its inverse <code>unFix</code>.” 원문은 이 역함수로 도표의 화살표 하나를 뒤집습니다.</p>
+<p><strong>사용자 메모:</strong> What does unFix mean? I can faintly understand what Fix is from the recursive definition. But I can’t infer what unFix means by inverting Fix</p>
+<p>어려움은 <code>Fix</code>라는 이름이 두 가지를 가리킨다는 데서 옵니다. <code>newtype Fix f = Fix (f (Fix f))</code>에서 등호 왼쪽의 <code>Fix</code>는 타입 생성자이고, 오른쪽의 <code>Fix</code>는 값 생성자입니다. 재귀 정의에서 읽히는 ‘끝없이 펼쳐지는 타입’은 왼쪽의 뜻입니다. 뒤집는 대상은 오른쪽, 곧 함수로서의 값 생성자입니다.</p>
+<pre><code>Fix   :: f (Fix f) -&gt; Fix f
+unFix :: Fix f -&gt; f (Fix f)
+unFix (Fix x) = x</code></pre>
+<p>값 생성자 <code>Fix</code>는 이미 만든 한 층을 받아 포장 하나를 씌웁니다. 자식은 손대지 않습니다. <code>unFix</code>는 그 포장 하나를 벗깁니다. 트리 전체를 풀지 않고, 아무것도 계산하지 않습니다. <code>two</code>에서 확인합니다.</p>
+<pre><code>two             = Fix (SuccF one)
+unFix two       = SuccF one          -- 타입은 NatF (Fix NatF)
+Fix (unFix two) = Fix (SuccF one) = two</code></pre>
+<p><code>unFix two</code>의 결과는 바깥 생성자 <code>SuccF</code>가 드러난 한 층입니다. 그 안의 자식 <code>one</code>은 여전히 포장된 상태입니다. <code>one</code>의 바깥 층을 열려면 <code>unFix</code>를 한 번 더 적용해야 합니다. <code>Nat</code>으로 말하면 <code>unFix</code>는 패턴 매칭(pattern matching)과 같은 일을 합니다. <code>case n of Zero -&gt; ...; Succ k -&gt; ...</code>가 바깥 생성자와 자식을 알려 주듯이, <code>unFix</code>는 그 정보를 <code>NatF</code> 값으로 돌려줍니다. <code>Fix</code>가 <code>newtype</code>의 생성자이므로 두 방향의 변환은 실행 시간에 별도의 간접 참조를 만들지 않습니다 (<a href="https://www.haskell.org/onlinereport/haskell2010/haskellch4.html">Haskell 2010 §4.2.3</a>).</p>
+<h2 id="도표의-화살표-하나를-뒤집어-m의-정의-얻기">도표의 화살표 하나를 뒤집어 m의 정의 얻기</h2>
+<p>원문의 첫 도표는 초기성 조건입니다. 아래 도표는 원문 그림을 글자로 옮긴 재구성입니다.</p>
+<pre><code>f (Fix f) ── fmap m ──→ f a
+    │                    │
+   Fix                  alg
+    ↓                    ↓
+  Fix f ───── m ──────→  a</code></pre>
+<p>가환 조건은 <code>m . Fix = alg . fmap m</code>입니다. 이 식은 <code>Fix</code>로 만든 값에서 <code>m</code>이 무엇인지 말합니다. 그러나 왼쪽에 <code>Fix</code>가 붙어 있어서 <code>m</code>의 정의로 바로 쓰기는 어렵습니다. <code>Fix</code>가 동형사상이므로 양변의 오른쪽에 <code>unFix</code>를 합성할 수 있습니다.</p>
+<pre><code>m . Fix . unFix = alg . fmap m . unFix
+m               = alg . fmap m . unFix     -- Fix . unFix = id</code></pre>
+<p>원문의 둘째 그림은 왼쪽 세로 화살표를 위로 뒤집은 것입니다.</p>
+<pre><code>f (Fix f) ── fmap m ──→ f a
+    ↑                    │
+  unFix                 alg
+    │                    ↓
+  Fix f ───── m ──────→  a</code></pre>
+<p><code>Fix f</code>에서 <code>a</code>로 가는 두 길이 같다는 식이 바로 <code>m = alg . fmap m . unFix</code>입니다. 오른쪽에 <code>m</code>이 다시 나오므로 이것은 재귀 정의입니다. 저자는 이 재귀가 유한 트리에서 반드시 끝난다고 말합니다. <code>fmap m</code>은 맨 위 층 아래, 곧 자식에만 적용되고, 자식은 원래 트리보다 한 단계 얕기 때문입니다. 원문의 ‘한 단계 얕다’는 각 자식의 높이가 부모보다 작다는 뜻으로 읽으면 충분합니다. <code>NatF</code>의 <code>SuccF</code>에서는 높이가 정확히 1만큼 줄지만, 가지가 갈라지면 더 크게 줄 수도 있습니다. 앞 편의 <code>RingF</code>에서 <code>leaf = Fix ROne</code>이라고 하면, <code>Fix (RAdd leaf (Fix (RNeg leaf)))</code>의 높이는 2이고 두 자식의 높이는 각각 0과 1입니다. 재귀 호출마다 남은 트리의 높이가 엄격히 줄어들므로 유한 트리에서는 결국 자식이 없는 층에 도착합니다. <code>NatF</code>에서 그 층은 <code>ZeroF</code>이고, <code>fmap m ZeroF = ZeroF</code>는 <code>m</code>을 다시 부르지 않습니다. 이 종료 논증은 앞 절의 존재 논증과 같은 내용입니다. 단, <code>alg</code>가 모든 한 층에서 끝나는 함수라는 전제가 필요합니다.</p>
+<h2 id="카타모피즘-cata-alg와-그것을-만드는-cata">카타모피즘 cata alg와 그것을 만드는 cata</h2>
+<p><strong>하이라이트:</strong> <code>catamorphism</code></p>
+<p><strong>원문 문맥:</strong> “This higher order function is called a catamorphism:” 바로 뒤에 <code>cata</code>의 타입과 정의가 나옵니다.</p>
+<p><strong>사용자 메모:</strong> What is this?</p>
+<p>대수 <code>alg</code>를 하나 정하면, 초기 대수에서 그 대수로 가는 준동형 <code>m = cata alg :: Fix f -&gt; a</code>가 정해집니다. 이 사상이 그 대수의 카타모피즘(catamorphism)입니다. 원문이 이 문장에서 ‘catamorphism’이라고 부른 고차 함수(higher order function) <code>cata</code>는 대수를 받아 이 사상을 만들어 주는 함수입니다. 원문은 결과의 이름을 그 결과를 만드는 함수에도 쓰고 있습니다. 뒤에서 <code>cata fib</code>를 ‘the catamorphism for this algebra’라고 부르는 것이 결과 쪽의 용법입니다. <code>m</code>의 정의 <code>alg . fmap m . unFix</code>에서 대수마다 달라지는 것은 <code>alg</code>뿐이므로, <code>alg</code>를 인자로 받게 만든 것이 <code>cata</code>입니다.</p>
+<pre class="haskell"><code>cata :: Functor f =&gt; (f a -&gt; a) -&gt; Fix f -&gt; a
+cata alg = alg . fmap (cata alg) . unFix</code></pre>
+<p>타입을 두 단계로 나누어 읽으면 뜻이 드러납니다. 첫 인자 <code>f a -&gt; a</code>는 한 층만 보는 평가기입니다. 그 인자를 준 결과 <code>cata alg :: Fix f -&gt; a</code>는 트리 전체를 평가하는 함수입니다. <code>NatF</code>처럼 유한한 생성자 트리를 만드는 함자에서는 앞 절의 귀납이 이 함수가 <code>(Fix f, Fix)</code>에서 <code>(a, alg)</code>로 가는 유일한 준동형임을 보여 줍니다. 일반적으로는 초기 대수가 주어졌다고 가정할 때 유일성이 초기 대수의 정의에서 나오고, 위 재귀식은 그 유일한 사상이 만족해야 하는 식입니다. <code>Functor f</code> 제약은 자식에 재귀를 적용하는 <code>fmap</code> 때문에 필요합니다. 익숙한 말로는 접기(fold)를 임의의 함자로 일반화한 것입니다. 이 용어와 표기를 함수형 프로그래밍에 널리 알린 문헌이 <a href="https://maartenfokkinga.github.io/utwente/mmf91m.pdf">Meijer·Fokkinga·Paterson의 1991년 논문</a>입니다.</p>
+<p>정의를 오른쪽부터 읽으면 원문의 설명과 같습니다. <code>unFix</code>가 바깥 생성자를 벗겨 맨 위 층을 드러냅니다. <code>fmap (cata alg)</code>가 각 자식 자리에 그 자식을 접는 식을 놓습니다. <code>alg</code>가 그 자리들을 결합합니다. 이것은 실행 순서에 대한 설명이 아닙니다. Haskell은 지연 평가를 하므로 자식의 접기는 <code>alg</code>가 그 값을 요구할 때 계산됩니다. 예를 들어 <code>alg ZeroF = 0</code>, <code>alg (SuccF _) = 7</code>로 두면, 정의를 펼친 <code>cata alg inf = alg (SuccF (cata alg inf))</code>에서 <code>alg</code>가 자식을 보지 않으므로 앞 절의 무한한 <code>inf</code>에서도 결과는 <code>7</code>입니다. 저자가 강조하듯 사용자가 쓰는 <code>alg</code>는 입력 트리의 자식으로 내려가는 재귀를 하지 않습니다. 그 재귀는 모두 <code>cata</code> 안에 있습니다. 다만 타입 <code>f a -&gt; a</code>가 <code>alg</code> 내부의 다른 계산에 재귀를 쓰는 것까지 막지는 않습니다.</p>
+<p><code>toInt</code>로 <code>two</code>를 접으면 각 단계가 보입니다. 아래는 정의를 손으로 펼친 계산입니다.</p>
+<pre><code>cata toInt two
+= toInt (fmap (cata toInt) (unFix two))
+= toInt (fmap (cata toInt) (SuccF one))
+= toInt (SuccF (cata toInt one))
+= toInt (SuccF 1)
+= 2</code></pre>
+<p>중간 값 <code>SuccF 1</code>의 타입은 <code>NatF Int</code>입니다. 자식이 이미 <code>Int</code>로 바뀌어 있으므로 <code>toInt</code>는 한 층만 보면 됩니다. <code>cata toInt one = 1</code>도 같은 방식으로 나옵니다. <code>cata toInt one = toInt (SuccF (cata toInt (Fix ZeroF)))</code>이고, <code>cata toInt (Fix ZeroF) = toInt ZeroF = 0</code>입니다.</p>
+<h2 id="cata-fib로-2를-접기">cata fib로 2를 접기</h2>
+<p>원문의 예는 운반체를 <code>(Int, Int)</code>로 둔 대수입니다.</p>
+<pre class="haskell"><code>fib :: NatF (Int, Int) -&gt; (Int, Int)
+fib ZeroF = (1, 1)
+fib (SuccF (m, n)) = (n, m + n)</code></pre>
+<p>운반체가 쌍인 데에는 이유가 있습니다. 피보나치 점화식은 앞의 두 항을 쓰지만, <code>NatF</code> 대수가 보는 것은 바로 앞 결과 하나입니다. 그래서 그 결과 하나에 연속한 두 항을 함께 담습니다. 여기서 <code>m</code>과 <code>n</code>은 쌍의 성분 이름이며, 앞 절의 사상 <code>m</code>과는 관계가 없습니다. <code>two</code>를 접는 과정을 손으로 따라가면 다음과 같습니다.</p>
+<pre><code>cata fib (Fix ZeroF) = fib ZeroF = (1,1)
+cata fib one = fib (SuccF (1,1)) = (1,2)
+cata fib two = fib (fmap (cata fib) (unFix two))
+             = fib (fmap (cata fib) (SuccF one))
+             = fib (SuccF (1,2))
+             = (2,3)</code></pre>
+<p>2를 열어 얻은 <code>SuccF one</code>이 <code>fmap (cata fib)</code>를 거쳐 <code>SuccF (1,2)</code>가 되는 단계가 이 계산의 중심입니다. 같은 계산을 이어 가면 3은 <code>(3,5)</code>, 4는 <code>(5,8)</code>이 됩니다. 원문은 ‘피보나치 수를 계산한다’고만 하므로 색인을 정해 두겠습니다. 통상대로 <code>F₀ = 0</code>, <code>F₁ = 1</code>로 세면, <code>cata fib</code>가 n에서 돌려주는 값은 <code>(Fₙ₊₁, Fₙ₊₂)</code>입니다. 0에서는 <code>(F₁, F₂) = (1,1)</code>입니다. n에서 성립하면 <code>fib (SuccF (Fₙ₊₁, Fₙ₊₂)) = (Fₙ₊₂, Fₙ₊₁ + Fₙ₊₂) = (Fₙ₊₂, Fₙ₊₃)</code>이므로 다음 수에서도 성립합니다. 이 귀납은 앞에서 유일성을 보인 귀납과 같은 모양입니다.</p>
+<p>원문의 <code>Int</code>는 고정 폭 정수이므로 n이 커지면 값이 넘칩니다. Haskell 2010은 <code>Int</code>가 적어도 <code>[-2^29, 2^29-1]</code> 범위를 표현한다고만 정합니다 (<a href="https://www.haskell.org/onlinereport/haskell2010/haskellch6.html">Haskell 2010 §6.4</a>). 원문의 결과는 이 표현 범위 안에서 읽어야 하며, 정확한 큰 값이 필요하면 <code>Integer</code>를 씁니다.</p>
+<h2 id="점화식으로-다시-읽기">점화식으로 다시 읽기</h2>
+<p>저자는 이 절을 일반화로 마칩니다. <code>NatF</code>의 대수는 점화식(recurrence relation)을 정의하고, 카타모피즘은 그 수열의 n번째 원소를 계산합니다. 앞의 계산으로 이 문장을 읽을 수 있습니다. 대수가 시작값 <code>z</code>와 한 걸음 함수 <code>s</code>를 정하면, <code>cata alg</code>는 n을 <code>s</code>를 n번 적용한 값 <code>s (s (... (s z)))</code>로 보냅니다. <code>toInt</code>에서는 <code>z = 0</code>, <code>s = (+1)</code>이므로 n 자신이 나옵니다. 다만 운반체가 <code>Int</code>이므로 이 말은 n이 <code>maxBound :: Int</code> 이하일 때 성립합니다. 모든 유한한 페아노 자연수에서 같은 결론을 쓰려면 운반체를 <code>Integer</code>로 바꿉니다. <code>fib</code>에서는 <code>z = (1,1)</code>, <code>s (m, n) = (n, m + n)</code>이므로 피보나치 수의 연속한 쌍이 나옵니다. 현재 항을 이전 항으로 표현하는 일은 <code>alg</code>가 맡고, 그 규칙을 n번 반복하는 일은 <code>cata</code>가 맡습니다.</p>
+<p>자연수의 한 층에는 자식 자리가 하나뿐이었습니다. 원문의 다음 절은 리스트의 한 층 <code>ListF e a</code>를 다룹니다. 이 층에는 빈 리스트를 나타내는 <code>NilF</code> 갈래와, 원소와 꼬리를 함께 담는 <code>ConsF</code> 갈래가 있습니다. 빈 리스트와 비어 있지 않은 리스트를 처리하는 두 규칙이 어떻게 <code>foldr k z</code>가 되는지가 다음 질문입니다.</p>
+<p data-series-navigation="true">첫 글은 1/8편 〈쌍대곱은 덧셈과 0을 어떻게 한 함수로 묶을까요?〉입니다. <a href="https://beila.github.io/my-collection/whole-document-explanations/f-algebras-1213996549/v1/01/">열기</a></p>
+<p data-series-navigation="true">이전 글은 3/8편 〈초기 대수의 구조 사상 j에는 왜 역함수가 있을까요?〉입니다. <a href="https://beila.github.io/my-collection/whole-document-explanations/f-algebras-1213996549/v1/03/">열기</a></p>
+<p data-series-navigation="true">다음 글은 5/8편 〈foldr의 두 인자는 리스트의 어느 자리에 들어갈까요?〉입니다. <a href="https://beila.github.io/my-collection/whole-document-explanations/f-algebras-1213996549/v1/05/">열기</a></p>
+      
+    </section>
+  </article>
+</body>
+</html>

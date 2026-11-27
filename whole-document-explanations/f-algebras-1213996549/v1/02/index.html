@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="canonical" href="https://beila.github.io/my-collection/whole-document-explanations/f-algebras-1213996549/v1/02/">
+  <title>F-Algebras 해설 2/8 · RingF 한 층에서 깊이 제한이 없는 식 트리로</title>
+  <style>
+
+    :root {
+      color-scheme: light dark;
+      --page-background: #fff;
+      --page-text: #222;
+      --secondary-text: #666;
+      --link-text: #075fad;
+      --rule: #ccc;
+      --code-background: #f3f3f3;
+    }
+    * { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+    body {
+      margin: 0;
+      background: var(--page-background);
+      color: var(--page-text);
+      font: 18px/1.7 system-ui, sans-serif;
+    }
+    article {
+      width: 100%;
+      max-width: 48rem;
+      margin: 0 auto;
+      padding: 2rem 1.25rem 4rem;
+    }
+    h1 {
+      margin: 0 0 1.5rem;
+      font-size: 1.9rem;
+      line-height: 1.3;
+      overflow-wrap: anywhere;
+    }
+    h2, h3, h4, h5, h6 {
+      line-height: 1.35;
+      overflow-wrap: anywhere;
+    }
+    p, li { overflow-wrap: anywhere; }
+    a { color: var(--link-text); overflow-wrap: anywhere; }
+    img, video {
+      display: block;
+      width: auto;
+      max-width: 100%;
+      height: auto;
+      margin: 1.25rem auto;
+    }
+    figure { max-width: 100%; margin: 1.25rem 0; }
+    figcaption, .article-metadata {
+      color: var(--secondary-text);
+      font-size: .9em;
+    }
+    blockquote {
+      margin-left: 0;
+      padding-left: 1rem;
+      border-left: 3px solid var(--rule);
+    }
+    pre {
+      max-width: 100%;
+      padding: 1rem;
+      overflow-x: auto;
+      background: var(--code-background);
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+    code, kbd, samp { font-family: ui-monospace, monospace; }
+    table {
+      display: block;
+      width: max-content;
+      max-width: 100%;
+      overflow-x: auto;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: .5rem;
+      border: 1px solid var(--rule);
+      vertical-align: top;
+    }
+    .source {
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--rule);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --page-background: #171717;
+        --page-text: #f1f1f1;
+        --secondary-text: #b8b8b8;
+        --link-text: #8dc7ff;
+        --rule: #555;
+        --code-background: #242424;
+      }
+    }
+    @media (max-width: 40rem) {
+      body { font-size: 17px; line-height: 1.65; }
+      article { padding: 1.25rem 1rem 3rem; }
+      h1 { font-size: 1.65rem; }
+    }
+img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
+                      vertical-align: middle; }
+    img.math-display { display: block; height: auto; margin: 1.25rem auto;
+                       max-width: 100%; }
+.youtube-thumbnail { margin: 1.5rem 0; }
+    .youtube-thumbnail a { display: block; text-decoration: none; }
+    .youtube-thumbnail img { margin: 0 auto; }
+
+  </style>
+<meta property="og:title" content="F-Algebras 해설 2/8 · RingF 한 층에서 깊이 제한이 없는 식 트리로"><meta property="og:description" content="해설 대상 원문 · F-Algebras 원문 열기"><meta property="og:url" content="https://beila.github.io/my-collection/whole-document-explanations/f-algebras-1213996549/v1/02/index.html"><meta property="og:type" content="article"><meta name="twitter:card" content="summary"></head>
+<body>
+  <article>
+    <h1>F-Algebras 해설 2/8 · RingF 한 층에서 깊이 제한이 없는 식 트리로</h1>
+    <section class="instapaper_body">
+<p data-publication-metadata="true">해설 대상 원문 · F-Algebras <a href="https://bartoszmilewski.com/2017/02/28/f-algebras/">원문 열기</a></p>
+<p data-publication-metadata="true">검토일 · <time datetime="2026-11-27">2026-11-27</time></p>
+<p>앞 편은 <code>RMul (RAdd 1 1) (RNeg 1)</code>이라는 값에서 멈췄습니다. 이 값의 타입은 <code>RingF (RingF Integer)</code>입니다. 한 층만 받는 <code>evalZ :: RingF Integer -&gt; Integer</code>는 이 값에 바로 적용할 수 없습니다. 원문의 Recursion 절은 이 문제에 두 단계로 답합니다. 먼저 자식 자리에 자기 자신을 넣은 재귀 자료형 <code>Expr</code>를 씁니다. 다음으로 <code>RingF</code>를 한 겹씩 쌓아 깊이가 정해진 트리를 만들고, 그 과정을 끝없이 이어 고정점(fixed point) <code>Fix</code>를 얻습니다. 이 절은 <code>Fix</code>와 <code>unFix</code>가 서로의 역이라는 문장에서 끝납니다. 원문은 그다음부터 「Category of F-Algebras」 절에서 같은 함자 위의 대수들을 범주로 모읍니다. 이 편의 마지막 단락은 그 절의 첫 질문을 다룹니다. 이 편은 같은 교육용 식 <code>(1+1)×(−1)</code>을 세 가지 표현으로 따라갑니다.</p>
+<h2 id="자식-자리에-expr-자신을-넣기">자식 자리에 Expr 자신을 넣기</h2>
+<p><code>RingF a</code>에서 <code>a</code>는 피연산자 자리입니다. 저자는 이 자리를 지금 정의하는 타입 자신으로 바꿉니다.</p>
+<pre class="haskell"><code>data Expr = RZero
+          | ROne
+          | RAdd Expr Expr
+          | RMul Expr Expr
+          | RNeg Expr</code></pre>
+<p>이제 <code>RMul</code>의 두 자식은 <code>Integer</code>가 아니라 다시 <code>Expr</code>입니다. 대신 정수 리터럴을 넣을 자리가 사라집니다. 잎에 올 수 있는 것은 인자가 없는 <code>RZero</code>와 <code>ROne</code>뿐입니다. 그래서 교육용 식은 다음처럼 써야 합니다.</p>
+<pre class="haskell"><code>e :: Expr
+e = RMul (RAdd ROne ROne) (RNeg ROne)</code></pre>
+<p>원문의 재귀 평가기는 각 갈래에서 자식에게 먼저 <code>evalZ</code>를 적용합니다. 손으로 펼치면 다음과 같습니다.</p>
+<pre><code>evalZ (RMul (RAdd ROne ROne) (RNeg ROne))
+= evalZ (RAdd ROne ROne) * evalZ (RNeg ROne)
+= (evalZ ROne + evalZ ROne) * (-(evalZ ROne))
+= (1 + 1) * (-1)
+= -2</code></pre>
+<p>저자는 이 표현이 ‘모든 정수를 1의 합으로 나타내게 한다’고 말합니다. 이 말은 축약입니다. 원문이 지적하는 불편은 임의의 정수 리터럴을 담는 생성자가 없다는 점입니다. 정수는 상수와 연산을 조합해 만들어야 합니다. <code>3</code>은 <code>ROne</code> 세 개를 더한 <code>RAdd ROne (RAdd ROne ROne)</code>이고, <code>0</code>은 <code>RZero</code>, <code>-1</code>은 <code>RNeg ROne</code>입니다. 이 불편은 표현의 문제입니다. 저자가 다음 문단에서 던지는 질문은 다른 곳에 있습니다. 이 재귀 평가기에는 한 층의 해석(<code>0</code>, <code>1</code>, <code>+</code>, <code>*</code>, 부호 반전)과 자식 방문이 한 함수 안에 섞여 있습니다. 앞 편의 F-대수는 한 층의 해석만 담았습니다. 저자는 이 둘을 나누어 <code>Expr</code>도 F-대수의 언어로 설명하려고 합니다.</p>
+<h2 id="한-겹씩-쌓은-타입-ringf1-ringf2">한 겹씩 쌓은 타입: RingF1, RingF2</h2>
+<p>저자의 첫 시도는 <code>RingF</code>를 여러 번 적용하는 것입니다.</p>
+<pre class="haskell"><code>type RingF1 a = RingF (RingF a)
+type RingF2 a = RingF (RingF (RingF a))</code></pre>
+<p>저자는 <code>RingF a</code> 하나를 깊이 0인 트리로 셉니다. 그러면 <code>RingF1 a</code>는 깊이 1, <code>RingF2 a</code>는 깊이 2입니다. <code>a</code> 자리는 아직 채워지지 않은 구멍(hole)입니다.</p>
+<p>앞 편에서 막힌 값이 바로 <code>RingF1 Integer</code>입니다. 바깥 <code>RMul</code>이 바깥 층이고, <code>RAdd 1 1</code>과 <code>RNeg 1</code>이 안쪽 층이며, 정수 <code>1</code>들이 구멍을 채웠습니다. 이 값은 두 단계로 평가합니다. 여기서 쓰는 <code>evalZ</code>는 바로 앞의 재귀 함수 <code>Expr -&gt; Integer</code>가 아닙니다. 앞 편에서 정의한 한 층 평가기 <code>evalZ :: RingF Integer -&gt; Integer</code>입니다. 원문은 두 예에서 함수 이름과 생성자 이름을 모두 재사용하므로, 두 정의는 따로 읽어야 합니다. 또한 <code>fmap</code>을 쓰려면 <code>RingF</code>가 <code>Functor</code> 인스턴스를 가져야 합니다. 원문의 <code>data RingF a</code> 선언만으로는 인스턴스가 생기지 않습니다. 이 편의 예는 <code>DeriveFunctor</code> 확장을 켜고 <code>RingF</code> 선언에 <code>deriving Functor</code>를 붙였다고 전제합니다 (<a href="https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/deriving_extra.html">GHC 사용자 안내서</a>).</p>
+<p>먼저 <code>fmap evalZ</code>로 안쪽 층을 평가합니다. <code>fmap</code>은 바깥 생성자를 그대로 두고 피연산자 자리에만 함수를 적용합니다.</p>
+<pre><code>fmap evalZ (RMul (RAdd 1 1) (RNeg 1))
+= RMul (evalZ (RAdd 1 1)) (evalZ (RNeg 1))
+= RMul 2 (-1)                 -- :: RingF Integer
+
+evalZ (RMul 2 (-1)) = -2</code></pre>
+<p>따라서 <code>evalZ . fmap evalZ :: RingF1 Integer -&gt; Integer</code>입니다. 재귀 <code>Expr</code> 평가기와 같은 <code>-2</code>가 나옵니다. 깊이 2에서는 <code>evalZ . fmap (evalZ . fmap evalZ)</code>가 필요합니다. 한 층 평가기 <code>evalZ</code>는 그대로 다시 쓰지만, 깊이마다 타입과 조립한 함수가 달라집니다. 깊이를 미리 정할 수 없는 식에는 이 방법을 쓸 수 없습니다.</p>
+<p>이 타입들에는 주의할 점이 하나 있습니다. 상수 <code>RZero</code>와 <code>ROne</code>은 어느 층에서나 가지를 끝낼 수 있습니다. 예를 들어 <code>ROne :: RingF1 Integer</code>는 바깥 생성자에서 바로 끝나며 안쪽 층을 쓰지 않습니다. 반면 <code>a</code> 값은 <code>RingFn a</code>에서 <code>RingF</code> 층을 정확히 n+1개 지난 자리에만 올 수 있습니다. <code>RNeg (1 :: Integer)</code>는 <code>RingF Integer</code>에 들어가지만, 같은 값을 <code>RingF1 Integer</code> 자리에 쓰면 타입 오류가 납니다. 그 자리에서 <code>RNeg</code>의 피연산자는 <code>Integer</code>가 아니라 <code>RingF Integer</code>여야 하기 때문입니다. 그러므로 <code>RingFn a</code>는 깊이가 정확히 n인 트리가 아니라 깊이가 n을 넘지 않는 트리입니다. 원문의 기호식 <code>RingF(n+1) a = RingF (RingFn a)</code>는 한 층을 더 얹는 규칙입니다. 원문에서 n과 n+1은 아래첨자입니다. Haskell은 이런 타입 수준의 n을 이 형태로 허용하지 않으므로, 이 식은 기호로만 읽어야 합니다.</p>
+<h2 id="expr는-왜-a에-의존하지-않을까요">Expr는 왜 a에 의존하지 않을까요?</h2>
+<p>저자는 이 과정을 무한히 반복하면 <code>Expr</code>에 도착한다고 말합니다. 그리고 <code>Expr</code>에는 <code>a</code>가 없다는 점을 짚습니다. 저자는 이 설명을 손짓 논증(hand-waving argument)이라고 부르고, 나중에 엄밀히 하겠다고 말합니다. 여기서는 이 직관이 정확히 성립하는 경우를 하나 살펴봅니다. 아래 표와 논증은 이 설명을 위해 구성한 것입니다.</p>
+<p>시작점으로 빈 타입, 곧 집합 범주 <strong>Set</strong>의 빈집합 <code>∅</code>를 택합니다. <code>∅</code>에는 원소가 없으므로 <code>RAdd</code>, <code>RMul</code>, <code>RNeg</code>의 피연산자를 채울 수 없습니다. 따라서 <code>RingF ∅</code>에는 <code>RZero</code>와 <code>ROne</code> 두 값만 있습니다. 다음 단계 <code>RingF (RingF ∅)</code>에서는 이 두 값을 피연산자로 쓸 수 있습니다.</p>
+<table>
+<thead>
+<tr>
+<th>단계</th>
+<th>처음 나타나는 예</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>∅</code></td>
+<td>없음</td>
+</tr>
+<tr>
+<td><code>RingF ∅</code></td>
+<td><code>RZero</code>, <code>ROne</code></td>
+</tr>
+<tr>
+<td><code>RingF (RingF ∅)</code></td>
+<td><code>RAdd ROne ROne</code>, <code>RNeg ROne</code></td>
+</tr>
+<tr>
+<td><code>RingF (RingF (RingF ∅))</code></td>
+<td><code>RMul (RAdd ROne ROne) (RNeg ROne)</code></td>
+</tr>
+</tbody>
+</table>
+<p>교육용 식 <code>e</code>는 세 번째 단계에서 처음 나타납니다. 구멍이 없으므로 모든 값이 닫힌 식(closed expression)입니다. 앞 단계의 식은 다음 단계에도 그대로 들어 있습니다. 상수는 어느 단계에서나 만들 수 있고, 다른 생성자의 식은 자식들이 앞 단계에 있으면 만들 수 있기 때문입니다. 잎의 깊이를 0으로 세면 깊이가 d인 식은 d+1번째 단계에서 처음 나타납니다. 그러므로 모든 유한한 <code>Expr</code> 값은 어떤 유한 단계에 있습니다. ‘무한히 반복한다’는 말은 무한한 트리를 만든다는 뜻이 아닙니다. 단계에 상한이 없으므로 모든 유한 깊이를 담는다는 뜻입니다.</p>
+<p>한 층을 더 적용해도 달라지지 않는 이유는 다음 왕복으로 볼 수 있습니다. 유한한 닫힌 식 전체를 <code>T</code>라고 놓습니다. <code>RingF T</code>의 값 하나, 예를 들어 <code>RMul t1 t2</code>는 생성자 하나와 <code>T</code>의 자식들입니다. 자식들을 새 뿌리 <code>RMul</code> 아래에 붙여도 트리는 여전히 유한하므로 <code>T</code>의 식이 됩니다. 반대로 <code>T</code>의 식을 뿌리에서 한 번 열면, 뿌리 생성자와 유한한 자식들이 남으므로 다시 <code>RingF T</code>의 값입니다. 교육용 식 <code>e</code>를 열면 <code>RMul (RAdd ROne ROne) (RNeg ROne)</code>의 뿌리 <code>RMul</code>과 두 자식이 나오고, 다시 붙이면 <code>e</code>로 돌아갑니다. 이 두 방향이 서로를 되돌리므로 <code>RingF T ≅ T</code>입니다. 이 동형에는 <code>a</code>가 없습니다. 이 예에서 <code>a</code>가 사라지는 이유가 이것입니다. 저자의 후속 글은 이 구성을 빈집합에 해당하는 초기 대상(initial object)에서 출발하는 사슬과 그 쌍대극한(colimit)으로 정식화합니다. <a href="https://bartoszmilewski.com/2020/04/09/initial-algebra-as-directed-colimit/">저자의 후속 구성</a></p>
+<p>‘시작점은 중요하지 않다’는 문장은 더 좁게 읽어야 합니다. 위의 왕복은 빈집합에서 시작한 닫힌 식에 대한 것이며, 임의의 시작점에서 같은 곳으로 수렴한다는 것까지 보이지는 않습니다. <code>a = Integer</code>에서 시작하면 유한 단계의 값은 언제나 정수 잎을 가질 수 있습니다. 저자도 임의의 범주와 임의의 자기함자에서는 이 결론이 늘 참이 아니라고 덧붙입니다. <strong>Set</strong> 안에서도 모든 함자가 이렇게 수렴하지는 않으며, 반례는 뒤 편에서 다룹니다. 이 예가 보이는 것은 <code>RingF</code>처럼 갈래 수와 인자 수가 유한한 함자의 경우입니다. <a href="https://arxiv.org/html/2104.09837v3">쌍대극한 구성의 조건</a></p>
+<h2 id="고정점-fix-한-층을-감싸는-생성자">고정점 Fix: 한 층을 감싸는 생성자</h2>
+<p><code>f</code>를 무한히 적용한 결과에 <code>f</code>를 한 번 더 적용해도 달라지지 않는다는 직관을 식으로 쓰면 다음과 같습니다.</p>
+<pre><code>Fix f = f (Fix f)</code></pre>
+<p>Haskell은 이 등식을 동형으로 구현합니다.</p>
+<pre class="haskell"><code>newtype Fix f = Fix (f (Fix f))</code></pre>
+<p>왼쪽 <code>Fix</code>는 타입 생성자입니다. 함자 <code>f</code>를 받아 타입을 만듭니다. 오른쪽 <code>Fix</code>는 값 생성자입니다. 저자가 제안한 대로 <code>newtype Fix f = In (f (Fix f))</code>로 바꾸어 읽으면, 값 생성자가 <code>f (Fix f)</code> 한 층을 받아 <code>Fix f</code> 안으로 넣는(in) 함수라는 점이 드러납니다. 원문은 관례에 따라 <code>Fix</code>라는 이름을 그대로 씁니다.</p>
+<p>값 생성자의 타입은 <code>newtype</code> 선언이 이미 정합니다. 따로 선언하는 시그니처가 아니며, GHCi의 <code>:t Fix</code> 질의로 확인할 수 있는 정보입니다.</p>
+<pre><code>Fix :: f (Fix f) -&gt; Fix f</code></pre>
+<p>반대 방향 함수는 직접 정의합니다.</p>
+<pre class="haskell"><code>unFix :: Fix f -&gt; f (Fix f)
+unFix (Fix x) = x</code></pre>
+<p><code>RingF</code>에 적용하면 <code>Fix RingF</code>의 값은 각 층을 <code>Fix</code>로 감싼 트리입니다. 교육용 식은 다음과 같습니다.</p>
+<pre class="haskell"><code>one :: Fix RingF
+one = Fix ROne
+
+e&#39; :: Fix RingF
+e&#39; = Fix (RMul (Fix (RAdd one one)) (Fix (RNeg one)))</code></pre>
+<p><code>Expr</code>의 <code>e</code>와 비교하면 생성자마다 <code>Fix</code>가 하나씩 붙었을 뿐입니다. <code>Expr</code>의 <code>ROne</code>은 <code>Fix ROne</code>에, <code>RAdd x y</code>는 <code>Fix (RAdd x' y')</code>에 대응합니다. 여기서 <code>x'</code>와 <code>y'</code>는 자식을 같은 방법으로 옮긴 값입니다. 이 대응으로 <code>Expr</code>와 <code>Fix RingF</code>의 유한한 값이 하나씩 짝지어집니다. 피연산자 자리 <code>a</code>에는 다시 <code>Fix RingF</code>가 들어갑니다. 깊이마다 다른 타입이 필요했던 <code>RingFn</code>의 문제가 타입 하나로 해결됩니다.</p>
+<p><code>unFix</code>는 맨 바깥 <code>Fix</code> 하나만 벗깁니다.</p>
+<pre><code>unFix e&#39; = RMul (Fix (RAdd one one)) (Fix (RNeg one))   -- :: RingF (Fix RingF)</code></pre>
+<p>결과는 바깥 <code>RMul</code> 한 층이고, 두 자식은 아직 감싸인 트리입니다. 정의에서 곧바로 임의의 층 <code>x</code>에 대해 <code>unFix (Fix x) = x</code>입니다. 반대 방향도 모든 값에서 성립합니다. <code>Fix f</code>의 값 <code>t</code>는 언제나 어떤 <code>x</code>에 대해 <code>t = Fix x</code> 꼴이므로 <code>Fix (unFix t) = Fix x = t</code>입니다. <code>e'</code>는 이 경우의 한 예입니다. 저자가 두 함수를 서로의 역(inverse)이라고 말하는 근거가 이 두 등식입니다. <code>newtype</code> 생성자는 값의 표현에 별도의 상자를 더하지 않으므로, 이 왕복은 데이터를 바꾸지 않습니다. <a href="https://www.haskell.org/onlinereport/haskell2010/haskellch4.html">Haskell 2010 §4.2.3</a></p>
+<p>여기에는 경계가 하나 있습니다. <code>x :: Fix RingF</code>로 두고 <code>x = Fix (RNeg x)</code>라고 정의하면, 오른쪽도 <code>Fix RingF</code> 타입이므로 이 재귀 정의는 타입이 맞습니다. 타입 검사는 평가 방식과 관계없이 이 정의를 받아들입니다. 지연 평가가 하는 일은 실행 시에 나타납니다. <code>case unFix x of RNeg _ -&gt; True</code>는 바깥 생성자 <code>RNeg</code>만 확인하고 자식 <code>x</code>를 계산하지 않으므로 <code>True</code>로 끝납니다. 그러나 이 값은 끝없이 <code>RNeg</code>가 이어지는 트리이며, 빈집합에서 구성한 <strong>Set</strong>의 예에는 없습니다. 앞 절의 구성과 이 편의 대응과 평가는 유한하고 완전히 정의된 식만 다룹니다.</p>
+<p><code>Fix</code>로 식 트리를 나타내는 방법은 Haskell에서 확장 가능한 식을 표현할 때도 쓰입니다. 이 표현에서 평가는 세 부분으로 나뉩니다. <code>unFix</code>로 한 층을 열고, 자식들을 평가하고, 그 층을 <code>evalZ</code>로 해석합니다. 저자가 ‘이 함수들은 나중에 쓴다’고 말하는 대목이 이 조립을 가리킵니다. 뒤의 편들이 이 조립을 정확한 정의로 만듭니다. <a href="https://webspace.science.uu.nl/~swier004/publications/2008-jfp.pdf">식 트리와 한 단계 평가</a></p>
+<h2 id="f-대수의-범주로">F-대수의 범주로</h2>
+<p>원문에서는 이 대목부터 「Category of F-Algebras」 절이 시작됩니다. 저자는 여기서 ‘가장 오래된 수법’을 꺼냅니다. 새로운 대상을 만드는 방법을 찾으면, 그 대상들이 범주를 이루는지 확인하는 것입니다. 자기함자 <code>F</code>를 고정하면, 대상(object)은 F-대수, 곧 운반체 <code>a</code>와 평가 함수 <code>F a -&gt; a</code>의 쌍입니다. 둘 다 원래 범주 C에 속합니다.</p>
+<p>사상은 대수 <code>(a, f)</code>에서 대수 <code>(b, g)</code>로 갑니다. 저자는 이 사상을 운반체 사이의 사상 <code>m : a -&gt; b</code>로 정의합니다. 다만 아무 사상이나 되는 것은 아니고, 두 평가기와 맞아야 합니다. 이런 구조 보존 사상을 준동형사상(homomorphism)이라고 부릅니다. 조건을 쓰려면 <code>m</code>을 한 층 전체에 적용할 수 있어야 합니다. 원문이 마지막에 말하는 들어 올리기(lifting)가 이것입니다. 원문의 수학 기호로는 <code>F m : F a → F b</code>이고, Haskell에서는 <code>fmap m</code>이 이 역할을 합니다. 대문자 <code>F</code>는 수학 기호이며 예제에는 그 이름의 타입 생성자가 없습니다. 교육용으로 <code>m = (*10) :: Integer -&gt; Integer</code>를 택하면 <code>fmap m :: RingF Integer -&gt; RingF Integer</code>이고, 계산은 다음과 같습니다.</p>
+<pre><code>fmap (*10) (RAdd 2 3) = RAdd 20 30
+fmap (*10) ROne       = ROne</code></pre>
+<p>들어 올린 사상은 생성자를 바꾸지 않고 피연산자만 옮깁니다. 이제 <code>RingF Integer</code>의 한 층에서 출발하는 두 경로가 생깁니다. 하나는 출발 대수의 평가기로 먼저 계산한 뒤 <code>m</code>으로 옮기는 경로입니다. 다른 하나는 <code>fmap m</code>으로 피연산자를 먼저 옮긴 뒤 도착 대수의 평가기로 계산하는 경로입니다. 두 대수가 모두 <code>(Integer, evalZ)</code>라면, <code>RAdd 2 3</code>에서 첫 경로는 <code>5</code>를 거쳐 <code>50</code>이고 둘째 경로는 <code>RAdd 20 30</code>을 거쳐 <code>50</code>입니다. 그러나 <code>ROne</code>에서는 첫 경로가 <code>1</code>을 거쳐 <code>10</code>이고, 둘째 경로는 <code>ROne</code>을 거쳐 <code>1</code>입니다. 따라서 <code>(*10)</code>은 이 대수에서 자기 자신으로 가는 준동형이 아닙니다. 두 경로가 모든 생성자에서 일치해야 한다는 조건을 도표로 어떻게 쓰는지가 다음 편의 질문입니다.</p>
+<p data-series-navigation="true">첫 글은 1/8편 〈쌍대곱은 덧셈과 0을 어떻게 한 함수로 묶을까요?〉입니다. <a href="https://beila.github.io/my-collection/whole-document-explanations/f-algebras-1213996549/v1/01/">열기</a></p>
+<p data-series-navigation="true">다음 글은 3/8편 〈초기 대수의 구조 사상 j에는 왜 역함수가 있을까요?〉입니다. <a href="https://beila.github.io/my-collection/whole-document-explanations/f-algebras-1213996549/v1/03/">열기</a></p>
+      
+    </section>
+  </article>
+</body>
+</html>

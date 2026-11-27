@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="canonical" href="https://beila.github.io/my-collection/whole-document-explanations/f-algebras-1213996549/v1/03/">
+  <title>F-Algebras 해설 3/8 · 초기 대수의 구조 사상 j에는 왜 역함수가 있을까요?</title>
+  <style>
+
+    :root {
+      color-scheme: light dark;
+      --page-background: #fff;
+      --page-text: #222;
+      --secondary-text: #666;
+      --link-text: #075fad;
+      --rule: #ccc;
+      --code-background: #f3f3f3;
+    }
+    * { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+    body {
+      margin: 0;
+      background: var(--page-background);
+      color: var(--page-text);
+      font: 18px/1.7 system-ui, sans-serif;
+    }
+    article {
+      width: 100%;
+      max-width: 48rem;
+      margin: 0 auto;
+      padding: 2rem 1.25rem 4rem;
+    }
+    h1 {
+      margin: 0 0 1.5rem;
+      font-size: 1.9rem;
+      line-height: 1.3;
+      overflow-wrap: anywhere;
+    }
+    h2, h3, h4, h5, h6 {
+      line-height: 1.35;
+      overflow-wrap: anywhere;
+    }
+    p, li { overflow-wrap: anywhere; }
+    a { color: var(--link-text); overflow-wrap: anywhere; }
+    img, video {
+      display: block;
+      width: auto;
+      max-width: 100%;
+      height: auto;
+      margin: 1.25rem auto;
+    }
+    figure { max-width: 100%; margin: 1.25rem 0; }
+    figcaption, .article-metadata {
+      color: var(--secondary-text);
+      font-size: .9em;
+    }
+    blockquote {
+      margin-left: 0;
+      padding-left: 1rem;
+      border-left: 3px solid var(--rule);
+    }
+    pre {
+      max-width: 100%;
+      padding: 1rem;
+      overflow-x: auto;
+      background: var(--code-background);
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+    code, kbd, samp { font-family: ui-monospace, monospace; }
+    table {
+      display: block;
+      width: max-content;
+      max-width: 100%;
+      overflow-x: auto;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: .5rem;
+      border: 1px solid var(--rule);
+      vertical-align: top;
+    }
+    .source {
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--rule);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --page-background: #171717;
+        --page-text: #f1f1f1;
+        --secondary-text: #b8b8b8;
+        --link-text: #8dc7ff;
+        --rule: #555;
+        --code-background: #242424;
+      }
+    }
+    @media (max-width: 40rem) {
+      body { font-size: 17px; line-height: 1.65; }
+      article { padding: 1.25rem 1rem 3rem; }
+      h1 { font-size: 1.65rem; }
+    }
+img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
+                      vertical-align: middle; }
+    img.math-display { display: block; height: auto; margin: 1.25rem auto;
+                       max-width: 100%; }
+.youtube-thumbnail { margin: 1.5rem 0; }
+    .youtube-thumbnail a { display: block; text-decoration: none; }
+    .youtube-thumbnail img { margin: 0 auto; }
+
+  </style>
+<meta property="og:title" content="F-Algebras 해설 3/8 · 초기 대수의 구조 사상 j에는 왜 역함수가 있을까요?"><meta property="og:description" content="해설 대상 원문 · F-Algebras 원문 열기"><meta property="og:url" content="https://beila.github.io/my-collection/whole-document-explanations/f-algebras-1213996549/v1/03/index.html"><meta property="og:type" content="article"><meta name="twitter:card" content="summary"></head>
+<body>
+  <article>
+    <h1>F-Algebras 해설 3/8 · 초기 대수의 구조 사상 j에는 왜 역함수가 있을까요?</h1>
+    <section class="instapaper_body">
+<p data-publication-metadata="true">해설 대상 원문 · F-Algebras <a href="https://bartoszmilewski.com/2017/02/28/f-algebras/">원문 열기</a></p>
+<p data-publication-metadata="true">검토일 · <time datetime="2026-11-27">2026-11-27</time></p>
+<p>앞 편은 <code>(*10)</code>이 대수 <code>(Integer, evalZ)</code>에서 자기 자신으로 가는 준동형사상(homomorphism)이 아니라는 데서 멈췄습니다. <code>RAdd 2 3</code>에서는 두 경로가 모두 <code>50</code>에 도착했지만, <code>ROne</code>에서는 <code>10</code>과 <code>1</code>로 갈렸습니다. 이 편은 원문 「Category of F-Algebras」 절의 나머지를 읽습니다. 먼저 두 경로가 같아야 한다는 조건을 식과 도표로 씁니다. 다음으로 이런 사상들이 범주를 이룬다는 저자의 힌트를 풀고, 그 범주의 출발점인 초기 대수(initial algebra)를 정의합니다. 이어서 Lambek 정리를 한 단계씩 따라가며 초기 대수의 평가기에 왜 역사상이 있는지 답합니다. 마지막으로 이 결과를 Haskell의 <code>Fix</code>와 <code>unFix</code>에 대응시킵니다.</p>
+<h2 id="두-경로가-같다는-조건을-식과-도표로-쓰기">두 경로가 같다는 조건을 식과 도표로 쓰기</h2>
+<p>준동형 조건을 쓰려면 사상 <code>m :: a -&gt; b</code>를 한 층 전체에 적용해야 합니다. 원문은 이 들어 올린 사상(lifting)을 <code>F m :: F a -&gt; F b</code>로 씁니다. 원래 범주 C에서 <code>F a</code>를 <code>b</code>로 보내는 길은 두 가지입니다. <code>F m</code>으로 피연산자를 먼저 옮긴 뒤 <code>g</code>로 계산할 수 있습니다. 또는 <code>f</code>로 먼저 계산한 뒤 <code>m</code>으로 옮길 수 있습니다. 저자는 두 길이 같기를 요구합니다. 두 합성이 같을 때 <code>m : a → b</code>를 대수 <code>(a, f)</code>에서 <code>(b, g)</code>로 가는 준동형이라고 부릅니다.</p>
+<pre><code>g ∘ F m = m ∘ f</code></pre>
+<p><code>∘</code>는 오른쪽 사상을 먼저 적용하는 합성이며, Haskell의 <code>.</code>에 해당합니다. 원문의 첫 그림은 이 식을 사각형으로 그립니다. 이 편의 도표는 모두 원문 그림을 글자로 옮긴 재구성입니다.</p>
+<pre><code>F a ──── F m ───→ F b
+ │                 │
+ f                 g
+ ↓                 ↓
+ a ───── m ─────→  b</code></pre>
+<p>왼쪽 위 <code>F a</code>에서 오른쪽 아래 <code>b</code>까지 가는 두 길이 같은 사상일 때, 이 도표가 가환한다(commute)고 말합니다. 이런 도표를 가환도표(commutative diagram)라고 부릅니다. 원문에서 도표가 나오면 ‘출발점이 같은 두 계산이 같은 결과를 낸다’로 읽으면 됩니다.</p>
+<p>앞 편의 <code>(*10)</code>은 이 조건을 통과하지 못했습니다. 통과하는 예를 하나 만들어 보겠습니다. 아래 코드는 이 편을 위해 구성한 것입니다. 도착 대수는 정수 연산의 결과를 2로 나눈 나머지로 계산하고, <code>m</code>은 정수를 그 나머지로 보냅니다.</p>
+<pre class="haskell"><code>evalM2 :: RingF Integer -&gt; Integer
+evalM2 RZero      = 0
+evalM2 ROne       = 1
+evalM2 (RAdd x y) = (x + y) `mod` 2
+evalM2 (RMul x y) = (x * y) `mod` 2
+evalM2 (RNeg x)   = (negate x) `mod` 2
+
+m :: Integer -&gt; Integer
+m n = n `mod` 2</code></pre>
+<p>출발 대수는 <code>(Integer, evalZ)</code>, 도착 대수는 <code>(Integer, evalM2)</code>입니다. 조건은 <code>evalM2 . fmap m = m . evalZ</code>입니다. 몇 개의 층에서 두 길을 손으로 따라가면 다음과 같습니다.</p>
+<table>
+<thead>
+<tr>
+<th>층 <code>x</code></th>
+<th><code>m (evalZ x)</code></th>
+<th><code>evalM2 (fmap m x)</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ROne</code></td>
+<td><code>m 1 = 1</code></td>
+<td><code>evalM2 ROne = 1</code></td>
+</tr>
+<tr>
+<td><code>RAdd 5 4</code></td>
+<td><code>m 9 = 1</code></td>
+<td><code>evalM2 (RAdd 1 0) = 1</code></td>
+</tr>
+<tr>
+<td><code>RMul 3 5</code></td>
+<td><code>m 15 = 1</code></td>
+<td><code>evalM2 (RMul 1 1) = 1</code></td>
+</tr>
+<tr>
+<td><code>RNeg 3</code></td>
+<td><code>m (-3) = 1</code></td>
+<td><code>evalM2 (RNeg 1) = 1</code></td>
+</tr>
+</tbody>
+</table>
+<p>Haskell의 <code>mod</code>는 음의 무한대 쪽으로 내림한 몫 <code>div</code>와 짝을 이루어 정의됩니다. 그래서 나누는 수가 2이면 음수의 나머지도 0이나 1입니다 (<a href="https://www.haskell.org/onlinereport/haskell2010/haskellch6.html">Haskell 2010 보고서의 <code>div</code>·<code>mod</code> 정의</a>).</p>
+<p>표는 네 경우만 보여 줍니다. 반례 하나는 준동형이 아님을 보이기에 충분하지만, 준동형임을 보이려면 모든 생성자와 모든 피연산자 값에서 두 길이 같아야 합니다. 이 예에서는 정수의 합동 성질이 그 근거입니다. 두 정수의 합, 곱, 부호 반전을 2로 나눈 나머지는 각 정수의 나머지만으로 정해집니다. <code>RZero</code>와 <code>ROne</code>에서는 양쪽이 각각 0과 1입니다. 따라서 <code>m</code>은 <code>(Integer, evalZ)</code>에서 <code>(Integer, evalM2)</code>로 가는 준동형입니다. 같은 <code>m</code>이라도 도착 대수를 <code>(Integer, evalZ)</code>로 바꾸면 <code>RAdd 1 1</code>에서 <code>m 2 = 0</code>과 <code>evalZ (RAdd 1 1) = 2</code>가 갈립니다. 준동형인지는 사상 하나만으로 정해지지 않고, 출발 대수와 도착 대수까지 함께 보아야 정해집니다.</p>
+<h2 id="항등사상과-합성-대수들이-범주를-이루는-이유">항등사상과 합성: 대수들이 범주를 이루는 이유</h2>
+<p>저자는 이것이 범주라는 점을 ‘쉽게 확인할 수 있다’고 하고 힌트만 줍니다. 범주가 되려면 각 대상에 항등사상(identity morphism)이 있어야 하고, 이어지는 두 사상의 합성이 다시 사상이어야 합니다. 결합법칙과 항등 법칙은 따로 확인하지 않아도 됩니다. 준동형은 원래 범주 C의 사상이므로 C의 법칙을 그대로 물려받습니다. 확인에는 함자(functor)의 두 법칙을 씁니다. <code>F</code>는 항등을 항등으로 보내고(<code>F id = id</code>), 합성을 합성으로 보냅니다(<code>F (n ∘ m) = F n ∘ F m</code>). Haskell에서는 <code>fmap id = id</code>와 <code>fmap (n . m) = fmap n . fmap m</code>입니다.</p>
+<p>먼저 항등사상 <code>id_a</code>가 <code>(a, f)</code>에서 자기 자신으로 가는 준동형인지 확인합니다.</p>
+<pre><code>f ∘ F id_a = f ∘ id_(F a) = f = id_a ∘ f</code></pre>
+<p>합성에서는 <code>m : (a, f) → (b, g)</code>와 <code>n : (b, g) → (c, h)</code>가 준동형이라고 놓습니다. 확인할 식은 <code>h ∘ F (n ∘ m) = (n ∘ m) ∘ f</code>입니다.</p>
+<pre><code>h ∘ F (n ∘ m)
+= h ∘ F n ∘ F m      -- 함자는 합성을 보존합니다
+= n ∘ g ∘ F m        -- n의 도표
+= n ∘ m ∘ f          -- m의 도표</code></pre>
+<p>그림으로는 두 사각형을 옆으로 이어 붙인 것입니다. 안쪽 두 사각형이 각각 가환하면 바깥 직사각형도 가환합니다. Lambek 정리의 증명은 바로 이 ‘이어 붙이기’를 씁니다.</p>
+<h2 id="초기-대수-모든-대수로-가는-준동형이-정확히-하나">초기 대수: 모든 대수로 가는 준동형이 정확히 하나</h2>
+<p>앞 편에서 빈집합 <code>∅</code>는 <strong>Set</strong>의 초기 대상(initial object)이었습니다. 어느 집합으로든 사상이 정확히 하나, 곧 빈 함수가 있기 때문입니다. F-대수의 범주에서도 같은 정의를 씁니다. 대수 <code>(i, j)</code>가 초기 대수라는 것은 임의의 F-대수 <code>(a, f)</code>로 가는 준동형 <code>m</code>이 정확히 하나 있다는 뜻입니다. 원문은 운반체(carrier)를 <code>i</code>, 평가기를 <code>j :: F i -&gt; i</code>로 부릅니다. 원문의 둘째 그림은 그 유일한 <code>m</code>의 도표입니다.</p>
+<pre><code>F i ──── F m ───→ F a
+ │                 │
+ j                 f
+ ↓                 ↓
+ i ───── m ─────→  a</code></pre>
+<p>이 정의에는 요구가 두 개 있습니다. 준동형이 하나 이상 있어야 한다는 존재(existence)와, 둘 이상 있으면 안 된다는 유일성(uniqueness)입니다. 원문의 ‘if it exists’라는 단서도 중요합니다. 함자에 따라 초기 대수가 없을 수 있으며, 반례는 뒤 편에서 다룹니다 (<a href="https://arxiv.org/html/2104.09837v3">초기 대수의 존재 조건</a>).</p>
+<p>저자는 여기서 초기 대수의 평가기 <code>j</code>가 동형사상(isomorphism)이라고 말합니다. 동형사상은 양쪽으로 합성하면 항등사상이 되는 역사상을 가진 사상입니다. 이 결과를 Lambek 정리(Lambek’s theorem)라고 부릅니다 (<a href="https://link.springer.com/article/10.1007/BF01110627">Lambek의 1968년 논문</a>). 증명에는 <code>i</code>가 구체적으로 무엇인지가 필요하지 않습니다. 위의 정의와 앞 절의 합성 규칙만 씁니다.</p>
+<h2 id="lambek-정리-초기성만으로-역사상-만들기">Lambek 정리: 초기성만으로 역사상 만들기</h2>
+<p><strong>1단계: 도착 대수 고르기.</strong> <code>j : F i → i</code>의 역이 되려면 <code>i → F i</code> 방향의 사상이 필요합니다. 초기성이 주는 사상은 모두 <code>i</code>에서 어떤 대수의 운반체로 갑니다. 그러므로 운반체가 <code>F i</code>인 대수를 만들면 됩니다. 그 평가기는 <code>F (F i) → F i</code>여야 합니다. 이미 가진 사상 <code>j</code>를 들어 올리면 정확히 이 타입이 나옵니다.</p>
+<pre><code>F j :: F (F i) -&gt; F i</code></pre>
+<p><strong>2단계: 존재 요구 쓰기.</strong> <code>(i, j)</code>가 초기이므로 <code>(i, j)</code>에서 <code>(F i, F j)</code>로 가는 준동형 <code>m : i → F i</code>가 하나 있습니다. 그 도표가 가환하므로 다음 식이 성립합니다. 아래에서는 이 식을 (1)이라고 부릅니다.</p>
+<pre><code>F i ──── F m ───→ F (F i)
+ │                   │
+ j                  F j
+ ↓                   ↓
+ i ───── m ─────→   F i
+
+(1)  F j ∘ F m = m ∘ j</code></pre>
+<p><strong>3단계: <code>j</code> 자신도 준동형입니다.</strong> 이번에는 <code>j</code>를 <code>(F i, F j)</code>에서 <code>(i, j)</code>로 가는 사상으로 봅니다. 준동형 조건은 ‘도착 평가기 ∘ F(사상) = 사상 ∘ 출발 평가기’입니다. 값을 넣으면 <code>j ∘ F j = j ∘ F j</code>입니다. 양변이 같은 식이므로 조건은 저절로 성립합니다. 원문이 ‘두 경로가 같다!’고 강조하는 그림이 이것입니다.</p>
+<pre><code>F (F i) ──── F j ───→ F i
+   │                   │
+  F j                  j
+   ↓                   ↓
+  F i ───── j ─────→   i</code></pre>
+<p><strong>4단계: 이어 붙이고 유일성 쓰기.</strong> 2단계와 3단계의 사각형을 옆으로 붙이면, 앞 절의 합성 규칙에 따라 <code>j ∘ m</code>이 <code>(i, j)</code>에서 <code>(i, j)</code>로 가는 준동형이 됩니다.</p>
+<pre><code>F i ── F m ──→ F (F i) ── F j ──→ F i
+ │                │                │
+ j               F j               j
+ ↓                ↓                ↓
+ i ─── m ────→   F i  ──── j ───→  i</code></pre>
+<p>그런데 <code>id_i</code>도 <code>(i, j)</code>에서 자기 자신으로 가는 준동형입니다. 초기 대수에서 나가는 준동형은 도착 대수마다 하나뿐이므로 둘은 같습니다.</p>
+<pre><code>j ∘ m = id_i</code></pre>
+<p>2단계는 존재 요구를 썼고, 이 단계는 유일성 요구를 썼습니다. 증명의 핵심은 이 단계에 있습니다.</p>
+<p><strong>5단계: 반대쪽 합성.</strong> 원문은 이 단계를 ‘이 사실과 왼쪽 도표의 가환성으로 증명할 수 있다’는 한 문장으로 줄입니다. 풀어 쓰면 다음과 같습니다.</p>
+<pre><code>m ∘ j
+= F j ∘ F m        -- 식 (1)
+= F (j ∘ m)        -- 함자는 합성을 보존합니다
+= F (id_i)         -- 4단계
+= id_(F i)         -- 함자는 항등을 보존합니다</code></pre>
+<p>이 방향에는 유일성을 바로 쓸 수 없습니다. <code>(F i, F j)</code>가 초기인지는 모르기 때문입니다. 그래서 식 (1)을 거쳐 <code>j ∘ m</code>에 대한 결과로 돌아옵니다. 4단계와 5단계를 합치면 <code>m</code>은 <code>j</code>의 양쪽 역입니다.</p>
+<p><strong>하이라이트:</strong></p>
+<pre><code>j is an isomorphism between F i and i:
+
+F i ≅ i</code></pre>
+<p><strong>원문 문맥:</strong> Lambek 정리 증명의 결론입니다. 원문은 “This shows that m is the inverse of j and therefore”로 이 문장을 시작하고, 다음 단락에서 이것이 “i is a fixed point of F”라는 뜻이라고 정리합니다.</p>
+<p><strong>사용자 메모:</strong> Why?</p>
+<p>짧게 답하면, 존재성이 역의 후보를 주고, 유일성이 한쪽 왕복을 항등으로 만들고, 나머지 왕복은 계산으로 나오기 때문입니다. 존재 요구는 <code>i</code>에서 <code>F i</code>로 돌아가는 후보 <code>m</code>을 줍니다. 유일성 요구는 <code>j ∘ m = id_i</code>를 줍니다. 초기 대수에서 자기 자신으로 가는 준동형은 하나뿐이고, 항등사상이 이미 그 하나이기 때문입니다. 다른 쪽 합성에는 유일성을 쓰지 않습니다. <code>m</code>의 준동형 조건과 함자 법칙으로 <code>m ∘ j = F j ∘ F m = F (j ∘ m) = F (id_i) = id_(F i)</code>가 됩니다.</p>
+<p>이 결론을 <strong>Set</strong>에서 읽으면 뜻이 더 분명해집니다. <strong>Set</strong>의 동형사상은 전단사(bijective) 함수입니다. <code>j</code>가 단사(injective)라는 것은 서로 다른 층을 같은 원소로 합치지 않는다는 뜻입니다. <code>j</code>가 전사(surjective)라는 것은 <code>i</code>의 모든 원소가 어떤 한 층을 접어 넣어 만들어진다는 뜻입니다. 정리의 대우(contrapositive)를 쓰면, 평가 과정에서 정보를 잃는 대수는 초기일 수 없습니다. <code>(Integer, evalZ)</code>가 그 예입니다. <code>evalZ (RAdd 1 1)</code>과 <code>evalZ (RMul 2 1)</code>은 모두 <code>2</code>이므로 <code>evalZ</code>는 단사가 아니고, 따라서 이 대수는 초기가 아닙니다.</p>
+<p>어느 대수에서 실패하는지도 직접 볼 수 있습니다. 아래 논증은 설명을 위해 구성한 것입니다. <code>(Fix RingF, Fix)</code>도 F-대수입니다. 평가기 <code>Fix</code>가 한 층 <code>RingF (Fix RingF)</code>를 받아 <code>Fix RingF</code>를 돌려주기 때문입니다. <code>(Integer, evalZ)</code>에서 이 대수로 가는 준동형 <code>h</code>가 있다고 가정합니다. 조건 <code>h . evalZ = Fix . fmap h</code>를 두 층에 적용하면 다음과 같습니다.</p>
+<pre><code>h 2 = h (evalZ (RAdd 1 1)) = Fix (RAdd (h 1) (h 1))
+h 2 = h (evalZ (RMul 2 1)) = Fix (RMul (h 2) (h 1))</code></pre>
+<p>같은 <code>h 2</code>가 바깥 생성자가 <code>RAdd</code>인 트리이면서 <code>RMul</code>인 트리여야 합니다. 이것은 불가능하므로 그런 <code>h</code>는 없습니다. 존재 요구가 깨진 것입니다. 초기 대수는 식을 그대로 기록하는 대수로도 사상을 보내야 하므로, 서로 다른 층을 한 원소로 합칠 수 없습니다.</p>
+<h2 id="정리가-보장하는-범위">정리가 보장하는 범위</h2>
+<p>Lambek 정리는 ‘초기 대수가 있으면 그 평가기는 동형이다’라는 한 방향만 말합니다. 역은 성립하지 않습니다. 항등함자 <code>Id</code>에서 대수는 집합 <code>a</code>와 함수 <code>f : a → a</code>의 쌍이고, <code>Id m = m</code>입니다. 대수 <code>(Bool, id)</code>의 구조 사상 <code>id</code>는 가역입니다. 그런데 자기 자신으로 가는 준동형 조건은 <code>id ∘ m = m ∘ id</code>, 곧 <code>m = m</code>이므로 <code>Bool → Bool</code> 함수 네 개가 모두 준동형입니다. <code>id</code>와 <code>not</code>이 둘 다 준동형이니 유일성이 깨지고, 이 대수는 초기가 아닙니다. 이 함자의 초기 대수는 <code>(∅, id_∅)</code>입니다. 어느 대수로든 빈 함수 하나만 있고, 그 조건은 확인할 원소가 없으므로 성립합니다. 두 대수 모두 구조 사상이 가역이지만 초기인 것은 <code>(∅, id_∅)</code>뿐입니다. 고정점 하나를 찾았다고 초기 대수를 찾은 것은 아닙니다.</p>
+<p>그러므로 ‘손짓 논증의 엄밀한 증명’이라는 저자의 말은 좁게 읽어야 합니다. Lambek 정리는 초기 대수가 존재할 때 그 운반체가 <code>F</code>의 고정점(fixed point)이라는 점을 증명합니다. 초기 대수가 존재한다는 점은 증명하지 않습니다. 앞 편처럼 빈집합에서 <code>F</code>를 반복 적용해 얻은 결과가 초기 대수라는 점도 증명하지 않습니다. 그 구성은 저자가 후속 글에서 따로 다룹니다 (<a href="https://bartoszmilewski.com/2020/04/09/initial-algebra-as-directed-colimit/">저자의 후속 구성</a>).</p>
+<h2 id="haskell로-돌아가기-i는-fix-f-j는-fix">Haskell로 돌아가기: i는 Fix f, j는 Fix</h2>
+<p>저자는 <code>i</code>를 <code>Fix f</code>로, <code>j</code>를 값 생성자 <code>Fix</code>로, 그 역을 <code>unFix</code>로 대응시킵니다. 증명의 <code>m</code>은 초기성에서 얻은 사상이었습니다. Haskell에서는 원문이 앞 절에서 <code>unFix (Fix x) = x</code>를 따로 정의했습니다. <code>newtype Fix f = Fix (f (Fix f))</code> 선언만으로는 <code>unFix</code>라는 이름이 생기지 않습니다. 이 한 줄 정의가 맨 바깥 한 층을 벗기는 역함수를 구현합니다 (<a href="https://www.haskell.org/onlinereport/haskell2010/haskellch4.html">Haskell 2010 §4.2.3</a>). <code>unFix</code>가 식 (1) <code>m ∘ j = F j ∘ F m</code>을 만족하는지 <code>RingF</code>의 한 층 <code>RNeg one</code>에서 손으로 따라가 봅니다. <code>one = Fix ROne</code>은 앞 편의 정의입니다.</p>
+<pre><code>unFix (Fix (RNeg one)) = RNeg one
+
+fmap Fix (fmap unFix (RNeg one))
+= fmap Fix (RNeg (unFix one))
+= fmap Fix (RNeg ROne)
+= RNeg (Fix ROne)
+= RNeg one</code></pre>
+<p>중간 값 <code>RNeg ROne</code>의 타입은 <code>RingF (RingF (Fix RingF))</code>입니다. 한 층이 더 열린 상태입니다. <code>fmap Fix</code>가 안쪽 층을 다시 감싸서 <code>RingF (Fix RingF)</code>로 돌아옵니다. 일반적으로도 <code>fmap Fix . fmap unFix = fmap (Fix . unFix) = fmap id = id</code>이므로 양변은 모든 층에서 같습니다.</p>
+<p>저자는 이 동형이 초기 대수를 얻는 방법을 알려 준다고 말합니다. 함자 <code>f</code>의 인자 <code>a</code> 자리에 <code>Fix f</code>를 넣으면 됩니다. <code>F i ≅ i</code>에 <code>i = Fix f</code>를 넣으면 <code>f (Fix f) ≅ Fix f</code>입니다. <code>newtype Fix f = Fix (f (Fix f))</code> 한 줄이 말하는 내용이 바로 이것입니다. 고정점이 <code>a</code>에 의존하지 않는다는 말도 여기서 읽을 수 있습니다. 함자 <code>f</code>를 정하면 타입 <code>Fix f</code>에는 별도의 인자 <code>a</code>가 남지 않습니다. <code>a</code>는 함자가 받는 인자 자리의 이름이고, 동형 <code>F i ≅ i</code>는 그 자리를 <code>i</code> 자신으로 채우기 때문입니다. 이 말은 반복의 시작점과 관계없이 같은 고정점에 도달한다는 뜻이 아닙니다. 앞 절의 항등함자에서 <code>∅</code>로 시작하면 매 단계가 <code>∅</code>이고, <code>Bool</code>로 시작하면 매 단계가 <code>Bool</code>입니다. <code>F i ≅ i</code>에서는 이런 수렴에 대한 결론이 나오지 않습니다.</p>
+<p>다만 Lambek 정리는 ‘초기이면 고정점’이라는 방향입니다. Haskell 선언은 고정점을 먼저 적어 둔 것입니다. 앞 절의 <code>(Bool, id)</code>가 보이듯 고정점이라는 사실만으로 초기성은 나오지 않습니다. 또한 앞 편에서 본 <code>x = Fix (RNeg x)</code> 같은 무한한 값도 <code>Fix RingF</code>에 들어 있습니다. 그러므로 <code>(Fix f, Fix)</code>가 초기 대수라는 저자의 대응은 유한하고 완전히 정의된 값에 대한 주장으로 읽어야 하며, 아직 따로 확인해야 하는 주장입니다. 남은 질문은 <code>(Fix f, Fix)</code>에서 임의의 대수로 가는 준동형이 왜 존재하고 왜 하나뿐인가입니다. 다음 편은 자연수 함자에서 이 두 요구를 직접 확인합니다.</p>
+<p data-series-navigation="true">첫 글은 1/8편 〈쌍대곱은 덧셈과 0을 어떻게 한 함수로 묶을까요?〉입니다. <a href="https://beila.github.io/my-collection/whole-document-explanations/f-algebras-1213996549/v1/01/">열기</a></p>
+<p data-series-navigation="true">이전 글은 2/8편 〈RingF 한 층에서 깊이 제한이 없는 식 트리로〉입니다. <a href="https://beila.github.io/my-collection/whole-document-explanations/f-algebras-1213996549/v1/02/">열기</a></p>
+<p data-series-navigation="true">다음 글은 4/8편 〈자연수 2를 접으며 Fix, unFix, cata 읽기〉입니다. <a href="https://beila.github.io/my-collection/whole-document-explanations/f-algebras-1213996549/v1/04/">열기</a></p>
+      
+    </section>
+  </article>
+</body>
+</html>
