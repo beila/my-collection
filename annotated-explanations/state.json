@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-21T23:49:02Z",
+  "updated_at": "2026-11-27T08:26:38Z",
   "articles": {
     "1815258460": {
       "slug": "effectful-storage-abstraction-explained",
@@ -394,14 +394,14 @@
       "article_title": "Distributors 해설 1/8: 파서와 프린터 (Parsers & Printers)",
       "source_bookmark_id": "1892375009",
       "source_url": "https://github.com/morphismtech/distributors/blob/main/blog.md",
-      "article_format": 2,
+      "article_format": 3,
       "source_sha256": "1978cd80074227c169a2c9b1918be79a57127707d404fe8e5d7c0406ff087c47",
-      "html_sha256": "7eb30f264b038c9f2c81ae4829c142f32f0b391f1fb1b12212825b35deeaea4e",
+      "html_sha256": "ff56311423ea207383e72acbfd90b651a10204eaa5071796ff40b519f4575d54",
       "canonical_url": "https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-01-parsers-printers/",
       "instapaper_url": "https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-01-parsers-printers/index.html",
       "ingestion_url": "https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-01-parsers-printers/?instapaper_explanation=2-1978cd80074227c1",
       "instapaper_bookmark_id": "2059158805",
-      "instapaper_folder": "unread",
+      "instapaper_folder": "archive",
       "series": {
         "name": "distributors-1892375009",
         "index": 1,
@@ -410,7 +410,8 @@
       },
       "instapaper_api_verification": {
         "status": "passed",
-        "verified_at": "2026-11-21T23:49:02Z"
+        "verified_at": "2026-11-27T08:26:01Z",
+        "reader_sha256": "addb5c29e37daef792ef7880f7ec52a56ed4e05ee5b2ff8fc24db1cc962085ec"
       },
       "generation_workflow": {
         "research_model": "claude-opus-5-5",
@@ -432,14 +433,14 @@
       "article_title": "Distributors 해설 2/8: 프로펑터 (Profunctors)",
       "source_bookmark_id": "1892375009",
       "source_url": "https://github.com/morphismtech/distributors/blob/main/blog.md",
-      "article_format": 2,
+      "article_format": 3,
       "source_sha256": "7ea1360569e44a09ecfbe5f7dd236894c2192e417bfe30c57dfa356b87903cdd",
-      "html_sha256": "f0826c9d44c80750e8b09b0ce2207fd57d714ce5f1f842ed9dd93bfb2104ddbc",
+      "html_sha256": "a0b2d13fe0dbde1925d3f7739887deb5575eaf91de79aa77d31b5a0787178820",
       "canonical_url": "https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-02-profunctors/",
       "instapaper_url": "https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-02-profunctors/index.html",
-      "ingestion_url": "https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-02-profunctors/?instapaper_explanation=2-7ea1360569e44a09",
-      "instapaper_bookmark_id": "2059158818",
-      "instapaper_folder": "morpheus",
+      "ingestion_url": "https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-02-profunctors/",
+      "instapaper_bookmark_id": "2060112426",
+      "instapaper_folder": "smith",
       "series": {
         "name": "distributors-1892375009",
         "index": 2,
@@ -448,7 +449,8 @@
       },
       "instapaper_api_verification": {
         "status": "passed",
-        "verified_at": "2026-11-21T23:49:02Z"
+        "verified_at": "2026-11-27T08:26:01Z",
+        "reader_sha256": "be8cf76c2ba8ed04728e658764cc088aeeec486cdebf9ef693e7bd53629c31ae"
       },
       "generation_workflow": {
         "research_model": "claude-opus-5-5",
@@ -470,9 +472,9 @@
       "article_title": "Distributors 해설 3/8: 토큰 (Tokens)",
       "source_bookmark_id": "1892375009",
       "source_url": "https://github.com/morphismtech/distributors/blob/main/blog.md",
-      "article_format": 2,
+      "article_format": 3,
       "source_sha256": "f03c38924b4f3bbf7141c5c82af4a8a4784c95ddf562f4129a06d7c568c50810",
-      "html_sha256": "5c082f345b0a012ea431f35c8dc68c1605ccf1a9875c2b1b2b8536c272bb7f1a",
+      "html_sha256": "69014a147efdff97bd2a8d7e9d352053c748e0ad2734ff966b29e7b282d66b17",
       "canonical_url": "https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-03-tokens/",
       "instapaper_url": "https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-03-tokens/index.html",
       "ingestion_url": "https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-03-tokens/?instapaper_explanation=2-f03c38924b4f3bbf",
@@ -486,7 +488,8 @@
       },
       "instapaper_api_verification": {
         "status": "passed",
-        "verified_at": "2026-11-21T23:49:02Z"
+        "verified_at": "2026-11-27T08:26:01Z",
+        "reader_sha256": "12ab868c3b9b40acf446ee97438d21b6500a97653f2031dee3056c6c91497fc0"
       },
       "generation_workflow": {
         "research_model": "claude-opus-5-5",
@@ -508,9 +511,9 @@
       "article_title": "Distributors 해설 4/8: 옵틱과 패턴 (Optics & Patterns)",
       "source_bookmark_id": "1892375009",
       "source_url": "https://github.com/morphismtech/distributors/blob/main/blog.md",
-      "article_format": 2,
+      "article_format": 3,
       "source_sha256": "83cd30cf99d17f8c87d1ee251445f34d09510c664f88339b108d593e07526ec9",
-      "html_sha256": "a7e61d19c631d32d4bb40c9436fcb5ed124c4724a7023eddf2244dbb1ab9b18b",
+      "html_sha256": "74661e8b3f12c9b43d1a901a897d66534832f616a973185e3c8065f9be7a84ab",
       "canonical_url": "https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-04-optics-patterns/",
       "instapaper_url": "https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-04-optics-patterns/index.html",
       "ingestion_url": "https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-04-optics-patterns/?instapaper_explanation=2-83cd30cf99d17f8c",
@@ -524,7 +527,8 @@
       },
       "instapaper_api_verification": {
         "status": "passed",
-        "verified_at": "2026-11-21T23:49:02Z"
+        "verified_at": "2026-11-27T08:26:01Z",
+        "reader_sha256": "f6fefb03e1f98b4695097078004ae618c1ec24b90d7daa0c28b02ff0bfe3e459"
       },
       "generation_workflow": {
         "research_model": "claude-opus-5-5",
@@ -546,9 +550,9 @@
       "article_title": "Distributors 해설 5/8: 모노이드 프로펑터 (Monoidal Profunctors)",
       "source_bookmark_id": "1892375009",
       "source_url": "https://github.com/morphismtech/distributors/blob/main/blog.md",
-      "article_format": 2,
+      "article_format": 3,
       "source_sha256": "969713d10748000ef0da655fd16ccffab2823275c59fa439a69a42308fcfc475",
-      "html_sha256": "b9b4209a9599e16bfc01aca1b5ff1e0939d0ee50fdeb071d39b696aab3ca1fd1",
+      "html_sha256": "9216153c8d9fbccf7e82ac9751fdbef78f45cd633cfc2da51a7597bf5a068813",
       "canonical_url": "https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-05-monoidal-profunctors/",
       "instapaper_url": "https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-05-monoidal-profunctors/index.html",
       "ingestion_url": "https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-05-monoidal-profunctors/?instapaper_explanation=2-969713d10748000e",
@@ -562,7 +566,8 @@
       },
       "instapaper_api_verification": {
         "status": "passed",
-        "verified_at": "2026-11-21T23:49:02Z"
+        "verified_at": "2026-11-27T08:26:01Z",
+        "reader_sha256": "ab3c308ef50af93fd0dfe6c0da0218bf6f72ac53bbe3b5864a0f557d8150a62b"
       },
       "generation_workflow": {
         "research_model": "claude-opus-5-5",
@@ -584,9 +589,9 @@
       "article_title": "Distributors 해설 6/8: 디스트리뷰터 (Distributors)",
       "source_bookmark_id": "1892375009",
       "source_url": "https://github.com/morphismtech/distributors/blob/main/blog.md",
-      "article_format": 2,
+      "article_format": 3,
       "source_sha256": "2a6c0bb6bcfaf04390880627e7a6960249a5a0b5eefb8e15346f2ed36cf4d6b6",
-      "html_sha256": "a327c78bfc4934a9af8e449d762ae74e628d0596c31969434da6565dabef5e5f",
+      "html_sha256": "8eb15fb39feee447440a523c2e98d02f70cfda23b2d243669c112f761e36ba98",
       "canonical_url": "https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-06-distributors/",
       "instapaper_url": "https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-06-distributors/index.html",
       "ingestion_url": "https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-06-distributors/?instapaper_explanation=2-2a6c0bb6bcfaf043",
@@ -600,7 +605,8 @@
       },
       "instapaper_api_verification": {
         "status": "passed",
-        "verified_at": "2026-11-21T23:49:02Z"
+        "verified_at": "2026-11-27T08:26:01Z",
+        "reader_sha256": "eabf4106e3aca1c202b1ef1004094d40b7d7d1f98e673ffe4448161c9d852947"
       },
       "generation_workflow": {
         "research_model": "claude-opus-5-5",
@@ -622,9 +628,9 @@
       "article_title": "Distributors 해설 7/8: 문법 (Grammars)",
       "source_bookmark_id": "1892375009",
       "source_url": "https://github.com/morphismtech/distributors/blob/main/blog.md",
-      "article_format": 2,
+      "article_format": 3,
       "source_sha256": "641235096dd68749f71efd85d5c5b1f85bc1ab1f97aa15dfb21e8144f9d05e00",
-      "html_sha256": "a006d2558ebcb06bfbd01fc7f1caec59ccf5ad6cef0ca368594ed489c91fa081",
+      "html_sha256": "97a94b1ab46cf511e6a63c7705db9af4e783493d331bcb72c7889e0b073836e7",
       "canonical_url": "https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-07-grammars/",
       "instapaper_url": "https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-07-grammars/index.html",
       "ingestion_url": "https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-07-grammars/?instapaper_explanation=2-641235096dd68749",
@@ -638,7 +644,8 @@
       },
       "instapaper_api_verification": {
         "status": "passed",
-        "verified_at": "2026-11-21T23:49:02Z"
+        "verified_at": "2026-11-27T08:26:01Z",
+        "reader_sha256": "038ee6a29d67112951a25020e58519d9612c10d48fd0d597439e230d2be6862a"
       },
       "generation_workflow": {
         "research_model": "claude-opus-5-5",
@@ -660,9 +667,9 @@
       "article_title": "Distributors 해설 8/8: 맺음말 (Extroduction)",
       "source_bookmark_id": "1892375009",
       "source_url": "https://github.com/morphismtech/distributors/blob/main/blog.md",
-      "article_format": 2,
+      "article_format": 3,
       "source_sha256": "b86235a16b010a43d95ef73d72f4d838269f426df91eabe836e21427158d9d2a",
-      "html_sha256": "61de4aaf5d7ea97d49c02d3d6f48df9a5d71954732675a2c0e9ddc86532d0fd5",
+      "html_sha256": "ef901605af151af0bb2e86472248ca9a8c67650b109428ab0df0a41acf945be6",
       "canonical_url": "https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-08-extroduction/",
       "instapaper_url": "https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-08-extroduction/index.html",
       "ingestion_url": "https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-08-extroduction/?instapaper_explanation=2-b86235a16b010a43",
@@ -676,7 +683,8 @@
       },
       "instapaper_api_verification": {
         "status": "passed",
-        "verified_at": "2026-11-21T23:49:02Z"
+        "verified_at": "2026-11-27T08:26:02Z",
+        "reader_sha256": "90d7d32ae5ba87c770db0646353c84619b5227ca2530e721a898bc6e0f762746"
       },
       "generation_workflow": {
         "research_model": "claude-opus-5-5",
