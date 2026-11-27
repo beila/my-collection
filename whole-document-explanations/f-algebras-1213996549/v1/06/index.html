@@ -109,7 +109,7 @@ img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
     .youtube-thumbnail img { margin: 0 auto; }
 
   </style>
-<meta property="og:title" content="F-Algebras 해설 6/8 · 아나모피즘의 화살표를 따라 소수 스트림 만들기"><meta property="og:description" content="해설 대상 원문 · F-Algebras 원문 열기"><meta property="og:url" content="https://beila.github.io/my-collection/whole-document-explanations/f-algebras-1213996549/v1/06/index.html"><meta property="og:type" content="article"><meta name="twitter:card" content="summary"></head>
+<meta property="og:title" content="F-Algebras 해설 6/8 · 아나모피즘의 화살표를 따라 소수 스트림 만들기"><meta property="og:description" content="해설 대상 원문 · F-Algebras 원문 열기"><meta property="og:url" content="https://beila.github.io/my-collection/whole-document-explanations/f-algebras-1213996549/v1/06/index.html"><meta property="og:type" content="article"><meta property="og:image" content="https://i0.wp.com/bartoszmilewski.com/wp-content/uploads/2017/02/alg7.png?resize=204%2C134&amp;ssl=1"><meta name="twitter:card" content="summary_large_image"></head>
 <body>
   <article>
     <h1>F-Algebras 해설 6/8 · 아나모피즘의 화살표를 따라 소수 스트림 만들기</h1>
@@ -275,6 +275,37 @@ toListC = cata al
 <p>원문의 마지막 문장 “In Haskell, though, both are defined by the same formula, and they coincide”도 이 구분으로 읽을 수 있습니다. 저자는 Haskell에서 두 보편 구조의 운반체가 일치한다고 주장합니다. 곧 같은 <code>Fix f</code>가 초기 대수의 운반체이자 종단 쌍대대수의 운반체라는 주장입니다. Haskell의 타입은 Set의 집합이 아닙니다. 타입의 값에는 무한한 값과, 계산이 끝나지 않는 값 <code>⊥</code>가 들어 있습니다. Meijer·Fokkinga·Paterson은 연속성 조건을 둔 의미 모형에서 재귀 타입을 정의하고, 같은 타입 위에서 접기와 펼치기를 함께 다룹니다. 그 모형에서도 접기의 유일성에는 <code>⊥</code>에서의 동작에 관한 조건이 붙습니다 (<a href="https://maartenfokkinga.github.io/utwente/mmf91m.pdf">Meijer·Fokkinga·Paterson의 논문</a>). 따라서 <code>cata</code>와 <code>ana</code>가 같은 <code>Fix f</code>를 쓴다는 사실은 코드에서 확인할 수 있지만, 그 운반체가 두 보편 성질을 모두 가진다고 결론지으려면 의미 모형의 조건이 필요합니다. 같은 타입을 쓰는 대가는 앞에서 본 계산에 드러납니다. <code>Fix (ListF e)</code>에는 무한 리스트도 들어 있으므로 길이 대수의 <code>cata</code>가 끝나지 않을 수 있습니다. 또 <code>Fix (StreamF e)</code>에 대한 <code>cata</code>는 Set의 초기 대수로는 설명할 수 없습니다. 그래도 <code>toListC</code>처럼 대수가 꼬리 자리의 식을 요구하지 않는 접기는 결과를 냅니다.</p>
 <h2 id="다음-질문-끝날-수-있는-펼치기">다음 질문: 끝날 수 있는 펼치기</h2>
 <p><code>StreamF</code>에는 끝내는 갈래가 없으므로 <code>era</code>는 언제나 다음 씨앗을 내야 했습니다. 처음 몇 개의 소수만 원할 때는 <code>take</code>로 관찰을 멈추었습니다. <code>toListC primes = 2 : toListC ps₁</code>이므로 <code>take 1</code>은 <code>ps₁</code>을 펼치지 않고 <code>[2]</code>를 돌려줍니다. 펼치기는 관찰된 층만 만들지만, 끝났다는 정보를 한 층에 담을 수는 없습니다. 원문의 같은 절은 이어지는 문단에서 리스트를 펼치는 <code>unfoldr</code>로 넘어가, <code>Maybe</code>로 ‘여기서 끝’이라는 갈래를 더합니다. 이어서 렌즈의 <code>get</code>과 <code>set</code>을 <code>Store</code> 함자의 쌍대대수로 읽습니다. 다음 편의 질문은 이 두 경우에 씨앗이 무엇이고, 한 층에서 무엇을 관찰하는가입니다.</p>
+<section data-original-excerpt="true"><h2>이 편의 원문</h2>
+<div lang=""><h2>Coalgebras</h2>
+<p>As usual, we have a dual construction of an F-coagebra, where the direction of the morphism is reversed:</p>
+<pre>a -&gt; F a</pre>
+<p>Coalgebras for a given functor also form a category, with homomorphisms preserving the coalgebraic structure. The terminal object <code>(t, u)</code> in that category is called the terminal (or final) coalgebra. For every other algebra <code>(a, f)</code> there is a unique homomorphism <code>m</code> that makes the following diagram commute:</p>
+<p><a href="https://i0.wp.com/bartoszmilewski.com/wp-content/uploads/2017/02/alg7.png?ssl=1"><img src="https://i0.wp.com/bartoszmilewski.com/wp-content/uploads/2017/02/alg7.png?resize=204%2C134&amp;ssl=1"/></a></p>
+<p>A terminal colagebra is a fixed point of the functor, in the sense that the morphism <code>u :: t -&gt; F t</code> is an isomorphism (Lambek’s theorem for coalgebras):</p>
+<pre>F t ≅ t</pre>
+<p>A terminal coalgebra is usually interpreted in programming as a recipe for generating (possibly infinite) data structures or transition systems.</p>
+<p>Just like a catamorphism can be used to evaluate an initial algebra, an anamorphism can be used to coevaluate a terminal coalgebra:</p>
+<pre>ana :: Functor f =&gt; (a -&gt; f a) -&gt; a -&gt; Fix f
+ana coalg = Fix . fmap (ana coalg) . coalg</pre>
+<p>A canonical example of a coalgebra is based on a functor whose fixed point is an infinite stream of elements of type <code>e</code>. This is the functor:</p>
+<pre>data StreamF e a = StreamF e a
+  deriving Functor</pre>
+<p>and this is its fixed point:</p>
+<pre>data Stream e = Stream e (Stream e)</pre>
+<p>A coalgebra for <code>StreamF e</code> is a function that takes the seed of type <code>a</code> and produces a pair (<code>StreamF</code> is a fancy name for a pair) consisting of an element and the next seed.</p>
+<p>You can easily generate simple examples of coalgebras that produce infinite sequences, like the list of squares, or reciprocals. </p>
+<p>A more interesting example is a coalgebra that produces a list of primes. The trick is to use an infinite list as a carrier. Our starting seed will be the list <code>[2..]</code>. The next seed will be the tail of this list with all multiples of 2 removed. It’s a list of odd numbers starting with 3. In the next step, we’ll take the tail of this list and remove all multiples of 3, and so on. You might recognize the makings of the sieve of Eratosthenes. This coalgebra is implemented by the following function:</p>
+<pre>era :: [Int] -&gt; StreamF Int [Int]
+era (p : ns) = StreamF p (filter (notdiv p) ns)
+    where notdiv p n = n `mod` p /= 0</pre>
+<p>The anamorphism for this coalgebra generates the list of primes:</p>
+<pre>primes = ana era [2..]</pre>
+<p>A stream is an infinite list, so it should be possible to convert it to a Haskell list. To do that, we can use the same functor <code>StreamF</code> to form an algebra, and we can run a catamorphism over it. For instance, this is a catamorphism that converts a stream to a list:</p>
+<pre>toListC :: Fix (StreamF e) -&gt; [e]
+toListC = cata al
+   where al :: StreamF e [e] -&gt; [e]
+         al (StreamF e a) = e : a</pre>
+<p>Here, the same fixed point is simultaneously an initial algebra and a terminal coalgebra for the same endofunctor. It’s not always like this, in an arbitrary category. In general, an endofunctor may have many (or no) fixed points. The initial algebra is the so called least fixed point, and the terminal coalgebra is the greatest fixed point. In Haskell, though, both are defined by the same formula, and they coincide.</p></div></section>
 <p data-series-navigation="true">첫 글은 1/8편 〈쌍대곱은 덧셈과 0을 어떻게 한 함수로 묶을까요?〉입니다. <a href="https://beila.github.io/my-collection/whole-document-explanations/f-algebras-1213996549/v1/01/">열기</a></p>
 <p data-series-navigation="true">이전 글은 5/8편 〈foldr의 두 인자는 리스트의 어느 자리에 들어갈까요?〉입니다. <a href="https://beila.github.io/my-collection/whole-document-explanations/f-algebras-1213996549/v1/05/">열기</a></p>
 <p data-series-navigation="true">다음 글은 7/8편 〈unfoldr는 언제 멈추며, 렌즈에서는 무엇을 관찰할까요?〉입니다. <a href="https://beila.github.io/my-collection/whole-document-explanations/f-algebras-1213996549/v1/07/">열기</a></p>

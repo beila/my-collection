@@ -272,6 +272,21 @@ Store s a ────────── fmap h ─────────→ S
 <p>원문의 주장은 세 법칙을 만족하는 렌즈가 <code>Store s</code>의 코모나드 구조와 양립하는 쌍대대수라는 것입니다. 저자는 그 대응을 다음 장에서 보입니다.</p>
 <h2 id="다음-질문-운반체와-씨앗을-직접-고르기">다음 질문: 운반체와 씨앗을 직접 고르기</h2>
 <p>원문의 본문은 이 편에서 끝납니다. 대수에서는 자식 자리에 이미 계산한 결과가 들어 있었고, 구조 사상은 그 결과를 합쳤습니다. 쌍대대수에서는 자식 자리에 다음 상태가 들어 있었고, 구조 사상은 그 상태를 만들었습니다. <code>unfoldr</code>의 쌍대대수는 끝낼지를 골랐고, 렌즈는 쓸 값마다 다음 상태를 정했습니다. 원문의 연습문제는 이 두 방향을 직접 써 보게 합니다. 다음 편의 질문은 두 가지입니다. 다항식과 행렬을 <code>RingF</code>의 운반체로 삼으면 각 생성자를 어떻게 해석해야 할까요? 그리고 제곱수와 처음 n개의 소수를 펼치려면 씨앗에 무엇을 담아야 할까요?</p>
+<section data-original-excerpt="true"><h2>이 편의 원문</h2>
+<div lang=""><p>The anamorphism for lists is called unfold. To create finite lists, the functor is modified to produce a <code>Maybe</code> pair:</p>
+<pre>unfoldr :: (b -&gt; Maybe (a, b)) -&gt; b -&gt; [a]</pre>
+<p>The value of <code>Nothing</code> will terminate the generation of the list.</p>
+<p>An interesting case of a coalgebra is related to lenses. A lens can be represented as a pair of a getter and a setter:</p>
+<pre>set :: a -&gt; s -&gt; a
+get :: a -&gt; s</pre>
+<p>Here, <code>a</code> is usually some product data type with a field of type <code>s</code>. The getter retrieves the value of that field and the setter replaces this field with a new value. These two functions can be combined into one:</p>
+<pre>a -&gt; (s, s -&gt; a)</pre>
+<p>We can rewrite this function further as:</p>
+<pre>a -&gt; Store s a</pre>
+<p>where we have defined a functor:</p>
+<pre>data Store s a = Store (s -&gt; a) s</pre>
+<p>Notice that this is not a simple algebraic functor constructed from sums of products. It involves an exponential <code>a<sup>s</sup></code>.</p>
+<p>A lens is a coalgebra for this functor with the carrier type <code>a</code>. We’ve seen before that <code>Store s</code> is also a comonad. It turns out that a well-behaved lens corresponds to a coalgebra that is compatible with the comonad structure. We’ll talk about this in the next section.</p></div></section>
 <p data-series-navigation="true">첫 글은 1/8편 〈쌍대곱은 덧셈과 0을 어떻게 한 함수로 묶을까요?〉입니다. <a href="https://beila.github.io/my-collection/whole-document-explanations/f-algebras-1213996549/v1/01/">열기</a></p>
 <p data-series-navigation="true">이전 글은 6/8편 〈아나모피즘의 화살표를 따라 소수 스트림 만들기〉입니다. <a href="https://beila.github.io/my-collection/whole-document-explanations/f-algebras-1213996549/v1/06/">열기</a></p>
 <p data-series-navigation="true">다음 글은 8/8편 〈다항식과 행렬을 평가하고, 제곱수와 소수를 펼치기〉입니다. <a href="https://beila.github.io/my-collection/whole-document-explanations/f-algebras-1213996549/v1/08/">열기</a></p>

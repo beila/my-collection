@@ -334,6 +334,17 @@ firstPrimes n = unfoldr step (n, [2 ..])
 type Coalgebra f a = a -&gt; f a</code></pre>
 <p>연습문제 1~3에서 <code>RingF Poly</code>, <code>RingF MPoly</code>, <code>RingF M2</code>의 자식 자리에는 이미 계산된 다항식과 행렬이 있었습니다. 대수는 그 결과들을 결합했습니다. 가운데 계수를 상쇄하고, 같은 지수 벡터의 계수를 모으고, 행과 열을 곱했습니다. 연습문제 4~5에서 <code>StreamF Integer Integer</code>와 <code>Maybe (Integer, (Int, [Integer]))</code>의 자식 자리에는 다음 씨앗이 있었습니다. 쌍대대수는 그 씨앗을 만들었습니다. 다음 자연수를 정하고, 남은 개수를 줄이고, 후보를 걸렀습니다. 화살표가 <code>f a</code>에서 나가는지, <code>f a</code>로 들어가는지가 이 차이를 정합니다.</p>
 <p>원문의 마지막 표제 「Related」 아래에는 저장된 본문이 없습니다. 글은 다음 장 「Algebras for Monads」로 가는 링크로 끝납니다. 그 장은 모나드에 대한 대수를 다룹니다. 앞 편에서 미룬 주장, 곧 잘 동작하는 렌즈가 <code>Store s</code> 코모나드와 양립하는 쌍대대수라는 주장도 그 장의 「Lenses」 절에서 보입니다 (<a href="https://bartoszmilewski.com/2017/03/14/algebras-for-monads/">다음 장</a>).</p>
+<section data-original-excerpt="true"><h2>이 편의 원문</h2>
+<div lang=""><h2>Challenges</h2>
+<ol>
+<li>Implement the evaluation function for a ring of polynomials of one variable. You can represent a polynomial as a list of coefficients in front of powers of <code>x</code>. For instance, <code>4x<sup>2</sup>-1</code> would be represented as (starting with the zero’th power) <code>[-1, 0, 4]</code>.</li>
+<li>Generalize the previous construction to polynomials of many independent variables, like <code>x<sup>2</sup>y-3y<sup>3</sup>z</code>.</li>
+<li>Implement the algebra for the ring of 2×2 matrices.</li>
+<li>Define a coalgebra whose anamorphism produces a list of squares of natural numbers.</li>
+<li>Use <code>unfoldr</code> to generate a list of the first <code>n</code> primes.</li>
+</ol>
+<p>Next: <a href="http://bartoszmilewski.com/2017/03/14/algebras-for-monads/">Algebras for Monads</a>.</p>
+<h3><em>Related</em></h3></div></section>
 <p data-series-navigation="true">첫 글은 1/8편 〈쌍대곱은 덧셈과 0을 어떻게 한 함수로 묶을까요?〉입니다. <a href="https://beila.github.io/my-collection/whole-document-explanations/f-algebras-1213996549/v1/01/">열기</a></p>
 <p data-series-navigation="true">이전 글은 7/8편 〈unfoldr는 언제 멈추며, 렌즈에서는 무엇을 관찰할까요?〉입니다. <a href="https://beila.github.io/my-collection/whole-document-explanations/f-algebras-1213996549/v1/07/">열기</a></p>
       

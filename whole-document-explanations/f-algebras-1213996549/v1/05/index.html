@@ -240,6 +240,28 @@ h (x:xs) = k x (h xs)</code></pre>
 <p>다만 이 귀납은 유한 리스트에만 적용됩니다. Haskell의 리스트에는 <code>[1..]</code> 같은 무한 리스트도 있습니다. <code>k</code>가 둘째 인자를 사용하지 않으면 꼬리를 접지 않아도 됩니다. 예를 들어 <code>foldr (\e _ -&gt; e) 0 [1..]</code>에서는 첫 원소 1이 그대로 결과가 됩니다. 이때 결과가 나오는지는 첫 원소에서 <code>k</code>가 값을 낼 수 있는지에 따라 달라집니다. 둘째 인자를 사용하더라도 결과의 일부를 먼저 내놓을 수 있습니다. <code>foldr (:) [] [1..] = 1 : foldr (:) [] [2..]</code>이므로 <code>take 1</code>을 적용한 결과는 <code>[1]</code>입니다. 반면 길이 대수에서는 <code>n + 1</code>의 정숫값을 내려면 <code>n</code>의 값이 필요합니다. 그래서 <code>foldr (\e n -&gt; n + 1) 0 [1..]</code>의 계산은 끝나지 않습니다. 이것은 앞 편에서 본 <code>cata</code>의 지연 평가와 같은 현상입니다.</p>
 <h2 id="다음-질문-씨앗에서-한-층-만들기">다음 질문: 씨앗에서 한 층 만들기</h2>
 <p><code>cata</code>는 이미 있는 리스트를 소비합니다. <code>unFix</code>가 바깥 층을 엽니다. 다음으로 <code>fmap</code>이 꼬리 자리에 꼬리를 접는 식을 놓고, 대수가 그 층을 결합합니다. 원문의 다음 절은 이 화살표의 방향을 뒤집습니다. 이번에는 한 층을 결합하는 <code>f a -&gt; a</code> 대신 <code>a -&gt; f a</code> 모양의 함수를 씁니다. 이 함수는 씨앗(seed) 하나에서 한 층을 만듭니다. 리스트에서 그 층이 <code>NilF</code>이면 생성은 거기서 끝납니다. 그 층이 <code>ConsF x next</code>이면 원소 <code>x</code>를 내놓고 다음 씨앗 <code>next</code>에서 생성을 이어 갑니다. 예를 들어 씨앗 3에서는 <code>ConsF 3 2</code>를 만들고, 씨앗 0에서는 <code>NilF</code>를 만들 수 있습니다. 스트림의 한 층에는 끝내는 갈래가 없으므로 언제나 다음 씨앗이 하나 있습니다. 다음 편의 질문은 이런 한 걸음 함수를 반복하여 리스트나 스트림 전체를 만드는 방법은 무엇이고, 이 반복이 어떤 구조에 도착하는가입니다.</p>
+<section data-original-excerpt="true"><h2>이 편의 원문</h2>
+<div lang=""><h2>Folds</h2>
+<p>A list of <code>e</code> is the initial algebra of the following functor:</p>
+<pre>data ListF e a = NilF | ConsF e a</pre>
+<p>Indeed, replacing the variable <code>a</code> with the result of recursion, which we’ll call <code>List e</code>, we get:</p>
+<pre>data List e = Nil | Cons e (List e)</pre>
+<p>An algebra for a list functor picks a particular carrier type and defines a function that does pattern matching on the two constructors. Its value for <code>NilF</code> tells us how to evaluate an empty list, and its value for <code>ConsF</code> tells us how to combine the current element with the previously accumulated value.</p>
+<p>For instance, here’s an algebra that can be used to calculate the length of a list (the carrier type is <code>Int</code>):</p>
+<pre>lenAlg :: ListF e Int -&gt; Int
+lenAlg (ConsF e n) = n + 1
+lenAlg NilF = 0</pre>
+<p>Indeed, the resulting catamorphism <code>cata lenAlg</code> calculates the length of a list. Notice that the evaluator is a combination of (1) a function that takes a list element and an accumulator and returns a new accumulator, and (2) a starting value, here zero. The type of the value and the type of the accumulator are given by the carrier type.</p>
+<p>Compare this to the traditional Haskell definition:</p>
+<pre>length = foldr (\e n -&gt; n + 1) 0</pre>
+<p>The two arguments to <code>foldr</code> are exactly the two components of the algebra.</p>
+<p>Let’s try another example:</p>
+<pre>sumAlg :: ListF Double Double -&gt; Double
+sumAlg (ConsF e s) = e + s
+sumAlg NilF = 0.0</pre>
+<p>Again, compare this with:</p>
+<pre>sum = foldr (\e s -&gt; e + s) 0.0</pre>
+<p>As you can see, <code>foldr</code> is just a convenient specialization of a catamorphism to lists.</p></div></section>
 <p data-series-navigation="true">첫 글은 1/8편 〈쌍대곱은 덧셈과 0을 어떻게 한 함수로 묶을까요?〉입니다. <a href="https://beila.github.io/my-collection/whole-document-explanations/f-algebras-1213996549/v1/01/">열기</a></p>
 <p data-series-navigation="true">이전 글은 4/8편 〈자연수 2를 접으며 Fix, unFix, cata 읽기〉입니다. <a href="https://beila.github.io/my-collection/whole-document-explanations/f-algebras-1213996549/v1/04/">열기</a></p>
 <p data-series-navigation="true">다음 글은 6/8편 〈아나모피즘의 화살표를 따라 소수 스트림 만들기〉입니다. <a href="https://beila.github.io/my-collection/whole-document-explanations/f-algebras-1213996549/v1/06/">열기</a></p>

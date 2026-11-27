@@ -109,7 +109,7 @@ img.math-inline { display: inline; margin: 0 .08em; max-width: 100%;
     .youtube-thumbnail img { margin: 0 auto; }
 
   </style>
-<meta property="og:title" content="F-Algebras 해설 4/8 · 자연수 2를 접으며 Fix, unFix, cata 읽기"><meta property="og:description" content="해설 대상 원문 · F-Algebras 원문 열기"><meta property="og:url" content="https://beila.github.io/my-collection/whole-document-explanations/f-algebras-1213996549/v1/04/index.html"><meta property="og:type" content="article"><meta name="twitter:card" content="summary"></head>
+<meta property="og:title" content="F-Algebras 해설 4/8 · 자연수 2를 접으며 Fix, unFix, cata 읽기"><meta property="og:description" content="해설 대상 원문 · F-Algebras 원문 열기"><meta property="og:url" content="https://beila.github.io/my-collection/whole-document-explanations/f-algebras-1213996549/v1/04/index.html"><meta property="og:type" content="article"><meta property="og:image" content="https://i0.wp.com/bartoszmilewski.com/wp-content/uploads/2017/02/alg5.png?resize=265%2C142&amp;ssl=1"><meta name="twitter:card" content="summary_large_image"></head>
 <body>
   <article>
     <h1>F-Algebras 해설 4/8 · 자연수 2를 접으며 Fix, unFix, cata 읽기</h1>
@@ -231,6 +231,39 @@ cata fib two = fib (fmap (cata fib) (unFix two))
 <h2 id="점화식으로-다시-읽기">점화식으로 다시 읽기</h2>
 <p>저자는 이 절을 일반화로 마칩니다. <code>NatF</code>의 대수는 점화식(recurrence relation)을 정의하고, 카타모피즘은 그 수열의 n번째 원소를 계산합니다. 앞의 계산으로 이 문장을 읽을 수 있습니다. 대수가 시작값 <code>z</code>와 한 걸음 함수 <code>s</code>를 정하면, <code>cata alg</code>는 n을 <code>s</code>를 n번 적용한 값 <code>s (s (... (s z)))</code>로 보냅니다. <code>toInt</code>에서는 <code>z = 0</code>, <code>s = (+1)</code>이므로 n 자신이 나옵니다. 다만 운반체가 <code>Int</code>이므로 이 말은 n이 <code>maxBound :: Int</code> 이하일 때 성립합니다. 모든 유한한 페아노 자연수에서 같은 결론을 쓰려면 운반체를 <code>Integer</code>로 바꿉니다. <code>fib</code>에서는 <code>z = (1,1)</code>, <code>s (m, n) = (n, m + n)</code>이므로 피보나치 수의 연속한 쌍이 나옵니다. 현재 항을 이전 항으로 표현하는 일은 <code>alg</code>가 맡고, 그 규칙을 n번 반복하는 일은 <code>cata</code>가 맡습니다.</p>
 <p>자연수의 한 층에는 자식 자리가 하나뿐이었습니다. 원문의 다음 절은 리스트의 한 층 <code>ListF e a</code>를 다룹니다. 이 층에는 빈 리스트를 나타내는 <code>NilF</code> 갈래와, 원소와 꼬리를 함께 담는 <code>ConsF</code> 갈래가 있습니다. 빈 리스트와 비어 있지 않은 리스트를 처리하는 두 규칙이 어떻게 <code>foldr k z</code>가 되는지가 다음 질문입니다.</p>
+<section data-original-excerpt="true"><h2>이 편의 원문</h2>
+<div lang=""><h3>Natural Numbers</h3>
+<p>Natural numbers can also be defined as an F-algebra. The starting point is the pair of morphisms:</p>
+<pre>zero :: 1 -&gt; N
+succ :: N -&gt; N</pre>
+<p>The first one picks the zero, and the second one maps all numbers to their successors. As before, we can combine the two into one:</p>
+<pre>1 + N -&gt; N</pre>
+<p>The left hand side defines a functor which, in Haskell, can be written like this:</p>
+<pre>data NatF a = ZeroF | SuccF a</pre>
+<p>The fixed point of this functor (the initial algebra that it generates) can be encoded in Haskell as:</p>
+<pre>data Nat = Zero | Succ Nat</pre>
+<p>A natural number is either zero or a successor of another number. This is known as the Peano representation for natural numbers.</p>
+<h2>Catamorphisms</h2>
+<p>Let’s rewrite the initiality condition using Haskell notation. We call the initial algebra <code>Fix f</code>. Its evaluator is the contructor <code>Fix</code>. There is a unique morphism <code>m</code> from the initial algebra to any other algebra over the same functor. Let’s pick an algebra whose carrier is <code>a</code> and the evaluator is <code>alg</code>.</p>
+<p><a href="https://i0.wp.com/bartoszmilewski.com/wp-content/uploads/2017/02/alg5.png?ssl=1"><img src="https://i0.wp.com/bartoszmilewski.com/wp-content/uploads/2017/02/alg5.png?resize=265%2C142&amp;ssl=1"/></a><br/>
+By the way, notice what <code>m</code> is: It’s an evaluator for the fixed point, an evaluator for the whole recursive expression tree. Let’s find a general way of implementing it.</p>
+<p>Lambek’s theorem tells us that the constructor <code>Fix</code> is an isomorphism. We called its inverse <code>unFix</code>. We can therefore flip one arrow in this diagram to get:</p>
+<p><a href="https://i0.wp.com/bartoszmilewski.com/wp-content/uploads/2017/02/alg6.png?ssl=1"><img src="https://i0.wp.com/bartoszmilewski.com/wp-content/uploads/2017/02/alg6.png?resize=267%2C143&amp;ssl=1"/></a></p>
+<p>Let’s write down the commutation condition for this diagram:</p>
+<pre>m = alg . fmap m . unFix</pre>
+<p>We can interpret this equation as a recursive definition of <code>m</code>. The recursion is bound to terminate for any finite tree created using the functor <code>f</code>. We can see that by noticing that <code>fmap m</code> operates underneath the top layer of the functor <code>f</code>. In other words, it works on the children of the original tree. The children are always one level shallower than the original tree.</p>
+<p>Here’s what happens when we apply <code>m</code> to a tree constructed using <code>Fix f</code>. The action of <code>unFix</code> peels off the constructor, exposing the top level of the tree. We then apply <code>m</code> to all the children of the top node. This produces results of type <code>a</code>. Finally, we combine those results by applying the non-recursive evaluator <code>alg</code>. The key point is that our evaluator <code>alg</code> is a simple non-recursive function.</p>
+<p>Since we can do this for any algebra <code>alg</code>, it makes sense to define a higher order function that takes the algebra as a parameter and gives us the function we called <code>m</code>. This higher order function is called a catamorphism:</p>
+<pre>cata :: Functor f =&gt; (f a -&gt; a) -&gt; Fix f -&gt; a
+cata alg = alg . fmap (cata alg) . unFix</pre>
+<p>Let’s see an example of that. Take the functor that defines natural numbers:</p>
+<pre>data NatF a = ZeroF | SuccF a</pre>
+<p>Let’s pick <code>(Int, Int)</code> as the carrier type and define our algebra as:</p>
+<pre>fib :: NatF (Int, Int) -&gt; (Int, Int)
+fib ZeroF = (1, 1)
+fib (SuccF (m, n)) = (n, m + n)</pre>
+<p>You can easily convince yourself that the catamorphism for this algebra, <code>cata fib</code>, calculates Fibonacci numbers.</p>
+<p>In general, an algebra for <code>NatF</code> defines a recurrence relation: the value of the current element in terms of the previous element. A catamorphism then evaluates the n-th element of that sequence.</p></div></section>
 <p data-series-navigation="true">첫 글은 1/8편 〈쌍대곱은 덧셈과 0을 어떻게 한 함수로 묶을까요?〉입니다. <a href="https://beila.github.io/my-collection/whole-document-explanations/f-algebras-1213996549/v1/01/">열기</a></p>
 <p data-series-navigation="true">이전 글은 3/8편 〈초기 대수의 구조 사상 j에는 왜 역함수가 있을까요?〉입니다. <a href="https://beila.github.io/my-collection/whole-document-explanations/f-algebras-1213996549/v1/03/">열기</a></p>
 <p data-series-navigation="true">다음 글은 5/8편 〈foldr의 두 인자는 리스트의 어느 자리에 들어갈까요?〉입니다. <a href="https://beila.github.io/my-collection/whole-document-explanations/f-algebras-1213996549/v1/05/">열기</a></p>
