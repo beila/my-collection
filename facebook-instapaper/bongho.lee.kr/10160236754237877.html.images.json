@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "images": [
+    {
+      "path": "images/v1/122d7dd542ffd35692d5295bc2ef0f7c7f7971bd4a455f8225fdaa244c2c1b78.jpg",
+      "object_key": "images/v1/122d7dd542ffd35692d5295bc2ef0f7c7f7971bd4a455f8225fdaa244c2c1b78.jpg",
+      "sha256": "122d7dd542ffd35692d5295bc2ef0f7c7f7971bd4a455f8225fdaa244c2c1b78",
+      "bytes": 80364,
+      "content_type": "image/jpeg",
+      "original_path": "facebook-instapaper/bongho.lee.kr/10160236754237877/122d7dd542ffd35692d5295bc2ef0f7c7f7971bd4a455f8225fdaa244c2c1b78.jpg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/122d7dd542ffd35692d5295bc2ef0f7c7f7971bd4a455f8225fdaa244c2c1b78.jpg",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/bongho.lee.kr/10160236754237877/122d7dd542ffd35692d5295bc2ef0f7c7f7971bd4a455f8225fdaa244c2c1b78.jpg"
+    },
+    {
+      "path": "images/v1/83482456820bb716556755f27fce9ad5b068e292c1f77818dbfffebb2a956d14.jpg",
+      "object_key": "images/v1/83482456820bb716556755f27fce9ad5b068e292c1f77818dbfffebb2a956d14.jpg",
+      "sha256": "83482456820bb716556755f27fce9ad5b068e292c1f77818dbfffebb2a956d14",
+      "bytes": 14320,
+      "content_type": "image/jpeg",
+      "original_path": "facebook-instapaper/bongho.lee.kr/10160236754237877/83482456820bb716556755f27fce9ad5b068e292c1f77818dbfffebb2a956d14.jpg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/83482456820bb716556755f27fce9ad5b068e292c1f77818dbfffebb2a956d14.jpg",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/bongho.lee.kr/10160236754237877/83482456820bb716556755f27fce9ad5b068e292c1f77818dbfffebb2a956d14.jpg"
+    },
+    {
+      "path": "images/v1/faa24ec881e6040655c187a681d6dc496eb8aa41e1bd0652a180b3a40b457187.png",
+      "object_key": "images/v1/faa24ec881e6040655c187a681d6dc496eb8aa41e1bd0652a180b3a40b457187.png",
+      "sha256": "faa24ec881e6040655c187a681d6dc496eb8aa41e1bd0652a180b3a40b457187",
+      "bytes": 34641,
+      "content_type": "image/png",
+      "original_path": "facebook-instapaper/bongho.lee.kr/10160236754237877/faa24ec881e6040655c187a681d6dc496eb8aa41e1bd0652a180b3a40b457187.png",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/faa24ec881e6040655c187a681d6dc496eb8aa41e1bd0652a180b3a40b457187.png",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/bongho.lee.kr/10160236754237877/faa24ec881e6040655c187a681d6dc496eb8aa41e1bd0652a180b3a40b457187.png"
+    }
+  ]
+}
