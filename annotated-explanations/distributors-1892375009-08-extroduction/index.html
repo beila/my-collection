@@ -8,9 +8,9 @@
 <link rel="canonical" href="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-08-extroduction/">
 <meta name="source-url" content="https://github.com/morphismtech/distributors/blob/main/blog.md">
 <meta name="review-date" content="2026-11-21">
-<meta name="explanation-article-format" content="2">
+<meta name="explanation-article-format" content="3">
 <meta name="explanation-content-sha256" content="b86235a16b010a43d95ef73d72f4d838269f426df91eabe836e21427158d9d2a">
-<meta name="instapaper-ingestion-url" content="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-08-extroduction/?instapaper_explanation=2-b86235a16b010a43">
+<meta name="instapaper-ingestion-url" content="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-08-extroduction/?instapaper_explanation=3-b86235a16b010a43">
 <style>
 :root {
   color-scheme: dark;
@@ -412,6 +412,11 @@ hashChars = Pair (Lit "#") (Many Tok)</code></pre>
 <li>자유 <code>Grammatical</code> 디스트리뷰터는 문법을 데이터로 담는 초기 인코딩이며, <code>Identical</code>이 그 씨앗입니다. 문법을 데이터로 만들면 왼쪽 인수분해 같은 변환이 가능해지고, 그 변환에는 분배 법칙에 해당하는 동형이 필요합니다.</li>
 <li>JSON 같은 다른 토큰, TypeScript 타입 같은 다른 생성기, 망라적 문법과 정규 문법의 분리, <code>ruleRec</code>을 덮어쓴 Earley 파서는 모두 "하나의 기술, 여러 해석"이라는 생각을 넓히는 열린 질문입니다.</li>
 </ul>
+<section data-original-excerpt="true" aria-labelledby="original-excerpt-title">
+<h2 id="original-excerpt-title">이 편의 원문</h2>
+<div lang="en"><h3 id="original-section-title">Extroduction</h3>
+<p>This post is <em>not</em> literate Haskell. Instead of trying to compile the post, play with this code on <a href="https://github.com/morphismtech/distributors/">GitHub</a> where it is hopefully kept compiling &amp; tested. This is a result of a years long obsession. While I am pleased that my obsession has been slaked, there are still more paths to follow and I invite you to investigate these ideas further. <code>Applicative</code> &amp; <code>Alternative</code> interfaces are useful for more than just parsers. What else are <code>Monoidal</code>, <code>Distributor</code>, <code>Alternator</code> &amp; <code>Filtrator</code> useful for? Obviously we need much more than <em>one</em> non-trivial example of a <code>Grammar</code>. Want to make and push some more examples? Want to optimize or clean up or document the code some how? Can you construct a useful free <code>Grammatical</code> distributor, starting with a base of <code>Identical Char Char</code>? Can you use that free <code>Grammatical</code> distributor to define a function to left factor and do other useful transformations of grammars? What extensions of distributors can you do besides character stream grammars, like JSON grammars with aeson and typescript type generators? Want to investigate how grammars fit into the pattern optic hierarchy? Want to add some useful higher level grammar combinators? Want to factor exhaustive grammars or regular grammars out from grammar interfaces? Can <code>Grammar</code>s generate parsers which aren't recursive descent like an Earley parser, by over-writing <code>ruleRec</code>  perhaps? Maybe you'd like to pair program on one of these topics?</p></div>
+</section>
 <p data-series-navigation="true">이전 쪽: Distributors 해설 7/8: 문법 (Grammars) <a href="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-07-grammars/" aria-label="이전 쪽 열기: Distributors 해설 7/8: 문법 (Grammars)">열기</a></p>
 <p data-series-navigation="true">시리즈 처음: Distributors 해설 1/8: 파서와 프린터 (Parsers &amp; Printers) <a href="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-01-parsers-printers/" aria-label="시리즈 처음 열기: Distributors 해설 1/8: 파서와 프린터 (Parsers &amp; Printers)">열기</a></p>
 </section>

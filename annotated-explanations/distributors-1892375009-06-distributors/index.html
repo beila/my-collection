@@ -8,9 +8,9 @@
 <link rel="canonical" href="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-06-distributors/">
 <meta name="source-url" content="https://github.com/morphismtech/distributors/blob/main/blog.md">
 <meta name="review-date" content="2026-11-21">
-<meta name="explanation-article-format" content="2">
+<meta name="explanation-article-format" content="3">
 <meta name="explanation-content-sha256" content="2a6c0bb6bcfaf04390880627e7a6960249a5a0b5eefb8e15346f2ed36cf4d6b6">
-<meta name="instapaper-ingestion-url" content="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-06-distributors/?instapaper_explanation=2-2a6c0bb6bcfaf043">
+<meta name="instapaper-ingestion-url" content="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-06-distributors/?instapaper_explanation=3-2a6c0bb6bcfaf043">
 <style>
 :root {
   color-scheme: dark;
@@ -450,6 +450,98 @@ posDecInt = iso show read &gt;?&lt;
 <li><code>Alternator</code>는 <code>alternate</code>와 <code>Alternative</code>를 더한 부분적인 디스트리뷰터이고, <code>someP</code>처럼 실패가 필요한 조합자를 가능하게 합니다. <code>Filtrator</code>의 <code>filtrate</code>는 <code>&gt;+&lt;</code>의 반대 방향으로 갈래를 나눕니다.</li>
 <li><code>posDecInt = iso show read &gt;?&lt; someP (satisfy ...)</code> 한 정의가 파서로는 숫자를 읽어 <code>read</code>하고, 프린터로는 <code>show</code>한 숫자를 출력합니다.</li>
 </ul>
+<section data-original-excerpt="true" aria-labelledby="original-excerpt-title">
+<h2 id="original-excerpt-title">이 편의 원문</h2>
+<div lang="en"><h3 id="original-section-title">Distributors</h3>
+<p>The <code>Applicative</code> interface is always the star of the show when it comes to parsing, while the <code>Alternative</code> interface by comparison gets too little attention. Let's revisit it.</p>
+<pre tabindex="0"><code>class Applicative f =&gt; Alternative f where
+  empty :: f a
+  (&lt;|&gt;) :: f a -&gt; f a -&gt; f a</code></pre>
+<p>We can re-characterize <code>Alternative</code> with methods <code>zeroF</code> &amp; <code>(&lt;+&gt;)</code> instead of <code>empty</code> &amp; <code>(&lt;|&gt;)</code>, in order to see more clearly how the <code>Alternative</code> interface relates to the nilary and binary coproducts <code>Void</code> and <code>Either</code>.</p>
+<pre tabindex="0"><code>zeroF :: Alternative f =&gt; f Void
+zeroF = empty
+
+(&lt;+&gt;) :: Alternative f =&gt; f a -&gt; f b -&gt; f (Either a b)
+a &lt;+&gt; b = Left &lt;$&gt; a &lt;|&gt; Right &lt;$&gt; b
+
+prop&gt; empty = absurd &lt;$&gt; zeroF
+prop&gt; a &lt;|&gt; b = either id id &lt;$&gt; (a &lt;+&gt; b)</code></pre>
+<p>Unfortunately, the same trick used to define <code>Monoidal</code> as a combination of <code>Profunctor</code> and <code>Applicative</code> does not work for the <code>Alternative</code> interface. So we introduce the <code>Distributor</code> interface, which analogizes the above re-characterization of <code>Alternative</code> to profunctors.</p>
+<pre tabindex="0"><code>class Monoidal p =&gt; Distributor p where
+  zeroP :: p Void Void
+  (&gt;+&lt;) :: p a b -&gt; p c d -&gt; p (Either a c) (Either b d)</code></pre>
+<p>Just as <code>Alternative</code> has 0-or-more <code>many</code> and 0-or-1 <code>optional</code> combinators, we can define <code>manyP</code> and <code>optionalP</code>.</p>
+<pre tabindex="0"><code>optionalP :: Distributor p =&gt; p a b -&gt; p (Maybe a) (Maybe b)
+optionalP p = mapIso eotMaybe (oneP &gt;+&lt; p)
+
+manyP :: p a b -&gt; p [a] [b]
+manyP p = mapIso listEot (oneP &gt;+&lt; p &gt;*&lt; manyP p)
+
+eotMaybe :: Iso (Maybe a) (Maybe b) (Either () a) (Either () b)
+
+listEot
+  :: (Cons s s a a, AsEmpty t, Cons t t b b)
+  =&gt; Iso s t (Either () (a,s)) (Either () (b,t))</code></pre>
+<p>The prototypical example of a <code>Distributor</code> is <code>(-&gt;)</code>. Unlike monoidal profunctors, distributors have not been very well studied. Like <code>Alternative</code> this interface doesn't seem to get the attention it deserves. The name was coined by Jean Bénabou who invented the term and originally used “profunctor,” then preferred “<a href="http://www.entretemps.asso.fr/maths/Distributors.pdf">distributor</a>”. Since "profunctor" became the preferred nomenclature, we use "distributor" or lax distributive profunctor for this more restrictive interface since it uses the distributive structure on the category with <code>()</code>, <code>(,)</code>, <code>Void</code> &amp; <code>Either</code>. <code>Distributor</code>s have corresponding optics I dubbed "diopters" which can be thought of as positional patterns. If you transform an algebraic datatype into its <a href="https://hackage.haskell.org/package/generics-eot-0.4.0.1/docs/Generics-Eot.html">eithers-of-tuples</a> representation, you can match its algebraic structure with the algebraic combinators <code>&gt;*&lt;</code>, <code>oneP</code>, <code>&gt;+&lt;</code> &amp; <code>zeroP</code>.</p>
+<p><code>Distributor</code>s are like an <em>exhaustive</em> analog to <code>Alternative</code> for profunctors, but if we want to have partiality and failure we need this next interface with an even stronger analogy to <code>Alternative</code>.</p>
+<pre tabindex="0"><code>class (Choice p, Distributor p, forall x. Alternative (p x)) =&gt; Alternator p where
+  alternate :: Either (p a b) (p c d) -&gt; p (Either a c) (Either b d)</code></pre>
+<p>The <code>Alternator</code> interface extends <code>Choice</code>, <code>Distributor</code> &amp; <code>Alternative</code> with a method <code>alternate</code> that lets us default the <code>Distributor</code> methods.</p>
+<pre tabindex="0"><code>prop&gt; zeroP = empty
+prop&gt; x &gt;+&lt; y = alternate (Left x) &lt;|&gt; alternate (Right y)</code></pre>
+<p>In the functorial case, the two descriptions of <code>Alternative</code> in terms of either <code>zeroF</code> &amp; <code>&lt;+&gt;</code> or <code>empty</code> &amp; <code>&lt;|&gt;</code> are equivalent but in the profunctorial case, they're distinguished into the <code>Distributor</code> interface which can be exhaustive and the <code>Alternator</code> interface which must be partial. Since <code>(-&gt;)</code> is not <code>Alternative</code>, it is an example of a <code>Choice</code> <code>Distributor</code> which is not an <code>Alternator</code>. However, <code>Parsor</code> and <code>Printor</code> have instances.</p>
+<pre tabindex="0"><code>instance (Alternative f, Monad f) =&gt; Alternative (Parsor s f a) where
+  empty = Parsor (\_ -&gt; empty)
+  Parsor p &lt;|&gt; Parsor q = Parsor (\str -&gt; p str &lt;|&gt; q str)
+
+instance (Alternative f, Monad f) =&gt; Alternator (Parsor s f) where
+  alternate = \case
+    Left (Parsor p) -&gt; Parsor (fmap (\(b, str) -&gt; (Left b, str)) . p)
+    Right (Parsor p) -&gt; Parsor (fmap (\(b, str) -&gt; (Right b, str)) . p)
+
+instance (Alternative f, Monad f) =&gt; Distributor (Parsor s f)
+
+instance Alternative f =&gt; Alternative (Printor s f a) where
+  empty = Printor (\_ -&gt; empty)
+  Printor p &lt;|&gt; Printor q = Printor (\a -&gt; p a &lt;|&gt; q a)
+
+instance Applicative f =&gt; Distributor (Printor s f) where
+  zeroP = Printor absurd
+  Printor p &gt;+&lt; Printor q = Printor (either p q)
+
+instance Alternative f =&gt; Alternator (Printor s f) where
+  alternate = \case
+    Left (Printor p) -&gt; Printor (either p (\_ -&gt; empty))
+    Right (Printor p) -&gt; Printor (either (\_ -&gt; empty) p)</code></pre>
+<p><code>Parsor</code>s are <code>Distributor</code>s exactly when they are <code>Alternator</code>s, using default methods for <code>zeroP</code> and <code>&gt;+&lt;</code>. Notice however that <code>Printor</code>'s <code>Distributor</code> instance works for exhaustive printers while its <code>Alternator</code> instance only works for partial printers. With <code>Alternator</code>, we can extend <code>Alternative</code>s partial 1-or-more combinator <code>some</code> profunctorially.</p>
+<pre tabindex="0"><code>someP :: Alternator p =&gt; p a b -&gt; p [a] [b]
+someP p = _Cons &gt;? p &gt;*&lt; manyP p</code></pre>
+<p>Recall that the <code>Filterable</code> interface was dual to the <code>Alternative</code> interface. We can extend <code>Filterable</code> profunctorially, dualizing the <code>Distributor</code> interface. A "partial distributor" means both <code>Alternator</code> &amp; <code>Filtrator</code>.</p>
+<pre tabindex="0"><code>class (Cochoice p, forall x. Filterable (p x)) =&gt; Filtrator p where
+  filtrate :: p (Either a c) (Either b d) -&gt; (p a b, p c d)
+
+instance Filterable f =&gt; Filtrator (Parsor s f) where
+  filtrate (Parsor p) =
+    ( Parsor (mapMaybe leftMay . p)
+    , Parsor (mapMaybe rightMay . p)
+    ) where
+      leftMay (e, str) = either (\b -&gt; Just (b, str)) (\_ -&gt; Nothing) e
+      rightMay (e, str) = either (\_ -&gt; Nothing) (\b -&gt; Just (b, str)) e
+
+instance Filtrator (Printor s f) where
+  filtrate (Printor p) = (Printor (p . Left), Printor (p . Right))</code></pre>
+<p>Compare the signature of <code>filtrate</code> to that of <code>uncurry (&gt;+&lt;)</code> to see why <code>Filtrator</code>s are dual to <code>Distributor</code>s. Now that we've developed all of our basic combinators, let's write a simple printer-parser example for positive decimal integers.</p>
+<pre tabindex="0"><code>&gt;&gt;&gt; :{
+posDecInt :: (Tokenized Char Char p, Alternator p, Filtrator p) =&gt; p Int Int
+posDecInt = iso show read &gt;?&lt;
+  someP (satisfy (\c -&gt; generalCategory c == DecimalNumber))
+:}
+&gt;&gt;&gt; runParsor posDecInt "2001 A Space Odyssey" :: [(Int,String)]
+[(2,"001 A Space Odyssey"),(20,"01 A Space Odyssey"),(200,"1 A Space Odyssey"),(2001," A Space Odyssey")]
+&gt;&gt;&gt; [pr " A Space Odyssey" | pr &lt;- runPrintor posDecInt 2001] :: [String]
+["2001 A Space Odyssey"]</code></pre>
+<p>Partial distributors have associated optics which I dubbed "bifocals".</p></div>
+</section>
 <p data-series-navigation="true">이전 쪽: Distributors 해설 5/8: 모노이드 프로펑터 (Monoidal Profunctors) <a href="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-05-monoidal-profunctors/" aria-label="이전 쪽 열기: Distributors 해설 5/8: 모노이드 프로펑터 (Monoidal Profunctors)">열기</a></p>
 <p data-series-navigation="true">다음 쪽: Distributors 해설 7/8: 문법 (Grammars) <a href="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-07-grammars/" aria-label="다음 쪽 열기: Distributors 해설 7/8: 문법 (Grammars)">열기</a></p>
 <p data-series-navigation="true">시리즈 처음: Distributors 해설 1/8: 파서와 프린터 (Parsers &amp; Printers) <a href="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-01-parsers-printers/" aria-label="시리즈 처음 열기: Distributors 해설 1/8: 파서와 프린터 (Parsers &amp; Printers)">열기</a></p>

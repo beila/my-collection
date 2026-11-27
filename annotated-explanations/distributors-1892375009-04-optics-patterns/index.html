@@ -8,9 +8,9 @@
 <link rel="canonical" href="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-04-optics-patterns/">
 <meta name="source-url" content="https://github.com/morphismtech/distributors/blob/main/blog.md">
 <meta name="review-date" content="2026-11-21">
-<meta name="explanation-article-format" content="2">
+<meta name="explanation-article-format" content="3">
 <meta name="explanation-content-sha256" content="83cd30cf99d17f8c87d1ee251445f34d09510c664f88339b108d593e07526ec9">
-<meta name="instapaper-ingestion-url" content="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-04-optics-patterns/?instapaper_explanation=2-83cd30cf99d17f8c">
+<meta name="instapaper-ingestion-url" content="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-04-optics-patterns/?instapaper_explanation=3-83cd30cf99d17f8c">
 <style>
 :root {
   color-scheme: dark;
@@ -813,6 +813,101 @@ satisfy f = satisfied f &gt;?&lt; anyToken
 <li>구체, 케밋, 순수 프로펑터 표현은 서로 오갈 수 있는 동등한 표현이며, 케밋 표현에서 <code>p = (-&gt;)</code>를 고르면 반 라르호번 렌즈가 됩니다. lens는 이 호환성 때문에 <code>f</code>가 있는 표현을 쓰고, 원문은 프린터-파서에 바로 맞는 <code>p a b -&gt; p s t</code> 모양을 꺼내 씁니다.</li>
 <li>프리즘(<code>Choice</code>, <code>&gt;?</code>), 코프리즘(<code>Cochoice</code>, <code>?&lt;</code>), 부분 동형(<code>dimapMaybe</code>, <code>&gt;?&lt;</code>)은 실패할 수 있는 패턴을 프린터-파서에 적용합니다. 그 결과로 정해진 글자 하나를 다루는 <code>token</code>과 조건을 만족하는 글자 하나를 다루는 <code>satisfy</code>를 얻습니다.</li>
 </ul>
+<section data-original-excerpt="true" aria-labelledby="original-excerpt-title">
+<h2 id="original-excerpt-title">이 편의 원문</h2>
+<div lang="en"><h3 id="original-section-title">Optics &amp; Patterns</h3>
+<p>Optics are an ongoing field of advanced study in applied category theory and computer science which makes giving an exact definition challenging. In Haskell, research into "semantic editor combinators" led to noticing the composability of such combinators as record field accessors or data constructor patterns, leading to the discovery of optics. Much can  and has been written about lenses, traversals &amp; prisms that can't be written about here. The most important thing from our perspective will be the relation between profunctors and optics. Moreover the variety of optics that we will be most interested in will represent "patterns".</p>
+<p>Let's start with two definitions of <em>isomorphism</em> optics. Isomorphism optics are pairs of functions, one in a "backwards" direction and one in a "forwards" direction, like a <code>newtype</code> constructor pattern.</p>
+<pre tabindex="0"><code>data Exchange a b s t = Exchange (s -&gt; a) (b -&gt; t)
+
+type Iso s t a b = forall p f.
+  (Profunctor p, Functor f) =&gt; p a (f b) -&gt; p s (f t)</code></pre>
+<p>The <code>Exchange</code> type is a "concrete representation" of the isomorphism optic and <code>Iso</code> is a "Kmett representation". They're equivalent and you can convert between representations. The <a href="https://hackage.haskell.org/package/lens">lens library</a> uses Kmett's representation as it provides a convenient specialization to a "Van Laarhoven representation" when <code>p</code> is <code>(-&gt;)</code>. However, a pure profunctorial representation (without <code>f</code>), which is also equivalent, can be simpler. We can observe the profunctorial representation with a combinator.</p>
+<pre tabindex="0"><code>mapIso :: Profunctor p =&gt; Iso s t a b -&gt; p a b -&gt; p s t
+mapIso pattern = withIso pattern dimap</code></pre>
+<p>Now, let's move on to our next optic example, prisms. <code>Prism</code>s encode exhaustive patterns. To encode them we first need the <code>Choice</code> interface.</p>
+<pre tabindex="0"><code>class Profunctor p =&gt; Choice p where
+  left' :: p a b -&gt; p (Either a c) (Either b c)
+  right' :: p a b -&gt; p (Either c a) (Either c b)</code></pre>
+<p>Now we can define a concrete prism type consisting of a pair of functions, a constructor and destructor for a pattern match, as well as defining the abstract <code>Prism</code> type.</p>
+<pre tabindex="0"><code>data Market a b s t = Market (b -&gt; t) (s -&gt; Either t a)
+
+type Prism s t a b = forall p f.
+  (Choice p, Applicative f) =&gt; p a (f b) -&gt; p s (f t)
+
+type Prism' s a = Prism s s a a</code></pre>
+<p>The <code>Applicative f</code> in the definition of <code>Prism</code> makes it so that every <code>Prism</code> is automatically a <code>Traversal</code>. But again, for our purpose we're most interested in the pure profunctor representation which we can observe with a new combinator.</p>
+<pre tabindex="0"><code>(&gt;?) :: Choice p =&gt; Prism s t a b -&gt; p a b -&gt; p s t
+(&gt;?) pattern = withPrism pattern $ \f g -&gt; dimap g (either id f) . right'</code></pre>
+<p>It turns out that both <code>Parsor</code> and <code>Printor</code> have <code>Choice</code> instances so that <code>(&gt;?)</code> becomes both a parser combinator <em>and</em> a printer combinator. The lens library provides Template Haskell functions to make <code>Prism</code>s from the pattern constructors of algebraic datatypes. Or we can construct <code>Prism</code>s like <code>only</code> from a pair of functions using the <code>prism'</code> or <code>prism</code> smart constructors.</p>
+<pre tabindex="0"><code>only :: Eq a =&gt; a -&gt; Prism' a ()
+only a = prism' (\() -&gt; a) $ guard . (a ==)</code></pre>
+<p>Next, we may consider the dual to prisms, coprisms. If <code>Prism</code>s encode pattern matching, then coprisms encode pattern filtering. To encode them we first need the <code>Cochoice</code> interface, which we get from <code>Choice</code> by reversing arrows.</p>
+<pre tabindex="0"><code>class Profunctor p =&gt; Cochoice p where
+  unleft :: p (Either a c) (Either b c) -&gt; p a b
+  unright :: p (Either c a) (Either c b) -&gt; p a b</code></pre>
+<p>Actually, we don't really need to encode coprisms. Since they are dual to prisms we can just shuffle the indices of the <code>Prism</code> type to encode coprisms and observe the pure profunctor representation with our next combinator.</p>
+<pre tabindex="0"><code>(?&lt;) :: Cochoice p =&gt; Prism b a t s -&gt; p a b -&gt; p s t
+(?&lt;) pattern = withPrism pattern $ \f g -&gt; unright . dimap (either id f) g
+
+token :: (Cochoice p, Eq c, Tokenized c c p) =&gt; c -&gt; p () ()
+token c = only c ?&lt; anyToken
+
+&gt;&gt;&gt; runParsor (token 'x') "xyz" :: [((),String)]
+[((),"yz")]
+&gt;&gt;&gt; [pr "yz" | pr &lt;- runPrintor (token 'x') ()] :: [String]
+["xyz"]</code></pre>
+<p>Both <code>Parsor</code> and <code>Printor</code> have <code>Cochoice</code> instances too. We will call a profunctor with both <code>Choice</code> &amp; <code>Cochoice</code> instances a "partial profunctor". Partial profunctors support a combinator <code>dimapMaybe</code>.</p>
+<pre tabindex="0"><code>dimapMaybe
+  :: (Choice p, Cochoice p)
+  =&gt; (s -&gt; Maybe a) -&gt; (b -&gt; Maybe t)
+  -&gt; p a b -&gt; p s t
+dimapMaybe f g =
+  let
+    m2e h = maybe (Left ()) Right . h
+    fg = dimap (&gt;&gt;= m2e f) (&gt;&gt;= m2e g)
+  in
+    unright . fg . right'</code></pre>
+<p>We can turn the pair of partial functions into another optic, partial isomorphisms.</p>
+<pre tabindex="0"><code>data PartialExchange a b s t = PartialExchange (s -&gt; Maybe a) (b -&gt; Maybe t)
+
+type PartialIso s t a b = forall p f.
+  ( Choice p, Cochoice p
+  , Applicative f, Filterable f
+  ) =&gt; p a (f b) -&gt; p s (f t)
+
+type PartialIso' s a = PartialIso s s a a</code></pre>
+<p>You may not have seen the <code>Filterable</code> interface before. It is a very simple interface from the <a href="https://hackage.haskell.org/package/witherable">witherable library</a> that generalizes the list functions <code>catMaybes</code>, <code>filter</code> and <code>mapMaybe</code>.</p>
+<pre tabindex="0"><code>class Functor f =&gt; Filterable f where
+  mapMaybe :: (a -&gt; Maybe b) -&gt; f a -&gt; f b
+  mapMaybe f = catMaybes . fmap f
+
+  catMaybes :: f (Maybe a) -&gt; f a
+  catMaybes = mapMaybe id
+
+  filter :: (a -&gt; Bool) -&gt; f a -&gt; f a
+  filter f = mapMaybe $ \a -&gt; if f a then Just a else Nothing</code></pre>
+<p><code>Filterable</code> is dual to the <code>Alternative</code> interface, which can be seen by comparing the signature of <code>catMaybes</code> to <code>optional</code>.</p>
+<pre tabindex="0"><code>optional :: Alternative f =&gt; f a -&gt; f (Maybe a)</code></pre>
+<p>We can now turn <code>dimapMaybe</code> into a combinator on <code>PartialIso</code>s.</p>
+<pre tabindex="0"><code>(&gt;?&lt;) :: (Choice p, Cochoice p) =&gt; PartialIso s t a b -&gt; p a b -&gt; p s t</code></pre>
+<p>The prototypical example of a <code>PartialIso</code> is a subset which has <code>satisfied</code> a predicate which we can construct from a pair of functions with the smart constructor <code>partialIso</code>.</p>
+<pre tabindex="0"><code>satisfied :: (a -&gt; Bool) -&gt; PartialIso' a a
+satisfied f = partialIso satiate satiate where
+  satiate a = if f a then Just a else Nothing
+
+satisfy :: (Choice p, Cochoice p, Tokenized c c p) =&gt; (c -&gt; Bool) -&gt; p c c
+satisfy f = satisfied f &gt;?&lt; anyToken
+
+&gt;&gt;&gt; runParsor (satisfy isLower) "xyz" :: [(Char,String)]
+[('x',"yz")]
+&gt;&gt;&gt; runParsor (satisfy isLower) "X" :: [(Char,String)]
+[]
+&gt;&gt;&gt; [pr "" | pr &lt;- runPrintor (satisfy isLower) 'X'] :: [String]
+[]
+&gt;&gt;&gt; [pr "yz" | pr &lt;- runPrintor (satisfy isLower) 'x'] :: [String]
+["xyz"]</code></pre></div>
+</section>
 <p data-series-navigation="true">이전 쪽: Distributors 해설 3/8: 토큰 (Tokens) <a href="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-03-tokens/" aria-label="이전 쪽 열기: Distributors 해설 3/8: 토큰 (Tokens)">열기</a></p>
 <p data-series-navigation="true">다음 쪽: Distributors 해설 5/8: 모노이드 프로펑터 (Monoidal Profunctors) <a href="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-05-monoidal-profunctors/" aria-label="다음 쪽 열기: Distributors 해설 5/8: 모노이드 프로펑터 (Monoidal Profunctors)">열기</a></p>
 <p data-series-navigation="true">시리즈 처음: Distributors 해설 1/8: 파서와 프린터 (Parsers &amp; Printers) <a href="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-01-parsers-printers/" aria-label="시리즈 처음 열기: Distributors 해설 1/8: 파서와 프린터 (Parsers &amp; Printers)">열기</a></p>

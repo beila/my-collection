@@ -8,9 +8,9 @@
 <link rel="canonical" href="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-02-profunctors/">
 <meta name="source-url" content="https://github.com/morphismtech/distributors/blob/main/blog.md">
 <meta name="review-date" content="2026-11-21">
-<meta name="explanation-article-format" content="2">
+<meta name="explanation-article-format" content="3">
 <meta name="explanation-content-sha256" content="7ea1360569e44a09ecfbe5f7dd236894c2192e417bfe30c57dfa356b87903cdd">
-<meta name="instapaper-ingestion-url" content="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-02-profunctors/?instapaper_explanation=2-7ea1360569e44a09">
+<meta name="instapaper-ingestion-url" content="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-02-profunctors/?instapaper_explanation=3-7ea1360569e44a09">
 <style>
 :root {
   color-scheme: dark;
@@ -407,6 +407,34 @@ Just "true!"</code></pre>
 <li>프린터의 결과는 자기 함수 <code>s -&gt; s</code>입니다. 파서 타입과 대칭을 이루고, <code>ShowS</code>처럼 합성만으로 출력을 이어 붙일 수 있게 해 줍니다.</li>
 <li>결과 컨테이너 <code>f</code>에 <code>Applicative</code>만 요구하면 프린터가 망라적이 되고, <code>Alternative</code>를 요구하면 부분적인 프린터도 허용됩니다.</li>
 </ul>
+<section data-original-excerpt="true" aria-labelledby="original-excerpt-title">
+<h2 id="original-excerpt-title">이 편의 원문</h2>
+<div lang="en"><h3 id="original-section-title">Profunctors</h3>
+<p>A profunctor is a bifunctor which is contravariant in its first argument and covariant in its second argument.</p>
+<pre tabindex="0"><code>class Profunctor p where
+  dimap :: (s -&gt; a) -&gt; (b -&gt; t) -&gt; p a b -&gt; p s t
+
+  lmap :: (s -&gt; a) -&gt; p a b -&gt; p s b
+  lmap f = dimap f id
+
+  rmap :: (b -&gt; t) -&gt; p a b -&gt; p a t
+  rmap g = dimap id g</code></pre>
+<p>The <code>Profunctor</code> interface was introduced to Haskell by Ed Kmett who noticed their utility in representing optics, more on which later. The prototypical example of a <code>Profunctor</code> is <code>(-&gt;)</code>.</p>
+<pre tabindex="0"><code>instance Profunctor (-&gt;) where
+  dimap sa bt ab = bt . ab . sa</code></pre>
+<p>Let's see how we can unify parsers &amp; printers with a <code>Profunctor</code> interface.</p>
+<pre tabindex="0"><code>newtype Parsor s f a b = Parsor {runParsor :: s -&gt; f (b,s)}
+
+instance Functor f =&gt; Profunctor (Parsor s f) where
+  dimap _ g (Parsor p) = Parsor (fmap (\(c,str) -&gt; (g c, str)) . p)
+
+newtype Printor s f a b = Printor {runPrintor :: a -&gt; f (s -&gt; s)}
+
+instance Profunctor (Printor s f) where
+  dimap f _ (Printor p) = Printor (p . f)</code></pre>
+<p>Besides changing a vowel in the names, we added a few generalizations to the parser &amp; printer types. First, both types get a phantom type parameter, the <code>a</code> in <code>Parsor</code> and the <code>b</code> in <code>Printor</code>. Next, <code>String</code> has been polymorphized to <code>s</code>. After all, we might want to parse &amp; print <code>Text</code> or <code>ByteString</code>s or any streams of some lexical token type. Next, the printer type's "result" is upgraded to an endofunction <code>s -&gt; s</code>. This makes it a more fully dualized definition to the parser type, and is a common trick used in printer types such as <code>ShowS</code>. Finally, the "container" for the result of a parse or print has been polymorphized to <code>f</code>. Usually this will be <code>[]</code> or <code>Maybe</code> but we should take a moment to address a subtle point here.</p>
+<p>Printing is usually conceived as an exhaustive affair; one defines a single function <code>X -&gt; String</code> by pattern matching on each case of an <code>X</code>. Parsing however is usually a partial affair; one defines a bunch of partial parsers for each case of the <code>X</code> and combines them into one with the <code>Alternative</code> combinator <code>(&lt;|&gt;)</code>. By polymorphizing <code>f</code> in the definitions of the <code>Printor</code>, we can address either situation by restricting to only <code>Applicative f</code> when we want exhaustivity and allowing <code>Alternative f</code> when we want partiality.</p></div>
+</section>
 <p data-series-navigation="true">이전 쪽: Distributors 해설 1/8: 파서와 프린터 (Parsers &amp; Printers) <a href="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-01-parsers-printers/" aria-label="이전 쪽 열기: Distributors 해설 1/8: 파서와 프린터 (Parsers &amp; Printers)">열기</a></p>
 <p data-series-navigation="true">다음 쪽: Distributors 해설 3/8: 토큰 (Tokens) <a href="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-03-tokens/" aria-label="다음 쪽 열기: Distributors 해설 3/8: 토큰 (Tokens)">열기</a></p>
 <p data-series-navigation="true">시리즈 처음: Distributors 해설 1/8: 파서와 프린터 (Parsers &amp; Printers) <a href="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-01-parsers-printers/" aria-label="시리즈 처음 열기: Distributors 해설 1/8: 파서와 프린터 (Parsers &amp; Printers)">열기</a></p>

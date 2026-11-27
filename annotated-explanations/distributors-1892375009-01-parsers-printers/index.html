@@ -8,9 +8,9 @@
 <link rel="canonical" href="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-01-parsers-printers/">
 <meta name="source-url" content="https://github.com/morphismtech/distributors/blob/main/blog.md">
 <meta name="review-date" content="2026-11-21">
-<meta name="explanation-article-format" content="2">
+<meta name="explanation-article-format" content="3">
 <meta name="explanation-content-sha256" content="1978cd80074227c169a2c9b1918be79a57127707d404fe8e5d7c0406ff087c47">
-<meta name="instapaper-ingestion-url" content="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-01-parsers-printers/?instapaper_explanation=2-1978cd80074227c1">
+<meta name="instapaper-ingestion-url" content="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-01-parsers-printers/?instapaper_explanation=3-1978cd80074227c1">
 <style>
 :root {
   color-scheme: dark;
@@ -421,6 +421,26 @@ Just "7"</code></pre>
 <li>파서는 결과를 내므로 공변(<code>fmap</code>)이고, 프린터는 값을 받으므로 반변(<code>contramap</code>)입니다. 둘 다인 타입은 매개변수를 실제로 쓰지 않는 유령 타입이므로 파서에 쓸 수 없습니다.</li>
 <li>Rendel과 Ostermann은 <code>Functor</code> 상위 클래스를 버리고 부분 동형 위에 새 클래스를 세웠습니다. 이 글은 대신 매개변수를 둘로 나누는 프로펑터를 택하며, 그 내용이 2쪽입니다.</li>
 </ul>
+<section data-original-excerpt="true" aria-labelledby="original-excerpt-title">
+<h2 id="original-excerpt-title">이 편의 원문</h2>
+<div lang="en"><p>Distributors</p>
+<p><strong>Unifying Parsers, Printers &amp; Grammars</strong></p>
+<p><strong>Eitan Chatav</strong></p>
+<h3 id="original-section-title">Parsers &amp; Printers</h3>
+<p>The Haskell programming language is well known to provide a rich environment in which to study parsing. It is in this setting that a major advance in understanding was explained by Conor McBride &amp; Ross Paterson in <a href="https://www.staff.city.ac.uk/~ross/papers/Applicative.html">Applicative Programming with Effects</a>. This paper introduced the <code>Applicative</code> interface in programming, idiom brackets, and the <code>Traversable</code> interface. The final section gives a category theoretical perspective, identifying <code>Applicative</code> with lax monoidal functors. These ideas set off a bonanza of work, including on the closely related <code>Alternative</code> interface and "parser combinators".</p>
+<p>Next, Tillmann Rendel &amp; Klaus Ostermann, noticing that parsing &amp; printing are inverse to one another set out to unify their interfaces in <a href="https://www.informatik.uni-marburg.de/~rendel/unparse/">Invertible Syntax Descriptions</a>. When designing a language syntax, programmers usually have to write both a parser <em>and</em> a printer, violating the <a href="https://en.wikipedia.org/wiki/Don%27t_repeat_yourself">Don't Repeat Yourself</a> principle. The paper reasons that if a syntax is described using parser combinators, then one should be able to use the same combinators to generate both parsers <em>and</em> printers. But unifying the interfaces runs into an immediate issue; while the <code>Parser</code> type is a covariant <code>Functor</code>, the <code>Printer</code> type is instead a <code>Contravariant</code> functor.</p>
+<pre tabindex="0"><code>newtype Parser a = Parser (String -&gt; [(a,String)])
+
+instance Functor Parser where
+  fmap f (Parser p) = Parser $ \str -&gt;
+    [(f a, str') | (a, str') &lt;- p str]
+
+newtype Printer a = Printer (a -&gt; Maybe String)
+
+instance Contravariant Printer where
+  contramap f (Printer p) = Printer $ p . f</code></pre>
+<p>Any covariant <code>Functor</code> which is <em>also</em> <code>Contravariant</code> is an "invariant", or "phantom", a.k.a. constant functor, which is too strong of a constraint for parsers. So, the paper instead <em>drops</em> the <code>Functor</code> constraint from the usual <code>Applicative</code> and <code>Alternative</code> parser combinators. At the time another natural interface from category theory had not yet found its way to Haskell, <a href="https://ncatlab.org/nlab/show/profunctor">profunctors</a>.</p></div>
+</section>
 <p data-series-navigation="true">다음 쪽: Distributors 해설 2/8: 프로펑터 (Profunctors) <a href="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-02-profunctors/" aria-label="다음 쪽 열기: Distributors 해설 2/8: 프로펑터 (Profunctors)">열기</a></p>
 </section>
 </article>

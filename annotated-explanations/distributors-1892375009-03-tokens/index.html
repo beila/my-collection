@@ -8,9 +8,9 @@
 <link rel="canonical" href="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-03-tokens/">
 <meta name="source-url" content="https://github.com/morphismtech/distributors/blob/main/blog.md">
 <meta name="review-date" content="2026-11-21">
-<meta name="explanation-article-format" content="2">
+<meta name="explanation-article-format" content="3">
 <meta name="explanation-content-sha256" content="f03c38924b4f3bbf7141c5c82af4a8a4784c95ddf562f4129a06d7c568c50810">
-<meta name="instapaper-ingestion-url" content="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-03-tokens/?instapaper_explanation=2-f03c38924b4f3bbf">
+<meta name="instapaper-ingestion-url" content="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-03-tokens/?instapaper_explanation=3-f03c38924b4f3bbf">
 <style>
 :root {
   color-scheme: dark;
@@ -478,6 +478,36 @@ Nothing</code></pre>
 <li>lens의 렌즈는 한 부분에(<code>view</code>, <code>over</code>, <code>set</code>), 프리즘은 한 경우에(<code>preview</code>, <code>review</code>) 초점을 맞춥니다. <code>Cons</code>의 <code>_Cons</code>는 스트림과 (머리, 꼬리) 사이의 프리즘이고, <code>cons</code>와 <code>uncons</code>가 그 두 방향입니다.</li>
 <li>프린터의 <code>anyToken = Printor (pure . cons)</code>는 실패하지 않으므로 <code>Applicative</code>면 충분하고, 파서의 <code>anyToken = Parsor (maybe empty pure . uncons)</code>는 빈 스트림에서 실패해야 하므로 <code>Alternative</code>가 필요합니다.</li>
 </ul>
+<section data-original-excerpt="true" aria-labelledby="original-excerpt-title">
+<h2 id="original-excerpt-title">이 편의 원문</h2>
+<div lang="en"><h3 id="original-section-title">Tokens</h3>
+<p>Combinators are great for generating new printer-parsers from existing ones, but if we want to generate examples we need an interface which generates basic printer-parsers from scratch. For that purpose, we define the <code>Tokenized</code> interface.</p>
+<pre tabindex="0"><code>class Tokenized a b p | p -&gt; a, p -&gt; b where
+  anyToken :: p a b
+
+data Identical a b s t where
+  Identical :: Identical a b a b
+instance Tokenized a b (Identical a b) where
+  anyToken = Identical</code></pre>
+<p>The <code>Tokenized</code> interface is so abstract it would lack any obvious motivation if not for its name. We want <code>anyToken</code> to sequence any single token from the head of the printer-parser stream type <code>s</code>. Recall that <code>s</code> appears as both input and output in the definitions of <code>Parsor</code> &amp; <code>Printor</code>. If <code>s</code> were <code>String</code> then <code>anyToken</code> would correspond to the "cons" pattern <code>(:)</code> which conses (prints) or unconses (parses) any single <code>Char</code> to or from the head of the <code>String</code>. The lens library provides a <code>Cons</code> interface which generalizes the <code>(:)</code> pattern, letting us remain polymorphic over the stream type.</p>
+<pre tabindex="0"><code>class Cons s t a b | s -&gt; a, t -&gt; b, s b -&gt; t, t a -&gt; s where
+  _Cons :: Prism s t (a,s) (b,t)
+
+instance (Applicative f, Cons s s c c)
+  =&gt; Tokenized c c (Printor s f) where
+    anyToken = Printor (pure . cons)
+
+instance (Alternative f, Cons s s c c)
+  =&gt; Tokenized c c (Parsor s f) where
+    anyToken = Parsor (maybe empty pure . uncons)</code></pre>
+<p>Now we can see our first printer-parser in action.</p>
+<pre tabindex="0"><code>&gt;&gt;&gt; runParsor anyToken "xyz" :: [(Char,String)]
+[('x',"yz")]
+&gt;&gt;&gt; runParsor anyToken "" :: [(Char,String)]
+[]
+&gt;&gt;&gt; [pr "yz" | pr &lt;- runPrintor anyToken 'x'] :: [String]
+["xyz"]</code></pre></div>
+</section>
 <p data-series-navigation="true">이전 쪽: Distributors 해설 2/8: 프로펑터 (Profunctors) <a href="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-02-profunctors/" aria-label="이전 쪽 열기: Distributors 해설 2/8: 프로펑터 (Profunctors)">열기</a></p>
 <p data-series-navigation="true">다음 쪽: Distributors 해설 4/8: 옵틱과 패턴 (Optics &amp; Patterns) <a href="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-04-optics-patterns/" aria-label="다음 쪽 열기: Distributors 해설 4/8: 옵틱과 패턴 (Optics &amp; Patterns)">열기</a></p>
 <p data-series-navigation="true">시리즈 처음: Distributors 해설 1/8: 파서와 프린터 (Parsers &amp; Printers) <a href="https://beila.github.io/my-collection/annotated-explanations/distributors-1892375009-01-parsers-printers/" aria-label="시리즈 처음 열기: Distributors 해설 1/8: 파서와 프린터 (Parsers &amp; Printers)">열기</a></p>
