@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "images": [
+    {
+      "path": "images/v1/1cc16ae7269b1028320420e948f8f2db9005e0eb14e7bc69af1eb3a619ae4011.jpg",
+      "object_key": "images/v1/1cc16ae7269b1028320420e948f8f2db9005e0eb14e7bc69af1eb3a619ae4011.jpg",
+      "sha256": "1cc16ae7269b1028320420e948f8f2db9005e0eb14e7bc69af1eb3a619ae4011",
+      "bytes": 21843,
+      "content_type": "image/jpeg",
+      "original_path": "facebook-instapaper/monan.doll/4204327949712030/1cc16ae7269b1028320420e948f8f2db9005e0eb14e7bc69af1eb3a619ae4011.jpg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/1cc16ae7269b1028320420e948f8f2db9005e0eb14e7bc69af1eb3a619ae4011.jpg",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/monan.doll/4204327949712030/1cc16ae7269b1028320420e948f8f2db9005e0eb14e7bc69af1eb3a619ae4011.jpg"
+    },
+    {
+      "path": "images/v1/41798ddbd95d807226bdf799e19ee34dc367c066a22a08f0b7e5fa39c7a9c688.jpg",
+      "object_key": "images/v1/41798ddbd95d807226bdf799e19ee34dc367c066a22a08f0b7e5fa39c7a9c688.jpg",
+      "sha256": "41798ddbd95d807226bdf799e19ee34dc367c066a22a08f0b7e5fa39c7a9c688",
+      "bytes": 184996,
+      "content_type": "image/jpeg",
+      "original_path": "facebook-instapaper/monan.doll/4204327949712030/41798ddbd95d807226bdf799e19ee34dc367c066a22a08f0b7e5fa39c7a9c688.jpg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/41798ddbd95d807226bdf799e19ee34dc367c066a22a08f0b7e5fa39c7a9c688.jpg",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/monan.doll/4204327949712030/41798ddbd95d807226bdf799e19ee34dc367c066a22a08f0b7e5fa39c7a9c688.jpg"
+    },
+    {
+      "path": "images/v1/ce05cc323c18d11b2306bfd7ad2753c5d202fce022adf6ae6adbf7bb9a354280.jpg",
+      "object_key": "images/v1/ce05cc323c18d11b2306bfd7ad2753c5d202fce022adf6ae6adbf7bb9a354280.jpg",
+      "sha256": "ce05cc323c18d11b2306bfd7ad2753c5d202fce022adf6ae6adbf7bb9a354280",
+      "bytes": 123430,
+      "content_type": "image/jpeg",
+      "original_path": "facebook-instapaper/monan.doll/4204327949712030/ce05cc323c18d11b2306bfd7ad2753c5d202fce022adf6ae6adbf7bb9a354280.jpg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/ce05cc323c18d11b2306bfd7ad2753c5d202fce022adf6ae6adbf7bb9a354280.jpg",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/monan.doll/4204327949712030/ce05cc323c18d11b2306bfd7ad2753c5d202fce022adf6ae6adbf7bb9a354280.jpg"
+    },
+    {
+      "path": "images/v1/f32398812bb06c812d02f6cf5361ea12b97ab9e5b02045fa1095eaa3912cb2f3.jpg",
+      "object_key": "images/v1/f32398812bb06c812d02f6cf5361ea12b97ab9e5b02045fa1095eaa3912cb2f3.jpg",
+      "sha256": "f32398812bb06c812d02f6cf5361ea12b97ab9e5b02045fa1095eaa3912cb2f3",
+      "bytes": 132142,
+      "content_type": "image/jpeg",
+      "original_path": "facebook-instapaper/monan.doll/4204327949712030/f32398812bb06c812d02f6cf5361ea12b97ab9e5b02045fa1095eaa3912cb2f3.jpg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/f32398812bb06c812d02f6cf5361ea12b97ab9e5b02045fa1095eaa3912cb2f3.jpg",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/monan.doll/4204327949712030/f32398812bb06c812d02f6cf5361ea12b97ab9e5b02045fa1095eaa3912cb2f3.jpg"
+    }
+  ]
+}

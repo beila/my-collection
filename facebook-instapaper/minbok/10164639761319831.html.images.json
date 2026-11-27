@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "images": [
+    {
+      "path": "images/v1/89cfceb8729ea81a8f108efcae87bc9985cdb81b6311ad9966ea4c8014d4171c.jpg",
+      "object_key": "images/v1/89cfceb8729ea81a8f108efcae87bc9985cdb81b6311ad9966ea4c8014d4171c.jpg",
+      "sha256": "89cfceb8729ea81a8f108efcae87bc9985cdb81b6311ad9966ea4c8014d4171c",
+      "bytes": 302872,
+      "content_type": "image/jpeg",
+      "original_path": "facebook-instapaper/minbok/10164639761319831/89cfceb8729ea81a8f108efcae87bc9985cdb81b6311ad9966ea4c8014d4171c.jpg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/89cfceb8729ea81a8f108efcae87bc9985cdb81b6311ad9966ea4c8014d4171c.jpg",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/minbok/10164639761319831/89cfceb8729ea81a8f108efcae87bc9985cdb81b6311ad9966ea4c8014d4171c.jpg"
+    },
+    {
+      "path": "images/v1/f138b346c4cbd5c1ac5fcc1055eb140a473d7c384f5a7b7f5faa0e224f56668d.jpg",
+      "object_key": "images/v1/f138b346c4cbd5c1ac5fcc1055eb140a473d7c384f5a7b7f5faa0e224f56668d.jpg",
+      "sha256": "f138b346c4cbd5c1ac5fcc1055eb140a473d7c384f5a7b7f5faa0e224f56668d",
+      "bytes": 95184,
+      "content_type": "image/jpeg",
+      "original_path": "facebook-instapaper/minbok/10164639761319831/f138b346c4cbd5c1ac5fcc1055eb140a473d7c384f5a7b7f5faa0e224f56668d.jpg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/f138b346c4cbd5c1ac5fcc1055eb140a473d7c384f5a7b7f5faa0e224f56668d.jpg",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/minbok/10164639761319831/f138b346c4cbd5c1ac5fcc1055eb140a473d7c384f5a7b7f5faa0e224f56668d.jpg"
+    },
+    {
+      "path": "images/v1/fc35f345a3794f3a07879331d771844aeffb5f35719b43964f07237676c8b447.jpg",
+      "object_key": "images/v1/fc35f345a3794f3a07879331d771844aeffb5f35719b43964f07237676c8b447.jpg",
+      "sha256": "fc35f345a3794f3a07879331d771844aeffb5f35719b43964f07237676c8b447",
+      "bytes": 199745,
+      "content_type": "image/jpeg",
+      "original_path": "facebook-instapaper/minbok/10164639761319831/fc35f345a3794f3a07879331d771844aeffb5f35719b43964f07237676c8b447.jpg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/fc35f345a3794f3a07879331d771844aeffb5f35719b43964f07237676c8b447.jpg",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/minbok/10164639761319831/fc35f345a3794f3a07879331d771844aeffb5f35719b43964f07237676c8b447.jpg"
+    }
+  ]
+}
