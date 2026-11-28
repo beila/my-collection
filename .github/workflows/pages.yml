@@ -46,6 +46,8 @@ jobs:
           if [[ -f "$plan" ]] && [[ $(jq -r '.disabled // false' "$plan") != true ]]; then
             request=$(jq -er '.request_id | select(test("^[a-f0-9]{64}$"))' "$plan")
             echo "request_id=$request" >> "$GITHUB_OUTPUT"
+            browser=$(jq -r '.phase == "switch" or .schema_version == 1' "$plan")
+            echo "browser=$browser" >> "$GITHUB_OUTPUT"
             previous=$(gh api --method GET \
               "repos/$GITHUB_REPOSITORY/actions/artifacts" \
               -f "name=legacy-image-cutover-$request" -f per_page=100 \
@@ -73,9 +75,9 @@ jobs:
             fi
           fi
       - name: Install the image browser verifier
-        if: steps.cutover.outputs.request_id != '' && steps.cutover.outputs.cached != 'true'
+        if: steps.cutover.outputs.browser == 'true' && steps.cutover.outputs.cached != 'true'
         run: python3 -m pip install selenium==4.40.0
-      - name: Verify public images and page rendering
+      - name: Verify cutover pages and images
         if: steps.cutover.outputs.request_id != '' && steps.cutover.outputs.cached != 'true'
         run: |
           python3 .github/scripts/legacy_image_cutover_verify.py \

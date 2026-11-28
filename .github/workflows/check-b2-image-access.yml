@@ -2,15 +2,51 @@ name: Check public B2 image access
 
 on:
   workflow_dispatch:
+    inputs:
+      verify_head:
+        description: Check one legacy image with the cutover HEAD verifier
+        type: boolean
+        default: false
 
-permissions: {}
+permissions:
+  contents: read
 
 jobs:
   check:
     runs-on: ubuntu-latest
     timeout-minutes: 3
     steps:
+      - uses: actions/checkout@v4
+        if: inputs.verify_head
+        with:
+          persist-credentials: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /.github/scripts/
+            /.github/legacy-image-migration.json
+            /nasica-blog/100/images/01.jpg
+      - name: Verify a public image with HEAD
+        if: inputs.verify_head
+        env:
+          PYTHONPATH: .github/scripts
+        run: |
+          python3 - <<'PY'
+          import json
+          import urllib.request
+          from pathlib import Path
+          from b2_image_hosting_test import NoRedirect
+          from legacy_image_cutover_verify import source_sha1, verify_image_head
+          from legacy_image_migration import read_inventory
+
+          inventory = read_inventory(Path(".github/legacy-image-migration.json"))
+          image = next(image for image in inventory["images"]
+                       if image["original_path"] == "nasica-blog/100/images/01.jpg")
+          image["sha1"] = source_sha1(Path("."), image)
+          headers = verify_image_head(urllib.request.build_opener(NoRedirect()), image)
+          print(json.dumps({"url": image["url"], "status": 200, "headers": headers}))
+          PY
       - name: Read the B2 error response
+        if: ${{ !inputs.verify_head }}
         run: |
           python3 - <<'PY'
           import hashlib

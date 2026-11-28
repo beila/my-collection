@@ -20,13 +20,19 @@ from legacy_image_migration import (
     PAGES_BASE,
     incremental_exclusion_files,
     read_inventory,
+    source_bytes,
 )
 
 PLAN = Path(".github/legacy-image-cutover.json")
+PLAN_VERSION = 2
 
 
 def checksum(content: bytes) -> str:
     return hashlib.sha256(content).hexdigest()
+
+
+def source_sha1(repo: Path, image: dict) -> str:
+    return hashlib.sha1(source_bytes(repo, image), usedforsecurity=False).hexdigest()
 
 
 def request_id(plan: dict) -> str:
@@ -44,7 +50,7 @@ def validate_plan(repo: Path, site: Path, plan: dict) -> dict[str, dict]:
     inventory = read_inventory(manifest)
     objects = {image["object_key"]: image for image in inventory["images"]}
     if (
-        plan.get("schema_version") != 1
+        plan.get("schema_version") not in (1, PLAN_VERSION)
         or plan.get("phase") not in {"switch", "exclude"}
         or plan.get("manifest_sha256") != checksum(manifest.read_bytes())
         or plan.get("request_id") != request_id(plan)
@@ -64,6 +70,10 @@ def validate_plan(repo: Path, site: Path, plan: dict) -> dict[str, dict]:
             )
         ):
             raise TestFailure("Invalid cutover image identity")
+        if plan["schema_version"] == PLAN_VERSION and image.get("sha1") != source_sha1(
+            repo, objects[key]
+        ):
+            raise TestFailure(f"The cutover SHA-1 differs from the original: {key}")
         images[key] = image
     for relative, document in plan["documents"].items():
         path = site / relative
@@ -127,7 +137,7 @@ def verify_browser(plan: dict, images: dict, base: str, output: Path) -> list[di
                 browser.execute_script("scrollTo(0,arguments[0])", position)
             expected = [images[key]["url"] for key in document["images"]]
             WebDriverWait(browser, 45).until(
-                lambda driver: driver.execute_script(
+                lambda driver, expected=expected: driver.execute_script(
                     """
                     return [...document.images].filter(image =>
                       arguments[0].includes(image.currentSrc.split('#')[0]))
@@ -189,6 +199,27 @@ def verify_browser(plan: dict, images: dict, base: str, output: Path) -> list[di
     return results
 
 
+def expected_head_headers(image: dict) -> dict:
+    return {
+        "Content-Length": str(image["bytes"]),
+        "Content-Type": image["content_type"],
+        "X-Bz-Content-Sha1": image["sha1"],
+    }
+
+
+def verify_image_head(opener, image: dict) -> dict:
+    request = urllib.request.Request(image["url"], method="HEAD")
+    expected = expected_head_headers(image)
+    with opener.open(request, timeout=30) as response:
+        if response.status != 200:
+            raise TestFailure(f"HTTP {response.status} for {image['url']}")
+        headers = {name: response.headers.get(name) for name in expected}
+    for name, value in expected.items():
+        if headers[name] != value:
+            raise TestFailure(f"{name} differs from the original for {image['url']}")
+    return headers
+
+
 def verify(repo: Path, site: Path, output: Path) -> dict:
     verify_exclusions(repo, site)
     plan = json.loads((repo / PLAN).read_text())
@@ -198,22 +229,30 @@ def verify(repo: Path, site: Path, output: Path) -> dict:
     output.mkdir(parents=True, exist_ok=True)
     opener = urllib.request.build_opener(NoRedirect())
     result = {
-        "schema_version": 1,
+        "schema_version": plan["schema_version"],
         "request_id": plan["request_id"],
         "phase": plan["phase"],
         "verified_at": datetime.now(UTC).isoformat(),
         "images": list(images.values()),
     }
     if plan["phase"] == "exclude":
+        live_pages = {}
         for relative, document in plan["documents"].items():
             with opener.open(urljoin(PAGES_BASE, relative), timeout=30) as response:
-                if (
-                    response.status != 200
-                    or checksum(response.read(10 * 1024 * 1024 + 1))
-                    != document["sha256"]
-                ):
-                    raise TestFailure("The live page differs from its verified source")
-        result["pages"] = verify_browser(plan, images, PAGES_BASE, output)
+                digest = checksum(response.read(10 * 1024 * 1024 + 1))
+                if response.status != 200 or digest != document["sha256"]:
+                    raise TestFailure(
+                        f"The live page differs from its source: {relative}"
+                    )
+                live_pages[relative] = digest
+        if plan["schema_version"] == PLAN_VERSION:
+            result["live_pages"] = live_pages
+            result["head_images"] = {
+                image["url"]: verify_image_head(opener, image)
+                for image in images.values()
+            }
+        else:
+            result["pages"] = verify_browser(plan, images, PAGES_BASE, output)
     else:
         server = ThreadingHTTPServer(
             ("127.0.0.1", 0),
@@ -228,18 +267,30 @@ def verify(repo: Path, site: Path, output: Path) -> dict:
         finally:
             server.shutdown()
             server.server_close()
+    validate_receipt(plan, result)
     (output / "result.json").write_text(json.dumps(result, indent=2) + "\n")
     return result
 
 
 def validate_receipt(plan: dict, result: dict) -> None:
     if (
-        result.get("schema_version") != 1
+        plan["schema_version"] not in (1, PLAN_VERSION)
+        or result.get("schema_version") != plan["schema_version"]
         or result.get("request_id") != plan["request_id"]
         or result.get("phase") != plan["phase"]
         or result.get("images") != plan["images"]
     ):
-        raise TestFailure("Cached browser verification does not match the cutover")
+        raise TestFailure("Verification receipt does not match the cutover")
+    if plan["schema_version"] == PLAN_VERSION and plan["phase"] == "exclude":
+        if result.get("live_pages") != {
+            path: page["sha256"] for path, page in plan["documents"].items()
+        }:
+            raise TestFailure("HTTP verification omits or changes a live page")
+        if result.get("head_images") != {
+            image["url"]: expected_head_headers(image) for image in plan["images"]
+        }:
+            raise TestFailure("HTTP verification omits or changes an image header")
+        return
     field = "pages" if plan["phase"] == "exclude" else "staged_pages"
     pages = result.get(field, [])
     images = {image["object_key"]: image["url"] for image in plan["images"]}
@@ -287,7 +338,7 @@ def main() -> None:
         verify_cached(args.repo, args.site, args.cached)
         return
     if args.output is None:
-        parser.error("--output is required for browser verification")
+        parser.error("--output is required for cutover verification")
     try:
         result = verify(args.repo, args.site, args.output)
     except Exception:
