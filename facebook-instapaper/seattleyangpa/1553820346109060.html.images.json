@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "images": [
+    {
+      "path": "images/v1/6b327f6d9f138a042dd6b431b57283f8603173b0a633aadd35a6046f7bc131ac.jpg",
+      "object_key": "images/v1/6b327f6d9f138a042dd6b431b57283f8603173b0a633aadd35a6046f7bc131ac.jpg",
+      "sha256": "6b327f6d9f138a042dd6b431b57283f8603173b0a633aadd35a6046f7bc131ac",
+      "bytes": 100303,
+      "content_type": "image/jpeg",
+      "original_path": "facebook-instapaper/seattleyangpa/1553820346109060/6b327f6d9f138a042dd6b431b57283f8603173b0a633aadd35a6046f7bc131ac.jpg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/6b327f6d9f138a042dd6b431b57283f8603173b0a633aadd35a6046f7bc131ac.jpg",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/seattleyangpa/1553820346109060/6b327f6d9f138a042dd6b431b57283f8603173b0a633aadd35a6046f7bc131ac.jpg"
+    },
+    {
+      "path": "images/v1/fbcad88f65cc09d0551cb78ee9ae30e53f13303247904e76fff37ab387d88586.jpg",
+      "object_key": "images/v1/fbcad88f65cc09d0551cb78ee9ae30e53f13303247904e76fff37ab387d88586.jpg",
+      "sha256": "fbcad88f65cc09d0551cb78ee9ae30e53f13303247904e76fff37ab387d88586",
+      "bytes": 37685,
+      "content_type": "image/jpeg",
+      "original_path": "facebook-instapaper/seattleyangpa/1553820346109060/fbcad88f65cc09d0551cb78ee9ae30e53f13303247904e76fff37ab387d88586.jpg",
+      "url": "https://f003.backblazeb2.com/file/my-collection-images/images/v1/fbcad88f65cc09d0551cb78ee9ae30e53f13303247904e76fff37ab387d88586.jpg",
+      "retain_in_repository": true,
+      "repository_path": "facebook-instapaper/seattleyangpa/1553820346109060/fbcad88f65cc09d0551cb78ee9ae30e53f13303247904e76fff37ab387d88586.jpg"
+    }
+  ]
+}
